@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:44+1000\n"
-"PO-Revision-Date: 2017-10-24 13:09+0000\n"
-"Last-Translator: Sebastien Zurfluh <sebastien.zurfluh@gmail.com>\n"
+"POT-Creation-Date: 2018-05-15 10:34+1000\n"
+"PO-Revision-Date: 2018-04-29 13:58+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Esperanto (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/eo/)\n"
 "Language: eo\n"
@@ -52,7 +52,7 @@ msgstr "averto donita dum eltirado de %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "ne eblis eltiri %s (%s)\n"
 
-#: lib/libalpm/add.c:154 lib/libalpm/dload.c:561 lib/libalpm/remove.c:533
+#: lib/libalpm/add.c:154 lib/libalpm/dload.c:561 lib/libalpm/remove.c:541
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "ne eblis renomi %s al %s (%s)\n"
@@ -243,9 +243,9 @@ msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "ne eblis analizi priskriba dosiero de la pakaĵo '%s' el db '%s'\n"
 
 #: lib/libalpm/be_sync.c:524
-#, fuzzy, c-format
+#, c-format
 msgid "could not read db '%s' (%s)\n"
-msgstr "ne eblis renomi %s al %s (%s)\n"
+msgstr ""
 
 #: lib/libalpm/be_sync.c:558 lib/libalpm/be_sync.c:563
 #, c-format
@@ -671,39 +671,39 @@ msgid "could not remove lock file %s\n"
 msgstr "ne eblis forigi ŝlosan dosieron %s\n"
 
 #: lib/libalpm/hook.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Missing trigger targets in hook: %s\n"
-msgstr "mankas pakaĵa nomo en %s\n"
+msgstr ""
 
 #: lib/libalpm/hook.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "Missing trigger type in hook: %s\n"
-msgstr "mankas pakaĵa nomo en %s\n"
+msgstr ""
 
 #: lib/libalpm/hook.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Missing trigger operation in hook: %s\n"
-msgstr "mankas pakaĵa versio en %s\n"
+msgstr ""
 
 #: lib/libalpm/hook.c:146
-#, fuzzy, c-format
+#, c-format
 msgid "Missing Exec option in hook: %s\n"
-msgstr "mankas pakaĵa versio en %s\n"
+msgstr ""
 
 #: lib/libalpm/hook.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Missing When option in hook: %s\n"
-msgstr "mankas pakaĵa versio en %s\n"
+msgstr ""
 
 #: lib/libalpm/hook.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "AbortOnFail set for PostTransaction hook: %s\n"
-msgstr "malsukcesis ruli transakciajn hokojn"
+msgstr ""
 
 #: lib/libalpm/hook.c:273
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading hook %s: %s\n"
-msgstr "eraro dum legado de dosiero %s: %s\n"
+msgstr ""
 
 #: lib/libalpm/hook.c:275 lib/libalpm/hook.c:315 lib/libalpm/hook.c:357
 #, c-format
@@ -717,9 +717,9 @@ msgstr ""
 
 #: lib/libalpm/hook.c:297 lib/libalpm/hook.c:308 lib/libalpm/hook.c:327
 #: lib/libalpm/hook.c:350
-#, fuzzy, c-format
+#, c-format
 msgid "hook %s line %d: invalid value %s\n"
-msgstr "forigante nevalidan dosieron: %s\n"
+msgstr ""
 
 #: lib/libalpm/hook.c:301 lib/libalpm/hook.c:320 lib/libalpm/hook.c:331
 #: lib/libalpm/hook.c:345
@@ -733,9 +733,9 @@ msgid "hook %s line %d: unable to set option (%s)\n"
 msgstr ""
 
 #: lib/libalpm/hook.c:613
-#, fuzzy, c-format
+#, c-format
 msgid "unable to run hook %s: %s\n"
-msgstr "ne eblas skribi al dukto (%s)\n"
+msgstr ""
 
 #: lib/libalpm/hook.c:648 lib/libalpm/hook.c:660 lib/libalpm/remove.c:385
 #, c-format
@@ -743,9 +743,9 @@ msgid "could not open directory: %s: %s\n"
 msgstr "ne eblis malfermi dosierujon: %s: %s\n"
 
 #: lib/libalpm/hook.c:676
-#, fuzzy, c-format
+#, c-format
 msgid "could not open file: %s%s: %s\n"
-msgstr "ne eblis malfermi dosieron: %s: %s\n"
+msgstr ""
 
 #: lib/libalpm/hook.c:696 lib/libalpm/util.c:259
 #, c-format
@@ -753,9 +753,9 @@ msgid "could not stat file %s: %s\n"
 msgstr "ne eblis statikigi dosieron %s: %s\n"
 
 #: lib/libalpm/hook.c:722
-#, fuzzy, c-format
+#, c-format
 msgid "could not read directory: %s: %s\n"
-msgstr "ne eblis krei dosierujon %s: %s\n"
+msgstr ""
 
 #: lib/libalpm/package.c:586
 #, c-format
@@ -777,17 +777,22 @@ msgstr "forigante %s de la cela listo\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "ne eblas forigi dosieron '%s': '%s'\n"
 
-#: lib/libalpm/remove.c:553
+#: lib/libalpm/remove.c:410 lib/libalpm/remove.c:419
+#, c-format
+msgid "could not backup %s due to PATH_MAX overflow\n"
+msgstr ""
+
+#: lib/libalpm/remove.c:561
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "ne eblas forigi %s (%s)\n"
 
-#: lib/libalpm/remove.c:726
+#: lib/libalpm/remove.c:734
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "ne eblis forigi datumbazan enigon %s-%s\n"
 
-#: lib/libalpm/remove.c:731
+#: lib/libalpm/remove.c:739
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "ne eblis forigi enigon '%s' el la kaŝmemoro\n"
@@ -858,25 +863,21 @@ msgid "%s: signature from \"%s\" is expired\n"
 msgstr ""
 
 #: lib/libalpm/signing.c:918
-#, fuzzy, c-format
-msgid "%s: signature from \"%s\" is invalid\n"
-msgstr "la url '%s' ne estas valida\n"
-
-#: lib/libalpm/signing.c:995
 #, c-format
-msgid "%s: signature format error"
+msgid "%s: signature from \"%s\" is invalid\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:1063 lib/libalpm/signing.c:1142
+#: lib/libalpm/signing.c:995 lib/libalpm/signing.c:1063
+#: lib/libalpm/signing.c:1142
 #, c-format
 msgid "%s: signature format error\n"
 msgstr ""
 
 #: lib/libalpm/signing.c:1095 lib/libalpm/signing.c:1128
 #: lib/libalpm/signing.c:1136
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unsupported signature format\n"
-msgstr "%s: mankas bezonata subskribo\n"
+msgstr ""
 
 #: lib/libalpm/sync.c:98
 #, c-format

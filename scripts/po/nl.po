@@ -12,7 +12,7 @@
 # Peter van den Hurk, 2014-2016
 # Ray Drossaert <info@linuxmusicproduction.com>, 2014
 # Ronald Uit <ronald645@gmail.com>, 2015
-# Ruben Van Boxem <vanboxem.ruben@gmail.com>, 2015
+# Ruben Van Boxem <vanboxem.ruben@gmail.com>, 2015,2018
 # swilkens <stefanwilkens@gmail.com>, 2014
 # swilkens <stefanwilkens@gmail.com>, 2014
 # zenlord <zenlord@gmail.com>, 2015
@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2017-09-23 18:05+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2018-05-15 10:38+1000\n"
+"PO-Revision-Date: 2018-04-30 18:28+0000\n"
+"Last-Translator: Ruben Van Boxem <vanboxem.ruben@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/nl/)\n"
 "Language: nl\n"
@@ -61,10 +61,10 @@ msgid "Unable to find source file %s."
 msgstr "Kan bronbestand %s niet vinden."
 
 #: scripts/makepkg.sh.in:217 scripts/makepkg.sh.in:348
-#: scripts/makepkg.sh.in:718 scripts/makepkg.sh.in:911
-#: scripts/makepkg.sh.in:1314 scripts/makepkg.sh.in:1362
-#: scripts/makepkg.sh.in:1368 scripts/makepkg.sh.in:1373
-#: scripts/makepkg.sh.in:1379 scripts/makepkg.sh.in:1389
+#: scripts/makepkg.sh.in:727 scripts/makepkg.sh.in:920
+#: scripts/makepkg.sh.in:1323 scripts/makepkg.sh.in:1371
+#: scripts/makepkg.sh.in:1377 scripts/makepkg.sh.in:1382
+#: scripts/makepkg.sh.in:1388 scripts/makepkg.sh.in:1398
 #: scripts/libmakepkg/source/bzr.sh.in:50
 #: scripts/libmakepkg/source/bzr.sh.in:81
 #: scripts/libmakepkg/source/bzr.sh.in:96
@@ -84,7 +84,7 @@ msgstr "Kan bronbestand %s niet vinden."
 #: scripts/libmakepkg/source/svn.sh.in:68
 #: scripts/libmakepkg/util/source.sh.in:157
 #: scripts/libmakepkg/util/source.sh.in:166
-#: scripts/libmakepkg/util/util.sh.in:82
+#: scripts/libmakepkg/util/util.sh.in:77
 msgid "Aborting..."
 msgstr "Afbreken..."
 
@@ -137,327 +137,325 @@ msgid "Cannot find library listed in %s: %s"
 msgstr "Kan bibliotheek genoemd in %s niet vinden: %s"
 
 #: scripts/makepkg.sh.in:629
-#, fuzzy
 msgid "Invalid value for %s: %s"
-msgstr "Ongeldige syntax voor %s: '%s'"
+msgstr "Ongeldige waarde voor %s: %s"
 
 #: scripts/makepkg.sh.in:642 scripts/makepkg.sh.in:680
-#: scripts/makepkg.sh.in:811
+#: scripts/makepkg.sh.in:820
 msgid "Generating %s file..."
 msgstr "Genereren van %s bestand..."
 
-#: scripts/makepkg.sh.in:717
+#: scripts/makepkg.sh.in:726
 msgid "Missing %s directory."
 msgstr "Ontbrekende map %s."
 
-#: scripts/makepkg.sh.in:723
+#: scripts/makepkg.sh.in:732
 msgid "Creating package \"%s\"..."
 msgstr "Pakket \"%s\" aanmaken..."
 
-#: scripts/makepkg.sh.in:734
+#: scripts/makepkg.sh.in:743
 msgid "Adding %s file..."
 msgstr "Toevoegen van bestand %s..."
 
-#: scripts/makepkg.sh.in:736
+#: scripts/makepkg.sh.in:745
 msgid "Failed to add %s file to package."
 msgstr "Fout tijdens toevoegen van bestand %s aan pakket."
 
-#: scripts/makepkg.sh.in:754
+#: scripts/makepkg.sh.in:763
 msgid "Generating .MTREE file..."
 msgstr ".MTREE bestand genereren..."
 
-#: scripts/makepkg.sh.in:760
+#: scripts/makepkg.sh.in:769
 msgid "Compressing package..."
 msgstr "Pakket comprimeren..."
 
-#: scripts/makepkg.sh.in:769
+#: scripts/makepkg.sh.in:778
 msgid "Failed to create package file."
 msgstr "Fout tijdens aanmaken van pakketbestand."
 
-#: scripts/makepkg.sh.in:804
+#: scripts/makepkg.sh.in:813
 msgid "Creating source package..."
 msgstr "Aanmaken van bronpakket..."
 
-#: scripts/makepkg.sh.in:808 scripts/makepkg.sh.in:821
+#: scripts/makepkg.sh.in:817 scripts/makepkg.sh.in:830
 msgid "Adding %s..."
 msgstr "%s toevoegen..."
 
-#: scripts/makepkg.sh.in:839
+#: scripts/makepkg.sh.in:848
 msgid "Adding %s file (%s)..."
 msgstr "Toevoegen van bestand %s (%s)..."
 
-#: scripts/makepkg.sh.in:849
+#: scripts/makepkg.sh.in:858
 msgid "Compressing source package..."
 msgstr "Comprimeren van bronpakket..."
 
-#: scripts/makepkg.sh.in:859
+#: scripts/makepkg.sh.in:868
 msgid "Failed to create source package file."
 msgstr "Aanmaken van bronbestand mislukt."
 
-#: scripts/makepkg.sh.in:871
+#: scripts/makepkg.sh.in:880
 msgid "Installing package %s with %s..."
 msgstr "Installeren van pakket %s met %s..."
 
-#: scripts/makepkg.sh.in:873
+#: scripts/makepkg.sh.in:882
 msgid "Installing %s package group with %s..."
 msgstr "Installeren van pakket %s met groep %s..."
 
-#: scripts/makepkg.sh.in:891
+#: scripts/makepkg.sh.in:900
 msgid "Failed to install built package(s)."
 msgstr "Installatie van gebouwd(e) pakket(ten) is mislukt."
 
-#: scripts/makepkg.sh.in:910 scripts/libmakepkg/util/source.sh.in:156
+#: scripts/makepkg.sh.in:919 scripts/libmakepkg/util/source.sh.in:156
 msgid "Unknown download protocol: %s"
 msgstr "Onbekend download protocol: %s"
 
-#: scripts/makepkg.sh.in:927
+#: scripts/makepkg.sh.in:936
 msgid "Cannot find the %s binary needed to check VCS source requirements."
 msgstr ""
 "Kan uitvoerbaar bestand %s niet vinden om VCS bron benodigdheden te "
 "controleren."
 
-#: scripts/makepkg.sh.in:955
+#: scripts/makepkg.sh.in:964
 msgid "Cannot find the %s package needed to handle %s sources."
 msgstr "Kan pakket %s, nodig om %s bronbestanden af te handelen, niet vinden."
 
-#: scripts/makepkg.sh.in:978
+#: scripts/makepkg.sh.in:987
 msgid "Cannot find the %s binary required for dependency operations."
 msgstr ""
 "Kan uitvoerbaar bestand %s niet vinden om afhankelijkheden af te handelen."
 
-#: scripts/makepkg.sh.in:986
+#: scripts/makepkg.sh.in:995
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr ""
 "Kan uitvoerbaar bestand %s niet vinden. %s zal worden gebruikt om root "
 "rechten te verkrijgen."
 
-#: scripts/makepkg.sh.in:993
+#: scripts/makepkg.sh.in:1002
 msgid "Cannot find the %s binary."
 msgstr "Kan uitvoerbaar bestand %s niet vinden."
 
-#: scripts/makepkg.sh.in:1001
+#: scripts/makepkg.sh.in:1010
 msgid "Cannot find the %s binary required for signing packages."
 msgstr "Kan uitvoerbaar bestand %s niet vinden om pakketten te ondertekenen."
 
-#: scripts/makepkg.sh.in:1009
+#: scripts/makepkg.sh.in:1018
 msgid "Cannot find the %s binary required for verifying source files."
 msgstr "Kan uitvoerbaar bestand %s niet vinden om bronbestanden te verifiëren."
 
-#: scripts/makepkg.sh.in:1022
-#, fuzzy
+#: scripts/makepkg.sh.in:1031
 msgid ""
 "Cannot find the %s binary required for source file checksums operations."
 msgstr ""
-"Kan uitvoerbaar bestand %s niet vinden om controlesommen van bronbestanden "
-"te verifiëren."
+"Kan binair bestand %s niet vinden dat noodzakelijk is voor controlesom "
+"operaties van bronnbestand"
 
-#: scripts/makepkg.sh.in:1031
+#: scripts/makepkg.sh.in:1040
 msgid "Cannot find the %s binary required for distributed compilation."
 msgstr ""
 "Kan uitvoerbaar bestand %s niet vinden voor gedistribueerde compilatie."
 
-#: scripts/makepkg.sh.in:1039
+#: scripts/makepkg.sh.in:1048
 msgid "Cannot find the %s binary required for compiler cache usage."
 msgstr ""
 "Kan uitvoerbaar bestand %s niet vinden voor het cachen van de compileerder."
 
-#: scripts/makepkg.sh.in:1047
+#: scripts/makepkg.sh.in:1056
 msgid "Cannot find the %s binary required for object file stripping."
 msgstr ""
 "Kan uitvoerbaar bestand %s niet vinden voor het strippen van object "
 "bestanden."
 
-#: scripts/makepkg.sh.in:1055
+#: scripts/makepkg.sh.in:1064
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr ""
 "Kan uitvoerbaar bestand %s niet vinden om man en info pagina's te "
 "comprimeren."
 
-#: scripts/makepkg.sh.in:1075
+#: scripts/makepkg.sh.in:1084
 msgid "A package has already been built, installing existing package..."
 msgstr ""
 "Er werd al een pakket gebouwd, zal het het bestaande pakket installeren..."
 
-#: scripts/makepkg.sh.in:1079
+#: scripts/makepkg.sh.in:1088
 msgid "A package has already been built. (use %s to overwrite)"
 msgstr "Er werd al een pakket gebouwd. (gebruik %s om het te overschrijven)"
 
-#: scripts/makepkg.sh.in:1098
+#: scripts/makepkg.sh.in:1107
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "De pakketgroep werd al gebouwd, zal bestaande pakketten installeren..."
 
-#: scripts/makepkg.sh.in:1102
+#: scripts/makepkg.sh.in:1111
 msgid "The package group has already been built. (use %s to overwrite)"
 msgstr "De pakketgroep werd al gebouwd. (gebruik %s om te overschrijven)"
 
-#: scripts/makepkg.sh.in:1107
+#: scripts/makepkg.sh.in:1116
 msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
 "Een deel van de pakketgroep werd al gemaakt. (gebruik %s om te overschrijven)"
 
-#: scripts/makepkg.sh.in:1142
+#: scripts/makepkg.sh.in:1151
 msgid "Make packages compatible for use with pacman"
 msgstr "Maak pakketten compatibel met het gebruik van pacman"
 
-#: scripts/makepkg.sh.in:1144 scripts/pacman-db-upgrade.sh.in:43
+#: scripts/makepkg.sh.in:1153 scripts/pacman-db-upgrade.sh.in:43
 msgid "Usage: %s [options]"
 msgstr "Gebruik: %s [opties]"
 
-#: scripts/makepkg.sh.in:1146 scripts/pacman-key.sh.in:82
+#: scripts/makepkg.sh.in:1155 scripts/pacman-key.sh.in:82
 msgid "Options:"
 msgstr "Opties:"
 
-#: scripts/makepkg.sh.in:1147
+#: scripts/makepkg.sh.in:1156
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "-A, --ignorearch Negeer onvolledig %s veld in %s"
 
-#: scripts/makepkg.sh.in:1148
+#: scripts/makepkg.sh.in:1157
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "-c, --clean Ruim tijdelijke bestanden op na creatie"
 
-#: scripts/makepkg.sh.in:1149
+#: scripts/makepkg.sh.in:1158
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
 msgstr "-C, --cleanbuild Verwijder de %s map voor de creatie van het pakket"
 
-#: scripts/makepkg.sh.in:1150
+#: scripts/makepkg.sh.in:1159
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "-d, --nodeps Alle afhankelijkscontroles overslaan"
 
-#: scripts/makepkg.sh.in:1151
+#: scripts/makepkg.sh.in:1160
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
 "-e, --noextract Bronbestanden niet extraheren (gebruik bestaande map %s)"
 
-#: scripts/makepkg.sh.in:1152
+#: scripts/makepkg.sh.in:1161
 msgid "  -f, --force      Overwrite existing package"
 msgstr "-f, --force Overschrijf bestaand pakket"
 
-#: scripts/makepkg.sh.in:1153
+#: scripts/makepkg.sh.in:1162
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "-g, --geninteg Genereer integriteitschecks voor de bronbestanden"
 
-#: scripts/makepkg.sh.in:1154
+#: scripts/makepkg.sh.in:1163
 msgid "  -h, --help       Show this help message and exit"
 msgstr "-h, --help Toon dit hulpbericht en stop"
 
-#: scripts/makepkg.sh.in:1155
+#: scripts/makepkg.sh.in:1164
 msgid "  -i, --install    Install package after successful build"
 msgstr "-i, --install Installeer het pakket na succesvolle creatie"
 
-#: scripts/makepkg.sh.in:1156
+#: scripts/makepkg.sh.in:1165
 msgid "  -L, --log        Log package build process"
 msgstr "-L, --log Log het creatieproces van het pakket"
 
-#: scripts/makepkg.sh.in:1157
+#: scripts/makepkg.sh.in:1166
 msgid "  -m, --nocolor    Disable colorized output messages"
 msgstr "-m, --nocolor Zet gekleurde output uit"
 
-#: scripts/makepkg.sh.in:1158
+#: scripts/makepkg.sh.in:1167
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "-o, --nobuild Enkel downloaden en extraheren"
 
-#: scripts/makepkg.sh.in:1159
+#: scripts/makepkg.sh.in:1168
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr "-p <bestand> gebruik een ander creatiescript (in plaats van '%s')"
 
-#: scripts/makepkg.sh.in:1160
+#: scripts/makepkg.sh.in:1169
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
 "-r, --rmdeps Verwijder geïnstalleerde afhankelijkheden na een succesvolle "
 "creatie"
 
-#: scripts/makepkg.sh.in:1161
+#: scripts/makepkg.sh.in:1170
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr ""
 "-R, --repackage Herverpak de inhoud van het pakket zonder het opnieuw te "
 "creëren"
 
-#: scripts/makepkg.sh.in:1162
+#: scripts/makepkg.sh.in:1171
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "-s, --syncdeps Installeer ontbrekende afhankelijkheden met %s"
 
-#: scripts/makepkg.sh.in:1163
+#: scripts/makepkg.sh.in:1172
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
 "-S, --source Genereer een brontarball zonder de gedownloade bronbestanden"
 
-#: scripts/makepkg.sh.in:1164
+#: scripts/makepkg.sh.in:1173
 msgid "  -V, --version    Show version information and exit"
 msgstr "-V, --version Toon versie informatie en stop"
 
-#: scripts/makepkg.sh.in:1165
+#: scripts/makepkg.sh.in:1174
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr "--allsource Genereer een brontarball met gedownloade bronbestanden"
 
-#: scripts/makepkg.sh.in:1166
+#: scripts/makepkg.sh.in:1175
 msgid "  --check          Run the %s function in the %s"
 msgstr "--check Voer de %s functie uit in het %s"
 
-#: scripts/makepkg.sh.in:1167
+#: scripts/makepkg.sh.in:1176
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
 "--config <file> Gebruik een ander configuratiebestand (in plaats van '%s')"
 
-#: scripts/makepkg.sh.in:1168
+#: scripts/makepkg.sh.in:1177
 msgid "  --holdver        Do not update VCS sources"
 msgstr "--holdver Vernieuw de VCS bronbestanden niet"
 
-#: scripts/makepkg.sh.in:1169
+#: scripts/makepkg.sh.in:1178
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
 "--key <key> Specifieer een sleutel voor het %s versleutelen in plaats van de "
 "standaardsleutel"
 
-#: scripts/makepkg.sh.in:1170
+#: scripts/makepkg.sh.in:1179
 msgid "  --noarchive      Do not create package archive"
 msgstr "--noarchive Maak geen pakketarchief aan"
 
-#: scripts/makepkg.sh.in:1171
+#: scripts/makepkg.sh.in:1180
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "--nocheck Voer de %s functie niet uit in het %s"
 
-#: scripts/makepkg.sh.in:1172
+#: scripts/makepkg.sh.in:1181
 msgid "  --noprepare      Do not run the %s function in the %s"
 msgstr "--noprepare Voer de %s functie niet uit in het %s"
 
-#: scripts/makepkg.sh.in:1173
+#: scripts/makepkg.sh.in:1182
 msgid "  --nosign         Do not create a signature for the package"
 msgstr "--nosign Maak geen signatuur aan voor het pakket"
 
-#: scripts/makepkg.sh.in:1174
+#: scripts/makepkg.sh.in:1183
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
 "--packagelist Toon enkel pakketten die zouden worden gemaakt, zonder PKGEXT"
 
-#: scripts/makepkg.sh.in:1175
+#: scripts/makepkg.sh.in:1184
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
 msgstr "--printsrcinfo Toon de gegenereerde SRCINFO en stop"
 
-#: scripts/makepkg.sh.in:1176
+#: scripts/makepkg.sh.in:1185
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "--sign Signeer het resulterende pakket met %s"
 
-#: scripts/makepkg.sh.in:1177
+#: scripts/makepkg.sh.in:1186
 msgid "  --skipchecksums  Do not verify checksums of the source files"
 msgstr "--skipchecksums Verifieer controlesommen van de bronbestanden niet"
 
-#: scripts/makepkg.sh.in:1178
+#: scripts/makepkg.sh.in:1187
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
 msgstr "--skipinteg Voer geen enkele verificatie van de bronbestanden uit"
 
-#: scripts/makepkg.sh.in:1179
+#: scripts/makepkg.sh.in:1188
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "--skippgpcheck Verifieer de PGP signaturen van de bronbestanden niet"
 
-#: scripts/makepkg.sh.in:1180
+#: scripts/makepkg.sh.in:1189
 msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
@@ -465,56 +463,54 @@ msgstr ""
 "--verifysource Download bronbestanden (indien nodig) en voer "
 "integriteitscontrole uit"
 
-#: scripts/makepkg.sh.in:1182
+#: scripts/makepkg.sh.in:1191
 msgid "These options can be passed to %s:"
 msgstr "Deze opties kunnen meegegeven worden aan %s:"
 
-#: scripts/makepkg.sh.in:1184
+#: scripts/makepkg.sh.in:1193
 msgid "  --asdeps         Install packages as non-explicitly installed"
 msgstr "--asdeps Installeer pakketten als niet-expliciet geïnstalleerd"
 
-#: scripts/makepkg.sh.in:1185
+#: scripts/makepkg.sh.in:1194
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
 msgstr "--needed Herinstalleer de doelen die al up to date zijn niet"
 
-#: scripts/makepkg.sh.in:1186
+#: scripts/makepkg.sh.in:1195
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr ""
 "--noconfirm Vraag geen bevestiging wanneer afhankelijkheden worden opgelost"
 
-#: scripts/makepkg.sh.in:1187
+#: scripts/makepkg.sh.in:1196
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "--noprogressbar Toon geen voortgangsbalk tijdens het downloaden"
 
-#: scripts/makepkg.sh.in:1189
+#: scripts/makepkg.sh.in:1198
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Als %s niet werd gespecificeerd, zal %s zoeken naar '%s'"
 
-#: scripts/makepkg.sh.in:1195
-#, fuzzy
+#: scripts/makepkg.sh.in:1204
 msgid ""
 "Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2018 Pacman Ontwikkelaarsteam <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nDit is "
-"vrije software; zie de bronbestanden voor de voorwaarden tot reproductie."
-"\\nEr wordt GEEN ENKELE GARANTIE gegeven, voor zover toegelaten door de wet."
-"\\n"
+"vrije software; zie de broncode voor reproductievoorwaarden.\\nEr is GEEN "
+"GARANTIE, voor zover toegestaan door de wet.\\n"
 
-#: scripts/makepkg.sh.in:1298 scripts/repo-add.sh.in:743
+#: scripts/makepkg.sh.in:1307 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
 msgstr "%s signaal gevonden. Afsluiten..."
 
-#: scripts/makepkg.sh.in:1313
+#: scripts/makepkg.sh.in:1322
 msgid "%s not found."
 msgstr "%s niet gevonden."
 
-#: scripts/makepkg.sh.in:1395
+#: scripts/makepkg.sh.in:1404
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
@@ -522,84 +518,84 @@ msgstr ""
 "Het draaien van %s als root is niet toegestaan omdat het permanente,"
 "\\ncatastrofale schade kan toebrengen aan uw systeem."
 
-#: scripts/makepkg.sh.in:1401
-#, fuzzy
+#: scripts/makepkg.sh.in:1410
 msgid "Do not use the %s option. This option is only for internal use by %s."
-msgstr "Gebruik de %s optie niet. Deze optie kan enkel gebruikt worden bij %s."
+msgstr ""
+"Gebruik de optie %s niet. Deze optie is enkel voor intern gebruik door %s."
 
-#: scripts/makepkg.sh.in:1416
+#: scripts/makepkg.sh.in:1425
 msgid "%s does not exist."
 msgstr "%s bestaat niet."
 
-#: scripts/makepkg.sh.in:1421
+#: scripts/makepkg.sh.in:1430
 msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s bevat %s karakters en kan niet worden gesourced."
 
-#: scripts/makepkg.sh.in:1426
+#: scripts/makepkg.sh.in:1435
 msgid "%s must be in the current working directory."
 msgstr "%s moet zich in de huidige werkmap bevinden."
 
-#: scripts/makepkg.sh.in:1506
+#: scripts/makepkg.sh.in:1515
 msgid "The key %s does not exist in your keyring."
 msgstr "De sleutel %s bestaat niet in uw sleutelring."
 
-#: scripts/makepkg.sh.in:1508 scripts/repo-add.sh.in:225
+#: scripts/makepkg.sh.in:1517 scripts/repo-add.sh.in:225
 msgid "There is no key in your keyring."
 msgstr "Er is geen sleutel in uw sleutelbos."
 
-#: scripts/makepkg.sh.in:1532 scripts/makepkg.sh.in:1553
+#: scripts/makepkg.sh.in:1541 scripts/makepkg.sh.in:1562
 msgid "Leaving %s environment."
 msgstr "%s omgeving verlaten."
 
-#: scripts/makepkg.sh.in:1557
+#: scripts/makepkg.sh.in:1566
 msgid "Making package: %s"
 msgstr "Pakket %s wordt gemaakt"
 
-#: scripts/makepkg.sh.in:1563
+#: scripts/makepkg.sh.in:1572
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "Er is al een bronpakket gebouwd. (gebruik %s om te overschrijven)"
 
-#: scripts/makepkg.sh.in:1583
+#: scripts/makepkg.sh.in:1592
 msgid "Signing package..."
 msgstr "Pakket ondertekenen..."
 
-#: scripts/makepkg.sh.in:1587
+#: scripts/makepkg.sh.in:1596
 msgid "Source package created: %s"
 msgstr "Bronpakket aangemaakt: %s"
 
-#: scripts/makepkg.sh.in:1593
+#: scripts/makepkg.sh.in:1602
 msgid "Skipping dependency checks."
 msgstr "Controle van afhankelijkheden wordt overgeslagen."
 
-#: scripts/makepkg.sh.in:1601
+#: scripts/makepkg.sh.in:1610
 msgid "Checking runtime dependencies..."
 msgstr "Uitvoerafhankelijkheden controleren..."
 
-#: scripts/makepkg.sh.in:1608
+#: scripts/makepkg.sh.in:1617
 msgid "Checking buildtime dependencies..."
 msgstr "Afhankelijkheden voor creatie controleren"
 
-#: scripts/makepkg.sh.in:1620
+#: scripts/makepkg.sh.in:1629
 msgid "Could not resolve all dependencies."
 msgstr "Kon niet alle afhankelijkheden oplossen."
 
-#: scripts/makepkg.sh.in:1632
+#: scripts/makepkg.sh.in:1641
 msgid "Using existing %s tree"
 msgstr "%s boom gebruiken."
 
-#: scripts/makepkg.sh.in:1639 scripts/makepkg.sh.in:1667
+#: scripts/makepkg.sh.in:1648 scripts/makepkg.sh.in:1676
 msgid "Removing existing %s directory..."
 msgstr "Bestaande %s map verwijderen..."
 
-#: scripts/makepkg.sh.in:1662
+#: scripts/makepkg.sh.in:1671
 msgid "Sources are ready."
 msgstr "Bronned zijn gereed."
 
-#: scripts/makepkg.sh.in:1689
+#: scripts/makepkg.sh.in:1698
 msgid "Package directory is ready."
 msgstr "Pakketten map is klaar."
 
-#: scripts/makepkg.sh.in:1693
+#: scripts/makepkg.sh.in:1702
 msgid "Finished making: %s"
 msgstr "Klaar met het maken van: %s"
 
@@ -686,16 +682,15 @@ msgid "  --version             Version information\n"
 msgstr "--version Versieinformatie\n"
 
 #: scripts/makepkg-template.pl.in:194
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
-"Dit is vrije software; zie de bronbestanden voor de voorwaarden tot "
-"reproductie.\n"
-"Er wordt GEEN ENKELE GARANTIE gegeven, voor zover toegelaten door de wet.\n"
+"Copyright (c) 2013-2018 Pacman Ontwikkelaarsteam <pacman-dev@archlinux."
+"org>.\n"
+"Dit is vrije software; zie de broncode voor reproductievoorwaarden.\n"
+"Er is GEEN GARANTIE, tot zover toegestaan door de wet.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:41
 msgid "Upgrade the local pacman database to a newer format"
@@ -707,7 +702,7 @@ msgstr "opties:"
 
 #: scripts/pacman-db-upgrade.sh.in:46
 msgid "  -d, --dbpath <path>  set an alternate database location"
-msgstr ""
+msgstr "-s, --dbpath <path> zet een alternatieve databaselocatie"
 
 #: scripts/pacman-db-upgrade.sh.in:47
 msgid "  -h, --help           show this help message and exit"
@@ -730,16 +725,14 @@ msgid "  --nocolor            disable colorized output messages"
 msgstr "--nocolor zet gekleurde uitvoer uit"
 
 #: scripts/pacman-db-upgrade.sh.in:57 scripts/pacman-key.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\nDit is vrije software; zie de bronbestanden voor de voorwaarden tot "
-"reproductie.\\nEr wordt GEEN ENKELE GARANTIE gegeven, voor zover toegelaten "
-"door de wet.\\n"
+"Copyright (c) 2010-2018 Pacman Ontwikkelaarsteam <pacman-dev@archlinux.org>."
+"\\nDit is vrije software; zie de broncode voor reproductievoorwaarden.\\nEr "
+"is GEEN GARANTIE, tot zover toegestaan door de wet.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:118 scripts/repo-add.sh.in:514
 msgid "%s does not exist or is not a directory."
@@ -1238,16 +1231,14 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Bijvoorbeeld: repo-remove /pad/naar/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:96
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\n\\nDit is vrije software; zie de bronbestanden voor de voorwaarden tot "
-"reproductie.\\nEr wordt GEEN ENKELE GARANTIE gegeven, voor zover toegelaten "
-"door de wet.\\n"
+"Copyright (c) 2006-2018 Pacman Ontwikkelaarsteam <pacman-dev@archlinux.org>"
+"\\n\\nDit is vrije software; zie de broncode voor reproductievoorwaarden."
+"\\nEr is GEEN GARANTIE, tot zover toegestaan door de wet.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1397,11 +1388,11 @@ msgstr "Ongeldig commando '%s' gespecificeerd."
 msgid "Cannot create temp directory for database building."
 msgstr "Kan geen tijdelijke map aanmaken voor databasecreatie."
 
-#: scripts/repo-add.sh.in:823
+#: scripts/repo-add.sh.in:824
 msgid "Creating updated database file '%s'"
 msgstr "Bijgewerkt databasebestand '%s' aanmaken"
 
-#: scripts/repo-add.sh.in:827
+#: scripts/repo-add.sh.in:828
 msgid "No packages modified, nothing to do."
 msgstr "Geen pakketten gewijzigd, niets te doen."
 
@@ -1434,9 +1425,8 @@ msgid "Failed to sign package file."
 msgstr "Ondertekenen pakket mislukt."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:56
-#, fuzzy
 msgid "Signing package(s)..."
-msgstr "Pakket ondertekenen..."
+msgstr "pakket(ten) ondertekenen..."
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:64
 msgid "Integrity checks are missing for: %s"
@@ -1556,23 +1546,20 @@ msgid "%s should not be an array"
 msgstr "%s mag geen array zijn"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issues..."
-msgstr "Controleren op probleem met pakketcreatie..."
+msgstr "Controleren op pakketproblemen..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
 msgid "Package contains reference to %s"
 msgstr "Pakket bevat verwijzing naar %s"
 
 #: scripts/libmakepkg/lint_package/dotfiles.sh.in:34
-#, fuzzy
 msgid "Dotfile found in package root '%s'"
-msgstr "%s entry bestand niet in pakket : %s"
+msgstr "Dotbestand gevonden in pakket root '%s'"
 
 #: scripts/libmakepkg/lint_package/file_names.sh.in:36
-#, fuzzy
 msgid "Package contains paths with newlines"
-msgstr "Pakket bevat verwijzing naar %s"
+msgstr "Pakket bevat paden met newlines"
 
 #: scripts/libmakepkg/lint_package/missing_backup.sh.in:35
 msgid "%s entry file not in package : %s"
@@ -1627,12 +1614,13 @@ msgid "%s must be a decimal, not %s."
 msgstr "%s moet een decimaal zijn, niet %s."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:41
-#, fuzzy
 msgid ""
 "%s is not allowed to contain colons, forward slashes, hyphens or whitespace."
-msgstr "%s mag geen dubbele punt, afbreekstreepjes of witregels bevatten."
+msgstr ""
+"%s mag geen dubbele punten, voorwaartse schuine strepen, liggende streepjes "
+"noch witruimte bevatten."
 
-#: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:42
+#: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:46
 msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "Lijst %s mag geen vergelijkingsoperatoren (< of >) bevatten."
 
@@ -1744,7 +1732,7 @@ msgstr "Fout tijdens bijwerken %s %s repo"
 
 #: scripts/libmakepkg/source/git.sh.in:116
 msgid "Failure while checking out version %s, the git tag has been forged"
-msgstr ""
+msgstr "Fout bij het uitchecken van versie %s, de git tag is vevalst geweest"
 
 #: scripts/libmakepkg/source/local.sh.in:39
 msgid "%s was not found in the build directory and is not a URL."
@@ -1816,131 +1804,14 @@ msgstr "optie '%s' vereist een argument"
 msgid "The download program %s is not installed."
 msgstr "Het download programma %s is niet geïnstalleerd."
 
-#: scripts/libmakepkg/util/util.sh.in:81
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:76
 msgid "Failed to change to directory %s"
-msgstr "Uitpakken van %s mislukt"
+msgstr "Fout tijdens navigeren naar map %s"
 
-#: scripts/libmakepkg/util/util.sh.in:95
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:90
 msgid "You do not have write permission for the directory $%s (%s)."
-msgstr "U heeft geen schrijfrechten om logbestanden op te slaan in %s."
+msgstr "Geen toestemming om naar de map $%s te schrijven (%s)."
 
-#: scripts/libmakepkg/util/util.sh.in:97
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:92
 msgid "Failed to create the directory $%s (%s)."
-msgstr "Bijwerken %s van %s naar %s mislukt"
-
-#~ msgid ""
-#~ "Cannot find the %s binary required for generating sourcefile checksums."
-#~ msgstr ""
-#~ "Uitvoerbaar bestand %s nodig voor het genereren van controlesommen van "
-#~ "bronbestanden kan niet worden gevonden."
-
-#~ msgid "Failed to create symlink to package file."
-#~ msgstr "Fout tijdens aanmaken van symlink naar pakketbestand."
-
-#~ msgid "Failed to create symlink to source package file."
-#~ msgstr "Aanmaken van symlink naar bronpakket is mislukt."
-
-#~ msgid "Cannot find the %s binary required for compressing binaries."
-#~ msgstr ""
-#~ "Kan uitvoerbaar bestand %s niet vinden om uitvoerbare bestanden te "
-#~ "comprimeren."
-
-#~ msgid "Cannot find the %s binary required for optimizing PNG images."
-#~ msgstr ""
-#~ "Kan uitvoerbaar bestand %s niet vinden om PNG bestanden te optimaliseren."
-
-#~ msgid "You do not have write permission to create packages in %s."
-#~ msgstr "U heeft geen schrijfrechten om pakketten aan te maken in %s."
-
-#~ msgid "You do not have write permission to store packages in %s."
-#~ msgstr "U heeft geen schrijfrechten om pakketten op te slaan in %s."
-
-#~ msgid "You do not have write permission to store downloads in %s."
-#~ msgstr "U heeft geen schrijfrechten om downloads op te slaan in %s."
-
-#~ msgid "You do not have write permission to store source tarballs in %s."
-#~ msgstr "U heeft geen schrijfrechten om brontarballs op te slaan in %s."
-
-#~ msgid "Usage: %s [--nocolor] [pacman_db_root]"
-#~ msgstr "Gebruik: %s [--nocolor] [pacman_db_root]"
-
-#~ msgid ""
-#~ "pacman-optimize is a little hack that should improve the performance\\nof "
-#~ "pacman when reading/writing to its filesystem-based database.\\n\\n"
-#~ msgstr ""
-#~ "pacman-optimize is een hack welke pacman's snelheid zou moeten verbeteren "
-#~ "van het lezen en schrijven naar de bestandssysteem gebaseerde database.\\n"
-#~ "\\n"
-
-#~ msgid ""
-#~ "Because pacman uses many small files to keep track of packages,\\nthere "
-#~ "is a tendency for these files to become fragmented over time.\\nThis "
-#~ "script attempts to relocate these small files into one\\ncontinuous "
-#~ "location on your hard drive. The result is that the hard\\ndrive should "
-#~ "be able to read them faster, since the hard drive head\\ndoes not have to "
-#~ "move around the disk as much.\\n"
-#~ msgstr ""
-#~ "Aangezien pacman veel kleine bestanden gebruikt om pakketten te traceren,"
-#~ "\\nbestaat het gevaar voor fragmentatie van deze bestanden na verloop van "
-#~ "tijd.\\nDit script probeert deze kleine bestanden op een\\naaneengesloten "
-#~ "ruimte op jouw harde schijf te plaatsen. Het resultaat is dat de harde"
-#~ "\\nschijf ze sneller zou moeten kunnen uitlezen, omdat de leeskoppen van "
-#~ "de harde schijf\\nzich niet zo vaak moeten verplaatsen.\\n"
-
-#~ msgid "Cannot find the %s binary required for verifying integrity."
-#~ msgstr "Kan het programma %s niet vinden om de integriteit te controleren."
-
-#~ msgid "You must have correct permissions to optimize the database."
-#~ msgstr "Je hebt onvoldoende rechten voor het optimaliseren van de database."
-
-#~ msgid "Cannot create temporary directory for database building."
-#~ msgstr "Kan de tijdelijke map niet aanmaken voor creatie van de database."
-
-#~ msgid "MD5sum'ing the old database..."
-#~ msgstr "MD5sum'men van de oude database..."
-
-#~ msgid "Tar'ing up %s..."
-#~ msgstr "Tarren van %s..."
-
-#~ msgid "Tar'ing up %s failed."
-#~ msgstr "Tar bestand maken van %s niet gelukt."
-
-#~ msgid "Making and MD5sum'ing the new database..."
-#~ msgstr "Aanmaken van en MD5sum'men van de nieuwe database..."
-
-#~ msgid "Untar'ing %s failed."
-#~ msgstr "Uitpakken Tar bestand %s niet gelukt."
-
-#~ msgid "Syncing database to disk..."
-#~ msgstr "Database naar disk synchroniseren..."
-
-#~ msgid "Checking integrity..."
-#~ msgstr "Integriteit controleren..."
-
-#~ msgid "Integrity check FAILED, reverting to old database."
-#~ msgstr "FOUT tijdens integriteitscontrole, terugvallen op oude database."
-
-#~ msgid "Rotating database into place..."
-#~ msgstr "Database wordt naar de juiste plaats geroteerd..."
-
-#~ msgid ""
-#~ "New database substitution failed. Check for %s, %s, and %s directories."
-#~ msgstr "Vervangen nieuwe database mislukt. Controleer %s, %s, en %s mappen."
-
-#~ msgid "Finished. Your pacman database has been optimized."
-#~ msgstr "Klaar. Je pacman database is geoptimaliseerd."
-
-#~ msgid "Optimizing PNG images..."
-#~ msgstr "PNG afbeeldingen optimaliseren..."
-
-#~ msgid "Could not optimize PNG image : %s"
-#~ msgstr "PNG afbeelding %s kon niet geoptimaliseerd worden"
-
-#~ msgid "Compressing binaries with %s..."
-#~ msgstr "Comprimeren van uitvoerbare bestanden met %s..."
-
-#~ msgid "Could not compress binary : %s"
-#~ msgstr "Kon uitvoerbaar bestand niet comprimeren: %s"
+msgstr "Kon de map $%s niet aanmaken (%s)."

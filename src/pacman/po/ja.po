@@ -8,13 +8,13 @@
 # kusakata, 2015
 # kusakata, 2015
 # polamjag <s@polamjag.info>, 2015
-# kusakata, 2015-2017
+# kusakata, 2015-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2017-09-23 18:43+0000\n"
+"PO-Revision-Date: 2018-04-29 15:00+0000\n"
 "Last-Translator: kusakata\n"
 "Language-Team: Japanese (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ja/)\n"
@@ -513,17 +513,17 @@ msgstr "%s: インストール方法は '明示的にインストール' に設�
 #: src/pacman/database.c:293
 #, c-format
 msgid "No database errors have been found!\n"
-msgstr ""
+msgstr "データベースにエラーは見つかりませんでした！\n"
 
 #: src/pacman/files.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s/%s%s %s%s%s\n"
-msgstr "%s は %s %s によって保有されています\n"
+msgstr "%s は %s%s/%s%s %s%s%s によって所有されています\n"
 
 #: src/pacman/files.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package: '%s'\n"
-msgstr "不正な数値です: %s\n"
+msgstr "不正なパッケージ: '%s'\n"
 
 #: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
 #, c-format
@@ -536,9 +536,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "パッケージデータベースの同期中...\n"
 
 #: src/pacman/files.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "no options specified (use -h for help)\n"
-msgstr "オペレーションが指定されていません (-h を使ってヘルプを見て下さい)\n"
+msgstr "オプションが指定されていません (-h を使ってヘルプを見て下さい)\n"
 
 #: src/pacman/package.c:99
 #, c-format
@@ -1008,9 +1008,9 @@ msgstr ""
 "スを同期)\n"
 
 #: src/pacman/pacman.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
-msgstr "  -q, --quiet          照会や検索で返ってくる情報の表示を簡単にする\n"
+msgstr "  -q, --quiet          成功メッセージの出力を消す\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
@@ -1032,14 +1032,15 @@ msgstr ""
 "                       コンピュータが扱える出力を生成\n"
 
 #: src/pacman/pacman.c:192
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --overwrite <path>\n"
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
-"      --ignoregroup <grp>\n"
-"                       指定したグループの更新を無視\n"
+"      --overwrite <path>\n"
+"                       衝突するファイルを上書きする (複数回使うことができま"
+"す)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1146,6 +1147,7 @@ msgstr "      --arch <arch>    アーキテクチャを指定\n"
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
+"      --sysroot        マウントされたゲストシステムを操作する (root のみ)\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
@@ -1198,6 +1200,8 @@ msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
+"      --disable-download-timeout\n"
+"                       ダウンロード時のタイムアウトを無効化する\n"
 
 #: src/pacman/pacman.c:246
 #, c-format
@@ -1211,7 +1215,7 @@ msgstr ""
 #: src/pacman/pacman.c:279
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
-msgstr ""
+msgstr "HTTP_USER_AGENT は省略されました\n"
 
 #: src/pacman/pacman.c:311
 #, c-format
@@ -1232,11 +1236,13 @@ msgstr "'%s' は無効なデバッグレベルです\n"
 #, c-format
 msgid "option --root is deprecated; use --sysroot instead\n"
 msgstr ""
+"--root オプションは廃止されました; 代わりに --sysroot を使ってください\n"
 
 #: src/pacman/pacman.c:722
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
 msgstr ""
+"--force オプションは廃止されました; 代わりに --overwrite を使ってください\n"
 
 #: src/pacman/pacman.c:982
 #, c-format
@@ -1259,14 +1265,14 @@ msgid "you cannot perform this operation unless you are root.\n"
 msgstr "root 権限がないとこの操作は実行できません。\n"
 
 #: src/pacman/pacman.c:1173
-#, fuzzy, c-format
+#, c-format
 msgid "chroot to '%s' failed: (%s)\n"
-msgstr "'%s' データベースに登録できませんでした (%s)\n"
+msgstr "'%s' への chroot に失敗しました: (%s)\n"
 
 #: src/pacman/pacman.c:1207
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
-msgstr "処理の準備に失敗しました (%s)\n"
+msgstr "標準入力から引数を読み込みませんでした: (%s)\n"
 
 #: src/pacman/pacman.c:1212
 #, c-format
@@ -1289,9 +1295,9 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "オペレーションが指定されていません (-h を使ってヘルプを見て下さい)\n"
 
 #: src/pacman/query.c:87
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s %s%s%s\n"
-msgstr "%s は %s %s によって保有されています\n"
+msgstr "%s は %s%s %s%s%s によって所有されています\n"
 
 #: src/pacman/query.c:149
 #, c-format
@@ -1301,7 +1307,7 @@ msgstr "--owns で照会するファイルが指定されていません\n"
 #: src/pacman/query.c:170
 #, c-format
 msgid "empty string passed to file owner query\n"
-msgstr ""
+msgstr "ファイル所有者の問い合わせに空文字が渡されました\n"
 
 #: src/pacman/query.c:197 src/pacman/query.c:219
 #, c-format
@@ -1459,10 +1465,10 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "リポジトリ \"%s\" は見つかりませんでした。\n"
 
 #: src/pacman/sync.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
-msgstr[0] "%d のパッケージがグループ %s にあります:\n"
+msgstr[0] "%d 個のパッケージがグループ %s%s%s に存在します:\n"
 
 #: src/pacman/sync.c:640
 #, c-format
@@ -1483,17 +1489,17 @@ msgstr "システム全体の更新を開始...\n"
 #: src/pacman/sync.c:720
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
-msgstr ""
+msgstr "'%s' を解決できないため %s の依存関係が満たされません\n"
 
 #: src/pacman/sync.c:724
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
-msgstr "%s: %s (%s) をインストールすると '%s' の依存関係が壊れます\n"
+msgstr "%s (%s) をインストールすると '%s' が破壊され %s の依存関係が壊れます\n"
 
 #: src/pacman/sync.c:728
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "%s: %s を削除すると '%s' の依存関係が壊れます\n"
+msgstr "%s を削除すると '%s' が破壊され %s の依存関係が壊れます\n"
 
 #: src/pacman/sync.c:748
 #, c-format
@@ -1531,9 +1537,10 @@ msgid "%s exists in both '%s' and '%s'\n"
 msgstr "%s が '%s' と '%s' の両方に存在しています\n"
 
 #: src/pacman/sync.c:828
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
-msgstr "%s: %s がファイルシステムに存在しています\n"
+msgstr ""
+"%s: %s がファイルシステムに存在しています (%s によって所有されています)\n"
 
 #: src/pacman/sync.c:831
 #, c-format
@@ -1605,9 +1612,9 @@ msgid " %s is up to date\n"
 msgstr " %s は最新です\n"
 
 #: src/pacman/util.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "failed to synchronize all databases\n"
-msgstr "データベースの同期に失敗しました\n"
+msgstr "全てのデータベースの同期に失敗しました\n"
 
 #: src/pacman/util.c:636
 #, c-format
@@ -1740,9 +1747,9 @@ msgid "Optional dependencies for %s\n"
 msgstr "%s の提案パッケージ\n"
 
 #: src/pacman/util.c:1285
-#, fuzzy, c-format
+#, c-format
 msgid "Repository %s%s\n"
-msgstr "リポジトリ %s\n"
+msgstr "リポジトリ %s%s\n"
 
 #: src/pacman/util.c:1326
 #, c-format
@@ -1808,29 +1815,3 @@ msgstr "エラー: "
 #, c-format
 msgid "warning: "
 msgstr "警告: "
-
-#~ msgid "could not add mirror '%s' to database '%s' (%s)\n"
-#~ msgstr "ミラー '%s' をデータベース '%s' に追加できませんでした (%s)\n"
-
-#~ msgid "      --force          force install, overwrite conflicting files\n"
-#~ msgstr ""
-#~ "      --force          強制的にインストール、衝突しているファイルを上書き"
-#~ "する\n"
-
-#~ msgid "  -r, --root <path>    set an alternate installation root\n"
-#~ msgstr "  -r, --root <path>    インストールのルートを指定\n"
-
-#~ msgid "memory exhausted in argument parsing\n"
-#~ msgstr "引数をパースするのにメモリが足りません\n"
-
-#~ msgid "failed to find '%s' in PATH: %s\n"
-#~ msgstr "PATH に '%s' が見つかりませんでした: %s\n"
-
-#~ msgid "failed to read file '%s': %s\n"
-#~ msgstr "ファイル '%s' を読み込めませんでした: %s\n"
-
-#~ msgid "cannot determine real path for '%s': %s\n"
-#~ msgstr "'%s' の絶対パスを決定できません: %s\n"
-
-#~ msgid "%s: requires %s\n"
-#~ msgstr "%s: %s を必要としています\n"

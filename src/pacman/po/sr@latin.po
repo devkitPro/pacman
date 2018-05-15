@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2017-09-23 18:03+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"PO-Revision-Date: 2018-05-13 17:31+0000\n"
+"Last-Translator: Slobodan Terzić <githzerai06@gmail.com>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/sr%40latin/)\n"
 "Language: sr@latin\n"
@@ -119,7 +119,7 @@ msgstr "primenjujem delte...\n"
 #: src/pacman/callback.c:277
 #, c-format
 msgid "generating %s with %s... "
-msgstr "stvaram %s pomoću %s..."
+msgstr "stvaram %s pomoću %s... "
 
 #: src/pacman/callback.c:282
 #, c-format
@@ -354,7 +354,7 @@ msgstr "%s: nema mtree fajla\n"
 #: src/pacman/check.c:312
 #, c-format
 msgid "path too long: %slocal/%s-%s/%s\n"
-msgstr ""
+msgstr "putanja je predugačka: %slokalna/%s-%s/%s\n"
 
 #: src/pacman/check.c:339
 #, c-format
@@ -531,17 +531,17 @@ msgstr "%s: razlog instalacije je postavljen na „eksplicitno instaliran” \n"
 #: src/pacman/database.c:293
 #, c-format
 msgid "No database errors have been found!\n"
-msgstr ""
+msgstr "Nisu pronađene greške u bazi!\n"
 
 #: src/pacman/files.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s/%s%s %s%s%s\n"
-msgstr "%s je u sastavu %s %s\n"
+msgstr "%s je u sastavu %s%s/%s%s %s%s%s\n"
 
 #: src/pacman/files.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package: '%s'\n"
-msgstr "neispravan broj: %s\n"
+msgstr "neispravan paket: „%s“\n"
 
 #: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
 #, c-format
@@ -554,9 +554,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "Sinhronizujem baze paketa...\n"
 
 #: src/pacman/files.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "no options specified (use -h for help)\n"
-msgstr "nije naznačena operacija (upotrebite -h za pomoć)\n"
+msgstr "nisu navedene operacije (upotrebite -h za pomoć)\n"
 
 #: src/pacman/package.c:99
 #, c-format
@@ -1025,10 +1025,9 @@ msgstr ""
 "sinhronizovanje baza)\n"
 
 #: src/pacman/pacman.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
-msgstr ""
-"  -q, --quiet            prikazuje manje informacija za upite i pretragu\n"
+msgstr "  -q, --quiet          potiskuje izlaz sa porukama o uspehu\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
@@ -1046,18 +1045,18 @@ msgid ""
 "      --machinereadable\n"
 "                       produce machine-readable output\n"
 msgstr ""
-"--machinereadable\n"
-"stvara mašinski čitljiv ilaz\n"
+" --machinereadable\n"
+"                  stvara mašinski čitljiv ilaz\n"
 
 #: src/pacman/pacman.c:192
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --overwrite <path>\n"
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
-"      --ignoregroup <grupa>\n"
-"                         ignoriše nadogradnju grupe (može se upotrebiti više "
+"      --overwrite <putanja>\n"
+"                       prepisuje sukobljene fajlove (može se koristiti više "
 "puta)\n"
 
 #: src/pacman/pacman.c:194
@@ -1166,6 +1165,8 @@ msgstr "      --arch <arhit.>    postavlja alternativnu arhitekturu\n"
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
+"      --sysroot        izvršava operacije na monitranom sistemu fajlova "
+"gosta (samo koreni)\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
@@ -1175,7 +1176,7 @@ msgstr "      --cachedir <fasc.> postavlja alternativnu lokaciju keša paketa\n"
 #: src/pacman/pacman.c:218
 #, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
-msgstr "--hookdir <fasc.>  postavlja alternativnu fasciklu kopči\n"
+msgstr "      --hookdir <fasc.>  postavlja alternativnu fasciklu kopči\n"
 
 #: src/pacman/pacman.c:219
 #, c-format
@@ -1219,6 +1220,8 @@ msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
+"      --disable-download-timeout\n"
+"                       koristi popustljivo prekovreme za preuzimanja\n"
 
 #: src/pacman/pacman.c:246
 #, c-format
@@ -1232,7 +1235,7 @@ msgstr ""
 #: src/pacman/pacman.c:279
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
-msgstr ""
+msgstr "HTTP_USER_AGENT je odsečen\n"
 
 #: src/pacman/pacman.c:311
 #, c-format
@@ -1252,12 +1255,12 @@ msgstr "„%s“ nije ispravan nivo izlaza za ispravljanje grešaka\n"
 #: src/pacman/pacman.c:453
 #, c-format
 msgid "option --root is deprecated; use --sysroot instead\n"
-msgstr ""
+msgstr "opcija --root je prevaziđena; umesto nje koriste --sysroot\n"
 
 #: src/pacman/pacman.c:722
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
-msgstr ""
+msgstr "opcija --force je prevaziđena; umesto nje koristite --overwrite\n"
 
 #: src/pacman/pacman.c:982
 #, c-format
@@ -1280,14 +1283,14 @@ msgid "you cannot perform this operation unless you are root.\n"
 msgstr "ne možete izvršiti ovu operaciju ako niste koreni korisnik.\n"
 
 #: src/pacman/pacman.c:1173
-#, fuzzy, c-format
+#, c-format
 msgid "chroot to '%s' failed: (%s)\n"
-msgstr "ne mogu da registrujem bazu „%s“ (%s)\n"
+msgstr "neuspešan chroot na „%s“: (%s)\n"
 
 #: src/pacman/pacman.c:1207
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
-msgstr "neuspelo pripremanje prenosa (%s)\n"
+msgstr "neuspešno čitanje argumenata iz stdin: (%s)\n"
 
 #: src/pacman/pacman.c:1212
 #, c-format
@@ -1310,9 +1313,9 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "nije naznačena operacija (upotrebite -h za pomoć)\n"
 
 #: src/pacman/query.c:87
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s %s%s%s\n"
-msgstr "%s je u sastavu %s %s\n"
+msgstr "%s je u sastavu %s%s %s%s%s\n"
 
 #: src/pacman/query.c:149
 #, c-format
@@ -1322,7 +1325,7 @@ msgstr "nije određen fajl za --owns\n"
 #: src/pacman/query.c:170
 #, c-format
 msgid "empty string passed to file owner query\n"
-msgstr ""
+msgstr "prazna niska je prosleđena u upitu o vlasništvu nad fajlom\n"
 
 #: src/pacman/query.c:197 src/pacman/query.c:219
 #, c-format
@@ -1480,12 +1483,12 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "nije nađena riznica „%s“.\n"
 
 #: src/pacman/sync.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
-msgstr[0] "Postoji %d član u grupi %s:\n"
-msgstr[1] "Postoji %d člana u grupi %s:\n"
-msgstr[2] "Postoji %d članova u grupi %s:\n"
+msgstr[0] "Postoji %d član u grupi %s%s%s:\n"
+msgstr[1] "Postoje %d člana u grupi %s%s%s:\n"
+msgstr[2] "Postoji %d članova u grupi %s%s%s:\n"
 
 #: src/pacman/sync.c:640
 #, c-format
@@ -1505,17 +1508,17 @@ msgstr "Pokrećem punu nadogradnju sistema...\n"
 #: src/pacman/sync.c:720
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
-msgstr ""
+msgstr "ne mogu da zadovoljim zavisnost „%s“ zahtevanu od %s\n"
 
 #: src/pacman/sync.c:724
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
-msgstr "%s: instaliranje %s (%s) lomi zavisnost „%s“\n"
+msgstr "instalacija %s (%s) lomi zavisnost „%s“ zahtevanu od %s\n"
 
 #: src/pacman/sync.c:728
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "%s: uklanjanje %s lomi zavisnost „%s“\n"
+msgstr "uklanjanje %s lomi zavisnost „%s“ zahtevanu od %s\n"
 
 #: src/pacman/sync.c:748
 #, c-format
@@ -1553,9 +1556,9 @@ msgid "%s exists in both '%s' and '%s'\n"
 msgstr "%s postoji u „%s“ i u „%s“\n"
 
 #: src/pacman/sync.c:828
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
-msgstr "%s: %s postoji u sistemu fajlova\n"
+msgstr "%s: %s postoji u sistemu fajlova (sadžan u %s)\n"
 
 #: src/pacman/sync.c:831
 #, c-format
@@ -1627,9 +1630,9 @@ msgid " %s is up to date\n"
 msgstr " %s je ažurna\n"
 
 #: src/pacman/util.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "failed to synchronize all databases\n"
-msgstr "ne uspeh da sinhronizujem nijednu bazu\n"
+msgstr "neuspela sinhronizacija svih baza\n"
 
 #: src/pacman/util.c:636
 #, c-format
@@ -1749,7 +1752,7 @@ msgstr "Neto veličina nadogradnje:"
 #: src/pacman/util.c:1225
 #, c-format
 msgid " [pending]"
-msgstr "[na čekanju]"
+msgstr " [na čekanju]"
 
 #: src/pacman/util.c:1249
 #, c-format
@@ -1762,9 +1765,9 @@ msgid "Optional dependencies for %s\n"
 msgstr "Opcione zavisnosti za %s\n"
 
 #: src/pacman/util.c:1285
-#, fuzzy, c-format
+#, c-format
 msgid "Repository %s%s\n"
-msgstr "Riznica %s\n"
+msgstr "Riznica %s%s\n"
 
 #: src/pacman/util.c:1326
 #, c-format
@@ -1832,30 +1835,3 @@ msgstr "greška: "
 #, c-format
 msgid "warning: "
 msgstr "upozorenje: "
-
-#~ msgid "could not add mirror '%s' to database '%s' (%s)\n"
-#~ msgstr "ne mogu da dodam miror „%s“ u bazu „%s“ (%s)\n"
-
-#~ msgid "      --force          force install, overwrite conflicting files\n"
-#~ msgstr ""
-#~ "      --force            prisiljava instalaciju, prepisujući fajlove u "
-#~ "konfliktu\n"
-
-#~ msgid "  -r, --root <path>    set an alternate installation root\n"
-#~ msgstr ""
-#~ "  -r, --root <putanja>    postavlja alternativni koren instalacije\n"
-
-#~ msgid "memory exhausted in argument parsing\n"
-#~ msgstr "pri obradi argumenta je iscrpljena memorija\n"
-
-#~ msgid "failed to find '%s' in PATH: %s\n"
-#~ msgstr "ne mogu da nađem „%s“ u putanji: %s\n"
-
-#~ msgid "failed to read file '%s': %s\n"
-#~ msgstr "ne mogu da pročitam fajl „%s“: %s\n"
-
-#~ msgid "cannot determine real path for '%s': %s\n"
-#~ msgstr "ne mogu da utvrdim stvarnu putanju za „%s“: %s\n"
-
-#~ msgid "%s: requires %s\n"
-#~ msgstr "%s: zahteva %s\n"

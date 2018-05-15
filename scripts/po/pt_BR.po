@@ -6,14 +6,15 @@
 # ambaratti <ambaratti.listas@gmail.com>, 2015
 # ambaratti <ambaratti.listas@gmail.com>, 2015
 # Rafael Fontenelle <rffontenelle@gmail.com>, 2012-2015
+# Rafael Fontenelle <rafaelff@gnome.org>, 2018
 # Rafael Fontenelle <rffontenelle@gmail.com>, 2016-2017
 # Rafael Fontenelle <rffontenelle@gmail.com>, 2011-2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2017-09-19 10:31+0000\n"
+"POT-Creation-Date: 2018-05-15 10:38+1000\n"
+"PO-Revision-Date: 2018-04-30 11:41+0000\n"
 "Last-Translator: Rafael Fontenelle <rffontenelle@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/pt_BR/)\n"
@@ -25,7 +26,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:143
 msgid "Cleaning up..."
-msgstr "-Limpando..."
+msgstr "Limpando..."
 
 #: scripts/makepkg.sh.in:183
 msgid "Entering %s environment..."
@@ -45,17 +46,17 @@ msgstr "Versão atualizada: %s"
 
 #: scripts/makepkg.sh.in:208
 msgid "%s is not writeable -- pkgver will not be updated"
-msgstr "%s é pôde ser alterado -- pkgver não será atualizado"
+msgstr "%s pode ser escrito -- pkgver não será atualizado"
 
 #: scripts/makepkg.sh.in:216
 msgid "Unable to find source file %s."
-msgstr "Impossível encontrar arquivo fonte %s."
+msgstr "Não foi possível encontrar o arquivo fonte %s."
 
 #: scripts/makepkg.sh.in:217 scripts/makepkg.sh.in:348
-#: scripts/makepkg.sh.in:718 scripts/makepkg.sh.in:911
-#: scripts/makepkg.sh.in:1314 scripts/makepkg.sh.in:1362
-#: scripts/makepkg.sh.in:1368 scripts/makepkg.sh.in:1373
-#: scripts/makepkg.sh.in:1379 scripts/makepkg.sh.in:1389
+#: scripts/makepkg.sh.in:727 scripts/makepkg.sh.in:920
+#: scripts/makepkg.sh.in:1323 scripts/makepkg.sh.in:1371
+#: scripts/makepkg.sh.in:1377 scripts/makepkg.sh.in:1382
+#: scripts/makepkg.sh.in:1388 scripts/makepkg.sh.in:1398
 #: scripts/libmakepkg/source/bzr.sh.in:50
 #: scripts/libmakepkg/source/bzr.sh.in:81
 #: scripts/libmakepkg/source/bzr.sh.in:96
@@ -75,7 +76,7 @@ msgstr "Impossível encontrar arquivo fonte %s."
 #: scripts/libmakepkg/source/svn.sh.in:68
 #: scripts/libmakepkg/util/source.sh.in:157
 #: scripts/libmakepkg/util/source.sh.in:166
-#: scripts/libmakepkg/util/util.sh.in:82
+#: scripts/libmakepkg/util/util.sh.in:77
 msgid "Aborting..."
 msgstr "Abortando..."
 
@@ -117,7 +118,7 @@ msgstr "A biblioteca listada em %s não é necessária por arquivo algum: %s"
 
 #: scripts/makepkg.sh.in:588
 msgid "Library listed in %s is not versioned: %s"
-msgstr "A biblioteca listada em %s não possui versão: %s"
+msgstr "A biblioteca listada em %s não é versionado: %s"
 
 #: scripts/makepkg.sh.in:601
 msgid "Library listed in %s is not a shared object: %s"
@@ -128,482 +129,478 @@ msgid "Cannot find library listed in %s: %s"
 msgstr "Não foi possível encontrar biblioteca listada em %s: %s"
 
 #: scripts/makepkg.sh.in:629
-#, fuzzy
 msgid "Invalid value for %s: %s"
-msgstr "Sintaxe inválida para %s: \"%s\""
+msgstr "Valor inválido para %s: %s"
 
 #: scripts/makepkg.sh.in:642 scripts/makepkg.sh.in:680
-#: scripts/makepkg.sh.in:811
+#: scripts/makepkg.sh.in:820
 msgid "Generating %s file..."
-msgstr "Gerando arquivo %s..."
+msgstr "Gerando o arquivo %s..."
 
-#: scripts/makepkg.sh.in:717
+#: scripts/makepkg.sh.in:726
 msgid "Missing %s directory."
-msgstr "Faltando diretório %s."
+msgstr "Faltando o diretório %s."
 
-#: scripts/makepkg.sh.in:723
+#: scripts/makepkg.sh.in:732
 msgid "Creating package \"%s\"..."
-msgstr "Criando pacote \"%s\"..."
+msgstr "Criando o pacote \"%s\"..."
 
-#: scripts/makepkg.sh.in:734
+#: scripts/makepkg.sh.in:743
 msgid "Adding %s file..."
 msgstr "Adicionando o arquivo %s..."
 
-#: scripts/makepkg.sh.in:736
+#: scripts/makepkg.sh.in:745
 msgid "Failed to add %s file to package."
-msgstr "Falha ao adicionar arquivo %s ao pacote."
+msgstr "Falha ao adicionar o arquivo %s ao pacote."
 
-#: scripts/makepkg.sh.in:754
+#: scripts/makepkg.sh.in:763
 msgid "Generating .MTREE file..."
-msgstr "Gerando arquivo .MTREE ..."
-
-#: scripts/makepkg.sh.in:760
-msgid "Compressing package..."
-msgstr "Compactando pacote..."
+msgstr "Gerando o arquivo .MTREE ..."
 
 #: scripts/makepkg.sh.in:769
+msgid "Compressing package..."
+msgstr "Compactando o pacote..."
+
+#: scripts/makepkg.sh.in:778
 msgid "Failed to create package file."
 msgstr "Falha ao criar o arquivo do pacote."
 
-#: scripts/makepkg.sh.in:804
+#: scripts/makepkg.sh.in:813
 msgid "Creating source package..."
 msgstr "Criando o pacote fonte..."
 
-#: scripts/makepkg.sh.in:808 scripts/makepkg.sh.in:821
+#: scripts/makepkg.sh.in:817 scripts/makepkg.sh.in:830
 msgid "Adding %s..."
 msgstr "Adicionando %s..."
 
-#: scripts/makepkg.sh.in:839
+#: scripts/makepkg.sh.in:848
 msgid "Adding %s file (%s)..."
 msgstr "Adicionando o arquivo %s (%s)..."
 
-#: scripts/makepkg.sh.in:849
+#: scripts/makepkg.sh.in:858
 msgid "Compressing source package..."
 msgstr "Compactando o pacote fonte..."
 
-#: scripts/makepkg.sh.in:859
+#: scripts/makepkg.sh.in:868
 msgid "Failed to create source package file."
 msgstr "Falha ao criar o arquivo do pacote fonte."
 
-#: scripts/makepkg.sh.in:871
+#: scripts/makepkg.sh.in:880
 msgid "Installing package %s with %s..."
 msgstr "Instalando pacote %s com %s..."
 
-#: scripts/makepkg.sh.in:873
+#: scripts/makepkg.sh.in:882
 msgid "Installing %s package group with %s..."
 msgstr "Instalando grupo de pacotes %s com %s..."
 
-#: scripts/makepkg.sh.in:891
+#: scripts/makepkg.sh.in:900
 msgid "Failed to install built package(s)."
-msgstr "Falha ao instalar pacote(s) compilado(s)."
+msgstr "Falha ao instalar o(s) pacote(s) compilado(s)."
 
-#: scripts/makepkg.sh.in:910 scripts/libmakepkg/util/source.sh.in:156
+#: scripts/makepkg.sh.in:919 scripts/libmakepkg/util/source.sh.in:156
 msgid "Unknown download protocol: %s"
 msgstr "Protocolo de download desconhecido: %s"
 
-#: scripts/makepkg.sh.in:927
+#: scripts/makepkg.sh.in:936
 msgid "Cannot find the %s binary needed to check VCS source requirements."
 msgstr ""
 "Não foi possível localizar o executável %s necessário para verificar "
-"exigências da fonte VCS."
+"exigências de fonte VCS."
 
-#: scripts/makepkg.sh.in:955
+#: scripts/makepkg.sh.in:964
 msgid "Cannot find the %s package needed to handle %s sources."
 msgstr ""
 "Não foi possível localizar o pacote %s necessário para lidar com fontes %s."
 
-#: scripts/makepkg.sh.in:978
+#: scripts/makepkg.sh.in:987
 msgid "Cannot find the %s binary required for dependency operations."
 msgstr ""
-"Não foi possível encontrar o executável %s necessário para operações de "
+"Não foi possível localizar o executável %s necessário para operações de "
 "dependências."
 
-#: scripts/makepkg.sh.in:986
+#: scripts/makepkg.sh.in:995
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr ""
-"Não foi possível encontrar o executável %s. Ao invés, %s será usado para "
-"obter privilégios de root."
+"Não foi possível localizar o executável %s. Ao invés deste, %s será usado "
+"para obter privilégios de root."
 
-#: scripts/makepkg.sh.in:993
+#: scripts/makepkg.sh.in:1002
 msgid "Cannot find the %s binary."
 msgstr "Não foi possível localizar o executável %s."
 
-#: scripts/makepkg.sh.in:1001
+#: scripts/makepkg.sh.in:1010
 msgid "Cannot find the %s binary required for signing packages."
 msgstr ""
-"Não foi possível encontrar o executável %s necessário para assinatura de "
+"Não foi possível localizar o executável %s necessário para assinatura de "
 "pacotes."
 
-#: scripts/makepkg.sh.in:1009
+#: scripts/makepkg.sh.in:1018
 msgid "Cannot find the %s binary required for verifying source files."
 msgstr ""
-"Não foi possível encontrar o executável %s necessário para verificação de "
+"Não foi possível localizar o executável %s necessário para verificação de "
 "arquivos fontes."
 
-#: scripts/makepkg.sh.in:1022
-#, fuzzy
+#: scripts/makepkg.sh.in:1031
 msgid ""
 "Cannot find the %s binary required for source file checksums operations."
 msgstr ""
-"O arquivo binário %s necessário para validar os checksums do arquivo fonte "
-"não pode ser encontrado."
+"Não foi possível localizar o executável %s necessário para operações de soma "
+"de verificação de arquivos fontes."
 
-#: scripts/makepkg.sh.in:1031
+#: scripts/makepkg.sh.in:1040
 msgid "Cannot find the %s binary required for distributed compilation."
 msgstr ""
-"Não foi possível encontrar o executável %s necessário para compilação "
+"Não foi possível localizar o executável %s necessário para compilação "
 "distribuída."
 
-#: scripts/makepkg.sh.in:1039
+#: scripts/makepkg.sh.in:1048
 msgid "Cannot find the %s binary required for compiler cache usage."
 msgstr ""
-"Não foi possível encontrar o executável %s necessário pelo uso de cache de "
+"Não foi possível localizar o executável %s necessário pelo uso de cache de "
 "compilador."
 
-#: scripts/makepkg.sh.in:1047
+#: scripts/makepkg.sh.in:1056
 msgid "Cannot find the %s binary required for object file stripping."
 msgstr ""
-"Não foi possível encontrar o executável %s necessário para remoção símbolos "
-"de objetos."
+"Não foi possível localizar o executável %s necessário para a remoção de "
+"símbolos de objetos."
 
-#: scripts/makepkg.sh.in:1055
+#: scripts/makepkg.sh.in:1064
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr ""
-"Não foi possível encontrar o executável %s necessário para compressão de "
+"Não foi possível localizar o executável %s necessário para a compressão de "
 "páginas man e info."
 
-#: scripts/makepkg.sh.in:1075
+#: scripts/makepkg.sh.in:1084
 msgid "A package has already been built, installing existing package..."
-msgstr "Um pacote já foi construído, instalando pacote existente..."
+msgstr "Um pacote já foi compilado, instalando o pacote existente..."
 
-#: scripts/makepkg.sh.in:1079
+#: scripts/makepkg.sh.in:1088
 msgid "A package has already been built. (use %s to overwrite)"
 msgstr "Um pacote já foi compilado. (use %s para sobrescrever)"
 
-#: scripts/makepkg.sh.in:1098
+#: scripts/makepkg.sh.in:1107
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr ""
-"Um grupo de pacotes já foi construído, instalando pacotes existentes..."
+"Um grupo de pacotes já foi compilado, instalando os pacotes existentes..."
 
-#: scripts/makepkg.sh.in:1102
+#: scripts/makepkg.sh.in:1111
 msgid "The package group has already been built. (use %s to overwrite)"
 msgstr "O grupo de pacotes já foi compilado. (use %s para sobrescrever)"
 
-#: scripts/makepkg.sh.in:1107
+#: scripts/makepkg.sh.in:1116
 msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr "Parte do grupo de pacotes já foi compilado. (use %s para sobrescrever)"
 
-#: scripts/makepkg.sh.in:1142
+#: scripts/makepkg.sh.in:1151
 msgid "Make packages compatible for use with pacman"
 msgstr "Torna pacotes compatíveis para uso com pacman"
 
-#: scripts/makepkg.sh.in:1144 scripts/pacman-db-upgrade.sh.in:43
+#: scripts/makepkg.sh.in:1153 scripts/pacman-db-upgrade.sh.in:43
 msgid "Usage: %s [options]"
-msgstr "uso: %s [opções]"
+msgstr "Uso: %s [opções]"
 
-#: scripts/makepkg.sh.in:1146 scripts/pacman-key.sh.in:82
+#: scripts/makepkg.sh.in:1155 scripts/pacman-key.sh.in:82
 msgid "Options:"
 msgstr "opções:"
 
-#: scripts/makepkg.sh.in:1147
+#: scripts/makepkg.sh.in:1156
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch Ignora campo %s incompleto no %s"
 
-#: scripts/makepkg.sh.in:1148
+#: scripts/makepkg.sh.in:1157
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Apaga arquivos de trabalho após a compilação"
 
-#: scripts/makepkg.sh.in:1149
+#: scripts/makepkg.sh.in:1158
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
 msgstr "  -C, --cleanbuild Remove o diretório %s antes de compilar o pacote"
 
-#: scripts/makepkg.sh.in:1150
+#: scripts/makepkg.sh.in:1159
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Ignora todas as verificações de dependência"
 
-#: scripts/makepkg.sh.in:1151
+#: scripts/makepkg.sh.in:1160
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
 "  -e, --noextract  Não extrai os arquivos fontes (usa dir %s existente)"
 
-#: scripts/makepkg.sh.in:1152
+#: scripts/makepkg.sh.in:1161
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Sobrescreve pacote existente"
 
-#: scripts/makepkg.sh.in:1153
+#: scripts/makepkg.sh.in:1162
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr ""
 "  -g, --geninteg   Gera verificações de integridade para arquivos fonte"
 
-#: scripts/makepkg.sh.in:1154
+#: scripts/makepkg.sh.in:1163
 msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Exibe essa mensagem de ajuda e sai"
 
-#: scripts/makepkg.sh.in:1155
+#: scripts/makepkg.sh.in:1164
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    Instala pacote após empacotamento bem-sucedido"
 
-#: scripts/makepkg.sh.in:1156
+#: scripts/makepkg.sh.in:1165
 msgid "  -L, --log        Log package build process"
 msgstr "  -L, --log        Gera log do processo de empacotamento"
 
-#: scripts/makepkg.sh.in:1157
+#: scripts/makepkg.sh.in:1166
 msgid "  -m, --nocolor    Disable colorized output messages"
 msgstr "  -m, --nocolor    Desabilita mensagens de saída coloridas"
 
-#: scripts/makepkg.sh.in:1158
+#: scripts/makepkg.sh.in:1167
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Apenas baixa e extrai os arquivos"
 
-#: scripts/makepkg.sh.in:1159
+#: scripts/makepkg.sh.in:1168
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr ""
-"  -p <arquivo>     Usa um script de empacotamento alternativo (ao invés\n"
-"                   de \"%s\")"
+"  -p <arquivo>     Usa um script de empacotamento alternativo (ao invés"
+"\\n                   de \"%s\")"
 
-#: scripts/makepkg.sh.in:1160
+#: scripts/makepkg.sh.in:1169
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
-"  -r, --rmdeps     Remove dependências instaladas após uma compilação\n"
-"                   bem-sucedida"
+"  -r, --rmdeps     Remove dependências instaladas após uma compilação"
+"\\n                   bem-sucedida"
 
-#: scripts/makepkg.sh.in:1161
+#: scripts/makepkg.sh.in:1170
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
-msgstr "  -R, --repackage  Reempacota o conteúdo do pacote sem recompilar"
+msgstr "  -R, --repackage  Reempacota o conteúdo do pacote sem recompilá-lo"
 
-#: scripts/makepkg.sh.in:1162
+#: scripts/makepkg.sh.in:1171
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
-msgstr "  -s, --syncdeps   Instala dependências faltando com %s"
+msgstr "  -s, --syncdeps   Instala dependências em falta com %s"
 
-#: scripts/makepkg.sh.in:1163
+#: scripts/makepkg.sh.in:1172
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr "  -S, --source     Gera um tarball de fontes sem as fontes baixadas"
 
-#: scripts/makepkg.sh.in:1164
+#: scripts/makepkg.sh.in:1173
 msgid "  -V, --version    Show version information and exit"
 msgstr "  -V, --version    Mostra informação da versão e sai"
 
-#: scripts/makepkg.sh.in:1165
+#: scripts/makepkg.sh.in:1174
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"      --allsource  Gera um tarball somente com os fontes, incluindo os que\n"
-"                   foram baixados"
+"  --allsource      Gera um tarball somente com os fontes, incluindo os que"
+"\\n                   foram baixados"
 
-#: scripts/makepkg.sh.in:1166
+#: scripts/makepkg.sh.in:1175
 msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          Executa a função %s no %s"
 
-#: scripts/makepkg.sh.in:1167
+#: scripts/makepkg.sh.in:1176
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
 "  --config <arquivo>\n"
-"                   Usa um arquivo de configuração alternativo (ao invés\n"
-"                   de \"%s\")"
+"                   Usa um arquivo de configuração alternativo (ao invés"
+"\\n                   de '%s')"
 
-#: scripts/makepkg.sh.in:1168
+#: scripts/makepkg.sh.in:1177
 msgid "  --holdver        Do not update VCS sources"
 msgstr ""
 "  --holdver        Não atualiza fontes de sistemas de controle de versão "
 "(VCS)"
 
-#: scripts/makepkg.sh.in:1169
+#: scripts/makepkg.sh.in:1178
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
-"  --key <chave>    Especifica uma chave para ser usada na assinatura %s ao\n"
-"                   invés do padrão"
+"  --key <chave>    Especifica uma chave para ser usada na assinatura %s ao"
+"\\n                   invés do padrão"
 
-#: scripts/makepkg.sh.in:1170
+#: scripts/makepkg.sh.in:1179
 msgid "  --noarchive      Do not create package archive"
 msgstr "  --noarchive      Não cria o arquivo de pacote"
 
-#: scripts/makepkg.sh.in:1171
+#: scripts/makepkg.sh.in:1180
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Não executa a função %s no %s"
 
-#: scripts/makepkg.sh.in:1172
+#: scripts/makepkg.sh.in:1181
 msgid "  --noprepare      Do not run the %s function in the %s"
 msgstr "  --noprepare      Não executa a função %s no %s"
 
-#: scripts/makepkg.sh.in:1173
+#: scripts/makepkg.sh.in:1182
 msgid "  --nosign         Do not create a signature for the package"
 msgstr "  --nosign         Não cria uma assinatura para o pacote"
 
-#: scripts/makepkg.sh.in:1174
+#: scripts/makepkg.sh.in:1183
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
 "  --packagelist    Lista só os pacotes que seriam produzidos, sem PKGEXT"
 
-#: scripts/makepkg.sh.in:1175
+#: scripts/makepkg.sh.in:1184
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
 msgstr "  --printsrcinfo   Imprime a SRCINFO gerada e sai"
 
-#: scripts/makepkg.sh.in:1176
+#: scripts/makepkg.sh.in:1185
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "  --sign           Assina o pacote resultante com %s"
 
-#: scripts/makepkg.sh.in:1177
+#: scripts/makepkg.sh.in:1186
 msgid "  --skipchecksums  Do not verify checksums of the source files"
 msgstr ""
 "  --skipchecksums  Não verifica some de verificação dos arquivos fontes"
 
-#: scripts/makepkg.sh.in:1178
+#: scripts/makepkg.sh.in:1187
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
 msgstr "  --skipinteg      Não executa nenhuma verificação nos arquivos fontes"
 
-#: scripts/makepkg.sh.in:1179
+#: scripts/makepkg.sh.in:1188
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "  --skippgpcheck   Não verifica arquivos fontes com assinaturas PGP"
 
-#: scripts/makepkg.sh.in:1180
+#: scripts/makepkg.sh.in:1189
 msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
 msgstr ""
-"  --verifysource   Baixa arquivos fontes (se necessário) e realiza\n"
-"                   verificações de integridade"
+"  --verifysource   Baixa arquivos fontes (se necessário) e realiza"
+"\\n                   verificações de integridade"
 
-#: scripts/makepkg.sh.in:1182
+#: scripts/makepkg.sh.in:1191
 msgid "These options can be passed to %s:"
 msgstr "Essas opções podem ser passadas para %s:"
 
-#: scripts/makepkg.sh.in:1184
+#: scripts/makepkg.sh.in:1193
 msgid "  --asdeps         Install packages as non-explicitly installed"
 msgstr "  --asdeps         Instala pacotes como instalados não explicitamente"
 
-#: scripts/makepkg.sh.in:1185
+#: scripts/makepkg.sh.in:1194
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
 msgstr "  --needed         Não reinstala os pacotes que já estão atualizados"
 
-#: scripts/makepkg.sh.in:1186
+#: scripts/makepkg.sh.in:1195
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr "  --noconfirm      Não pede confirmação ao resolver dependências"
 
-#: scripts/makepkg.sh.in:1187
+#: scripts/makepkg.sh.in:1196
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr ""
 "  --noprogressbar  Não mostra a barra de progresso enquanto baixa os arquivos"
 
-#: scripts/makepkg.sh.in:1189
+#: scripts/makepkg.sh.in:1198
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Se %s não for especificada, %s vai procurar por \"%s\""
 
-#: scripts/makepkg.sh.in:1195
-#, fuzzy
+#: scripts/makepkg.sh.in:1204
 msgid ""
 "Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2016 Time de Desenvolvimento do Pacman <pacman-"
-"dev@archlinux.org>.\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux."
-"org>.\\n\\nEste é um software livre; veja o código fonte para condições de "
-"reprodução.\\nSEM GARANTIAS, dentro do permitido por lei.\\n"
+"Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nEsse "
+"programa é software livre; veja os fontes para condições de cópia.\\nHá "
+"NENHUMA GARANTIA, na extensão permitida pela lei.\\n"
 
-#: scripts/makepkg.sh.in:1298 scripts/repo-add.sh.in:743
+#: scripts/makepkg.sh.in:1307 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
-msgstr "Sinal %s adquirido. Saindo..."
+msgstr "Sinal %s capturado. Saindo..."
 
-#: scripts/makepkg.sh.in:1313
+#: scripts/makepkg.sh.in:1322
 msgid "%s not found."
-msgstr "%s não encontrado."
+msgstr "%s não localizado."
 
-#: scripts/makepkg.sh.in:1395
+#: scripts/makepkg.sh.in:1404
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
 msgstr ""
-"Executar %s como root não é permitido, pois isso pode causar danos "
+"Executar %s como root não é permitido, pois isso pode\\ncausar danos "
 "catastróficos e permanentes ao seu sistema."
 
-#: scripts/makepkg.sh.in:1401
-#, fuzzy
+#: scripts/makepkg.sh.in:1410
 msgid "Do not use the %s option. This option is only for internal use by %s."
-msgstr "Não use a opção %s. Essa opção é para ser usada somente por %s."
+msgstr "Não use a opção %s. Essa opção é apenas para uso interno do %s."
 
-#: scripts/makepkg.sh.in:1416
+#: scripts/makepkg.sh.in:1425
 msgid "%s does not exist."
 msgstr "%s não existe."
 
-#: scripts/makepkg.sh.in:1421
+#: scripts/makepkg.sh.in:1430
 msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s contém caracteres %s e não pode ser carregado."
 
-#: scripts/makepkg.sh.in:1426
+#: scripts/makepkg.sh.in:1435
 msgid "%s must be in the current working directory."
 msgstr "%s deve estar no diretório de trabalho atual."
 
-#: scripts/makepkg.sh.in:1506
+#: scripts/makepkg.sh.in:1515
 msgid "The key %s does not exist in your keyring."
 msgstr "A chave %s não existe no seu chaveiro."
 
-#: scripts/makepkg.sh.in:1508 scripts/repo-add.sh.in:225
+#: scripts/makepkg.sh.in:1517 scripts/repo-add.sh.in:225
 msgid "There is no key in your keyring."
 msgstr "Não há chaves no seu chaveiro."
 
-#: scripts/makepkg.sh.in:1532 scripts/makepkg.sh.in:1553
+#: scripts/makepkg.sh.in:1541 scripts/makepkg.sh.in:1562
 msgid "Leaving %s environment."
 msgstr "Saindo do ambiente de %s."
 
-#: scripts/makepkg.sh.in:1557
+#: scripts/makepkg.sh.in:1566
 msgid "Making package: %s"
 msgstr "Criando o pacote: %s"
 
-#: scripts/makepkg.sh.in:1563
+#: scripts/makepkg.sh.in:1572
 msgid "A source package has already been built. (use %s to overwrite)"
-msgstr "Um pacote fonte já foi criado. (use %s para sobrescrever)"
+msgstr "Um pacote fonte já foi compilado. (use %s para sobrescrever)"
 
-#: scripts/makepkg.sh.in:1583
+#: scripts/makepkg.sh.in:1592
 msgid "Signing package..."
-msgstr "Assinando pacote..."
+msgstr "Assinando o pacote..."
 
-#: scripts/makepkg.sh.in:1587
+#: scripts/makepkg.sh.in:1596
 msgid "Source package created: %s"
 msgstr "Pacote fonte criado: %s"
 
-#: scripts/makepkg.sh.in:1593
+#: scripts/makepkg.sh.in:1602
 msgid "Skipping dependency checks."
 msgstr "Ignorando verificações de dependência."
 
-#: scripts/makepkg.sh.in:1601
+#: scripts/makepkg.sh.in:1610
 msgid "Checking runtime dependencies..."
 msgstr "Verificando as dependências de tempo de execução..."
 
-#: scripts/makepkg.sh.in:1608
+#: scripts/makepkg.sh.in:1617
 msgid "Checking buildtime dependencies..."
 msgstr "Verificando as dependências de tempo de compilação..."
 
-#: scripts/makepkg.sh.in:1620
+#: scripts/makepkg.sh.in:1629
 msgid "Could not resolve all dependencies."
 msgstr "Não foi possível resolver todas as dependências."
 
-#: scripts/makepkg.sh.in:1632
+#: scripts/makepkg.sh.in:1641
 msgid "Using existing %s tree"
 msgstr "Usando a árvore do %s existente"
 
-#: scripts/makepkg.sh.in:1639 scripts/makepkg.sh.in:1667
+#: scripts/makepkg.sh.in:1648 scripts/makepkg.sh.in:1676
 msgid "Removing existing %s directory..."
 msgstr "Removendo diretório %s existente..."
 
-#: scripts/makepkg.sh.in:1662
+#: scripts/makepkg.sh.in:1671
 msgid "Sources are ready."
 msgstr "Os fontes estão prontos."
 
-#: scripts/makepkg.sh.in:1689
+#: scripts/makepkg.sh.in:1698
 msgid "Package directory is ready."
 msgstr "Diretório de pacote está pronto."
 
-#: scripts/makepkg.sh.in:1693
+#: scripts/makepkg.sh.in:1702
 msgid "Finished making: %s"
 msgstr "Compilação concluída: %s"
 
@@ -629,12 +626,12 @@ msgstr ""
 #: scripts/makepkg-template.pl.in:114
 #, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "Não foi possível detectar a versão do template '%s'\n"
+msgstr "Não foi possível detectar a versão do modelo '%s'\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr "Falha em encontrar o arquivo correspondente ao template '%s'\n"
+msgstr "Falha em encontrar o arquivo de modelo correspondendo a '%s'\n"
 
 #: scripts/makepkg-template.pl.in:136
 #, perl-format
@@ -657,18 +654,16 @@ msgstr "Opções:\n"
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
 msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-msgstr ""
-"  --input, -p <arquivo>    Script de compilação a ser lido (padrão: %s)\n"
+msgstr "  --input, -p <arquivo> script de compilação a ser lido (padrão: %s)\n"
 
 #: scripts/makepkg-template.pl.in:179
 msgid "  --output, -o <file>   file to output to (default: input file)\n"
 msgstr ""
-"  --output, -o <arquivo>   arquivo resultante (padrão: arquivo de entrada)\n"
-"\n"
+"  --output, -o <arq>    arquivo resultante (padrão: arquivo de entrada)\n"
 
 #: scripts/makepkg-template.pl.in:180
 msgid "  --newest, -n          update templates to newest version\n"
-msgstr "  --newest, -n          atualiza modelos para versão mais nova\n"
+msgstr "  --newest, -n          atualiza modelos para uma versão mais nova\n"
 
 #: scripts/makepkg-template.pl.in:181
 msgid ""
@@ -680,38 +675,31 @@ msgstr ""
 
 #: scripts/makepkg-template.pl.in:182
 msgid "  --template-dir <dir>  directory to search for templates\n"
-msgstr "  --template-dir <dir>  diretório onde modelos serão pesquisados\n"
+msgstr ""
+"  --template-dir <dir>  diretório nos quais modelos serão pesquisados\n"
 
 #: scripts/makepkg-template.pl.in:183
 #, perl-format
 msgid "                        (default: %s)\n"
-msgstr ""
-"                        (padrão: %s)\n"
-"\n"
+msgstr "                        (padrão: %s)\n"
 
 #: scripts/makepkg-template.pl.in:184
 msgid "  --help, -h            This help message\n"
-msgstr ""
-"  --help, -h            Essa mensagem de ajuda\n"
-"\n"
+msgstr "  --help, -h            essa mensagem de ajuda\n"
 
 #: scripts/makepkg-template.pl.in:185
 msgid "  --version             Version information\n"
-msgstr ""
-"  --version             Informação da versão\n"
-"\n"
+msgstr "  --version             informação da versão\n"
 
 #: scripts/makepkg-template.pl.in:194
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2013-2016 Time de Desenvolvimento do Pacman <pacman-"
-"dev@archlinux.org>.\n"
-"Este é um software livre; veja o código fonte para condições de reprodução.\n"
-"SEM GARANTIAS, dentro do permitido por lei.\n"
+"Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Esse programa é software livre; veja o fonte para condições de cópia.\n"
+"Há NENHUMA GARANTIA, na extensão permitida pela lei.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:41
 msgid "Upgrade the local pacman database to a newer format"
@@ -724,9 +712,8 @@ msgstr "opções:"
 #: scripts/pacman-db-upgrade.sh.in:46
 msgid "  -d, --dbpath <path>  set an alternate database location"
 msgstr ""
-"  -d, --dbpath <caminho>\n"
-"                       define uma localização alternativa de\n"
-"                       base de dados"
+"  -d, --dbpath <caminho>\\n                       define uma localização "
+"alternativa de base de dados"
 
 #: scripts/pacman-db-upgrade.sh.in:47
 msgid "  -h, --help           show this help message and exit"
@@ -749,15 +736,14 @@ msgid "  --nocolor            disable colorized output messages"
 msgstr "  --nocolor            desabilita saída de mensagens coloridas"
 
 #: scripts/pacman-db-upgrade.sh.in:57 scripts/pacman-key.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2016 Time de Desenvolvimento do Pacman <pacman-"
-"dev@archlinux.org>.\\nEste é um software livre; veja o código fonte para "
-"condições de reprodução.\\nSEM GARANTIAS, dentro do permitido por lei.\\n"
+"Copyright (c) 2010-2018 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\nEsse programa é software livre; veja o fonte para condições de cópia."
+"\\nHá NENHUMA GARANTIA, na extensão permitida pela lei.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:118 scripts/repo-add.sh.in:514
 msgid "%s does not exist or is not a directory."
@@ -776,11 +762,11 @@ msgstr ""
 msgid "Pacman lock file was found. Cannot run while pacman is running."
 msgstr ""
 "Arquivo de trava do pacman foi encontrado. Não é possível executar enquanto "
-"pacman está em execução."
+"o pacman está em execução."
 
 #: scripts/pacman-db-upgrade.sh.in:148
 msgid "Pre-3.5 database format detected - upgrading..."
-msgstr "Detectado um formato de base de dados pré-3.5 - atualizando..."
+msgstr "Formato de base de dados pré-3.5 detectado - atualizando..."
 
 #: scripts/pacman-db-upgrade.sh.in:155
 msgid "Done."
@@ -793,7 +779,7 @@ msgstr "Formato de base de dados pré-4.2 detectado - atualizando..."
 #: scripts/pacman-db-upgrade.sh.in:181
 msgid "symlink '%s' points outside pacman root, manual repair required"
 msgstr ""
-"link simbólico \"%s\" aponta para fora da raiz do pacman, correção manual "
+"o link simbólico '%s' aponta para fora da raiz do pacman, correção manual "
 "exigida"
 
 #: scripts/pacman-key.sh.in:59
@@ -870,8 +856,8 @@ msgstr ""
 #: scripts/pacman-key.sh.in:75
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
-"  --init                     Garante que o chaveiro está inicializado\n"
-"                             corretamente"
+"  --init                    Garante que o chaveiro está inicializado"
+"\\n                             corretamente"
 
 #: scripts/pacman-key.sh.in:76
 msgid "  --list-sigs               List keys and their signatures"
@@ -887,7 +873,7 @@ msgid ""
 "\\n                            in '%s'"
 msgstr ""
 "  --populate                Recarrega as chaves padrões dos chaveiros dados"
-"\\n                            em \"%s\""
+"\\n                            em '%s'"
 
 #: scripts/pacman-key.sh.in:80
 msgid ""
@@ -902,7 +888,7 @@ msgid ""
 "\\n                            '%s')"
 msgstr ""
 "  --config <arquivo>         Usa um arquivo de configuração alternativo (ao\n"
-"                             invés de \"%s\")"
+"                             invés de '%s')"
 
 #: scripts/pacman-key.sh.in:85
 msgid ""
@@ -910,7 +896,7 @@ msgid ""
 "\\n                            of '%s')"
 msgstr ""
 "  --gpgdir <diretório>       Define um diretório alternativo para GnuPG\n"
-"                             (invés de \"%s\")"
+"                             (invés de '%s')"
 
 #: scripts/pacman-key.sh.in:87
 msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
@@ -945,7 +931,7 @@ msgstr "Você não tem permissões suficientes para ler o chaveiro %s."
 
 #: scripts/pacman-key.sh.in:230 scripts/pacman-key.sh.in:237
 msgid "Use '%s' to correct the keyring permissions."
-msgstr "Use \"%s\" para corrigir a permissão do chaveiro."
+msgstr "Use '%s' para corrigir a permissão do chaveiro."
 
 #: scripts/pacman-key.sh.in:236
 msgid "You do not have sufficient permissions to run this command."
@@ -957,7 +943,7 @@ msgstr "Não há chave secreta disponível para assinar com."
 
 #: scripts/pacman-key.sh.in:245
 msgid "Use '%s' to generate a default secret key."
-msgstr "Use \"%s\" para gerar uma chave secreta padrão."
+msgstr "Use '%s' para gerar uma chave secreta padrão."
 
 #: scripts/pacman-key.sh.in:264
 msgid "No keyring files exist in %s."
@@ -1061,7 +1047,8 @@ msgstr "A base de dados de confiança não pôde ser atualizada."
 #: scripts/pacman-key.sh.in:568
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
-"Não foi possível encontrar o binário %s necessário para todas %s operações."
+"Não foi possível encontrar o executável %s necessário para todas %s "
+"operações."
 
 #: scripts/pacman-key.sh.in:573
 msgid "%s needs to be run as root for this operation."
@@ -1069,7 +1056,7 @@ msgstr "%s precisa ser executado como root para esta operação."
 
 #: scripts/pacman-key.sh.in:579
 msgid "%s configuration file '%s' not found."
-msgstr "arquivo de configuração do %s \"%s\" não foi encontrado."
+msgstr "arquivo de configuração do %s '%s' não foi encontrado."
 
 #: scripts/pacman-key.sh.in:600
 msgid "no operation specified (use -h for help)"
@@ -1097,7 +1084,7 @@ msgid ""
 "can then be added to a database using repo-add.\\n"
 msgstr ""
 "pkgdelta vai criar um arquivo delta entre dois pacotes.\\nEste arquivo delta "
-"pode então ser adicionado a uma base de dados usando repo-add.\\n"
+"pode então ser adicionado a uma base de dados com repo-add.\\n"
 
 #: scripts/pkgdelta.sh.in:62
 msgid "Example:  pkgdelta pacman-3.0.0.pkg.tar.gz pacman-3.0.1.pkg.tar.gz"
@@ -1142,7 +1129,7 @@ msgstr ""
 
 #: scripts/pkgdelta.sh.in:99 scripts/repo-add.sh.in:346
 msgid "Invalid package file '%s'."
-msgstr "Arquivo de pacote inválido \"%s\"."
+msgstr "Arquivo de pacote inválido '%s'."
 
 #: scripts/pkgdelta.sh.in:125
 msgid "Skipping delta creation for small package: %s - size %s"
@@ -1150,15 +1137,15 @@ msgstr "Pulando criação de delta para pacote pequeno: %s - tamanho %s"
 
 #: scripts/pkgdelta.sh.in:130
 msgid "The package names don't match : '%s' and '%s'"
-msgstr "Os nomes dos pacotes não coincidem: \"%s\" e \"%s\""
+msgstr "Os nomes dos pacotes não coincidem: '%s' e '%s'"
 
 #: scripts/pkgdelta.sh.in:135
 msgid "The package architectures don't match : '%s' and '%s'"
-msgstr "As arquiteturas dos pacotes não coincidem: \"%s\" e \"%s\""
+msgstr "As arquiteturas dos pacotes não coincidem: '%s' e '%s'"
 
 #: scripts/pkgdelta.sh.in:140
 msgid "Both packages have the same version : '%s'"
-msgstr "Os pacotes tem a mesma versão: \"%s\""
+msgstr "Os pacotes tem a mesma versão: '%s'"
 
 #: scripts/pkgdelta.sh.in:144
 msgid "Generating delta from version %s to version %s"
@@ -1174,11 +1161,11 @@ msgstr "Pacotes delta maiores do que tamanho máximo. Removendo."
 
 #: scripts/pkgdelta.sh.in:162
 msgid "Generated delta : '%s'"
-msgstr "Delta gerado: \"%s\""
+msgstr "Delta gerado: '%s'"
 
 #: scripts/pkgdelta.sh.in:219
 msgid "File '%s' does not exist"
-msgstr "O arquivo \"%s\" não existe"
+msgstr "O arquivo '%s' não existe"
 
 #: scripts/pkgdelta.sh.in:225 scripts/repo-add.sh.in:250
 msgid "Cannot find the xdelta3 binary! Is xdelta3 installed?"
@@ -1201,27 +1188,26 @@ msgstr ""
 #: scripts/repo-add.sh.in:62
 msgid "  -d, --delta       generate and add delta for package update\\n"
 msgstr ""
-"  -d, --delta        gera e adiciona delta para atualização de pacote\\n"
+"  -d, --delta       gera e adiciona delta para atualização de pacote\\n"
 
 #: scripts/repo-add.sh.in:63
 msgid ""
 "  -n, --new         only add packages that are not already in the database\\n"
 msgstr ""
-"  -n, --new         apenas adiciona pacotes que ainda não foram adicionados "
-"à\n"
-"                    base de dados\\n"
+"  -n, --new         apenas adiciona pacotes que ainda não foram adicionados\n"
+"                    à base de dados\\n"
 
 #: scripts/repo-add.sh.in:64
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"-R, --remove remove o pacote antigo do disco depois de atualizar a base de "
-"dados\\n"
+"  -R, --remove      remove o pacote antigo do disco depois de atualizar a"
+"\\n                    base de dados\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
-msgstr "Uso: repo-remove [opções] <caminho para-bd> <nome-pacote|delta> ...\\n"
+msgstr "Uso: repo-remove [opções] <caminho-para-bd> <nome-pacote|delta> ...\\n"
 
 #: scripts/repo-add.sh.in:68
 msgid ""
@@ -1236,7 +1222,7 @@ msgstr ""
 
 #: scripts/repo-add.sh.in:75
 msgid "Please move along, there is nothing to see here.\\n"
-msgstr "Favor seguir em frente, há nada para ser visto aqui.\\n"
+msgstr "Favor siga seu caminho, há nada para ser visto aqui.\\n"
 
 #: scripts/repo-add.sh.in:78
 msgid "  --nocolor         turn off color in output\\n"
@@ -1245,17 +1231,17 @@ msgstr "  --nocolor         remove cores da saída\\n"
 #: scripts/repo-add.sh.in:80
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
 msgstr ""
-"  -s, --sign         assina base de dados com GnuPG depois de atualizar\\n"
+"  -s, --sign        assina a base de dados com GnuPG depois de atualizar\\n"
 
 #: scripts/repo-add.sh.in:81
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
 msgstr ""
-"  -k, --key <chave>  usa a chave especificada para assinar a base de dados\\n"
+"  -k, --key <chave> usa a chave especificada para assinar a base de dados\\n"
 
 #: scripts/repo-add.sh.in:82
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr ""
-"  -v, --verify       verifica assinatura da base de dados antes de atualizar"
+"  -v, --verify      verifica a assinatura da base de dados antes de atualizar"
 "\\n"
 
 #: scripts/repo-add.sh.in:83
@@ -1276,27 +1262,26 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Exemplo:  repo-remove /caminho/para/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:96
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2016 Time de Desenvolvimento do Pacman <pacman-"
-"dev@archlinux.org>.\\n\\nEste é um software livre; veja o código fonte para "
-"condições de reprodução.\\nSEM GARANTIAS, dentro do permitido por lei.\\n"
+"Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\n\\nEsse programa é software livre; veja o fonte para condições de cópia."
+"\\nHá NENHUMA GARANTIA, na extensão permitida pela lei.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
-msgstr "Nenhum registro de base de dados para o pacote \"%s\"."
+msgstr "Nenhum registro de base de dados para o pacote '%s'."
 
 #: scripts/repo-add.sh.in:164
 msgid "Adding 'deltas' entry : %s -> %s"
-msgstr "Adicionando registro de \"deltas\": %s -> %s"
+msgstr "Adicionando registro de 'deltas': %s -> %s"
 
 #: scripts/repo-add.sh.in:192 scripts/repo-add.sh.in:479
 msgid "Removing existing entry '%s'..."
-msgstr "Removendo entrada existente \"%s\"..."
+msgstr "Removendo entrada existente '%s'..."
 
 #: scripts/repo-add.sh.in:195
 msgid "Removing empty deltas file..."
@@ -1304,7 +1289,7 @@ msgstr "Removendo arquivos delta vazios..."
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
-msgstr "Não foi possível encontrar o binário gpg! O GnuPG está instalado?"
+msgstr "Não foi possível encontrar o executável gpg! O GnuPG está instalado?"
 
 #: scripts/repo-add.sh.in:261
 msgid "Signing database '%s'..."
@@ -1312,7 +1297,7 @@ msgstr "Assinando a base de dados '%s'..."
 
 #: scripts/repo-add.sh.in:270
 msgid "Created signature file '%s'"
-msgstr "Criado arquivo de assinatura \"%s\""
+msgstr "Criado o arquivo de assinatura '%s'"
 
 #: scripts/repo-add.sh.in:272
 msgid "Failed to sign package database file '%s'"
@@ -1320,7 +1305,7 @@ msgstr "Falha em assinar o pacote da base de dados '%s'"
 
 #: scripts/repo-add.sh.in:281
 msgid "Verifying database signature..."
-msgstr "Verificando assinatura da base de dados..."
+msgstr "Verificando a assinatura da base de dados..."
 
 #: scripts/repo-add.sh.in:284
 msgid "No existing signature found, skipping verification."
@@ -1328,7 +1313,7 @@ msgstr "Nenhuma assinatura encontrada, ignorando verificação."
 
 #: scripts/repo-add.sh.in:289
 msgid "Database signature file verified."
-msgstr "Arquivo de assinatura da base de dados verificada."
+msgstr "Arquivo de assinatura da base de dados verificado."
 
 #: scripts/repo-add.sh.in:291
 msgid "Database signature was NOT valid!"
@@ -1340,23 +1325,23 @@ msgstr "'%s' não tem uma extensão válida para arquivo de base de dados."
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
-msgstr "Uma entrada para \"%s\" já existe"
+msgstr "Uma entrada para '%s' já existe"
 
 #: scripts/repo-add.sh.in:373
 msgid "Invalid package signature file '%s'."
-msgstr "Inválido arquivo de assinatura de pacote \"%s\"."
+msgstr "Arquivo inválido de assinatura de pacote '%s'."
 
 #: scripts/repo-add.sh.in:376
 msgid "Adding package signature..."
-msgstr "Adicionando assinatura de pacote..."
+msgstr "Adicionando a assinatura de pacote..."
 
 #: scripts/repo-add.sh.in:383
 msgid "Computing checksums..."
-msgstr "Computando soma de verificação..."
+msgstr "Computando a soma de verificação..."
 
 #: scripts/repo-add.sh.in:401 scripts/repo-add.sh.in:455
 msgid "Creating '%s' db entry..."
-msgstr "Criando registro \"%s\" da base de dados..."
+msgstr "Criando a entrada de base de dados '%s'..."
 
 #: scripts/repo-add.sh.in:446
 msgid "Old package file not found: %s"
@@ -1376,8 +1361,7 @@ msgstr "Contido pelo processo %s"
 
 #: scripts/repo-add.sh.in:536
 msgid "Repository file '%s' is not a proper pacman database."
-msgstr ""
-"Arquivo de repositório \"%s\" não é uma base de dados válida do pacman."
+msgstr "Arquivo de repositório '%s' não é uma base de dados válida do pacman."
 
 #: scripts/repo-add.sh.in:541
 msgid "Extracting database to a temporary location..."
@@ -1385,11 +1369,11 @@ msgstr "Extraindo base de dados para um local temporário..."
 
 #: scripts/repo-add.sh.in:549
 msgid "Repository file '%s' was not found."
-msgstr "Arquivo de repositório \"%s\" não foi encontrado."
+msgstr "Arquivo de repositório '%s' não foi encontrado."
 
 #: scripts/repo-add.sh.in:556
 msgid "Repository file '%s' could not be created."
-msgstr "Arquivo de repositório \"%s\" não pôde ser criado."
+msgstr "Arquivo de repositório '%s' não pôde ser criado."
 
 #: scripts/repo-add.sh.in:568
 msgid "File '%s' not found."
@@ -1397,31 +1381,31 @@ msgstr "Criando tarball de %s..."
 
 #: scripts/repo-add.sh.in:574
 msgid "Adding delta '%s'"
-msgstr "Adicionado delta \"%s\""
+msgstr "Adicionado delta '%s'"
 
 #: scripts/repo-add.sh.in:584
 msgid "'%s' is not a package file, skipping"
-msgstr "\"%s\" não é um pacote, ignorando"
+msgstr "'%s' não é um pacote, ignorando"
 
 #: scripts/repo-add.sh.in:588
 msgid "Adding package '%s'"
-msgstr "Adicionando pacote \"%s\""
+msgstr "Adicionando pacote '%s'"
 
 #: scripts/repo-add.sh.in:596
 msgid "Searching for delta '%s'..."
-msgstr "Procurando o delta \"%s\"..."
+msgstr "Procurando o delta '%s'..."
 
 #: scripts/repo-add.sh.in:600
 msgid "Delta matching '%s' not found."
-msgstr "Delta correspondente a \"%s\" não foi encontrado."
+msgstr "Delta correspondente a '%s' não foi encontrado."
 
 #: scripts/repo-add.sh.in:606
 msgid "Searching for package '%s'..."
-msgstr "Procurando o pacote \"%s\"..."
+msgstr "Procurando o pacote '%s'..."
 
 #: scripts/repo-add.sh.in:612
 msgid "Package matching '%s' not found."
-msgstr "Pacote correspondente a \"%s\" não foi encontrado."
+msgstr "Pacote correspondente a '%s' não foi encontrado."
 
 #: scripts/repo-add.sh.in:676
 msgid "No packages remain, creating empty database."
@@ -1429,18 +1413,18 @@ msgstr "Nenhum pacote restante, criando base de dados vazia."
 
 #: scripts/repo-add.sh.in:729
 msgid "Invalid command name '%s' specified."
-msgstr "Nome de comando inválido \"%s\" foi especificado."
+msgstr "Nome de comando inválido '%s' foi especificado."
 
 #: scripts/repo-add.sh.in:734
 msgid "Cannot create temp directory for database building."
 msgstr ""
 "Não foi possível criar diretório temporário para compilação da base de dados."
 
-#: scripts/repo-add.sh.in:823
+#: scripts/repo-add.sh.in:824
 msgid "Creating updated database file '%s'"
-msgstr "Criando arquivo atualizado da base de dados \"%s\""
+msgstr "Criando arquivo atualizado da base de dados '%s'"
 
-#: scripts/repo-add.sh.in:827
+#: scripts/repo-add.sh.in:828
 msgid "No packages modified, nothing to do."
 msgstr "Nenhum pacote modificado, nada a fazer."
 
@@ -1462,7 +1446,7 @@ msgstr "Gerando somas de verificação para os arquivos fonte..."
 
 #: scripts/libmakepkg/integrity/generate_checksum.sh.in:93
 msgid "Invalid integrity algorithm '%s' specified."
-msgstr "O algoritmo de integridade \"%s\" especificado é inválido."
+msgstr "O algoritmo de integridade '%s' especificado é inválido."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:41
 msgid "Created signature file %s."
@@ -1473,9 +1457,8 @@ msgid "Failed to sign package file."
 msgstr "Falha em assinar arquivo de pacote."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:56
-#, fuzzy
 msgid "Signing package(s)..."
-msgstr "Assinando pacote..."
+msgstr "Assinando o(s) pacote(s)..."
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:64
 msgid "Integrity checks are missing for: %s"
@@ -1487,7 +1470,7 @@ msgstr "Ignorada"
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:81
 msgid "NOT FOUND"
-msgstr "NÃO ENCONTRADO"
+msgstr "NÃO ENCONTRADA"
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:88
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:90
@@ -1581,7 +1564,7 @@ msgstr "ARQUIVO FONTE NÃO ENCONTRADO"
 #: scripts/libmakepkg/lint_pkgbuild/arch.sh.in:42
 #: scripts/libmakepkg/lint_pkgbuild/pkgname.sh.in:50
 msgid "%s contains invalid characters: '%s'"
-msgstr "%s contém caracteres inválidos: \"%s\""
+msgstr "%s contém caracteres inválidos: '%s'"
 
 #: scripts/libmakepkg/lint_config/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
@@ -1596,23 +1579,20 @@ msgid "%s should not be an array"
 msgstr "%s não deveria ser um array"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issues..."
-msgstr "Verificando por problemas de empacotamento..."
+msgstr "Verificando problemas de pacotes..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
 msgid "Package contains reference to %s"
 msgstr "Pacote contém referência para %s"
 
 #: scripts/libmakepkg/lint_package/dotfiles.sh.in:34
-#, fuzzy
 msgid "Dotfile found in package root '%s'"
-msgstr "Arquivo de entrada %s não está no pacote : %s"
+msgstr "Dotfile localizado no pacote raiz '%s'"
 
 #: scripts/libmakepkg/lint_package/file_names.sh.in:36
-#, fuzzy
 msgid "Package contains paths with newlines"
-msgstr "Pacote contém referência para %s"
+msgstr "O pacote contém caminhos com caracteres de nova linha"
 
 #: scripts/libmakepkg/lint_package/missing_backup.sh.in:35
 msgid "%s entry file not in package : %s"
@@ -1667,12 +1647,13 @@ msgid "%s must be a decimal, not %s."
 msgstr "%s deve ser um decimal, e não %s."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:41
-#, fuzzy
 msgid ""
 "%s is not allowed to contain colons, forward slashes, hyphens or whitespace."
-msgstr "%s não pode conter vírgulas, hifens ou espaços em branco."
+msgstr ""
+"%s não pode conter caracteres de dois pontos, barras, hífenes ou espaço em "
+"branco."
 
-#: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:42
+#: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:46
 msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "Vetor %s não pode conter operadores de comparação (< ou >)."
 
@@ -1682,7 +1663,7 @@ msgstr "Vetores esparsos não são permitidos como fonte"
 
 #: scripts/libmakepkg/lint_pkgbuild/util.sh.in:34
 msgid "%s file (%s) does not exist or is not a regular file."
-msgstr "Arquivo %s (%s) não existe ou não é um arquivo comum."
+msgstr "O arquivo %s (%s) não existe ou não é um arquivo comum."
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
@@ -1784,7 +1765,7 @@ msgstr "Falha ao atualizar repositório %s do tipo %s"
 
 #: scripts/libmakepkg/source/git.sh.in:116
 msgid "Failure while checking out version %s, the git tag has been forged"
-msgstr ""
+msgstr "Falha ao fazer checkout da versão %s, a tag git foi forjada"
 
 #: scripts/libmakepkg/source/local.sh.in:39
 msgid "%s was not found in the build directory and is not a URL."
@@ -1824,7 +1805,7 @@ msgstr "Comprimindo páginas de man e info..."
 
 #: scripts/libmakepkg/util/compress.sh.in:44
 msgid "'%s' is not a valid archive extension."
-msgstr "\"%s\" não é uma extensão válida de arquivo."
+msgstr "'%s' não é uma extensão válida de arquivo."
 
 #: scripts/libmakepkg/util/message.sh.in:68 scripts/library/output_format.sh:31
 msgid "ERROR:"
@@ -1832,7 +1813,7 @@ msgstr "ERRO:"
 
 #: scripts/libmakepkg/util/parseopts.sh.in:73
 msgid "option '%s' is ambiguous; possibilities:"
-msgstr "opção \"%s\" é ambígua; possibilidades:"
+msgstr "opção '%s' é ambígua; possibilidades:"
 
 #: scripts/libmakepkg/util/parseopts.sh.in:92
 #: scripts/libmakepkg/util/parseopts.sh.in:155
@@ -1855,141 +1836,14 @@ msgstr "opção \"%s\" requer um argumento"
 msgid "The download program %s is not installed."
 msgstr "O programa de download %s não está instalado."
 
-#: scripts/libmakepkg/util/util.sh.in:81
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:76
 msgid "Failed to change to directory %s"
-msgstr "Falha ao extrair %s"
+msgstr "Falha ao mudar para o diretório %s"
 
-#: scripts/libmakepkg/util/util.sh.in:95
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:90
 msgid "You do not have write permission for the directory $%s (%s)."
-msgstr "Você não tem permissão de escrita para armazenar logs em %s."
+msgstr "Você não tem permissão de escrita para o diretório $%s (%s)."
 
-#: scripts/libmakepkg/util/util.sh.in:97
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:92
 msgid "Failed to create the directory $%s (%s)."
-msgstr "Falha ao atualizar %s de %s para %s"
-
-#~ msgid ""
-#~ "Cannot find the %s binary required for generating sourcefile checksums."
-#~ msgstr ""
-#~ "Não foi possível achar o executável %s necessário para gerar somas de "
-#~ "verificação de aquivo fonte."
-
-#~ msgid "Failed to create symlink to package file."
-#~ msgstr "Falha ao criar link simbólico para o arquivo do pacote."
-
-#~ msgid "Failed to create symlink to source package file."
-#~ msgstr "Falha ao criar o link simbólico para o arquivo do pacote fonte."
-
-#~ msgid "Cannot find the %s binary required for compressing binaries."
-#~ msgstr ""
-#~ "Não foi possível encontrar o executável %s necessário para compressão de "
-#~ "binários."
-
-#~ msgid "Cannot find the %s binary required for optimizing PNG images."
-#~ msgstr ""
-#~ "O arquivo binário %s necessário para otimizar as imagens PNG não pode ser "
-#~ "encontrado."
-
-#~ msgid "You do not have write permission to create packages in %s."
-#~ msgstr "Você não tem permissão de escrita para criar pacotes em %s."
-
-#~ msgid "You do not have write permission to store packages in %s."
-#~ msgstr "Você não tem permissão de escrita para armazenar os pacotes em %s."
-
-#~ msgid "You do not have write permission to store downloads in %s."
-#~ msgstr "Você não tem permissão de escrita para armazenar downloads em %s."
-
-#~ msgid "You do not have write permission to store source tarballs in %s."
-#~ msgstr ""
-#~ "Você não tem permissão de escrita para armazenar um tarball de fontes em "
-#~ "%s."
-
-#~ msgid "Usage: %s [--nocolor] [pacman_db_root]"
-#~ msgstr "Uso: %s [--nocolor] [pacman_db_root]"
-
-#~ msgid ""
-#~ "pacman-optimize is a little hack that should improve the performance\\nof "
-#~ "pacman when reading/writing to its filesystem-based database.\\n\\n"
-#~ msgstr ""
-#~ "pacman-optimize é um pequeno hack que deve melhorar a performance\\ndo "
-#~ "pacman quando está lendo/escrevendo em sua base de dados baseada\\nno "
-#~ "sistema de arquivos\\n\\n"
-
-#~ msgid ""
-#~ "Because pacman uses many small files to keep track of packages,\\nthere "
-#~ "is a tendency for these files to become fragmented over time.\\nThis "
-#~ "script attempts to relocate these small files into one\\ncontinuous "
-#~ "location on your hard drive. The result is that the hard\\ndrive should "
-#~ "be able to read them faster, since the hard drive head\\ndoes not have to "
-#~ "move around the disk as much.\\n"
-#~ msgstr ""
-#~ "Devido ao fato do pacman usar muitos arquivos pequenos para gerenciar os"
-#~ "\\npacotes, há uma tendência desses arquivos se tornarem fragmentados com "
-#~ "o tempo.\\nEste script tenta realocar esses arquivos pequenos em um único "
-#~ "local contínuo\\nno seu disco rígido. O resultado é que o disco deverá "
-#~ "ser capaz de ler os\\narquivos mais rápido, já que a cabeça do disco não "
-#~ "precisará se mover tanto\\npela sua superfície.\\n"
-
-#~ msgid "Cannot find the %s binary required for verifying integrity."
-#~ msgstr ""
-#~ "Não foi possível encontrar o executável %s necessário para verificação de "
-#~ "integridade."
-
-#~ msgid "You must have correct permissions to optimize the database."
-#~ msgstr "Você deve ter as permissões corretas para otimizar a base de dados."
-
-#~ msgid "Cannot create temporary directory for database building."
-#~ msgstr ""
-#~ "Não foi possível criar um diretório temporário para compilação da base de "
-#~ "dados."
-
-#~ msgid "MD5sum'ing the old database..."
-#~ msgstr "Criando md5sum da base de dados antiga..."
-
-#~ msgid "Tar'ing up %s..."
-#~ msgstr "Criando tarball de %s..."
-
-#~ msgid "Tar'ing up %s failed."
-#~ msgstr "Criação do tarball de %s falhou."
-
-#~ msgid "Making and MD5sum'ing the new database..."
-#~ msgstr "Criando e calculando o md5sum da nova base de dados..."
-
-#~ msgid "Untar'ing %s failed."
-#~ msgstr "Descompactação de %s falhou."
-
-#~ msgid "Syncing database to disk..."
-#~ msgstr "Sincronizando a base de dados com o disco..."
-
-#~ msgid "Checking integrity..."
-#~ msgstr "Verificando integridade..."
-
-#~ msgid "Integrity check FAILED, reverting to old database."
-#~ msgstr ""
-#~ "Verificação de integridade FALHOU, revertendo para a base de dados antiga."
-
-#~ msgid "Rotating database into place..."
-#~ msgstr "Posicionando a base de dados em seu lugar..."
-
-#~ msgid ""
-#~ "New database substitution failed. Check for %s, %s, and %s directories."
-#~ msgstr ""
-#~ "Substituição por nova base de dados falhou. Verifique nos diretórios %s, "
-#~ "%s e %s."
-
-#~ msgid "Finished. Your pacman database has been optimized."
-#~ msgstr "Concluído. Sua base de dados do pacman foi otimizada."
-
-#~ msgid "Optimizing PNG images..."
-#~ msgstr "Otimizando imagens PNG..."
-
-#~ msgid "Could not optimize PNG image : %s"
-#~ msgstr "Não foi possível otimizar a imagem PNG : %s"
-
-#~ msgid "Compressing binaries with %s..."
-#~ msgstr "Comprimindo binários com %s..."
-
-#~ msgid "Could not compress binary : %s"
-#~ msgstr "Não foi possível comprimir o binário : %s"
+msgstr "Falha ao criar o diretório $%s (%s)."

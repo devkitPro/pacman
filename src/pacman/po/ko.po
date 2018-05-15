@@ -5,8 +5,8 @@
 # Translators:
 # Alan Lee <bkrhlim@aol.com>, 2013
 # Seong-ho Cho <darkcircle.0426@gmail.com>, 2013
-# 배태길 <esrevinu@gmail.com>, 2014,2016-2017
-# Ji-Hyeon Gim <potatogim@potatogim.net>, 2014
+# 배태길 <esrevinu@gmail.com>, 2014,2016-2018
+# Ji-Hyeon Gim <potatogim@potatogim.net>, 2014,2018
 # Alan Lee <bkrhlim@aol.com>, 2013
 # Seong-ho Cho <darkcircle.0426@gmail.com>, 2013
 # Sungjin Kang <potopro@gmail.com>, 2012-2013
@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2017-09-23 18:02+0000\n"
+"PO-Revision-Date: 2018-04-29 18:54+0000\n"
 "Last-Translator: 배태길 <esrevinu@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
@@ -515,17 +515,17 @@ msgstr "%s: 설치 이유를 '명시적으로 설치함'으로 설정했습니�
 #: src/pacman/database.c:293
 #, c-format
 msgid "No database errors have been found!\n"
-msgstr ""
+msgstr "데이터베이스 오류가 발견되지 않았습니다!\n"
 
 #: src/pacman/files.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s/%s%s %s%s%s\n"
-msgstr "%s는 %s %s가 소유했습니다\n"
+msgstr "%s는 %s%s/%s%s %s%s%s가 소유했습니다\n"
 
 #: src/pacman/files.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package: '%s'\n"
-msgstr "잘못된 숫자: %s\n"
+msgstr "유효하지 않은 패키지: '%s'\n"
 
 #: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
 #, c-format
@@ -538,9 +538,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "꾸러미 데이터베이스 동기화 중...\n"
 
 #: src/pacman/files.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "no options specified (use -h for help)\n"
-msgstr "동작을 지정하지 않았습니다(도움말을 보려면 -h 사용)\n"
+msgstr "옵션이 지정되지 않았습니다 (도움말을 보기 위해 -h 옵션을 사용합니다)\n"
 
 #: src/pacman/package.c:99
 #, c-format
@@ -1003,10 +1003,9 @@ msgstr ""
 "스 동기화)\n"
 
 #: src/pacman/pacman.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
-msgstr ""
-"  -q, --quiet          요청 및 검색에 대한 정보를 더 간단하게 보여줍니다.\n"
+msgstr "  -q, --quiet          성공 메시지들의 출력을 숨깁니다\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
@@ -1028,15 +1027,15 @@ msgstr ""
 "                       기계가 읽을 수 있는 출력을 생성합니다.\n"
 
 #: src/pacman/pacman.c:192
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --overwrite <path>\n"
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
-"      --ignoregroup <grp>\n"
-"                       모음의 업그레이드를 무시합니다. (한 번 이상 사용 가"
-"능)\n"
+"      --overwrite <path>\n"
+"                       충돌되는 파일들을 덮어 씁니다 (한번 이상 사용될 수 있"
+"음)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1142,6 +1141,8 @@ msgstr "      --arch <arch>    대체 아키텍처를 설정합니다.\n"
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
+"      --sysroot        마운트된 게스트 시스템 상에서 명령을 수행합니다 (루트"
+"만 허용)\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
@@ -1194,6 +1195,8 @@ msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
+"      --disable-download-timeout\n"
+"                       다운로드에 시간 제한을 두지 않습니다\n"
 
 #: src/pacman/pacman.c:246
 #, c-format
@@ -1207,7 +1210,7 @@ msgstr ""
 #: src/pacman/pacman.c:279
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
-msgstr ""
+msgstr "HTTP_USER_AGENT 잘려짐\n"
 
 #: src/pacman/pacman.c:311
 #, c-format
@@ -1228,11 +1231,14 @@ msgstr "'%s' 유효하지 않은 디버그 레벨 입니다.\n"
 #, c-format
 msgid "option --root is deprecated; use --sysroot instead\n"
 msgstr ""
+"--root 옵션은 더 이상 사용되지 않습니다; 대신에 --sysroot 옵션을 사용하세요\n"
 
 #: src/pacman/pacman.c:722
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
 msgstr ""
+"--force 옵션은 더 이상 사용되지 않습니다; 대신에 --overwrite 옵션을 사용하세"
+"요\n"
 
 #: src/pacman/pacman.c:982
 #, c-format
@@ -1255,14 +1261,14 @@ msgid "you cannot perform this operation unless you are root.\n"
 msgstr "루트 계정이 아니라면 이 동작을 수행할 수 없습니다.\n"
 
 #: src/pacman/pacman.c:1173
-#, fuzzy, c-format
+#, c-format
 msgid "chroot to '%s' failed: (%s)\n"
-msgstr "'%s' 데이터베이스를 등록할 수 없습니다(%s)\n"
+msgstr "'%s'로의 루트 변경을 실패했습니다: (%s)\n"
 
 #: src/pacman/pacman.c:1207
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
-msgstr "트랜잭션을 준비하는데 실패했습니다(%s)\n"
+msgstr "표준 입력으로부터 인자를 읽지 못했습니다: (%s)\n"
 
 #: src/pacman/pacman.c:1212
 #, c-format
@@ -1285,9 +1291,9 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "동작을 지정하지 않았습니다(도움말을 보려면 -h 사용)\n"
 
 #: src/pacman/query.c:87
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s %s%s%s\n"
-msgstr "%s는 %s %s가 소유했습니다\n"
+msgstr "%s는 %s%s %s%s%s가 소유했습니다\n"
 
 #: src/pacman/query.c:149
 #, c-format
@@ -1297,7 +1303,7 @@ msgstr "--owns에 파일을 지정하지 않았습니다\n"
 #: src/pacman/query.c:170
 #, c-format
 msgid "empty string passed to file owner query\n"
-msgstr ""
+msgstr "파일 소유자 쿼리에 빈 문자열이 전달되었습니다\n"
 
 #: src/pacman/query.c:197 src/pacman/query.c:219
 #, c-format
@@ -1455,10 +1461,10 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "\"%s\" 저장소가 없습니다.\n"
 
 #: src/pacman/sync.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
-msgstr[0] "%2$s 모음에 %1$d 개의 구성원이 있습니다:\n"
+msgstr[0] "%d 개의 구성원이 %s%s%s 모음에 있습니다:\n"
 
 #: src/pacman/sync.c:640
 #, c-format
@@ -1478,17 +1484,17 @@ msgstr "전체 시스템 업그레이드 시작 중...\n"
 #: src/pacman/sync.c:720
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
-msgstr ""
+msgstr "의존성 '%s'(%s가 요구)를 만족시킬 수 없습니다\n"
 
 #: src/pacman/sync.c:724
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
-msgstr "%s: %s (%s) 설치로 의존성 '%s'가 깨집니다\n"
+msgstr "%s(%s) 설치로 의존성 '%s'(%s가 요구)가 깨집니다\n"
 
 #: src/pacman/sync.c:728
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "%s: %s 제거로 의존성 '%s'가 깨집니다\n"
+msgstr "%s 제거로 의존성 '%s'(%s가 요구)가 깨집니다\n"
 
 #: src/pacman/sync.c:748
 #, c-format
@@ -1526,9 +1532,9 @@ msgid "%s exists in both '%s' and '%s'\n"
 msgstr "'%2$s'와 '%3$s' 모두에 %1$s가 있습니다\n"
 
 #: src/pacman/sync.c:828
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
-msgstr "%s: %s가 파일 시스템에 있습니다\n"
+msgstr "%s: %s가 파일 시스템에 있습니다 (%s 소유)\n"
 
 #: src/pacman/sync.c:831
 #, c-format
@@ -1600,9 +1606,9 @@ msgid " %s is up to date\n"
 msgstr " %s는 최신입니다\n"
 
 #: src/pacman/util.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "failed to synchronize all databases\n"
-msgstr "데이터베이스 동기화에 실패했습니다\n"
+msgstr "모든 데이터베이스들의 동기화가 실패했습니다\n"
 
 #: src/pacman/util.c:636
 #, c-format
@@ -1735,9 +1741,9 @@ msgid "Optional dependencies for %s\n"
 msgstr "%s에 대한 선택 의존성\n"
 
 #: src/pacman/util.c:1285
-#, fuzzy, c-format
+#, c-format
 msgid "Repository %s%s\n"
-msgstr "%s 저장소\n"
+msgstr "%s%s 저장소\n"
 
 #: src/pacman/util.c:1326
 #, c-format
@@ -1803,28 +1809,3 @@ msgstr "오류: "
 #, c-format
 msgid "warning: "
 msgstr "경고: "
-
-#~ msgid "could not add mirror '%s' to database '%s' (%s)\n"
-#~ msgstr "'%s' 미러를 '%s' 데이터베이스에 추가할 수 없습니다(%s)\n"
-
-#~ msgid "      --force          force install, overwrite conflicting files\n"
-#~ msgstr ""
-#~ "      --force          충돌하는 파일을 덮어쓰고 강제로 설치합니다.\n"
-
-#~ msgid "  -r, --root <path>    set an alternate installation root\n"
-#~ msgstr "  -r, --root <patn>    대체 설치 최상위 경로를 설정합니다.\n"
-
-#~ msgid "memory exhausted in argument parsing\n"
-#~ msgstr "인자를 해석하는데 메모리가 고갈되었습니다.\n"
-
-#~ msgid "failed to find '%s' in PATH: %s\n"
-#~ msgstr "PATH에 '%s'를 찾는데 실패했습니다: %s\n"
-
-#~ msgid "failed to read file '%s': %s\n"
-#~ msgstr "'%s' 파일을 읽는데 실패했습니다: %s\n"
-
-#~ msgid "cannot determine real path for '%s': %s\n"
-#~ msgstr "'%s'의 실제 경로를 결정할 수 없습니다: %s\n"
-
-#~ msgid "%s: requires %s\n"
-#~ msgstr "%s: %s를 필요로 합니다\n"

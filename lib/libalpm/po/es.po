@@ -11,18 +11,19 @@
 # Leonel <leonelmalon@gmail.com>, 2013
 # Leonel <leonelmalon@gmail.com>, 2013
 # neiko <neikokz+tsfx@gmail.com>, 2011
+# Pablo Lezaeta Reyes [pˈaβ̞lo lˌe̞θaˈeta rˈejɛ] <prflr88@gmail.com>, 2017
 # Pablo Lezaeta Reyes [pˈaβ̞lo lˌe̞θaˈeta rˈejɛ] <prflr88@gmail.com>, 2013-2016
 # Pablo Lezaeta Reyes [pˈaβ̞lo lˌe̞θaˈeta rˈejɛ] <prflr88@gmail.com>, 2017
 # Pedro Román <roizheim@gmail.com>, 2013-2014,2016-2017
 # picodotdev <pico.dev@gmail.com>, 2016
-# Swyter <Swyterzone@gmail.com>, 2015,2017
+# Swyter <Swyterzone@gmail.com>, 2015,2017-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:44+1000\n"
-"PO-Revision-Date: 2017-09-19 09:04+0000\n"
-"Last-Translator: Pedro Román <roizheim@gmail.com>\n"
+"POT-Creation-Date: 2018-05-15 10:34+1000\n"
+"PO-Revision-Date: 2018-04-30 08:53+0000\n"
+"Last-Translator: Swyter <Swyterzone@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/es/)\n"
 "Language: es\n"
@@ -62,7 +63,7 @@ msgstr "se han advertido errores mientras se extraía %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "no se pudo extraer %s (%s)\n"
 
-#: lib/libalpm/add.c:154 lib/libalpm/dload.c:561 lib/libalpm/remove.c:533
+#: lib/libalpm/add.c:154 lib/libalpm/dload.c:561 lib/libalpm/remove.c:541
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "no se pudo renombrar %s a %s (%s)\n"
@@ -259,9 +260,9 @@ msgstr ""
 "datos «%s»\n"
 
 #: lib/libalpm/be_sync.c:524
-#, fuzzy, c-format
+#, c-format
 msgid "could not read db '%s' (%s)\n"
-msgstr "no se pudo renombrar %s a %s (%s)\n"
+msgstr "no se pudo leer la base de datos  '%s' (%s)\n"
 
 #: lib/libalpm/be_sync.c:558 lib/libalpm/be_sync.c:563
 #, c-format
@@ -690,71 +691,71 @@ msgid "could not remove lock file %s\n"
 msgstr "no se pudo quitar el archivo de bloqueo %s\n"
 
 #: lib/libalpm/hook.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Missing trigger targets in hook: %s\n"
-msgstr "falta el nombre del paquete en %s\n"
+msgstr "Faltan objetivos del «trigger» en el «hook»: %s\n"
 
 #: lib/libalpm/hook.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "Missing trigger type in hook: %s\n"
-msgstr "falta el nombre del paquete en %s\n"
+msgstr "Falta el tipo del «trigger» en el «hook»: %s\n"
 
 #: lib/libalpm/hook.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Missing trigger operation in hook: %s\n"
-msgstr "falta la versión del paquete en %s\n"
+msgstr "Falta la operación del «trigger» en el «hook»: %s\n"
 
 #: lib/libalpm/hook.c:146
-#, fuzzy, c-format
+#, c-format
 msgid "Missing Exec option in hook: %s\n"
-msgstr "falta la versión del paquete en %s\n"
+msgstr "Falta la opción «Exec» en el «hook»: %s\n"
 
 #: lib/libalpm/hook.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Missing When option in hook: %s\n"
-msgstr "falta la versión del paquete en %s\n"
+msgstr "Falta la opción «When» en el «hook»: %s\n"
 
 #: lib/libalpm/hook.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "AbortOnFail set for PostTransaction hook: %s\n"
-msgstr "no se pudieron ejecutar los «hooks»"
+msgstr "El «hook» PostTransaction se ha establecido como AbortOnFail: %s\n"
 
 #: lib/libalpm/hook.c:273
-#, fuzzy, c-format
+#, c-format
 msgid "error while reading hook %s: %s\n"
-msgstr "error al leer el archivo %s: %s\n"
+msgstr "hubo un error al leer el «hook» %s: %s\n"
 
 #: lib/libalpm/hook.c:275 lib/libalpm/hook.c:315 lib/libalpm/hook.c:357
 #, c-format
 msgid "hook %s line %d: invalid option %s\n"
-msgstr ""
+msgstr "«hook» %s línea %d: la opción %s no es correcta\n"
 
 #: lib/libalpm/hook.c:285
 #, c-format
 msgid "hook %s line %d: invalid section %s\n"
-msgstr ""
+msgstr "«hook» %s línea %d: la sección %s no es correcta\n"
 
 #: lib/libalpm/hook.c:297 lib/libalpm/hook.c:308 lib/libalpm/hook.c:327
 #: lib/libalpm/hook.c:350
-#, fuzzy, c-format
+#, c-format
 msgid "hook %s line %d: invalid value %s\n"
-msgstr "eliminando archivo no válido: %s\n"
+msgstr "«hook» %s línea %d: el valor %s no es correcto\n"
 
 #: lib/libalpm/hook.c:301 lib/libalpm/hook.c:320 lib/libalpm/hook.c:331
 #: lib/libalpm/hook.c:345
 #, c-format
 msgid "hook %s line %d: overwriting previous definition of %s\n"
-msgstr ""
+msgstr "«hook» %s línea %d: sobrescribiendo la definición de %s\n"
 
 #: lib/libalpm/hook.c:352
 #, c-format
 msgid "hook %s line %d: unable to set option (%s)\n"
-msgstr ""
+msgstr "«hook» %s línea %d: no se puede especificar la opción (%s)\n"
 
 #: lib/libalpm/hook.c:613
-#, fuzzy, c-format
+#, c-format
 msgid "unable to run hook %s: %s\n"
-msgstr "no se pudo escribir en la tubería (%s)\n"
+msgstr "no se pudo ejecutar el «hook» %s: %s\n"
 
 #: lib/libalpm/hook.c:648 lib/libalpm/hook.c:660 lib/libalpm/remove.c:385
 #, c-format
@@ -762,9 +763,9 @@ msgid "could not open directory: %s: %s\n"
 msgstr "no se pudo abrir el directorio: %s: %s\n"
 
 #: lib/libalpm/hook.c:676
-#, fuzzy, c-format
+#, c-format
 msgid "could not open file: %s%s: %s\n"
-msgstr "No se pudo abrir el archivo: %s: %s\n"
+msgstr "no se pudo abrir el archivo: %s%s: %s\n"
 
 #: lib/libalpm/hook.c:696 lib/libalpm/util.c:259
 #, c-format
@@ -772,9 +773,9 @@ msgid "could not stat file %s: %s\n"
 msgstr "no se pudo recuperar la información del archivo %s: %s\n"
 
 #: lib/libalpm/hook.c:722
-#, fuzzy, c-format
+#, c-format
 msgid "could not read directory: %s: %s\n"
-msgstr "no se pudo crear el directorio %s: %s\n"
+msgstr "no se pudo crear la carpeta: %s: %s\n"
 
 #: lib/libalpm/package.c:586
 #, c-format
@@ -797,17 +798,22 @@ msgstr "quitando %s de la lista de objetivos\n"
 msgid "cannot remove file '%s': %s\n"
 msgstr "no se pudo quitar el archivo «%s»: %s\n"
 
-#: lib/libalpm/remove.c:553
+#: lib/libalpm/remove.c:410 lib/libalpm/remove.c:419
+#, c-format
+msgid "could not backup %s due to PATH_MAX overflow\n"
+msgstr ""
+
+#: lib/libalpm/remove.c:561
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "no se pudo quitar %s (%s)\n"
 
-#: lib/libalpm/remove.c:726
+#: lib/libalpm/remove.c:734
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "no se pudo quitar la entrada %s-%s de la base de datos\n"
 
-#: lib/libalpm/remove.c:731
+#: lib/libalpm/remove.c:739
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "no se pudo quitar la entrada «%s» de la caché\n"
@@ -816,31 +822,34 @@ msgstr "no se pudo quitar la entrada «%s» de la caché\n"
 #, c-format
 msgid "Public keyring not found; have you run '%s'?\n"
 msgstr ""
+"No se ha encontrado el llavero de claves público; ¿ya se ha ejecutado «%s»?\n"
 
 #: lib/libalpm/signing.c:207 lib/libalpm/signing.c:705
 #, c-format
 msgid "GPGME error: %s\n"
-msgstr ""
+msgstr "Error de GPGME: %s\n"
 
 #: lib/libalpm/signing.c:402
 #, c-format
 msgid "keyring is not writable\n"
-msgstr ""
+msgstr "no se puede escribir en el llavero de claves\n"
 
 #: lib/libalpm/signing.c:460
 #, c-format
 msgid "key \"%s\" could not be imported\n"
-msgstr ""
+msgstr "no se pudo importar la clave «%s»\n"
 
 #: lib/libalpm/signing.c:466
 #, c-format
 msgid "key %s, \"%s\" found on keyserver, keyring is not writable\n"
 msgstr ""
+"se ha encontrado la clave %s, «%s» en el servidor de claves, pero no se "
+"puede añadir al llavero porque está protegido contra escritura\n"
 
 #: lib/libalpm/signing.c:471
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
-msgstr ""
+msgstr "no se pudo buscar la clave «%s» de forma remota\n"
 
 #: lib/libalpm/signing.c:859 lib/libalpm/sync.c:1181
 #, c-format
@@ -850,53 +859,51 @@ msgstr "%s: falta la firma exigida\n"
 #: lib/libalpm/signing.c:874
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
-msgstr ""
+msgstr "%s: la firma de «%s» es de confianza mínima\n"
 
 #: lib/libalpm/signing.c:882
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
-msgstr ""
+msgstr "%s: se desconoce el nivel de confianza de la firma de «%s»\n"
 
 #: lib/libalpm/signing.c:889
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
 msgstr ""
+"%s: la firma de «%s» no es de confianza y no se debería confiar en ella bajo "
+"ningún concepto\n"
 
 #: lib/libalpm/signing.c:901
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
-msgstr ""
+msgstr "%s: clave «%s» desconocida\n"
 
 #: lib/libalpm/signing.c:910
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
-msgstr ""
+msgstr "%s: la clave «%s» está desactivada\n"
 
 #: lib/libalpm/signing.c:914
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
-msgstr ""
+msgstr "%s: la firma de «%s» ha expirado\n"
 
 #: lib/libalpm/signing.c:918
-#, fuzzy, c-format
-msgid "%s: signature from \"%s\" is invalid\n"
-msgstr "la dirección «%s» no es válida\n"
-
-#: lib/libalpm/signing.c:995
 #, c-format
-msgid "%s: signature format error"
-msgstr ""
+msgid "%s: signature from \"%s\" is invalid\n"
+msgstr "%s: la firma de «%s» no es válida\n"
 
-#: lib/libalpm/signing.c:1063 lib/libalpm/signing.c:1142
+#: lib/libalpm/signing.c:995 lib/libalpm/signing.c:1063
+#: lib/libalpm/signing.c:1142
 #, c-format
 msgid "%s: signature format error\n"
-msgstr ""
+msgstr "%s: hubo un error con el formato de la firma\n"
 
 #: lib/libalpm/signing.c:1095 lib/libalpm/signing.c:1128
 #: lib/libalpm/signing.c:1136
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unsupported signature format\n"
-msgstr "%s: falta la firma exigida\n"
+msgstr "%s: formato de firma desconocido\n"
 
 #: lib/libalpm/sync.c:98
 #, c-format
@@ -1041,3 +1048,6 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "no se pudo encontrar o crear la caché del paquete, en su lugar se utilizará "
 "%s\n"
+
+#~ msgid "%s: signature format error"
+#~ msgstr "%s: hubo un error con el formato de la firma"

@@ -9,8 +9,9 @@
 # leonfeng <chaofeng111@qq.com>, 2018
 # Felix Yan <felixonmars@gmail.com>, 2015
 # leonfeng <chaofeng111@qq.com>, 2011,2013
+# leonfeng <chaofeng111@qq.com>, 2011,2013,2018
 # leonfeng <chaofeng111@qq.com>, 2011,2013
-# mytbk <mytbk920423@gmail.com>, 2013-2017
+# mytbk <mytbk920423@gmail.com>, 2013-2018
 # mytbk <mytbk920423@gmail.com>, 2013
 # leonfeng <chaofeng111@qq.com>, 2013
 # leonfeng <chaofeng111@qq.com>, 2011
@@ -24,8 +25,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2018-03-02 06:37+0000\n"
-"Last-Translator: leonfeng <chaofeng111@qq.com>\n"
+"PO-Revision-Date: 2018-04-30 03:03+0000\n"
+"Last-Translator: mytbk <mytbk920423@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -127,7 +128,7 @@ msgstr "正在应用增量包...\n"
 #: src/pacman/callback.c:277
 #, c-format
 msgid "generating %s with %s... "
-msgstr "正在生成 %s (使用 %s)..."
+msgstr "正在生成 %s (使用 %s)... "
 
 #: src/pacman/callback.c:282
 #, c-format
@@ -334,7 +335,7 @@ msgstr "路径过长：%s%s\n"
 #, c-format
 msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
-msgstr[0] "%s: %jd 全部文件。"
+msgstr[0] "%s: %jd 全部文件，"
 
 #: src/pacman/check.c:244
 #, c-format
@@ -518,17 +519,17 @@ msgstr "%s：安装原因设定为“单独指定安装”\n"
 #: src/pacman/database.c:293
 #, c-format
 msgid "No database errors have been found!\n"
-msgstr ""
+msgstr "找不到数据库错误！\n"
 
 #: src/pacman/files.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s/%s%s %s%s%s\n"
-msgstr "%s 属于 %s %s\n"
+msgstr "%s 由 %s%s/%s%s %s%s%s 所拥有\n"
 
 #: src/pacman/files.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package: '%s'\n"
-msgstr "无效数字：%s\n"
+msgstr "无效软件包：'%s'\n"
 
 #: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
 #, c-format
@@ -541,9 +542,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "正在同步软件包数据库...\n"
 
 #: src/pacman/files.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "no options specified (use -h for help)\n"
-msgstr "没有指定的操作 (使用 -h 获取帮助) \n"
+msgstr "没指定选项（用 -h 查看帮助）\n"
 
 #: src/pacman/package.c:99
 #, c-format
@@ -688,7 +689,7 @@ msgstr "版本"
 #: src/pacman/package.c:174 src/pacman/util.c:1223
 #, c-format
 msgid " [installed]"
-msgstr "[已安装]"
+msgstr " [已安装]"
 
 #: src/pacman/package.c:223
 #, c-format
@@ -735,7 +736,7 @@ msgstr "无法计算 %s 的完整性校验值\n"
 #: src/pacman/package.c:423
 #, c-format
 msgid "(none)\n"
-msgstr " (无) \n"
+msgstr "(无) \n"
 
 #: src/pacman/package.c:460
 #, c-format
@@ -985,14 +986,14 @@ msgid ""
 msgstr "  -k, --check          检查本地数据库有效性 (-kk 以同步数据库)\n"
 
 #: src/pacman/pacman.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
-msgstr "  -q, --quiet          在查询或搜索时显示较少的信息\n"
+msgstr "  -q, --quiet          不显示成功消息的输出\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
 msgid "  -s, --search <file>  search package file names for matching strings\n"
-msgstr "s, --search <文件> 搜索符合指定字符串的软件包文件名\n"
+msgstr "  -s, --search <文件>  搜索符合指定字符串的软件包文件名\n"
 
 #: src/pacman/pacman.c:183
 #, c-format
@@ -1009,14 +1010,14 @@ msgstr ""
 "                       产生机器可读输出\n"
 
 #: src/pacman/pacman.c:192
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --overwrite <path>\n"
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
-"      --ignoregroup <软件包组>\n"
-"                         升级时忽略某个软件包组 (可多次使用) \n"
+"      --overwrite <path>\n"
+"                       覆盖冲突的文件（可以使用多次）\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1112,7 +1113,7 @@ msgstr "      --arch <架构>    设定另外的架构\n"
 #: src/pacman/pacman.c:216
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
-msgstr ""
+msgstr "      --sysroot        在一个已挂载的 guest 系统操作（仅 root）\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
@@ -1165,6 +1166,8 @@ msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
+"      --disable-download-timeout\n"
+"                       下载时用宽松的超时\n"
 
 #: src/pacman/pacman.c:246
 #, c-format
@@ -1178,7 +1181,7 @@ msgstr ""
 #: src/pacman/pacman.c:279
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
-msgstr ""
+msgstr "HTTP_USER_AGENT 被截断\n"
 
 #: src/pacman/pacman.c:311
 #, c-format
@@ -1188,7 +1191,7 @@ msgstr "无效选项： 选项 '%s' 和 '%s' 不可以同时使用\n"
 #: src/pacman/pacman.c:395
 #, c-format
 msgid "invalid argument '%s' for %s\n"
-msgstr " '%s' 不是 %s 的合法参数\n"
+msgstr "'%s' 不是 %s 的合法参数\n"
 
 #: src/pacman/pacman.c:418
 #, c-format
@@ -1198,12 +1201,12 @@ msgstr "'%s' 不是有效的调试级别\n"
 #: src/pacman/pacman.c:453
 #, c-format
 msgid "option --root is deprecated; use --sysroot instead\n"
-msgstr ""
+msgstr "不再建议使用选项 --root，请用 --sysroot\n"
 
 #: src/pacman/pacman.c:722
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
-msgstr ""
+msgstr "不再建议使用选项 --force，请用 --overwrite\n"
 
 #: src/pacman/pacman.c:982
 #, c-format
@@ -1226,14 +1229,14 @@ msgid "you cannot perform this operation unless you are root.\n"
 msgstr "非 root (根用户) 无法执行指定操作。\n"
 
 #: src/pacman/pacman.c:1173
-#, fuzzy, c-format
+#, c-format
 msgid "chroot to '%s' failed: (%s)\n"
-msgstr "无法注册 '%s' 数据库 (%s)\n"
+msgstr "chroot 到 '%s' 失败：(%s)\n"
 
 #: src/pacman/pacman.c:1207
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
-msgstr "无法准备事务处理 (%s)\n"
+msgstr "从标准输入读取参数失败：(%s)\n"
 
 #: src/pacman/pacman.c:1212
 #, c-format
@@ -1256,9 +1259,9 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "没有指定的操作 (使用 -h 获取帮助) \n"
 
 #: src/pacman/query.c:87
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s %s%s%s\n"
-msgstr "%s 属于 %s %s\n"
+msgstr "%s 由 %s%s %s%s%s 所拥有\n"
 
 #: src/pacman/query.c:149
 #, c-format
@@ -1268,7 +1271,7 @@ msgstr "没有为 --owns 指定文件\n"
 #: src/pacman/query.c:170
 #, c-format
 msgid "empty string passed to file owner query\n"
-msgstr ""
+msgstr "文件所有者查询传入了空字符串\n"
 
 #: src/pacman/query.c:197 src/pacman/query.c:219
 #, c-format
@@ -1333,7 +1336,7 @@ msgstr "在目标清单中发现 HoldPkg 指定的软件包。你确定要继续
 #: src/pacman/remove.c:157 src/pacman/sync.c:785
 #, c-format
 msgid " there is nothing to do\n"
-msgstr "今日无事可做\n"
+msgstr " 今日无事可做\n"
 
 #: src/pacman/remove.c:169
 #, c-format
@@ -1426,10 +1429,10 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "软件库 \"%s\" 未找到\n"
 
 #: src/pacman/sync.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
-msgstr[0] "共有 %d 组员在组 %s 中：\n"
+msgstr[0] "在组 %2$s%3$s%4$s 中有 %1$d 成员：\n"
 
 #: src/pacman/sync.c:640
 #, c-format
@@ -1449,17 +1452,17 @@ msgstr "正在进行全面系统更新...\n"
 #: src/pacman/sync.c:720
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
-msgstr ""
+msgstr "无法满足依赖 '%s' （%s 需要）\n"
 
 #: src/pacman/sync.c:724
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
-msgstr "%s：安装 %s (%s) 将破坏依赖关系 '%s'\n"
+msgstr "安装 %s (%s) 破坏依赖 '%s' （%s 需要）\n"
 
 #: src/pacman/sync.c:728
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "%s：移除 %s 将破坏依赖关系 '%s'\n"
+msgstr "删除 %s 破坏依赖 '%s' （%s 需要）\n"
 
 #: src/pacman/sync.c:748
 #, c-format
@@ -1497,9 +1500,9 @@ msgid "%s exists in both '%s' and '%s'\n"
 msgstr "%s 同时存在于 '%s' 和 '%s'\n"
 
 #: src/pacman/sync.c:828
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
-msgstr "%s: 文件系统中已存在 %s \n"
+msgstr "%s: 文件系统中存在 %s （由 %s 所有）\n"
 
 #: src/pacman/sync.c:831
 #, c-format
@@ -1571,9 +1574,9 @@ msgid " %s is up to date\n"
 msgstr " %s 已经是最新版本\n"
 
 #: src/pacman/util.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "failed to synchronize all databases\n"
-msgstr "无法同步任何数据库\n"
+msgstr "同步所有数据库失败\n"
 
 #: src/pacman/util.c:636
 #, c-format
@@ -1693,7 +1696,7 @@ msgstr "净更新大小："
 #: src/pacman/util.c:1225
 #, c-format
 msgid " [pending]"
-msgstr "[等待中]"
+msgstr " [等待中]"
 
 #: src/pacman/util.c:1249
 #, c-format
@@ -1706,9 +1709,9 @@ msgid "Optional dependencies for %s\n"
 msgstr "%s 的可选依赖\n"
 
 #: src/pacman/util.c:1285
-#, fuzzy, c-format
+#, c-format
 msgid "Repository %s%s\n"
-msgstr "软件库 %s\n"
+msgstr "软件仓库 %s%s\n"
 
 #: src/pacman/util.c:1326
 #, c-format
@@ -1774,27 +1777,3 @@ msgstr "错误："
 #, c-format
 msgid "warning: "
 msgstr "警告："
-
-#~ msgid "could not add mirror '%s' to database '%s' (%s)\n"
-#~ msgstr "无法添加 '%s' 镜像到数据库 '%s' (%s)\n"
-
-#~ msgid "      --force          force install, overwrite conflicting files\n"
-#~ msgstr "      --force          强制安装，覆盖存在冲突的文件\n"
-
-#~ msgid "  -r, --root <path>    set an alternate installation root\n"
-#~ msgstr "  -r, --root <路径>    指定另外的安装根目录\n"
-
-#~ msgid "memory exhausted in argument parsing\n"
-#~ msgstr "参数解析时内存耗尽\n"
-
-#~ msgid "failed to find '%s' in PATH: %s\n"
-#~ msgstr "无法找到 '%s' (在路径：%s 中)\n"
-
-#~ msgid "failed to read file '%s': %s\n"
-#~ msgstr "无法读取文件 '%s'：%s\n"
-
-#~ msgid "cannot determine real path for '%s': %s\n"
-#~ msgstr "无法确定 '%s' 的真实路径：%s\n"
-
-#~ msgid "%s: requires %s\n"
-#~ msgstr "%s: 要求 %s\n"

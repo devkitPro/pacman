@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2018-03-08 09:37+0000\n"
-"Last-Translator: Ludvig Holtze <ludvighg1999@gmail.com>\n"
+"POT-Creation-Date: 2018-05-15 10:38+1000\n"
+"PO-Revision-Date: 2018-04-29 14:06+0000\n"
+"Last-Translator: Daniel Sandman <revoltism@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/sv/)\n"
 "Language: sv\n"
@@ -51,10 +51,10 @@ msgid "Unable to find source file %s."
 msgstr "Kunde inte hitta källkodsfil %s."
 
 #: scripts/makepkg.sh.in:217 scripts/makepkg.sh.in:348
-#: scripts/makepkg.sh.in:718 scripts/makepkg.sh.in:911
-#: scripts/makepkg.sh.in:1314 scripts/makepkg.sh.in:1362
-#: scripts/makepkg.sh.in:1368 scripts/makepkg.sh.in:1373
-#: scripts/makepkg.sh.in:1379 scripts/makepkg.sh.in:1389
+#: scripts/makepkg.sh.in:727 scripts/makepkg.sh.in:920
+#: scripts/makepkg.sh.in:1323 scripts/makepkg.sh.in:1371
+#: scripts/makepkg.sh.in:1377 scripts/makepkg.sh.in:1382
+#: scripts/makepkg.sh.in:1388 scripts/makepkg.sh.in:1398
 #: scripts/libmakepkg/source/bzr.sh.in:50
 #: scripts/libmakepkg/source/bzr.sh.in:81
 #: scripts/libmakepkg/source/bzr.sh.in:96
@@ -74,7 +74,7 @@ msgstr "Kunde inte hitta källkodsfil %s."
 #: scripts/libmakepkg/source/svn.sh.in:68
 #: scripts/libmakepkg/util/source.sh.in:157
 #: scripts/libmakepkg/util/source.sh.in:166
-#: scripts/libmakepkg/util/util.sh.in:82
+#: scripts/libmakepkg/util/util.sh.in:77
 msgid "Aborting..."
 msgstr "Avbryter..."
 
@@ -127,248 +127,244 @@ msgid "Cannot find library listed in %s: %s"
 msgstr "Kan inte finna programbibliotek listade i %s: %s"
 
 #: scripts/makepkg.sh.in:629
-#, fuzzy
 msgid "Invalid value for %s: %s"
-msgstr "ogiltig syntax för %s: '%s'"
+msgstr ""
 
 #: scripts/makepkg.sh.in:642 scripts/makepkg.sh.in:680
-#: scripts/makepkg.sh.in:811
+#: scripts/makepkg.sh.in:820
 msgid "Generating %s file..."
 msgstr "Skapar %s fil..."
 
-#: scripts/makepkg.sh.in:717
+#: scripts/makepkg.sh.in:726
 msgid "Missing %s directory."
 msgstr "Saknar %s mapp."
 
-#: scripts/makepkg.sh.in:723
+#: scripts/makepkg.sh.in:732
 msgid "Creating package \"%s\"..."
 msgstr "Skapar packet \"%s\"..."
 
-#: scripts/makepkg.sh.in:734
+#: scripts/makepkg.sh.in:743
 msgid "Adding %s file..."
 msgstr "Lägger till %s fil..."
 
-#: scripts/makepkg.sh.in:736
+#: scripts/makepkg.sh.in:745
 msgid "Failed to add %s file to package."
 msgstr "Misslyckades lägga till %s fil till paket."
 
-#: scripts/makepkg.sh.in:754
+#: scripts/makepkg.sh.in:763
 msgid "Generating .MTREE file..."
 msgstr "Genererar .MTREE-fil..."
 
-#: scripts/makepkg.sh.in:760
+#: scripts/makepkg.sh.in:769
 msgid "Compressing package..."
 msgstr "Komprimerar paket..."
 
-#: scripts/makepkg.sh.in:769
+#: scripts/makepkg.sh.in:778
 msgid "Failed to create package file."
 msgstr "Misslyckades att skapa paketfil."
 
-#: scripts/makepkg.sh.in:804
+#: scripts/makepkg.sh.in:813
 msgid "Creating source package..."
 msgstr "Skapar källpaket"
 
-#: scripts/makepkg.sh.in:808 scripts/makepkg.sh.in:821
+#: scripts/makepkg.sh.in:817 scripts/makepkg.sh.in:830
 msgid "Adding %s..."
 msgstr "Lägger till %s..."
 
-#: scripts/makepkg.sh.in:839
+#: scripts/makepkg.sh.in:848
 msgid "Adding %s file (%s)..."
 msgstr "Lägger till fil %s (%s)..."
 
-#: scripts/makepkg.sh.in:849
+#: scripts/makepkg.sh.in:858
 msgid "Compressing source package..."
 msgstr "Komprimerar källpaket..."
 
-#: scripts/makepkg.sh.in:859
+#: scripts/makepkg.sh.in:868
 msgid "Failed to create source package file."
 msgstr "Misslyckades att skapa källkodsfil."
 
-#: scripts/makepkg.sh.in:871
+#: scripts/makepkg.sh.in:880
 msgid "Installing package %s with %s..."
 msgstr "Installerar paket %s med %s..."
 
-#: scripts/makepkg.sh.in:873
+#: scripts/makepkg.sh.in:882
 msgid "Installing %s package group with %s..."
 msgstr "Installerar %s paket grupp med %s..."
 
-#: scripts/makepkg.sh.in:891
+#: scripts/makepkg.sh.in:900
 msgid "Failed to install built package(s)."
 msgstr "Misslyckades att installera byggt/byggda paket."
 
-#: scripts/makepkg.sh.in:910 scripts/libmakepkg/util/source.sh.in:156
+#: scripts/makepkg.sh.in:919 scripts/libmakepkg/util/source.sh.in:156
 msgid "Unknown download protocol: %s"
 msgstr "Okänt nerladdningsprotokoll: %s"
 
-#: scripts/makepkg.sh.in:927
+#: scripts/makepkg.sh.in:936
 msgid "Cannot find the %s binary needed to check VCS source requirements."
 msgstr "Kan inte hitta %s binären som behövs för att kontrollera VCS-källkrav."
 
-#: scripts/makepkg.sh.in:955
+#: scripts/makepkg.sh.in:964
 msgid "Cannot find the %s package needed to handle %s sources."
 msgstr "Kunde inte hitta %s paket som krävs för att hantera %s källor."
 
-#: scripts/makepkg.sh.in:978
+#: scripts/makepkg.sh.in:987
 msgid "Cannot find the %s binary required for dependency operations."
 msgstr "Kan inte hitta %s binären som krävs för beroendehantering."
 
-#: scripts/makepkg.sh.in:986
+#: scripts/makepkg.sh.in:995
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr ""
 "Kan inte hitta %s binär. Kommer använda %s för att få root-rättigheter."
 
-#: scripts/makepkg.sh.in:993
+#: scripts/makepkg.sh.in:1002
 msgid "Cannot find the %s binary."
 msgstr "Kan inte hitta %s binär."
 
-#: scripts/makepkg.sh.in:1001
+#: scripts/makepkg.sh.in:1010
 msgid "Cannot find the %s binary required for signing packages."
 msgstr "Kan inte finna %s binära fil som krävs för att signera paket."
 
-#: scripts/makepkg.sh.in:1009
+#: scripts/makepkg.sh.in:1018
 msgid "Cannot find the %s binary required for verifying source files."
 msgstr "Kan inte finna %s binära fil som krävs för att verifiera källfiler."
 
-#: scripts/makepkg.sh.in:1022
-#, fuzzy
+#: scripts/makepkg.sh.in:1031
 msgid ""
 "Cannot find the %s binary required for source file checksums operations."
 msgstr ""
-"Kunde inte hitta %s binär som krävs för att generera kontrollsumma för "
-"källkodsfil"
 
-#: scripts/makepkg.sh.in:1031
+#: scripts/makepkg.sh.in:1040
 msgid "Cannot find the %s binary required for distributed compilation."
 msgstr "Kan inte finna %s binära fil som krävs för distribuerad kompilering."
 
-#: scripts/makepkg.sh.in:1039
+#: scripts/makepkg.sh.in:1048
 msgid "Cannot find the %s binary required for compiler cache usage."
 msgstr ""
 "Kan inte finna %s binära fil som krävs för kompilator cache användande."
 
-#: scripts/makepkg.sh.in:1047
+#: scripts/makepkg.sh.in:1056
 msgid "Cannot find the %s binary required for object file stripping."
 msgstr "Kan inte finna %s binära fil som krävs för objektfil skalning."
 
-#: scripts/makepkg.sh.in:1055
+#: scripts/makepkg.sh.in:1064
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr ""
 "Kan inte finna %s binära fil som krävs för att komprimera manual och info "
 "sidor."
 
-#: scripts/makepkg.sh.in:1075
+#: scripts/makepkg.sh.in:1084
 msgid "A package has already been built, installing existing package..."
 msgstr "Ett paket har redan blivit byggt, installerar existerande paket..."
 
-#: scripts/makepkg.sh.in:1079
+#: scripts/makepkg.sh.in:1088
 msgid "A package has already been built. (use %s to overwrite)"
 msgstr "Ett packet har redan blivit byggt. (använd %s för att skriva över.)"
 
-#: scripts/makepkg.sh.in:1098
+#: scripts/makepkg.sh.in:1107
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "Paketgruppen har redan blivit byggd, installerar existerande paket..."
 
-#: scripts/makepkg.sh.in:1102
+#: scripts/makepkg.sh.in:1111
 msgid "The package group has already been built. (use %s to overwrite)"
 msgstr "Paketgruppen har redan blivit byggd. (använd %s för att skriva över)"
 
-#: scripts/makepkg.sh.in:1107
+#: scripts/makepkg.sh.in:1116
 msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
 "En del av paketgruppen har redan blivit byggd. (använd %s för att skriva "
 "över)"
 
-#: scripts/makepkg.sh.in:1142
+#: scripts/makepkg.sh.in:1151
 msgid "Make packages compatible for use with pacman"
 msgstr "Gör paket kompatibla för användning med pacman"
 
-#: scripts/makepkg.sh.in:1144 scripts/pacman-db-upgrade.sh.in:43
+#: scripts/makepkg.sh.in:1153 scripts/pacman-db-upgrade.sh.in:43
 msgid "Usage: %s [options]"
 msgstr "Användning: %s [alternativ]"
 
-#: scripts/makepkg.sh.in:1146 scripts/pacman-key.sh.in:82
+#: scripts/makepkg.sh.in:1155 scripts/pacman-key.sh.in:82
 msgid "Options:"
 msgstr "Alternativ: "
 
-#: scripts/makepkg.sh.in:1147
+#: scripts/makepkg.sh.in:1156
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch Ignorera ej fullständiga %s fält i %s"
 
-#: scripts/makepkg.sh.in:1148
+#: scripts/makepkg.sh.in:1157
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Rensa upp arbetsfiler efter skapandet av paket"
 
-#: scripts/makepkg.sh.in:1149
+#: scripts/makepkg.sh.in:1158
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
 msgstr "  -C, --cleanbuild Ta bort %s katalogen före paketet byggs"
 
-#: scripts/makepkg.sh.in:1150
+#: scripts/makepkg.sh.in:1159
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Hoppa över alla beroendekontroller"
 
-#: scripts/makepkg.sh.in:1151
+#: scripts/makepkg.sh.in:1160
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
 "-e, --noextract Extrahera inte källfiler (använd existerande %s katalog)"
 
-#: scripts/makepkg.sh.in:1152
+#: scripts/makepkg.sh.in:1161
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Skriv över existerande paket"
 
-#: scripts/makepkg.sh.in:1153
+#: scripts/makepkg.sh.in:1162
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Generera integritetskontroller för källkodsfiler"
 
-#: scripts/makepkg.sh.in:1154
+#: scripts/makepkg.sh.in:1163
 msgid "  -h, --help       Show this help message and exit"
 msgstr "-h, --help Visa det här hjälpmeddelandet och avsluta"
 
-#: scripts/makepkg.sh.in:1155
+#: scripts/makepkg.sh.in:1164
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    Installera paket efter lyckat bygge."
 
-#: scripts/makepkg.sh.in:1156
+#: scripts/makepkg.sh.in:1165
 msgid "  -L, --log        Log package build process"
 msgstr "  -L, --log        För logga över byggprocessen"
 
-#: scripts/makepkg.sh.in:1157
+#: scripts/makepkg.sh.in:1166
 msgid "  -m, --nocolor    Disable colorized output messages"
 msgstr "  -m, --nocolor    Inaktivera färglagda meddelanden"
 
-#: scripts/makepkg.sh.in:1158
+#: scripts/makepkg.sh.in:1167
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Ladda ner och extrahera enbart filerna"
 
-#: scripts/makepkg.sh.in:1159
+#: scripts/makepkg.sh.in:1168
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr "  -p <file> Använd ett alternativt byggskript (istället för '%s')"
 
-#: scripts/makepkg.sh.in:1160
+#: scripts/makepkg.sh.in:1169
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr "  -r, --rmdeps     Ta bort installerade beroenden efter lyckat bygge"
 
-#: scripts/makepkg.sh.in:1161
+#: scripts/makepkg.sh.in:1170
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Packa om innehållet i paketet utan att bygga om"
 
-#: scripts/makepkg.sh.in:1162
+#: scripts/makepkg.sh.in:1171
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "-s, --syncdeps Installera saknade beroenden med %s"
 
-#: scripts/makepkg.sh.in:1163
+#: scripts/makepkg.sh.in:1172
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
 "-S, --source Generera en tarball med enbart källkod utan nerladdade "
 "källkodsfiler"
 
-#: scripts/makepkg.sh.in:1164
+#: scripts/makepkg.sh.in:1173
 msgid "  -V, --version    Show version information and exit"
 msgstr "-V, --version Visa versionsinformation och avsluta"
 
-#: scripts/makepkg.sh.in:1165
+#: scripts/makepkg.sh.in:1174
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
@@ -376,69 +372,69 @@ msgstr ""
 "      --allsource  Generera en tarball innehållandes enbart nerladdade "
 "källkodsfiler"
 
-#: scripts/makepkg.sh.in:1166
+#: scripts/makepkg.sh.in:1175
 msgid "  --check          Run the %s function in the %s"
 msgstr "--check Kör %s funktionen i %s"
 
-#: scripts/makepkg.sh.in:1167
+#: scripts/makepkg.sh.in:1176
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
 "  --config <file> Använd en alternativ konfigurationsfil (istället för '%s')"
 
-#: scripts/makepkg.sh.in:1168
+#: scripts/makepkg.sh.in:1177
 msgid "  --holdver        Do not update VCS sources"
 msgstr "--holdver Uppdatera inte VCS-källor"
 
-#: scripts/makepkg.sh.in:1169
+#: scripts/makepkg.sh.in:1178
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
 "--key <key> Ange en nyckel att användas för %s signering istället för den "
 "som är standard"
 
-#: scripts/makepkg.sh.in:1170
+#: scripts/makepkg.sh.in:1179
 msgid "  --noarchive      Do not create package archive"
 msgstr "--noarchive Skapa ej paketarkiv"
 
-#: scripts/makepkg.sh.in:1171
+#: scripts/makepkg.sh.in:1180
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "--nocheck Kör inte %s funktionen i %s"
 
-#: scripts/makepkg.sh.in:1172
+#: scripts/makepkg.sh.in:1181
 msgid "  --noprepare      Do not run the %s function in the %s"
 msgstr "--noprepare Kör inte %s funktionen i %s"
 
-#: scripts/makepkg.sh.in:1173
+#: scripts/makepkg.sh.in:1182
 msgid "  --nosign         Do not create a signature for the package"
 msgstr "--nosign Skapa inte en signatur för paketet"
 
-#: scripts/makepkg.sh.in:1174
+#: scripts/makepkg.sh.in:1183
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1175
+#: scripts/makepkg.sh.in:1184
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1176
+#: scripts/makepkg.sh.in:1185
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "--sign Signera det resulterande paketet med %s"
 
-#: scripts/makepkg.sh.in:1177
+#: scripts/makepkg.sh.in:1186
 msgid "  --skipchecksums  Do not verify checksums of the source files"
 msgstr "--skipchecksums Verifiera inte checksumma för källkodsfiler"
 
-#: scripts/makepkg.sh.in:1178
+#: scripts/makepkg.sh.in:1187
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
 msgstr "--skipinteg Gör inte någon verifieringskontroll på källkodsfiler"
 
-#: scripts/makepkg.sh.in:1179
+#: scripts/makepkg.sh.in:1188
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "--skippgpcheck Verifiera inte källkodsfilerna med PGP-signaturer"
 
-#: scripts/makepkg.sh.in:1180
+#: scripts/makepkg.sh.in:1189
 msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
@@ -446,57 +442,53 @@ msgstr ""
 "--verifysource Ladda ner källkodsfiler (om det behövs) och göra "
 "integritetskontroller"
 
-#: scripts/makepkg.sh.in:1182
+#: scripts/makepkg.sh.in:1191
 msgid "These options can be passed to %s:"
 msgstr "Dessa alternativ kan passas vidare till %s:"
 
-#: scripts/makepkg.sh.in:1184
+#: scripts/makepkg.sh.in:1193
 msgid "  --asdeps         Install packages as non-explicitly installed"
 msgstr "--asdeps Installera paket som icke-utryckligt installerade"
 
-#: scripts/makepkg.sh.in:1185
+#: scripts/makepkg.sh.in:1194
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
 msgstr "--needed Ominstallera inte mål som redan är fullt uppdaterade"
 
-#: scripts/makepkg.sh.in:1186
+#: scripts/makepkg.sh.in:1195
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr ""
 "      --noconfirm      Fråga inte efter bekräftelse vid bestämmande av "
 "beroenden"
 
-#: scripts/makepkg.sh.in:1187
+#: scripts/makepkg.sh.in:1196
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr ""
 "      --noprogressbar  Visa inte en förloppsindikator vid nerladdning av "
 "filer"
 
-#: scripts/makepkg.sh.in:1189
+#: scripts/makepkg.sh.in:1198
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Om %s inte är angiven, %s kommer söka efter '%s'"
 
-#: scripts/makepkg.sh.in:1195
-#, fuzzy
+#: scripts/makepkg.sh.in:1204
 msgid ""
 "Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nDetta är fri "
-"mjukvara; kolla källkoden för under vilka förhållanden kopiering kan göras."
-"\\nDet finns INGEN GARANTI, i den utsträckning som lagen tillåter.\\n"
 
-#: scripts/makepkg.sh.in:1298 scripts/repo-add.sh.in:743
+#: scripts/makepkg.sh.in:1307 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
 msgstr "%s signal fångad. Avslutar..."
 
-#: scripts/makepkg.sh.in:1313
+#: scripts/makepkg.sh.in:1322
 msgid "%s not found."
 msgstr "% hittades inte."
 
-#: scripts/makepkg.sh.in:1395
+#: scripts/makepkg.sh.in:1404
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
@@ -504,86 +496,84 @@ msgstr ""
 "Att köra %s som root är inte tillåtet eftersom det kan skapa permanent,"
 "\\nkatastrofal skada på ditt system."
 
-#: scripts/makepkg.sh.in:1401
-#, fuzzy
+#: scripts/makepkg.sh.in:1410
 msgid "Do not use the %s option. This option is only for internal use by %s."
 msgstr ""
-"Använd inte %s alternativet. Detta alternativ är endast för användning av %s."
 
-#: scripts/makepkg.sh.in:1416
+#: scripts/makepkg.sh.in:1425
 msgid "%s does not exist."
 msgstr "%s existerar inte."
 
-#: scripts/makepkg.sh.in:1421
+#: scripts/makepkg.sh.in:1430
 msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s innehåller %s tecken och kan därför inte källkodas."
 
-#: scripts/makepkg.sh.in:1426
+#: scripts/makepkg.sh.in:1435
 msgid "%s must be in the current working directory."
 msgstr "%s måste vara i den aktuella arbetskatalogen."
 
-#: scripts/makepkg.sh.in:1506
+#: scripts/makepkg.sh.in:1515
 msgid "The key %s does not exist in your keyring."
 msgstr "Nyckeln %s finns inte i din nyckelring."
 
-#: scripts/makepkg.sh.in:1508 scripts/repo-add.sh.in:225
+#: scripts/makepkg.sh.in:1517 scripts/repo-add.sh.in:225
 msgid "There is no key in your keyring."
 msgstr "Det finns ingen nyckel i din nyckelring."
 
-#: scripts/makepkg.sh.in:1532 scripts/makepkg.sh.in:1553
+#: scripts/makepkg.sh.in:1541 scripts/makepkg.sh.in:1562
 msgid "Leaving %s environment."
 msgstr "Lämnar %s miljö."
 
-#: scripts/makepkg.sh.in:1557
+#: scripts/makepkg.sh.in:1566
 msgid "Making package: %s"
 msgstr "Skapar paket: %s"
 
-#: scripts/makepkg.sh.in:1563
+#: scripts/makepkg.sh.in:1572
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr ""
 "Ett källkodspaket har redan blivit byggt, (använd %s för att skriva över)"
 
-#: scripts/makepkg.sh.in:1583
+#: scripts/makepkg.sh.in:1592
 msgid "Signing package..."
 msgstr "Signerar paket..."
 
-#: scripts/makepkg.sh.in:1587
+#: scripts/makepkg.sh.in:1596
 msgid "Source package created: %s"
 msgstr "Källkodspaket skapat: %s"
 
-#: scripts/makepkg.sh.in:1593
+#: scripts/makepkg.sh.in:1602
 msgid "Skipping dependency checks."
 msgstr "Hoppar över kontroll av beroenden."
 
-#: scripts/makepkg.sh.in:1601
+#: scripts/makepkg.sh.in:1610
 msgid "Checking runtime dependencies..."
 msgstr "Kontrollerar körberoenden..."
 
-#: scripts/makepkg.sh.in:1608
+#: scripts/makepkg.sh.in:1617
 msgid "Checking buildtime dependencies..."
 msgstr "Kontrollerar byggberoenden..."
 
-#: scripts/makepkg.sh.in:1620
+#: scripts/makepkg.sh.in:1629
 msgid "Could not resolve all dependencies."
 msgstr "Kan inte lösa alla beroenden."
 
-#: scripts/makepkg.sh.in:1632
+#: scripts/makepkg.sh.in:1641
 msgid "Using existing %s tree"
 msgstr "Använder existerande %s träd"
 
-#: scripts/makepkg.sh.in:1639 scripts/makepkg.sh.in:1667
+#: scripts/makepkg.sh.in:1648 scripts/makepkg.sh.in:1676
 msgid "Removing existing %s directory..."
 msgstr "Tar bort existerande %s katalog...."
 
-#: scripts/makepkg.sh.in:1662
+#: scripts/makepkg.sh.in:1671
 msgid "Sources are ready."
 msgstr "Källor är redo."
 
-#: scripts/makepkg.sh.in:1689
+#: scripts/makepkg.sh.in:1698
 msgid "Package directory is ready."
 msgstr "Paketkatalogen är redo."
 
-#: scripts/makepkg.sh.in:1693
+#: scripts/makepkg.sh.in:1702
 msgid "Finished making: %s"
 msgstr "Kompilering klar: %s"
 
@@ -670,15 +660,11 @@ msgid "  --version             Version information\n"
 msgstr "--version Versionsinformation\n"
 
 #: scripts/makepkg-template.pl.in:194
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nDetta är fri "
-"mjukvara; kolla källkoden för under vilka förhållanden kopiering kan göras."
-"\\nDet finns INGEN GARANTI, i den utsträckning som lagen tillåter.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:41
 msgid "Upgrade the local pacman database to a newer format"
@@ -713,15 +699,11 @@ msgid "  --nocolor            disable colorized output messages"
 msgstr "--nocolor inaktivera färglagd utdata"
 
 #: scripts/pacman-db-upgrade.sh.in:57 scripts/pacman-key.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nDetta är fri "
-"mjukvara; kolla källkoden för under vilka förhållanden kopiering kan göras."
-"\\nDet finns INGEN GARANTI, i den utsträckning som lagen tillåter.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:118 scripts/repo-add.sh.in:514
 msgid "%s does not exist or is not a directory."
@@ -1203,15 +1185,11 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Exempel:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:96
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nDetta är fri "
-"mjukvara; kolla källkoden för under vilka förhållanden kopiering kan göras."
-"\\nDet finns INGEN GARANTI, i den utsträckning som lagen tillåter.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1361,11 +1339,11 @@ msgstr "Ogiltigt kommandonamn '%s' angett."
 msgid "Cannot create temp directory for database building."
 msgstr "Kan inte skapa temporär katalog för att bygga databasen."
 
-#: scripts/repo-add.sh.in:823
+#: scripts/repo-add.sh.in:824
 msgid "Creating updated database file '%s'"
 msgstr "Skapar uppdaterad databasfil '%s'"
 
-#: scripts/repo-add.sh.in:827
+#: scripts/repo-add.sh.in:828
 msgid "No packages modified, nothing to do."
 msgstr "Inga paket modifierade, ingenting att göra."
 
@@ -1398,9 +1376,8 @@ msgid "Failed to sign package file."
 msgstr "Misslyckades med att signera paketfil."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:56
-#, fuzzy
 msgid "Signing package(s)..."
-msgstr "Signerar paket..."
+msgstr ""
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:64
 msgid "Integrity checks are missing for: %s"
@@ -1520,23 +1497,20 @@ msgid "%s should not be an array"
 msgstr ""
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issues..."
-msgstr "Söker efter paketet '%s'..."
+msgstr ""
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
 msgid "Package contains reference to %s"
 msgstr "Paketet innehåller referens till %s"
 
 #: scripts/libmakepkg/lint_package/dotfiles.sh.in:34
-#, fuzzy
 msgid "Dotfile found in package root '%s'"
-msgstr "%s inträdesfil ej i packet: %s"
+msgstr ""
 
 #: scripts/libmakepkg/lint_package/file_names.sh.in:36
-#, fuzzy
 msgid "Package contains paths with newlines"
-msgstr "Paketet innehåller referens till %s"
+msgstr ""
 
 #: scripts/libmakepkg/lint_package/missing_backup.sh.in:35
 msgid "%s entry file not in package : %s"
@@ -1591,13 +1565,11 @@ msgid "%s must be a decimal, not %s."
 msgstr "%s måste vara en decimal, inte %s."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:41
-#, fuzzy
 msgid ""
 "%s is not allowed to contain colons, forward slashes, hyphens or whitespace."
 msgstr ""
-"%s är inte tillåten att innehålla kolon, bindestreck eller blanktecken."
 
-#: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:42
+#: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:46
 msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "%s fält kan inte innehålla jämförelse (< eller >) operatörer."
 
@@ -1780,116 +1752,14 @@ msgstr "alternativ '%s' behöver ett argument"
 msgid "The download program %s is not installed."
 msgstr "Nerladdningsprogramet %s är inte installerat."
 
-#: scripts/libmakepkg/util/util.sh.in:81
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:76
 msgid "Failed to change to directory %s"
-msgstr "Misslyckades att extrahera %s"
+msgstr "Misslyckades att ändra till katalog %s"
 
-#: scripts/libmakepkg/util/util.sh.in:95
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:90
 msgid "You do not have write permission for the directory $%s (%s)."
-msgstr "Du har inte tillräckliga skrivrättigheter för att spara loggar i %s."
+msgstr ""
 
-#: scripts/libmakepkg/util/util.sh.in:97
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:92
 msgid "Failed to create the directory $%s (%s)."
-msgstr "Misslyckades uppdatera %s från %s till %s"
-
-#~ msgid "Failed to create symlink to package file."
-#~ msgstr "Misslyckades att symbolisk länk till paketfil."
-
-#~ msgid "Failed to create symlink to source package file."
-#~ msgstr "Misslyckades med att skapa symbolisk länk till källpaket."
-
-#~ msgid "Cannot find the %s binary required for compressing binaries."
-#~ msgstr ""
-#~ "Kan inte finna %s binära fil som krävs för att komprimera binära filer."
-
-#~ msgid "You do not have write permission to create packages in %s."
-#~ msgstr "Du saknar skrivrättigheter för att skapa ett paket i %s."
-
-#~ msgid "You do not have write permission to store packages in %s."
-#~ msgstr "Du har inte skrivrättigheter för att spara paket i %s."
-
-#~ msgid "You do not have write permission to store downloads in %s."
-#~ msgstr "Du har inte skrivrättigheter för att spara nerladdningar i %s."
-
-#~ msgid "You do not have write permission to store source tarballs in %s."
-#~ msgstr "Du har inte skrivrättigheter för att spara källkods-tarballs i %s."
-
-#~ msgid "Usage: %s [--nocolor] [pacman_db_root]"
-#~ msgstr "Använding: %s [--nocolor] [pacman_db_root]"
-
-#~ msgid ""
-#~ "pacman-optimize is a little hack that should improve the performance\\nof "
-#~ "pacman when reading/writing to its filesystem-based database.\\n\\n"
-#~ msgstr ""
-#~ "pacman-optimize är ett litet hack som skall förbättra prestandan"
-#~ "\\navpacman vid läsning/skrivning till dess filsystems-baserade databas."
-#~ "\\n\\n"
-
-#~ msgid ""
-#~ "Because pacman uses many small files to keep track of packages,\\nthere "
-#~ "is a tendency for these files to become fragmented over time.\\nThis "
-#~ "script attempts to relocate these small files into one\\ncontinuous "
-#~ "location on your hard drive. The result is that the hard\\ndrive should "
-#~ "be able to read them faster, since the hard drive head\\ndoes not have to "
-#~ "move around the disk as much.\\n"
-#~ msgstr ""
-#~ "På grund av att pacman använder flera mindre filer för att hålla koll på "
-#~ "paketen,\\nså finns det en tendens att dessa filer blir fragmenterade "
-#~ "över tiden.\\nDetta skript försöker att omlokalisera dessa små filer till "
-#~ "en\\nkontinuerlig plats på hårddsiken. Resultatet är att hårddisken"
-#~ "\\nborde kunna läsa dom snabbare, eftersom hårdiskens huvud\\ninte "
-#~ "behöver flytta runt sig på disken så mycket.\\n"
-
-#~ msgid "Cannot find the %s binary required for verifying integrity."
-#~ msgstr "Kan inte finna %s binär som krävs för integritetsverifiering."
-
-#~ msgid "You must have correct permissions to optimize the database."
-#~ msgstr "Du måste ha korrekta rättigheter för att optimera databasen."
-
-#~ msgid "Cannot create temporary directory for database building."
-#~ msgstr "Kan inte skapa temporär katalog för att bygga databasen."
-
-#~ msgid "MD5sum'ing the old database..."
-#~ msgstr "MD5summerar den gamla databasen..."
-
-#~ msgid "Tar'ing up %s..."
-#~ msgstr "Packar up %s..."
-
-#~ msgid "Tar'ing up %s failed."
-#~ msgstr "Uppackning av %s misslyckades"
-
-#~ msgid "Making and MD5sum'ing the new database..."
-#~ msgstr "Skapar en MD5summa av den nya databasen..."
-
-#~ msgid "Untar'ing %s failed."
-#~ msgstr "Uppackning av %s misslyckades."
-
-#~ msgid "Syncing database to disk..."
-#~ msgstr "Synkroniserar databas till disk..."
-
-#~ msgid "Checking integrity..."
-#~ msgstr "Kontrollerar integritet..."
-
-#~ msgid "Integrity check FAILED, reverting to old database."
-#~ msgstr "Integritetskontroll MISSLYCKADES, återgår till den gamla databasen."
-
-#~ msgid "Rotating database into place..."
-#~ msgstr "Roterar databasen på plats..."
-
-#~ msgid ""
-#~ "New database substitution failed. Check for %s, %s, and %s directories."
-#~ msgstr ""
-#~ "Bytet till ny databas misslyckades. Kontrollera efter %s, %s och %s "
-#~ "kataloger."
-
-#~ msgid "Finished. Your pacman database has been optimized."
-#~ msgstr "Klar. Pacmans databas har blivit optimerad."
-
-#~ msgid "Compressing binaries with %s..."
-#~ msgstr "Komprimerar binära filer med %s..."
-
-#~ msgid "Could not compress binary : %s"
-#~ msgstr "Kunde inte komprimera binära filer: %s"
+msgstr ""

@@ -5,13 +5,13 @@
 # Translators:
 # kusakata, 2015
 # kusakata, 2015
-# kusakata, 2015-2017
+# kusakata, 2015-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2017-09-19 14:55+0000\n"
+"POT-Creation-Date: 2018-05-15 10:38+1000\n"
+"PO-Revision-Date: 2018-04-29 15:08+0000\n"
 "Last-Translator: kusakata\n"
 "Language-Team: Japanese (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ja/)\n"
@@ -50,10 +50,10 @@ msgid "Unable to find source file %s."
 msgstr "ソースファイル %s を見つけられません。"
 
 #: scripts/makepkg.sh.in:217 scripts/makepkg.sh.in:348
-#: scripts/makepkg.sh.in:718 scripts/makepkg.sh.in:911
-#: scripts/makepkg.sh.in:1314 scripts/makepkg.sh.in:1362
-#: scripts/makepkg.sh.in:1368 scripts/makepkg.sh.in:1373
-#: scripts/makepkg.sh.in:1379 scripts/makepkg.sh.in:1389
+#: scripts/makepkg.sh.in:727 scripts/makepkg.sh.in:920
+#: scripts/makepkg.sh.in:1323 scripts/makepkg.sh.in:1371
+#: scripts/makepkg.sh.in:1377 scripts/makepkg.sh.in:1382
+#: scripts/makepkg.sh.in:1388 scripts/makepkg.sh.in:1398
 #: scripts/libmakepkg/source/bzr.sh.in:50
 #: scripts/libmakepkg/source/bzr.sh.in:81
 #: scripts/libmakepkg/source/bzr.sh.in:96
@@ -73,7 +73,7 @@ msgstr "ソースファイル %s を見つけられません。"
 #: scripts/libmakepkg/source/svn.sh.in:68
 #: scripts/libmakepkg/util/source.sh.in:157
 #: scripts/libmakepkg/util/source.sh.in:166
-#: scripts/libmakepkg/util/util.sh.in:82
+#: scripts/libmakepkg/util/util.sh.in:77
 msgid "Aborting..."
 msgstr "中止..."
 
@@ -127,249 +127,247 @@ msgid "Cannot find library listed in %s: %s"
 msgstr "%s にリストされているライブラリが見つかりません: %s"
 
 #: scripts/makepkg.sh.in:629
-#, fuzzy
 msgid "Invalid value for %s: %s"
-msgstr "%s の無効な構文: '%s'"
+msgstr "%s の無効な値: %s"
 
 #: scripts/makepkg.sh.in:642 scripts/makepkg.sh.in:680
-#: scripts/makepkg.sh.in:811
+#: scripts/makepkg.sh.in:820
 msgid "Generating %s file..."
 msgstr "%s ファイルを生成..."
 
-#: scripts/makepkg.sh.in:717
+#: scripts/makepkg.sh.in:726
 msgid "Missing %s directory."
 msgstr "%s ディレクトリが見つかりません。"
 
-#: scripts/makepkg.sh.in:723
+#: scripts/makepkg.sh.in:732
 msgid "Creating package \"%s\"..."
 msgstr "パッケージを作成 \"%s\"..."
 
-#: scripts/makepkg.sh.in:734
+#: scripts/makepkg.sh.in:743
 msgid "Adding %s file..."
 msgstr "%s ファイルを追加..."
 
-#: scripts/makepkg.sh.in:736
+#: scripts/makepkg.sh.in:745
 msgid "Failed to add %s file to package."
 msgstr "パッケージに %s ファイルを追加できませんでした。"
 
-#: scripts/makepkg.sh.in:754
+#: scripts/makepkg.sh.in:763
 msgid "Generating .MTREE file..."
 msgstr ".MTREE ファイルを生成..."
 
-#: scripts/makepkg.sh.in:760
+#: scripts/makepkg.sh.in:769
 msgid "Compressing package..."
 msgstr "パッケージの圧縮..."
 
-#: scripts/makepkg.sh.in:769
+#: scripts/makepkg.sh.in:778
 msgid "Failed to create package file."
 msgstr "パッケージファイルの作成に失敗しました。"
 
-#: scripts/makepkg.sh.in:804
+#: scripts/makepkg.sh.in:813
 msgid "Creating source package..."
 msgstr "ソースパッケージの作成..."
 
-#: scripts/makepkg.sh.in:808 scripts/makepkg.sh.in:821
+#: scripts/makepkg.sh.in:817 scripts/makepkg.sh.in:830
 msgid "Adding %s..."
 msgstr "%s を追加..."
 
-#: scripts/makepkg.sh.in:839
+#: scripts/makepkg.sh.in:848
 msgid "Adding %s file (%s)..."
 msgstr "%s ファイルを追加 (%s)..."
 
-#: scripts/makepkg.sh.in:849
+#: scripts/makepkg.sh.in:858
 msgid "Compressing source package..."
 msgstr "ソースパッケージを圧縮..."
 
-#: scripts/makepkg.sh.in:859
+#: scripts/makepkg.sh.in:868
 msgid "Failed to create source package file."
 msgstr "ソースパッケージファイルの作成に失敗しました。"
 
-#: scripts/makepkg.sh.in:871
+#: scripts/makepkg.sh.in:880
 msgid "Installing package %s with %s..."
 msgstr "パッケージ %s を %s でインストール..."
 
-#: scripts/makepkg.sh.in:873
+#: scripts/makepkg.sh.in:882
 msgid "Installing %s package group with %s..."
 msgstr "%s パッケージグループを %s でインストール..."
 
-#: scripts/makepkg.sh.in:891
+#: scripts/makepkg.sh.in:900
 msgid "Failed to install built package(s)."
 msgstr "ビルドしたパッケージのインストールがされませんでした。"
 
-#: scripts/makepkg.sh.in:910 scripts/libmakepkg/util/source.sh.in:156
+#: scripts/makepkg.sh.in:919 scripts/libmakepkg/util/source.sh.in:156
 msgid "Unknown download protocol: %s"
 msgstr "不明なダウンロードプロトコル: %s"
 
-#: scripts/makepkg.sh.in:927
+#: scripts/makepkg.sh.in:936
 msgid "Cannot find the %s binary needed to check VCS source requirements."
 msgstr ""
 "VCS ソースの必要条件をチェックするのに必要な %s バイナリが見つかりません。"
 
-#: scripts/makepkg.sh.in:955
+#: scripts/makepkg.sh.in:964
 msgid "Cannot find the %s package needed to handle %s sources."
 msgstr "%s ソースを扱うのに必要な %s パッケージが見つかりません。"
 
-#: scripts/makepkg.sh.in:978
+#: scripts/makepkg.sh.in:987
 msgid "Cannot find the %s binary required for dependency operations."
 msgstr "依存関係を解決するのに必要な %s バイナリが見つかりません。"
 
-#: scripts/makepkg.sh.in:986
+#: scripts/makepkg.sh.in:995
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr "%s バイナリが見つかりません。%s を使って root 特権を獲得します。"
 
-#: scripts/makepkg.sh.in:993
+#: scripts/makepkg.sh.in:1002
 msgid "Cannot find the %s binary."
 msgstr "%s バイナリが見つかりません。"
 
-#: scripts/makepkg.sh.in:1001
+#: scripts/makepkg.sh.in:1010
 msgid "Cannot find the %s binary required for signing packages."
 msgstr "パッケージに署名するのに必要な %s バイナリが見つかりません。"
 
-#: scripts/makepkg.sh.in:1009
+#: scripts/makepkg.sh.in:1018
 msgid "Cannot find the %s binary required for verifying source files."
 msgstr "ソースファイルを検証するのに必要な %s バイナリが見つかりません。"
 
-#: scripts/makepkg.sh.in:1022
-#, fuzzy
+#: scripts/makepkg.sh.in:1031
 msgid ""
 "Cannot find the %s binary required for source file checksums operations."
 msgstr ""
 "ソースファイルのチェックサムを検証するのに必要な %s バイナリが見つかりませ"
 "ん。"
 
-#: scripts/makepkg.sh.in:1031
+#: scripts/makepkg.sh.in:1040
 msgid "Cannot find the %s binary required for distributed compilation."
 msgstr "分散コンパイルに必要な %s バイナリが見つかりません。"
 
-#: scripts/makepkg.sh.in:1039
+#: scripts/makepkg.sh.in:1048
 msgid "Cannot find the %s binary required for compiler cache usage."
 msgstr "コンパイラキャッシュを使うのに必要な %s バイナリが見つかりません。"
 
-#: scripts/makepkg.sh.in:1047
+#: scripts/makepkg.sh.in:1056
 msgid "Cannot find the %s binary required for object file stripping."
 msgstr ""
 "オブジェクトファイルをストリップするために必要な %s バイナリが見つかりませ"
 "ん。"
 
-#: scripts/makepkg.sh.in:1055
+#: scripts/makepkg.sh.in:1064
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr "man と info ページを圧縮するのに必要な %s バイナリが見つかりません。"
 
-#: scripts/makepkg.sh.in:1075
+#: scripts/makepkg.sh.in:1084
 msgid "A package has already been built, installing existing package..."
 msgstr ""
 "パッケージはすでにビルドされています。既存のパッケージをインストール..."
 
-#: scripts/makepkg.sh.in:1079
+#: scripts/makepkg.sh.in:1088
 msgid "A package has already been built. (use %s to overwrite)"
 msgstr "パッケージはすでにビルドされています。(%s で上書きします)"
 
-#: scripts/makepkg.sh.in:1098
+#: scripts/makepkg.sh.in:1107
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr ""
 "パッケージグループはすでにビルドされています。既存のパッケージをインストー"
 "ル..."
 
-#: scripts/makepkg.sh.in:1102
+#: scripts/makepkg.sh.in:1111
 msgid "The package group has already been built. (use %s to overwrite)"
 msgstr "パッケージグループはすでにビルドされています。(%s で上書きします)"
 
-#: scripts/makepkg.sh.in:1107
+#: scripts/makepkg.sh.in:1116
 msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
 "パッケージグループの一部がすでにビルドされています。(%s で上書きします)"
 
-#: scripts/makepkg.sh.in:1142
+#: scripts/makepkg.sh.in:1151
 msgid "Make packages compatible for use with pacman"
 msgstr "pacman で使用するための互換性のあるパッケージを作成"
 
-#: scripts/makepkg.sh.in:1144 scripts/pacman-db-upgrade.sh.in:43
+#: scripts/makepkg.sh.in:1153 scripts/pacman-db-upgrade.sh.in:43
 msgid "Usage: %s [options]"
 msgstr "使用方法: %s [オプション]"
 
-#: scripts/makepkg.sh.in:1146 scripts/pacman-key.sh.in:82
+#: scripts/makepkg.sh.in:1155 scripts/pacman-key.sh.in:82
 msgid "Options:"
 msgstr "オプション:"
 
-#: scripts/makepkg.sh.in:1147
+#: scripts/makepkg.sh.in:1156
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch 不完全な %s が %s にあっても無視する"
 
-#: scripts/makepkg.sh.in:1148
+#: scripts/makepkg.sh.in:1157
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      ビルドの後に作業ファイルを削除する"
 
-#: scripts/makepkg.sh.in:1149
+#: scripts/makepkg.sh.in:1158
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
 msgstr "  -C, --cleanbuild パッケージをビルドする前に %s ディレクトリを削除"
 
-#: scripts/makepkg.sh.in:1150
+#: scripts/makepkg.sh.in:1159
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     全ての依存関係チェックをスキップ"
 
-#: scripts/makepkg.sh.in:1151
+#: scripts/makepkg.sh.in:1160
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr "  -e, --noextract  ソースファイルを展開しない (%s ディレクトリを使う)"
 
-#: scripts/makepkg.sh.in:1152
+#: scripts/makepkg.sh.in:1161
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      既存のパッケージに上書きする"
 
-#: scripts/makepkg.sh.in:1153
+#: scripts/makepkg.sh.in:1162
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   ソースファイルの整合性チェックを生成"
 
-#: scripts/makepkg.sh.in:1154
+#: scripts/makepkg.sh.in:1163
 msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       このヘルプメッセージを表示"
 
-#: scripts/makepkg.sh.in:1155
+#: scripts/makepkg.sh.in:1164
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    ビルドが成功した後にパッケージをインストール"
 
-#: scripts/makepkg.sh.in:1156
+#: scripts/makepkg.sh.in:1165
 msgid "  -L, --log        Log package build process"
 msgstr "  -L, --log        パッケージのビルドプロセスのログをとる"
 
-#: scripts/makepkg.sh.in:1157
+#: scripts/makepkg.sh.in:1166
 msgid "  -m, --nocolor    Disable colorized output messages"
 msgstr "  -m, --nocolor    メッセージの出力をカラーにしない"
 
-#: scripts/makepkg.sh.in:1158
+#: scripts/makepkg.sh.in:1167
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    ファイルのダウンロードと展開だけ行う"
 
-#: scripts/makepkg.sh.in:1159
+#: scripts/makepkg.sh.in:1168
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr "  -p <file>        指定したビルドスクリプトを使う (デフォルトは '%s')"
 
-#: scripts/makepkg.sh.in:1160
+#: scripts/makepkg.sh.in:1169
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
 "  -r, --rmdeps     ビルドが成功した後にインストールされた依存パッケージを削除"
 
-#: scripts/makepkg.sh.in:1161
+#: scripts/makepkg.sh.in:1170
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  リビルドをせずにパッケージの中身を再パッケージ"
 
-#: scripts/makepkg.sh.in:1162
+#: scripts/makepkg.sh.in:1171
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   欠けている依存パッケージを %s でインストール"
 
-#: scripts/makepkg.sh.in:1163
+#: scripts/makepkg.sh.in:1172
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
 "  -S, --source     ダウンロードされたソースが含まれないソースだけの tarball "
 "を生成"
 
-#: scripts/makepkg.sh.in:1164
+#: scripts/makepkg.sh.in:1173
 msgid "  -V, --version    Show version information and exit"
 msgstr "  -V, --version    バージョン情報を表示して終了する"
 
-#: scripts/makepkg.sh.in:1165
+#: scripts/makepkg.sh.in:1174
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
@@ -377,69 +375,69 @@ msgstr ""
 "  --allsource      ダウンロードされたソースが含まれるソースだけの tarball を"
 "生成"
 
-#: scripts/makepkg.sh.in:1166
+#: scripts/makepkg.sh.in:1175
 msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          %s 関数を %s で実行"
 
-#: scripts/makepkg.sh.in:1167
+#: scripts/makepkg.sh.in:1176
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr "  --config <file>  指定した設定ファイルを使う (デフォルトは '%s')"
 
-#: scripts/makepkg.sh.in:1168
+#: scripts/makepkg.sh.in:1177
 msgid "  --holdver        Do not update VCS sources"
 msgstr "  --holdver        VCS ソースを更新しない"
 
-#: scripts/makepkg.sh.in:1169
+#: scripts/makepkg.sh.in:1178
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
 "  --key <key>      デフォルトのキーのかわりに指定したキーを使って %s 署名を行"
 "う"
 
-#: scripts/makepkg.sh.in:1170
+#: scripts/makepkg.sh.in:1179
 msgid "  --noarchive      Do not create package archive"
 msgstr "  --noarchive      パッケージアーカイブを作成しない"
 
-#: scripts/makepkg.sh.in:1171
+#: scripts/makepkg.sh.in:1180
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        %s 関数を %s で実行しない"
 
-#: scripts/makepkg.sh.in:1172
+#: scripts/makepkg.sh.in:1181
 msgid "  --noprepare      Do not run the %s function in the %s"
 msgstr "  --noprepare      %s 関数を %s で実行しない"
 
-#: scripts/makepkg.sh.in:1173
+#: scripts/makepkg.sh.in:1182
 msgid "  --nosign         Do not create a signature for the package"
 msgstr "  --nosign         パッケージに署名を作成しない"
 
-#: scripts/makepkg.sh.in:1174
+#: scripts/makepkg.sh.in:1183
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 
-#: scripts/makepkg.sh.in:1175
+#: scripts/makepkg.sh.in:1184
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
 msgstr "  --printsrcinfo   生成された SRCINFO を出力して終了"
 
-#: scripts/makepkg.sh.in:1176
+#: scripts/makepkg.sh.in:1185
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "  --sign           作られたパッケージに %s で署名する"
 
-#: scripts/makepkg.sh.in:1177
+#: scripts/makepkg.sh.in:1186
 msgid "  --skipchecksums  Do not verify checksums of the source files"
 msgstr "  --skipchecksums  ソースファイルのチェックサムを検証しない"
 
-#: scripts/makepkg.sh.in:1178
+#: scripts/makepkg.sh.in:1187
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
 msgstr "  --skipinteg      ソースファイルの検証チェックを行わない"
 
-#: scripts/makepkg.sh.in:1179
+#: scripts/makepkg.sh.in:1188
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "  --skippgpcheck   ソースファイルの PGP 鍵を検証しない"
 
-#: scripts/makepkg.sh.in:1180
+#: scripts/makepkg.sh.in:1189
 msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
@@ -447,57 +445,56 @@ msgstr ""
 "  --verifysource   (必要な) ソースファイルをダウンロードして整合性チェックを"
 "行う"
 
-#: scripts/makepkg.sh.in:1182
+#: scripts/makepkg.sh.in:1191
 msgid "These options can be passed to %s:"
 msgstr "以下のオプションを %s に渡すことができます:"
 
-#: scripts/makepkg.sh.in:1184
+#: scripts/makepkg.sh.in:1193
 msgid "  --asdeps         Install packages as non-explicitly installed"
 msgstr ""
 "  --asdeps         依存関係としてインストールされたとしてパッケージをインス"
 "トール"
 
-#: scripts/makepkg.sh.in:1185
+#: scripts/makepkg.sh.in:1194
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
 msgstr "  --needed         対象が最新の場合は再インストールしない"
 
-#: scripts/makepkg.sh.in:1186
+#: scripts/makepkg.sh.in:1195
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr "  --noconfirm      依存関係を解決するときに確認をしない"
 
-#: scripts/makepkg.sh.in:1187
+#: scripts/makepkg.sh.in:1196
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr ""
 "  --noprogressbar  ファイルのダウンロード中にプログレスバーを表示しない"
 
-#: scripts/makepkg.sh.in:1189
+#: scripts/makepkg.sh.in:1198
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "%s が指定されていない場合、%s は '%s' を探します"
 
-#: scripts/makepkg.sh.in:1195
-#, fuzzy
+#: scripts/makepkg.sh.in:1204
 msgid ""
 "Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 
-#: scripts/makepkg.sh.in:1298 scripts/repo-add.sh.in:743
+#: scripts/makepkg.sh.in:1307 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
 msgstr "%s シグナルを受け取りました。終了..."
 
-#: scripts/makepkg.sh.in:1313
+#: scripts/makepkg.sh.in:1322
 msgid "%s not found."
 msgstr "%s が見つかりませんでした。"
 
-#: scripts/makepkg.sh.in:1395
+#: scripts/makepkg.sh.in:1404
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
@@ -505,85 +502,85 @@ msgstr ""
 "%s を root で実行することはできません。\\nシステムに致命的なダメージを与える"
 "可能性があります。"
 
-#: scripts/makepkg.sh.in:1401
-#, fuzzy
+#: scripts/makepkg.sh.in:1410
 msgid "Do not use the %s option. This option is only for internal use by %s."
 msgstr ""
-"%s オプションを使わないでください。このオプションは %s で使うためのものです。"
+"%s オプションを使わないでください。このオプションは %s で内部的に使うためのも"
+"のです。"
 
-#: scripts/makepkg.sh.in:1416
+#: scripts/makepkg.sh.in:1425
 msgid "%s does not exist."
 msgstr "%s が存在しません。"
 
-#: scripts/makepkg.sh.in:1421
+#: scripts/makepkg.sh.in:1430
 msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s に利用できない %s 文字が含まれています。"
 
-#: scripts/makepkg.sh.in:1426
+#: scripts/makepkg.sh.in:1435
 msgid "%s must be in the current working directory."
 msgstr "%s は現在の作業ディレクトリの中にある必要があります。"
 
-#: scripts/makepkg.sh.in:1506
+#: scripts/makepkg.sh.in:1515
 msgid "The key %s does not exist in your keyring."
 msgstr "キーリングにキー %s が存在しません。"
 
-#: scripts/makepkg.sh.in:1508 scripts/repo-add.sh.in:225
+#: scripts/makepkg.sh.in:1517 scripts/repo-add.sh.in:225
 msgid "There is no key in your keyring."
 msgstr "キーリングにキーがひとつもありません。"
 
-#: scripts/makepkg.sh.in:1532 scripts/makepkg.sh.in:1553
+#: scripts/makepkg.sh.in:1541 scripts/makepkg.sh.in:1562
 msgid "Leaving %s environment."
 msgstr "%s 環境を終了。"
 
-#: scripts/makepkg.sh.in:1557
+#: scripts/makepkg.sh.in:1566
 msgid "Making package: %s"
 msgstr "パッケージを作成: %s"
 
-#: scripts/makepkg.sh.in:1563
+#: scripts/makepkg.sh.in:1572
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "ソースパッケージはすでにビルドされています。 (%s で上書きします)"
 
-#: scripts/makepkg.sh.in:1583
+#: scripts/makepkg.sh.in:1592
 msgid "Signing package..."
 msgstr "パッケージの署名..."
 
-#: scripts/makepkg.sh.in:1587
+#: scripts/makepkg.sh.in:1596
 msgid "Source package created: %s"
 msgstr "ソースパッケージが作成されました: %s"
 
-#: scripts/makepkg.sh.in:1593
+#: scripts/makepkg.sh.in:1602
 msgid "Skipping dependency checks."
 msgstr "依存関係のチェックをスキップ。"
 
-#: scripts/makepkg.sh.in:1601
+#: scripts/makepkg.sh.in:1610
 msgid "Checking runtime dependencies..."
 msgstr "ランタイムの依存関係を確認..."
 
-#: scripts/makepkg.sh.in:1608
+#: scripts/makepkg.sh.in:1617
 msgid "Checking buildtime dependencies..."
 msgstr "ビルドタイムの依存関係を確認..."
 
-#: scripts/makepkg.sh.in:1620
+#: scripts/makepkg.sh.in:1629
 msgid "Could not resolve all dependencies."
 msgstr "全ての依存関係を解決できませんでした。"
 
-#: scripts/makepkg.sh.in:1632
+#: scripts/makepkg.sh.in:1641
 msgid "Using existing %s tree"
 msgstr "既存の %s ツリーを使用"
 
-#: scripts/makepkg.sh.in:1639 scripts/makepkg.sh.in:1667
+#: scripts/makepkg.sh.in:1648 scripts/makepkg.sh.in:1676
 msgid "Removing existing %s directory..."
 msgstr "既存の %s ディレクトリを削除..."
 
-#: scripts/makepkg.sh.in:1662
+#: scripts/makepkg.sh.in:1671
 msgid "Sources are ready."
 msgstr "ソースの準備ができました。"
 
-#: scripts/makepkg.sh.in:1689
+#: scripts/makepkg.sh.in:1698
 msgid "Package directory is ready."
 msgstr "パッケージディレクトリの準備ができました。"
 
-#: scripts/makepkg.sh.in:1693
+#: scripts/makepkg.sh.in:1702
 msgid "Finished making: %s"
 msgstr "作成完了: %s"
 
@@ -673,13 +670,12 @@ msgid "  --version             Version information\n"
 msgstr "  --version             バージョン情報\n"
 
 #: scripts/makepkg-template.pl.in:194
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 
@@ -716,13 +712,12 @@ msgid "  --nocolor            disable colorized output messages"
 msgstr "  --nocolor            メッセージの出力をカラーにしない"
 
 #: scripts/pacman-db-upgrade.sh.in:57 scripts/pacman-key.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2010-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 
@@ -1215,13 +1210,12 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "例:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:96
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 
@@ -1373,11 +1367,11 @@ msgstr "指定されたコマンドの名前 '%s' は無効です。"
 msgid "Cannot create temp directory for database building."
 msgstr "データベースを作成するための一時ディレクトリを作成できません。"
 
-#: scripts/repo-add.sh.in:823
+#: scripts/repo-add.sh.in:824
 msgid "Creating updated database file '%s'"
 msgstr "最新のデータベースファイル '%s' を作成"
 
-#: scripts/repo-add.sh.in:827
+#: scripts/repo-add.sh.in:828
 msgid "No packages modified, nothing to do."
 msgstr "変更されたパッケージはありません。"
 
@@ -1410,7 +1404,6 @@ msgid "Failed to sign package file."
 msgstr "パッケージファイルの署名に失敗しました。"
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:56
-#, fuzzy
 msgid "Signing package(s)..."
 msgstr "パッケージの署名..."
 
@@ -1532,7 +1525,6 @@ msgid "%s should not be an array"
 msgstr "%s は配列にはできません"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issues..."
 msgstr "パッケージの問題をチェック..."
 
@@ -1541,14 +1533,12 @@ msgid "Package contains reference to %s"
 msgstr "パッケージは %s へのリファレンスを含んでいます"
 
 #: scripts/libmakepkg/lint_package/dotfiles.sh.in:34
-#, fuzzy
 msgid "Dotfile found in package root '%s'"
-msgstr "%s エントリファイルがパッケージにありません : %s"
+msgstr "パッケージルート '%s' にドットファイルがありません"
 
 #: scripts/libmakepkg/lint_package/file_names.sh.in:36
-#, fuzzy
 msgid "Package contains paths with newlines"
-msgstr "パッケージは %s へのリファレンスを含んでいます"
+msgstr "パッケージに改行が含まれたパスが入っています"
 
 #: scripts/libmakepkg/lint_package/missing_backup.sh.in:35
 msgid "%s entry file not in package : %s"
@@ -1603,12 +1593,11 @@ msgid "%s must be a decimal, not %s."
 msgstr "%s は十進数にする必要があります、%s ではありません。"
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:41
-#, fuzzy
 msgid ""
 "%s is not allowed to contain colons, forward slashes, hyphens or whitespace."
-msgstr "%s にコロンやハイフン、空白を含めることはできません。"
+msgstr "%s にコロンやスラッシュ、ハイフン、空白を含めることはできません。"
 
-#: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:42
+#: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:46
 msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "%s 行に比較 (< や >) 演算子を含めることはできません。"
 
@@ -1720,7 +1709,7 @@ msgstr "%s %s リポジトリの更新に失敗"
 
 #: scripts/libmakepkg/source/git.sh.in:116
 msgid "Failure while checking out version %s, the git tag has been forged"
-msgstr ""
+msgstr "バージョン %s のチェックアウトができません、git タグが不正です"
 
 #: scripts/libmakepkg/source/local.sh.in:39
 msgid "%s was not found in the build directory and is not a URL."
@@ -1791,128 +1780,14 @@ msgstr "オプション '%s' には引数が必要です"
 msgid "The download program %s is not installed."
 msgstr "ダウンロードプログラム %s がインストールされていません。"
 
-#: scripts/libmakepkg/util/util.sh.in:81
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:76
 msgid "Failed to change to directory %s"
-msgstr "%s の展開に失敗しました"
+msgstr "ディレクトリの変更に失敗 %s"
 
-#: scripts/libmakepkg/util/util.sh.in:95
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:90
 msgid "You do not have write permission for the directory $%s (%s)."
-msgstr "%s にログを保存するための書き込み許可がありません。"
+msgstr "$%s ディレクトリに書き込みを行う権限がありません (%s)。"
 
-#: scripts/libmakepkg/util/util.sh.in:97
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:92
 msgid "Failed to create the directory $%s (%s)."
-msgstr "%s を %s から %s に更新できませんでした"
-
-#~ msgid ""
-#~ "Cannot find the %s binary required for generating sourcefile checksums."
-#~ msgstr ""
-#~ "ソースファイルのチェックサムを生成するのに必要な %s バイナリが見つかりませ"
-#~ "ん。"
-
-#~ msgid "Failed to create symlink to package file."
-#~ msgstr "パッケージファイルのシンボリックリンクの作成に失敗しました。"
-
-#~ msgid "Failed to create symlink to source package file."
-#~ msgstr "ソースパッケージファイルのシンボリックリンクの作成に失敗しました。"
-
-#~ msgid "Cannot find the %s binary required for compressing binaries."
-#~ msgstr "バイナリを圧縮するのに必要な %s バイナリが見つかりません。"
-
-#~ msgid "Cannot find the %s binary required for optimizing PNG images."
-#~ msgstr "PNG 画像を圧縮するのに必要な %s バイナリが見つかりません。"
-
-#~ msgid "You do not have write permission to create packages in %s."
-#~ msgstr "%s にパッケージを作成するための書き込み権限がありません。"
-
-#~ msgid "You do not have write permission to store packages in %s."
-#~ msgstr "%s にパッケージを保存するための書き込み権限がありません。"
-
-#~ msgid "You do not have write permission to store downloads in %s."
-#~ msgstr "%s にダウンロードを保存するための書き込み権限がありません。"
-
-#~ msgid "You do not have write permission to store source tarballs in %s."
-#~ msgstr "%s にソース tarball を保存するための書き込み権限がありません。"
-
-#~ msgid "Usage: %s [--nocolor] [pacman_db_root]"
-#~ msgstr "使用方法: %s [--nocolor] [pacman_db_root]"
-
-#~ msgid ""
-#~ "pacman-optimize is a little hack that should improve the performance\\nof "
-#~ "pacman when reading/writing to its filesystem-based database.\\n\\n"
-#~ msgstr ""
-#~ "pacman-optimize はファイルシステムベースのデータベースに\\npacman が読み書"
-#~ "きするときのパフォーマンスを改善するためのツールです。\\n\\n"
-
-#~ msgid ""
-#~ "Because pacman uses many small files to keep track of packages,\\nthere "
-#~ "is a tendency for these files to become fragmented over time.\\nThis "
-#~ "script attempts to relocate these small files into one\\ncontinuous "
-#~ "location on your hard drive. The result is that the hard\\ndrive should "
-#~ "be able to read them faster, since the hard drive head\\ndoes not have to "
-#~ "move around the disk as much.\\n"
-#~ msgstr ""
-#~ "pacman はパッケージを管理するために多くの小さなファイルを使うので、\\n長く"
-#~ "利用しているとファイルの断片化が発生してしまいます。\\nこのスクリプトはこ"
-#~ "うした小さなファイルをハードドライブの連続した場所に\\n再配置することを試"
-#~ "みます。HDDのヘッドが動く距離を減らすことになり\\n結果としてハードドライブ"
-#~ "の読み込みが速くなるはずです。\\n"
-
-#~ msgid "Cannot find the %s binary required for verifying integrity."
-#~ msgstr "整合性の検証に必要な %s バイナリが見つかりません。"
-
-#~ msgid "You must have correct permissions to optimize the database."
-#~ msgstr "データベースを最適化するには適切な権限が必要です。"
-
-#~ msgid "Cannot create temporary directory for database building."
-#~ msgstr "データベースをビルドするための一時ディレクトリを作成できません。"
-
-#~ msgid "MD5sum'ing the old database..."
-#~ msgstr "古いデータベースの MD5 Sum を作成..."
-
-#~ msgid "Tar'ing up %s..."
-#~ msgstr "%s を圧縮..."
-
-#~ msgid "Tar'ing up %s failed."
-#~ msgstr "%s の圧縮に失敗しました。"
-
-#~ msgid "Making and MD5sum'ing the new database..."
-#~ msgstr "新しいデータベースを作成..."
-
-#~ msgid "Untar'ing %s failed."
-#~ msgstr "%s の展開に失敗しました。"
-
-#~ msgid "Syncing database to disk..."
-#~ msgstr "データベースをディスクに同期..."
-
-#~ msgid "Checking integrity..."
-#~ msgstr "整合性を確認..."
-
-#~ msgid "Integrity check FAILED, reverting to old database."
-#~ msgstr "整合性チェックが失敗しました、古いデータベースに戻します。"
-
-#~ msgid "Rotating database into place..."
-#~ msgstr "データベースを配置..."
-
-#~ msgid ""
-#~ "New database substitution failed. Check for %s, %s, and %s directories."
-#~ msgstr ""
-#~ "新しいデータベースの置換に失敗しました。%s, %s, %s ディレクトリを確認して"
-#~ "ください。"
-
-#~ msgid "Finished. Your pacman database has been optimized."
-#~ msgstr "完了。あなたの pacman データベースは最適化されました。"
-
-#~ msgid "Optimizing PNG images..."
-#~ msgstr "PNG 画像を最適化..."
-
-#~ msgid "Could not optimize PNG image : %s"
-#~ msgstr "PNG 画像を最適化できませんでした : %s"
-
-#~ msgid "Compressing binaries with %s..."
-#~ msgstr "バイナリを %s で圧縮..."
-
-#~ msgid "Could not compress binary : %s"
-#~ msgstr "バイナリを圧縮できませんでした : %s"
+msgstr "$%s ディレクトリを作成できませんでした (%s)。"

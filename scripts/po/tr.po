@@ -3,9 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Arda Ünlü <aarda.uunlu@gmail.com>, 2018
 # tarakbumba <tarakbumba@gmail.com>, 2011-2015
 # Bek, 2016
 # Bek, 2016
+# Demiray “tulliana” Muhterem <mdemiray@msn.com>, 2016
 # Demiray “tulliana” Muhterem <mdemiray@msn.com>, 2016
 # Samed Beyribey <samed@ozguryazilim.com.tr>, 2012-2013
 # Serpil Acar <acarserpil89@gmail.com>, 2016
@@ -13,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2017-09-19 10:31+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2018-05-15 10:38+1000\n"
+"PO-Revision-Date: 2018-04-29 17:02+0000\n"
+"Last-Translator: Arda Ünlü <aarda.uunlu@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/tr/)\n"
 "Language: tr\n"
@@ -53,10 +55,10 @@ msgid "Unable to find source file %s."
 msgstr "Kaynak dosya (%s) bulunamadı."
 
 #: scripts/makepkg.sh.in:217 scripts/makepkg.sh.in:348
-#: scripts/makepkg.sh.in:718 scripts/makepkg.sh.in:911
-#: scripts/makepkg.sh.in:1314 scripts/makepkg.sh.in:1362
-#: scripts/makepkg.sh.in:1368 scripts/makepkg.sh.in:1373
-#: scripts/makepkg.sh.in:1379 scripts/makepkg.sh.in:1389
+#: scripts/makepkg.sh.in:727 scripts/makepkg.sh.in:920
+#: scripts/makepkg.sh.in:1323 scripts/makepkg.sh.in:1371
+#: scripts/makepkg.sh.in:1377 scripts/makepkg.sh.in:1382
+#: scripts/makepkg.sh.in:1388 scripts/makepkg.sh.in:1398
 #: scripts/libmakepkg/source/bzr.sh.in:50
 #: scripts/libmakepkg/source/bzr.sh.in:81
 #: scripts/libmakepkg/source/bzr.sh.in:96
@@ -76,7 +78,7 @@ msgstr "Kaynak dosya (%s) bulunamadı."
 #: scripts/libmakepkg/source/svn.sh.in:68
 #: scripts/libmakepkg/util/source.sh.in:157
 #: scripts/libmakepkg/util/source.sh.in:166
-#: scripts/libmakepkg/util/util.sh.in:82
+#: scripts/libmakepkg/util/util.sh.in:77
 msgid "Aborting..."
 msgstr "Çıkılıyor..."
 
@@ -130,255 +132,252 @@ msgid "Cannot find library listed in %s: %s"
 msgstr "%s içinde olması gereken kütüphane bulunamıyor: %s"
 
 #: scripts/makepkg.sh.in:629
-#, fuzzy
 msgid "Invalid value for %s: %s"
-msgstr "%s için geçersiz söz dizimi : '%s'"
+msgstr "%s için geçersiz değer: %s"
 
 #: scripts/makepkg.sh.in:642 scripts/makepkg.sh.in:680
-#: scripts/makepkg.sh.in:811
+#: scripts/makepkg.sh.in:820
 msgid "Generating %s file..."
 msgstr "%s dosyası üretiliyor..."
 
-#: scripts/makepkg.sh.in:717
+#: scripts/makepkg.sh.in:726
 msgid "Missing %s directory."
 msgstr "Kayıp %s dizini."
 
-#: scripts/makepkg.sh.in:723
+#: scripts/makepkg.sh.in:732
 msgid "Creating package \"%s\"..."
 msgstr "\"%s\" paketi oluşturuluyor..."
 
-#: scripts/makepkg.sh.in:734
+#: scripts/makepkg.sh.in:743
 msgid "Adding %s file..."
 msgstr "%s dosyası ekleniyor..."
 
-#: scripts/makepkg.sh.in:736
+#: scripts/makepkg.sh.in:745
 msgid "Failed to add %s file to package."
 msgstr "%s dosyası pakete eklenemedi."
 
-#: scripts/makepkg.sh.in:754
+#: scripts/makepkg.sh.in:763
 msgid "Generating .MTREE file..."
 msgstr ".MTREE dosyası oluşturuluyor..."
 
-#: scripts/makepkg.sh.in:760
+#: scripts/makepkg.sh.in:769
 msgid "Compressing package..."
 msgstr "Paket sıkıştırılıyor..."
 
-#: scripts/makepkg.sh.in:769
+#: scripts/makepkg.sh.in:778
 msgid "Failed to create package file."
 msgstr "Paket oluşturulamadı."
 
-#: scripts/makepkg.sh.in:804
+#: scripts/makepkg.sh.in:813
 msgid "Creating source package..."
 msgstr "Kaynak paketi oluşturuluyor..."
 
-#: scripts/makepkg.sh.in:808 scripts/makepkg.sh.in:821
+#: scripts/makepkg.sh.in:817 scripts/makepkg.sh.in:830
 msgid "Adding %s..."
 msgstr "%s ekleniyor..."
 
-#: scripts/makepkg.sh.in:839
+#: scripts/makepkg.sh.in:848
 msgid "Adding %s file (%s)..."
 msgstr "%s dosyası ekleniyor (%s)..."
 
-#: scripts/makepkg.sh.in:849
+#: scripts/makepkg.sh.in:858
 msgid "Compressing source package..."
 msgstr "Kaynak paketi sıkıştırılıyor..."
 
-#: scripts/makepkg.sh.in:859
+#: scripts/makepkg.sh.in:868
 msgid "Failed to create source package file."
 msgstr "Kaynak paketi oluşturulamadı."
 
-#: scripts/makepkg.sh.in:871
+#: scripts/makepkg.sh.in:880
 msgid "Installing package %s with %s..."
 msgstr "%s paketi %s ile kuruluyor ..."
 
-#: scripts/makepkg.sh.in:873
+#: scripts/makepkg.sh.in:882
 msgid "Installing %s package group with %s..."
 msgstr "%s paket grubu %s ile kuruluyor..."
 
-#: scripts/makepkg.sh.in:891
+#: scripts/makepkg.sh.in:900
 msgid "Failed to install built package(s)."
 msgstr "Derlenen paket(ler) kurulamadı."
 
-#: scripts/makepkg.sh.in:910 scripts/libmakepkg/util/source.sh.in:156
+#: scripts/makepkg.sh.in:919 scripts/libmakepkg/util/source.sh.in:156
 msgid "Unknown download protocol: %s"
 msgstr "Bilinmeyen indirme protokolü: %s"
 
-#: scripts/makepkg.sh.in:927
+#: scripts/makepkg.sh.in:936
 msgid "Cannot find the %s binary needed to check VCS source requirements."
 msgstr ""
 "VCS kaynak gerekliliklerini doğrulamak için gerekli olan %s ikili dosyası "
 "bulunamıyor."
 
-#: scripts/makepkg.sh.in:955
+#: scripts/makepkg.sh.in:964
 msgid "Cannot find the %s package needed to handle %s sources."
 msgstr ""
 "%s ikili dosyası %s kaynaklarını işlemek için gerekli ancak bulunamıyor."
 
-#: scripts/makepkg.sh.in:978
+#: scripts/makepkg.sh.in:987
 msgid "Cannot find the %s binary required for dependency operations."
 msgstr "Bağımlılık işlemleri için  gerekli %s bulunamadı."
 
-#: scripts/makepkg.sh.in:986
+#: scripts/makepkg.sh.in:995
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr "%s bulunamadı. %s kullanılarak root yetkileri kullanılacak."
 
-#: scripts/makepkg.sh.in:993
+#: scripts/makepkg.sh.in:1002
 msgid "Cannot find the %s binary."
 msgstr "%s ikili dosyası bulunamıyor."
 
-#: scripts/makepkg.sh.in:1001
+#: scripts/makepkg.sh.in:1010
 msgid "Cannot find the %s binary required for signing packages."
 msgstr "Paketleri imzalamak için gerekli olan %s ikili dosyası bulunamıyor."
 
-#: scripts/makepkg.sh.in:1009
+#: scripts/makepkg.sh.in:1018
 msgid "Cannot find the %s binary required for verifying source files."
 msgstr ""
 "Kaynak dosyaları doğrulamak için gerekli olan %s ikili dosyası bulunamıyor."
 
-#: scripts/makepkg.sh.in:1022
-#, fuzzy
+#: scripts/makepkg.sh.in:1031
 msgid ""
 "Cannot find the %s binary required for source file checksums operations."
 msgstr ""
-"Kaynak dosya bütünlük doğrulamalarının üretimi için gerekli %s ikili dosyası "
-"bulunamıyor."
+"Kaynak kodu tamlama işlemleri için gereken %s ikilik dosyası bulunamadı."
 
-#: scripts/makepkg.sh.in:1031
+#: scripts/makepkg.sh.in:1040
 msgid "Cannot find the %s binary required for distributed compilation."
 msgstr "Dağıtılmış derleme için gerekli olan %s ikili dosyası bulunamıyor."
 
-#: scripts/makepkg.sh.in:1039
+#: scripts/makepkg.sh.in:1048
 msgid "Cannot find the %s binary required for compiler cache usage."
 msgstr ""
 "Derleyici önbelleği kullanımı için gerekli olan %s ikili dosyası bulunamıyor."
 
-#: scripts/makepkg.sh.in:1047
+#: scripts/makepkg.sh.in:1056
 msgid "Cannot find the %s binary required for object file stripping."
 msgstr ""
 "Nesne dosyası ayıklamak için gerekli olan %s ikili dosyası bulunamıyor."
 
-#: scripts/makepkg.sh.in:1055
+#: scripts/makepkg.sh.in:1064
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr ""
 "Man ve info sayfalarını sıkıştırmak için gerekli olan %s ikili dosyası "
 "bulunamıyor."
 
-#: scripts/makepkg.sh.in:1075
+#: scripts/makepkg.sh.in:1084
 msgid "A package has already been built, installing existing package..."
 msgstr "Paketlerden biri zaten derlenmiş, mevcut paket yükleniyor..."
 
-#: scripts/makepkg.sh.in:1079
+#: scripts/makepkg.sh.in:1088
 msgid "A package has already been built. (use %s to overwrite)"
 msgstr ""
 "Bir paket zaten önceden oluşturulmuş. (üzerine yazmak için %s kullanın)"
 
-#: scripts/makepkg.sh.in:1098
+#: scripts/makepkg.sh.in:1107
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "Paket grubu zaten derlenmiş, var olan paketler kuruluyor..."
 
-#: scripts/makepkg.sh.in:1102
+#: scripts/makepkg.sh.in:1111
 msgid "The package group has already been built. (use %s to overwrite)"
 msgstr ""
 "Paket grubu zaten önceden oluşturulmuş. (üzerine yazmak için %s kullanın)"
 
-#: scripts/makepkg.sh.in:1107
+#: scripts/makepkg.sh.in:1116
 msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
 "Paket grubunun bir kısmı zaten önceden oluşturulmuş. (üzerine yazmak için %s "
 "kullanın)"
 
-#: scripts/makepkg.sh.in:1142
+#: scripts/makepkg.sh.in:1151
 msgid "Make packages compatible for use with pacman"
 msgstr "Paketleri, pacman ile kullanılabilecek şekilde uyumlu hale getir"
 
-#: scripts/makepkg.sh.in:1144 scripts/pacman-db-upgrade.sh.in:43
+#: scripts/makepkg.sh.in:1153 scripts/pacman-db-upgrade.sh.in:43
 msgid "Usage: %s [options]"
 msgstr "Kullanım: %s [seçenekler]"
 
-#: scripts/makepkg.sh.in:1146 scripts/pacman-key.sh.in:82
+#: scripts/makepkg.sh.in:1155 scripts/pacman-key.sh.in:82
 msgid "Options:"
 msgstr "Seçenekler:"
 
-#: scripts/makepkg.sh.in:1147
+#: scripts/makepkg.sh.in:1156
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, - ignorearch Eksik %s alanını, %s içindeki, yok say"
 
-#: scripts/makepkg.sh.in:1148
+#: scripts/makepkg.sh.in:1157
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Derlenme sonrası oluşan dosyaları temizle"
 
-#: scripts/makepkg.sh.in:1149
+#: scripts/makepkg.sh.in:1158
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
 msgstr "  -C, --cleanbuild paketi derlemeden önce %s dizinini kaldır"
 
-#: scripts/makepkg.sh.in:1150
+#: scripts/makepkg.sh.in:1159
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Tüm bağımlılık kontrollerini atla"
 
-#: scripts/makepkg.sh.in:1151
+#: scripts/makepkg.sh.in:1160
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr "  -e, --noextract  Kaynak dosyalarını açma  ( %s dizini kullanılarak)"
 
-#: scripts/makepkg.sh.in:1152
+#: scripts/makepkg.sh.in:1161
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Mevcut paketlerin üstüne yaz"
 
-#: scripts/makepkg.sh.in:1153
+#: scripts/makepkg.sh.in:1162
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Kaynak dosyaları için bütünlük kontrolleri oluştur"
 
-#: scripts/makepkg.sh.in:1154
+#: scripts/makepkg.sh.in:1163
 msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Bu yardım iletisini göster ve çık"
 
-#: scripts/makepkg.sh.in:1155
+#: scripts/makepkg.sh.in:1164
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    Derlenme tamamlandıktan sonra paketi yükle"
 
-#: scripts/makepkg.sh.in:1156
+#: scripts/makepkg.sh.in:1165
 msgid "  -L, --log        Log package build process"
 msgstr "  -L, --log        Paket derleme işleminin kaydını tut"
 
-#: scripts/makepkg.sh.in:1157
+#: scripts/makepkg.sh.in:1166
 msgid "  -m, --nocolor    Disable colorized output messages"
 msgstr "  -m, --nocolor    Renklendirilmiş çıktı kullanma"
 
-#: scripts/makepkg.sh.in:1158
+#: scripts/makepkg.sh.in:1167
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Dosyaları yalnızca indir ve aç"
 
-#: scripts/makepkg.sh.in:1159
+#: scripts/makepkg.sh.in:1168
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr "  -p <dosya>  '%s' yerine farklı bir derleme betiği kullan"
 
-#: scripts/makepkg.sh.in:1160
+#: scripts/makepkg.sh.in:1169
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
 "  -r, --rmdeps     Derlenme tamamlandıktan sonra yüklenen bağımlılıkları "
 "kaldır"
 
-#: scripts/makepkg.sh.in:1161
+#: scripts/makepkg.sh.in:1170
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Derleme yapmadan yeniden paketle"
 
-#: scripts/makepkg.sh.in:1162
+#: scripts/makepkg.sh.in:1171
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Eksik bağımlılıkları %s ile kur"
 
-#: scripts/makepkg.sh.in:1163
+#: scripts/makepkg.sh.in:1172
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
 "  -S, --source     İndirilen kaynak dosyaları olmadan bir kaynak arşivi "
 "oluştur."
 
-#: scripts/makepkg.sh.in:1164
+#: scripts/makepkg.sh.in:1173
 msgid "  -V, --version    Show version information and exit"
 msgstr "  -V, --version    Sürüm bilgisini göster ve çık"
 
-#: scripts/makepkg.sh.in:1165
+#: scripts/makepkg.sh.in:1174
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
@@ -386,121 +385,122 @@ msgstr ""
 "  --allsource      İndirilmiş arşivlerle birlikte sadece kaynak barındıran "
 "bir arşiv oluştur"
 
-#: scripts/makepkg.sh.in:1166
+#: scripts/makepkg.sh.in:1175
 msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          %s fonksiyonunu %s içinde çalıştır"
 
-#: scripts/makepkg.sh.in:1167
+#: scripts/makepkg.sh.in:1176
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr "  --config <dosya> '%s' yerine farklı bir yapılandırma dosyası kullan"
 
-#: scripts/makepkg.sh.in:1168
+#: scripts/makepkg.sh.in:1177
 msgid "  --holdver        Do not update VCS sources"
 msgstr "  --holdver        Sürüm takip sistemi kaynaklarını güncelleme"
 
-#: scripts/makepkg.sh.in:1169
+#: scripts/makepkg.sh.in:1178
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
 "  --key <key>      Öntanımlı yerine %s imzalama işlemi için başka bir "
 "anahtar belirt"
 
-#: scripts/makepkg.sh.in:1170
+#: scripts/makepkg.sh.in:1179
 msgid "  --noarchive      Do not create package archive"
 msgstr "  --noarchive      Paket arşivi oluşturma"
 
-#: scripts/makepkg.sh.in:1171
+#: scripts/makepkg.sh.in:1180
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        %s fonksiyonunu %s içinde çalıştırma"
 
-#: scripts/makepkg.sh.in:1172
+#: scripts/makepkg.sh.in:1181
 msgid "  --noprepare      Do not run the %s function in the %s"
 msgstr "  --noprepare      %s fonksiyonunu %s içinde çalıştırma"
 
-#: scripts/makepkg.sh.in:1173
+#: scripts/makepkg.sh.in:1182
 msgid "  --nosign         Do not create a signature for the package"
 msgstr "  --nosign         Paket imzası oluşturma"
 
-#: scripts/makepkg.sh.in:1174
+#: scripts/makepkg.sh.in:1183
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
+"  --packagelist    PKGEXT olmadan, yalnızca üretilecek paketleri listele"
 
-#: scripts/makepkg.sh.in:1175
+#: scripts/makepkg.sh.in:1184
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr ""
+msgstr "  --printsrcinfo   Oluşturulmuş SRCINFO'yu göster ve çık"
 
-#: scripts/makepkg.sh.in:1176
+#: scripts/makepkg.sh.in:1185
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "  --sign           Paketi %s ile imzala"
 
-#: scripts/makepkg.sh.in:1177
+#: scripts/makepkg.sh.in:1186
 msgid "  --skipchecksums  Do not verify checksums of the source files"
 msgstr "  --skipchecksums  Kaynak dosyaların sağlama toplamalarını denetleme"
 
-#: scripts/makepkg.sh.in:1178
+#: scripts/makepkg.sh.in:1187
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
 msgstr ""
 "  --skipinteg      Kaynak dosyalarında herhangi bir doğrulama denetimi yapma"
 
-#: scripts/makepkg.sh.in:1179
+#: scripts/makepkg.sh.in:1188
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "  --skippgpcheck   Kaynak dosyaları PGP imzaları ile doğrulama"
 
-#: scripts/makepkg.sh.in:1180
+#: scripts/makepkg.sh.in:1189
 msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
 msgstr "  --verifysource   Kaynak dosyaları indir ve bütünlük kontrolü yap"
 
-#: scripts/makepkg.sh.in:1182
+#: scripts/makepkg.sh.in:1191
 msgid "These options can be passed to %s:"
 msgstr "Bu seçenekler %s üzerinden geçirilebilir :"
 
-#: scripts/makepkg.sh.in:1184
+#: scripts/makepkg.sh.in:1193
 msgid "  --asdeps         Install packages as non-explicitly installed"
 msgstr "  --asdeps      Paketleri bağımlılık olarak kur"
 
-#: scripts/makepkg.sh.in:1185
+#: scripts/makepkg.sh.in:1194
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
 msgstr "  --needed      Güncel hedefleri tekrar kurma"
 
-#: scripts/makepkg.sh.in:1186
+#: scripts/makepkg.sh.in:1195
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr "  --noconfirm       Bağımlılıklar çözümlenirken onay isteme"
 
-#: scripts/makepkg.sh.in:1187
+#: scripts/makepkg.sh.in:1196
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar   Dosyalar indirilirken durum çubuğu gösterme"
 
-#: scripts/makepkg.sh.in:1189
+#: scripts/makepkg.sh.in:1198
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "%s belirtilmemişse; %s, '%s' arayacaktır"
 
-#: scripts/makepkg.sh.in:1195
-#, fuzzy
+#: scripts/makepkg.sh.in:1204
 msgid ""
 "Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
-"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
-"the extent permitted by law.\\n"
+"Copyright (c) 2006-2018 Pacman Geliştirme Ekibi <pacman-dev@archlinux.org>."
+"\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nBu bir "
+"özgür yazılımdır. Kopyalama koşulları için kaynak kodlarına bakın."
+"\\nYasaların izin verdiği ölçüde HİÇ BİR GARANTİSİ YOKTUR.\\n"
 
-#: scripts/makepkg.sh.in:1298 scripts/repo-add.sh.in:743
+#: scripts/makepkg.sh.in:1307 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
 msgstr "%s sinyalı yakalandı. Çıkılıyor ..."
 
-#: scripts/makepkg.sh.in:1313
+#: scripts/makepkg.sh.in:1322
 msgid "%s not found."
 msgstr "%s bulunamadı."
 
-#: scripts/makepkg.sh.in:1395
+#: scripts/makepkg.sh.in:1404
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
@@ -508,87 +508,87 @@ msgstr ""
 "%s kök olarak çalıştırılamaz. Çünkü,\\nsisteminizde kalıcı hasara yol "
 "açabilir."
 
-#: scripts/makepkg.sh.in:1401
-#, fuzzy
+#: scripts/makepkg.sh.in:1410
 msgid "Do not use the %s option. This option is only for internal use by %s."
 msgstr ""
-"%s seçeneğini kullanma. Bu seçenek sadece %s tarafından kullanılabilir."
+"%s seçeneğini kullanmayın. Bu seçenek sadece %s tarafından iç kullanımda "
+"kullanılabilir."
 
-#: scripts/makepkg.sh.in:1416
+#: scripts/makepkg.sh.in:1425
 msgid "%s does not exist."
 msgstr "%s mevcut değil."
 
-#: scripts/makepkg.sh.in:1421
+#: scripts/makepkg.sh.in:1430
 msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s, %s karakter içeriyor ve kaynak alınamaz."
 
-#: scripts/makepkg.sh.in:1426
+#: scripts/makepkg.sh.in:1435
 msgid "%s must be in the current working directory."
 msgstr "%s şu anda çalışan dizin içinde olmalıdır."
 
-#: scripts/makepkg.sh.in:1506
+#: scripts/makepkg.sh.in:1515
 msgid "The key %s does not exist in your keyring."
 msgstr "Anahtar dizinizde %s anahtarı mevcut değil."
 
-#: scripts/makepkg.sh.in:1508 scripts/repo-add.sh.in:225
+#: scripts/makepkg.sh.in:1517 scripts/repo-add.sh.in:225
 msgid "There is no key in your keyring."
 msgstr "Anahtar dizinizde bir anahtar yok."
 
-#: scripts/makepkg.sh.in:1532 scripts/makepkg.sh.in:1553
+#: scripts/makepkg.sh.in:1541 scripts/makepkg.sh.in:1562
 msgid "Leaving %s environment."
 msgstr "%s ortamından çıkılıyor."
 
-#: scripts/makepkg.sh.in:1557
+#: scripts/makepkg.sh.in:1566
 msgid "Making package: %s"
 msgstr "%s paketi oluşturuluyor"
 
-#: scripts/makepkg.sh.in:1563
+#: scripts/makepkg.sh.in:1572
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr ""
 "Bir kaynak paketi zaten önceden oluşturulmuş. (üzerine yazmak için %s "
 "kullanın)"
 
-#: scripts/makepkg.sh.in:1583
+#: scripts/makepkg.sh.in:1592
 msgid "Signing package..."
 msgstr "Paket imzalanıyor,,,"
 
-#: scripts/makepkg.sh.in:1587
+#: scripts/makepkg.sh.in:1596
 msgid "Source package created: %s"
 msgstr "Kaynak paketi oluşturuldu: %s"
 
-#: scripts/makepkg.sh.in:1593
+#: scripts/makepkg.sh.in:1602
 msgid "Skipping dependency checks."
 msgstr "Bağımlılık kontrolleri atlanıyor."
 
-#: scripts/makepkg.sh.in:1601
+#: scripts/makepkg.sh.in:1610
 msgid "Checking runtime dependencies..."
 msgstr "Bağımlılıklar denetleniyor..."
 
-#: scripts/makepkg.sh.in:1608
+#: scripts/makepkg.sh.in:1617
 msgid "Checking buildtime dependencies..."
 msgstr "Derleme bağımlılıkları denetleniyor..."
 
-#: scripts/makepkg.sh.in:1620
+#: scripts/makepkg.sh.in:1629
 msgid "Could not resolve all dependencies."
 msgstr "Bazı bağımlılıklar çözülemedi."
 
-#: scripts/makepkg.sh.in:1632
+#: scripts/makepkg.sh.in:1641
 msgid "Using existing %s tree"
 msgstr "Mevcut %s ağacı kullanılıyor"
 
-#: scripts/makepkg.sh.in:1639 scripts/makepkg.sh.in:1667
+#: scripts/makepkg.sh.in:1648 scripts/makepkg.sh.in:1676
 msgid "Removing existing %s directory..."
 msgstr "Mevcut %s dizini kaldırılıyor ..."
 
-#: scripts/makepkg.sh.in:1662
+#: scripts/makepkg.sh.in:1671
 msgid "Sources are ready."
 msgstr "Kaynak kodları hazır."
 
-#: scripts/makepkg.sh.in:1689
+#: scripts/makepkg.sh.in:1698
 msgid "Package directory is ready."
 msgstr "Paket dizini hazır."
 
-#: scripts/makepkg.sh.in:1693
+#: scripts/makepkg.sh.in:1702
 msgid "Finished making: %s"
 msgstr "%s paketinin derlenmesi tamamlandı"
 
@@ -615,17 +615,17 @@ msgstr ""
 #: scripts/makepkg-template.pl.in:114
 #, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr ""
+msgstr "\"%s\" şablonunun sürümü tespit edilemedi\n"
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
-msgstr ""
+msgstr "\"%s\"'e uyan şablon dosyası bulunamadı\n"
 
 #: scripts/makepkg-template.pl.in:136
 #, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr ""
+msgstr "\"%s\" açılamadı: %s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
@@ -679,15 +679,14 @@ msgid "  --version             Version information\n"
 msgstr "  --version             Sürüm bilgisi\n"
 
 #: scripts/makepkg-template.pl.in:194
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
-"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
-"the extent permitted by law.\\n"
+"Copyright (c) 2013-2018 Pacman Geliştirme Ekibi <pacman-dev@archlinux.org>.\n"
+"Bu bir özgür yazılımdır; kopyalama koşulları için kaynak koda bakın.\n"
+"Yasaların izin verdiği ölçüde HİÇBİR GARANTİSİ YOKTUR.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:41
 msgid "Upgrade the local pacman database to a newer format"
@@ -699,7 +698,7 @@ msgstr "seçenekler:"
 
 #: scripts/pacman-db-upgrade.sh.in:46
 msgid "  -d, --dbpath <path>  set an alternate database location"
-msgstr ""
+msgstr "  -d, --dbpath <path>  alternatif veritabanı yeri seçimi"
 
 #: scripts/pacman-db-upgrade.sh.in:47
 msgid "  -h, --help           show this help message and exit"
@@ -722,15 +721,14 @@ msgid "  --nocolor            disable colorized output messages"
 msgstr "  --nocolor            renklendirilmiş çıktı kullanma"
 
 #: scripts/pacman-db-upgrade.sh.in:57 scripts/pacman-key.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
-"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
-"the extent permitted by law.\\n"
+"Copyright (c) 2010-2018 Pacman Geliştirme Ekibi <pacman-dev@archlinux.org>"
+"\\nBu bir özgür yazılımdır. Kopyalama koşulları için kaynak kodlara bakınız."
+"\\nYasaların izin verdiği ölçüde HİÇBİR GARANTİSİ YOKTUR.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:118 scripts/repo-add.sh.in:514
 msgid "%s does not exist or is not a directory."
@@ -1005,7 +1003,7 @@ msgstr "Belirtilen yerel anahtar, anahtar sunucusundan güncellenemedi."
 
 #: scripts/pacman-key.sh.in:492 scripts/repo-add.sh.in:368
 msgid "Cannot use armored signatures for packages: %s"
-msgstr ""
+msgstr "Şu paketler için zırhlı imzalar kullanılamaz:%s"
 
 #: scripts/pacman-key.sh.in:496
 msgid "The signature identified by %s could not be verified."
@@ -1170,6 +1168,8 @@ msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
+"  -R, --remove      veritabanını güncelledikten sonra eski paket dosyasını "
+"diskten kaldır\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\\n"
@@ -1226,15 +1226,14 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Örnek:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:96
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nThis is free "
-"software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
-"the extent permitted by law.\\n"
+"Copyright (c) 2006-2018 Pacman Geliştirme Ekibi <pacman-dev@archlinux.org>\\n"
+"\\nBu bir özgür yazılımdır. Kopyalama koşulları için kaynak kodlara bakınız."
+"\\nYasaların izin verdiği ölçüde HİÇBİR GARANTİSİ YOKTUR.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1250,7 +1249,7 @@ msgstr "Mevcut '%s' kaydı kaldırılıyor..."
 
 #: scripts/repo-add.sh.in:195
 msgid "Removing empty deltas file..."
-msgstr ""
+msgstr "Boş delta dosyaları siliniyor ..."
 
 #: scripts/repo-add.sh.in:216
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
@@ -1286,7 +1285,7 @@ msgstr "Veritabanı imzası geçerli DEĞİL!"
 
 #: scripts/repo-add.sh.in:305
 msgid "'%s' does not have a valid database archive extension."
-msgstr ""
+msgstr "'%s' geçerli bir veritabanı arşivi uzantısına sahip değil."
 
 #: scripts/repo-add.sh.in:351
 msgid "An entry for '%s' already existed"
@@ -1385,11 +1384,11 @@ msgid "Cannot create temp directory for database building."
 msgstr ""
 "Veritabanı oluşturulması için gerekli olan geçici dizin oluşturulamadı."
 
-#: scripts/repo-add.sh.in:823
+#: scripts/repo-add.sh.in:824
 msgid "Creating updated database file '%s'"
 msgstr "Güncellenmiş veritabanı dosyası '%s' oluşturuluyor"
 
-#: scripts/repo-add.sh.in:827
+#: scripts/repo-add.sh.in:828
 msgid "No packages modified, nothing to do."
 msgstr "Hiç bir pakette değişiklik yapılmadı, çıkılıyor."
 
@@ -1422,13 +1421,12 @@ msgid "Failed to sign package file."
 msgstr "Paket dosyası imzalanamadı."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:56
-#, fuzzy
 msgid "Signing package(s)..."
-msgstr "Paket imzalanıyor,,,"
+msgstr "Paket(ler) imzalanıyor..."
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:64
 msgid "Integrity checks are missing for: %s"
-msgstr ""
+msgstr "%s için bütünlük kontrolü kayıp"
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:76
 msgid "Skipped"
@@ -1537,32 +1535,29 @@ msgstr "%s geçersiz karakterler içeriyor: '%s'"
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr ""
+msgstr "%s bir dizi olmalı"
 
 #: scripts/libmakepkg/lint_config/variable.sh.in:57
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:100
 msgid "%s should not be an array"
-msgstr ""
+msgstr "%s bir dizi olmamalı"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issues..."
-msgstr "Paketleme sorunu kontrol ediliyor..."
+msgstr "Paketleme hataları kontrol ediliyor..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
 msgid "Package contains reference to %s"
 msgstr "Paket %s için referans barındırıyor"
 
 #: scripts/libmakepkg/lint_package/dotfiles.sh.in:34
-#, fuzzy
 msgid "Dotfile found in package root '%s'"
-msgstr "%s girdi dosyası paket içinde değil: %s"
+msgstr "Paket kök dizininde nokta dosyası bulundu \"%s\""
 
 #: scripts/libmakepkg/lint_package/file_names.sh.in:36
-#, fuzzy
 msgid "Package contains paths with newlines"
-msgstr "Paket %s için referans barındırıyor"
+msgstr "Paket içinde boşluk olan yollar barındırıyor"
 
 #: scripts/libmakepkg/lint_package/missing_backup.sh.in:35
 msgid "%s entry file not in package : %s"
@@ -1617,12 +1612,11 @@ msgid "%s must be a decimal, not %s."
 msgstr "%s ondalık olmalı, %s değil."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:41
-#, fuzzy
 msgid ""
 "%s is not allowed to contain colons, forward slashes, hyphens or whitespace."
-msgstr "%s virgül, tire, boşluk içeremez."
+msgstr "%s iki nokta eğik çizgi, tire veya boşluk içermemeli."
 
-#: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:42
+#: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:46
 msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "%s dizisi karşılaştırma işleçleri (< veya >) içeremez."
 
@@ -1637,7 +1631,7 @@ msgstr "%s dosyası (%s) bulunamadı ya da bir olağan bir dosya değil."
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:61
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:92
 msgid "%s_%s should be an array"
-msgstr ""
+msgstr "%s_%s dizi olmalı"
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1649,7 +1643,7 @@ msgstr "Kaynaklar açılıyor..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:47
 msgid "Branching %s..."
-msgstr ""
+msgstr "%s dallanıyor ..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:49
 msgid "Failure while branching %s"
@@ -1657,7 +1651,7 @@ msgstr "%s dallanırken hata oluştu"
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
 msgid "Pulling %s..."
-msgstr ""
+msgstr "%s çekiliyor ..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:58
 msgid "Failure while pulling %s"
@@ -1734,7 +1728,7 @@ msgstr "%s %s deposu güncellenirken hata meydana geldi"
 
 #: scripts/libmakepkg/source/git.sh.in:116
 msgid "Failure while checking out version %s, the git tag has been forged"
-msgstr ""
+msgstr "%s sürümünü check outarken hata oluştu, git etiketi forged"
 
 #: scripts/libmakepkg/source/local.sh.in:39
 msgid "%s was not found in the build directory and is not a URL."
@@ -1807,124 +1801,14 @@ msgstr "'%s' seçeneği için parametre gereklidir"
 msgid "The download program %s is not installed."
 msgstr "İndirme programı %s kurulu değil."
 
-#: scripts/libmakepkg/util/util.sh.in:81
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:76
 msgid "Failed to change to directory %s"
-msgstr "%s arşivi açılamadı"
+msgstr "%s dizinine geçilemedi"
 
-#: scripts/libmakepkg/util/util.sh.in:95
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:90
 msgid "You do not have write permission for the directory $%s (%s)."
-msgstr "Kayıtları %s içerisinde tutmak için yazma yetkiniz bulunmuyor."
+msgstr "$%s dizinine yazma yetkiniz yok (%s)."
 
-#: scripts/libmakepkg/util/util.sh.in:97
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:92
 msgid "Failed to create the directory $%s (%s)."
-msgstr "%s, %s üzerinden %s üzerine güncellenemedi"
-
-#~ msgid "Failed to create symlink to package file."
-#~ msgstr "Paket dosyasına sembolik bağ oluşturulamadı."
-
-#~ msgid "Failed to create symlink to source package file."
-#~ msgstr "Kaynak paket dosyasına sembolik bağ oluşturulamadı."
-
-#~ msgid "Cannot find the %s binary required for compressing binaries."
-#~ msgstr ""
-#~ "Sıkıştırılmış ikili dosyalar için gerekli olan %s ikili dosyası "
-#~ "bulunamıyor."
-
-#~ msgid "You do not have write permission to create packages in %s."
-#~ msgstr "%s içinde paket oluşturmak için yazma yetkiniz yok."
-
-#~ msgid "You do not have write permission to store packages in %s."
-#~ msgstr "Paketleri %s dizininde saklamak için yazma izniniz yok."
-
-#~ msgid "You do not have write permission to store downloads in %s."
-#~ msgstr ""
-#~ "İndirilenleri %s dizininde saklayabilmenizi sağlayacak izinlere sahip "
-#~ "değilsiniz."
-
-#~ msgid "You do not have write permission to store source tarballs in %s."
-#~ msgstr ""
-#~ "%s içerisinde tar dosyalarını tutmak için yazma hakkınız bulunmuyor."
-
-#~ msgid "Usage: %s [--nocolor] [pacman_db_root]"
-#~ msgstr "Kullanım: %s [--nocolor] [pacman_db_root]"
-
-#~ msgid ""
-#~ "pacman-optimize is a little hack that should improve the performance\\nof "
-#~ "pacman when reading/writing to its filesystem-based database.\\n\\n"
-#~ msgstr ""
-#~ "pacman-optimize, pacman'in dosya sistemi tabanlı veritabanını okumasını ve"
-#~ "\\nyazmasını hızlandırmak amacıyla kullanılan bir araçtır.\\n\\n"
-
-#~ msgid ""
-#~ "Because pacman uses many small files to keep track of packages,\\nthere "
-#~ "is a tendency for these files to become fragmented over time.\\nThis "
-#~ "script attempts to relocate these small files into one\\ncontinuous "
-#~ "location on your hard drive. The result is that the hard\\ndrive should "
-#~ "be able to read them faster, since the hard drive head\\ndoes not have to "
-#~ "move around the disk as much.\\n"
-#~ msgstr ""
-#~ "pacman, paketleri takip etmek için bir sürü küçük dosya ile uğraşmak "
-#~ "zorunda\\nolduğundan, bu dosyaların zamanla derlenip toplanması iyi "
-#~ "olacaktır.\\nBu betik, bahsi geçen küçük dosyaları bulup onları sabit "
-#~ "diskinizdeki\\nkesintisiz bir bölümde bir araya toplar. Sabit diskinizin "
-#~ "okuma kafası\\ndiskin farklı kısımlarında gezmek zorunda kalmayacağından, "
-#~ "sonuçta\\nfarkedilir bir performans artışı olması muhtemeldir.\\n"
-
-#~ msgid "Cannot find the %s binary required for verifying integrity."
-#~ msgstr "Bütünlük doğrulaması için %s aracı bulunamadı."
-
-#~ msgid "You must have correct permissions to optimize the database."
-#~ msgstr "Veritabanını optimize etmek için doğru haklara sahip olmalısınız."
-
-#~ msgid "Cannot create temporary directory for database building."
-#~ msgstr "Veritabanı inşası için geçici dizin oluşturulamıyor."
-
-#~ msgid "MD5sum'ing the old database..."
-#~ msgstr "Eski veritabanına ait MD5SUM oluşturuluyor..."
-
-#~ msgid "Tar'ing up %s..."
-#~ msgstr "%s sıkıştırılıyor..."
-
-#~ msgid "Tar'ing up %s failed."
-#~ msgstr "Sıkıştırma başarısız."
-
-#~ msgid "Making and MD5sum'ing the new database..."
-#~ msgstr "Yeni veritabanı oluşturuluyor ve MD5sum kontrolü yapılıyor..."
-
-#~ msgid "Untar'ing %s failed."
-#~ msgstr "%s sıkıştırılmış dosyadan açılamadı."
-
-#~ msgid "Syncing database to disk..."
-#~ msgstr "Veritabanı disk ile senkronize ediliyor..."
-
-#~ msgid "Checking integrity..."
-#~ msgstr "Bütünlük kontrolü yapılıyor..."
-
-#~ msgid "Integrity check FAILED, reverting to old database."
-#~ msgstr "Bütünlük kontrolü BAŞARISIZ, eski veritabanına dönülüyor."
-
-#~ msgid "Rotating database into place..."
-#~ msgstr "Veritabanı dönüştürülüyor..."
-
-#~ msgid ""
-#~ "New database substitution failed. Check for %s, %s, and %s directories."
-#~ msgstr ""
-#~ "Veritabanı yer değiştiremedi. %s, %s ve %s dizinlerini kontrol edin."
-
-#~ msgid "Finished. Your pacman database has been optimized."
-#~ msgstr "Tamamlandı. Pacman veritabanınız optimize edildi."
-
-#~ msgid "Optimizing PNG images..."
-#~ msgstr "PNG resimleri iyileştiriliyor..."
-
-#~ msgid "Could not optimize PNG image : %s"
-#~ msgstr "PNG imajı %s iyileştirilemiyor."
-
-#~ msgid "Compressing binaries with %s..."
-#~ msgstr "İkili dosyalar %s ile sıkıştırılıyor..."
-
-#~ msgid "Could not compress binary : %s"
-#~ msgstr "İkili dosya sıkıştırılamıyor: %s"
+msgstr "$%s dizini oluşturulamadı (%s)."

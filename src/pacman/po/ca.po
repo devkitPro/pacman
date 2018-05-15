@@ -9,14 +9,14 @@
 # Josep <jpreales@gmail.com>, 2011,2013-2014
 # Josep <jpreales@gmail.com>, 2011,2013
 # Josep <jpreales@gmail.com>, 2011
-# Davidmp <medipas@gmail.com>, 2015-2017
+# Davidmp <medipas@gmail.com>, 2015-2018
 # Ramon Buldó <rbuldo@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2017-09-19 09:10+0000\n"
+"PO-Revision-Date: 2018-04-30 11:11+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ca/)\n"
@@ -538,17 +538,17 @@ msgstr ""
 #: src/pacman/database.c:293
 #, c-format
 msgid "No database errors have been found!\n"
-msgstr ""
+msgstr "No s'han trobat errors de base de dades!\n"
 
 #: src/pacman/files.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s/%s%s %s%s%s\n"
-msgstr "%s pertany a %s %s\n"
+msgstr "%s pertany a %s%s/%s%s %s%s%s\n"
 
 #: src/pacman/files.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package: '%s'\n"
-msgstr "el número no és vàlid: %s\n"
+msgstr "paquet no vàlid: \"%s\"\n"
 
 #: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
 #, c-format
@@ -561,9 +561,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "Sincronitzant les bases de dades dels paquets...\n"
 
 #: src/pacman/files.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "no options specified (use -h for help)\n"
-msgstr "no s'ha especificat cap operació (useu -h per a l'ajuda)\n"
+msgstr "no s'ha especificat cap opció (useu -h per a l'ajuda)\n"
 
 #: src/pacman/package.c:99
 #, c-format
@@ -1040,10 +1040,9 @@ msgstr ""
 "per sincronitzar les bases de dades)\n"
 
 #: src/pacman/pacman.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
-msgstr ""
-"  -q, --quiet          mostra menys informació per a consultes i cerques\n"
+msgstr "  -q, --quiet          suprimeix la sortida dels missatges d'èxit\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
@@ -1067,14 +1066,15 @@ msgstr ""
 "                       produeix una sortida llegible per màquina\n"
 
 #: src/pacman/pacman.c:192
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --overwrite <path>\n"
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
-"--ignoregroup <grup>\n"
-"ignora l'actualització d'un grup (es pot usar més d'un cop)\n"
+"      --overwrite <path>\n"
+"                       sobreescriu els fitxers conflictius (es pot usar més "
+"d'un cop)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1184,6 +1184,8 @@ msgstr "      --arch <arq>    estableix una arquitectura alternativa\n"
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
+"      --sysroot        opera en un sistema de fitxers aliè muntat (només per "
+"a arrel)\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
@@ -1241,6 +1243,8 @@ msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
+"      --disable-download-timeout\n"
+"                       usa temps d'espera relaxats per a la baixada\n"
 
 #: src/pacman/pacman.c:246
 #, c-format
@@ -1254,12 +1258,12 @@ msgstr ""
 #: src/pacman/pacman.c:279
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
-msgstr ""
+msgstr "HTTP_USER_AGENT truncat\n"
 
 #: src/pacman/pacman.c:311
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
-msgstr "opció invalida: \"%s\" o \"%s\" no es poden utilitzar juntes\n"
+msgstr "opció no vàlida: \"%s\" i \"%s\" no s'haurien d'usar conjuntament\n"
 
 #: src/pacman/pacman.c:395
 #, c-format
@@ -1274,12 +1278,12 @@ msgstr "«%s» no és un nivell de depuració vàlid\n"
 #: src/pacman/pacman.c:453
 #, c-format
 msgid "option --root is deprecated; use --sysroot instead\n"
-msgstr ""
+msgstr "l'opció --root és obsoleta, useu --sysroot\n"
 
 #: src/pacman/pacman.c:722
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
-msgstr ""
+msgstr "l'opció --force és obsoleta, useu --overwrite\n"
 
 #: src/pacman/pacman.c:982
 #, c-format
@@ -1302,14 +1306,14 @@ msgid "you cannot perform this operation unless you are root.\n"
 msgstr "no podeu fer aquesta operació si no sou \"root\".\n"
 
 #: src/pacman/pacman.c:1173
-#, fuzzy, c-format
+#, c-format
 msgid "chroot to '%s' failed: (%s)\n"
-msgstr "no es pot registrar la base de dades «%s» (%s)\n"
+msgstr "fer chroot a \"%s\" ha fallat: (%s)\n"
 
 #: src/pacman/pacman.c:1207
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
-msgstr "ha fallat preparar la transacció (%s)\n"
+msgstr "ha fallat llegir arguments de stdin: (%s)\n"
 
 #: src/pacman/pacman.c:1212
 #, c-format
@@ -1334,9 +1338,9 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "no s'ha especificat cap operació (useu -h per a l'ajuda)\n"
 
 #: src/pacman/query.c:87
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s %s%s%s\n"
-msgstr "%s pertany a %s %s\n"
+msgstr "%s pertany a %s%s %s%s%s\n"
 
 #: src/pacman/query.c:149
 #, c-format
@@ -1346,7 +1350,7 @@ msgstr "no s'ha especificat cap fitxer per a --owns\n"
 #: src/pacman/query.c:170
 #, c-format
 msgid "empty string passed to file owner query\n"
-msgstr ""
+msgstr "cadena buida passada a la consulta de pertinença de fitxer\n"
 
 #: src/pacman/query.c:197 src/pacman/query.c:219
 #, c-format
@@ -1446,7 +1450,7 @@ msgstr "Voleu eliminar els repositoris no usats?"
 #: src/pacman/sync.c:141
 #, c-format
 msgid "removing unused sync repositories...\n"
-msgstr "Eliminant els repositoris de sincronització no utilitzats...\n"
+msgstr "Eliminant els repositoris de sincronització no usats...\n"
 
 #: src/pacman/sync.c:167
 #, c-format
@@ -1506,11 +1510,11 @@ msgstr ""
 "\n"
 
 #: src/pacman/sync.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
-msgstr[0] "Hi ha %d membre en el grup %s:\n"
-msgstr[1] "Hi ha %d membres al grup %s:\n"
+msgstr[0] "Hi ha %d membre al grup %s%s%s:\n"
+msgstr[1] "Hi ha %d membres al grup %s%s%s:\n"
 
 #: src/pacman/sync.c:640
 #, c-format
@@ -1530,17 +1534,17 @@ msgstr "S'inicia una actualització completa del sistema...\n"
 #: src/pacman/sync.c:720
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
-msgstr ""
+msgstr "no es pot satisfer la dependència \"%s\" requerida per %s\n"
 
 #: src/pacman/sync.c:724
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
-msgstr "%s: si s'instal·la %s (%s) es trenca la dependència \"%s\"\n"
+msgstr "instal·lar %s (%s) trenca la dependència \"%s\" requerida per %s\n"
 
 #: src/pacman/sync.c:728
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "%s: si s'elimina %s es trenca la dependència \"%s\"\n"
+msgstr "eliminar %s trenca la dependència \"%s\" requerida per %s\n"
 
 #: src/pacman/sync.c:748
 #, c-format
@@ -1578,9 +1582,9 @@ msgid "%s exists in both '%s' and '%s'\n"
 msgstr "%s existeix en ambdós «%s» i «%s»\n"
 
 #: src/pacman/sync.c:828
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
-msgstr "%s: %s existeix al sistema de fitxers\n"
+msgstr "%s: %s existeix al sistema de fitxers (pertany a %s)\n"
 
 #: src/pacman/sync.c:831
 #, c-format
@@ -1652,9 +1656,9 @@ msgid " %s is up to date\n"
 msgstr " %s està al dia.\n"
 
 #: src/pacman/util.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "failed to synchronize all databases\n"
-msgstr "ha fallat la sincronització d'algunes bases de dades\n"
+msgstr "ha fallat sincronitzar totes les bases de dades\n"
 
 #: src/pacman/util.c:636
 #, c-format
@@ -1788,9 +1792,9 @@ msgid "Optional dependencies for %s\n"
 msgstr "Dependències opcionals per a %s\n"
 
 #: src/pacman/util.c:1285
-#, fuzzy, c-format
+#, c-format
 msgid "Repository %s%s\n"
-msgstr "Repositori %s\n"
+msgstr "Repositori %s%s\n"
 
 #: src/pacman/util.c:1326
 #, c-format
@@ -1856,31 +1860,3 @@ msgstr "Error: "
 #, c-format
 msgid "warning: "
 msgstr "Avís: "
-
-#~ msgid "could not add mirror '%s' to database '%s' (%s)\n"
-#~ msgstr ""
-#~ "no s'ha pogut afegir la rèplica \"%s\" a la base de dades \"%s\" (%s)\n"
-
-#~ msgid "      --force          force install, overwrite conflicting files\n"
-#~ msgstr ""
-#~ "      --force          força la instal·lació, sobreescrivint els fitxers "
-#~ "amb conflictes\n"
-
-#~ msgid "  -r, --root <path>    set an alternate installation root\n"
-#~ msgstr ""
-#~ "  -r, --root <camí>    estableix una arrel d'instal·lació alternativa\n"
-
-#~ msgid "memory exhausted in argument parsing\n"
-#~ msgstr "s'ha exhaurit la memòria en l'anàlisi d'arguments\n"
-
-#~ msgid "failed to find '%s' in PATH: %s\n"
-#~ msgstr "ha fallat trobar «%s» a la variable PATH: %s\n"
-
-#~ msgid "failed to read file '%s': %s\n"
-#~ msgstr "ha fallat llegir el fitxer «%s»: %s\n"
-
-#~ msgid "cannot determine real path for '%s': %s\n"
-#~ msgstr "no es pot determinar el camí real per a «%s»: %s\n"
-
-#~ msgid "%s: requires %s\n"
-#~ msgstr "%s: requereix %s\n"

@@ -8,6 +8,7 @@
 # Antonio Fernandes C. Neto <fernandes@pelivre.org>, 2011
 # Antonio Fernandes C. Neto <fernandes@pelivre.org>, 2011
 # Rafael Fontenelle <rffontenelle@gmail.com>, 2012-2014
+# Rafael Fontenelle <rafaelff@gnome.org>, 2018
 # Rafael Fontenelle <rffontenelle@gmail.com>, 2015-2017
 # Rafael Fontenelle <rffontenelle@gmail.com>, 2011-2012
 # Sandro <sandrossv@hotmail.com>, 2011
@@ -18,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2017-09-19 09:10+0000\n"
+"PO-Revision-Date: 2018-04-30 11:41+0000\n"
 "Last-Translator: Rafael Fontenelle <rffontenelle@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/pt_BR/)\n"
@@ -46,7 +47,7 @@ msgstr "verificando dependências...\n"
 #: src/pacman/callback.c:201
 #, c-format
 msgid "checking for file conflicts...\n"
-msgstr "verificando arquivos em conflito\n"
+msgstr "verificando arquivos em conflito...\n"
 
 #: src/pacman/callback.c:205
 #, c-format
@@ -257,7 +258,7 @@ msgstr "verificando conflitos de arquivo"
 #: src/pacman/callback.c:563
 #, c-format
 msgid "checking available disk space"
-msgstr "verificando espaço em disco disponível "
+msgstr "verificando espaço em disco disponível"
 
 #: src/pacman/callback.c:566
 #, c-format
@@ -381,7 +382,7 @@ msgstr "não foi possível obter o diretório de trabalho atual\n"
 #: src/pacman/conf.c:257
 #, c-format
 msgid "could not chdir to download directory %s\n"
-msgstr "não foi possível mudar para (chdir) o diretório de download %s\n"
+msgstr "não foi possível mudar para o diretório de download %s\n"
 
 #: src/pacman/conf.c:266
 #, c-format
@@ -538,22 +539,22 @@ msgstr ""
 #: src/pacman/database.c:293
 #, c-format
 msgid "No database errors have been found!\n"
-msgstr ""
+msgstr "Nenhum erro de base dados foi localizado!\n"
 
 #: src/pacman/files.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s/%s%s %s%s%s\n"
-msgstr "%s pertence a %s %s\n"
+msgstr "%s pertence a %s%s/%s%s %s%s%s\n"
 
 #: src/pacman/files.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package: '%s'\n"
-msgstr "número inválido: %s\n"
+msgstr "pacote inválido: \"%s\"\n"
 
 #: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
 #, c-format
 msgid "package '%s' was not found\n"
-msgstr "pacote \"%s\" não foi encontrado\n"
+msgstr "o pacote \"%s\" não foi localizado\n"
 
 #: src/pacman/files.c:291 src/pacman/sync.c:898
 #, c-format
@@ -561,9 +562,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "Sincronizando a base de dados de pacotes...\n"
 
 #: src/pacman/files.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "no options specified (use -h for help)\n"
-msgstr "nenhuma operação especificada (use -h para obter ajuda)\n"
+msgstr "nenhuma opção especificada (use -h para ajuda)\n"
 
 #: src/pacman/package.c:99
 #, c-format
@@ -750,7 +751,7 @@ msgstr "Não"
 #: src/pacman/package.c:376
 #, c-format
 msgid "could not calculate checksums for %s\n"
-msgstr "não foi possível calcular a verificação de soma para %s\n"
+msgstr "não foi possível calcular a soma de verificação para %s\n"
 
 #: src/pacman/package.c:423
 #, c-format
@@ -854,7 +855,7 @@ msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
 msgstr ""
 "  -d, --deps             lista os pacotes instalados como dependências "
-"[filtro] \n"
+"[filtro]\n"
 
 #: src/pacman/pacman.c:139
 #, c-format
@@ -883,14 +884,15 @@ msgid ""
 "  -k, --check          check that package files exist (-kk for file "
 "properties)\n"
 msgstr ""
-"  -k, --check          verifica se os arquivos de pacote existem (-kk para\n"
-"                       propriedades dos arquivos)\n"
+"  -k, --check            verifica se os arquivos de pacote existem (-kk "
+"para\n"
+"                         propriedades dos arquivos)\n"
 
 #: src/pacman/pacman.c:143 src/pacman/pacman.c:179
 #, c-format
 msgid "  -l, --list           list the files owned by the queried package\n"
 msgstr ""
-"  -l, --list           lista dos arquivos fornecidos do pacote consultado\n"
+"  -l, --list             lista dos arquivos fornecidos do pacote consultado\n"
 
 #: src/pacman/pacman.c:144
 #, c-format
@@ -943,8 +945,8 @@ msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
 msgstr ""
-"  -t, --unrequired     lista de pacotes não exigidos (opcionalmente) por\n"
-"                       qualquer pacote (-tt para ignorar optdepends "
+"  -t, --unrequired       lista de pacotes não exigidos (opcionalmente) por\n"
+"                         qualquer pacote (-tt para ignorar optdepends) "
 "[filtro]\n"
 
 #: src/pacman/pacman.c:152
@@ -968,8 +970,8 @@ msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
 msgstr ""
-"  -g, --groups         ver todos membros de um grupo de pacotes\n"
-"                       (-gg pra ver todos os grupos e membros)\n"
+"  -g, --groups           vê todos membros de um grupo de pacotes\n"
+"                         (-gg pra ver todos os grupos e membros)\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
@@ -977,7 +979,7 @@ msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
 msgstr ""
-"  -i, --info           ver informação do pacote (-ii para informação "
+"  -i, --info             ver informação do pacote (-ii para informação "
 "extensa)\n"
 
 #: src/pacman/pacman.c:160
@@ -999,7 +1001,7 @@ msgstr ""
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
 msgstr ""
-"  -u, --sysupgrade     atualiza pacotes instalados (-uu permite volta "
+"  -u, --sysupgrade       atualiza pacotes instalados (-uu permite volta "
 "versão)\n"
 
 #: src/pacman/pacman.c:164
@@ -1017,8 +1019,8 @@ msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
 msgstr ""
-"  -y, --refresh        baixa pacotes novos da base de dados do servidor\n"
-"                       (-yy para forçar um renovação mesmo se atualizado)\n"
+"  -y, --refresh          baixa pacotes novos da base de dados do servidor\n"
+"                         (-yy para forçar um renovação mesmo se atualizado)\n"
 
 #: src/pacman/pacman.c:171
 #, c-format
@@ -1038,25 +1040,26 @@ msgid ""
 "  -k, --check          test local database for validity (-kk for sync "
 "databases)\n"
 msgstr ""
-"-k, --check verifica a validade da base de dados local (-kk para sincronizar "
-"as bases de dados)\n"
+"  -k, --check            verifica a validade da base de dados local\n"
+"                         (-kk para sincronizar as bases de dados)\n"
 
 #: src/pacman/pacman.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
-msgstr ""
-"  -q, --quiet            mostra menos informações nas consultas e pesquisas\n"
+msgstr "  -q, --quiet            suprime saída de mensagens de sucesso\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
 msgid "  -s, --search <file>  search package file names for matching strings\n"
 msgstr ""
-"-s, --search <file> pesquisa nos nomes de pacotes pelas strings fornecidas\n"
+"  -s, --search <arquivo> pesquisa nos nomes de pacotes pelas strings "
+"fornecidas\n"
 
 #: src/pacman/pacman.c:183
 #, c-format
 msgid "  -x, --regex          enable searching using regular expressions\n"
-msgstr "-x, --regex habilita a pesquisa usando expressões regulares\n"
+msgstr ""
+"  -x, --regex            habilita a pesquisa usando expressões regulares\n"
 
 #: src/pacman/pacman.c:186
 #, c-format
@@ -1064,20 +1067,20 @@ msgid ""
 "      --machinereadable\n"
 "                       produce machine-readable output\n"
 msgstr ""
-"--machinereadable\n"
-"produz saída legível por máquinas\n"
+"      --machinereadable\n"
+"                         produz saída legível por máquinas\n"
 
 #: src/pacman/pacman.c:192
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --overwrite <path>\n"
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
-"      --ignoregroup <grupo>\n"
-"                         ignora a atualização de um grupo (pode ser usado "
-"mais\n"
-"                         de uma vez)\n"
+"      --overwrite <caminho>\n"
+"                         sobrescreve os arquivos conflitantes (pode ser "
+"usado\n"
+"                         mais de uma vez)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1107,9 +1110,8 @@ msgid ""
 "                       ignore a group upgrade (can be used more than once)\n"
 msgstr ""
 "      --ignoregroup <grupo>\n"
-"                         ignora a atualização de um grupo (pode ser usado "
-"mais\n"
-"                         de uma vez)\n"
+"                         ignora a atualização de um grupo (pode ser usado\n"
+"                         mais de uma vez)\n"
 
 #: src/pacman/pacman.c:201
 #, c-format
@@ -1127,7 +1129,8 @@ msgid ""
 "                       add a virtual package to satisfy dependencies\n"
 msgstr ""
 "      --assume-installed <pacote=versão>\n"
-"                       adiciona pacote virtual para satisfazer dependências\n"
+"                         adiciona pacote virtual para satisfazer "
+"dependências\n"
 
 #: src/pacman/pacman.c:204
 #, c-format
@@ -1136,7 +1139,7 @@ msgid ""
 msgstr ""
 "      --dbonly           modifica apenas as entradas da base de dados, e "
 "não\n"
-"\t\t\t os arquivos de pacote\n"
+"                         os arquivos de pacote\n"
 
 #: src/pacman/pacman.c:205
 #, c-format
@@ -1192,6 +1195,7 @@ msgstr ""
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
+"      --sysroot          opera em um sistema convidado montado (como root)\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
@@ -1203,7 +1207,7 @@ msgstr ""
 #: src/pacman/pacman.c:218
 #, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
-msgstr "--hookdir <dir> define um local alternativo para hook\n"
+msgstr "      --hookdir <dir>    define um local alternativo para hook\n"
 
 #: src/pacman/pacman.c:219
 #, c-format
@@ -1236,12 +1240,12 @@ msgstr ""
 #: src/pacman/pacman.c:224
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
-msgstr "      --noconfirm        não pede nenhuma confirmação\n"
+msgstr "      --noconfirm        não solicita qualquer confirmação\n"
 
 #: src/pacman/pacman.c:225
 #, c-format
 msgid "      --confirm        always ask for confirmation\n"
-msgstr "      --confirm        sempre solicitar confirmação\n"
+msgstr "      --confirm          sempre solicita confirmação\n"
 
 #: src/pacman/pacman.c:226
 #, c-format
@@ -1249,6 +1253,8 @@ msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
+"      --disable-download-timeout\n"
+"                         usa tempos limites relaxados para download\n"
 
 #: src/pacman/pacman.c:246
 #, c-format
@@ -1256,13 +1262,13 @@ msgid ""
 "                       This program may be freely redistributed under\n"
 "                       the terms of the GNU General Public License.\n"
 msgstr ""
-"                       Este programa pode ser redistribuído livremente sob\n"
-"                       os termos da GNU General Public License\n"
+"                       Este programa pode ser redistribuído livremente\n"
+"                       sob os termos da Licença Pública Geral GNU.\n"
 
 #: src/pacman/pacman.c:279
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
-msgstr ""
+msgstr "HTTP_USER_AGENT truncado\n"
 
 #: src/pacman/pacman.c:311
 #, c-format
@@ -1282,12 +1288,12 @@ msgstr "\"%s\" não é um nível de depuração válido\n"
 #: src/pacman/pacman.c:453
 #, c-format
 msgid "option --root is deprecated; use --sysroot instead\n"
-msgstr ""
+msgstr "a opção --root está obsoleta; em vez disso, use --sysroot\n"
 
 #: src/pacman/pacman.c:722
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
-msgstr ""
+msgstr "a opção --force está obsoleta; em vez disso, use --overwrite\n"
 
 #: src/pacman/pacman.c:982
 #, c-format
@@ -1310,24 +1316,24 @@ msgid "you cannot perform this operation unless you are root.\n"
 msgstr "você não pode realizar esta operação a menos que seja root.\n"
 
 #: src/pacman/pacman.c:1173
-#, fuzzy, c-format
+#, c-format
 msgid "chroot to '%s' failed: (%s)\n"
-msgstr "não foi possível registrar a base de dados \"%s\" (%s)\n"
+msgstr "chroot para \"%s\" falhou: (%s)\n"
 
 #: src/pacman/pacman.c:1207
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
-msgstr "falha ao preparar a transação (%s)\n"
+msgstr "falha ao ler os argumentos da entrada padrão: (%s)\n"
 
 #: src/pacman/pacman.c:1212
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
-msgstr "falha ao reabrir entrada padrão para leitura: (%s)\n"
+msgstr "falha ao reabrir a entrada padrão para leitura: (%s)\n"
 
 #: src/pacman/pacman.c:1217
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
-msgstr "argumento \"-\" foi especificado com entrada vazia\n"
+msgstr "argumento \"-\" especificado com entrada vazia\n"
 
 #: src/pacman/pacman.c:1222
 #, c-format
@@ -1340,9 +1346,9 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "nenhuma operação especificada (use -h para obter ajuda)\n"
 
 #: src/pacman/query.c:87
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s %s%s%s\n"
-msgstr "%s pertence a %s %s\n"
+msgstr "%s pertence a %s%s %s%s%s\n"
 
 #: src/pacman/query.c:149
 #, c-format
@@ -1352,7 +1358,7 @@ msgstr "nenhum arquivo foi especificado para --owns\n"
 #: src/pacman/query.c:170
 #, c-format
 msgid "empty string passed to file owner query\n"
-msgstr ""
+msgstr "string vazia passada para a consulta de dono do arquivo\n"
 
 #: src/pacman/query.c:197 src/pacman/query.c:219
 #, c-format
@@ -1367,7 +1373,7 @@ msgstr "caminho muito longo: %s/\n"
 #: src/pacman/query.c:332
 #, c-format
 msgid "[ignored]"
-msgstr "[Ignorado]"
+msgstr "[ignorado]"
 
 #: src/pacman/query.c:383
 #, c-format
@@ -1402,7 +1408,7 @@ msgstr "falha ao preparar a transação (%s)\n"
 #: src/pacman/remove.c:125
 #, c-format
 msgid "%s: removing %s breaks dependency '%s'\n"
-msgstr "%s: removendo %s dependências '%s'\n"
+msgstr "%s: a remoção de %s quebra a dependência \"%s\"\n"
 
 #: src/pacman/remove.c:144
 #, c-format
@@ -1412,7 +1418,7 @@ msgstr "%s foi designado como um HoldPkg.\n"
 #: src/pacman/remove.c:149
 #, c-format
 msgid "HoldPkg was found in target list. Do you want to continue?"
-msgstr "Pacotes HoldPkg foram encontrados na lista. Você deseja continuar?"
+msgstr "HoldPkg foi localizado na lista. Você deseja continuar?"
 
 #: src/pacman/remove.c:157 src/pacman/sync.c:785
 #, c-format
@@ -1510,11 +1516,11 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "repositório \"%s\" não foi encontrado.\n"
 
 #: src/pacman/sync.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
-msgstr[0] "Há %d membro no grupo %s:\n"
-msgstr[1] "Há %d membros no grupo %s:\n"
+msgstr[0] "Há %d membro no grupo %s%s%s:\n"
+msgstr[1] "Há %d membros no grupo %s%s%s:\n"
 
 #: src/pacman/sync.c:640
 #, c-format
@@ -1534,22 +1540,23 @@ msgstr "Iniciando atualização completa do sistema...\n"
 #: src/pacman/sync.c:720
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
-msgstr ""
+msgstr "não foi possível satisfazer a dependência \"%s\" necessária por %s\n"
 
 #: src/pacman/sync.c:724
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
-msgstr "%s: instalando %s (%s) dependências '%s'\n"
+msgstr ""
+"a instalação de %s (%s) quebra a dependência \"%s\" necessária por %s\n"
 
 #: src/pacman/sync.c:728
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "%s: removendo %s dependências '%s'\n"
+msgstr "a remoção de %s quebra a dependência \"%s\" necessária por %s\n"
 
 #: src/pacman/sync.c:748
 #, c-format
 msgid "package %s does not have a valid architecture\n"
-msgstr "pacote \"%s\" não possui uma arquitetura válida\n"
+msgstr "o pacote \"%s\" não possui uma arquitetura válida\n"
 
 #: src/pacman/sync.c:763
 #, c-format
@@ -1582,9 +1589,9 @@ msgid "%s exists in both '%s' and '%s'\n"
 msgstr "%s existe tanto em \"%s\" como em \"%s\"\n"
 
 #: src/pacman/sync.c:828
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
-msgstr "%s: %s existe no sistema de arquivos\n"
+msgstr "%s: %s existe no sistema de arquivos (pertence %s)\n"
 
 #: src/pacman/sync.c:831
 #, c-format
@@ -1656,9 +1663,9 @@ msgid " %s is up to date\n"
 msgstr " %s está atualizado\n"
 
 #: src/pacman/util.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "failed to synchronize all databases\n"
-msgstr "falha na sincronização de quaisquer bases de dados\n"
+msgstr "falha ao sincronizar todos as bases de dados\n"
 
 #: src/pacman/util.c:636
 #, c-format
@@ -1713,7 +1720,7 @@ msgstr "confiança parcial"
 #: src/pacman/util.c:786
 #, c-format
 msgid "never trust"
-msgstr "nunca confie"
+msgstr "nunca confiar"
 
 #: src/pacman/util.c:790
 #, c-format
@@ -1791,9 +1798,9 @@ msgid "Optional dependencies for %s\n"
 msgstr "Dependências opcionais para %s\n"
 
 #: src/pacman/util.c:1285
-#, fuzzy, c-format
+#, c-format
 msgid "Repository %s%s\n"
-msgstr "Repositório %s\n"
+msgstr "Repositório %s%s\n"
 
 #: src/pacman/util.c:1326
 #, c-format
@@ -1859,33 +1866,3 @@ msgstr "erro: "
 #, c-format
 msgid "warning: "
 msgstr "atenção: "
-
-#~ msgid "could not add mirror '%s' to database '%s' (%s)\n"
-#~ msgstr ""
-#~ "não foi possível adicionar o espelho \"%s\" para a base de dados \"%s"
-#~ "\" (%s)\n"
-
-#~ msgid "      --force          force install, overwrite conflicting files\n"
-#~ msgstr ""
-#~ "      --force            força instalação, sobrescreve arquivos "
-#~ "conflitantes\n"
-
-#~ msgid "  -r, --root <path>    set an alternate installation root\n"
-#~ msgstr ""
-#~ "  -r, --root <caminho>   define um diretório raiz de instalação "
-#~ "alternativo\n"
-
-#~ msgid "memory exhausted in argument parsing\n"
-#~ msgstr "memória esgotada na análise de argumentos\n"
-
-#~ msgid "failed to find '%s' in PATH: %s\n"
-#~ msgstr "falha em procurar \"%s\" no PATH: %s\n"
-
-#~ msgid "failed to read file '%s': %s\n"
-#~ msgstr "falha na leitura o arquivo \"%s\": %s\n"
-
-#~ msgid "cannot determine real path for '%s': %s\n"
-#~ msgstr "não é possível determinar o caminho real para \"%s\": %s\n"
-
-#~ msgid "%s: requires %s\n"
-#~ msgstr "%s: requer %s\n"

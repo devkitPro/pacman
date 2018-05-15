@@ -8,15 +8,15 @@
 # Rax Garfield <admin@dvizho.ks.ua>, 2012
 # sevenfourk <sevenfourk@gmail.com>, 2012
 # sevenfourk <sevenfourk@gmail.com>, 2012
-# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2013,2015,2017
+# Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2013,2015,2017-2018
 # Данило Коростіль <ted.korostiled@gmail.com>, 2011-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2017-09-23 18:02+0000\n"
-"Last-Translator: Данило Коростіль <ted.korostiled@gmail.com>\n"
+"PO-Revision-Date: 2018-05-01 08:25+0000\n"
+"Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/uk/)\n"
 "Language: uk\n"
@@ -528,17 +528,17 @@ msgstr "%s: причину встановлення вказано на «явн
 #: src/pacman/database.c:293
 #, c-format
 msgid "No database errors have been found!\n"
-msgstr ""
+msgstr "Не знайдено помилок бази даних!\n"
 
 #: src/pacman/files.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s/%s%s %s%s%s\n"
-msgstr "%s є власністю %s %s\n"
+msgstr "%s належить до %s%s/%s%s %s%s%s\n"
 
 #: src/pacman/files.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package: '%s'\n"
-msgstr "неприпустиме число: %s\n"
+msgstr "неправильний пакунок: '%s'\n"
 
 #: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
 #, c-format
@@ -551,9 +551,9 @@ msgid "Synchronizing package databases...\n"
 msgstr "Синхронізування бази даних пакунків...\n"
 
 #: src/pacman/files.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "no options specified (use -h for help)\n"
-msgstr "не вказано операцію (використайте -h для довідки)\n"
+msgstr "не вказано опцій (використайте -h для допомоги)\n"
 
 #: src/pacman/package.c:99
 #, c-format
@@ -1018,11 +1018,9 @@ msgstr ""
 "синхронізування бази даних)\n"
 
 #: src/pacman/pacman.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
-msgstr ""
-"  -q, --quiet          показувати менше інформації в результаті запиту чи "
-"пошуку\n"
+msgstr "  -q, --quiet          не показувати вивід успішних повідомлень\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
@@ -1045,15 +1043,15 @@ msgstr ""
 "                       виводити інформацію, який зрозумілий для машини\n"
 
 #: src/pacman/pacman.c:192
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --overwrite <path>\n"
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
-"      --ignoregroup <grp>\n"
-"                       ігнорувати оновлення групи (можна вказувати "
-"неодноразово)\n"
+"      --overwrite <path>\n"
+"                       перезаписати конфліктні файли (можна використати "
+"кілька разів)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1159,6 +1157,8 @@ msgstr "      --arch <arch>    встановити альтернативну �
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
+"      --sysroot        працювати на змонтованій гостьовій системі (тільки "
+"root)\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
@@ -1215,6 +1215,8 @@ msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
+"      --disable-download-timeout\n"
+"                       використовувати невимушені тайм-аути для звантаження\n"
 
 #: src/pacman/pacman.c:246
 #, c-format
@@ -1228,7 +1230,7 @@ msgstr ""
 #: src/pacman/pacman.c:279
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
-msgstr ""
+msgstr "HTTP_USER_AGENT обрізаний\n"
 
 #: src/pacman/pacman.c:311
 #, c-format
@@ -1248,12 +1250,12 @@ msgstr "рівень зневадження «%s» неправильний\n"
 #: src/pacman/pacman.c:453
 #, c-format
 msgid "option --root is deprecated; use --sysroot instead\n"
-msgstr ""
+msgstr "опція --root не підтримується; використайте замість неї --sysroot\n"
 
 #: src/pacman/pacman.c:722
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
-msgstr ""
+msgstr "опція --force не підтримується; використайте замість неї --overwrite\n"
 
 #: src/pacman/pacman.c:982
 #, c-format
@@ -1276,14 +1278,14 @@ msgid "you cannot perform this operation unless you are root.\n"
 msgstr "ви можете виконати цю операцію тільки як адміністратор.\n"
 
 #: src/pacman/pacman.c:1173
-#, fuzzy, c-format
+#, c-format
 msgid "chroot to '%s' failed: (%s)\n"
-msgstr "неможливо зареєструвати базу даних «%s» (%s)\n"
+msgstr "chroot до '%s' не вдався: (%s)\n"
 
 #: src/pacman/pacman.c:1207
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
-msgstr "не вдалось підготувати операцію (%s)\n"
+msgstr "помилка читання аргументів зі вводу: (%s)\n"
 
 #: src/pacman/pacman.c:1212
 #, c-format
@@ -1306,9 +1308,9 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "не вказано операцію (використайте -h для довідки)\n"
 
 #: src/pacman/query.c:87
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s %s%s%s\n"
-msgstr "%s є власністю %s %s\n"
+msgstr "%s належить до %s%s %s%s%s\n"
 
 #: src/pacman/query.c:149
 #, c-format
@@ -1318,7 +1320,7 @@ msgstr "не було вказано файл для --owns\n"
 #: src/pacman/query.c:170
 #, c-format
 msgid "empty string passed to file owner query\n"
-msgstr ""
+msgstr "пуста стрічка подано до запиту щодо власника файлу\n"
 
 #: src/pacman/query.c:197 src/pacman/query.c:219
 #, c-format
@@ -1478,12 +1480,12 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "сховище «%s» не знайдено.\n"
 
 #: src/pacman/sync.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
-msgstr[0] "В групі %2$s %1$d елемент:\n"
-msgstr[1] "В групі %2$s %1$d елементи:\n"
-msgstr[2] "В групі %2$s %1$d елементі:\n"
+msgstr[0] "Є %d член в групі %s%s%s:\n"
+msgstr[1] "Є %d членів в групі %s%s%s:\n"
+msgstr[2] "Є %d членів в групі %s%s%s:\n"
 
 #: src/pacman/sync.c:640
 #, c-format
@@ -1503,17 +1505,18 @@ msgstr "Починається оновлення системи...\n"
 #: src/pacman/sync.c:720
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
-msgstr ""
+msgstr "неможливо задовольнити залежності '%s', які вимагаються %s\n"
 
 #: src/pacman/sync.c:724
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
-msgstr "%s: встановлення %s (%s) створить конфлікт залежностей «%s»\n"
+msgstr ""
+"встановлення %s (%s) створить конфлікт залежностей '%s', які вимагаються %s\n"
 
 #: src/pacman/sync.c:728
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "%s: вилучення %s створить конфлікт залежностей «%s»\n"
+msgstr "вилучення %s створить конфлікт залежностей '%s', які вимаються %s\n"
 
 #: src/pacman/sync.c:748
 #, c-format
@@ -1551,9 +1554,9 @@ msgid "%s exists in both '%s' and '%s'\n"
 msgstr "%s існує і в «%s», і в «%s»\n"
 
 #: src/pacman/sync.c:828
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
-msgstr "%s: %s існує у файловій системі\n"
+msgstr "%s: %s існує у файловій системі (належить до %s)\n"
 
 #: src/pacman/sync.c:831
 #, c-format
@@ -1625,9 +1628,9 @@ msgid " %s is up to date\n"
 msgstr " %s не потребує оновлення\n"
 
 #: src/pacman/util.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "failed to synchronize all databases\n"
-msgstr "не вдалось синхронізувати жодну базу даних\n"
+msgstr "помилка синхронізації всіх баз даних\n"
 
 #: src/pacman/util.c:636
 #, c-format
@@ -1760,9 +1763,9 @@ msgid "Optional dependencies for %s\n"
 msgstr "Необов'язкові залежності для %s\n"
 
 #: src/pacman/util.c:1285
-#, fuzzy, c-format
+#, c-format
 msgid "Repository %s%s\n"
-msgstr "Сховище %s\n"
+msgstr "Сховище %s%s\n"
 
 #: src/pacman/util.c:1326
 #, c-format
@@ -1828,31 +1831,3 @@ msgstr "помилка: "
 #, c-format
 msgid "warning: "
 msgstr "попередження: "
-
-#~ msgid "could not add mirror '%s' to database '%s' (%s)\n"
-#~ msgstr "неможливо додати дзеркало «%s» до бази даних «%s» (%s)\n"
-
-#~ msgid "      --force          force install, overwrite conflicting files\n"
-#~ msgstr ""
-#~ "      --force          примусово встановити, перезаписавши конфліктні "
-#~ "файли\n"
-
-#~ msgid "  -r, --root <path>    set an alternate installation root\n"
-#~ msgstr ""
-#~ "  -r, --root <path>    використати альтернативний кореневий каталог "
-#~ "встановлення\n"
-
-#~ msgid "memory exhausted in argument parsing\n"
-#~ msgstr "вичерпано пам'ять у аналізуванні аргументу\n"
-
-#~ msgid "failed to find '%s' in PATH: %s\n"
-#~ msgstr "не вдалось знайти файл «%s» в PATH: %s\n"
-
-#~ msgid "failed to read file '%s': %s\n"
-#~ msgstr "не вдалось прочитати файл «%s»: %s\n"
-
-#~ msgid "cannot determine real path for '%s': %s\n"
-#~ msgstr "неможливо визначити справжній шлях до «%s»: %s\n"
-
-#~ msgid "%s: requires %s\n"
-#~ msgstr "%s: потребує %s\n"

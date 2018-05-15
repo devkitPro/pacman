@@ -4,7 +4,7 @@
 #
 # Translators:
 # Seong-ho Cho <darkcircle.0426@gmail.com>, 2013
-# 배태길 <esrevinu@gmail.com>, 2016-2017
+# 배태길 <esrevinu@gmail.com>, 2016-2018
 # Seong-ho Cho <darkcircle.0426@gmail.com>, 2013,2015
 # Sung jin Gang <>, 2012
 # Sungjin Kang <potopro@gmail.com>, 2012
@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2017-09-23 18:04+0000\n"
+"POT-Creation-Date: 2018-05-15 10:38+1000\n"
+"PO-Revision-Date: 2018-04-29 20:03+0000\n"
 "Last-Translator: 배태길 <esrevinu@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
@@ -57,10 +57,10 @@ msgid "Unable to find source file %s."
 msgstr "소스 파일 %s을 찾을 수 없습니다."
 
 #: scripts/makepkg.sh.in:217 scripts/makepkg.sh.in:348
-#: scripts/makepkg.sh.in:718 scripts/makepkg.sh.in:911
-#: scripts/makepkg.sh.in:1314 scripts/makepkg.sh.in:1362
-#: scripts/makepkg.sh.in:1368 scripts/makepkg.sh.in:1373
-#: scripts/makepkg.sh.in:1379 scripts/makepkg.sh.in:1389
+#: scripts/makepkg.sh.in:727 scripts/makepkg.sh.in:920
+#: scripts/makepkg.sh.in:1323 scripts/makepkg.sh.in:1371
+#: scripts/makepkg.sh.in:1377 scripts/makepkg.sh.in:1382
+#: scripts/makepkg.sh.in:1388 scripts/makepkg.sh.in:1398
 #: scripts/libmakepkg/source/bzr.sh.in:50
 #: scripts/libmakepkg/source/bzr.sh.in:81
 #: scripts/libmakepkg/source/bzr.sh.in:96
@@ -80,7 +80,7 @@ msgstr "소스 파일 %s을 찾을 수 없습니다."
 #: scripts/libmakepkg/source/svn.sh.in:68
 #: scripts/libmakepkg/util/source.sh.in:157
 #: scripts/libmakepkg/util/source.sh.in:166
-#: scripts/libmakepkg/util/util.sh.in:82
+#: scripts/libmakepkg/util/util.sh.in:77
 msgid "Aborting..."
 msgstr "중지하는 중..."
 
@@ -133,307 +133,305 @@ msgid "Cannot find library listed in %s: %s"
 msgstr "%s 목록에서 라이브러리를 찾을 수 없습니다: %s"
 
 #: scripts/makepkg.sh.in:629
-#, fuzzy
 msgid "Invalid value for %s: %s"
-msgstr "%s로 유효하지 않는 구문: '%s'"
+msgstr "%s에 유효하지 않는 값: '%s'"
 
 #: scripts/makepkg.sh.in:642 scripts/makepkg.sh.in:680
-#: scripts/makepkg.sh.in:811
+#: scripts/makepkg.sh.in:820
 msgid "Generating %s file..."
 msgstr "%s 파일 만드는 중..."
 
-#: scripts/makepkg.sh.in:717
+#: scripts/makepkg.sh.in:726
 msgid "Missing %s directory."
 msgstr "%s 디렉터리가 빠졌습니다."
 
-#: scripts/makepkg.sh.in:723
+#: scripts/makepkg.sh.in:732
 msgid "Creating package \"%s\"..."
 msgstr "\"%s\" 꾸러미 만드는 중..."
 
-#: scripts/makepkg.sh.in:734
+#: scripts/makepkg.sh.in:743
 msgid "Adding %s file..."
 msgstr "%s 파일 추가 중..."
 
-#: scripts/makepkg.sh.in:736
+#: scripts/makepkg.sh.in:745
 msgid "Failed to add %s file to package."
 msgstr "꾸러미에 %s 파일을 추가하는 데 실패했습니다."
 
-#: scripts/makepkg.sh.in:754
+#: scripts/makepkg.sh.in:763
 msgid "Generating .MTREE file..."
 msgstr ".MTREE 파일 만드는 중..."
 
-#: scripts/makepkg.sh.in:760
+#: scripts/makepkg.sh.in:769
 msgid "Compressing package..."
 msgstr "꾸러미 압축 중..."
 
-#: scripts/makepkg.sh.in:769
+#: scripts/makepkg.sh.in:778
 msgid "Failed to create package file."
 msgstr "꾸러미 파일을 만드는데 실패했습니다."
 
-#: scripts/makepkg.sh.in:804
+#: scripts/makepkg.sh.in:813
 msgid "Creating source package..."
 msgstr "소스 꾸러미 제작 중..."
 
-#: scripts/makepkg.sh.in:808 scripts/makepkg.sh.in:821
+#: scripts/makepkg.sh.in:817 scripts/makepkg.sh.in:830
 msgid "Adding %s..."
 msgstr "%s 추가 중..."
 
-#: scripts/makepkg.sh.in:839
+#: scripts/makepkg.sh.in:848
 msgid "Adding %s file (%s)..."
 msgstr "%s 파일 추가 중(%s)..."
 
-#: scripts/makepkg.sh.in:849
+#: scripts/makepkg.sh.in:858
 msgid "Compressing source package..."
 msgstr "소스 꾸러미 압축 중..."
 
-#: scripts/makepkg.sh.in:859
+#: scripts/makepkg.sh.in:868
 msgid "Failed to create source package file."
 msgstr "소스 꾸러미 파일 만들기에 실패했습니다."
 
-#: scripts/makepkg.sh.in:871
+#: scripts/makepkg.sh.in:880
 msgid "Installing package %s with %s..."
 msgstr "%s 꾸러미를 %s로 설치 중..."
 
-#: scripts/makepkg.sh.in:873
+#: scripts/makepkg.sh.in:882
 msgid "Installing %s package group with %s..."
 msgstr "%s 꾸러미 그룹을 %s로 설치 중..."
 
-#: scripts/makepkg.sh.in:891
+#: scripts/makepkg.sh.in:900
 msgid "Failed to install built package(s)."
 msgstr "빌드한 꾸러미를 설치하는 데 실패했습니다."
 
-#: scripts/makepkg.sh.in:910 scripts/libmakepkg/util/source.sh.in:156
+#: scripts/makepkg.sh.in:919 scripts/libmakepkg/util/source.sh.in:156
 msgid "Unknown download protocol: %s"
 msgstr "알 수 없는 다운로드 프로토콜: %s"
 
-#: scripts/makepkg.sh.in:927
+#: scripts/makepkg.sh.in:936
 msgid "Cannot find the %s binary needed to check VCS source requirements."
 msgstr "VCS 원본 요구사항을 검증하는 데 필요한 %s 바이너리를 찾을 수 없습니다."
 
-#: scripts/makepkg.sh.in:955
+#: scripts/makepkg.sh.in:964
 msgid "Cannot find the %s package needed to handle %s sources."
 msgstr "%s 꾸러미를 찾을 수 없습니다. %s 원본을 다루는 데 필요합니다."
 
-#: scripts/makepkg.sh.in:978
+#: scripts/makepkg.sh.in:987
 msgid "Cannot find the %s binary required for dependency operations."
 msgstr "의존성 처리에 필요한 %s 바이너리를 찾을 수 없습니다."
 
-#: scripts/makepkg.sh.in:986
+#: scripts/makepkg.sh.in:995
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr "%s 바이너리를 찾을 수 없습니다. 루트 권한 획득에 %s를 사용합니다."
 
-#: scripts/makepkg.sh.in:993
+#: scripts/makepkg.sh.in:1002
 msgid "Cannot find the %s binary."
 msgstr "%s 바이너리를 찾을 수 없습니다."
 
-#: scripts/makepkg.sh.in:1001
+#: scripts/makepkg.sh.in:1010
 msgid "Cannot find the %s binary required for signing packages."
 msgstr "꾸러미에 서명하는 데 필요한 %s 바이너리를 찾을 수 없습니다."
 
-#: scripts/makepkg.sh.in:1009
+#: scripts/makepkg.sh.in:1018
 msgid "Cannot find the %s binary required for verifying source files."
 msgstr "원본 파일을 검증하는 데 필요한 %s 바이너리를 찾을 수 없습니다."
 
-#: scripts/makepkg.sh.in:1022
-#, fuzzy
+#: scripts/makepkg.sh.in:1031
 msgid ""
 "Cannot find the %s binary required for source file checksums operations."
-msgstr "원본 파일 검사합의 유효검사에 필요한 %s 바이너리를 찾을 수 없습니다."
+msgstr "원본 파일 검사합 작업에 필요한 %s 바이너리를 찾을 수 없습니다."
 
-#: scripts/makepkg.sh.in:1031
+#: scripts/makepkg.sh.in:1040
 msgid "Cannot find the %s binary required for distributed compilation."
 msgstr "배포본 컴파일에 필요한 %s 바이너리를 찾을 수 없습니다."
 
-#: scripts/makepkg.sh.in:1039
+#: scripts/makepkg.sh.in:1048
 msgid "Cannot find the %s binary required for compiler cache usage."
 msgstr "컴파일러 캐시 사용에 필요한 %s 바이너리를 찾을 수 없습니다."
 
-#: scripts/makepkg.sh.in:1047
+#: scripts/makepkg.sh.in:1056
 msgid "Cannot find the %s binary required for object file stripping."
 msgstr "목적 파일을 스트리핑 하는 데 필요한 %s 바이너리를 찾을 수 없습니다."
 
-#: scripts/makepkg.sh.in:1055
+#: scripts/makepkg.sh.in:1064
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr ""
 "맨페이지와 info 페이지를 압축하는 데 필요한 %s 바이너리를 찾을 수 없습니다."
 
-#: scripts/makepkg.sh.in:1075
+#: scripts/makepkg.sh.in:1084
 msgid "A package has already been built, installing existing package..."
 msgstr "꾸러미를 이미 빌드했으므로, 기존의 꾸러미를 설치합니다..."
 
-#: scripts/makepkg.sh.in:1079
+#: scripts/makepkg.sh.in:1088
 msgid "A package has already been built. (use %s to overwrite)"
 msgstr "꾸러미를 이미 빌드했습니다(덮어 쓰려면 %s 옵션을 사용하십시오)."
 
-#: scripts/makepkg.sh.in:1098
+#: scripts/makepkg.sh.in:1107
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "꾸러미 그룹을 이미 빌드했으므로, 기존의 꾸러미를 설치합니다..."
 
-#: scripts/makepkg.sh.in:1102
+#: scripts/makepkg.sh.in:1111
 msgid "The package group has already been built. (use %s to overwrite)"
 msgstr "꾸러미 그룹을 이미 빌드했습니다(덮어 쓰려면 %s 옵션을 사용하십시오)."
 
-#: scripts/makepkg.sh.in:1107
+#: scripts/makepkg.sh.in:1116
 msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
 "꾸러미 그룹 일부를 이미 빌드했습니다(덮어 쓰려면 %s 옵션을 사용하십시오)."
 
-#: scripts/makepkg.sh.in:1142
+#: scripts/makepkg.sh.in:1151
 msgid "Make packages compatible for use with pacman"
 msgstr "Pacman 사용과 호환되는 꾸러미를 만듭니다."
 
-#: scripts/makepkg.sh.in:1144 scripts/pacman-db-upgrade.sh.in:43
+#: scripts/makepkg.sh.in:1153 scripts/pacman-db-upgrade.sh.in:43
 msgid "Usage: %s [options]"
 msgstr "사용법: %s  <옵션>"
 
-#: scripts/makepkg.sh.in:1146 scripts/pacman-key.sh.in:82
+#: scripts/makepkg.sh.in:1155 scripts/pacman-key.sh.in:82
 msgid "Options:"
 msgstr "옵션:"
 
-#: scripts/makepkg.sh.in:1147
+#: scripts/makepkg.sh.in:1156
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch 불완전한 %s 필드를 %s에서 무시합니다"
 
-#: scripts/makepkg.sh.in:1148
+#: scripts/makepkg.sh.in:1157
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      빌드 후 작업 파일을 지웁니다"
 
-#: scripts/makepkg.sh.in:1149
+#: scripts/makepkg.sh.in:1158
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
 msgstr "  -C, --cleanbuild 꾸러미를 만들기 전에 %s 디렉터리를 삭제합니다"
 
-#: scripts/makepkg.sh.in:1150
+#: scripts/makepkg.sh.in:1159
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     모든 의존성 검사를 건너뜁니다"
 
-#: scripts/makepkg.sh.in:1151
+#: scripts/makepkg.sh.in:1160
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
 "  -e, --noextract  원본 파일을 추출하지 않습니다(기존 %s 디렉터리 사용)"
 
-#: scripts/makepkg.sh.in:1152
+#: scripts/makepkg.sh.in:1161
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      기존 꾸러미를 덮어씁니다"
 
-#: scripts/makepkg.sh.in:1153
+#: scripts/makepkg.sh.in:1162
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   원본 파일의 무결성 검사를 생성합니다"
 
-#: scripts/makepkg.sh.in:1154
+#: scripts/makepkg.sh.in:1163
 msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       이 도움말 메시지를 표시하고 나갑니다"
 
-#: scripts/makepkg.sh.in:1155
+#: scripts/makepkg.sh.in:1164
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    성공적으로 빌드한 후 꾸러미를 설치합니다"
 
-#: scripts/makepkg.sh.in:1156
+#: scripts/makepkg.sh.in:1165
 msgid "  -L, --log        Log package build process"
 msgstr "  -L, --log        꾸러미 빌드 과정을 기록합니다"
 
-#: scripts/makepkg.sh.in:1157
+#: scripts/makepkg.sh.in:1166
 msgid "  -m, --nocolor    Disable colorized output messages"
 msgstr "  -m, --nocolor    출력 메시지의 색 구분 기능을 끕니다"
 
-#: scripts/makepkg.sh.in:1158
+#: scripts/makepkg.sh.in:1167
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    파일을 다운로드하고 추출하기까지만 진행합니다"
 
-#: scripts/makepkg.sh.in:1159
+#: scripts/makepkg.sh.in:1168
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr "  -p <파일>        ('%s' 대신) 대체 빌드 스크립트를 사용합니다"
 
-#: scripts/makepkg.sh.in:1160
+#: scripts/makepkg.sh.in:1169
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
 "  -r, --rmdeps     빌드가 성공적으로 끝나면 설치한 의존 요소를 제거합니다"
 
-#: scripts/makepkg.sh.in:1161
+#: scripts/makepkg.sh.in:1170
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr ""
 "  -R, --repackage  꾸러미의 내용을 다시 빌드하지 않고 꾸러미를 다시 만듭니다"
 
-#: scripts/makepkg.sh.in:1162
+#: scripts/makepkg.sh.in:1171
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   %s으로 빠진 의존 요소를 설치합니다"
 
-#: scripts/makepkg.sh.in:1163
+#: scripts/makepkg.sh.in:1172
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr "  -S, --source     내려받은 원본 없이 소스 타르볼을 만듭니다"
 
-#: scripts/makepkg.sh.in:1164
+#: scripts/makepkg.sh.in:1173
 msgid "  -V, --version    Show version information and exit"
 msgstr "  -V, --version    버전 정보를 표시하고 나갑니다"
 
-#: scripts/makepkg.sh.in:1165
+#: scripts/makepkg.sh.in:1174
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr "  --allsource      내려받은 원본을 넣어 소스 타르볼을 만듭니다"
 
-#: scripts/makepkg.sh.in:1166
+#: scripts/makepkg.sh.in:1175
 msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          %s 함수(%s 안에 있는 것)를 실행합니다"
 
-#: scripts/makepkg.sh.in:1167
+#: scripts/makepkg.sh.in:1176
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr "  --config <파일>  ('%s' 대신) 대체 설정 파일을 사용합니다"
 
-#: scripts/makepkg.sh.in:1168
+#: scripts/makepkg.sh.in:1177
 msgid "  --holdver        Do not update VCS sources"
 msgstr "  --holdver        VCS 원본을 업데이트하지 않습니다"
 
-#: scripts/makepkg.sh.in:1169
+#: scripts/makepkg.sh.in:1178
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr "  --key <키>       서명을 위해 %s에 대한 키를 기본값 대신 지정합니다"
 
-#: scripts/makepkg.sh.in:1170
+#: scripts/makepkg.sh.in:1179
 msgid "  --noarchive      Do not create package archive"
 msgstr "  --noarchive      꾸러미 파일을 생성하지 않습니다"
 
-#: scripts/makepkg.sh.in:1171
+#: scripts/makepkg.sh.in:1180
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        %s 함수(%s 안에 있는 것)를 실행하지 않습니다"
 
-#: scripts/makepkg.sh.in:1172
+#: scripts/makepkg.sh.in:1181
 msgid "  --noprepare      Do not run the %s function in the %s"
 msgstr "  --noprepare      %s 함수(%s 안에 있는 것)를 실행하지 않습니다"
 
-#: scripts/makepkg.sh.in:1173
+#: scripts/makepkg.sh.in:1182
 msgid "  --nosign         Do not create a signature for the package"
 msgstr "  --nosign         꾸러미 서명을 만들지 않습니다"
 
-#: scripts/makepkg.sh.in:1174
+#: scripts/makepkg.sh.in:1183
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr "  --packagelist    생성될 꾸러미만 PKGEXT 없이 나열합니다"
 
-#: scripts/makepkg.sh.in:1175
+#: scripts/makepkg.sh.in:1184
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
 msgstr "  --printsrcinfo   생성된 SRCINFO를 출력하고 나갑니다"
 
-#: scripts/makepkg.sh.in:1176
+#: scripts/makepkg.sh.in:1185
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "  --sign           결과 꾸러미에 %s로 서명합니다"
 
-#: scripts/makepkg.sh.in:1177
+#: scripts/makepkg.sh.in:1186
 msgid "  --skipchecksums  Do not verify checksums of the source files"
 msgstr "  --skipchecksums  원본 파일의 검사합을 검증하지 않습니다"
 
-#: scripts/makepkg.sh.in:1178
+#: scripts/makepkg.sh.in:1187
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
 msgstr "  --skipinteg      원본 파일에 대한 검사 확인을 수행하지 않습니다"
 
-#: scripts/makepkg.sh.in:1179
+#: scripts/makepkg.sh.in:1188
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "  --skippgpcheck   PGP 서명으로 원본 파일을 검증하지 않습니다"
 
-#: scripts/makepkg.sh.in:1180
+#: scripts/makepkg.sh.in:1189
 msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
@@ -441,55 +439,54 @@ msgstr ""
 "  --verifysource   (필요하면) 원본 파일을 다운로드하고 무결성 검사를 수행합니"
 "다"
 
-#: scripts/makepkg.sh.in:1182
+#: scripts/makepkg.sh.in:1191
 msgid "These options can be passed to %s:"
 msgstr "다음 옵션을 %s에 전달할 수 없습니다:"
 
-#: scripts/makepkg.sh.in:1184
+#: scripts/makepkg.sh.in:1193
 msgid "  --asdeps         Install packages as non-explicitly installed"
 msgstr "  --asdeps         불확실하게 설치한 요소처럼 꾸러미를 설치합니다"
 
-#: scripts/makepkg.sh.in:1185
+#: scripts/makepkg.sh.in:1194
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
 msgstr "  --needed         이미 최신인 대상은 재설치 하지 않습니다"
 
-#: scripts/makepkg.sh.in:1186
+#: scripts/makepkg.sh.in:1195
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr "  --noconfirm      의존성을 해결할 때 확인하지 않습니다"
 
-#: scripts/makepkg.sh.in:1187
+#: scripts/makepkg.sh.in:1196
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr ""
 "  --noprogressbar  파일을 다운로드할 때 진행 표시줄을 표시하지 않습니다"
 
-#: scripts/makepkg.sh.in:1189
+#: scripts/makepkg.sh.in:1198
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "%s를 지정하지 않으면, %s는 %s를 찾습니다"
 
-#: scripts/makepkg.sh.in:1195
-#, fuzzy
+#: scripts/makepkg.sh.in:1204
 msgid ""
 "Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>."
+"Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\n이것은 자유"
-"소프트웨어입니다. 복제조건에 대해서는 소스코드를 참조하십시오.\\n법이 허용하"
+"소프트웨어입니다. 복제 조건에 대해서는 소스코드를 참조하십시오.\\n법이 허용하"
 "는 한에서 어떤 보증도 하지 않습니다.\\n"
 
-#: scripts/makepkg.sh.in:1298 scripts/repo-add.sh.in:743
+#: scripts/makepkg.sh.in:1307 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
 msgstr "%s 시그널이 발생했습니다. 빠져나가는 중..."
 
-#: scripts/makepkg.sh.in:1313
+#: scripts/makepkg.sh.in:1322
 msgid "%s not found."
 msgstr "%s가 없습니다."
 
-#: scripts/makepkg.sh.in:1395
+#: scripts/makepkg.sh.in:1404
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
@@ -497,84 +494,83 @@ msgstr ""
 "%s를 root로서 실행하는 것은 허용되지 않습니다. 당신의 시스템에 영구적이고 큰 "
 "손상을\\n줄 수 있기 때문입니다."
 
-#: scripts/makepkg.sh.in:1401
-#, fuzzy
+#: scripts/makepkg.sh.in:1410
 msgid "Do not use the %s option. This option is only for internal use by %s."
-msgstr "%s 옵션을 사용하지 마십시오. %s만 사용하는 옵션입니다."
+msgstr "%s 옵션을 사용하지 마십시오. %s만 내부적으로 사용하는 옵션입니다."
 
-#: scripts/makepkg.sh.in:1416
+#: scripts/makepkg.sh.in:1425
 msgid "%s does not exist."
 msgstr "%s가 없습니다."
 
-#: scripts/makepkg.sh.in:1421
+#: scripts/makepkg.sh.in:1430
 msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s에 %s 문자가 있으며, 원본으로 지정할 수 없습니다."
 
-#: scripts/makepkg.sh.in:1426
+#: scripts/makepkg.sh.in:1435
 msgid "%s must be in the current working directory."
 msgstr "%s는 반드시 현재 작업 디렉터리에 있어야 합니다."
 
-#: scripts/makepkg.sh.in:1506
+#: scripts/makepkg.sh.in:1515
 msgid "The key %s does not exist in your keyring."
 msgstr "키 모음에 %s키가 없습니다."
 
-#: scripts/makepkg.sh.in:1508 scripts/repo-add.sh.in:225
+#: scripts/makepkg.sh.in:1517 scripts/repo-add.sh.in:225
 msgid "There is no key in your keyring."
 msgstr "키 모음에 키가 없습니다."
 
-#: scripts/makepkg.sh.in:1532 scripts/makepkg.sh.in:1553
+#: scripts/makepkg.sh.in:1541 scripts/makepkg.sh.in:1562
 msgid "Leaving %s environment."
 msgstr "%s 환경을 빠져나갑니다."
 
-#: scripts/makepkg.sh.in:1557
+#: scripts/makepkg.sh.in:1566
 msgid "Making package: %s"
 msgstr "꾸러미 만드는 중: %s"
 
-#: scripts/makepkg.sh.in:1563
+#: scripts/makepkg.sh.in:1572
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr "원본 꾸러미를 이미 빌드했습니다(덮어 쓰려면 %s 옵션을 사용하십시오)"
 
-#: scripts/makepkg.sh.in:1583
+#: scripts/makepkg.sh.in:1592
 msgid "Signing package..."
 msgstr "꾸러미 서명 중..."
 
-#: scripts/makepkg.sh.in:1587
+#: scripts/makepkg.sh.in:1596
 msgid "Source package created: %s"
 msgstr "원본 꾸러미를 만들었습니다: %s"
 
-#: scripts/makepkg.sh.in:1593
+#: scripts/makepkg.sh.in:1602
 msgid "Skipping dependency checks."
 msgstr "의존성 검사를 건너뜁니다."
 
-#: scripts/makepkg.sh.in:1601
+#: scripts/makepkg.sh.in:1610
 msgid "Checking runtime dependencies..."
 msgstr "실행 시간 의존성 검사중..."
 
-#: scripts/makepkg.sh.in:1608
+#: scripts/makepkg.sh.in:1617
 msgid "Checking buildtime dependencies..."
 msgstr "빌드 시간 의존성 검사중..."
 
-#: scripts/makepkg.sh.in:1620
+#: scripts/makepkg.sh.in:1629
 msgid "Could not resolve all dependencies."
 msgstr "모든 의존성을 해결할 수 없습니다."
 
-#: scripts/makepkg.sh.in:1632
+#: scripts/makepkg.sh.in:1641
 msgid "Using existing %s tree"
 msgstr "기존의 %s 트리를 사용합니다"
 
-#: scripts/makepkg.sh.in:1639 scripts/makepkg.sh.in:1667
+#: scripts/makepkg.sh.in:1648 scripts/makepkg.sh.in:1676
 msgid "Removing existing %s directory..."
 msgstr "기존의 %s 디렉터리 제거중..."
 
-#: scripts/makepkg.sh.in:1662
+#: scripts/makepkg.sh.in:1671
 msgid "Sources are ready."
 msgstr "원본이 준비되었습니다."
 
-#: scripts/makepkg.sh.in:1689
+#: scripts/makepkg.sh.in:1698
 msgid "Package directory is ready."
 msgstr "꾸러미 디렉터리가 준비되었습니다."
 
-#: scripts/makepkg.sh.in:1693
+#: scripts/makepkg.sh.in:1702
 msgid "Finished making: %s"
 msgstr "만들기 완료: %s"
 
@@ -663,14 +659,13 @@ msgid "  --version             Version information\n"
 msgstr "  --version             버전 정보 표시\n"
 
 #: scripts/makepkg-template.pl.in:194
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Copyright (c) 2013-2016 Pacman Development Team <pacman-dev@archlinux.org>.\n"
-"이것은 자유소프트웨어입니다. 복제조건에 대해서는 소스코드를 참조하십시오.\n"
+"Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+"이것은 자유소프트웨어입니다. 복제 조건에 대해서는 소스코드를 참조하십시오.\n"
 "법이 허용하는 한에서 어떤 보증도 하지 않습니다.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:41
@@ -706,14 +701,13 @@ msgid "  --nocolor            disable colorized output messages"
 msgstr "  --nocolor            출력 메시지의 색 구분 기능을 끕니다"
 
 #: scripts/pacman-db-upgrade.sh.in:57 scripts/pacman-key.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2010-2016 Pacman Development Team <pacman-dev@archlinux.org>."
-"\\n이것은 자유소프트웨어입니다. 복제조건에 대해서는 소스코드를 참조하십시오."
+"Copyright (c) 2010-2018 Pacman Development Team <pacman-dev@archlinux.org>."
+"\\n이것은 자유소프트웨어입니다. 복제 조건에 대해서는 소스코드를 참조하십시오."
 "\\n법이 허용하는 한에서 어떤 보증도 하지 않습니다.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:118 scripts/repo-add.sh.in:514
@@ -1202,15 +1196,14 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "예시:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:96
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2006-2016 Pacman Development Team <pacman-dev@archlinux.org>\\n"
-"\\n이것은 자유소프트웨어입니다.\\n법이 허용하는 한에서 어떤 보증도 하지 않습"
-"니다.\\n"
+"Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>\\n"
+"\\n이것은 자유소프트웨어입니다. 복제 조건에 대해서는 소스코드를 참조하십시오."
+"\\n법이 허용하는 한에서 어떤 보증도 하지 않습니다.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1360,11 +1353,11 @@ msgstr "잘못된 '%s' 명령 이름을 지정했습니다."
 msgid "Cannot create temp directory for database building."
 msgstr "데이터베이스를 구성하는 데 사용할 임시 디렉터리를 만들 수 없습니다."
 
-#: scripts/repo-add.sh.in:823
+#: scripts/repo-add.sh.in:824
 msgid "Creating updated database file '%s'"
 msgstr "최신 '%s' 데이터베이스 파일 만드는 중"
 
-#: scripts/repo-add.sh.in:827
+#: scripts/repo-add.sh.in:828
 msgid "No packages modified, nothing to do."
 msgstr "수정된 꾸러미가 없어 할 일이 없습니다."
 
@@ -1397,7 +1390,6 @@ msgid "Failed to sign package file."
 msgstr "꾸러미 파일 서명 실패."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:56
-#, fuzzy
 msgid "Signing package(s)..."
 msgstr "꾸러미 서명 중..."
 
@@ -1519,23 +1511,20 @@ msgid "%s should not be an array"
 msgstr "%s는 배열이면 안 됩니다"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issues..."
-msgstr "꾸러미 생성 문제를 검사 중..."
+msgstr "꾸러미 문제를 검사 중..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
 msgid "Package contains reference to %s"
 msgstr "꾸러미에 %s 참조가 있습니다"
 
 #: scripts/libmakepkg/lint_package/dotfiles.sh.in:34
-#, fuzzy
 msgid "Dotfile found in package root '%s'"
-msgstr "%s 항목 파일이 꾸러미에 없습니다: %s"
+msgstr "닷파일이 꾸러미 루트에서 발견됨 '%s'"
 
 #: scripts/libmakepkg/lint_package/file_names.sh.in:36
-#, fuzzy
 msgid "Package contains paths with newlines"
-msgstr "꾸러미에 %s 참조가 있습니다"
+msgstr "꾸러미가 새 줄 문자를 가진 경로를 포함함"
 
 #: scripts/libmakepkg/lint_package/missing_backup.sh.in:35
 msgid "%s entry file not in package : %s"
@@ -1590,12 +1579,11 @@ msgid "%s must be a decimal, not %s."
 msgstr "%s는 %s가 아닌 반드시 소수점 수 표현이어야 합니다."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:41
-#, fuzzy
 msgid ""
 "%s is not allowed to contain colons, forward slashes, hyphens or whitespace."
-msgstr "%s는 콜론, 하이픈, 공백 문자를 넣으면 안 됩니다."
+msgstr "%s는 콜론, 슬래시, 하이픈, 공백 문자를 포함할 수 없습니다."
 
-#: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:42
+#: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:46
 msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "%s 배열에 비교 연산자(< 또는 >)를 넣을 수 없습니다."
 
@@ -1707,7 +1695,7 @@ msgstr "%s %s 저장소 업데이트 중 실패했습니다"
 
 #: scripts/libmakepkg/source/git.sh.in:116
 msgid "Failure while checking out version %s, the git tag has been forged"
-msgstr ""
+msgstr "버전 %s를 검사하는 중 실패, 그 git 태그는 지어졌습니다"
 
 #: scripts/libmakepkg/source/local.sh.in:39
 msgid "%s was not found in the build directory and is not a URL."
@@ -1778,126 +1766,14 @@ msgstr "'%s' 옵션은 인자 하나가 필요합니다"
 msgid "The download program %s is not installed."
 msgstr "다운로드한 프로그램 %s를 설치하지 않았습니다."
 
-#: scripts/libmakepkg/util/util.sh.in:81
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:76
 msgid "Failed to change to directory %s"
-msgstr "%s 추출에 실패했습니다"
+msgstr "%s 디렉터리로 이동하는데 실패했습니다"
 
-#: scripts/libmakepkg/util/util.sh.in:95
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:90
 msgid "You do not have write permission for the directory $%s (%s)."
-msgstr "%s에 기록을 저장하려는데 쓰기 권한이 없습니다."
+msgstr "당신은 디렉토리 $%s (%s)에 쓰기 권한이 없습니다."
 
-#: scripts/libmakepkg/util/util.sh.in:97
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:92
 msgid "Failed to create the directory $%s (%s)."
-msgstr "%s를 %s에서 %s로 업데이트하는 데 실패했습니다."
-
-#~ msgid ""
-#~ "Cannot find the %s binary required for generating sourcefile checksums."
-#~ msgstr ""
-#~ "원본 파일 checksum을 만드는데 필요한 %s 바이너리를 찾을 수 없습니다."
-
-#~ msgid "Failed to create symlink to package file."
-#~ msgstr "꾸러미 파일 심볼릭 링크를 만드는데 실패했습니다."
-
-#~ msgid "Failed to create symlink to source package file."
-#~ msgstr "소스 꾸러미 파일 심볼릭 링크 만들기에 실패했습니다."
-
-#~ msgid "Cannot find the %s binary required for compressing binaries."
-#~ msgstr "바이너리를 압축하는 데 필요한 %s 바이너리를 찾을 수 없습니다."
-
-#~ msgid "Cannot find the %s binary required for optimizing PNG images."
-#~ msgstr "PNG 이미지를 최적화하는 데 필요한 %s 바이너를 찾을 수 없습니다."
-
-#~ msgid "You do not have write permission to create packages in %s."
-#~ msgstr "%s에 꾸러미를 만드는데 쓰기 권한이 없습니다."
-
-#~ msgid "You do not have write permission to store packages in %s."
-#~ msgstr "%s에 꾸러미를 저장하는데 쓰기 권한이 없습니다."
-
-#~ msgid "You do not have write permission to store downloads in %s."
-#~ msgstr "%s에 다운로드를 저장하는데 쓰기 권한이 없습니다."
-
-#~ msgid "You do not have write permission to store source tarballs in %s."
-#~ msgstr "%s에 원본 타르볼을 저장하는데 쓰기 권한이 없습니다."
-
-#~ msgid "Usage: %s [--nocolor] [pacman_db_root]"
-#~ msgstr "사용법: %s <--nocolor> <pacman DB 루트>"
-
-#~ msgid ""
-#~ "pacman-optimize is a little hack that should improve the performance\\nof "
-#~ "pacman when reading/writing to its filesystem-based database.\\n\\n"
-#~ msgstr ""
-#~ "파일 시스템 기반 데이터베이스에 읽고 쓸 때, 성능을 개선하려고\\npacman-"
-#~ "optimize를 약간 수정했습니다.\\n\\n"
-
-#~ msgid ""
-#~ "Because pacman uses many small files to keep track of packages,\\nthere "
-#~ "is a tendency for these files to become fragmented over time.\\nThis "
-#~ "script attempts to relocate these small files into one\\ncontinuous "
-#~ "location on your hard drive. The result is that the hard\\ndrive should "
-#~ "be able to read them faster, since the hard drive head\\ndoes not have to "
-#~ "move around the disk as much.\\n"
-#~ msgstr ""
-#~ "왜냐면 pacman은 꾸러미 상태를 유지하려고 작은 크기의 많은 파일을\\n 사용하"
-#~ "며, 이 파일들은 시간이 지나면서 쪼개지는 경향이 있기\\n 때문입니다. 이 스"
-#~ "크립트는 여러분의 하드 드라이브에서\\n연속적으로 위치하도록 재배치 작업을 "
-#~ "시도합니다. 결과적으로\\n하드 드라이브는 헤드를 디스크의 이곳저곳으로 움직"
-#~ "이지\\n않으므로, 이 파일을 좀 더 빨리 읽을 수 있습니다.\\n"
-
-#~ msgid "Cannot find the %s binary required for verifying integrity."
-#~ msgstr "무결성을 검증하는데 필요한 %s 바이너리를 찾을 수 없습니다."
-
-#~ msgid "You must have correct permissions to optimize the database."
-#~ msgstr "데이터베이스를 최적화하려면 권한을 올바르게 고쳐야 합니다."
-
-#~ msgid "Cannot create temporary directory for database building."
-#~ msgstr "데이터베이스를 짓는 데 사용할 임시 디렉터리를 생성할 수 없습니다."
-
-#~ msgid "MD5sum'ing the old database..."
-#~ msgstr "이전 데이터베이스에 대해 MD5SUM 구하는중..."
-
-#~ msgid "Tar'ing up %s..."
-#~ msgstr "%s 타르볼 패키징 중..."
-
-#~ msgid "Tar'ing up %s failed."
-#~ msgstr "%s 타르볼 패키징에 실패했습니다."
-
-#~ msgid "Making and MD5sum'ing the new database..."
-#~ msgstr "새 데이터베이스를 만들고 MD5SUM 구하는 중..."
-
-#~ msgid "Untar'ing %s failed."
-#~ msgstr "%s 타르볼 추출에 실패했습니다."
-
-#~ msgid "Syncing database to disk..."
-#~ msgstr "디스크와 데이터베이스 동기화중..."
-
-#~ msgid "Checking integrity..."
-#~ msgstr "무결성 검사중..."
-
-#~ msgid "Integrity check FAILED, reverting to old database."
-#~ msgstr "무결성 검사에 실패하여 이전 데이터베이스로 되돌립니다."
-
-#~ msgid "Rotating database into place..."
-#~ msgstr "데이터베이스를 제 위치로 돌려놓는중..."
-
-#~ msgid ""
-#~ "New database substitution failed. Check for %s, %s, and %s directories."
-#~ msgstr ""
-#~ "새 데이터베이스 대체에 실패했습니다. %s, %s, %s 디렉터리를 확인하십시오."
-
-#~ msgid "Finished. Your pacman database has been optimized."
-#~ msgstr "완료했습니다. pacman 데이터베이스를 최적화했습니다."
-
-#~ msgid "Optimizing PNG images..."
-#~ msgstr "PNG 이미지를 최적화 중..."
-
-#~ msgid "Could not optimize PNG image : %s"
-#~ msgstr "PNG 이미지를 최적화할 수 없습니다: %s"
-
-#~ msgid "Compressing binaries with %s..."
-#~ msgstr "%s로 바이너리를 압축하는 중..."
-
-#~ msgid "Could not compress binary : %s"
-#~ msgstr "바이너리를 압축할 수 없습니다 : %s"
+msgstr "디렉토리 $%s (%s) 생성에 실패했습니다."

@@ -3,8 +3,10 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Arda Ünlü <aarda.uunlu@gmail.com>, 2018
 # tarakbumba <tarakbumba@gmail.com>, 2011-2015
 # tarakbumba <tarakbumba@gmail.com>, 2012
+# Demiray “tulliana” Muhterem <mdemiray@msn.com>, 2016
 # Demiray “tulliana” Muhterem <mdemiray@msn.com>, 2016
 # Samed Beyribey <ras0ir@eventualis.org>, 2011,2013
 # tarakbumba <tarakbumba@gmail.com>, 2012
@@ -13,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2017-09-19 09:10+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"PO-Revision-Date: 2018-04-29 16:54+0000\n"
+"Last-Translator: Arda Ünlü <aarda.uunlu@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/tr/)\n"
 "Language: tr\n"
@@ -350,7 +352,7 @@ msgstr "%s: mtree dosyası değil\n"
 #: src/pacman/check.c:312
 #, c-format
 msgid "path too long: %slocal/%s-%s/%s\n"
-msgstr ""
+msgstr "yol çok uzun: %slocal/%s-%s/%s\n"
 
 #: src/pacman/check.c:339
 #, c-format
@@ -526,17 +528,17 @@ msgstr "%s: kurulum sebebi 'doğrudan kurulmuş' olarak belirlendi\n"
 #: src/pacman/database.c:293
 #, c-format
 msgid "No database errors have been found!\n"
-msgstr ""
+msgstr "Veritabanı hatası bulunamadı!\n"
 
 #: src/pacman/files.c:81
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s/%s%s %s%s%s\n"
-msgstr "%s, %s %s tarafından sahiplenilmektedir\n"
+msgstr "%s, %s%s/%s%s %s%s%s paketine ait.\n"
 
 #: src/pacman/files.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "invalid package: '%s'\n"
-msgstr "geçersiz rakam: %s\n"
+msgstr "geçersiz paket: \"%s\"\n"
 
 #: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
 #, c-format
@@ -549,7 +551,7 @@ msgid "Synchronizing package databases...\n"
 msgstr "Paket veritabanları senkronize ediliyor...\n"
 
 #: src/pacman/files.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "no options specified (use -h for help)\n"
 msgstr "herhangi bir işlem belirlenmedi (yardım için -h kullanın)\n"
 
@@ -1019,7 +1021,7 @@ msgstr ""
 "senkronizasyonu için -kk)\n"
 
 #: src/pacman/pacman.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
 msgstr ""
 "  -q, --quiet          sorgulama ve arama sırasında daha az bilgi göster\n"
@@ -1045,15 +1047,15 @@ msgstr ""
 "makine tarafından okunabilir bir çıktı üret\n"
 
 #: src/pacman/pacman.c:192
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --overwrite <path>\n"
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
-"      --ignoregroup <grp>\n"
-"                       güncelleme sırasında grubu görmezden gel (birden çok "
-"grup için kullanılabilir)\n"
+"      --overwrite <path>\n"
+"                      tutmayan dosyaların üstüne yaz (birden çok kez "
+"kullanılabilir)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1159,6 +1161,7 @@ msgstr "      --arch <arch>    alternatif bir mimari seç\n"
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
+"      --sysroot        bağlı konuk sistem üzerinde işlem yap (sadece root)\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
@@ -1211,6 +1214,8 @@ msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
+"      --disable-download-timeout\n"
+"                       indirirken daha sakin zaman aşımı kullan\n"
 
 #: src/pacman/pacman.c:246
 #, c-format
@@ -1224,7 +1229,7 @@ msgstr ""
 #: src/pacman/pacman.c:279
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
-msgstr ""
+msgstr "HTTP_USER_AGENT kesilmiş\n"
 
 #: src/pacman/pacman.c:311
 #, c-format
@@ -1244,12 +1249,12 @@ msgstr "'%s' geçerli bir hata ayıklama seviyesi değil\n"
 #: src/pacman/pacman.c:453
 #, c-format
 msgid "option --root is deprecated; use --sysroot instead\n"
-msgstr ""
+msgstr "--root işlemi artık kullanılmıyor; onun yerine --sysroot kullanın\n"
 
 #: src/pacman/pacman.c:722
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
-msgstr ""
+msgstr "--force işlemi artık kullanılmıyor; onun yerine --overwrite kullanın\n"
 
 #: src/pacman/pacman.c:982
 #, c-format
@@ -1272,14 +1277,14 @@ msgid "you cannot perform this operation unless you are root.\n"
 msgstr "yönetici yetkileri olmadan bu işlemi gerçekleştiremezsiniz.\n"
 
 #: src/pacman/pacman.c:1173
-#, fuzzy, c-format
+#, c-format
 msgid "chroot to '%s' failed: (%s)\n"
-msgstr "veritabanı (%s) kaydedilemedi (%s)\n"
+msgstr "\"%s\" hedefine chroot başarısız oldu: (%s)\n"
 
 #: src/pacman/pacman.c:1207
-#, fuzzy, c-format
+#, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
-msgstr "işlem hazırlığı başarısız oldu (%s)\n"
+msgstr "stdin'den işlemler alınamadı: (%s)\n"
 
 #: src/pacman/pacman.c:1212
 #, c-format
@@ -1304,9 +1309,9 @@ msgid "no operation specified (use -h for help)\n"
 msgstr "herhangi bir işlem belirlenmedi (yardım için -h kullanın)\n"
 
 #: src/pacman/query.c:87
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s%s %s%s%s\n"
-msgstr "%s, %s %s tarafından sahiplenilmektedir\n"
+msgstr "%s, %s%s %s%s%s paketine ait.\n"
 
 #: src/pacman/query.c:149
 #, c-format
@@ -1316,7 +1321,7 @@ msgstr "--owns parametresi için herhangi bir dosya belirtilmedi\n"
 #: src/pacman/query.c:170
 #, c-format
 msgid "empty string passed to file owner query\n"
-msgstr ""
+msgstr "dosya sahipliği sorgusuna boş dizi geçirildi\n"
 
 #: src/pacman/query.c:197 src/pacman/query.c:219
 #, c-format
@@ -1474,11 +1479,11 @@ msgid "repository \"%s\" was not found.\n"
 msgstr "\"%s\" deposu bulunamadı.\n"
 
 #: src/pacman/sync.c:561
-#, fuzzy, c-format
+#, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
-msgstr[0] "%2$s grubu içinde %1$d adet üye var:\n"
-msgstr[1] "%2$s grubu içinde %1$d adet üye var:\n"
+msgstr[0] "Şu paket grubunda %d üye var: %s%s%s:\n"
+msgstr[1] "Şu paket grubunda %d üye var: %s%s%s:\n"
 
 #: src/pacman/sync.c:640
 #, c-format
@@ -1498,17 +1503,20 @@ msgstr "Sistem güncellemesi başlatılıyor...\n"
 #: src/pacman/sync.c:720
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
-msgstr ""
+msgstr "Şu paketin istediği \"%s\" bağımlılığı sağlanamıyor: %s\n"
 
 #: src/pacman/sync.c:724
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
-msgstr "%s:  '%s' bağımlılığı sağlanamadı %s (%s) yükleniyor\n"
+msgstr ""
+"%s (%s) paketini kurmak şu paket tarafından istenen \"%s\" bağımlılığını "
+"bozuyor: %s\n"
 
 #: src/pacman/sync.c:728
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "%s:  '%s' bağımlılığı sağlanamadı %s kaldırılıyor\n"
+msgstr ""
+"%s paketini kaldırmak şu paketin istediği \"%s\" bağımlılığını bozuyor: %s\n"
 
 #: src/pacman/sync.c:748
 #, c-format
@@ -1546,9 +1554,9 @@ msgid "%s exists in both '%s' and '%s'\n"
 msgstr "%s, hem '%s' hem de '%s' içerisinde yer alıyor\n"
 
 #: src/pacman/sync.c:828
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
-msgstr "%s: %s dosya sisteminde mevcut\n"
+msgstr "%s: %s dosya sisteminde mevcut (sahibi %s)\n"
 
 #: src/pacman/sync.c:831
 #, c-format
@@ -1620,9 +1628,9 @@ msgid " %s is up to date\n"
 msgstr " %s deposu güncel\n"
 
 #: src/pacman/util.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "failed to synchronize all databases\n"
-msgstr "veritabanı senkronizasyonu başarısız\n"
+msgstr "tüm veritabanları senkronize edilemedi\n"
 
 #: src/pacman/util.c:636
 #, c-format
@@ -1755,9 +1763,9 @@ msgid "Optional dependencies for %s\n"
 msgstr "%s için opsiyonel bağımlılık(lar)\n"
 
 #: src/pacman/util.c:1285
-#, fuzzy, c-format
+#, c-format
 msgid "Repository %s%s\n"
-msgstr "Depo %s\n"
+msgstr "Depo %s%s\n"
 
 #: src/pacman/util.c:1326
 #, c-format
@@ -1823,28 +1831,3 @@ msgstr "hata: "
 #, c-format
 msgid "warning: "
 msgstr "uyarı: "
-
-#~ msgid "could not add mirror '%s' to database '%s' (%s)\n"
-#~ msgstr "'%s' yansısı '%s' veritabanına eklenemedi (%s)\n"
-
-#~ msgid "      --force          force install, overwrite conflicting files\n"
-#~ msgstr ""
-#~ "      --force          kuruluma zorla, çakışan dosyaların üzerine yaz\n"
-
-#~ msgid "  -r, --root <path>    set an alternate installation root\n"
-#~ msgstr "  -r, --root <yol>     farklı bir kurulum kök dizini ayarla\n"
-
-#~ msgid "memory exhausted in argument parsing\n"
-#~ msgstr "parametre okunurken hafıza doldu\n"
-
-#~ msgid "failed to find '%s' in PATH: %s\n"
-#~ msgstr "'%s' PATH içinde bulunamadı: %s\n"
-
-#~ msgid "failed to read file '%s': %s\n"
-#~ msgstr "'%s' adlı dosya okunamadı: %s\n"
-
-#~ msgid "cannot determine real path for '%s': %s\n"
-#~ msgstr "'%s' için gerçek yol belirlenemedi: %s\n"
-
-#~ msgid "%s: requires %s\n"
-#~ msgstr "%s: %s paketini gerektiriyor\n"

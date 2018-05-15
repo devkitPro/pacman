@@ -12,15 +12,15 @@
 # Lasse Liehu <larso@gmx.com>, 2013-2016
 # Lasse Liehu <lasse.liehu@gmail.com>, 2012
 # No User, 2012
-# Sami Korkalainen, 2016
+# Sami Korkalainen, 2016,2018
 # Sami Korkalainen, 2016,2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2018-03-25 20:26+0000\n"
-"Last-Translator: Sami Korkalainen\n"
+"POT-Creation-Date: 2018-05-15 10:38+1000\n"
+"PO-Revision-Date: 2018-04-29 14:06+0000\n"
+"Last-Translator: J. S. Tuomisto <jstuomisto@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/fi/)\n"
 "Language: fi\n"
@@ -58,10 +58,10 @@ msgid "Unable to find source file %s."
 msgstr "Lähdetiedostoa %s ei löydy."
 
 #: scripts/makepkg.sh.in:217 scripts/makepkg.sh.in:348
-#: scripts/makepkg.sh.in:718 scripts/makepkg.sh.in:911
-#: scripts/makepkg.sh.in:1314 scripts/makepkg.sh.in:1362
-#: scripts/makepkg.sh.in:1368 scripts/makepkg.sh.in:1373
-#: scripts/makepkg.sh.in:1379 scripts/makepkg.sh.in:1389
+#: scripts/makepkg.sh.in:727 scripts/makepkg.sh.in:920
+#: scripts/makepkg.sh.in:1323 scripts/makepkg.sh.in:1371
+#: scripts/makepkg.sh.in:1377 scripts/makepkg.sh.in:1382
+#: scripts/makepkg.sh.in:1388 scripts/makepkg.sh.in:1398
 #: scripts/libmakepkg/source/bzr.sh.in:50
 #: scripts/libmakepkg/source/bzr.sh.in:81
 #: scripts/libmakepkg/source/bzr.sh.in:96
@@ -81,7 +81,7 @@ msgstr "Lähdetiedostoa %s ei löydy."
 #: scripts/libmakepkg/source/svn.sh.in:68
 #: scripts/libmakepkg/util/source.sh.in:157
 #: scripts/libmakepkg/util/source.sh.in:166
-#: scripts/libmakepkg/util/util.sh.in:82
+#: scripts/libmakepkg/util/util.sh.in:77
 msgid "Aborting..."
 msgstr "Peruutetaan..."
 
@@ -134,258 +134,254 @@ msgid "Cannot find library listed in %s: %s"
 msgstr "%s-kentässä mainittua kirjastoa ei löydy: %s"
 
 #: scripts/makepkg.sh.in:629
-#, fuzzy
 msgid "Invalid value for %s: %s"
-msgstr "Virheellinen %s-syntaksi : \"%s\""
+msgstr ""
 
 #: scripts/makepkg.sh.in:642 scripts/makepkg.sh.in:680
-#: scripts/makepkg.sh.in:811
+#: scripts/makepkg.sh.in:820
 msgid "Generating %s file..."
 msgstr "Luodaan %s-tiedostoa..."
 
-#: scripts/makepkg.sh.in:717
+#: scripts/makepkg.sh.in:726
 msgid "Missing %s directory."
 msgstr "Kansio %s puuttuu."
 
-#: scripts/makepkg.sh.in:723
+#: scripts/makepkg.sh.in:732
 msgid "Creating package \"%s\"..."
 msgstr "Luodaan pakettia \"%s\"..."
 
-#: scripts/makepkg.sh.in:734
+#: scripts/makepkg.sh.in:743
 msgid "Adding %s file..."
 msgstr "Lisätään %s-tiedostoa..."
 
-#: scripts/makepkg.sh.in:736
+#: scripts/makepkg.sh.in:745
 msgid "Failed to add %s file to package."
 msgstr "Tiedoston %s lisääminen pakettiin epäonnistui."
 
-#: scripts/makepkg.sh.in:754
+#: scripts/makepkg.sh.in:763
 msgid "Generating .MTREE file..."
 msgstr "Luodaan .MTREE-tiedostoa..."
 
-#: scripts/makepkg.sh.in:760
+#: scripts/makepkg.sh.in:769
 msgid "Compressing package..."
 msgstr "Pakataan pakettia..."
 
-#: scripts/makepkg.sh.in:769
+#: scripts/makepkg.sh.in:778
 msgid "Failed to create package file."
 msgstr "Pakettitiedoston luominen epäonnistui."
 
-#: scripts/makepkg.sh.in:804
+#: scripts/makepkg.sh.in:813
 msgid "Creating source package..."
 msgstr "Luodaan lähdepakettia..."
 
-#: scripts/makepkg.sh.in:808 scripts/makepkg.sh.in:821
+#: scripts/makepkg.sh.in:817 scripts/makepkg.sh.in:830
 msgid "Adding %s..."
 msgstr "Lisätään kohdetta %s..."
 
-#: scripts/makepkg.sh.in:839
+#: scripts/makepkg.sh.in:848
 msgid "Adding %s file (%s)..."
 msgstr "Lisätään %s-tiedostoa (%s)..."
 
-#: scripts/makepkg.sh.in:849
+#: scripts/makepkg.sh.in:858
 msgid "Compressing source package..."
 msgstr "Pakataan lähdekoodipakettia..."
 
-#: scripts/makepkg.sh.in:859
+#: scripts/makepkg.sh.in:868
 msgid "Failed to create source package file."
 msgstr "Lähdepaketin luominen epäonnistui."
 
-#: scripts/makepkg.sh.in:871
+#: scripts/makepkg.sh.in:880
 msgid "Installing package %s with %s..."
 msgstr "Asennetaan paketti %s komennolla %s..."
 
-#: scripts/makepkg.sh.in:873
+#: scripts/makepkg.sh.in:882
 msgid "Installing %s package group with %s..."
 msgstr "Asennetaan paketti ryhmää %s komennolla %s..."
 
-#: scripts/makepkg.sh.in:891
+#: scripts/makepkg.sh.in:900
 msgid "Failed to install built package(s)."
 msgstr "Käännettyjen pakettien asentaminen epäonnistui."
 
-#: scripts/makepkg.sh.in:910 scripts/libmakepkg/util/source.sh.in:156
+#: scripts/makepkg.sh.in:919 scripts/libmakepkg/util/source.sh.in:156
 msgid "Unknown download protocol: %s"
 msgstr "Tuntematon latausprotokolla: %s"
 
-#: scripts/makepkg.sh.in:927
+#: scripts/makepkg.sh.in:936
 msgid "Cannot find the %s binary needed to check VCS source requirements."
 msgstr ""
 "VCS-lähteiden vaatimusten tarkastamiseen tarvittavaa binääritiedostoa %s ei "
 "löydy."
 
-#: scripts/makepkg.sh.in:955
+#: scripts/makepkg.sh.in:964
 msgid "Cannot find the %s package needed to handle %s sources."
 msgstr "Tarvittavaa pakettia %s ei löydetä %s lähteiden käsittelyyn."
 
-#: scripts/makepkg.sh.in:978
+#: scripts/makepkg.sh.in:987
 msgid "Cannot find the %s binary required for dependency operations."
 msgstr "Riippuvuustoimintoihin vaadittavaa binääritiedostoa %s ei löydy."
 
-#: scripts/makepkg.sh.in:986
+#: scripts/makepkg.sh.in:995
 msgid "Cannot find the %s binary. Will use %s to acquire root privileges."
 msgstr ""
 "Binääritiedostoa %s ei löydy. Käytetään ohjelmaa %s ylläpitäjän oikeuksien "
 "saamiseksi."
 
-#: scripts/makepkg.sh.in:993
+#: scripts/makepkg.sh.in:1002
 msgid "Cannot find the %s binary."
 msgstr "Binääritiedostoa %s ei löydy."
 
-#: scripts/makepkg.sh.in:1001
+#: scripts/makepkg.sh.in:1010
 msgid "Cannot find the %s binary required for signing packages."
 msgstr ""
 "Pakettien allekirjoittamiseen tarvittavaa binääritiedostoa %s ei löydy."
 
-#: scripts/makepkg.sh.in:1009
+#: scripts/makepkg.sh.in:1018
 msgid "Cannot find the %s binary required for verifying source files."
 msgstr ""
 "Lähdetiedostojen tarkastamiseen tarvittavaa binääritiedostoa %s ei löydy."
 
-#: scripts/makepkg.sh.in:1022
-#, fuzzy
+#: scripts/makepkg.sh.in:1031
 msgid ""
 "Cannot find the %s binary required for source file checksums operations."
 msgstr ""
-"Lähdetiedostojen tarkistussummien tarkistamiseen tarvittavaa "
-"binääritiedostoa %s ei löydy."
 
-#: scripts/makepkg.sh.in:1031
+#: scripts/makepkg.sh.in:1040
 msgid "Cannot find the %s binary required for distributed compilation."
 msgstr "Hajautettuun kääntämiseen tarvittavaa binääritiedostoa %s ei löydy."
 
-#: scripts/makepkg.sh.in:1039
+#: scripts/makepkg.sh.in:1048
 msgid "Cannot find the %s binary required for compiler cache usage."
 msgstr ""
 "Kääntäjän valimuistin käyttöön tarvittavaa binääritiedostoa %s ei löydy."
 
-#: scripts/makepkg.sh.in:1047
+#: scripts/makepkg.sh.in:1056
 msgid "Cannot find the %s binary required for object file stripping."
 msgstr ""
 "Objektitiedostojen riisumiseen tarvittavaa binääritiedostoa %s ei löydy."
 
-#: scripts/makepkg.sh.in:1055
+#: scripts/makepkg.sh.in:1064
 msgid "Cannot find the %s binary required for compressing man and info pages."
 msgstr ""
 "man- ja info-sivujen pakkaamiseen tarvittavaa binääritiedostoa %s ei löydy."
 
-#: scripts/makepkg.sh.in:1075
+#: scripts/makepkg.sh.in:1084
 msgid "A package has already been built, installing existing package..."
 msgstr "Paketti on jo käännetty. Asennetaan valmista pakettia..."
 
-#: scripts/makepkg.sh.in:1079
+#: scripts/makepkg.sh.in:1088
 msgid "A package has already been built. (use %s to overwrite)"
 msgstr ""
 "Paketti on jo käännetty. (käytä valitsinta %s kääntääksesi paketin uudelleen)"
 
-#: scripts/makepkg.sh.in:1098
+#: scripts/makepkg.sh.in:1107
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr ""
 "Pakettiryhmä on jo käännetty. Asennetaan valmiiksi käännettyjä paketteja..."
 
-#: scripts/makepkg.sh.in:1102
+#: scripts/makepkg.sh.in:1111
 msgid "The package group has already been built. (use %s to overwrite)"
 msgstr ""
 "Pakettiryhmä on jo käännetty. (käytä valitsinta %s kääntääksesi paketit "
 "uudelleen)"
 
-#: scripts/makepkg.sh.in:1107
+#: scripts/makepkg.sh.in:1116
 msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
 "Osa pakettiryhmästä on jo käännetty. (käytä valitsinta %s kääntääksesi "
 "paketit uudelleen)"
 
-#: scripts/makepkg.sh.in:1142
+#: scripts/makepkg.sh.in:1151
 msgid "Make packages compatible for use with pacman"
 msgstr "Tee paketeista yhteensopivia pacmanin kanssa."
 
-#: scripts/makepkg.sh.in:1144 scripts/pacman-db-upgrade.sh.in:43
+#: scripts/makepkg.sh.in:1153 scripts/pacman-db-upgrade.sh.in:43
 msgid "Usage: %s [options]"
 msgstr "Käyttö: %s [valinnat]"
 
-#: scripts/makepkg.sh.in:1146 scripts/pacman-key.sh.in:82
+#: scripts/makepkg.sh.in:1155 scripts/pacman-key.sh.in:82
 msgid "Options:"
 msgstr "Valinnat:"
 
-#: scripts/makepkg.sh.in:1147
+#: scripts/makepkg.sh.in:1156
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch Älä huomioi %s määrritteitä %sissa"
 
-#: scripts/makepkg.sh.in:1148
+#: scripts/makepkg.sh.in:1157
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Siivoa käännöstiedostot kääntämisen jälkeen"
 
-#: scripts/makepkg.sh.in:1149
+#: scripts/makepkg.sh.in:1158
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
 msgstr " -C, --cleanbuild Poista hakemisto %s ennen paketin kääntämistä"
 
-#: scripts/makepkg.sh.in:1150
+#: scripts/makepkg.sh.in:1159
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Ohita riippuvuustarkastukset"
 
-#: scripts/makepkg.sh.in:1151
+#: scripts/makepkg.sh.in:1160
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
 "  -e, --noextract  Älä pura lähdetiedostoja (käytt'' olemassa olevaa %s "
 "kansiota)"
 
-#: scripts/makepkg.sh.in:1152
+#: scripts/makepkg.sh.in:1161
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Ylikirjoita olemassa oleva paketti"
 
-#: scripts/makepkg.sh.in:1153
+#: scripts/makepkg.sh.in:1162
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Luo virheellisyyden tarkistussummat"
 
-#: scripts/makepkg.sh.in:1154
+#: scripts/makepkg.sh.in:1163
 msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Näytä tämä ohje"
 
-#: scripts/makepkg.sh.in:1155
+#: scripts/makepkg.sh.in:1164
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    Asenna paketti kääntämisen jälkeen"
 
-#: scripts/makepkg.sh.in:1156
+#: scripts/makepkg.sh.in:1165
 msgid "  -L, --log        Log package build process"
 msgstr "  -L, --log        Kirjaa paketin kääntämisprosessi muistiin"
 
-#: scripts/makepkg.sh.in:1157
+#: scripts/makepkg.sh.in:1166
 msgid "  -m, --nocolor    Disable colorized output messages"
 msgstr "  -m, --nocolor    Älä käytä värejä viesteissä"
 
-#: scripts/makepkg.sh.in:1158
+#: scripts/makepkg.sh.in:1167
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr ""
 "  -o, --nobuild    Älä käännä pakettia, mutta lataa ja pura lähdetiedostot"
 
-#: scripts/makepkg.sh.in:1159
+#: scripts/makepkg.sh.in:1168
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr ""
 "  -p <tiedosto>    Käytä vaihtoehtoista käännösskriptiä ('%s':in sjaan)"
 
-#: scripts/makepkg.sh.in:1160
+#: scripts/makepkg.sh.in:1169
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr "  -r, --rmdeps     Poista asennetut riippuvuudet kääntämisen jälkeen"
 
-#: scripts/makepkg.sh.in:1161
+#: scripts/makepkg.sh.in:1170
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr "  -R, --repackage  Uudelleenpakkaa paketin sisältö ilman kääntämistä"
 
-#: scripts/makepkg.sh.in:1162
+#: scripts/makepkg.sh.in:1171
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Asenna puuttuvat riippuvuudet %s-ohjelmalla"
 
-#: scripts/makepkg.sh.in:1163
+#: scripts/makepkg.sh.in:1172
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr "  -S, --source     Luo lähdepaketti, ilman ladattuja lähdetiedostoja"
 
-#: scripts/makepkg.sh.in:1164
+#: scripts/makepkg.sh.in:1173
 msgid "  -V, --version    Show version information and exit"
 msgstr "-V, --version Näytä versiotiedot"
 
-#: scripts/makepkg.sh.in:1165
+#: scripts/makepkg.sh.in:1174
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
@@ -393,206 +389,201 @@ msgstr ""
 "  --allsource      Luo lähdepaketti ja sisällytä myös ladatut lähdetiedostot "
 "siihen"
 
-#: scripts/makepkg.sh.in:1166
+#: scripts/makepkg.sh.in:1175
 msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          Suorita funktio %s kohteessa %s"
 
-#: scripts/makepkg.sh.in:1167
+#: scripts/makepkg.sh.in:1176
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
 "  --config<tiedosto> Käytä vaihtoehtoista asetustiedostoa ('%s':in sijaan)"
 
-#: scripts/makepkg.sh.in:1168
+#: scripts/makepkg.sh.in:1177
 msgid "  --holdver        Do not update VCS sources"
 msgstr "--holdver Älä päivitä VCS-lähteitä"
 
-#: scripts/makepkg.sh.in:1169
+#: scripts/makepkg.sh.in:1178
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
 "  --key <avain>    Määrritä paketin allekirjoittamiseen käytettävä %s avain"
 
-#: scripts/makepkg.sh.in:1170
+#: scripts/makepkg.sh.in:1179
 msgid "  --noarchive      Do not create package archive"
 msgstr "--noarchive Älä luo pakettiarkistoa"
 
-#: scripts/makepkg.sh.in:1171
+#: scripts/makepkg.sh.in:1180
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Älä suorita funktiota %s kohteessa %s"
 
-#: scripts/makepkg.sh.in:1172
+#: scripts/makepkg.sh.in:1181
 msgid "  --noprepare      Do not run the %s function in the %s"
 msgstr "--noprepare Älä aja funktiota %s kohdassa %s"
 
-#: scripts/makepkg.sh.in:1173
+#: scripts/makepkg.sh.in:1182
 msgid "  --nosign         Do not create a signature for the package"
 msgstr "  --nosign         Älä allekirjoita pakettia"
 
-#: scripts/makepkg.sh.in:1174
+#: scripts/makepkg.sh.in:1183
 msgid ""
 "  --packagelist    Only list packages that would be produced, without PKGEXT"
 msgstr ""
 "--packagelist    Luetteloi vain paketit, jotka tuotettaisiin, ilman PKGEXT:iä"
 
-#: scripts/makepkg.sh.in:1175
+#: scripts/makepkg.sh.in:1184
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
 msgstr "--printsrcinfo Tulosta luotu SRCINFO"
 
-#: scripts/makepkg.sh.in:1176
+#: scripts/makepkg.sh.in:1185
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "  --sign           Allekirjoita paketti %s ohjelmalla"
 
-#: scripts/makepkg.sh.in:1177
+#: scripts/makepkg.sh.in:1186
 msgid "  --skipchecksums  Do not verify checksums of the source files"
 msgstr "  --skipchecksums  Ohita tarkastussummat"
 
-#: scripts/makepkg.sh.in:1178
+#: scripts/makepkg.sh.in:1187
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
 msgstr "  --skipinteg      Älä tarkasta lähdetiedostoja ollenkaan"
 
-#: scripts/makepkg.sh.in:1179
+#: scripts/makepkg.sh.in:1188
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "  --skippgpcheck   Älä tarkasta lähdetiedostojen PGP-allekirjoituksia"
 
-#: scripts/makepkg.sh.in:1180
+#: scripts/makepkg.sh.in:1189
 msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1182
+#: scripts/makepkg.sh.in:1191
 msgid "These options can be passed to %s:"
 msgstr "Seuraavat valinnat voidaan antaa %s-ohjelmalle:"
 
-#: scripts/makepkg.sh.in:1184
+#: scripts/makepkg.sh.in:1193
 msgid "  --asdeps         Install packages as non-explicitly installed"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1185
+#: scripts/makepkg.sh.in:1194
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1186
+#: scripts/makepkg.sh.in:1195
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr "  --noconfirm      Älä kysy vahvistusta riippuvuuksia setvittäessä"
 
-#: scripts/makepkg.sh.in:1187
+#: scripts/makepkg.sh.in:1196
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Älä näytä edistymispalkkia tiedostoja ladattaessa"
 
-#: scripts/makepkg.sh.in:1189
+#: scripts/makepkg.sh.in:1198
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Jos tiedostoa ei anneta %s-valitsimella, %s etsii tiedostoa \"%s\""
 
-#: scripts/makepkg.sh.in:1195
-#, fuzzy
+#: scripts/makepkg.sh.in:1204
 msgid ""
 "Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nCopyright (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nThis is "
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Tekijänoikeudet (c) 2009 Xavier Chantry <shiningxc@gmail.com>\\n\\nTämä on "
-"vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään takuita ei "
-"anneta, lain rajoissa.\\n"
 
-#: scripts/makepkg.sh.in:1298 scripts/repo-add.sh.in:743
+#: scripts/makepkg.sh.in:1307 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
 msgstr "%s signaali vastaanotettu. Lopetetaan..."
 
-#: scripts/makepkg.sh.in:1313
+#: scripts/makepkg.sh.in:1322
 msgid "%s not found."
 msgstr "%s löytyi."
 
-#: scripts/makepkg.sh.in:1395
+#: scripts/makepkg.sh.in:1404
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1401
-#, fuzzy
+#: scripts/makepkg.sh.in:1410
 msgid "Do not use the %s option. This option is only for internal use by %s."
-msgstr "Älä käytä valitsinta %s. Vain %s käyttää sitä."
+msgstr ""
 
-#: scripts/makepkg.sh.in:1416
+#: scripts/makepkg.sh.in:1425
 msgid "%s does not exist."
 msgstr "%s ei ole olemassa."
 
-#: scripts/makepkg.sh.in:1421
+#: scripts/makepkg.sh.in:1430
 msgid "%s contains %s characters and cannot be sourced."
 msgstr "%s sisältää %s-merkkejä eikä sille voi tehdä source-toimintoa."
 
-#: scripts/makepkg.sh.in:1426
+#: scripts/makepkg.sh.in:1435
 msgid "%s must be in the current working directory."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1506
+#: scripts/makepkg.sh.in:1515
 msgid "The key %s does not exist in your keyring."
 msgstr "Avain %s ei ole avainnipussasi."
 
-#: scripts/makepkg.sh.in:1508 scripts/repo-add.sh.in:225
+#: scripts/makepkg.sh.in:1517 scripts/repo-add.sh.in:225
 msgid "There is no key in your keyring."
 msgstr "Avainnipussasi ei ole avaimia."
 
-#: scripts/makepkg.sh.in:1532 scripts/makepkg.sh.in:1553
+#: scripts/makepkg.sh.in:1541 scripts/makepkg.sh.in:1562
 msgid "Leaving %s environment."
 msgstr "Poistutaan %s-ympäristöstä."
 
-#: scripts/makepkg.sh.in:1557
+#: scripts/makepkg.sh.in:1566
 msgid "Making package: %s"
 msgstr "Käännetään pakettia: %s"
 
-#: scripts/makepkg.sh.in:1563
+#: scripts/makepkg.sh.in:1572
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr ""
 "Lähdepaketti on jo luotu. (käytä valitsinta %s luodaksesi lähdepaketin "
 "uudelleen)"
 
-#: scripts/makepkg.sh.in:1583
+#: scripts/makepkg.sh.in:1592
 msgid "Signing package..."
 msgstr "Allekirjoitetaan pakettia..."
 
-#: scripts/makepkg.sh.in:1587
+#: scripts/makepkg.sh.in:1596
 msgid "Source package created: %s"
 msgstr "Luotiin lähdepaketti: %s"
 
-#: scripts/makepkg.sh.in:1593
+#: scripts/makepkg.sh.in:1602
 msgid "Skipping dependency checks."
 msgstr "Ohitetaan riippuvuustarkastukset."
 
-#: scripts/makepkg.sh.in:1601
+#: scripts/makepkg.sh.in:1610
 msgid "Checking runtime dependencies..."
 msgstr "Tarkastetaan yleisriippuvuuksia..."
 
-#: scripts/makepkg.sh.in:1608
+#: scripts/makepkg.sh.in:1617
 msgid "Checking buildtime dependencies..."
 msgstr "Tarkastetaan käännönaikaisia riippuvuuksia..."
 
-#: scripts/makepkg.sh.in:1620
+#: scripts/makepkg.sh.in:1629
 msgid "Could not resolve all dependencies."
 msgstr "Kaikkia riippuvuuksia ei pystytty selvittämään."
 
-#: scripts/makepkg.sh.in:1632
+#: scripts/makepkg.sh.in:1641
 msgid "Using existing %s tree"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1639 scripts/makepkg.sh.in:1667
+#: scripts/makepkg.sh.in:1648 scripts/makepkg.sh.in:1676
 msgid "Removing existing %s directory..."
 msgstr "Poistetaan jo olemassaolevaa %s-kansiota..."
 
-#: scripts/makepkg.sh.in:1662
+#: scripts/makepkg.sh.in:1671
 msgid "Sources are ready."
 msgstr "Lähdetiedostot ovat valmiita."
 
-#: scripts/makepkg.sh.in:1689
+#: scripts/makepkg.sh.in:1698
 msgid "Package directory is ready."
 msgstr "Pakettihakemisto on valmis."
 
-#: scripts/makepkg.sh.in:1693
+#: scripts/makepkg.sh.in:1702
 msgid "Finished making: %s"
 msgstr "Saatiin valmiiksi paketti: %s"
 
@@ -679,15 +670,11 @@ msgid "  --version             Version information\n"
 msgstr "  --version             Kertoo ohjelman version\n"
 
 #: scripts/makepkg-template.pl.in:194
-#, fuzzy
 msgid ""
 "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux.org>.\n"
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Tekijänoikeudet (c) 2009 Xavier Chantry <shiningxc@gmail.com>\\n\\nTämä on "
-"vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään takuita ei "
-"anneta, lain rajoissa.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:41
 msgid "Upgrade the local pacman database to a newer format"
@@ -722,15 +709,11 @@ msgid "  --nocolor            disable colorized output messages"
 msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:57 scripts/pacman-key.sh.in:95
-#, fuzzy
 msgid ""
 "Copyright (c) 2010-2018 Pacman Development Team <pacman-dev@archlinux.org>."
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Tekijänoikeudet (c) 2009 Xavier Chantry <shiningxc@gmail.com>\\n\\nTämä on "
-"vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään takuita ei "
-"anneta, lain rajoissa.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:118 scripts/repo-add.sh.in:514
 msgid "%s does not exist or is not a directory."
@@ -1217,15 +1200,11 @@ msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 msgstr "Esimerkki:  repo-remove /polku/varastoon/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:96
-#, fuzzy
 msgid ""
 "Copyright (c) 2006-2018 Pacman Development Team <pacman-dev@archlinux.org>\\n"
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
-"Tekijänoikeudet (c) 2009 Xavier Chantry <shiningxc@gmail.com>\\n\\nTämä on "
-"vapaa ohjelmisto; katso kopiointiehdot lähdekoodista.\\nMitään takuita ei "
-"anneta, lain rajoissa.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1376,11 +1355,11 @@ msgstr "Epäkelvollinen komento '%s' annettu."
 msgid "Cannot create temp directory for database building."
 msgstr "Tietokannan luontiin tarvittavaa väliaikaiskansiota ei voida luoda."
 
-#: scripts/repo-add.sh.in:823
+#: scripts/repo-add.sh.in:824
 msgid "Creating updated database file '%s'"
 msgstr "Luodaan päivitettyä tietokantatiedostoa '%s'"
 
-#: scripts/repo-add.sh.in:827
+#: scripts/repo-add.sh.in:828
 msgid "No packages modified, nothing to do."
 msgstr "Yhtään pakettia ei ole muokattu, ei ole mitään tehtävää jäljellä."
 
@@ -1413,9 +1392,8 @@ msgid "Failed to sign package file."
 msgstr "Paketin allekirjoitus epäonnistui."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:56
-#, fuzzy
 msgid "Signing package(s)..."
-msgstr "Allekirjoitetaan pakettia..."
+msgstr ""
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:64
 msgid "Integrity checks are missing for: %s"
@@ -1535,23 +1513,20 @@ msgid "%s should not be an array"
 msgstr ""
 
 #: scripts/libmakepkg/lint_package.sh.in:41
-#, fuzzy
 msgid "Checking for packaging issues..."
-msgstr "Etsitään pakettia '%s'..."
+msgstr ""
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
 msgid "Package contains reference to %s"
 msgstr "Paketti sisältää viitteitä kohteeseen %s"
 
 #: scripts/libmakepkg/lint_package/dotfiles.sh.in:34
-#, fuzzy
 msgid "Dotfile found in package root '%s'"
-msgstr "%s-merkittyä tiedostoa ei paketissa : %s"
+msgstr ""
 
 #: scripts/libmakepkg/lint_package/file_names.sh.in:36
-#, fuzzy
 msgid "Package contains paths with newlines"
-msgstr "Paketti sisältää viitteitä kohteeseen %s"
+msgstr ""
 
 #: scripts/libmakepkg/lint_package/missing_backup.sh.in:35
 msgid "%s entry file not in package : %s"
@@ -1606,12 +1581,11 @@ msgid "%s must be a decimal, not %s."
 msgstr "%s:n tulee olla desimaaliluku, ei %s."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:41
-#, fuzzy
 msgid ""
 "%s is not allowed to contain colons, forward slashes, hyphens or whitespace."
-msgstr "%s ei saa sisältää tavuviivoja, kaksoispisteitä eikä tyhjiä välejä."
+msgstr ""
 
-#: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:42
+#: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:46
 msgid "%s array cannot contain comparison (< or >) operators."
 msgstr "%s kenttä ei saa sisältää < tai > operaattoreita."
 
@@ -1794,123 +1768,14 @@ msgstr "valitsin '%s' tarvitsee parametrin"
 msgid "The download program %s is not installed."
 msgstr "Latausohjelmaa %s ei ole asennettu."
 
-#: scripts/libmakepkg/util/util.sh.in:81
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:76
 msgid "Failed to change to directory %s"
-msgstr "tiedoston %s purkaminen epäonnistui"
+msgstr "Kansioon %s vaihtaminen epäonnistui"
 
-#: scripts/libmakepkg/util/util.sh.in:95
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:90
 msgid "You do not have write permission for the directory $%s (%s)."
-msgstr "Sinulla ei ole oikeuksia säilöä lokeja sijainnissa %s."
+msgstr ""
 
-#: scripts/libmakepkg/util/util.sh.in:97
-#, fuzzy
+#: scripts/libmakepkg/util/util.sh.in:92
 msgid "Failed to create the directory $%s (%s)."
-msgstr "%s-kentän päivittäminen arvosta %s arvoon %s epäonnistui"
-
-#~ msgid ""
-#~ "Cannot find the %s binary required for generating sourcefile checksums."
-#~ msgstr ""
-#~ "Lähdetiedostojen tarkistussummien luontiin tarvittavaa binääritiedostoa "
-#~ "%s ei löydy."
-
-#~ msgid "Failed to create symlink to package file."
-#~ msgstr "Symbolisen linkin luominen pakettiin epäonnistui."
-
-#~ msgid "Failed to create symlink to source package file."
-#~ msgstr "Symbolisen linkin luominen lähdetiedostoon epäonnistui."
-
-#~ msgid "Cannot find the %s binary required for compressing binaries."
-#~ msgstr "Ohjelmien pakkaamiseen tarvittavaa binääritiedostoa %s ei löydy."
-
-#~ msgid "Cannot find the %s binary required for optimizing PNG images."
-#~ msgstr "PNG-kuvien optimointiin tarvittavaa binääritiedostoa %s ei löydy."
-
-#~ msgid "You do not have write permission to create packages in %s."
-#~ msgstr "Sinulla ei ole oikeuksia luoda paketteja sijainnissa %s."
-
-#~ msgid "You do not have write permission to store packages in %s."
-#~ msgstr "Sinulla ei ole oikeuksia säilöä paketteja sijainnissa %s."
-
-#~ msgid "You do not have write permission to store downloads in %s."
-#~ msgstr "Sinulla ei ole oikeuksia säilöä latauksia sijainnissa %s."
-
-#~ msgid "You do not have write permission to store source tarballs in %s."
-#~ msgstr "Sinulla ei ole oikeuksia säilöä lähdekoodiarkistoja sijainnissa %s."
-
-#~ msgid "Usage: %s [--nocolor] [pacman_db_root]"
-#~ msgstr "Käyttö: %s [--nocolor] [pacman_tietokannan_juuri]"
-
-#~ msgid ""
-#~ "pacman-optimize is a little hack that should improve the performance\\nof "
-#~ "pacman when reading/writing to its filesystem-based database.\\n\\n"
-#~ msgstr ""
-#~ "pacman-optimize on pikkuinen skripti, jonka tarkoituksena\\non kohentaa "
-#~ "pacmanin suorituskykyä,\\nluettaessa ja kirjoitettaessa sen tietokantaan."
-#~ "\\n\\n"
-
-#~ msgid ""
-#~ "Because pacman uses many small files to keep track of packages,\\nthere "
-#~ "is a tendency for these files to become fragmented over time.\\nThis "
-#~ "script attempts to relocate these small files into one\\ncontinuous "
-#~ "location on your hard drive. The result is that the hard\\ndrive should "
-#~ "be able to read them faster, since the hard drive head\\ndoes not have to "
-#~ "move around the disk as much.\\n"
-#~ msgstr ""
-#~ "Koska pacman pitää kirjaa paketeista monien pienten tiedostojen\\navulla, "
-#~ "niin saattavat nämä tiedostot kertyä ympäri kiintolevyä\\najan kuluessa. "
-#~ "Tämän skriptin tarkoituksena on tuoda nämä tiedostot\\nyhteen ja samaan "
-#~ "paikkaan kiintolevyllä.\\nNäin ollen pacmanilta menee vähemmän aikaa "
-#~ "löytää ne.\\n\\n"
-
-#~ msgid "Cannot find the %s binary required for verifying integrity."
-#~ msgstr "Eheyden tarkistamiseen tarvittavaa binääritiedostoa %s ei löydy."
-
-#~ msgid "You must have correct permissions to optimize the database."
-#~ msgstr "Sinulla tulee olla kunnolliset oikeudet tietokannan optimoimiseen."
-
-#~ msgid "Cannot create temporary directory for database building."
-#~ msgstr "Tietokannan luontiin tarvittavaa väliaikaiskansiota ei voida luoda."
-
-#~ msgid "MD5sum'ing the old database..."
-#~ msgstr "Luodaan md5-summaa vanhasta tietokannasta..."
-
-#~ msgid "Tar'ing up %s..."
-#~ msgstr "Tar-arkistoidaan %s"
-
-#~ msgid "Tar'ing up %s failed."
-#~ msgstr "%s:n tar-arkistointi epäonnistui."
-
-#~ msgid "Making and MD5sum'ing the new database..."
-#~ msgstr "Luodaan uutta tietokantaa ja sen md5-summia..."
-
-#~ msgid "Untar'ing %s failed."
-#~ msgstr "%s:n purkaminen tar-arkistosta epäonnistui."
-
-#~ msgid "Syncing database to disk..."
-#~ msgstr "Siirretään tietokantaa levylle..."
-
-#~ msgid "Checking integrity..."
-#~ msgstr "Tarkastetaan virheettömyyttä..."
-
-#~ msgid "Integrity check FAILED, reverting to old database."
-#~ msgstr "Uusi tietokanta on VIRHEELLINEN, palautetaan vanhaa tietokantaa..."
-
-#~ msgid "Rotating database into place..."
-#~ msgstr "Pyöritellään tietokantaa paikalleen..."
-
-#~ msgid "Finished. Your pacman database has been optimized."
-#~ msgstr "Valmis. Pakettitietokantasi on nyt optimoitu."
-
-#~ msgid "Optimizing PNG images..."
-#~ msgstr "Optimoidaan PNG-kuvia..."
-
-#~ msgid "Could not optimize PNG image : %s"
-#~ msgstr "PNG-kuvaa ei voitu optimoida : %s"
-
-#~ msgid "Compressing binaries with %s..."
-#~ msgstr "Pakataan binääri tiedsotoja %sllä..."
-
-#~ msgid "Could not compress binary : %s"
-#~ msgstr "Binääriä ei voitu pakata : %s"
+msgstr ""
