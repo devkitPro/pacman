@@ -220,12 +220,12 @@ missing_source_file() {
 
 run_pacman() {
 	local cmd
-	if [[ $1 != -@(T|Qq) ]]; then
+	if [[ $1 != -@(T|Q)*([[:alpha:]]) ]]; then
 		cmd=("$PACMAN_PATH" "${PACMAN_OPTS[@]}" "$@")
 	else
 		cmd=("$PACMAN_PATH" "$@")
 	fi
-	if [[ $1 != -@(T|Qq|Q) ]]; then
+	if [[ $1 != -@(T|Q)*([[:alpha:]]) ]]; then
 		if type -p sudo >/dev/null; then
 			cmd=(sudo "${cmd[@]}")
 		else
