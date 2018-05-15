@@ -1,5 +1,115 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+5.1.0         - Add new --overwrite option and deprecate --force. This accepts a
+                glob pattern with far more control than the widely abused force
+                option which mostly just causes issues (FS#31549)
+              - Add new --sysroot option and deprecate --root. This uses the
+                guest configuration instead of the host configuration, which is
+                what most people erroneously thought --root would do
+              - introduce a 'disable-download-timeout' option
+              - remove contrib - this is now maintained in a separate project
+              - report the owner of an existing file, if any, when erroring out
+                on a file conflict
+              - resolve cyclic dependencies when calculating unneeded dependency
+                trees (FS#41031)
+              - report the needed command to download missing databases for the
+                -F and -S actions
+              - don't error if -Qo cannot find the file it is querying on disk
+                (FS#55856)
+              - support new-style OpenPGP format packets lengths
+              - support EDDSA from gpgme 1.7.0
+              - fix continuously trying to open invalid databases and reporting
+                excessively excessive redundant error messages excessively
+              - fix the download callback erroneously reporting itself too many
+                times with --noprogressbar, or reporting inaccurate times for
+                small files (FS#56408, FS#56468)
+              - fix erroneous negative speed in download progressbar (FS#43434)
+              - parse stdin as newline-separated instead of whitespace-separated
+                (FS#52992)
+              - when printing urls in the package cache, print the file url
+                instead (FS#15868)
+              - add color to group selection dialogs and -{F,Q}o
+              - the -Q option now respects provides (FS#20650)
+              - remove notification of system upgrade when only printing URLs
+              - print replacements when using -Sup (FS#35812)
+              - fix -Qk and -r checking for the root prefix twice (FS#48563)
+              - Do not recognize # as a comment unless it is at the beginning of
+                a line. This allows using it as a value in ini files (FS#48702)
+              - ignore comments when examining INSTALL files (FS#51916)
+              - match multi-byte user input properly (FS#47992)
+              - abort transactions if even one database fails to sync (FS#47599)
+              - do not resolve uid/gid to names when extracting files with -r
+              - --dbonly now properly extracts metadata files (FS#52052)
+              - remove support for internal checksumming implementations, and
+                require at least one of openssl or nettle to exist
+              - consider provides to satisfy optdepends when warning for removal
+                or logging new optdepends during a transaction, as was already
+                the case for -Qi
+              - -Dk now reports if it is successful (FS#50087)
+              - consider version for optdepends (FS#44957)
+              - remove vim modelines in favor of EditorConfig
+              - implement pacman-conf, a new tool to safely parse pacman.conf,
+                and use it in internal scripts
+              - bash completion now completes -Qn
+              - various small documentation updates
+              - makepkg:
+                - Reproducible build support. makepkg now respects environment
+                  SOURCE_DATE_EPOCH when creating package metadata, and unifies
+                  source file timestamps to match
+                - add more info to .BUILDINFO to aid in reproducing the build
+                  environment of a package
+                - it is now possible to check the signature of VCS sources
+                  (currently only git is supported)
+                - use informative exit codes when exiting with errors (FS#54204)
+                - lint_pkgbuild has vastly improved linting of pkgname and
+                  variables that can contain pkgname/pkgver (FS#57833)
+                - implement linting for makepkg.conf
+                - fix using libmakepkg in external scripts without extglob
+                - fix handling of configurable directories e.g. PKGDEST to align
+                  with their documented behavior, and consistently check that
+                  they can be used (FS#43537)
+                - parseopts, srcinfo, and integrity are now part of libmakepkg
+                - consistently use coreutils for checksumming instead of openssl
+                  (which may be replaced by nettle in pacman)
+                - lint build_references now prints affected filenames (FS#31558)
+                - lint_package can now abort on fatal packaging errors
+                - lint_package now checks for filenames with newline characters
+                - lint_package now checks for root-level /.dotfiles
+                - debug packages are now per pkgbase, not per pkgname
+                - debug packages now contain source files to allow the debugger
+                  to step through code
+                - remove optipng and upx support - these can now be plugged into
+                  libmakepkg
+                - fix emptydirs support with newer findutils (FS#48515)
+                - ignore architecture for --printsrcinfo
+                - makepkg --printsrcinfo now correctly lists depends_$CARCH
+                  instead of merging this into depends
+                - fix bug in is_array that broke packages with arch-dependent
+                  sources only (FS#48340)
+                - move package signing outside of fakeroot which is incompatible
+                  with recent gnupg versions (FS#49946)
+                - makepkg --clean now cleans up logfiles (FS#51039)
+                - when using $PKGDEST, do not symlink build artifacts into
+                  current directory
+                - --packagelist now lists the built filenames, rather than all
+                  possible basenames without extensions
+                - fix --geninteg not properly ignoring renamed signature files
+                - use localized date strings
+                - ensure sane umask is set both before and after installing deps
+                - adapt to file(1) changes in order to continue to strip PIE
+                  executables
+              - repo-add:
+                - don't recreate the database when only verifying signature
+                  (FS#48085)
+                - fix error when repo directory path contains spaces (FS#50285)
+              - pacman-key:
+                - reject armored signatures
+                - don't set a default keyserver, deferring to gpg's sane default
+                - disable scdaemon as we don't use it and it breaks --lsign when
+                  a smartcard is plugged into the machine
+              - vercmp:
+                - remove duplicate, undocumented --usage option
+                - fail when the wrong number of arguments are used (FS#49093)
 5.0.1         - fix alignment issues with wide character locales (FS#47980)
               - fix removal of .pacnew files (FS#47993)
               - fix triggering of Install hooks (FS#47996)
