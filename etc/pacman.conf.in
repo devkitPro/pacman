@@ -31,7 +31,7 @@ Architecture = auto
 
 # Misc options
 #UseSyslog
-#Color
+Color
 #TotalDownload
 CheckSpace
 #VerbosePkgLists
@@ -60,8 +60,11 @@ CheckSpace
 # uncommented to enable the repo.
 #
 
-[devkitpro-portlibs]
-Include = /opt/devkitpro/pacman.d/mirrorlist.devkitpro.portlibs
+[dkp-libs]
+Server = http://downloads.devkitpro.org/packages
+
+[dkp-linux]
+Server = http://downloads.devkitpro.org/packages/linux
 
 # An example of a disabled remote package repository with multiple servers
 # available. To enable, uncomment the following lines. You can add preferred
