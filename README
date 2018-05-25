@@ -592,3 +592,42 @@ API CHANGES BETWEEN 4.2 AND 5.0
   - ALPM_EVENT_TRANSACTION_START, ALPM_EVENT_TRANSACTION_DONE
 - database unlocking
   - alpm_unlock()
+
+
+API CHANGES BETWEEN 5.0 AND 5.1
+===============================
+
+[CHANGED]
+- alpm_errno_t - added member ALPM_ERR_OK
+- alpm_siglevel_t - value of ALPM_SIG_USE_DEFAULT changed
+- functions using bitfields return/pass an int instead of an enum
+  - alpm_option_get_default_siglevel()
+  - alpm_option_set_default_siglevel()
+  - alpm_option_get_remote_file_siglevel()
+  - alpm_option_set_remote_file_siglevel()
+  - alpm_register_syncdb()
+  - alpm_db_get_siglevel()
+  - alpm_db_set_usage()
+  - alpm_db_get_usage()
+  - alpm_pkg_load()
+  - alpm_pkg_get_validation()
+  - alpm_trans_get_flags()
+  - alpm_trans_init()
+  - alpm_option_get_local_file_siglevel()
+  - alpm_option_set_local_file_siglevel()
+
+[ADDED]
+- overwrite support
+  - alpm_option_get_overwrite_files()
+  - alpm_option_set_overwrite_files()
+  - alpm_option_add_overwrite_file()
+  - alpm_option_remove_overwrite_file()
+- download timeout control
+  - alpm_option_set_disable_dl_timeout()
+- access make/checkdepends info
+  - alpm_pkg_get_checkdepends()
+  - alpm_pkg_get_makedepends()
+- check pacman capabilities
+  - alpm_capabilities()
+- duplicate and add to list
+  - alpm_list_append_strdup()
