@@ -11,6 +11,7 @@
 # Jaroslav Lichtblau <dragonlord@seznam.cz>, 2014-2016
 # Jaroslav Lichtblau <dragonlord@seznam.cz>, 2014
 # LiberteCzech <liberte.czech@gmail.com>, 2018
+# LiberteCzech <liberte.czech@gmail.com>, 2018
 # Marek Otahal <markotahalREMOVETHIS@gmail.com>, 2011
 # mmm <markotahal@gmail.com>, 2013
 # mmm <markotahal@gmail.com>, 2011
@@ -30,7 +31,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
+"<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
 #: src/pacman/callback.c:182
 #, c-format
@@ -197,6 +199,9 @@ msgstr[1] ""
 msgstr[2] ""
 "Následující balíčky nemohou být aktualizovány, nepodařilo se vyřešit "
 "závislosti:\n"
+msgstr[3] ""
+"Následující balíčky nemohou být aktualizovány, nepodařilo se vyřešit "
+"závislosti:\n"
 
 #: src/pacman/callback.c:447
 #, c-format
@@ -205,6 +210,7 @@ msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Chcete přeskočit na výše uvedený balíček pro tuto aktualizaci?"
 msgstr[1] "Chcete přeskočit na výše uvedené balíčky pro tuto aktualizaci?"
 msgstr[2] "Chcete přeskočit na výše uvedené balíčky pro tuto aktualizaci?"
+msgstr[3] "Chcete přeskočit na výše uvedené balíčky pro tuto aktualizaci?"
 
 #: src/pacman/callback.c:458
 #, c-format
@@ -213,6 +219,7 @@ msgid_plural "There are %zu providers available for %s:\n"
 msgstr[0] "Existuje %zu balíček poskytující %s\n"
 msgstr[1] "Existují %zu balíčky poskytující %s\n"
 msgstr[2] "Existuje %zu balíčků poskytujících %s\n"
+msgstr[3] "Existuje %zu balíčků poskytujících %s\n"
 
 #: src/pacman/callback.c:469
 #, c-format
@@ -346,6 +353,7 @@ msgid_plural "%s: %jd total files, "
 msgstr[0] "%s: %jd soubor. "
 msgstr[1] "%s: %jd souborů celkem. "
 msgstr[2] "%s: %jd souborů celkem. "
+msgstr[3] "%s: %jd souborů celkem. "
 
 #: src/pacman/check.c:244
 #, c-format
@@ -354,6 +362,7 @@ msgid_plural "%jd missing files\n"
 msgstr[0] "%jd chybějící soubor\n"
 msgstr[1] "%jd chybějící soubory\n"
 msgstr[2] "%jd chybějící soubory\n"
+msgstr[3] "%jd chybějící soubory\n"
 
 #: src/pacman/check.c:275
 #, c-format
@@ -377,6 +386,7 @@ msgid_plural "%jd altered files\n"
 msgstr[0] "%jd pozměněný soubor\n"
 msgstr[1] "%jd pozměněné soubory\n"
 msgstr[2] "%jd pozměněné soubory\n"
+msgstr[3] "%jd pozměněné soubory\n"
 
 #: src/pacman/conf.c:98
 #, c-format
@@ -385,6 +395,7 @@ msgid_plural "malloc failure: could not allocate %zu bytes\n"
 msgstr[0] "malloc selhal: nelze alokovat %zu byt\n"
 msgstr[1] "malloc selhal: nelze alokovat %zu byty\n"
 msgstr[2] "malloc selhal: nelze alokovat %zu bytů\n"
+msgstr[3] "malloc selhal: nelze alokovat %zu bytů\n"
 
 #: src/pacman/conf.c:252
 #, c-format
@@ -1495,6 +1506,7 @@ msgid_plural "There are %d members in group %s%s%s:\n"
 msgstr[0] "%d člen ve skupině %s%s%s:\n"
 msgstr[1] "%d členy ve skupině %s%s%s:\n"
 msgstr[2] "%d členů ve skupině %s%s%s:\n"
+msgstr[3] "%d členů ve skupině %s%s%s:\n"
 
 #: src/pacman/sync.c:640
 #, c-format

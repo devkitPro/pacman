@@ -8,14 +8,14 @@
 # Mladen Pejaković <pejakm@autistici.org>, 2013-2014
 # Mladen Pejaković <pejakm@autistici.org>, 2013
 # Mladen Pejaković <pejakm@autistici.org>, 2013
-# Slobodan Terzić <githzerai06@gmail.com>, 2011,2015
+# Slobodan Terzić <githzerai06@gmail.com>, 2011,2015,2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-05-15 10:34+1000\n"
-"PO-Revision-Date: 2018-04-29 13:58+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"PO-Revision-Date: 2018-05-23 12:43+0000\n"
+"Last-Translator: Slobodan Terzić <githzerai06@gmail.com>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/sr%40latin/)\n"
 "Language: sr@latin\n"
@@ -43,7 +43,7 @@ msgstr "razgrađujem paket %s (%s -> %s)\n"
 #: lib/libalpm/add.c:124
 #, c-format
 msgid "cannot allocate disk archive object"
-msgstr ""
+msgstr "ne mogu da dodelim objekat arhive diska"
 
 #: lib/libalpm/add.c:138 lib/libalpm/util.c:382
 #, c-format
@@ -247,7 +247,7 @@ msgstr "ne mogu da obradim fajl opisa paketa „%s“ iz baze „%s“\n"
 #: lib/libalpm/be_sync.c:524
 #, c-format
 msgid "could not read db '%s' (%s)\n"
-msgstr ""
+msgstr "ne mogu da čitam bazu „%s“ (%s)\n"
 
 #: lib/libalpm/be_sync.c:558 lib/libalpm/be_sync.c:563
 #, c-format
@@ -594,7 +594,7 @@ msgstr "nedostaje PGP potpis"
 #: lib/libalpm/error.c:132
 #, c-format
 msgid "invalid PGP signature"
-msgstr "neispravan PGP potpis "
+msgstr "neispravan PGP potpis"
 
 #: lib/libalpm/error.c:135
 #, c-format
@@ -669,69 +669,69 @@ msgstr "ne mogu da uklonim fajl brave %s\n"
 #: lib/libalpm/hook.c:107
 #, c-format
 msgid "Missing trigger targets in hook: %s\n"
-msgstr ""
+msgstr "Nedostaju ciljevi okidača u kopči: %s\n"
 
 #: lib/libalpm/hook.c:113
 #, c-format
 msgid "Missing trigger type in hook: %s\n"
-msgstr ""
+msgstr "Nedostaje tip okidača u kopči: %s\n"
 
 #: lib/libalpm/hook.c:119
 #, c-format
 msgid "Missing trigger operation in hook: %s\n"
-msgstr ""
+msgstr "Nedostaju radnje okidača u kopči: %s\n"
 
 #: lib/libalpm/hook.c:146
 #, c-format
 msgid "Missing Exec option in hook: %s\n"
-msgstr ""
+msgstr "Nedostaje opcija Exec u kopči: %s\n"
 
 #: lib/libalpm/hook.c:152
 #, c-format
 msgid "Missing When option in hook: %s\n"
-msgstr ""
+msgstr "Nedostaje opcija When u kopči: %s\n"
 
 #: lib/libalpm/hook.c:155
 #, c-format
 msgid "AbortOnFail set for PostTransaction hook: %s\n"
-msgstr ""
+msgstr "Odustani-pri-neuspehu je postavljeno za posleprenosnu kopču: %s\n"
 
 #: lib/libalpm/hook.c:273
 #, c-format
 msgid "error while reading hook %s: %s\n"
-msgstr ""
+msgstr "greška pri čitanju kopče %s: %s\n"
 
 #: lib/libalpm/hook.c:275 lib/libalpm/hook.c:315 lib/libalpm/hook.c:357
 #, c-format
 msgid "hook %s line %d: invalid option %s\n"
-msgstr ""
+msgstr "kopča %s red %d: neispravna opcija %s\n"
 
 #: lib/libalpm/hook.c:285
 #, c-format
 msgid "hook %s line %d: invalid section %s\n"
-msgstr ""
+msgstr "kopča %s red %d: neispravan odeljak %s\n"
 
 #: lib/libalpm/hook.c:297 lib/libalpm/hook.c:308 lib/libalpm/hook.c:327
 #: lib/libalpm/hook.c:350
 #, c-format
 msgid "hook %s line %d: invalid value %s\n"
-msgstr ""
+msgstr "kopča %s red %d: neispravna vrednost %s\n"
 
 #: lib/libalpm/hook.c:301 lib/libalpm/hook.c:320 lib/libalpm/hook.c:331
 #: lib/libalpm/hook.c:345
 #, c-format
 msgid "hook %s line %d: overwriting previous definition of %s\n"
-msgstr ""
+msgstr "kopča %s red %d: prepisujem prethodnu definicija za %s\n"
 
 #: lib/libalpm/hook.c:352
 #, c-format
 msgid "hook %s line %d: unable to set option (%s)\n"
-msgstr ""
+msgstr "kopča %s red %d: ne mogu da postavim opciju (%s)\n"
 
 #: lib/libalpm/hook.c:613
 #, c-format
 msgid "unable to run hook %s: %s\n"
-msgstr ""
+msgstr "ne mogu da pokrenem kopču %s: %s\n"
 
 #: lib/libalpm/hook.c:648 lib/libalpm/hook.c:660 lib/libalpm/remove.c:385
 #, c-format
@@ -741,7 +741,7 @@ msgstr "ne mogu da otvorim fasciklu: %s: %s\n"
 #: lib/libalpm/hook.c:676
 #, c-format
 msgid "could not open file: %s%s: %s\n"
-msgstr ""
+msgstr "ne mogu da otvorim fajl: %s%s: %s\n"
 
 #: lib/libalpm/hook.c:696 lib/libalpm/util.c:259
 #, c-format
@@ -751,7 +751,7 @@ msgstr "ne mogu da odredim osobine fajla %s: %s\n"
 #: lib/libalpm/hook.c:722
 #, c-format
 msgid "could not read directory: %s: %s\n"
-msgstr ""
+msgstr "ne mogu da čitam fasciklu: %s: %s\n"
 
 #: lib/libalpm/package.c:586
 #, c-format
@@ -776,7 +776,7 @@ msgstr "ne mogu da uklonim fajl „%s“: %s\n"
 #: lib/libalpm/remove.c:410 lib/libalpm/remove.c:419
 #, c-format
 msgid "could not backup %s due to PATH_MAX overflow\n"
-msgstr ""
+msgstr "ne moogu da napravim rezervnu kopiju %s usled prelivanja PATH_MAX\n"
 
 #: lib/libalpm/remove.c:561
 #, c-format
@@ -796,32 +796,32 @@ msgstr "ne mogu da uklonim unos „%s“ iz keša\n"
 #: lib/libalpm/signing.c:171
 #, c-format
 msgid "Public keyring not found; have you run '%s'?\n"
-msgstr ""
+msgstr "Javni svežanj ključeva nije nađen; da li ste pokrenuli „%s“?\n"
 
 #: lib/libalpm/signing.c:207 lib/libalpm/signing.c:705
 #, c-format
 msgid "GPGME error: %s\n"
-msgstr ""
+msgstr "Greška GPGME: %s\n"
 
 #: lib/libalpm/signing.c:402
 #, c-format
 msgid "keyring is not writable\n"
-msgstr ""
+msgstr "privezak nije upisiv\n"
 
 #: lib/libalpm/signing.c:460
 #, c-format
 msgid "key \"%s\" could not be imported\n"
-msgstr ""
+msgstr "ključ „%s“ se ne može uvesti\n"
 
 #: lib/libalpm/signing.c:466
 #, c-format
 msgid "key %s, \"%s\" found on keyserver, keyring is not writable\n"
-msgstr ""
+msgstr "ključ %s, „%s“ nađen na serveru, privezak nije upisiv\n"
 
 #: lib/libalpm/signing.c:471
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
-msgstr ""
+msgstr "ključ „%s“ se ne može potražiti udaljeno\n"
 
 #: lib/libalpm/signing.c:859 lib/libalpm/sync.c:1181
 #, c-format
@@ -831,49 +831,49 @@ msgstr "%s: nedostaje zahtevani potpis\n"
 #: lib/libalpm/signing.c:874
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
-msgstr ""
+msgstr "%s: ključ iz „%s“ ima granično poverenje\n"
 
 #: lib/libalpm/signing.c:882
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
-msgstr ""
+msgstr "%s: ključ iz „%s“ je nepoznatog poverenja\n"
 
 #: lib/libalpm/signing.c:889
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
-msgstr ""
+msgstr "%s: ključu iz „%s“ nikada ne treba verovati\n"
 
 #: lib/libalpm/signing.c:901
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
-msgstr ""
+msgstr "%s: ključ „%s“ je nepoznat\n"
 
 #: lib/libalpm/signing.c:910
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
-msgstr ""
+msgstr "%s: ključ „%s“ je onemogućen\n"
 
 #: lib/libalpm/signing.c:914
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
-msgstr ""
+msgstr "%s: ključ iz „%s“ je istekao\n"
 
 #: lib/libalpm/signing.c:918
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
-msgstr ""
+msgstr "%s: ključ iz „%s“ je neispravan\n"
 
 #: lib/libalpm/signing.c:995 lib/libalpm/signing.c:1063
 #: lib/libalpm/signing.c:1142
 #, c-format
 msgid "%s: signature format error\n"
-msgstr ""
+msgstr "%s: greška u formatu potpisa\n"
 
 #: lib/libalpm/signing.c:1095 lib/libalpm/signing.c:1128
 #: lib/libalpm/signing.c:1136
 #, c-format
 msgid "%s: unsupported signature format\n"
-msgstr ""
+msgstr "%s: nepodržan format potpisa\n"
 
 #: lib/libalpm/sync.c:98
 #, c-format

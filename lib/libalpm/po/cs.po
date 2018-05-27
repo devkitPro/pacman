@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-05-15 10:34+1000\n"
-"PO-Revision-Date: 2018-05-08 16:42+0000\n"
+"PO-Revision-Date: 2018-05-15 06:59+0000\n"
 "Last-Translator: David Macek <david.macek.0@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/cs/)\n"
@@ -27,7 +27,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
+"<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
 #: lib/libalpm/add.c:86
 #, c-format
@@ -780,7 +781,7 @@ msgstr "nelze odstranit soubor '%s': %s\n"
 #: lib/libalpm/remove.c:410 lib/libalpm/remove.c:419
 #, c-format
 msgid "could not backup %s due to PATH_MAX overflow\n"
-msgstr ""
+msgstr "nelze zazálohovat %s kvůli přetečení PATH_MAX\n"
 
 #: lib/libalpm/remove.c:561
 #, c-format
@@ -1022,6 +1023,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "nepodařilo se najít nebo vytvořit mezipaměť pro balíčky, používám místo toho "
 "%s\n"
-
-#~ msgid "%s: signature format error"
-#~ msgstr "%s: chyba formátu podpisu"

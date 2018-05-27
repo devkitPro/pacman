@@ -6,25 +6,27 @@
 # Allan McRae <allan@archlinux.org>, 2014
 # Max Lyashuk <m_lyashuk@ukr.net>, 2015-2016
 # Rax Garfield <admin@dvizho.ks.ua>, 2012
-# sevenfourk <sevenfourk@gmail.com>, 2012
-# sevenfourk <sevenfourk@gmail.com>, 2012
+# Ivan Kovnatsky <inactive+sevenfourk@transifex.com>, 2012
+# Ivan Kovnatsky <inactive+sevenfourk@transifex.com>, 2012
 # Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2013,2015,2017-2018
-# Данило Коростіль <ted.korostiled@gmail.com>, 2011-2016
+# Данило Коростіль <ted.korostiled@gmail.com>, 2011-2016,2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2018-05-01 08:25+0000\n"
-"Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
+"PO-Revision-Date: 2018-05-15 07:03+0000\n"
+"Last-Translator: Данило Коростіль <ted.korostiled@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/uk/)\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != "
+"11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
+"100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
+"(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
 #: src/pacman/callback.c:182
 #, c-format
@@ -187,6 +189,7 @@ msgstr[0] ""
 msgstr[1] ""
 "The following packages cannot be upgraded due to unresolvable dependencies:\n"
 msgstr[2] "Такі пакунки неможливо оновити через нерозвʼязані залежності:\n"
+msgstr[3] "Такі пакунки неможливо оновити через нерозвʼязані залежності:\n"
 
 #: src/pacman/callback.c:447
 #, c-format
@@ -195,6 +198,7 @@ msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Пропустити верхній пакунок для цього оновлення?"
 msgstr[1] "Пропустити верхні пакунки для цього оновлення?"
 msgstr[2] "Пропустити верхні пакунки для цього оновлення?"
+msgstr[3] "Пропустити верхні пакунки для цього оновлення?"
 
 #: src/pacman/callback.c:458
 #, c-format
@@ -203,6 +207,7 @@ msgid_plural "There are %zu providers available for %s:\n"
 msgstr[0] "Доступно %zu постачальник для %s:\n"
 msgstr[1] "Доступно %zu постачальників для %s:\n"
 msgstr[2] "Доступно %zu постачальників для %s:\n"
+msgstr[3] "Доступно %zu постачальників для %s:\n"
 
 #: src/pacman/callback.c:469
 #, c-format
@@ -336,6 +341,7 @@ msgid_plural "%s: %jd total files, "
 msgstr[0] "%s: %jd всіх файлів, "
 msgstr[1] "%s: %jd всіх файлів, "
 msgstr[2] "%s: %jd всіх файлів, "
+msgstr[3] "%s: %jd всіх файлів, "
 
 #: src/pacman/check.c:244
 #, c-format
@@ -344,6 +350,7 @@ msgid_plural "%jd missing files\n"
 msgstr[0] "бракує %jd файлу\n"
 msgstr[1] "бракує %jd файли\n"
 msgstr[2] "бракує %jd файлів\n"
+msgstr[3] "бракує %jd файлів\n"
 
 #: src/pacman/check.c:275
 #, c-format
@@ -367,6 +374,7 @@ msgid_plural "%jd altered files\n"
 msgstr[0] "%jd змінених файлів\n"
 msgstr[1] "%jd змінених файлів\n"
 msgstr[2] "%jd змінених файлів\n"
+msgstr[3] "%jd змінених файлів\n"
 
 #: src/pacman/conf.c:98
 #, c-format
@@ -375,6 +383,7 @@ msgid_plural "malloc failure: could not allocate %zu bytes\n"
 msgstr[0] "помилка malloc: неможливо розмістити %zu байт\n"
 msgstr[1] "помилка malloc: неможливо розмістити %zu байти\n"
 msgstr[2] "помилка malloc: неможливо розмістити %zu байтів\n"
+msgstr[3] "помилка malloc: неможливо розмістити %zu байтів\n"
 
 #: src/pacman/conf.c:252
 #, c-format
@@ -553,7 +562,7 @@ msgstr "Синхронізування бази даних пакунків...\n
 #: src/pacman/files.c:320
 #, c-format
 msgid "no options specified (use -h for help)\n"
-msgstr "не вказано опцій (використайте -h для допомоги)\n"
+msgstr "не вказано жодного параметра (додайте -h , щоб вивести довідку)\n"
 
 #: src/pacman/package.c:99
 #, c-format
@@ -1216,7 +1225,8 @@ msgid ""
 "                       use relaxed timeouts for download\n"
 msgstr ""
 "      --disable-download-timeout\n"
-"                       використовувати невимушені тайм-аути для звантаження\n"
+"                       використовувати невимушений час очікування для "
+"звантаження\n"
 
 #: src/pacman/pacman.c:246
 #, c-format
@@ -1230,7 +1240,7 @@ msgstr ""
 #: src/pacman/pacman.c:279
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
-msgstr "HTTP_USER_AGENT обрізаний\n"
+msgstr "HTTP_USER_AGENT обрізано\n"
 
 #: src/pacman/pacman.c:311
 #, c-format
@@ -1250,12 +1260,13 @@ msgstr "рівень зневадження «%s» неправильний\n"
 #: src/pacman/pacman.c:453
 #, c-format
 msgid "option --root is deprecated; use --sysroot instead\n"
-msgstr "опція --root не підтримується; використайте замість неї --sysroot\n"
+msgstr "параметр --root не підтримується; використовуйте натомість --sysroot\n"
 
 #: src/pacman/pacman.c:722
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
-msgstr "опція --force не підтримується; використайте замість неї --overwrite\n"
+msgstr ""
+"параметр --force не підтримується; використовуйте натомість --overwrite\n"
 
 #: src/pacman/pacman.c:982
 #, c-format
@@ -1320,7 +1331,7 @@ msgstr "не було вказано файл для --owns\n"
 #: src/pacman/query.c:170
 #, c-format
 msgid "empty string passed to file owner query\n"
-msgstr "пуста стрічка подано до запиту щодо власника файлу\n"
+msgstr "передано порожній рядок на запит щодо власника файла\n"
 
 #: src/pacman/query.c:197 src/pacman/query.c:219
 #, c-format
@@ -1486,6 +1497,7 @@ msgid_plural "There are %d members in group %s%s%s:\n"
 msgstr[0] "Є %d член в групі %s%s%s:\n"
 msgstr[1] "Є %d членів в групі %s%s%s:\n"
 msgstr[2] "Є %d членів в групі %s%s%s:\n"
+msgstr[3] "Є %d членів в групі %s%s%s:\n"
 
 #: src/pacman/sync.c:640
 #, c-format
@@ -1505,18 +1517,18 @@ msgstr "Починається оновлення системи...\n"
 #: src/pacman/sync.c:720
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
-msgstr "неможливо задовольнити залежності '%s', які вимагаються %s\n"
+msgstr "неможливо задовольнити залежності '%s', які вимагає %s\n"
 
 #: src/pacman/sync.c:724
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
 msgstr ""
-"встановлення %s (%s) створить конфлікт залежностей '%s', які вимагаються %s\n"
+"встановлення %s (%s) створить конфлікт залежностей '%s', які вимагає %s\n"
 
 #: src/pacman/sync.c:728
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "вилучення %s створить конфлікт залежностей '%s', які вимаються %s\n"
+msgstr "вилучення %s створить конфлікт залежностей '%s', які вимагає %s\n"
 
 #: src/pacman/sync.c:748
 #, c-format

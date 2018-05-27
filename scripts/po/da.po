@@ -14,7 +14,7 @@
 # nickoe <oe.nick@gmail.com>, 2015
 # nickoe <oe.nick@gmail.com>, 2015
 # scootergrisen, 2017
-# scootergrisen, 2017
+# scootergrisen, 2017-2018
 # Frederik “Freso” S. Olesen <transifex.net@freso.dk>, 2013
 # Frederik “Freso” S. Olesen <transifex.net@freso.dk>, 2012
 msgid ""
@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-05-15 10:38+1000\n"
-"PO-Revision-Date: 2018-04-29 14:06+0000\n"
-"Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
+"PO-Revision-Date: 2018-05-15 18:38+0000\n"
+"Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/da/)\n"
 "Language: da\n"
@@ -138,7 +138,7 @@ msgstr "Kan ikke finde bibliotek opført i %s: %s"
 
 #: scripts/makepkg.sh.in:629
 msgid "Invalid value for %s: %s"
-msgstr ""
+msgstr "Ugyldig værdi for %s: %s"
 
 #: scripts/makepkg.sh.in:642 scripts/makepkg.sh.in:680
 #: scripts/makepkg.sh.in:820
@@ -246,6 +246,8 @@ msgstr ""
 msgid ""
 "Cannot find the %s binary required for source file checksums operations."
 msgstr ""
+"Kan ikke finde den binære fil , der er krævet til kontrolsummehandlinger på "
+"filer."
 
 #: scripts/makepkg.sh.in:1040
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -490,6 +492,10 @@ msgid ""
 "free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Ophavsret (c) 2006-2018 Pacman-udviklingsteam <pacman-dev@archlinux.org>."
+"\\nOphavsret (C) 2002-2006 Judd Vinet <jvinet@zeroflux.org>.\\n\\nDette er "
+"fri software; se kildeteksten for kopieringsbetingelser.\\nDer er INGEN "
+"GARANTI i det omfang det er tilladt ved lov.\\n"
 
 #: scripts/makepkg.sh.in:1307 scripts/repo-add.sh.in:743
 msgid "%s signal caught. Exiting..."
@@ -509,7 +515,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:1410
 msgid "Do not use the %s option. This option is only for internal use by %s."
-msgstr ""
+msgstr "Brug ikke tilvalget %s. Tilvalget er kun til intern brug af %s."
 
 #: scripts/makepkg.sh.in:1425
 msgid "%s does not exist."
@@ -677,6 +683,9 @@ msgid ""
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
+"Ophavsret (c) 2013-2018 Pacman-udviklingsteam <pacman-dev@archlinux.org>.\n"
+"Dette er fri software; se kildeteksten for kopieringsbetingelser.\n"
+"Der er INGEN GARANTI i det omfang det er tilladt ved lov.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:41
 msgid "Upgrade the local pacman database to a newer format"
@@ -716,6 +725,9 @@ msgid ""
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Ophavsret (c) 2010-2018 Pacman-udviklingsteam <pacman-dev@archlinux.org>."
+"\\nDette er fri software; se kildeteksten for kopieringsbetingelser.\\nDer "
+"er INGEN GARANTI i det omfang det er tilladt ved lov.\\n"
 
 #: scripts/pacman-db-upgrade.sh.in:118 scripts/repo-add.sh.in:514
 msgid "%s does not exist or is not a directory."
@@ -1069,7 +1081,7 @@ msgid ""
 "software; see the source for copying conditions.\\nThere is NO WARRANTY, to "
 "the extent permitted by law.\\n"
 msgstr ""
-"Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nDette er fri "
+"Ophavsret (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\\n\\nDette er fri "
 "software; se kildeteksten for kopieringsbetingelser.\\nDer er INGEN GARANTI "
 "i det omfang det er tilladt ved lov.\\n"
 
@@ -1204,6 +1216,9 @@ msgid ""
 "\\nThis is free software; see the source for copying conditions.\\nThere is "
 "NO WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Ophavsret (c) 2006-2018 Pacman-udviklingsteam <pacman-dev@archlinux.org>\\n"
+"\\nDette er fri software; se kildeteksten for kopieringsbetingelser.\\nDer "
+"er INGEN GARANTI i det omfang det er tilladt ved lov.\\n"
 
 #: scripts/repo-add.sh.in:146
 msgid "No database entry for package '%s'."
@@ -1391,7 +1406,7 @@ msgstr "Kunne ikke signere pakkefil."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:56
 msgid "Signing package(s)..."
-msgstr ""
+msgstr "Signerer pakke(r)..."
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:64
 msgid "Integrity checks are missing for: %s"
@@ -1512,7 +1527,7 @@ msgstr "%s burde ikke være et matrix"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
 msgid "Checking for packaging issues..."
-msgstr ""
+msgstr "Søger efter problemstillinger med pakning..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
 msgid "Package contains reference to %s"
@@ -1520,11 +1535,11 @@ msgstr "Pakke indeholder reference til %s"
 
 #: scripts/libmakepkg/lint_package/dotfiles.sh.in:34
 msgid "Dotfile found in package root '%s'"
-msgstr ""
+msgstr "Punktumfil fundet i pakkens rod '%s'"
 
 #: scripts/libmakepkg/lint_package/file_names.sh.in:36
 msgid "Package contains paths with newlines"
-msgstr ""
+msgstr "Pakken indeholder stier med linjeskift"
 
 #: scripts/libmakepkg/lint_package/missing_backup.sh.in:35
 msgid "%s entry file not in package : %s"
@@ -1582,6 +1597,8 @@ msgstr "%s skal være et decimaltal, ikke %s."
 msgid ""
 "%s is not allowed to contain colons, forward slashes, hyphens or whitespace."
 msgstr ""
+"%s må ikke indeholde kolonner, fremadrettede skråstreger, bindestreger eller "
+"blanktegn."
 
 #: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:46
 msgid "%s array cannot contain comparison (< or >) operators."
@@ -1772,8 +1789,8 @@ msgstr "Kunne ikke ændre til mappe %s"
 
 #: scripts/libmakepkg/util/util.sh.in:90
 msgid "You do not have write permission for the directory $%s (%s)."
-msgstr ""
+msgstr "Du har ikke skrivetilladelser til mappen $%s (%s)."
 
 #: scripts/libmakepkg/util/util.sh.in:92
 msgid "Failed to create the directory $%s (%s)."
-msgstr ""
+msgstr "Kunne ikke oprette mappen $%s (%s)."

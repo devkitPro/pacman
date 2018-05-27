@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-05-15 10:34+1000\n"
-"PO-Revision-Date: 2018-04-30 20:36+0000\n"
+"PO-Revision-Date: 2018-05-16 08:24+0000\n"
 "Last-Translator: Yarema aka Knedlyk <yupadmin@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/uk/)\n"
@@ -19,8 +19,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != "
+"11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
+"100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
+"(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
 #: lib/libalpm/add.c:86
 #, c-format
@@ -775,7 +777,7 @@ msgstr "неможливо вилучити файл «%s»: %s\n"
 #: lib/libalpm/remove.c:410 lib/libalpm/remove.c:419
 #, c-format
 msgid "could not backup %s due to PATH_MAX overflow\n"
-msgstr ""
+msgstr "неможливо створити запасну копію %s через переповнення PATH_MAX\n"
 
 #: lib/libalpm/remove.c:561
 #, c-format
@@ -1016,6 +1018,3 @@ msgstr "кеш %s не існує, створюється…\n"
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "неможливо знайти або створити кеш пакунків, використовуючи %s натомість\n"
-
-#~ msgid "%s: signature format error"
-#~ msgstr "%s: помилка формату підпису"

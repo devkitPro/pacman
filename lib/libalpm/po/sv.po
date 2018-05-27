@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-05-15 10:34+1000\n"
-"PO-Revision-Date: 2018-04-29 13:58+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"PO-Revision-Date: 2018-05-16 20:56+0000\n"
+"Last-Translator: Kristoffer Andersson <kode.kristoff@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/sv/)\n"
 "Language: sv\n"
@@ -64,7 +64,7 @@ msgstr "fil fans ej i fillistan för paket %s. Hoppar över uppackning av %s\n"
 #: lib/libalpm/add.c:214
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr ""
+msgstr "kunde inte extrahera %s%s: sökvägen är för lång"
 
 #: lib/libalpm/add.c:256
 #, c-format
@@ -92,7 +92,7 @@ msgstr "extrahera: ersätter ej katalog med fil %s\n"
 #: lib/libalpm/add.c:315
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr ""
+msgstr "kunde inte extrahera %s.pacnew: sökvägen är för lång"
 
 #: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:573
 #, c-format
@@ -108,7 +108,7 @@ msgstr "kunde inte byta katalog till %s (%s)\n"
 #: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:738
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr "Kunde ej återställa arbetskatalogen (%s)\n"
+msgstr "kunde ej återställa arbetskatalogen (%s)\n"
 
 #: lib/libalpm/add.c:578
 #, c-format
@@ -269,7 +269,7 @@ msgstr "sökväg till databasen är odefinierad\n"
 #: lib/libalpm/deps.c:184
 #, c-format
 msgid "dependency cycle detected:\n"
-msgstr "beroende cykel upptäckt:\n"
+msgstr "beroendecykel upptäckt:\n"
 
 #: lib/libalpm/deps.c:187
 #, c-format
@@ -294,7 +294,7 @@ msgstr "kan inte lösa \"%s\", beroende till \"%s\", \n"
 #: lib/libalpm/diskspace.c:78
 #, c-format
 msgid "could not get filesystem information for %s: %s\n"
-msgstr "Kunde ej hämta filsysteminformation för %s: %s\n"
+msgstr "kunde ej hämta filsysteminformation för %s: %s\n"
 
 #: lib/libalpm/diskspace.c:108
 #, c-format
@@ -306,27 +306,27 @@ msgstr ""
 #: lib/libalpm/diskspace.c:146 lib/libalpm/diskspace.c:159
 #, c-format
 msgid "could not get filesystem information\n"
-msgstr "Kunde ej hämta filsysteminformation\n"
+msgstr "kunde ej hämta filsysteminformation\n"
 
 #: lib/libalpm/diskspace.c:242
 #, c-format
 msgid "could not get file information for %s\n"
-msgstr ""
+msgstr "kunde inte hitta filinformation för %s\n"
 
 #: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
 msgid "could not determine mount point for file %s\n"
-msgstr "Kunde ej bestämma monteringspunkt för fil %s\n"
+msgstr "kunde ej bestämma monteringspunkt för fil %s\n"
 
 #: lib/libalpm/diskspace.c:354
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
-msgstr ""
+msgstr "Partitionen %s är full: %jd block behövs, %ju block är lediga\n"
 
 #: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
 #, c-format
 msgid "could not determine filesystem mount points\n"
-msgstr "Kunde ej bestämma filsystemmonteringspunkter\n"
+msgstr "kunde ej bestämma filsystemmonteringspunkter\n"
 
 #: lib/libalpm/diskspace.c:385
 #, c-format
@@ -338,7 +338,7 @@ msgstr ""
 #: lib/libalpm/diskspace.c:438
 #, c-format
 msgid "could not determine root mount point %s\n"
-msgstr "Kunde ej bestämma rootmonteringspunkt %s\n"
+msgstr "kunde ej bestämma rootmonteringspunkt %s\n"
 
 #: lib/libalpm/diskspace.c:486
 #, c-format
@@ -353,7 +353,7 @@ msgstr "disk"
 #: lib/libalpm/dload.c:345
 #, c-format
 msgid "failed to create temporary file for download\n"
-msgstr "Kunde ej skapa temporär fil för nedladdning\n"
+msgstr "kunde ej skapa temporär fil för nedladdning\n"
 
 #: lib/libalpm/dload.c:390
 #, c-format
@@ -441,12 +441,12 @@ msgstr "kunde inte öppna databas"
 #: lib/libalpm/error.c:64
 #, c-format
 msgid "could not create database"
-msgstr "kunde inte sakapa databas"
+msgstr "kunde inte skapa databas"
 
 #: lib/libalpm/error.c:66
 #, c-format
 msgid "database not initialized"
-msgstr "databas inte initialiserad"
+msgstr "databasen är inte initierad"
 
 #: lib/libalpm/error.c:68
 #, c-format
@@ -486,7 +486,7 @@ msgstr "kunde inte ta bort databasinlägg"
 #: lib/libalpm/error.c:83
 #, c-format
 msgid "invalid url for server"
-msgstr "ogilltigt url för server"
+msgstr "ogiltig url för server"
 
 #: lib/libalpm/error.c:85
 #, c-format
@@ -516,7 +516,7 @@ msgstr "överföring inte förberedd"
 #: lib/libalpm/error.c:98
 #, c-format
 msgid "transaction aborted"
-msgstr "överföring avbryten"
+msgstr "överföring avbruten"
 
 #: lib/libalpm/error.c:100
 #, c-format
@@ -531,7 +531,7 @@ msgstr "överföringsförsök när databasen inte är låst"
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr ""
+msgstr "misslyckades med att utföra åtgärder som krokats i transaktionen"
 
 #: lib/libalpm/error.c:107
 #, c-format
@@ -541,7 +541,7 @@ msgstr "kunde inte hitta eller förbereda paket"
 #: lib/libalpm/error.c:109
 #, c-format
 msgid "operation cancelled due to ignorepkg"
-msgstr "operationen avbryten på grund av ignorepkg"
+msgstr "operationen avbruten på grund av ignorepkg"
 
 #: lib/libalpm/error.c:111
 #, c-format
@@ -581,7 +581,7 @@ msgstr "paketnamn är inte giltigt"
 #: lib/libalpm/error.c:125
 #, c-format
 msgid "package architecture is not valid"
-msgstr "paketets arkitektur är inte giltigt"
+msgstr "paketets arkitektur är inte giltig"
 
 #: lib/libalpm/error.c:127
 #, c-format
@@ -611,7 +611,7 @@ msgstr "delta patch misslyckades"
 #: lib/libalpm/error.c:140 lib/libalpm/hook.c:614
 #, c-format
 msgid "could not satisfy dependencies"
-msgstr "kunde inte tillfredställa beroenden"
+msgstr "kunde inte tillfredsställa beroenden"
 
 #: lib/libalpm/error.c:142
 #, c-format
@@ -621,7 +621,7 @@ msgstr "motstridiga beroenden"
 #: lib/libalpm/error.c:144
 #, c-format
 msgid "conflicting files"
-msgstr "motstridiga filer "
+msgstr "motstridiga filer"
 
 #: lib/libalpm/error.c:147
 #, c-format
@@ -964,12 +964,12 @@ msgstr "kunde inte ta bort tmpdir %s\n"
 #: lib/libalpm/util.c:486
 #, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr ""
+msgstr "kunde inte skriva till rör (%s)\n"
 
 #: lib/libalpm/util.c:545
 #, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr ""
+msgstr "kunde inte läsa från rör (%s)\n"
 
 #: lib/libalpm/util.c:590 lib/libalpm/util.c:596
 #, c-format

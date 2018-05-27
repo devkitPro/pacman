@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# BrLi <rainman59118@gmail.com>, 2017
+# BrLi <rainman59118@gmail.com>, 2017-2018
 # Cheng-Chia Tseng <pswo10680@gmail.com>, 2012,2017
 # dlin <dlin.tw@gmail.com>, 2014
 # dlin <dlin.tw@gmail.com>, 2014
 # dlin <dlin.tw@gmail.com>, 2011-2012
-# Jeff Huang <s8321414@gmail.com>, 2014-2015
+# Jeff Huang <s8321414@gmail.com>, 2014-2015,2018
 # Jeff Huang <s8321414@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-05-15 10:34+1000\n"
-"PO-Revision-Date: 2018-04-29 13:58+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"PO-Revision-Date: 2018-05-15 23:43+0000\n"
+"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/zh_TW/)\n"
 "Language: zh_TW\n"
@@ -227,7 +227,7 @@ msgstr "%s 中缺少軟體包元資料\n"
 #: lib/libalpm/be_package.c:748
 #, c-format
 msgid "failed to read signature file: %s\n"
-msgstr "無法讀取驗證檔：%s\n"
+msgstr "無法讀取簽章檔：%s\n"
 
 #: lib/libalpm/be_package.c:769 lib/libalpm/sync.c:1113
 #, c-format
@@ -247,7 +247,7 @@ msgstr "無法解析軟體包描述檔案「%s」從軟體庫「%s」\n"
 #: lib/libalpm/be_sync.c:524
 #, c-format
 msgid "could not read db '%s' (%s)\n"
-msgstr ""
+msgstr "無法讀取資料庫 '%s' (%s)\n"
 
 #: lib/libalpm/be_sync.c:558 lib/libalpm/be_sync.c:563
 #, c-format
@@ -552,12 +552,12 @@ msgstr "資料庫不正確或損毀（檢查碼）"
 #: lib/libalpm/error.c:115
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
-msgstr "軟體包不正確或損毀（PGP 簽章）"
+msgstr "套件不正確或損毀（PGP 簽章）"
 
 #: lib/libalpm/error.c:117
 #, c-format
 msgid "package missing required signature"
-msgstr "軟體包缺少所需的簽名"
+msgstr "套件缺少所需的簽章"
 
 #: lib/libalpm/error.c:119
 #, c-format
@@ -667,69 +667,69 @@ msgstr "無法刪除鎖定檔案 %s\n"
 #: lib/libalpm/hook.c:107
 #, c-format
 msgid "Missing trigger targets in hook: %s\n"
-msgstr ""
+msgstr "制動維護 %s 缺乏啟發標的檔案\n"
 
 #: lib/libalpm/hook.c:113
 #, c-format
 msgid "Missing trigger type in hook: %s\n"
-msgstr ""
+msgstr "制動維護 %s 缺乏啟發類型\n"
 
 #: lib/libalpm/hook.c:119
 #, c-format
 msgid "Missing trigger operation in hook: %s\n"
-msgstr ""
+msgstr "制動維護 %s 缺乏啟發行為\n"
 
 #: lib/libalpm/hook.c:146
 #, c-format
 msgid "Missing Exec option in hook: %s\n"
-msgstr ""
+msgstr "制動維護 %s 缺乏 Exec 執行項目\n"
 
 #: lib/libalpm/hook.c:152
 #, c-format
 msgid "Missing When option in hook: %s\n"
-msgstr ""
+msgstr "制動維護 %s 缺乏 When 判斷項目\n"
 
 #: lib/libalpm/hook.c:155
 #, c-format
 msgid "AbortOnFail set for PostTransaction hook: %s\n"
-msgstr ""
+msgstr "已為後置維護 PostTransaction %s 設置 AbortOnFail 條件\n"
 
 #: lib/libalpm/hook.c:273
 #, c-format
 msgid "error while reading hook %s: %s\n"
-msgstr ""
+msgstr "讀取掛鉤 %s 時發生錯誤: %s\n"
 
 #: lib/libalpm/hook.c:275 lib/libalpm/hook.c:315 lib/libalpm/hook.c:357
 #, c-format
 msgid "hook %s line %d: invalid option %s\n"
-msgstr ""
+msgstr "掛鉤 %s 第 %d 行：無效的選項 %s\n"
 
 #: lib/libalpm/hook.c:285
 #, c-format
 msgid "hook %s line %d: invalid section %s\n"
-msgstr ""
+msgstr "掛鉤 %s 第 %d 行：無效的區段 %s\n"
 
 #: lib/libalpm/hook.c:297 lib/libalpm/hook.c:308 lib/libalpm/hook.c:327
 #: lib/libalpm/hook.c:350
 #, c-format
 msgid "hook %s line %d: invalid value %s\n"
-msgstr ""
+msgstr "掛鉤 %s 第 %d 行：無效的值 %s\n"
 
 #: lib/libalpm/hook.c:301 lib/libalpm/hook.c:320 lib/libalpm/hook.c:331
 #: lib/libalpm/hook.c:345
 #, c-format
 msgid "hook %s line %d: overwriting previous definition of %s\n"
-msgstr ""
+msgstr "掛鉤 %s 第 %d 行：正在覆寫先前 %s 的定義\n"
 
 #: lib/libalpm/hook.c:352
 #, c-format
 msgid "hook %s line %d: unable to set option (%s)\n"
-msgstr ""
+msgstr "掛鉤 %s 第 %d 行：無法設定選項 (%s)\n"
 
 #: lib/libalpm/hook.c:613
 #, c-format
 msgid "unable to run hook %s: %s\n"
-msgstr ""
+msgstr "無法執行掛鉤 %s：%s\n"
 
 #: lib/libalpm/hook.c:648 lib/libalpm/hook.c:660 lib/libalpm/remove.c:385
 #, c-format
@@ -739,7 +739,7 @@ msgstr "無法開啟目錄：%s: %s\n"
 #: lib/libalpm/hook.c:676
 #, c-format
 msgid "could not open file: %s%s: %s\n"
-msgstr ""
+msgstr "無法開啟檔案：%s%s：%s\n"
 
 #: lib/libalpm/hook.c:696 lib/libalpm/util.c:259
 #, c-format
@@ -749,7 +749,7 @@ msgstr "無法取得檔案統計資訊 %s: %s\n"
 #: lib/libalpm/hook.c:722
 #, c-format
 msgid "could not read directory: %s: %s\n"
-msgstr ""
+msgstr "無法讀取目錄：%s：%s\n"
 
 #: lib/libalpm/package.c:586
 #, c-format
@@ -774,7 +774,7 @@ msgstr "無法刪除檔案「%s」：%s\n"
 #: lib/libalpm/remove.c:410 lib/libalpm/remove.c:419
 #, c-format
 msgid "could not backup %s due to PATH_MAX overflow\n"
-msgstr ""
+msgstr "因為超過 PATH_MAX 限制而無法備份 %s\n"
 
 #: lib/libalpm/remove.c:561
 #, c-format
@@ -794,32 +794,32 @@ msgstr "無法從快取中刪除記錄 '%s'\n"
 #: lib/libalpm/signing.c:171
 #, c-format
 msgid "Public keyring not found; have you run '%s'?\n"
-msgstr ""
+msgstr "找不到公開的鑰匙圈；您要執行「%s」嗎？\n"
 
 #: lib/libalpm/signing.c:207 lib/libalpm/signing.c:705
 #, c-format
 msgid "GPGME error: %s\n"
-msgstr ""
+msgstr "GPGME 錯誤：%s\n"
 
 #: lib/libalpm/signing.c:402
 #, c-format
 msgid "keyring is not writable\n"
-msgstr ""
+msgstr "無法寫入鑰匙圈\n"
 
 #: lib/libalpm/signing.c:460
 #, c-format
 msgid "key \"%s\" could not be imported\n"
-msgstr ""
+msgstr "金鑰「%s」無法匯入\n"
 
 #: lib/libalpm/signing.c:466
 #, c-format
 msgid "key %s, \"%s\" found on keyserver, keyring is not writable\n"
-msgstr ""
+msgstr "金鑰 %s，「%s」在金鑰伺服器上找到，鑰匙圈無法寫入\n"
 
 #: lib/libalpm/signing.c:471
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
-msgstr ""
+msgstr "金鑰「%s」無法遠端鎖定\n"
 
 #: lib/libalpm/signing.c:859 lib/libalpm/sync.c:1181
 #, c-format
@@ -829,49 +829,49 @@ msgstr "%s：缺少需要的簽章\n"
 #: lib/libalpm/signing.c:874
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
-msgstr ""
+msgstr "%s：來自 %s 的簽章信任等級不足\n"
 
 #: lib/libalpm/signing.c:882
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
-msgstr ""
+msgstr "%s：來自 %s 的簽章信任等級不明\n"
 
 #: lib/libalpm/signing.c:889
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
-msgstr ""
+msgstr "%s：來自 %s 的簽章不該被信任\n"
 
 #: lib/libalpm/signing.c:901
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
-msgstr ""
+msgstr "%s：金鑰「%s」未知\n"
 
 #: lib/libalpm/signing.c:910
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
-msgstr ""
+msgstr "%s：金鑰「%s」已停用\n"
 
 #: lib/libalpm/signing.c:914
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
-msgstr ""
+msgstr "%s：來自 %s 的簽章已過期\n"
 
 #: lib/libalpm/signing.c:918
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
-msgstr ""
+msgstr "%s：來自 %s 的簽章無效\n"
 
 #: lib/libalpm/signing.c:995 lib/libalpm/signing.c:1063
 #: lib/libalpm/signing.c:1142
 #, c-format
 msgid "%s: signature format error\n"
-msgstr ""
+msgstr "%s：簽章格式錯誤\n"
 
 #: lib/libalpm/signing.c:1095 lib/libalpm/signing.c:1128
 #: lib/libalpm/signing.c:1136
 #, c-format
 msgid "%s: unsupported signature format\n"
-msgstr ""
+msgstr "%s：簽章格式不受支援\n"
 
 #: lib/libalpm/sync.c:98
 #, c-format

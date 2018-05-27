@@ -22,7 +22,7 @@
 # Michal Plichta <mplichta@gmail.com>, 2013
 # Michal Plichta <mplichta@gmail.com>, 2013
 # megamann, 2015-2016
-# Piotr Strębski <strebski@gmail.com>, 2017
+# Piotr Strębski <strebski@gmail.com>, 2017-2018
 # Piotr Strębski <strebski@gmail.com>, 2013-2014,2017
 # skrzyp <jot.skrzyp@gmail.com>, 2013
 msgid ""
@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-05-15 10:38+1000\n"
-"PO-Revision-Date: 2018-04-29 14:06+0000\n"
+"PO-Revision-Date: 2018-05-16 22:16+0000\n"
 "Last-Translator: Piotr Strębski <strebski@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/pl/)\n"
@@ -148,7 +148,7 @@ msgstr "Nie można odnaleźć biblioteki wymienionej w %s: %s"
 
 #: scripts/makepkg.sh.in:629
 msgid "Invalid value for %s: %s"
-msgstr ""
+msgstr "Nieprawidłowa wartość dla %s: %s"
 
 #: scripts/makepkg.sh.in:642 scripts/makepkg.sh.in:680
 #: scripts/makepkg.sh.in:820
@@ -256,6 +256,8 @@ msgstr "Nie można odnaleźć %s, potrzebnego do weryfikowania plików źródło
 msgid ""
 "Cannot find the %s binary required for source file checksums operations."
 msgstr ""
+"Nie można odnaleźć pliku binarnego %s wymaganego do działań sprawdzenia sumy "
+"kontrolnej pliku źródeł."
 
 #: scripts/makepkg.sh.in:1040
 msgid "Cannot find the %s binary required for distributed compilation."
@@ -517,6 +519,7 @@ msgstr ""
 #: scripts/makepkg.sh.in:1410
 msgid "Do not use the %s option. This option is only for internal use by %s."
 msgstr ""
+"Nie używaj opcji %s. Opcja ta jest tylko do użytku wewnętrznego przez %s."
 
 #: scripts/makepkg.sh.in:1425
 msgid "%s does not exist."
@@ -1416,7 +1419,7 @@ msgstr "Nie udało się podpisać pakietu."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:56
 msgid "Signing package(s)..."
-msgstr ""
+msgstr "Podpisywanie pakietu(-ów)..."
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:64
 msgid "Integrity checks are missing for: %s"
@@ -1537,7 +1540,7 @@ msgstr "%s nie powinien być tablicą"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
 msgid "Checking for packaging issues..."
-msgstr ""
+msgstr "Sprawdzanie problemów z pakietami..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
 msgid "Package contains reference to %s"
@@ -1549,7 +1552,7 @@ msgstr ""
 
 #: scripts/libmakepkg/lint_package/file_names.sh.in:36
 msgid "Package contains paths with newlines"
-msgstr ""
+msgstr "Pakiet zawiera ścieżki ze znakami nowej linii"
 
 #: scripts/libmakepkg/lint_package/missing_backup.sh.in:35
 msgid "%s entry file not in package : %s"
@@ -1797,8 +1800,8 @@ msgstr "Błąd podczas zmiany katalogu %s"
 
 #: scripts/libmakepkg/util/util.sh.in:90
 msgid "You do not have write permission for the directory $%s (%s)."
-msgstr ""
+msgstr "Nie posiadasz uprawnień do zapisu w katalogu $%s (%s)."
 
 #: scripts/libmakepkg/util/util.sh.in:92
 msgid "Failed to create the directory $%s (%s)."
-msgstr ""
+msgstr "Błąd utworzenia katalogu $%s (%s)."

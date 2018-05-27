@@ -25,7 +25,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n "
+">= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
 
 #: src/pacman/callback.c:182
 #, c-format
@@ -192,6 +193,9 @@ msgstr[1] ""
 msgstr[2] ""
 "Nasledovné balíčky nemohli byť aktualizované kvôli nevyriešiteľným "
 "závislostiam:\n"
+msgstr[3] ""
+"Nasledovné balíčky nemohli byť aktualizované kvôli nevyriešiteľným "
+"závislostiam:\n"
 
 #: src/pacman/callback.c:447
 #, c-format
@@ -200,6 +204,7 @@ msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Chcete preskočiť aktualizáciu vyššie uvedeného balíčka?"
 msgstr[1] "Chcete preskočiť aktualizáciu vyššie uvedených balíčkov?"
 msgstr[2] "Chcete preskočiť aktualizáciu vyššie uvedených balíčkov?"
+msgstr[3] "Chcete preskočiť aktualizáciu vyššie uvedených balíčkov?"
 
 #: src/pacman/callback.c:458
 #, c-format
@@ -208,6 +213,7 @@ msgid_plural "There are %zu providers available for %s:\n"
 msgstr[0] "K dispozícii je %zu poskytovateľ pre %s\n"
 msgstr[1] "K dispozícii sú %zu poskytovatelia pre %s\n"
 msgstr[2] "K dispozícii je %zu poskytovateľov pre %s:\n"
+msgstr[3] "K dispozícii je %zu poskytovateľov pre %s:\n"
 
 #: src/pacman/callback.c:469
 #, c-format
@@ -341,6 +347,7 @@ msgid_plural "%s: %jd total files, "
 msgstr[0] "%s: %jd súbor celkom,"
 msgstr[1] "%s: %jd súbory celkom,"
 msgstr[2] "%s: %jd súborov celkom,"
+msgstr[3] "%s: %jd súborov celkom,"
 
 #: src/pacman/check.c:244
 #, c-format
@@ -349,6 +356,7 @@ msgid_plural "%jd missing files\n"
 msgstr[0] "%jd chýbajúci súbor\n"
 msgstr[1] "%jd chýbajúce súbory\n"
 msgstr[2] "%jd chýbajúcich súborov\n"
+msgstr[3] "%jd chýbajúcich súborov\n"
 
 #: src/pacman/check.c:275
 #, c-format
@@ -372,6 +380,7 @@ msgid_plural "%jd altered files\n"
 msgstr[0] "%jd zmenený súbor\n"
 msgstr[1] "%jd zmenené súbory\n"
 msgstr[2] "%jd zmenených súborov\n"
+msgstr[3] "%jd zmenených súborov\n"
 
 #: src/pacman/conf.c:98
 #, c-format
@@ -380,6 +389,7 @@ msgid_plural "malloc failure: could not allocate %zu bytes\n"
 msgstr[0] "malloc chyba: nepodarilo sa alokovať %zu bajt\n"
 msgstr[1] "malloc chyba: nepodarilo sa alokovať %zu bajty\n"
 msgstr[2] "malloc chyba: nepodarilo sa alokovať %zu bajtov\n"
+msgstr[3] "malloc chyba: nepodarilo sa alokovať %zu bajtov\n"
 
 #: src/pacman/conf.c:252
 #, c-format
@@ -1493,6 +1503,7 @@ msgid_plural "There are %d members in group %s%s%s:\n"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
+msgstr[3] ""
 
 #: src/pacman/sync.c:640
 #, c-format
