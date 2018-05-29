@@ -29,6 +29,11 @@ source "$LIBRARY/util/pkgbuild.sh"
 
 
 download_git() {
+	# abort early if parent says not to fetch
+	if declare -p get_vcs > /dev/null 2>&1; then
+		(( get_vcs )) || return
+	fi
+
 	local netfile=$1
 
 	local dir=$(get_filepath "$netfile")
