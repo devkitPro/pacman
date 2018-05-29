@@ -1286,7 +1286,7 @@ while true; do
 		-h|--help)        usage; exit $E_OK ;;
 		-V|--version)     version; exit $E_OK ;;
 
-		--)               OPT_IND=0; shift; break ;;
+		--)               shift; break ;;
 	esac
 	shift
 done
