@@ -1461,8 +1461,7 @@ alpm_pkg_t *alpm_sync_newversion(alpm_pkg_t *pkg, alpm_list_t *dbs_sync);
 typedef enum _alpm_transflag_t {
 	/** Ignore dependency checks. */
 	ALPM_TRANS_FLAG_NODEPS = 1,
-	/** Ignore file conflicts and overwrite files. */
-	ALPM_TRANS_FLAG_FORCE = (1 << 1),
+	/* (1 << 1) flag can go here */
 	/** Delete files even if they are tagged as backup. */
 	ALPM_TRANS_FLAG_NOSAVE = (1 << 2),
 	/** Ignore version numbers when checking dependencies. */

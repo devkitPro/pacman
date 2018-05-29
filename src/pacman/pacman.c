@@ -716,11 +716,6 @@ static int parsearg_upgrade(int opt)
 		return 0;
 	}
 	switch(opt) {
-		case OP_FORCE:
-			pm_printf(ALPM_LOG_WARNING,
-					_("option --force is deprecated; use --overwrite instead\n"));
-			config->flags |= ALPM_TRANS_FLAG_FORCE;
-			break;
 		case OP_OVERWRITE_FILES:
 			parsearg_util_addlist(&(config->overwrite_files));
 			break;

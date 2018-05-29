@@ -401,8 +401,7 @@ static alpm_pkg_t *_alpm_find_file_owner(alpm_handle_t *handle, const char *path
 
 static int _alpm_can_overwrite_file(alpm_handle_t *handle, const char *path, const char *rootedpath)
 {
-	return handle->trans->flags & ALPM_TRANS_FLAG_FORCE
-		|| _alpm_fnmatch_patterns(handle->overwrite_files, path) == 0
+	return _alpm_fnmatch_patterns(handle->overwrite_files, path) == 0
 		|| _alpm_fnmatch_patterns(handle->overwrite_files, rootedpath) == 0;
 }
 
