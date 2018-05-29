@@ -246,13 +246,18 @@ $(WRAPPER): \
 	$(AM_V_at)$(LN_S) $@ $(subst -wrapper,,$@)
 
 install-data-local:
-	$(MKDIR_P) $(DESTDIR)$(sysconfdir)/bash_completion.d/
-	$(INSTALL_DATA) completion/bash_completion $(DESTDIR)$(sysconfdir)/bash_completion.d/pacman
+	$(MKDIR_P) $(DESTDIR)$(bashcompdir)
+	$(INSTALL_DATA) completion/bash_completion $(DESTDIR)/$(bashcompdir)/pacman
+	for completion in makepkg pacman-key; do \
+	    $(LN_S) pacman $(DESTDIR)/$(bashcompdir)/$$completion; \
+	done
 	$(MKDIR_P) $(DESTDIR)$(datarootdir)/zsh/site-functions/
 	$(INSTALL_DATA) completion/zsh_completion $(DESTDIR)$(datarootdir)/zsh/site-functions/_pacman
 
 uninstall-local:
-	$(RM) $(DESTDIR)$(sysconfdir)/bash_completion.d/pacman
+	$(RM) $(DESTDIR)$(bashcompdir)/makepkg
+	$(RM) $(DESTDIR)$(bashcompdir)/pacman
+	$(RM) $(DESTDIR)$(bashcompdir)/pacman-key
 	$(RM) $(DESTDIR)$(datarootdir)/zsh/site-functions/_pacman
 
 install-exec-hook:

@@ -215,6 +215,9 @@ AM_GNU_GETTEXT_VERSION(0.13.1)
 AC_CHECK_LIB([m], [fabs], ,
 	AC_MSG_ERROR([libm is needed to compile pacman!]))
 
+PKG_CHECK_VAR(bashcompdir, [bash-completion], [completionsdir], ,
+	bashcompdir="${prefix}/share/bash-completion/completions")
+
 # Check for libarchive
 PKG_CHECK_MODULES(LIBARCHIVE, [libarchive >= 3.0.0], ,
 	AC_MSG_ERROR([*** libarchive >= 3.0.0 is needed to compile pacman!]))
