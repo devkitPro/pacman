@@ -52,7 +52,7 @@ generate_one_checksum() {
 		proto="$(get_protocol "$netfile")"
 
 		case $proto in
-			bzr*|git*|hg*|svn*)
+			bzr|git|hg|svn)
 				sum="SKIP"
 				;;
 			*)

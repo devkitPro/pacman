@@ -41,10 +41,12 @@ get_protocol() {
 	if [[ $1 = *://* ]]; then
 		# strip leading filename
 		local proto="${1#*::}"
-		printf "%s\n" "${proto%%://*}"
+		proto="${proto%%://*}"
+		# strip proto+uri://
+		printf "%s\n" "${proto%%+*}"
 	elif [[ $1 = *lp:* ]]; then
 		local proto="${1#*::}"
-		printf "%s\n" "${proto%%lp:*}"
+		printf "%s\n" "${proto%%+lp:*}"
 	else
 		printf "%s\n" local
 	fi
@@ -63,15 +65,15 @@ get_filename() {
 	local proto=$(get_protocol "$netfile")
 
 	case $proto in
-		bzr*|git*|hg*|svn*)
+		bzr|git|hg|svn)
 			filename=${netfile%%#*}
 			filename=${filename%%\?*}
 			filename=${filename%/}
 			filename=${filename##*/}
-			if [[ $proto = bzr* ]]; then
+			if [[ $proto = bzr ]]; then
 				filename=${filename#*lp:}
 			fi
-			if [[ $proto = git* ]]; then
+			if [[ $proto = git ]]; then
 				filename=${filename%%.git*}
 			fi
 			;;
@@ -89,7 +91,7 @@ get_filepath() {
 	local proto="$(get_protocol "$1")"
 
 	case $proto in
-		bzr*|git*|hg*|svn*)
+		bzr|git|hg|svn)
 			if [[ -d "$startdir/$file" ]]; then
 				file="$startdir/$file"
 			elif [[ -d "$SRCDEST/$file" ]]; then

@@ -49,7 +49,7 @@ check_pgpsigs() {
 	for netfile in "${all_sources[@]}"; do
 		proto="$(get_protocol "$netfile")"
 
-		if [[ $proto = git* ]]; then
+		if [[ $proto = git ]]; then
 			verify_git_signature "$netfile" "$statusfile" || continue
 		else
 			verify_file_signature "$netfile" "$statusfile" || continue
@@ -263,7 +263,7 @@ source_has_signatures() {
 		proto="$(get_protocol "$netfile")"
 		query=$(get_uri_query "$netfile")
 
-		if [[ ${netfile%%::*} = *.@(sig?(n)|asc) || ( $proto = git* && $query = signed ) ]]; then
+		if [[ ${netfile%%::*} = *.@(sig?(n)|asc) || ( $proto = git && $query = signed ) ]]; then
 			return 0
 		fi
 	done

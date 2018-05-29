@@ -63,16 +63,16 @@ download_sources() {
 			local)
 				download_local "$netfile"
 				;;
-			bzr*)
+			bzr)
 				(( get_vcs )) && download_bzr "$netfile"
 				;;
-			git*)
+			git)
 				(( get_vcs )) && download_git "$netfile"
 				;;
-			hg*)
+			hg)
 				(( get_vcs )) && download_hg "$netfile"
 				;;
-			svn*)
+			svn)
 				(( get_vcs )) && download_svn "$netfile"
 				;;
 			*)
@@ -93,16 +93,16 @@ extract_sources() {
 		local file=$(get_filename "$netfile")
 		local proto=$(get_protocol "$netfile")
 		case "$proto" in
-			bzr*)
+			bzr)
 				extract_bzr "$netfile"
 				;;
-			git*)
+			git)
 				extract_git "$netfile"
 				;;
-			hg*)
+			hg)
 				extract_hg "$netfile"
 				;;
-			svn*)
+			svn)
 				extract_svn "$netfile"
 				;;
 			*)
