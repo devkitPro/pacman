@@ -212,8 +212,9 @@ underscore and the architecture name e.g., 'checkdepends_x86_64=()'.
 	An array of packages (and accompanying reasons) that are not essential for
 	base functionality, but may be necessary to make full use of the contents
 	of this package. optdepends are currently for informational purposes only
-	and are not utilized by pacman during dependency resolution. The format
-	for specifying optdepends is:
+	and are not utilized by pacman during dependency resolution. Packages in
+	this list follow the same format as depends, with an optional description
+	appended. The format for specifying optdepends descriptions is:
 
 	optdepends=('python: for library bindings')
 +
