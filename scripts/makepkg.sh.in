@@ -1371,7 +1371,6 @@ if ! ensure_writable_dir "BUILDDIR" "$BUILDDIR"; then
 	plain "$(gettext "Aborting...")"
 	exit $E_FS_PERMISSIONS
 fi
-chmod a-s "$BUILDDIR"
 
 if (( ! (NOBUILD || GENINTEG) )) && ! ensure_writable_dir "PKGDEST" "$PKGDEST"; then
 	plain "$(gettext "Aborting...")"
