@@ -40,6 +40,7 @@ compress_as() {
 		*tar.lrz) ${COMPRESSLRZ[@]:-lrzip -q} ;;
 		*tar.lzo) ${COMPRESSLZO[@]:-lzop -q} ;;
 		*tar.Z)   ${COMPRESSZ[@]:-compress -c -f} ;;
+		*tar.lz4) ${COMPRESSLZ4[@]:-lz4 -q} ;;
 		*tar)     cat ;;
 		*) warning "$(gettext "'%s' is not a valid archive extension.")" \
 			"$ext"; cat ;;
