@@ -1491,7 +1491,7 @@ fi
 # check we have the software required to process the PKGBUILD
 check_software || exit $E_MISSING_MAKEPKG_DEPS
 
-if (( ${#pkgname[@]} > 1 )); then
+if (( ${#pkgname[@]} > 1 )) || have_function package_${pkgname}; then
 	SPLITPKG=1
 fi
 
@@ -1513,8 +1513,6 @@ if have_function check; then
 fi
 if have_function package; then
 	PKGFUNC=1
-elif [[ $SPLITPKG -eq 0 ]] && have_function package_${pkgname}; then
-	SPLITPKG=1
 fi
 
 # check if gpg signature is to be created and if signing key is valid
