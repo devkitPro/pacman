@@ -432,6 +432,7 @@ run_function_safe() {
 
 	run_function "$1"
 
+	trap - ERR
 	eval "$restoretrap"
 	eval "$restoreset"
 	eval "$restoreshopt"
