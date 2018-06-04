@@ -56,11 +56,13 @@ new `pkgver`.  This is most useful when used with sources from version control
 systems (see below).
 
 *pkgrel*::
-	This is the release number specific to the Arch Linux release. This
+	This is the release number specific to the distribution. This
 	allows package maintainers to make updates to the package's configure
 	flags, for example. This is typically set to '1' for each new upstream
 	software release and incremented for intermediate PKGBUILD updates. The
-	variable is not allowed to contain hyphens.
+	variable is a postive integer, with an optional subrelease level
+	specified by adding another postive integer separated by a period
+	(i.e. in the form x.y).
 
 *epoch*::
 	Used to force the package to be seen as newer than any previous versions
