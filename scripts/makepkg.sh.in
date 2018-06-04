@@ -44,7 +44,7 @@ unset GREP_OPTIONS
 declare -r makepkg_version='@PACKAGE_VERSION@'
 declare -r confdir='@sysconfdir@'
 declare -r BUILDSCRIPT='@BUILDSCRIPT@'
-declare -r startdir="$PWD"
+declare -r startdir="$(pwd -P)"
 
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
@@ -1453,7 +1453,7 @@ fi
 
 basever=$(get_full_version)
 
-if [[ $BUILDDIR = "$startdir" ]]; then
+if [[ $BUILDDIR -ef "$startdir" ]]; then
 	srcdir="$BUILDDIR/src"
 	pkgdirbase="$BUILDDIR/pkg"
 else
