@@ -551,7 +551,16 @@ static int _alpm_hook_triggered(alpm_handle_t *handle, struct _alpm_hook_t *hook
 
 static int _alpm_hook_cmp(struct _alpm_hook_t *h1, struct _alpm_hook_t *h2)
 {
-	return strcmp(h1->name, h2->name);
+	size_t suflen = strlen(ALPM_HOOK_SUFFIX), l1, l2;
+	int ret;
+	l1 = strlen(h1->name) - suflen;
+	l2 = strlen(h2->name) - suflen;
+	/* exclude the suffixes from comparison */
+	ret = strncmp(h1->name, h2->name, l1 <= l2 ? l1 : l2);
+	if(ret == 0 && l1 != l2) {
+		return l1 < l2 ? -1 : 1;
+	}
+	return ret;
 }
 
 static alpm_list_t *find_hook(alpm_list_t *haystack, const void *needle)
@@ -634,8 +643,7 @@ int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 	alpm_event_hook_t event = { .when = when };
 	alpm_event_hook_run_t hook_event;
 	alpm_list_t *i, *hooks = NULL, *hooks_triggered = NULL;
-	const char *suffix = ".hook";
-	size_t suflen = strlen(suffix), triggered = 0;
+	size_t suflen = strlen(ALPM_HOOK_SUFFIX), triggered = 0;
 	int ret = 0;
 
 	for(i = alpm_list_last(handle->hookdirs); i; i = alpm_list_previous(i)) {
@@ -681,7 +689,7 @@ int _alpm_hook_run(alpm_handle_t *handle, alpm_hook_when_t when)
 			memcpy(path + dirlen, entry->d_name, name_len + 1);
 
 			if(name_len < suflen
-					|| strcmp(entry->d_name + name_len - suflen, suffix) != 0) {
+					|| strcmp(entry->d_name + name_len - suflen, ALPM_HOOK_SUFFIX) != 0) {
 				_alpm_log(handle, ALPM_LOG_DEBUG, "skipping non-hook file %s\n", path);
 				continue;
 			}
