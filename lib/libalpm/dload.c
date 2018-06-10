@@ -473,6 +473,13 @@ static int curl_download_internal(struct dload_payload *payload,
 						payload->remote_name, hostname);
 			}
 			goto cleanup;
+		case CURLE_COULDNT_RESOLVE_HOST:
+			payload->unlink_on_fail = 1;
+			handle->pm_errno = ALPM_ERR_SERVER_BAD_URL;
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("failed retrieving file '%s' from %s : %s\n"),
+					payload->remote_name, hostname, error_buffer);
+			goto cleanup;
 		default:
 			/* delete zero length downloads */
 			if(fstat(fileno(localf), &st) == 0 && st.st_size == 0) {
