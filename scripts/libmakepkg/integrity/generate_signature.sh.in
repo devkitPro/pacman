@@ -40,7 +40,7 @@ create_signature() {
 	if (( ! ret )); then
 		msg2 "$(gettext "Created signature file %s.")" "${filename##*/}.sig"
 	else
-		warning "$(gettext "Failed to sign package file.")"
+		warning "$(gettext "Failed to sign package file %s.")" "${filename##*/}"
 	fi
 
 	return $ret
