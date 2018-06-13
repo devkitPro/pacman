@@ -38,12 +38,11 @@ lint_variable() {
 			  source)
 	local string=(changelog epoch install pkgbase pkgdesc pkgrel pkgver url)
 
-	local i a v pkg keys out bad ret=0
+	local i a pkg out bad ret=0
 
 	# global variables
 	for i in ${array[@]} ${arch_array[@]}; do
-		eval "keys=(\"\${!$i[@]}\")"
-		if (( ${#keys[*]} > 0 )); then
+		if declare -p $i > /dev/null 2>&1; then
 			if ! is_array $i; then
 				error "$(gettext "%s should be an array")" "$i"
 				ret=1
@@ -55,11 +54,9 @@ lint_variable() {
 		[[ $a == "any" ]] && continue
 
 		for i in ${arch_array[@]}; do
-			v="${i}_${a}"
-			eval "keys=(\"\${!${v}[@]}\")"
-			if (( ${#keys[*]} > 0 )); then
-				if ! is_array $v; then
-					error "$(gettext "%s_%s should be an array")" "$i" "$a"
+			if declare -p "${i}_${a}" > /dev/null 2>&1; then
+				if ! is_array ${i}_${a}; then
+					error "$(gettext "%s should be an array")" "${i}_${a}"
 					ret=1
 				fi
 			fi
@@ -67,8 +64,7 @@ lint_variable() {
 	done
 
 	for i in ${string[@]}; do
-		eval "keys=(\"\${!$i[@]}\")"
-		if (( ${#keys[*]} > 0 )); then
+		if declare -p "$i" > /dev/null 2>&1; then
 			if is_array $i; then
 				error "$(gettext "%s should not be an array")" "$i"
 				ret=1
