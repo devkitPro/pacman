@@ -188,10 +188,11 @@ print_all_package_names() {
 	for pkg in ${pkgname[@]}; do
 		architecture=$(get_pkg_arch $pkg)
 		printf "%s/%s-%s-%s%s\n" "$PKGDEST" "$pkg" "$version" "$architecture" "$PKGEXT"
-		if check_option "debug" "y" && check_option "strip" "y"; then
-			printf "%s/%s-%s-%s-%s%s\n" "$PKGDEST" "$pkg" "@DEBUGSUFFIX@" "$version" "$architecture" "$PKGEXT"
-		fi
 	done
+	if check_option "debug" "y" && check_option "strip" "y"; then
+		architecture=$(get_pkg_arch)
+		printf "%s/%s-%s-%s-%s%s\n" "$PKGDEST" "$pkgbase" "@DEBUGSUFFIX@" "$version" "$architecture" "$PKGEXT"
+	fi
 }
 
 get_all_sources() {
