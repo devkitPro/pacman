@@ -1125,22 +1125,34 @@ check_build_status() {
 backup_package_variables() {
 	local var
 	for var in ${splitpkg_overrides[@]}; do
-		declare -p $var 2>/dev/null || printf '%s\n'  "unset $var"
+		local indirect="${var}_backup"
+		eval "${indirect}=(\"\${$var[@]}\")"
+	done
+}
+
+restore_package_variables() {
+	local var
+	for var in ${splitpkg_overrides[@]}; do
+		local indirect="${var}_backup"
+		if [[ -n ${!indirect} ]]; then
+			eval "${var}=(\"\${$indirect[@]}\")"
+		else
+			unset ${var}
+		fi
 	done
 }
 
 run_split_packaging() {
 	local pkgname_backup=("${pkgname[@]}")
-	local restore_package_variables
 	for pkgname in ${pkgname_backup[@]}; do
 		pkgdir="$pkgdirbase/$pkgname"
 		mkdir "$pkgdir"
-		restore_package_variables="$(backup_package_variables)"
+		backup_package_variables
 		run_package $pkgname
 		tidy_install
 		lint_package || exit $E_PACKAGE_FAILED
 		create_package
-		eval "$restore_package_variables"
+		restore_package_variables
 	done
 	pkgname=("${pkgname_backup[@]}")
 	create_debug_package
