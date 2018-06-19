@@ -500,13 +500,13 @@ run_package() {
 }
 
 find_libdepends() {
-	local d sodepends;
+	local d sodepends
 
-	sodepends=0;
+	sodepends=0
 	for d in "${depends[@]}"; do
 		if [[ $d = *.so ]]; then
-			sodepends=1;
-			break;
+			sodepends=1
+			break
 		fi
 	done
 
@@ -515,8 +515,8 @@ find_libdepends() {
 		return 0
 	fi
 
-	local libdeps filename soarch sofile soname soversion;
-	declare -A libdeps;
+	local libdeps filename soarch sofile soname soversion
+	declare -A libdeps
 
 	while read -r filename; do
 		# get architecture of the file; if soarch is empty it's not an ELF binary
@@ -1238,7 +1238,7 @@ OPT_LONG=('allsource' 'check' 'clean' 'cleanbuild' 'config:' 'force' 'geninteg'
 OPT_LONG+=('asdeps' 'noconfirm' 'needed' 'noprogressbar')
 
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
-	exit $E_INVALID_OPTION;
+	exit $E_INVALID_OPTION
 fi
 set -- "${OPTRET[@]}"
 unset OPT_SHORT OPT_LONG OPTRET

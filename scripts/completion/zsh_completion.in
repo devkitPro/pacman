@@ -370,7 +370,7 @@ _pacman_get_command() {
 
 # main dispatcher
 _pacman_zsh_comp() {
-	local -a args cmds;
+	local -a args cmds
 	local tmp
 	args=( ${${${(M)words:#-*}#-}:#-*} )
 	for tmp in $words; do
@@ -465,7 +465,7 @@ _pacman_zsh_comp() {
 					if (( ${(w)#cmds} == 1 )); then
 						_pacman_action_help
 					else
-						return 0;
+						return 0
 					fi
 					;;
 				*--sync*)
@@ -554,7 +554,7 @@ _pacman_key() {
 				"$_key_longopts[@]"
 			;;
 		*)
-			i=$#;
+			i=$#
 			while [[ $words[$i] != -* ]] && [[ $words[$i] != "pacman-key" ]];do
 				i=$(($i-1))
 			done
@@ -681,7 +681,7 @@ _makepkg(){
 		*)
 			i=$#
 			while [[ $words[i] != -* ]] && [[ $words[$i] != "makepkg" ]];do
-				i=$((i-1));
+				i=$((i-1))
 			done
 			case $words[$i] in
 				-*)

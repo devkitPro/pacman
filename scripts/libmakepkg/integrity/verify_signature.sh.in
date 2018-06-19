@@ -137,7 +137,7 @@ verify_file_signature() {
 	for ext in "" gz bz2 xz lrz lzo Z; do
 		if sourcefile="$(get_filepath "${file%.*}${ext:+.$ext}")"; then
 			found=1
-			break;
+			break
 		fi
 	done
 	if (( ! found )); then

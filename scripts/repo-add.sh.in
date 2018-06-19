@@ -350,7 +350,7 @@ db_write_entry() {
 	if [[ -d $tmpdir/db/$pkgname-$pkgver ]]; then
 		warning "$(gettext "An entry for '%s' already existed")" "$pkgname-$pkgver"
 		if (( ONLYADDNEW )); then
-			return 0;
+			return 0
 		fi
 	else
 		if (( DELTA || RMEXISTING )); then
