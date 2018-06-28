@@ -78,7 +78,7 @@ generate_one_checksum() {
 }
 
 generate_checksums() {
-	msg "$(gettext "Generating checksums for source files...")"
+	msg "$(gettext "Generating checksums for source files...")" >&2
 
 	local integlist
 	if (( $# == 0 )); then

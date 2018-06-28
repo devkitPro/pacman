@@ -1477,7 +1477,7 @@ if (( GENINTEG )); then
 	mkdir -p "$srcdir"
 	chmod a-s "$srcdir"
 	cd_safe "$srcdir"
-	download_sources novcs allarch
+	download_sources novcs allarch >&2
 	generate_checksums
 	exit $E_OK
 fi
