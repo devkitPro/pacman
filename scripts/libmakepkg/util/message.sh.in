@@ -44,18 +44,26 @@ colorize() {
 }
 
 plain() {
+	(( QUIET )) && return
 	local mesg=$1; shift
 	printf "${BOLD}    ${mesg}${ALL_OFF}\n" "$@"
 }
 
 msg() {
+	(( QUIET )) && return
 	local mesg=$1; shift
 	printf "${GREEN}==>${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n" "$@"
 }
 
 msg2() {
+	(( QUIET )) && return
 	local mesg=$1; shift
 	printf "${BLUE}  ->${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}\n" "$@"
+}
+
+ask() {
+	local mesg=$1; shift
+	printf "${BLUE}::${ALL_OFF}${BOLD} ${mesg}${ALL_OFF}" "$@"
 }
 
 warning() {
