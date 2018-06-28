@@ -35,10 +35,8 @@ EXTRA_DIST = \
 	$(LIBMAKEPKG_DIST)
 
 LIBRARY = \
-	library/output_format.sh \
 	library/human_to_size.sh \
-	library/size_to_human.sh \
-	library/term_colors.sh
+	library/size_to_human.sh
 
 libmakepkgdir = $(datarootdir)/makepkg
 
@@ -205,21 +203,13 @@ makepkg-template: \
 	$(AM_V_GEN)$(edit) $< > $@
 	$(AM_V_at)chmod +x,a-w $@
 
-pacman-db-upgrade: \
-	$(srcdir)/pacman-db-upgrade.sh.in \
-	$(srcdir)/library/output_format.sh
+pacman-db-upgrade: $(srcdir)/pacman-db-upgrade.sh.in
 
-pacman-key: \
-	$(srcdir)/pacman-key.sh.in \
-	$(srcdir)/library/output_format.sh
+pacman-key: $(srcdir)/pacman-key.sh.in
 
-pkgdelta: \
-	$(srcdir)/pkgdelta.sh.in \
-	$(srcdir)/library/output_format.sh
+pkgdelta: $(srcdir)/pkgdelta.sh.in
 
-repo-add: \
-	$(srcdir)/repo-add.sh.in \
-	$(srcdir)/library/output_format.sh
+repo-add: $(srcdir)/repo-add.sh.in
 
 repo-remove: $(srcdir)/repo-add.sh.in
 	$(AM_V_at)$(RM) repo-remove

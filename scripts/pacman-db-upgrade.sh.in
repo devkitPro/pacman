@@ -28,11 +28,10 @@ export TEXTDOMAINDIR='@localedir@'
 
 declare -r myver='@PACKAGE_VERSION@'
 
-m4_include(library/output_format.sh)
-
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
-# Import parseopts.sh
+# Import libmakepkg
+source "$LIBRARY"/util/message.sh
 source "$LIBRARY"/util/parseopts.sh
 
 usage() {
@@ -113,7 +112,12 @@ conffile=${conffile:-@sysconfdir@/pacman.conf}
 [[ -z $pacroot ]] && pacroot=$(pacman-conf --config="$conffile" rootdir)
 [[ -z $dbroot ]] && dbroot=$(pacman-conf --config="$conffile" --rootdir="$pacroot" dbpath)
 
-m4_include(library/term_colors.sh)
+# check if messages are to be printed using color
+if [[ -t 2 && $USE_COLOR != "n" ]]; then
+	colorize
+else
+	unset ALL_OFF BOLD BLUE GREEN RED YELLOW
+fi
 
 if [[ ! -d $dbroot ]]; then
 	die "$(gettext "%s does not exist or is not a directory.")" "$dbroot"

@@ -28,7 +28,8 @@ declare -r myver="@PACKAGE_VERSION@"
 
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
-# Import parseopts.sh
+# Import libmakepkg
+source "$LIBRARY"/util/message.sh
 source "$LIBRARY"/util/parseopts.sh
 
 # Options
@@ -50,8 +51,6 @@ REFRESH=0
 UPDATEDB=0
 USE_COLOR='y'
 VERIFY=0
-
-m4_include(library/output_format.sh)
 
 usage() {
 	printf "pacman-key (pacman) %s\n" ${myver}
@@ -563,7 +562,12 @@ while (( $# )); do
 	shift
 done
 
-m4_include(library/term_colors.sh)
+# check if messages are to be printed using color
+if [[ -t 2 && $USE_COLOR != "n" ]]; then
+	colorize
+else
+	unset ALL_OFF BOLD BLUE GREEN RED YELLOW
+fi
 
 if ! type -p gpg >/dev/null; then
 	error "$(gettext "Cannot find the %s binary required for all %s operations.")" "gpg" "pacman-key"

@@ -28,6 +28,8 @@ export TEXTDOMAINDIR='@localedir@'
 declare -r myver='@PACKAGE_VERSION@'
 declare -r confdir='@sysconfdir@'
 
+LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+
 QUIET=0
 DELTA=0
 ONLYADDNEW=0
@@ -42,10 +44,11 @@ LOCKFILE=
 CLEAN_LOCK=0
 USE_COLOR='y'
 
+# Import libmakepkg
+source "$LIBRARY"/util/message.sh
+
 # ensure we have a sane umask set
 umask 0022
-
-m4_include(library/output_format.sh)
 
 # print usage instructions
 usage() {
@@ -774,7 +777,12 @@ while (( $# )); do
 	shift
 done
 
-m4_include(library/term_colors.sh)
+# check if messages are to be printed using color
+if [[ -t 2 && $USE_COLOR != "n" ]]; then
+	colorize
+else
+	unset ALL_OFF BOLD BLUE GREEN RED YELLOW
+fi
 
 REPO_DB_FILE=${args[0]}
 if [[ -z $REPO_DB_FILE ]]; then

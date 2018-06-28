@@ -30,7 +30,8 @@ declare -r myver='@PACKAGE_VERSION@'
 
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
-# Import parseopts.sh
+# Import libmakepkg
+source "$LIBRARY"/util/message.sh
 source "$LIBRARY"/util/parseopts.sh
 
 # Options
@@ -46,8 +47,6 @@ max_delta_size=70
 
 # ensure we have a sane umask set
 umask 0022
-
-m4_include(library/output_format.sh)
 
 # print usage instructions
 usage() {
@@ -208,7 +207,12 @@ while :; do
 	shift
 done
 
-m4_include(library/term_colors.sh)
+# check if messages are to be printed using color
+if [[ -t 2 && $USE_COLOR != "n" ]]; then
+	colorize
+else
+	unset ALL_OFF BOLD BLUE GREEN RED YELLOW
+fi
 
 if (( $# != 2 )); then
 	usage
