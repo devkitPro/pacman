@@ -35,7 +35,6 @@
 #include "conf.h"
 #include "ini.h"
 #include "util.h"
-#include "pacman.h"
 #include "callback.h"
 
 /* global config variable */
