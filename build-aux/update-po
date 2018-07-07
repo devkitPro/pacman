@@ -1,0 +1,39 @@
+#!/bin/bash
+
+find_build_directory() {
+  local build_dirs=(*/.ninja_log)
+
+  if [[ ! -e ${build_dirs[0]} ]]; then
+    echo "error: No build directory found. Have you run 'meson build' yet?" >&2
+    return 1
+  elif (( ${#build_dirs[*]} > 1 )); then
+    echo "error: Multiple build directories found. Unable to proceed." >&2
+    return 1
+  fi
+
+  printf '%s\n' "${build_dirs[0]%/*}"
+}
+
+
+filter_targets_by_name() {
+  if command -v jq &>/dev/null; then
+    jq --arg re "$1" -r 'map(.name)[] | select(match($re))'
+  else
+    json_pp | awk -v filter="$1" -F'[:"]' \
+        '$2 == "name" && $(NF - 1) ~ filter { print $(NF - 1) }'
+  fi
+}
+
+# Make things simple and require that we're in the build root rather than
+# trying to chase down the location of this script and the relative build dir.
+if [[ ! -d .git ]]; then
+  echo "This script must be run from the root of the repository" >&2
+  exit 1
+fi
+
+build_dir=$(find_build_directory) || exit 1
+
+mapfile -t targets < \
+    <(meson introspect "$build_dir" --targets | filter_targets_by_name "-update-po$")
+
+ninja -C "$build_dir" "${targets[@]}"
