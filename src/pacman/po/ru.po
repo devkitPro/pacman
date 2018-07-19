@@ -6,6 +6,7 @@
 # AlexanderR <alexander.r@gmx.com>, 2012
 # AlexanderR <alexander.r@gmx.com>, 2012
 # Allan McRae <allan@archlinux.org>, 2015
+# Igor <f2404@yandex.ru>, 2018
 # Ivan Yurasov <vdk@gmx.us>, 2011,2014
 # kyak <peselnik@gmail.com>, 2013
 # partizan <serg.partizan@gmail.com>, 2011-2013
@@ -21,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2018-04-29 14:02+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2018-07-19 14:06+1000\n"
+"PO-Revision-Date: 2018-07-19 04:15+0000\n"
+"Last-Translator: partizan <serg.partizan@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ru/)\n"
 "Language: ru\n"
@@ -547,17 +548,17 @@ msgstr "%s: причина установки изменена на 'устан�
 #: src/pacman/database.c:293
 #, c-format
 msgid "No database errors have been found!\n"
-msgstr ""
+msgstr "Ошибок баз данных не найдено!\n"
 
 #: src/pacman/files.c:81
 #, c-format
 msgid "%s is owned by %s%s/%s%s %s%s%s\n"
-msgstr ""
+msgstr "%s принадлежит %s%s/%s%s %s%s%s\n"
 
 #: src/pacman/files.c:223
 #, c-format
 msgid "invalid package: '%s'\n"
-msgstr ""
+msgstr "неверный пакет: '%s'\n"
 
 #: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
 #, c-format
@@ -572,7 +573,7 @@ msgstr "Обновление баз данных пакетов...\n"
 #: src/pacman/files.c:320
 #, c-format
 msgid "no options specified (use -h for help)\n"
-msgstr ""
+msgstr "не указана опция (используйте -h для справки)\n"
 
 #: src/pacman/package.c:99
 #, c-format
@@ -1030,7 +1031,7 @@ msgstr ""
 #: src/pacman/pacman.c:174
 #, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
-msgstr ""
+msgstr "  -q, --quiet          не показывать сообщения об удачных операциях\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
@@ -1059,6 +1060,9 @@ msgid ""
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
+"      --overwrite <path>\n"
+"                       перезаписывать конфликтующие файлы (может быть "
+"использовано неоднократно)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1148,72 +1152,79 @@ msgstr "-b, --dbpath <путь> указать альтернативное ра
 
 #: src/pacman/pacman.c:214
 #, c-format
+msgid "  -r, --root <path>    set an alternate installation root\n"
+msgstr "-r, --root <путь> указать альтернативный корневой каталог\n"
+
+#: src/pacman/pacman.c:215
+#, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "-v, --verbose выводить больше информации\n"
 
-#: src/pacman/pacman.c:215
+#: src/pacman/pacman.c:216
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "--arch <arch> установить альтернативную архитектуру\n"
 
-#: src/pacman/pacman.c:216
+#: src/pacman/pacman.c:217
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
+"      --sysroot        работать с подключенной гостевой системой (только "
+"root)\n"
 
-#: src/pacman/pacman.c:217
+#: src/pacman/pacman.c:218
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "--cachedir <каталог> указать альтернативное расположение кэша\n"
 
-#: src/pacman/pacman.c:218
+#: src/pacman/pacman.c:219
 #, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
 msgstr "      --hookdir <dir>  установить альтернативное расположение hook\n"
 
-#: src/pacman/pacman.c:219
+#: src/pacman/pacman.c:220
 #, c-format
 msgid "      --color <when>   colorize the output\n"
 msgstr "--color <когда> раскрашивать вывод\n"
 
-#: src/pacman/pacman.c:220
+#: src/pacman/pacman.c:221
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "--config <путь> использовать альтернативный конфигурационный файл\n"
 
-#: src/pacman/pacman.c:221
+#: src/pacman/pacman.c:222
 #, c-format
 msgid "      --debug          display debug messages\n"
 msgstr "--debug показывать отладочные сообщения\n"
 
-#: src/pacman/pacman.c:222
+#: src/pacman/pacman.c:223
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr "--gpgdir <путь> установить альтернативный домашний каталог для GnuPG\n"
 
-#: src/pacman/pacman.c:223
+#: src/pacman/pacman.c:224
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "--logfile <путь> использовать альтернативный файл журнала\n"
 
-#: src/pacman/pacman.c:224
+#: src/pacman/pacman.c:225
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "--noconfirm не спрашивать подтверждения\n"
 
-#: src/pacman/pacman.c:225
+#: src/pacman/pacman.c:226
 #, c-format
 msgid "      --confirm        always ask for confirmation\n"
 msgstr "--confirm всегда спрашивать подтверждения\n"
 
-#: src/pacman/pacman.c:226
+#: src/pacman/pacman.c:227
 #, c-format
 msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
 
-#: src/pacman/pacman.c:246
+#: src/pacman/pacman.c:247
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -1222,83 +1233,78 @@ msgstr ""
 "Эта программа может свободно распространяться\n"
 "на условиях GNU General Public License\n"
 
-#: src/pacman/pacman.c:279
+#: src/pacman/pacman.c:280
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
-msgstr ""
+msgstr "HTTP_USER_AGENT урезан\n"
 
-#: src/pacman/pacman.c:311
+#: src/pacman/pacman.c:312
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr ""
 "неправильный параметр: '%s' и '%s' не могут использоваться одновременно\n"
 
-#: src/pacman/pacman.c:395
+#: src/pacman/pacman.c:396
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "неверный аргумент '%s' для %s\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:419
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' -- неверный уровень отладки\n"
 
-#: src/pacman/pacman.c:453
-#, c-format
-msgid "option --root is deprecated; use --sysroot instead\n"
-msgstr ""
-
-#: src/pacman/pacman.c:722
+#: src/pacman/pacman.c:721
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
-msgstr ""
+msgstr "опция --force устарела; используйте --overwrite\n"
 
-#: src/pacman/pacman.c:982
+#: src/pacman/pacman.c:981
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "одновременно может выполняться только одна операция\n"
 
-#: src/pacman/pacman.c:1040
+#: src/pacman/pacman.c:1039
 #, c-format
 msgid "invalid option '-%c'\n"
 msgstr "недопустимый параметр '-%c'\n"
 
-#: src/pacman/pacman.c:1042
+#: src/pacman/pacman.c:1041
 #, c-format
 msgid "invalid option '--%s'\n"
 msgstr "недопустимый параметр '--%s'\n"
 
-#: src/pacman/pacman.c:1167
+#: src/pacman/pacman.c:1166
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "для выполнения этой операции требуются права root.\n"
 
-#: src/pacman/pacman.c:1173
+#: src/pacman/pacman.c:1172
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
-msgstr ""
+msgstr "вызов chroot на '%s' завершился неудачно: (%s)\n"
 
-#: src/pacman/pacman.c:1207
+#: src/pacman/pacman.c:1206
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
-msgstr ""
+msgstr "не удалось прочитать аргументы из стандартного ввода: (%s)\n"
 
-#: src/pacman/pacman.c:1212
+#: src/pacman/pacman.c:1211
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "не удалось заново открыть stdin для чтения: (%s)\n"
 
-#: src/pacman/pacman.c:1217
+#: src/pacman/pacman.c:1216
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "аргумент '-' указан с пустым stdin\n"
 
-#: src/pacman/pacman.c:1222
+#: src/pacman/pacman.c:1221
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "аргумент '-' указан без ввода в stdin\n"
 
-#: src/pacman/pacman.c:1299
+#: src/pacman/pacman.c:1298
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "не указана операция (используйте -h для справки)\n"
@@ -1306,7 +1312,7 @@ msgstr "не указана операция (используйте -h для �
 #: src/pacman/query.c:87
 #, c-format
 msgid "%s is owned by %s%s %s%s%s\n"
-msgstr ""
+msgstr "%s принадлежит %s%s %s%s%s\n"
 
 #: src/pacman/query.c:149
 #, c-format
@@ -1479,10 +1485,10 @@ msgstr "репозиторий '%s' не найден.\n"
 #, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%d объект в группе  %s%s%s:\n"
+msgstr[1] "%d объекта в группе  %s%s%s:\n"
+msgstr[2] "%d объектов в группе %s%s%s:\n"
+msgstr[3] "%d объектов в группе %s%s%s:\n"
 
 #: src/pacman/sync.c:640
 #, c-format

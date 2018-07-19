@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2018-05-04 06:11+0000\n"
-"Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
+"POT-Creation-Date: 2018-07-19 14:06+1000\n"
+"PO-Revision-Date: 2018-07-19 04:15+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/bg/)\n"
 "Language: bg\n"
@@ -1119,68 +1119,73 @@ msgstr "-b, --dbpath <path> задаване на алтернативен ад�
 
 #: src/pacman/pacman.c:214
 #, c-format
+msgid "  -r, --root <path>    set an alternate installation root\n"
+msgstr "-r, --root <path> задаване на алтернативен инсталационен root\n"
+
+#: src/pacman/pacman.c:215
+#, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "-v, --verbose за детайли\n"
 
-#: src/pacman/pacman.c:215
+#: src/pacman/pacman.c:216
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "--arch <arch> задаване на алтернативна архитектура\n"
 
-#: src/pacman/pacman.c:216
+#: src/pacman/pacman.c:217
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
 "      --sysroot       работа на монтираната система за гост (root-only)\n"
 
-#: src/pacman/pacman.c:217
+#: src/pacman/pacman.c:218
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "--cachedir <dir> задаване на друго място за пакетния кеш\n"
 
-#: src/pacman/pacman.c:218
+#: src/pacman/pacman.c:219
 #, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
 msgstr ""
 " --hookdir <dir> задаване на друго място на куката\n"
 "\n"
 
-#: src/pacman/pacman.c:219
+#: src/pacman/pacman.c:220
 #, c-format
 msgid "      --color <when>   colorize the output\n"
 msgstr "--color <when> оцвети изхода\n"
 
-#: src/pacman/pacman.c:220
+#: src/pacman/pacman.c:221
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "--config <path> задаване на алтернативен конфигурационен файл\n"
 
-#: src/pacman/pacman.c:221
+#: src/pacman/pacman.c:222
 #, c-format
 msgid "      --debug          display debug messages\n"
 msgstr "--debug показване на резултати от дебъгване\n"
 
-#: src/pacman/pacman.c:222
+#: src/pacman/pacman.c:223
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr "--gpgdir <path> задаване на друга home директория за GnuPG\n"
 
-#: src/pacman/pacman.c:223
+#: src/pacman/pacman.c:224
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "--logfile <path> задаване на алтернативен log файл\n"
 
-#: src/pacman/pacman.c:224
+#: src/pacman/pacman.c:225
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "--noconfirm не питай за потвърждение\n"
 
-#: src/pacman/pacman.c:225
+#: src/pacman/pacman.c:226
 #, c-format
 msgid "      --confirm        always ask for confirmation\n"
 msgstr "      --confirm        винаги питай за подвърждение\n"
 
-#: src/pacman/pacman.c:226
+#: src/pacman/pacman.c:227
 #, c-format
 msgid ""
 "      --disable-download-timeout\n"
@@ -1189,7 +1194,7 @@ msgstr ""
 "      --disable-download-timeout\n"
 "                       удължаване времето за изчакване при изтегляне\n"
 
-#: src/pacman/pacman.c:246
+#: src/pacman/pacman.c:247
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -1198,82 +1203,77 @@ msgstr ""
 "Тази програма може свободно да бъде разпространявана\n"
 "при условията на GNU General Public License.\n"
 
-#: src/pacman/pacman.c:279
+#: src/pacman/pacman.c:280
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
 msgstr "HTTP_USER_AGENT премахнат\n"
 
-#: src/pacman/pacman.c:311
+#: src/pacman/pacman.c:312
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr "невалидна опция: '%s' и '%s' немогат да бъдат използвани заедно\n"
 
-#: src/pacman/pacman.c:395
+#: src/pacman/pacman.c:396
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "Невалиден аргумент '%s' за %s⏎\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:419
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' е невалидно ниво за дебъг\n"
 
-#: src/pacman/pacman.c:453
-#, c-format
-msgid "option --root is deprecated; use --sysroot instead\n"
-msgstr "опцията --root е отхвърлена; използвайте вместо това --sysroot\n"
-
-#: src/pacman/pacman.c:722
+#: src/pacman/pacman.c:721
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
 msgstr "опцията --force е отхвърлена; използвайте вместо това --overwrite\n"
 
-#: src/pacman/pacman.c:982
+#: src/pacman/pacman.c:981
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "може да се извършва само по една операция\n"
 
-#: src/pacman/pacman.c:1040
+#: src/pacman/pacman.c:1039
 #, c-format
 msgid "invalid option '-%c'\n"
 msgstr "невалидна опция '-%c'\n"
 
-#: src/pacman/pacman.c:1042
+#: src/pacman/pacman.c:1041
 #, c-format
 msgid "invalid option '--%s'\n"
 msgstr "невалидна опция '--%s'\n"
 
-#: src/pacman/pacman.c:1167
+#: src/pacman/pacman.c:1166
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "не можете да изпълните тази операция, ако не сте root.\n"
 
-#: src/pacman/pacman.c:1173
+#: src/pacman/pacman.c:1172
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
 msgstr "chroot на'%s' неуспешно: (%s)\n"
 
-#: src/pacman/pacman.c:1207
+#: src/pacman/pacman.c:1206
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr "неуспешно прочитане на аргумент от stdin: (%s)\n"
 
-#: src/pacman/pacman.c:1212
+#: src/pacman/pacman.c:1211
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "неуспех при отварянето stdin за четене: (%s)\n"
 
-#: src/pacman/pacman.c:1217
+#: src/pacman/pacman.c:1216
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "аргумент '-' определя с празен stdin\n"
 
-#: src/pacman/pacman.c:1222
+#: src/pacman/pacman.c:1221
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "аргумента '-' определя без вход през stdin\n"
 
-#: src/pacman/pacman.c:1299
+#: src/pacman/pacman.c:1298
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "не е посочена операция (-h за помощ)\n"

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2018-04-29 14:02+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2018-07-19 14:06+1000\n"
+"PO-Revision-Date: 2018-07-19 04:15+0000\n"
+"Last-Translator: Gwenn M <tornoz@laposte.net>\n"
 "Language-Team: Breton (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/br/)\n"
 "Language: br\n"
@@ -1171,72 +1171,77 @@ msgstr "-b, --dbpath <treug> arventennañ ul lec'hiadur stlennvon a-eil\n"
 
 #: src/pacman/pacman.c:214
 #, c-format
+msgid "  -r, --root <path>    set an alternate installation root\n"
+msgstr "-r, --root <treug> arventennañ ur gwrizienn staliadur a-eil\n"
+
+#: src/pacman/pacman.c:215
+#, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "-v, --verbose skrammañ munudoù\n"
 
-#: src/pacman/pacman.c:215
+#: src/pacman/pacman.c:216
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "--arch <arch> arventennañ ur savouriezh a-eil\n"
 
-#: src/pacman/pacman.c:216
+#: src/pacman/pacman.c:217
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:217
+#: src/pacman/pacman.c:218
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "--cahedir <dir> arventennañ ul lec'hiadur krubuilh pakadoù a-eil\n"
 
-#: src/pacman/pacman.c:218
+#: src/pacman/pacman.c:219
 #, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
 msgstr "--hookdir <kavlec'h> arventennañ ul lec'hiadur krog a-eil\n"
 
-#: src/pacman/pacman.c:219
+#: src/pacman/pacman.c:220
 #, c-format
 msgid "      --color <when>   colorize the output\n"
 msgstr "--color <pegoulz> livañ an ec'hankad\n"
 
-#: src/pacman/pacman.c:220
+#: src/pacman/pacman.c:221
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "--config <treug> arventennañ ur restr kefluniañ a-eil\n"
 
-#: src/pacman/pacman.c:221
+#: src/pacman/pacman.c:222
 #, c-format
 msgid "      --debug          display debug messages\n"
 msgstr "--debug skrammañ kemennadennoù diveugañ\n"
 
-#: src/pacman/pacman.c:222
+#: src/pacman/pacman.c:223
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr "--gpgdir <treug> arventennañ ur c'havlec'h degemer a-eil evit GnuPG\n"
 
-#: src/pacman/pacman.c:223
+#: src/pacman/pacman.c:224
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "--logfile <treug> arventennañ ur restr kerzhlevr a-eil\n"
 
-#: src/pacman/pacman.c:224
+#: src/pacman/pacman.c:225
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "--noconfirm chom hep goulenn kadarnaat\n"
 
-#: src/pacman/pacman.c:225
+#: src/pacman/pacman.c:226
 #, c-format
 msgid "      --confirm        always ask for confirmation\n"
 msgstr "--confirm atav goulenn kadarnaat\n"
 
-#: src/pacman/pacman.c:226
+#: src/pacman/pacman.c:227
 #, c-format
 msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
 
-#: src/pacman/pacman.c:246
+#: src/pacman/pacman.c:247
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -1245,82 +1250,77 @@ msgstr ""
 "Gallout a ra ar meziant-mañ bezañ addasparzhet\n"
 "dindan divizoù ar GNU General Public License.\n"
 
-#: src/pacman/pacman.c:279
+#: src/pacman/pacman.c:280
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
 msgstr ""
 
-#: src/pacman/pacman.c:311
+#: src/pacman/pacman.c:312
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr "dibarzh direizh : '%s' ha '%s' n'hallont ket bezañ implijet asambles\n"
 
-#: src/pacman/pacman.c:395
+#: src/pacman/pacman.c:396
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "arguzenn direizh '%s' evit %s\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:419
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' n'eo ket ul live diveugañ reizh\n"
 
-#: src/pacman/pacman.c:453
-#, c-format
-msgid "option --root is deprecated; use --sysroot instead\n"
-msgstr ""
-
-#: src/pacman/pacman.c:722
+#: src/pacman/pacman.c:721
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
 msgstr ""
 
-#: src/pacman/pacman.c:982
+#: src/pacman/pacman.c:981
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "n'haller implij nemet un oberatadenn d'un taol\n"
 
-#: src/pacman/pacman.c:1040
+#: src/pacman/pacman.c:1039
 #, c-format
 msgid "invalid option '-%c'\n"
 msgstr "dibarzh direizh '-%c'\n"
 
-#: src/pacman/pacman.c:1042
+#: src/pacman/pacman.c:1041
 #, c-format
 msgid "invalid option '--%s'\n"
 msgstr "dibarzh direizh '--%s'\n"
 
-#: src/pacman/pacman.c:1167
+#: src/pacman/pacman.c:1166
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "n'hallit ket sevenniñ an oberatadenn-mañ ma n'oc'h ket root\n"
 
-#: src/pacman/pacman.c:1173
+#: src/pacman/pacman.c:1172
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:1207
+#: src/pacman/pacman.c:1206
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:1212
+#: src/pacman/pacman.c:1211
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "c'hwitadenn war ad-digoradur stdin evit lenn : (%s)\n"
 
-#: src/pacman/pacman.c:1217
+#: src/pacman/pacman.c:1216
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "gant un stdin goullo eo bet erspizet an arguzenn '-'\n"
 
-#: src/pacman/pacman.c:1222
+#: src/pacman/pacman.c:1221
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "hep enankad war stdin eo bet erspizet an arguzenn '-'\n"
 
-#: src/pacman/pacman.c:1299
+#: src/pacman/pacman.c:1298
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "oberatadenn ebet erspizet (implijit -h evit ar skoazell)\n"

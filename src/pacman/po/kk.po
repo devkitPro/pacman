@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2018-04-29 14:02+0000\n"
+"POT-Creation-Date: 2018-07-19 14:06+1000\n"
+"PO-Revision-Date: 2018-07-19 04:15+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Kazakh (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/kk/)\n"
@@ -1132,72 +1132,77 @@ msgstr "  -b, --dbpath <жолы>  басқа дерекқорды қолдан�
 
 #: src/pacman/pacman.c:214
 #, c-format
+msgid "  -r, --root <path>    set an alternate installation root\n"
+msgstr "  -r, --root <жолы>    басқа түбірлік буманы көрсету\n"
+
+#: src/pacman/pacman.c:215
+#, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose        көбірек ақпаратты шығару\n"
 
-#: src/pacman/pacman.c:215
+#: src/pacman/pacman.c:216
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "      --arch <arch>    басқа архитектураны орнату\n"
 
-#: src/pacman/pacman.c:216
+#: src/pacman/pacman.c:217
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:217
+#: src/pacman/pacman.c:218
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <бума> басқа кэш бумасын қолдану\n"
 
-#: src/pacman/pacman.c:218
+#: src/pacman/pacman.c:219
 #, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
 msgstr ""
 
-#: src/pacman/pacman.c:219
+#: src/pacman/pacman.c:220
 #, c-format
 msgid "      --color <when>   colorize the output\n"
 msgstr "      --color <when>   шығысты түспен бояу\n"
 
-#: src/pacman/pacman.c:220
+#: src/pacman/pacman.c:221
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "      --config <жолы>  басқа баптаулар файлын қолдану\n"
 
-#: src/pacman/pacman.c:221
+#: src/pacman/pacman.c:222
 #, c-format
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          жөндеу хабарламаларын көрсету\n"
 
-#: src/pacman/pacman.c:222
+#: src/pacman/pacman.c:223
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr "      --gpgdir <path>  GnuPG үшін альтернативті үй бумасын орнату\n"
 
-#: src/pacman/pacman.c:223
+#: src/pacman/pacman.c:224
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <жолы> басқа лог файлын қолдану\n"
 
-#: src/pacman/pacman.c:224
+#: src/pacman/pacman.c:225
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm      растауды сұрамау\n"
 
-#: src/pacman/pacman.c:225
+#: src/pacman/pacman.c:226
 #, c-format
 msgid "      --confirm        always ask for confirmation\n"
 msgstr "      --confirm        әрқашан растауды сұрау\n"
 
-#: src/pacman/pacman.c:226
+#: src/pacman/pacman.c:227
 #, c-format
 msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
 
-#: src/pacman/pacman.c:246
+#: src/pacman/pacman.c:247
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -1206,82 +1211,77 @@ msgstr ""
 "                       Бұл бағдарлама GNU General Public License\n"
 "                       аясында еркін таратылуы мүмкін.\n"
 
-#: src/pacman/pacman.c:279
+#: src/pacman/pacman.c:280
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
 msgstr ""
 
-#: src/pacman/pacman.c:311
+#: src/pacman/pacman.c:312
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr "опциялар қатесі: '%s' және '%s' бірге қолдануға болмайды\n"
 
-#: src/pacman/pacman.c:395
+#: src/pacman/pacman.c:396
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "'%s' аргументі қате, %s үшін\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:419
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' - жөндеудің қате деңгейі\n"
 
-#: src/pacman/pacman.c:453
-#, c-format
-msgid "option --root is deprecated; use --sysroot instead\n"
-msgstr ""
-
-#: src/pacman/pacman.c:722
+#: src/pacman/pacman.c:721
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
 msgstr ""
 
-#: src/pacman/pacman.c:982
+#: src/pacman/pacman.c:981
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "бір уақытта тек бір әрекет орындалуы мүмкін\n"
 
-#: src/pacman/pacman.c:1040
+#: src/pacman/pacman.c:1039
 #, c-format
 msgid "invalid option '-%c'\n"
 msgstr "'-%c' опциясы қате\n"
 
-#: src/pacman/pacman.c:1042
+#: src/pacman/pacman.c:1041
 #, c-format
 msgid "invalid option '--%s'\n"
 msgstr "'--%s' опциясы қате\n"
 
-#: src/pacman/pacman.c:1167
+#: src/pacman/pacman.c:1166
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "Бұл әрекетті жасай алмайсыз, өйткені сіз әкімші емессіз (root).\n"
 
-#: src/pacman/pacman.c:1173
+#: src/pacman/pacman.c:1172
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:1207
+#: src/pacman/pacman.c:1206
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:1212
+#: src/pacman/pacman.c:1211
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "оқу үшін stdin қайта ашу сәтсіз: (%s)\n"
 
-#: src/pacman/pacman.c:1217
+#: src/pacman/pacman.c:1216
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "'-' аргументі бос стандартты кіріспен (stdin) көрсетілді\n"
 
-#: src/pacman/pacman.c:1222
+#: src/pacman/pacman.c:1221
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "'-' аргументі стандартты кірісте (stdin) ешбір енгізусіз көрсетілді\n"
 
-#: src/pacman/pacman.c:1299
+#: src/pacman/pacman.c:1298
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "әрекет көрсетілмеді (көмек үшін -h қолданыңыз)\n"

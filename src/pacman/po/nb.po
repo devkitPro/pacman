@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2018-04-29 14:02+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2018-07-19 14:06+1000\n"
+"PO-Revision-Date: 2018-07-19 04:15+0000\n"
+"Last-Translator: Alexander F Rødseth <rodseth@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/nb/)\n"
 "Language: nb\n"
@@ -27,12 +27,12 @@ msgstr ""
 #: src/pacman/callback.c:182
 #, c-format
 msgid "Running pre-transaction hooks...\n"
-msgstr "Utfører innledende kommandoer...\n"
+msgstr "Kjører innledende hekter...\n"
 
 #: src/pacman/callback.c:184
 #, c-format
 msgid "Running post-transaction hooks...\n"
-msgstr "Utfører avsluttende kommandoer...\n"
+msgstr "Kjører avsluttende hekter...\n"
 
 #: src/pacman/callback.c:197
 #, c-format
@@ -42,17 +42,17 @@ msgstr "kontrollerer avhengigheter...\n"
 #: src/pacman/callback.c:201
 #, c-format
 msgid "checking for file conflicts...\n"
-msgstr "ser etter filkollisjoner...\n"
+msgstr "ser etter kolliderende filer...\n"
 
 #: src/pacman/callback.c:205
 #, c-format
 msgid "resolving dependencies...\n"
-msgstr "nøster opp i avhengigheter...\n"
+msgstr "Nøster opp avhengigheter...\n"
 
 #: src/pacman/callback.c:208
 #, c-format
 msgid "looking for conflicting packages...\n"
-msgstr "ser etter pakkekollisjoner...\n"
+msgstr "Ser etter kolliderende pakker...\n"
 
 #: src/pacman/callback.c:211
 #, c-format
@@ -137,7 +137,7 @@ msgstr "Finner frem pakker...\n"
 #: src/pacman/callback.c:295
 #, c-format
 msgid "checking available disk space...\n"
-msgstr "ser etter ledig diskplass...\n"
+msgstr "ser om det er ledig plass på disken...\n"
 
 #: src/pacman/callback.c:302
 #, c-format
@@ -191,7 +191,7 @@ msgstr[1] ""
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Vil du hoppe over den overnevnte pakken for denne oppgraderingen?"
-msgstr[1] "Vil du hoppe over pakkene ovenfor, for denne gang?"
+msgstr[1] "Vil du hoppe over pakkene ovenfor, for nå?"
 
 #: src/pacman/callback.c:458
 #, c-format
@@ -248,12 +248,12 @@ msgstr "fjerner"
 #: src/pacman/callback.c:560
 #, c-format
 msgid "checking for file conflicts"
-msgstr "ser etter filkollisjoner"
+msgstr "ser etter kolliderende filer"
 
 #: src/pacman/callback.c:563
 #, c-format
 msgid "checking available disk space"
-msgstr "ser om det er ledig plass på disk"
+msgstr "ser om det er ledig plass på disken"
 
 #: src/pacman/callback.c:566
 #, c-format
@@ -348,7 +348,7 @@ msgstr "%s: ingen mtree fil\n"
 #: src/pacman/check.c:312
 #, c-format
 msgid "path too long: %slocal/%s-%s/%s\n"
-msgstr "filstien er for lang: %slokal/%s-%s/%s\n"
+msgstr "stien er for lang: %slokal/%s-%s/%s\n"
 
 #: src/pacman/check.c:339
 #, c-format
@@ -457,7 +457,7 @@ msgstr "problem ved valg av gpgdir '%s' (%s)\n"
 #: src/pacman/conf.c:738
 #, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
-msgstr "kan ikke bruke kommandomappe '%s' (%s)\n"
+msgstr "kan ikke legge til hektemappe '%s' (%s)\n"
 
 #: src/pacman/conf.c:760
 #, c-format
@@ -524,17 +524,17 @@ msgstr "%s: installasjonstype ble satt til 'manuelt installert'\n"
 #: src/pacman/database.c:293
 #, c-format
 msgid "No database errors have been found!\n"
-msgstr ""
+msgstr "Fant ingen databasefeil!\n"
 
 #: src/pacman/files.c:81
 #, c-format
 msgid "%s is owned by %s%s/%s%s %s%s%s\n"
-msgstr ""
+msgstr "%s eies av %s%s/%s%s %s%s%s\n"
 
 #: src/pacman/files.c:223
 #, c-format
 msgid "invalid package: '%s'\n"
-msgstr ""
+msgstr "ugyldig pakke: '%s'\n"
 
 #: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
 #, c-format
@@ -549,7 +549,7 @@ msgstr "Synkroniserer pakkedatabaser...\n"
 #: src/pacman/files.c:320
 #, c-format
 msgid "no options specified (use -h for help)\n"
-msgstr ""
+msgstr "ingen angitte tilvalg (bruk -h for hjelp)\n"
 
 #: src/pacman/package.c:99
 #, c-format
@@ -761,7 +761,7 @@ msgstr "installert"
 #: src/pacman/pacman.c:100
 #, c-format
 msgid "options"
-msgstr "valg"
+msgstr "tilvalg"
 
 #: src/pacman/pacman.c:101
 #, c-format
@@ -1015,7 +1015,7 @@ msgstr ""
 #: src/pacman/pacman.c:174
 #, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
-msgstr ""
+msgstr "  -q, --quiet          la suksessmeldinger tie i stillhet\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
@@ -1043,6 +1043,9 @@ msgid ""
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
+"      --overwrite <path>\n"
+"                       overskriv kolliderende filer (kan brukes mer enn én "
+"gang)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1138,73 +1141,82 @@ msgstr "  -b, --dbpath <fil>   bruk en annen databaseplassering\n"
 
 #: src/pacman/pacman.c:214
 #, c-format
-msgid "  -v, --verbose        be verbose\n"
-msgstr "  -v, --verbose        vær pratsom\n"
+msgid "  -r, --root <path>    set an alternate installation root\n"
+msgstr "  -r, --root <mappe>   bruk en annen rot-mappe for installasjon\n"
 
 #: src/pacman/pacman.c:215
+#, c-format
+msgid "  -v, --verbose        be verbose\n"
+msgstr "  -v, --verbose        prat mer\n"
+
+#: src/pacman/pacman.c:216
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "      --arch <arch>    bruk en annen arkitektur\n"
 
-#: src/pacman/pacman.c:216
+#: src/pacman/pacman.c:217
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
+"      --sysroot        ta i bruk et montert gjestesystem (kun som root)\n"
 
-#: src/pacman/pacman.c:217
+#: src/pacman/pacman.c:218
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr ""
 "      --cachedir <mappe> bruk en annen mappe for mellomlagring av pakker\n"
 
-#: src/pacman/pacman.c:218
+#: src/pacman/pacman.c:219
 #, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
-msgstr "      --hookdir <mappe> bruk en annen kommandomappe\n"
+msgstr "      --hookdir <mappe> bruk en annen hektemappe\n"
 
-#: src/pacman/pacman.c:219
+#: src/pacman/pacman.c:220
 #, c-format
 msgid "      --color <when>   colorize the output\n"
 msgstr "      --color <når>    fargerik tekst\n"
 
-#: src/pacman/pacman.c:220
+#: src/pacman/pacman.c:221
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "      --config <fil>   bruk en annen konfigurasjonsfil\n"
 
-#: src/pacman/pacman.c:221
+#: src/pacman/pacman.c:222
 #, c-format
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          vis feilsøkingsbeskjeder\n"
 
-#: src/pacman/pacman.c:222
+#: src/pacman/pacman.c:223
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr "      --gpgdir <sti>   bruk en annen hjemmemappe for GnuPG\n"
 
-#: src/pacman/pacman.c:223
+#: src/pacman/pacman.c:224
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <fil>  skriv til en annen loggfil\n"
 
-#: src/pacman/pacman.c:224
+#: src/pacman/pacman.c:225
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
-msgstr "      --noconfirm      ikke vent på svar\n"
+msgstr "      --noconfirm      godta alt\n"
 
-#: src/pacman/pacman.c:225
+#: src/pacman/pacman.c:226
 #, c-format
 msgid "      --confirm        always ask for confirmation\n"
 msgstr "      --confirm        alltid vent på svar før noe gjøres\n"
 
-#: src/pacman/pacman.c:226
+#: src/pacman/pacman.c:227
 #, c-format
 msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
+"      --disable-download-timeout\n"
+"                       gi nedlastningsprosessen et avslappet forhold til "
+"frister og tidsbruk\n"
 
-#: src/pacman/pacman.c:246
+#: src/pacman/pacman.c:247
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -1213,82 +1225,77 @@ msgstr ""
 "                       Dette programmet kan fritt distribueres under\n"
 "                       betingelsene til GNU General Public License.\n"
 
-#: src/pacman/pacman.c:279
+#: src/pacman/pacman.c:280
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
-msgstr ""
+msgstr "HTTP_USER_AGENT forkortet\n"
 
-#: src/pacman/pacman.c:311
+#: src/pacman/pacman.c:312
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr "ugyldig valg: '%s' og '%s' kan ikke brukes sammen\n"
 
-#: src/pacman/pacman.c:395
+#: src/pacman/pacman.c:396
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "ugyldig parameter '%s' for %s\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:419
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' er ikke et gyldig feilsøkingsnivå\n"
 
-#: src/pacman/pacman.c:453
-#, c-format
-msgid "option --root is deprecated; use --sysroot instead\n"
-msgstr ""
-
-#: src/pacman/pacman.c:722
+#: src/pacman/pacman.c:721
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
-msgstr ""
+msgstr "tilvalget --force er foreldet; bruke --overwrite istedenfor\n"
 
-#: src/pacman/pacman.c:982
+#: src/pacman/pacman.c:981
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "kan bare utføre en handling om gangen\n"
 
-#: src/pacman/pacman.c:1040
+#: src/pacman/pacman.c:1039
 #, c-format
 msgid "invalid option '-%c'\n"
-msgstr "ugyldig valg '-%c'\n"
+msgstr "ugyldig tilvalg '-%c'\n"
 
-#: src/pacman/pacman.c:1042
+#: src/pacman/pacman.c:1041
 #, c-format
 msgid "invalid option '--%s'\n"
-msgstr "ugyldig valg '--%s'\n"
+msgstr "ugyldig tilvalg '--%s'\n"
 
-#: src/pacman/pacman.c:1167
+#: src/pacman/pacman.c:1166
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "du kan ikke gjøre denne handlingen hvis ikke du er root.\n"
 
-#: src/pacman/pacman.c:1173
+#: src/pacman/pacman.c:1172
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
-msgstr ""
+msgstr "chroot til '%s' gikk galt: (%s)\n"
 
-#: src/pacman/pacman.c:1207
+#: src/pacman/pacman.c:1206
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
-msgstr ""
+msgstr "kunne ikke lese inn argumenter fra stdin: (%s)\n"
 
-#: src/pacman/pacman.c:1212
+#: src/pacman/pacman.c:1211
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "klarte ikke å åpne stdin for lesing: (%s)\n"
 
-#: src/pacman/pacman.c:1217
+#: src/pacman/pacman.c:1216
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "'-' ble oppgitt, men programmet mottok ingen data\n"
 
-#: src/pacman/pacman.c:1222
+#: src/pacman/pacman.c:1221
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "'-' oppgitt uten tilgjengelig data på stdin\n"
 
-#: src/pacman/pacman.c:1299
+#: src/pacman/pacman.c:1298
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "ingen handling angitt (bruk -h for hjelp)\n"
@@ -1296,7 +1303,7 @@ msgstr "ingen handling angitt (bruk -h for hjelp)\n"
 #: src/pacman/query.c:87
 #, c-format
 msgid "%s is owned by %s%s %s%s%s\n"
-msgstr ""
+msgstr "%s eies av %s%s %s%s%s\n"
 
 #: src/pacman/query.c:149
 #, c-format
@@ -1306,7 +1313,7 @@ msgstr "ingen fil ble angitt for --owns\n"
 #: src/pacman/query.c:170
 #, c-format
 msgid "empty string passed to file owner query\n"
-msgstr ""
+msgstr "spørringen for fileierskap fikk en tom streng\n"
 
 #: src/pacman/query.c:197 src/pacman/query.c:219
 #, c-format
@@ -1371,7 +1378,7 @@ msgstr "HoldPkg ble funnet i listen med valg. Vil du fortsette?"
 #: src/pacman/remove.c:157 src/pacman/sync.c:785
 #, c-format
 msgid " there is nothing to do\n"
-msgstr "Ferdig!\n"
+msgstr "Alt er utført.\n"
 
 #: src/pacman/remove.c:169
 #, c-format
@@ -1467,8 +1474,8 @@ msgstr "fant ikke pakkebrønnen \"%s\".\n"
 #, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Det er %d medlem i gruppen %s%s%s:\n"
+msgstr[1] "Det er %d medlemmer i gruppen %s%s%s:\n"
 
 #: src/pacman/sync.c:640
 #, c-format
@@ -1488,17 +1495,17 @@ msgstr "Starter full systemoppgradering...\n"
 #: src/pacman/sync.c:720
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
-msgstr ""
+msgstr "kunne ikke tilfredstille avhengigheten '%s' behøves av %s\n"
 
 #: src/pacman/sync.c:724
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
-msgstr ""
+msgstr "installasjon av %s (%s) bryter avhengigheten '%s' behøves av %s\n"
 
 #: src/pacman/sync.c:728
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr ""
+msgstr "fjerning av %s bryter avhengigheten '%s' behøves av %s\n"
 
 #: src/pacman/sync.c:748
 #, c-format
@@ -1518,17 +1525,17 @@ msgstr "kollisjon mellom %s og %s (%s)\n"
 #: src/pacman/sync.c:801
 #, c-format
 msgid "Proceed with download?"
-msgstr "Fortsett til nedlasting?"
+msgstr "Fortsett nedlastingen?"
 
 #: src/pacman/sync.c:803
 #, c-format
 msgid "Proceed with installation?"
-msgstr "Fortsett til installasjon?"
+msgstr "Fortsett installasjonen?"
 
 #: src/pacman/sync.c:817
 #, c-format
 msgid "unable to %s directory-file conflicts\n"
-msgstr "kunne ikke %s mappekollisjoner\n"
+msgstr "kunne ikke %s mappe/fil-kollisjoner\n"
 
 #: src/pacman/sync.c:823
 #, c-format
@@ -1538,7 +1545,7 @@ msgstr "%s finnes i både '%s' og '%s'\n"
 #: src/pacman/sync.c:828
 #, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
-msgstr ""
+msgstr "%s: %s eksisterer i filsystemet (eid av %s)\n"
 
 #: src/pacman/sync.c:831
 #, c-format
@@ -1612,7 +1619,7 @@ msgstr " %s er oppdatert\n"
 #: src/pacman/util.c:170
 #, c-format
 msgid "failed to synchronize all databases\n"
-msgstr ""
+msgstr "kunne ikke synkronisere alle databaser\n"
 
 #: src/pacman/util.c:636
 #, c-format
@@ -1668,7 +1675,7 @@ msgstr "begrenset tillit"
 #: src/pacman/util.c:786
 #, c-format
 msgid "never trust"
-msgstr "aldri stol på"
+msgstr "ingen tillit"
 
 #: src/pacman/util.c:790
 #, c-format
@@ -1738,17 +1745,17 @@ msgstr "[underveis]"
 #: src/pacman/util.c:1249
 #, c-format
 msgid "New optional dependencies for %s\n"
-msgstr "Nye mulige tillegspakker for %s\n"
+msgstr "Nye mulige tilleggspakker for %s\n"
 
 #: src/pacman/util.c:1271
 #, c-format
 msgid "Optional dependencies for %s\n"
-msgstr "Mulige tillegspakker for %s:\n"
+msgstr "Mulige tilleggspakker for %s:\n"
 
 #: src/pacman/util.c:1285
 #, c-format
 msgid "Repository %s%s\n"
-msgstr ""
+msgstr "Pakkebrønnen %s%s\n"
 
 #: src/pacman/util.c:1326
 #, c-format
@@ -1758,7 +1765,7 @@ msgstr "ugyldig verdi: %d er ikke mellom %d og %d\n"
 #: src/pacman/util.c:1333
 #, c-format
 msgid "invalid number: %s\n"
-msgstr "ugyldig tallverdi: %s\n"
+msgstr "ugyldig tall: %s\n"
 
 #: src/pacman/util.c:1419
 #, c-format

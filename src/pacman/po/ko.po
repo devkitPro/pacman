@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2018-04-29 18:54+0000\n"
+"POT-Creation-Date: 2018-07-19 14:06+1000\n"
+"PO-Revision-Date: 2018-07-19 04:15+0000\n"
 "Last-Translator: 배태길 <esrevinu@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
@@ -1129,67 +1129,72 @@ msgstr "  -b, --dbpath <path>  대체 데이터베이스 경로를 설정합니�
 
 #: src/pacman/pacman.c:214
 #, c-format
+msgid "  -r, --root <path>    set an alternate installation root\n"
+msgstr "  -r, --root <patn>    대체 설치 최상위 경로를 설정합니다.\n"
+
+#: src/pacman/pacman.c:215
+#, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose        자세하게 보여줍니다.\n"
 
-#: src/pacman/pacman.c:215
+#: src/pacman/pacman.c:216
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "      --arch <arch>    대체 아키텍처를 설정합니다.\n"
 
-#: src/pacman/pacman.c:216
+#: src/pacman/pacman.c:217
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
 "      --sysroot        마운트된 게스트 시스템 상에서 명령을 수행합니다 (루트"
 "만 허용)\n"
 
-#: src/pacman/pacman.c:217
+#: src/pacman/pacman.c:218
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <dir> 대체 꾸러미 캐시 경로를 설정합니다.\n"
 
-#: src/pacman/pacman.c:218
+#: src/pacman/pacman.c:219
 #, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
 msgstr "      --hookdir <dir>  대체 훅 경로를 설정합니다\n"
 
-#: src/pacman/pacman.c:219
+#: src/pacman/pacman.c:220
 #, c-format
 msgid "      --color <when>   colorize the output\n"
 msgstr "      --color <when>   출력 내용을 색깔로 구분합니다.\n"
 
-#: src/pacman/pacman.c:220
+#: src/pacman/pacman.c:221
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "      --config <path>  대체 환경 설정 파일을 설정합니다.\n"
 
-#: src/pacman/pacman.c:221
+#: src/pacman/pacman.c:222
 #, c-format
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          디버그 메시지를 보여줍니다.\n"
 
-#: src/pacman/pacman.c:222
+#: src/pacman/pacman.c:223
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr "      --gpgdir <path>  대체용 GnuPG 홈 디렉터리를 설정합니다.\n"
 
-#: src/pacman/pacman.c:223
+#: src/pacman/pacman.c:224
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <path> 대체 기록 파일을 설정합니다.\n"
 
-#: src/pacman/pacman.c:224
+#: src/pacman/pacman.c:225
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm      확인 메시지를 묻지 않습니다.\n"
 
-#: src/pacman/pacman.c:225
+#: src/pacman/pacman.c:226
 #, c-format
 msgid "      --confirm        always ask for confirmation\n"
 msgstr "      --confirm        항상 확인 메시지를 묻습니다.\n"
 
-#: src/pacman/pacman.c:226
+#: src/pacman/pacman.c:227
 #, c-format
 msgid ""
 "      --disable-download-timeout\n"
@@ -1198,7 +1203,7 @@ msgstr ""
 "      --disable-download-timeout\n"
 "                       다운로드에 시간 제한을 두지 않습니다\n"
 
-#: src/pacman/pacman.c:246
+#: src/pacman/pacman.c:247
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -1207,85 +1212,79 @@ msgstr ""
 "                       이 프로그램은 GNU 일반 공중 사용허가서의\n"
 "                       조항에 따라 자유롭게 배포할 수 있습니다.\n"
 
-#: src/pacman/pacman.c:279
+#: src/pacman/pacman.c:280
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
 msgstr "HTTP_USER_AGENT 잘려짐\n"
 
-#: src/pacman/pacman.c:311
+#: src/pacman/pacman.c:312
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr "잘못된 옵션: '%s'와 '%s'는 함께 사용할 수 없습니다.\n"
 
-#: src/pacman/pacman.c:395
+#: src/pacman/pacman.c:396
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "%2$s에 대한 잘못된 인자 '%1$s'\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:419
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' 유효하지 않은 디버그 레벨 입니다.\n"
 
-#: src/pacman/pacman.c:453
-#, c-format
-msgid "option --root is deprecated; use --sysroot instead\n"
-msgstr ""
-"--root 옵션은 더 이상 사용되지 않습니다; 대신에 --sysroot 옵션을 사용하세요\n"
-
-#: src/pacman/pacman.c:722
+#: src/pacman/pacman.c:721
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
 msgstr ""
 "--force 옵션은 더 이상 사용되지 않습니다; 대신에 --overwrite 옵션을 사용하세"
 "요\n"
 
-#: src/pacman/pacman.c:982
+#: src/pacman/pacman.c:981
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "한번에 하나의 처리만 가능합니다.\n"
 
-#: src/pacman/pacman.c:1040
+#: src/pacman/pacman.c:1039
 #, c-format
 msgid "invalid option '-%c'\n"
 msgstr "잘못된 옵션 '-%c'\n"
 
-#: src/pacman/pacman.c:1042
+#: src/pacman/pacman.c:1041
 #, c-format
 msgid "invalid option '--%s'\n"
 msgstr "잘못된 옵션 '--%s'\n"
 
-#: src/pacman/pacman.c:1167
+#: src/pacman/pacman.c:1166
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "루트 계정이 아니라면 이 동작을 수행할 수 없습니다.\n"
 
-#: src/pacman/pacman.c:1173
+#: src/pacman/pacman.c:1172
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
 msgstr "'%s'로의 루트 변경을 실패했습니다: (%s)\n"
 
-#: src/pacman/pacman.c:1207
+#: src/pacman/pacman.c:1206
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr "표준 입력으로부터 인자를 읽지 못했습니다: (%s)\n"
 
-#: src/pacman/pacman.c:1212
+#: src/pacman/pacman.c:1211
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "읽어오기 위한 표준 입력을 다시 여는데 실패했습니다: (%s)\n"
 
-#: src/pacman/pacman.c:1217
+#: src/pacman/pacman.c:1216
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "빈 표준 입력으로 인수 '-' 지정\n"
 
-#: src/pacman/pacman.c:1222
+#: src/pacman/pacman.c:1221
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "표준입력에 대한 입력을 빠뜨리고 '-' 인자를 지정했습니다\n"
 
-#: src/pacman/pacman.c:1299
+#: src/pacman/pacman.c:1298
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "동작을 지정하지 않았습니다(도움말을 보려면 -h 사용)\n"

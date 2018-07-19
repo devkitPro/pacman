@@ -5,19 +5,20 @@
 # Translators:
 # BrLi <rainman59118@gmail.com>, 2015,2017
 # Cheng-Chia Tseng <pswo10680@gmail.com>, 2012,2017
+# Chih-Hsuan Yen <yan12125@gmail.com>, 2018
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # dlin <dlin.tw@gmail.com>, 2014
 # dlin <dlin.tw@gmail.com>, 2014
 # dlin <dlin.tw@gmail.com>, 2011-2012
 # Huei-Horng Yo <hiroshiyui@gmail.com>, 2012
-# Jeff Huang <s8321414@gmail.com>, 2014-2016
+# Jeff Huang <s8321414@gmail.com>, 2014-2016,2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-04-29 23:49+1000\n"
-"PO-Revision-Date: 2018-04-29 14:02+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2018-07-19 14:06+1000\n"
+"PO-Revision-Date: 2018-07-20 04:04+0000\n"
+"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/zh_TW/)\n"
 "Language: zh_TW\n"
@@ -512,17 +513,17 @@ msgstr "%s：安裝原因設定為「單獨指定安裝」\n"
 #: src/pacman/database.c:293
 #, c-format
 msgid "No database errors have been found!\n"
-msgstr ""
+msgstr "沒有找到資料庫錯誤！\n"
 
 #: src/pacman/files.c:81
 #, c-format
 msgid "%s is owned by %s%s/%s%s %s%s%s\n"
-msgstr ""
+msgstr "%s 被 %s%s/%s%s %s%s%s 所擁有\n"
 
 #: src/pacman/files.c:223
 #, c-format
 msgid "invalid package: '%s'\n"
-msgstr ""
+msgstr "無效的軟體包：「%s」\n"
 
 #: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
 #, c-format
@@ -537,7 +538,7 @@ msgstr "正在同步軟體包資料庫…\n"
 #: src/pacman/files.c:320
 #, c-format
 msgid "no options specified (use -h for help)\n"
-msgstr ""
+msgstr "未指定選項（使用 -h 來取得說明）\n"
 
 #: src/pacman/package.c:99
 #, c-format
@@ -982,7 +983,7 @@ msgstr "  -k, --check          測試本機資料庫的有效性 (-kk 以同步�
 #: src/pacman/pacman.c:174
 #, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
-msgstr ""
+msgstr "  -q, --quiet          讓成功的訊息不要顯示在螢幕上\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
@@ -1010,6 +1011,8 @@ msgid ""
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
+"      --overwrite <path>\n"
+"                       覆寫衝圖的檔案（可以使用多於一次）\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1096,72 +1099,79 @@ msgstr "  -b, --dbpath <路徑>  指定另外的資料庫位置\n"
 
 #: src/pacman/pacman.c:214
 #, c-format
+msgid "  -r, --root <path>    set an alternate installation root\n"
+msgstr "  -r, --root <路徑>    指定另外的安裝根目錄\n"
+
+#: src/pacman/pacman.c:215
+#, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose        顯示詳細訊息\n"
 
-#: src/pacman/pacman.c:215
+#: src/pacman/pacman.c:216
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "      --arch <架構>    設定另外的架構\n"
 
-#: src/pacman/pacman.c:216
+#: src/pacman/pacman.c:217
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
-msgstr ""
+msgstr "      --sysroot        在已掛載的客端作業系統上操作（僅 root）\n"
 
-#: src/pacman/pacman.c:217
+#: src/pacman/pacman.c:218
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <目錄> 指定另外的軟體包快取位置\n"
 
-#: src/pacman/pacman.c:218
+#: src/pacman/pacman.c:219
 #, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
 msgstr "--hookdir <dir>  設定替代的掛鉤路徑\n"
 
-#: src/pacman/pacman.c:219
+#: src/pacman/pacman.c:220
 #, c-format
 msgid "      --color <when>   colorize the output\n"
 msgstr "      --color <when>   讓輸出呈現色彩變化\n"
 
-#: src/pacman/pacman.c:220
+#: src/pacman/pacman.c:221
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "      --config <路徑>  指定另外的組態檔\n"
 
-#: src/pacman/pacman.c:221
+#: src/pacman/pacman.c:222
 #, c-format
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug          顯示除錯訊息\n"
 
-#: src/pacman/pacman.c:222
+#: src/pacman/pacman.c:223
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr "      --gpgdir <路徑>  為 GnuPG 指定額外家目錄\n"
 
-#: src/pacman/pacman.c:223
+#: src/pacman/pacman.c:224
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <路徑> 指定另外的紀錄檔案\n"
 
-#: src/pacman/pacman.c:224
+#: src/pacman/pacman.c:225
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm      不詢問確認\n"
 
-#: src/pacman/pacman.c:225
+#: src/pacman/pacman.c:226
 #, c-format
 msgid "      --confirm        always ask for confirmation\n"
 msgstr "      --confirm        永遠詢問確認\n"
 
-#: src/pacman/pacman.c:226
+#: src/pacman/pacman.c:227
 #, c-format
 msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
+"      --disable-download-timeout\n"
+"                       使用較長的下載逾時\n"
 
-#: src/pacman/pacman.c:246
+#: src/pacman/pacman.c:247
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -1170,82 +1180,77 @@ msgstr ""
 "                       本程式可以在 GNU 通用公共授權條款 (GPL) 下\n"
 "                       自由散佈\n"
 
-#: src/pacman/pacman.c:279
+#: src/pacman/pacman.c:280
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
-msgstr ""
+msgstr "HTTP_USER_AGENT 被截短\n"
 
-#: src/pacman/pacman.c:311
+#: src/pacman/pacman.c:312
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr "無效選項：「%s」和「%s」不能同時使用\n"
 
-#: src/pacman/pacman.c:395
+#: src/pacman/pacman.c:396
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "無效的引數「%s」被傳給 %s\n"
 
-#: src/pacman/pacman.c:418
+#: src/pacman/pacman.c:419
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' 不是有效的除錯等級\n"
 
-#: src/pacman/pacman.c:453
-#, c-format
-msgid "option --root is deprecated; use --sysroot instead\n"
-msgstr ""
-
-#: src/pacman/pacman.c:722
+#: src/pacman/pacman.c:721
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
-msgstr ""
+msgstr "選項 --force 已被棄用，請以 --overwrite 代替\n"
 
-#: src/pacman/pacman.c:982
+#: src/pacman/pacman.c:981
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "一次只能執行一個操作\n"
 
-#: src/pacman/pacman.c:1040
+#: src/pacman/pacman.c:1039
 #, c-format
 msgid "invalid option '-%c'\n"
 msgstr "無效選項「-%c」\n"
 
-#: src/pacman/pacman.c:1042
+#: src/pacman/pacman.c:1041
 #, c-format
 msgid "invalid option '--%s'\n"
 msgstr "無效選項「--%s」\n"
 
-#: src/pacman/pacman.c:1167
+#: src/pacman/pacman.c:1166
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "非 root（超級使用者）無法執行指定操作。\n"
 
-#: src/pacman/pacman.c:1173
+#: src/pacman/pacman.c:1172
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
-msgstr ""
+msgstr "chroot 至 「%s」 失敗：(%s)\n"
 
-#: src/pacman/pacman.c:1207
+#: src/pacman/pacman.c:1206
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
-msgstr ""
+msgstr "自 stdin 讀取參數失敗：(%s)\n"
 
-#: src/pacman/pacman.c:1212
+#: src/pacman/pacman.c:1211
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "無法打開 stdin 以讀取：(%s)\n"
 
-#: src/pacman/pacman.c:1217
+#: src/pacman/pacman.c:1216
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "指定參數「-」但沒有標準輸入資料\n"
 
-#: src/pacman/pacman.c:1222
+#: src/pacman/pacman.c:1221
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "引數「-」指定卻無附上 stdin 中的輸入\n"
 
-#: src/pacman/pacman.c:1299
+#: src/pacman/pacman.c:1298
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "沒有指定的操作（使用 -h 取得協助） \n"
@@ -1253,7 +1258,7 @@ msgstr "沒有指定的操作（使用 -h 取得協助） \n"
 #: src/pacman/query.c:87
 #, c-format
 msgid "%s is owned by %s%s %s%s%s\n"
-msgstr ""
+msgstr "%s 被 %s%s %s%s%s 所擁有\n"
 
 #: src/pacman/query.c:149
 #, c-format
@@ -1263,7 +1268,7 @@ msgstr "錯誤：沒有為 --owns 指定檔案\n"
 #: src/pacman/query.c:170
 #, c-format
 msgid "empty string passed to file owner query\n"
-msgstr ""
+msgstr "傳遞給檔案所有者查詢的空字串\n"
 
 #: src/pacman/query.c:197 src/pacman/query.c:219
 #, c-format
@@ -1424,7 +1429,7 @@ msgstr "軟體庫「%s」未找到\n"
 #, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
-msgstr[0] ""
+msgstr[0] "在群組 %2$s%3$s%4$s 中有 %1$d 個成員：\n"
 
 #: src/pacman/sync.c:640
 #, c-format
@@ -1444,17 +1449,17 @@ msgstr "正在進行全系統更新…\n"
 #: src/pacman/sync.c:720
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
-msgstr ""
+msgstr "無法滿足依賴關係「%s」，被 %s 需要\n"
 
 #: src/pacman/sync.c:724
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
-msgstr ""
+msgstr "正在安裝的 %s (%s) 破壞了依賴關係「%s」被 %s 需要\n"
 
 #: src/pacman/sync.c:728
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr ""
+msgstr "正在移除的 %s 破壞了依賴關係「%s」被 %s 需要\n"
 
 #: src/pacman/sync.c:748
 #, c-format
@@ -1494,7 +1499,7 @@ msgstr "%s 同時存在於「%s」和「%s」\n"
 #: src/pacman/sync.c:828
 #, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
-msgstr ""
+msgstr "%s：檔案系統中已存在 %s（被 %s 擁有）\n"
 
 #: src/pacman/sync.c:831
 #, c-format
@@ -1568,7 +1573,7 @@ msgstr " %s 已經是最新版本\n"
 #: src/pacman/util.c:170
 #, c-format
 msgid "failed to synchronize all databases\n"
-msgstr ""
+msgstr "同步所有資料庫失敗\n"
 
 #: src/pacman/util.c:636
 #, c-format
@@ -1703,7 +1708,7 @@ msgstr "%s 的可選依賴\n"
 #: src/pacman/util.c:1285
 #, c-format
 msgid "Repository %s%s\n"
-msgstr ""
+msgstr "軟體庫 %s%s\n"
 
 #: src/pacman/util.c:1326
 #, c-format
