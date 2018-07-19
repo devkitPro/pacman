@@ -130,6 +130,16 @@ Options
 	*NOTE*: If specified, this is an absolute path, and the root path is
 	not automatically prepended.
 
+*-r, \--root* <path>::
+	Specify an alternative installation root (default is `/`). This should
+	not be used as a way to install software into `/usr/local` instead of
+	`/usr`.
+	*NOTE*: If database path or log file are not specified on either the
+	command line or in linkman:pacman.conf[5], their default location will
+	be inside this root path.
+	*NOTE*: This option is not suitable for performing operations on a mounted
+	guest system. See '\--sysroot' instead.
+
 *-v, \--verbose*::
 	Output paths such as as the Root, Conf File, DB Path, Cache Dirs, etc.
 
