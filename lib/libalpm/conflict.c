@@ -399,10 +399,11 @@ static alpm_pkg_t *_alpm_find_file_owner(alpm_handle_t *handle, const char *path
 	return NULL;
 }
 
-static int _alpm_can_overwrite_file(alpm_handle_t *handle, const char *path)
+static int _alpm_can_overwrite_file(alpm_handle_t *handle, const char *path, const char *rootedpath)
 {
 	return handle->trans->flags & ALPM_TRANS_FLAG_FORCE
-		|| _alpm_fnmatch_patterns(handle->overwrite_files, path) == 0;
+		|| _alpm_fnmatch_patterns(handle->overwrite_files, path) == 0
+		|| _alpm_fnmatch_patterns(handle->overwrite_files, rootedpath) == 0;
 }
 
 /**
@@ -468,7 +469,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 					/* can skip file-file conflicts when forced *
 					 * checking presence in p2_files detects dir-file or file-dir
 					 * conflicts as the path from p1 is returned */
-					if(_alpm_can_overwrite_file(handle, filename)
+					if(_alpm_can_overwrite_file(handle, filename, path)
 							&& alpm_filelist_contains(p2_files, filename)) {
 						_alpm_log(handle, ALPM_LOG_DEBUG,
 							"%s exists in both '%s' and '%s'\n", filename,
@@ -675,7 +676,7 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 
 			/* skip file-file conflicts when being forced */
 			if(!S_ISDIR(lsbuf.st_mode)
-					&& _alpm_can_overwrite_file(handle, filestr)) {
+					&& _alpm_can_overwrite_file(handle, filestr, path)) {
 				_alpm_log(handle, ALPM_LOG_DEBUG,
 							"conflict with file on filesystem being forced\n");
 				resolved_conflict = 1;
