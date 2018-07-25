@@ -30,9 +30,13 @@ DESCRIPTION
 libalpm provides the ability to specify hooks to run before or after
 transactions based on the packages and/or files being modified.  Hooks consist
 of a single '[Action]' section describing the action to be run and one or more
-'[Trigger]' section describing which transactions it should be run for. Hook
+'[Trigger]' section describing which transactions it should be run for.
+
+Hooks are read from files located in the system hook directory
++{datarootdir}/libalpm/hooks+, and additional custom directories specified in
+linkman:pacman.conf[5] (the default is +{sysconfdir}/pacman.d/hooks+).  The
 file names are required to have the suffix ".hook".  Hooks are run in
-alphabetical order of their file name.
+alphabetical order of their file name, where the ordering ignores the suffix.
 
 TRIGGERS
 --------
