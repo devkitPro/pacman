@@ -1,5 +1,24 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+5.1.1         - Allow full path including root prefix to be passed to
+                --overwrite
+              - Revert deprecation of --root
+              - Document comment syntax restrictions in pacman.conf
+              - makepkg:
+                - handle pre-existing directories when checking for write
+                  permissions
+                - reduce restrictions on pkgver in depends listings (FS#58776)
+                - permit versioned optdepends
+                - remove unintended chmod of $BUILDDIR (FS#58790)
+                - fix issue when $startdir was not an absolute path (FS#58865)
+                - fix syntax error when $pkgname is empty
+                - fix --nocolor being passed to pacman (FS#58820)
+                - fix issues with trap handling
+                - fix several issues with debug packages (signing, printing of
+                  package names, clearing of global package options, source
+                  file inclusion)
+                - fix --help text for --packagelist
+              - pacman-conf: Fix detection of Usage option
 5.1.0         - Add new --overwrite option and deprecate --force. This accepts a
                 glob pattern with far more control than the widely abused force
                 option which mostly just causes issues (FS#31549)
