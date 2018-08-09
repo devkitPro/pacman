@@ -44,10 +44,5 @@ check_pkgver() {
 }
 
 lint_pkgver() {
-	if (( PKGVERFUNC )); then
-		# defer check to after getting version from pkgver function
-		return 0
-	fi
-
 	check_pkgver "$pkgver"
 }
