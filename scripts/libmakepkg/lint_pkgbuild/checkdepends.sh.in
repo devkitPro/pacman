@@ -23,8 +23,8 @@ LIBMAKEPKG_LINT_PKGBUILD_CHECKDEPENDS_SH=1
 
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
+source "$LIBRARY/lint_pkgbuild/fullpkgver.sh"
 source "$LIBRARY/lint_pkgbuild/pkgname.sh"
-source "$LIBRARY/lint_pkgbuild/pkgver.sh"
 source "$LIBRARY/util/message.sh"
 source "$LIBRARY/util/pkgbuild.sh"
 
@@ -43,12 +43,10 @@ lint_checkdepends() {
 
 	for checkdepend in "${checkdepends_list[@]}"; do
 		name=${checkdepend%%@(<|>|=|>=|<=)*}
-		# remove optional epoch in version specifier
-		ver=${checkdepend##$name@(<|>|=|>=|<=)?(+([0-9]):)}
 		lint_one_pkgname checkdepends "$name" || ret=1
-		if [[ $ver != $checkdepend ]]; then
-			# remove optional pkgrel in version specifier
-			check_pkgver "${ver%-+([0-9])?(.+([0-9]))}" checkdepends || ret=1
+		if [[ $name != $checkdepend ]]; then
+			ver=${checkdepend##$name@(<|>|=|>=|<=)}
+			check_fullpkgver "$ver" checkdepends || ret=1
 		fi
 	done
 

@@ -29,9 +29,15 @@ source "$LIBRARY/util/message.sh"
 lint_pkgbuild_functions+=('lint_epoch')
 
 
-lint_epoch() {
+check_epoch() {
+	local epoch=$1 type=$2
+
 	if [[ $epoch != *([[:digit:]]) ]]; then
-		error "$(gettext "%s must be an integer, not %s.")" "epoch" "$epoch"
+		error "$(gettext "%s must be an integer, not %s.")" "epoch${type:+ in $type}" "$epoch"
 		return 1
 	fi
+}
+
+lint_epoch() {
+	check_epoch "$epoch"
 }

@@ -8,6 +8,7 @@ sources = [
   'conflicts.sh.in',
   'depends.sh.in',
   'epoch.sh.in',
+  'fullversion.sh.in',
   'install.sh.in',
   'makedepends.sh.in',
   'optdepends.sh.in',

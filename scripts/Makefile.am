@@ -85,6 +85,7 @@ LIBMAKEPKG_IN = \
 	libmakepkg/lint_pkgbuild/conflicts.sh \
 	libmakepkg/lint_pkgbuild/depends.sh \
 	libmakepkg/lint_pkgbuild/epoch.sh \
+	libmakepkg/lint_pkgbuild/fullpkgver.sh \
 	libmakepkg/lint_pkgbuild/install.sh \
 	libmakepkg/lint_pkgbuild/makedepends.sh \
 	libmakepkg/lint_pkgbuild/optdepends.sh \
