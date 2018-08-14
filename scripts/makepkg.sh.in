@@ -422,13 +422,14 @@ prepare_buildenv() {
 }
 
 run_function_safe() {
-	local restoretrap restoreset restoreshopt
+	local restoretrap restoreshopt
 
 	# we don't set any special shopts of our own, but we don't want the user to
 	# muck with our environment.
 	restoreshopt=$(shopt -p)
 
-	restoreset=$(shopt -o -p)
+	# localize 'set' shell options to this function - this does not work for shopt
+	local -
 	shopt -o -s errexit errtrace
 
 	restoretrap=$(trap -p ERR)
@@ -438,7 +439,6 @@ run_function_safe() {
 
 	trap - ERR
 	eval "$restoretrap"
-	eval "$restoreset"
 	eval "$restoreshopt"
 }
 
