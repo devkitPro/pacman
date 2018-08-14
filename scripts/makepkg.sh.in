@@ -188,6 +188,9 @@ enter_fakeroot() {
 # Re-sources the PKGBUILD afterwards to allow for other variables that use $pkgver
 update_pkgver() {
 	newpkgver=$(run_function_safe pkgver)
+	if (( $? != 0 )); then
+		error_function pkgver
+	fi
 	if ! check_pkgver "$newpkgver"; then
 		error "$(gettext "pkgver() generated an invalid version: %s")" "$newpkgver"
 		exit $E_PKGBUILD_ERROR
