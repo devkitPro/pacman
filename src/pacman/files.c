@@ -101,6 +101,7 @@ static int files_fileowner(alpm_list_t *syncs, alpm_list_t *targets) {
 
 static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 	int ret = 0;
+	alpm_db_t *db_local = alpm_get_localdb(config->handle);
 	alpm_list_t *t;
 	const colstr_t *colstr = &config->colstr;
 
@@ -157,9 +158,12 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 						printf("%s/%s\n", alpm_db_get_name(repo), alpm_pkg_get_name(pkg));
 					} else {
 						alpm_list_t *ml;
-						printf("%s%s/%s%s %s%s%s\n", colstr->repo, alpm_db_get_name(repo),
+						printf("%s%s/%s%s %s%s%s", colstr->repo, alpm_db_get_name(repo),
 							colstr->title, alpm_pkg_get_name(pkg),
 							colstr->version, alpm_pkg_get_version(pkg), colstr->nocolor);
+
+						print_installed(db_local, pkg);
+						printf("\n");
 
 						for(ml = match; ml; ml = alpm_list_next(ml)) {
 							c = ml->data;
