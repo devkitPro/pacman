@@ -24,7 +24,7 @@
 #include <alpm.h>
 
 #include "ini.h"
-#include "util.h"
+#include "util-common.h"
 
 /**
  * @brief Parse a pacman-style INI config file.
