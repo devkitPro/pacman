@@ -1,4 +1,4 @@
-#! /usr/bin/python2
+#! /usr/bin/python3
 #
 #  pactest : run automated testing on the pacman binary
 #
@@ -45,7 +45,8 @@ class MultiWriter():
 # duplicate stdout/stderr to a temporary file
 class OutputSaver():
     def __init__(self):
-        self.save_file = tempfile.NamedTemporaryFile(prefix='pactest-output-')
+        self.save_file = tempfile.NamedTemporaryFile(
+                prefix='pactest-output-', mode='w')
 
     def __enter__(self):
         sys.stdout = MultiWriter(sys.stdout, self.save_file)

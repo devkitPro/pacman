@@ -15,9 +15,9 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+from io import BytesIO
 import os
 import shutil
-from StringIO import StringIO
 import tarfile
 
 import pmpkg
@@ -251,7 +251,7 @@ class pmdb(object):
                     filename = os.path.join(pkg.fullname(), name)
                     info = tarfile.TarInfo(filename)
                     info.size = len(data)
-                    tar.addfile(info, StringIO(data))
+                    tar.addfile(info, BytesIO(data.encode('utf8')))
             tar.close()
             # TODO: this is a bit unnecessary considering only one test uses it
             serverpath = os.path.join(self.root, util.SYNCREPO, self.treename)

@@ -152,7 +152,7 @@ def getmd5sum(filename):
 
 def mkmd5sum(data):
     checksum = hashlib.md5()
-    checksum.update("%s\n" % data)
+    checksum.update(("%s\n" % data).encode('utf8'))
     return checksum.hexdigest()
 
 

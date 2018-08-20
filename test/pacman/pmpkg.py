@@ -14,8 +14,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from io import BytesIO
 import os
-from StringIO import StringIO
 import tarfile
 
 import util
@@ -146,7 +146,7 @@ class pmpkg(object):
         for name, data in archive_files:
             info = tarfile.TarInfo(name)
             info.size = len(data)
-            tar.addfile(info, StringIO(data))
+            tar.addfile(info, BytesIO(data.encode('utf8')))
 
         # Generate package file system
         for name in self.files:
@@ -167,7 +167,7 @@ class pmpkg(object):
                 # TODO wow what a hack, adding a newline to match mkfile?
                 filedata = name + "\n"
                 info.size = len(filedata)
-                tar.addfile(info, StringIO(filedata))
+                tar.addfile(info, BytesIO(filedata.encode('utf8')))
 
         tar.close()
 

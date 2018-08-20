@@ -179,7 +179,7 @@ AC_SUBST(LFS_CFLAGS)
 AC_PROG_AWK
 AC_PROG_CC_C99
 AC_PROG_INSTALL
-AC_CHECK_PROGS([PYTHON], [python2.7 python2 python], [false])
+AC_CHECK_PROGS([PYTHON], [python3 python], [false])
 AC_PATH_PROGS([BASH_SHELL], [bash bash4], [false])
 
 # check for perl 5.10.1 (needed by makepkg-template)
