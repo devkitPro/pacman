@@ -161,7 +161,6 @@ edit = sed \
 	-e "s|@INODECMD[@]|$(INODECMD)|g" \
 	-e "s|@OWNERCMD[@]|$(OWNERCMD)|g" \
 	-e "s|@MODECMD[@]|$(MODECMD)|g" \
-	-e 's|@SIZECMD[@]|$(SIZECMD)|g' \
 	-e 's|@SEDINPLACEFLAGS[@]|$(SEDINPLACEFLAGS)|g' \
 	-e 's|@SEDPATH[@]|$(SEDPATH)|g' \
 	-e 's|@DUFLAGS[@]|$(DUFLAGS)|g' \
