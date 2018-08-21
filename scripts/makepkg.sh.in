@@ -708,8 +708,11 @@ write_buildinfo() {
 # database files are placed at the beginning of the package regardless of
 # sorting
 list_package_files() {
-	(find . -path './.*' \! -name '.'; find . \! -path './.*' \! -name '.' | LC_ALL=C sort) |
-	sed -e 's|^\./||' | tr '\n' '\0'
+	(
+		export LC_COLLATE=C
+		shopt -s dotglob globstar
+		printf '%s\0' **
+	)
 }
 
 create_package() {
