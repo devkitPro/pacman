@@ -187,6 +187,7 @@ enter_fakeroot() {
 # Automatically update pkgver variable if a pkgver() function is provided
 # Re-sources the PKGBUILD afterwards to allow for other variables that use $pkgver
 update_pkgver() {
+	msg "$(gettext "Starting %s()...")" "pkgver"
 	newpkgver=$(run_function_safe pkgver)
 	if (( $? != 0 )); then
 		error_function pkgver
@@ -447,7 +448,9 @@ run_function() {
 	fi
 	local pkgfunc="$1"
 
-	msg "$(gettext "Starting %s()...")" "$pkgfunc"
+	if (( ! BASH_SUBSHELL )); then
+		msg "$(gettext "Starting %s()...")" "$pkgfunc"
+	fi
 	cd_safe "$srcdir"
 
 	local ret=0
