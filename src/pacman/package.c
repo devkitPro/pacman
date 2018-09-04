@@ -494,6 +494,25 @@ void print_installed(alpm_db_t *db_local, alpm_pkg_t *pkg)
 	}
 }
 
+void print_groups(alpm_pkg_t *pkg)
+{
+	alpm_list_t *grp;
+	if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
+		const colstr_t *colstr = &config->colstr;
+		alpm_list_t *k;
+		printf(" %s(", colstr->groups);
+		for(k = grp; k; k = alpm_list_next(k)) {
+			const char *group = k->data;
+			fputs(group, stdout);
+			if(alpm_list_next(k)) {
+				/* only print a spacer if there are more groups */
+				putchar(' ');
+			}
+		}
+		printf(")%s", colstr->nocolor);
+	}
+}
+
 /**
  * Display the details of a search.
  * @param db the database we're searching
@@ -526,7 +545,6 @@ int dump_pkg_search(alpm_db_t *db, alpm_list_t *targets, int show_status)
 
 	cols = getcols();
 	for(i = searchlist; i; i = alpm_list_next(i)) {
-		alpm_list_t *grp;
 		alpm_pkg_t *pkg = i->data;
 
 		if(config->quiet) {
@@ -536,20 +554,7 @@ int dump_pkg_search(alpm_db_t *db, alpm_list_t *targets, int show_status)
 					colstr->title, alpm_pkg_get_name(pkg),
 					colstr->version, alpm_pkg_get_version(pkg), colstr->nocolor);
 
-			if((grp = alpm_pkg_get_groups(pkg)) != NULL) {
-				alpm_list_t *k;
-				printf(" %s(", colstr->groups);
-				for(k = grp; k; k = alpm_list_next(k)) {
-					const char *group = k->data;
-					fputs(group, stdout);
-					if(alpm_list_next(k)) {
-						/* only print a spacer if there are more groups */
-						putchar(' ');
-					}
-				}
-				printf(")%s", colstr->nocolor);
-			}
-
+			print_groups(pkg);
 			if(show_status) {
 				print_installed(db_local, pkg);
 			}

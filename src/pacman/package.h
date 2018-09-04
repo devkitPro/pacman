@@ -29,6 +29,7 @@ void dump_pkg_files(alpm_pkg_t *pkg, int quiet);
 void dump_pkg_changelog(alpm_pkg_t *pkg);
 
 void print_installed(alpm_db_t *db_local, alpm_pkg_t *pkg);
+void print_groups(alpm_pkg_t *pkg);
 int dump_pkg_search(alpm_db_t *db, alpm_list_t *targets, int show_status);
 
 #endif /* PM_PACKAGE_H */

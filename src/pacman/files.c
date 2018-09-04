@@ -162,6 +162,7 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 							colstr->title, alpm_pkg_get_name(pkg),
 							colstr->version, alpm_pkg_get_version(pkg), colstr->nocolor);
 
+						print_groups(pkg);
 						print_installed(db_local, pkg);
 						printf("\n");
 
