@@ -141,12 +141,14 @@ _pacman() {
       Q)
         { _arch_incomp 'g groups' && _pacman_pkg Qg sort; }    ||
         { _arch_incomp 'p file'   && _pacman_file; }           ||
+        { _arch_incomp 's search' && compopt +o default; }     ||
         { _arch_incomp 'u upgrades' && compopt +o default; }   ||
           _arch_incomp 'o owns'   ||
           _pacman_pkg Qq;;
       S)
         { _arch_incomp 'g groups' && _pacman_pkg Sg; }      ||
         { _arch_incomp 'l list'   && _pacman_repo_list; } ||
+        { _arch_incomp 's search' && compopt +o default; }  ||
           _pacman_pkg Slq;;
       U)
           _pacman_file;;
