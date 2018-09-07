@@ -71,10 +71,13 @@ _pacman_key() {
 }
 
 _makepkg() {
+  compopt +o default
   local cur opts prev
   COMPREPLY=()
   _get_comp_words_by_ref cur prev
-  if [[ $cur = -* && ! $prev =~ ^-(-(config|help|key|version)$|\w*[Vhp]) ]]; then
+  if [[ $prev = @(-p|--config) ]]; then
+    compopt -o default
+  elif [[ ! $prev =~ ^-(-(config|help|key|version)$|\w*[Vh]) ]]; then
     opts=('allsource asdeps check clean cleanbuild config force geninteg help
            holdver ignorearch install key log needed noarchive nobuild nocheck
            nocolor noconfirm nodeps noextract noprepare noprogressbar nosign
@@ -101,6 +104,7 @@ _pacman_repo_list() {
 }
 
 _pacman() {
+  compopt -o default
   local common core cur database files prev query remove sync upgrade o
   COMPREPLY=()
   _get_comp_words_by_ref cur prev
@@ -131,12 +135,14 @@ _pacman() {
       D|R)
           _pacman_pkg Qq;;
       F)
-          _arch_incomp 'l list'   && _pacman_pkg Slq
-          ;;
+        { _arch_incomp 'l list'   && _pacman_pkg Slq ; }       ||
+          _arch_incomp 'o owns'   ||
+          compopt +o default;;
       Q)
         { _arch_incomp 'g groups' && _pacman_pkg Qg sort; }    ||
         { _arch_incomp 'p file'   && _pacman_file; }           ||
-          _arch_incomp 'o owns'   || _arch_incomp 'u upgrades' ||
+        { _arch_incomp 'u upgrades' && compopt +o default; }   ||
+          _arch_incomp 'o owns'   ||
           _pacman_pkg Qq;;
       S)
         { _arch_incomp 'g groups' && _pacman_pkg Sg; }      ||
@@ -153,8 +159,8 @@ _pacman_file() {
   compopt -o filenames; _filedir 'pkg.tar*'
 }
 
-complete -F _pacman -o default pacman
-complete -F _makepkg -o default makepkg
+complete -F _pacman pacman
+complete -F _makepkg makepkg
 complete -F _pacman_key -o default pacman-key
 
 # ex:et ts=2 sw=2 ft=sh
