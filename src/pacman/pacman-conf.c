@@ -266,6 +266,7 @@ static void dump_config(void)
 	show_bool("TotalDownload", config->totaldownload);
 	show_bool("CheckSpace", config->checkspace);
 	show_bool("VerbosePkgLists", config->verbosepkglists);
+	show_bool("DisableDownloadTimeout", config->disable_dl_timeout);
 	show_bool("ILoveCandy", config->chomp);
 
 	show_float("UseDelta", config->deltaratio);
@@ -376,6 +377,8 @@ static int list_directives(void)
 			show_bool("CheckSpace", config->checkspace);
 		} else if(strcasecmp(i->data, "VerbosePkgLists") == 0) {
 			show_bool("VerbosePkgLists", config->verbosepkglists);
+		} else if(strcasecmp(i->data, "DisableDownloadTimeout") == 0) {
+			show_bool("DisableDownloadTimeout", config->disable_dl_timeout);
 
 		} else if(strcasecmp(i->data, "UseDelta") == 0) {
 			show_float("UseDelta", config->deltaratio);
