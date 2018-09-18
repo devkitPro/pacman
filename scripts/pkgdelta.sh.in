@@ -70,8 +70,9 @@ This delta file can then be added to a database using repo-add.\n")"
 
 version() {
 	printf "pkgdelta (pacman) %s\n" "$myver"
+	printf -- "Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\n"
+	printf '\n'
 	printf -- "$(gettext "\
-Copyright (c) 2009 Xavier Chantry <shiningxc@gmail.com>.\n\n\
 This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
 }

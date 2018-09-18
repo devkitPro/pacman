@@ -92,8 +92,9 @@ usage() {
 
 version() {
 	printf "pacman-key (pacman) %s\n" "${myver}"
+	printf -- "Copyright (c) 2010-2018 Pacman Development Team <pacman-dev@archlinux.org>.\n"
+	printf '\n'
 	printf -- "$(gettext "\
-Copyright (c) 2010-2018 Pacman Development Team <pacman-dev@archlinux.org>.\n\
 This is free software; see the source for copying conditions.\n\
 There is NO WARRANTY, to the extent permitted by law.\n")"
 }
