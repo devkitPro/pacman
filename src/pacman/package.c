@@ -170,7 +170,7 @@ static void optdeplist_display(alpm_pkg_t *pkg, unsigned short cols)
 		alpm_depend_t *optdep = i->data;
 		char *depstring = alpm_dep_compute_string(optdep);
 		if(alpm_pkg_get_origin(pkg) == ALPM_PKG_FROM_LOCALDB) {
-			if(alpm_find_satisfier(alpm_db_get_pkgcache(localdb), optdep->name)) {
+			if(alpm_find_satisfier(alpm_db_get_pkgcache(localdb), depstring)) {
 				const char *installed = _(" [installed]");
 				depstring = realloc(depstring, strlen(depstring) + strlen(installed) + 1);
 				strcpy(depstring + strlen(depstring), installed);
