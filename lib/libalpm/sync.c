@@ -1176,17 +1176,23 @@ static int check_validity(alpm_handle_t *handle,
 	if(errors) {
 		for(i = errors; i; i = i->next) {
 			struct validity *v = i->data;
-			if(v->error == ALPM_ERR_PKG_MISSING_SIG) {
-				_alpm_log(handle, ALPM_LOG_ERROR,
-						_("%s: missing required signature\n"), v->pkg->name);
-			} else if(v->error == ALPM_ERR_PKG_INVALID_SIG) {
-				_alpm_process_siglist(handle, v->pkg->name, v->siglist,
-						v->siglevel & ALPM_SIG_PACKAGE_OPTIONAL,
-						v->siglevel & ALPM_SIG_PACKAGE_MARGINAL_OK,
-						v->siglevel & ALPM_SIG_PACKAGE_UNKNOWN_OK);
-				prompt_to_delete(handle, v->path, v->error);
-			} else if(v->error == ALPM_ERR_PKG_INVALID_CHECKSUM) {
-				prompt_to_delete(handle, v->path, v->error);
+			switch(v->error) {
+				case ALPM_ERR_PKG_MISSING_SIG:
+					_alpm_log(handle, ALPM_LOG_ERROR,
+							_("%s: missing required signature\n"), v->pkg->name);
+					break;
+				case ALPM_ERR_PKG_INVALID_SIG:
+					_alpm_process_siglist(handle, v->pkg->name, v->siglist,
+							v->siglevel & ALPM_SIG_PACKAGE_OPTIONAL,
+							v->siglevel & ALPM_SIG_PACKAGE_MARGINAL_OK,
+							v->siglevel & ALPM_SIG_PACKAGE_UNKNOWN_OK);
+					/* fallthrough */
+				case ALPM_ERR_PKG_INVALID_CHECKSUM:
+					prompt_to_delete(handle, v->path, v->error);
+					break;
+				default:
+					/* ignore */
+					break;
 			}
 			alpm_siglist_cleanup(v->siglist);
 			free(v->siglist);
