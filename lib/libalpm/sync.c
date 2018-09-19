@@ -1190,6 +1190,11 @@ static int check_validity(alpm_handle_t *handle,
 				case ALPM_ERR_PKG_INVALID_CHECKSUM:
 					prompt_to_delete(handle, v->path, v->error);
 					break;
+				case ALPM_ERR_PKG_NOT_FOUND:
+				case ALPM_ERR_BADPERMS:
+				case ALPM_ERR_PKG_OPEN:
+					_alpm_log(handle, ALPM_LOG_ERROR, _("failed to read file %s: %s\n"), v->path, alpm_strerror(v->error));
+					break;
 				default:
 					/* ignore */
 					break;
