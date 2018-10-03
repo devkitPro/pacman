@@ -548,6 +548,25 @@ static int _alpm_chroot_read_from_child(alpm_handle_t *handle, int fd,
 	return 0;
 }
 
+static void _alpm_reset_signals(void)
+{
+	/* reset POSIX defined signals (see signal.h) */
+	/* there are likely more but there is no easy way
+	 * to get the full list of valid signals */
+	int *i, signals[] = {
+		SIGABRT, SIGALRM, SIGBUS, SIGCHLD, SIGCONT, SIGFPE, SIGHUP, SIGILL,
+		SIGINT, SIGKILL, SIGPIPE, SIGQUIT, SIGSEGV, SIGSTOP, SIGTERM, SIGTSTP,
+		SIGTTIN, SIGTTOU, SIGUSR1, SIGUSR2, SIGPOLL, SIGPROF, SIGSYS, SIGTRAP,
+		SIGURG, SIGVTALRM, SIGXCPU, SIGXFSZ,
+		0
+	};
+	struct sigaction def;
+	def.sa_handler = SIG_DFL;
+	for(i = signals; *i; i++) {
+		sigaction(*i, &def, NULL);
+	}
+}
+
 /** Execute a command with arguments in a chroot.
  * @param handle the context handle
  * @param cmd command to execute
@@ -633,6 +652,7 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 			exit(1);
 		}
 		umask(0022);
+		_alpm_reset_signals();
 		execv(cmd, argv);
 		/* execv only returns if there was an error */
 		fprintf(stderr, _("call to execv failed (%s)\n"), strerror(errno));
