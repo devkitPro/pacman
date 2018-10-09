@@ -585,7 +585,7 @@ cleanup:
 	unmask_signal(SIGINT, &orig_sig_int);
 	unmask_signal(SIGPIPE, &orig_sig_pipe);
 	/* if we were interrupted, trip the old handler */
-	if(dload_interrupted) {
+	if(dload_interrupted == ABORT_SIGINT) {
 		raise(SIGINT);
 	}
 
