@@ -153,6 +153,18 @@ static alpm_list_t *_cache_get_optdepends(alpm_pkg_t *pkg)
 	return pkg->optdepends;
 }
 
+static alpm_list_t *_cache_get_makedepends(alpm_pkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC);
+	return pkg->makedepends;
+}
+
+static alpm_list_t *_cache_get_checkdepends(alpm_pkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC);
+	return pkg->checkdepends;
+}
+
 static alpm_list_t *_cache_get_conflicts(alpm_pkg_t *pkg)
 {
 	LAZY_LOAD(INFRQ_DESC);
@@ -318,6 +330,8 @@ static struct pkg_operations local_pkg_ops = {
 	.get_groups      = _cache_get_groups,
 	.get_depends     = _cache_get_depends,
 	.get_optdepends  = _cache_get_optdepends,
+	.get_makedepends = _cache_get_makedepends,
+	.get_checkdepends = _cache_get_checkdepends,
 	.get_conflicts   = _cache_get_conflicts,
 	.get_provides    = _cache_get_provides,
 	.get_replaces    = _cache_get_replaces,
@@ -773,6 +787,10 @@ static int local_db_read(alpm_pkg_t *info, int inforeq)
 				READ_AND_SPLITDEP(info->depends);
 			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {
 				READ_AND_SPLITDEP(info->optdepends);
+			} else if(strcmp(line, "%MAKEDEPENDS%") == 0) {
+				READ_AND_SPLITDEP(info->makedepends);
+			} else if(strcmp(line, "%CHECKDEPENDS%") == 0) {
+				READ_AND_SPLITDEP(info->checkdepends);
 			} else if(strcmp(line, "%CONFLICTS%") == 0) {
 				READ_AND_SPLITDEP(info->conflicts);
 			} else if(strcmp(line, "%PROVIDES%") == 0) {

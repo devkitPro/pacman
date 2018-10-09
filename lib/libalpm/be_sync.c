@@ -700,17 +700,9 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 			} else if(strcmp(line, "%OPTDEPENDS%") == 0) {
 				READ_AND_SPLITDEP(pkg->optdepends);
 			} else if(strcmp(line, "%MAKEDEPENDS%") == 0) {
-				/* currently unused */
-				while(1) {
-					READ_NEXT();
-					if(strlen(line) == 0) break;
-				}
+				READ_AND_SPLITDEP(pkg->makedepends);
 			} else if(strcmp(line, "%CHECKDEPENDS%") == 0) {
-				/* currently unused */
-				while(1) {
-					READ_NEXT();
-					if(strlen(line) == 0) break;
-				}
+				READ_AND_SPLITDEP(pkg->checkdepends);
 			} else if(strcmp(line, "%CONFLICTS%") == 0) {
 				READ_AND_SPLITDEP(pkg->conflicts);
 			} else if(strcmp(line, "%PROVIDES%") == 0) {
