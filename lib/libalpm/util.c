@@ -665,6 +665,7 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 		ssize_t olen = 0, ilen = 0;
 		nfds_t nfds = 2;
 		struct pollfd fds[2], *child2parent = &(fds[0]), *parent2child = &(fds[1]);
+		int poll_ret;
 
 		child2parent->fd = child2parent_pipefd[TAIL];
 		child2parent->events = POLLIN;
@@ -685,7 +686,14 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 #define STOP_POLLING(p) do { close(p->fd); p->fd = -1; } while(0)
 
 		while((child2parent->fd != -1 || parent2child->fd != -1)
-				&& poll(fds, nfds, -1) > 0) {
+				&& (poll_ret = poll(fds, nfds, -1)) != 0) {
+			if(poll_ret == -1) {
+				if(errno == EINTR) {
+					continue;
+				} else {
+					break;
+				}
+			}
 			if(child2parent->revents & POLLIN) {
 				if(_alpm_chroot_read_from_child(handle, child2parent->fd,
 							ibuf, &ilen, sizeof(ibuf)) != 0) {
