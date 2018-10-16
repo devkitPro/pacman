@@ -60,7 +60,7 @@ extract_global_variable() {
 
 	if (( isarray )); then
 		array_build ref "$attr"
-		[[ ${ref[@]} ]] && array_build "$outputvar" "$attr"
+		(( ${#ref[@]} )) && array_build "$outputvar" "$attr"
 	else
 		[[ ${!attr} ]] && printf -v "$outputvar" %s "${!attr}"
 	fi
@@ -144,7 +144,7 @@ get_pkgbuild_all_split_attributes() {
 		done
 	done
 
-	[[ ${all_list[@]} ]] && array_build "$outputvar" all_list
+	(( ${#all_list[@]} )) && array_build "$outputvar" all_list
 }
 
 ##
