@@ -431,6 +431,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	/* Ignore any SIGPIPE signals. With libcurl, these shouldn't be happening,
 	 * but better safe than sorry. Store the old signal handler first. */
 	mask_signal(SIGPIPE, SIG_IGN, &orig_sig_pipe);
+	dload_interrupted = 0;
 	mask_signal(SIGINT, &inthandler, &orig_sig_int);
 
 	/* perform transfer */
