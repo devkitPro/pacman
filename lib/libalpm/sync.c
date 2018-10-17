@@ -277,9 +277,20 @@ alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
 
 		for(j = grp->packages; j; j = j->next) {
 			alpm_pkg_t *pkg = j->data;
+			alpm_trans_t *trans = db->handle->trans;
 
 			if(alpm_pkg_find(ignorelist, pkg->name)) {
 				continue;
+			}
+			if(trans != NULL && trans->flags & ALPM_TRANS_FLAG_NEEDED) {
+				alpm_pkg_t *local = _alpm_db_get_pkgfromcache(db->handle->db_local, pkg->name);
+				if(local && _alpm_pkg_compare_versions(pkg, local) == 0) {
+					/* with the NEEDED flag, packages up to date are not reinstalled */
+					_alpm_log(db->handle, ALPM_LOG_WARNING, _("%s-%s is up to date -- skipping\n"),
+							local->name, local->version);
+					ignorelist = alpm_list_add(ignorelist, pkg);
+					continue;
+				}
 			}
 			if(alpm_pkg_should_ignore(db->handle, pkg)) {
 				alpm_question_install_ignorepkg_t question = {
