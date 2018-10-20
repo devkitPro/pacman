@@ -535,6 +535,20 @@ static int process_pkg(alpm_pkg_t *pkg)
 	return 0;
 }
 
+static int group_exists(alpm_list_t *dbs, const char *name)
+{
+	alpm_list_t *i;
+	for(i = dbs; i; i = i->next) {
+		alpm_db_t *db = i->data;
+
+		if(alpm_db_get_group(db, name)) {
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
 static int process_group(alpm_list_t *dbs, const char *group, int error)
 {
 	int ret = 0;
@@ -543,6 +557,10 @@ static int process_group(alpm_list_t *dbs, const char *group, int error)
 	int count = alpm_list_count(pkgs);
 
 	if(!count) {
+		if(group_exists(dbs, group)) {
+			return 0;
+		}
+
 		pm_printf(ALPM_LOG_ERROR, _("target not found: %s\n"), group);
 		return 1;
 	}
