@@ -97,7 +97,13 @@ Operations
 	Displays the program version.
 
 *-v, \--verify*::
-	Verify the file(s) specified by the signature(s).
+	Assume that the first argument is a signature and verify it. If a second
+	argument is provided, it is the file to be verified.
++
+With only one argument given, assume that the signature is a detached
+signature, and look for a matching data file to verify by stripping the file
+extension. If no matching data file is found, fall back on GnuPG semantics and
+attempt to verify a file with an embedded signature.
 
 
 Options

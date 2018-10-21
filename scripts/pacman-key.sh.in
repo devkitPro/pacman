@@ -485,18 +485,25 @@ refresh_keys() {
 }
 
 verify_sig() {
-	local ret=0
-	for sig; do
-		msg "Checking %s..." "$sig"
-		if grep -q 'BEGIN PGP SIGNATURE' "$sig"; then
-			error "$(gettext "Cannot use armored signatures for packages: %s")" "$sig"
-			return 1
-		fi
-		if ! "${GPG_PACMAN[@]}" --status-fd 1 --verify "$sig" | grep -qE '^\[GNUPG:\] TRUST_(FULLY|ULTIMATE).*$'; then
-			error "$(gettext "The signature identified by %s could not be verified.")" "$sig"
-			ret=1
-		fi
-	done
+	local ret=0 sig=$1 file=$2
+	if [[  -z $file && -f ${sig%.*} ]]; then
+		file=${sig%.*}
+	fi
+	if [[ -n $file ]]; then
+		local files=("$sig" "$file")
+		msg "Checking %s... (detached)" "$sig"
+	else
+		local files=("$sig")
+		msg "Checking %s... (embedded)" "$sig"
+	fi
+	if grep -q 'BEGIN PGP SIGNATURE' "$sig"; then
+		error "$(gettext "Cannot use armored signatures for packages: %s")" "$sig"
+		exit 1
+	fi
+	if ! "${GPG_PACMAN[@]}" --status-fd 1 --verify "${files[@]}" | grep -qE '^\[GNUPG:\] TRUST_(FULLY|ULTIMATE).*$'; then
+		error "$(gettext "The signature identified by %s could not be verified.")" "$sig"
+		ret=1
+	fi
 	exit $ret
 }
 
