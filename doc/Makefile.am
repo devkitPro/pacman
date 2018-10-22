@@ -92,7 +92,10 @@ man_MANS += $(DOXYGEN_MANS)
 
 all-local: doxygen.in
 
-doxygen.in:
+Doxyfile: Doxyfile.in
+	sed 's,@OUTPUT_DIRECTORY@,./,' Doxyfile.in >Doxyfile
+
+doxygen.in: Doxyfile
 	$(DOXYGEN) $(srcdir)/Doxyfile
 endif
 
