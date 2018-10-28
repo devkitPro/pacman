@@ -33,6 +33,7 @@ SED = find_program('sed')
 DU = find_program('du')
 LDCONFIG = get_option('ldconfig')
 MESON_MAKE_SYMLINK = join_paths(meson.source_root(), 'build-aux/meson-make-symlink.sh')
+MESON_INSTALL_SCRIPT = join_paths(meson.source_root(), 'build-aux/meson-install-script.sh')
 
 BASH = find_program('bash4', 'bash')
 if BASH.found()

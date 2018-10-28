@@ -24,14 +24,39 @@ m4_edit = generator(
   capture : true)
 
 foreach script : scripts
-  custom_target(
+  script_shortname = script.split('.')[0]
+
+  # Build the script, but don't install it. We want to keep it as a "private"
+  # artifact that we reference from a wrapper script in order to bootstrap it
+  # the build directory.
+  internal_script = custom_target(
     script,
     input : m4_edit.process(script),
     command : [ SCRIPT_EDITOR, '@INPUT@', '@OUTPUT@', '0755'],
-    output : script.split('.')[0],
+    output : script,
     depend_files : library_files,
-    install : true,
-    install_dir : get_option('bindir'))
+    build_by_default : true)
+
+  # Create a wrapper script that bootstraps the real script within the build
+  # directory.
+  custom_target(
+    'wrap_@0@'.format(script_shortname),
+    input : join_paths(meson.source_root(), 'build-aux', 'script-wrapper.sh.in'),
+    output : script_shortname,
+    build_by_default : true,
+    command : [
+      SED,
+      '-e', 's,@BASH@,"@0@",'.format(BASH.path()),
+      '-e', 's,@BUILDDIR@,"@0@",'.format(meson.current_build_dir()),
+      '-e', 's,@REAL_PROGPATH@,"@0@",'.format(internal_script.full_path()),
+      '@INPUT@',
+    ],
+    capture : true)
+
+  # Install the real script
+  meson.add_install_script(MESON_INSTALL_SCRIPT,
+                           internal_script.full_path(),
+                           join_paths(BINDIR, script_shortname))
 endforeach
 
 foreach symlink : ['repo-remove', 'repo-elephant']
