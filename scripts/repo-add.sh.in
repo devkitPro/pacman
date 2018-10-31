@@ -543,7 +543,7 @@ prepare_repo_db() {
 				fi
 			fi
 			verify_signature "$dbfile"
-			msg "$(gettext "Extracting database to a temporary location...")"
+			msg "$(gettext "Extracting %s to a temporary location...")" "${dbfile##*/}"
 			bsdtar -xf "$dbfile" -C "$tmpdir/$repo"
 		else
 			case $cmd in
