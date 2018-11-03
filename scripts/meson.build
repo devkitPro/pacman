@@ -1,10 +1,13 @@
-scripts = [
-  'makepkg-template.pl.in',
+wrapped_scripts = [
   'makepkg.sh.in',
   'pacman-db-upgrade.sh.in',
   'pacman-key.sh.in',
   'pkgdelta.sh.in',
   'repo-add.sh.in'
+]
+
+scripts = [
+  'makepkg-template.pl.in',
 ]
 
 library_files = [
@@ -24,6 +27,19 @@ m4_edit = generator(
   capture : true)
 
 foreach script : scripts
+  script_shortname = script.split('.')[0]
+
+  custom_target(
+    script,
+    input : m4_edit.process(script),
+    command : [ SCRIPT_EDITOR, '@INPUT@', '@OUTPUT@', '0755'],
+    output : script_shortname,
+    depend_files : library_files,
+    install : true,
+    install_dir : get_option('bindir'))
+endforeach
+
+foreach script : wrapped_scripts
   script_shortname = script.split('.')[0]
 
   # Build the script, but don't install it. We want to keep it as a "private"
