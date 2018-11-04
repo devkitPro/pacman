@@ -383,7 +383,7 @@ source_buildfile() {
 prepare_buildenv() {
 	# clear user-specified buildflags if requested
 	if check_option "buildflags" "n"; then
-		unset CPPFLAGS CFLAGS CXXFLAGS LDFLAGS
+		unset CPPFLAGS CFLAGS DEBUG_CFLAGS CXXFLAGS DEBUG_CXXFLAGS LDFLAGS
 	fi
 
 	if check_option "debug" "y"; then
