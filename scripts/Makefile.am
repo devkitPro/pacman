@@ -35,8 +35,7 @@ EXTRA_DIST = \
 	$(LIBMAKEPKG_DIST)
 
 LIBRARY = \
-	library/human_to_size.sh \
-	library/size_to_human.sh
+	library/human_to_size.sh
 
 libmakepkgdir = $(datarootdir)/makepkg
 

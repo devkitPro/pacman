@@ -12,7 +12,6 @@ scripts = [
 
 library_files = [
   'library/human_to_size.sh',
-  'library/size_to_human.sh',
 ]
 
 SCRIPT_EDITOR = find_program(configure_file(
