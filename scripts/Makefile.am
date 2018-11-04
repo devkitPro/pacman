@@ -186,7 +186,7 @@ edit = sed \
 ## All the scripts depend on Makefile so that they are rebuilt when the
 ## prefix etc. changes. Use chmod -w to prevent people from editing the
 ## wrong file by accident.
-$(OURSCRIPTS): Makefile
+$(OURSCRIPTS): %: %.sh.in wrapper.sh.in $(LIBMAKEPKG_IN) Makefile
 	$(AM_V_at)$(RM) $@
 	$(AM_V_GEN)test -f $(srcdir)/$@.sh.in && m4 -P -I $(srcdir) $(srcdir)/$@.sh.in | $(edit) >$@
 	$(AM_V_at)chmod +x,a-w $@
@@ -207,11 +207,6 @@ $(COMPLETION_IN): %: %.in Makefile
 
 all-am: $(COMPLETION_IN)
 
-makepkg: \
-	$(srcdir)/makepkg.sh.in \
-	$(srcdir)/wrapper.sh.in \
-	$(LIBMAKEPKG_IN)
-
 makepkg-template: \
 	$(srcdir)/makepkg-template.pl.in \
 	Makefile
@@ -220,20 +215,13 @@ makepkg-template: \
 	$(AM_V_GEN)$(edit) $< > $@
 	$(AM_V_at)chmod +x,a-w $@
 
-pacman-db-upgrade: $(srcdir)/pacman-db-upgrade.sh.in
-
-pacman-key: $(srcdir)/pacman-key.sh.in
-
-pkgdelta: $(srcdir)/pkgdelta.sh.in
-
-repo-add: $(srcdir)/repo-add.sh.in
-
 repo-remove repo-elephant: repo-add
 	$(AM_V_at)$(RM) $@
 	$(AM_V_at)$(LN_S) repo-add $@
 
 .SECONDEXPANSION:
 $(WRAPPER): \
+	$(srcdir)/wrapper.sh.in \
 	$$(subst -wrapper,,$$@)
 
 	$(AM_V_at)$(MKDIR_P) .lib
