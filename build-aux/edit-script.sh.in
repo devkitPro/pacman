@@ -25,7 +25,7 @@ mode=$3
   -e "s|@SEDPATH[@]|@SEDPATH@|g" \
   -e "s|@DUFLAGS[@]|@DUFLAGS@|g" \
   -e "s|@DUPATH[@]|@DUPATH@|g" \
-  -e "s|@configure_input[@]|Generated from ${output##*/}.sh.in; do not edit by hand.|g" \
+  -e "s|@configure_input[@]|Generated from ${input##*/}; do not edit by hand.|g" \
   "$input" >"$output"
 
 if [[ $mode ]]; then
