@@ -228,13 +228,9 @@ pkgdelta: $(srcdir)/pkgdelta.sh.in
 
 repo-add: $(srcdir)/repo-add.sh.in
 
-repo-remove: $(srcdir)/repo-add.sh.in
-	$(AM_V_at)$(RM) repo-remove
-	$(AM_V_at)$(LN_S) repo-add repo-remove
-
-repo-elephant: $(srcdir)/repo-add.sh.in
-	$(AM_V_at)$(RM) repo-elephant
-	$(AM_V_at)$(LN_S) repo-add repo-elephant
+repo-remove repo-elephant: repo-add
+	$(AM_V_at)$(RM) $@
+	$(AM_V_at)$(LN_S) repo-add $@
 
 .SECONDEXPANSION:
 $(WRAPPER): \
