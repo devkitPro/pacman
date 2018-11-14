@@ -1,10 +1,7 @@
 # enforce that all scripts have a --help and --version option
 AUTOMAKE_OPTIONS = std-options
 AM_INSTALLCHECK_STD_OPTIONS_EXEMPT = \
-	makepkg-wrapper \
-	pacman-db-upgrade-wrapper \
-	pacman-key-wrapper \
-	pkgdelta-wrapper
+	$(WRAPPER)
 
 SUBDIRS = po
 
@@ -135,7 +132,8 @@ WRAPPER = \
 	makepkg-wrapper \
 	pacman-db-upgrade-wrapper \
 	pacman-key-wrapper \
-	pkgdelta-wrapper
+	pkgdelta-wrapper \
+	repo-add-wrapper
 
 COMPLETION_IN = \
 	completion/bash_completion \
