@@ -52,21 +52,18 @@ foreach script : wrapped_scripts
     depend_files : library_files,
     build_by_default : true)
 
+  cdata = configuration_data()
+  cdata.set_quoted('BASH', BASH.path())
+  cdata.set_quoted('BUILDDIR', meson.current_build_dir())
+  cdata.set_quoted('REAL_PROGPATH', internal_script.full_path())
+
   # Create a wrapper script that bootstraps the real script within the build
-  # directory.
-  custom_target(
-    'wrap_@0@'.format(script_shortname),
+  # directory. Use configure_file instead of a custom_target to ensure that
+  # permissions on the input script wrapper are preserved.
+  configure_file(
     input : join_paths(meson.source_root(), 'build-aux', 'script-wrapper.sh.in'),
     output : script_shortname,
-    build_by_default : true,
-    command : [
-      SED,
-      '-e', 's,@BASH@,"@0@",'.format(BASH.path()),
-      '-e', 's,@BUILDDIR@,"@0@",'.format(meson.current_build_dir()),
-      '-e', 's,@REAL_PROGPATH@,"@0@",'.format(internal_script.full_path()),
-      '@INPUT@',
-    ],
-    capture : true)
+    configuration : cdata)
 
   # Install the real script
   meson.add_install_script(MESON_INSTALL_SCRIPT,
