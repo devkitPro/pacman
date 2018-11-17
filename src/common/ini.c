@@ -19,9 +19,8 @@
 
 #include <errno.h>
 #include <limits.h>
+#include <stdlib.h>
 #include <string.h> /* strdup */
-
-#include <alpm.h>
 
 #include "ini.h"
 #include "util-common.h"
