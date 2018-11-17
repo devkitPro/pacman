@@ -148,6 +148,7 @@ pacman_tests = [
   { 'name': 'tests/remove060.py' },
   { 'name': 'tests/remove070.py' },
   { 'name': 'tests/remove071.py' },
+  { 'name': 'tests/replace-and-upgrade-package.py' },
   { 'name': 'tests/replace100.py' },
   { 'name': 'tests/replace101.py' },
   { 'name': 'tests/replace102.py' },
