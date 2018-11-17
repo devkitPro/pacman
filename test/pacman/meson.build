@@ -157,6 +157,8 @@ pacman_tests = [
     'should_fail': true },
   { 'name': 'tests/scriptlet001.py' },
   { 'name': 'tests/scriptlet002.py' },
+  { 'name': 'tests/scriptlet-signal-handling.py' },
+  { 'name': 'tests/scriptlet-signal-reset.py' },
   { 'name': 'tests/sign001.py' },
   { 'name': 'tests/sign002.py' },
   { 'name': 'tests/skip-remove-with-glob-chars.py' },
