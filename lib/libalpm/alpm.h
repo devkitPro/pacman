@@ -118,7 +118,9 @@ typedef enum _alpm_errno_t {
 	ALPM_ERR_LIBARCHIVE,
 	ALPM_ERR_LIBCURL,
 	ALPM_ERR_EXTERNAL_DOWNLOAD,
-	ALPM_ERR_GPGME
+	ALPM_ERR_GPGME,
+	/* Missing compile-time features */
+	ALPM_ERR_MISSING_CAPABILITY_SIGNATURES
 } alpm_errno_t;
 
 /** Returns the current error code from the handle. */

@@ -159,6 +159,9 @@ const char SYMEXPORT *alpm_strerror(alpm_errno_t err)
 			return _("gpgme error");
 		case ALPM_ERR_EXTERNAL_DOWNLOAD:
 			return _("error invoking external downloader");
+		/* Missing compile-time features */
+		case ALPM_ERR_MISSING_CAPABILITY_SIGNATURES:
+				return _("compiled without signature support");
 		/* Unknown error! */
 		default:
 			return _("unexpected error");

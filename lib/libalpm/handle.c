@@ -807,7 +807,7 @@ int SYMEXPORT alpm_option_set_default_siglevel(alpm_handle_t *handle,
 	handle->siglevel = level;
 #else
 	if(level != 0 && level != ALPM_SIG_USE_DEFAULT) {
-		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1);
+		RET_ERR(handle, ALPM_ERR_MISSING_CAPABILITY_SIGNATURES, -1);
 	}
 #endif
 	return 0;
@@ -827,7 +827,7 @@ int SYMEXPORT alpm_option_set_local_file_siglevel(alpm_handle_t *handle,
 	handle->localfilesiglevel = level;
 #else
 	if(level != 0 && level != ALPM_SIG_USE_DEFAULT) {
-		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1);
+		RET_ERR(handle, ALPM_ERR_MISSING_CAPABILITY_SIGNATURES, -1);
 	}
 #endif
 	return 0;
@@ -851,7 +851,7 @@ int SYMEXPORT alpm_option_set_remote_file_siglevel(alpm_handle_t *handle,
 	handle->remotefilesiglevel = level;
 #else
 	if(level != 0 && level != ALPM_SIG_USE_DEFAULT) {
-		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1);
+		RET_ERR(handle, ALPM_ERR_MISSING_CAPABILITY_SIGNATURES, -1);
 	}
 #endif
 	return 0;
