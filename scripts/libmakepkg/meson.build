@@ -1,4 +1,5 @@
 libmakepkg_modules = [
+  { 'name' : 'executable',    'has_subdir' : true },
   { 'name' : 'integrity',     'has_subdir' : true },
   { 'name' : 'lint_config',   'has_subdir' : true },
   { 'name' : 'lint_package',  'has_subdir' : true },

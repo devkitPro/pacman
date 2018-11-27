@@ -40,6 +40,7 @@ LIBRARY = \
 libmakepkgdir = $(datarootdir)/makepkg
 
 LIBMAKEPKGDIRS = \
+	executable \
 	integrity \
 	lint_config \
 	lint_package \
@@ -49,6 +50,17 @@ LIBMAKEPKGDIRS = \
 	util
 
 LIBMAKEPKG_IN = \
+	libmakepkg/executable.sh \
+	libmakepkg/executable/ccache.sh \
+	libmakepkg/executable/checksum.sh \
+	libmakepkg/executable/distcc.sh \
+	libmakepkg/executable/fakeroot.sh \
+	libmakepkg/executable/gpg.sh \
+	libmakepkg/executable/gzip.sh \
+	libmakepkg/executable/pacman.sh \
+	libmakepkg/executable/strip.sh \
+	libmakepkg/executable/sudo.sh \
+	libmakepkg/executable/vcs.sh \
 	libmakepkg/integrity.sh \
 	libmakepkg/integrity/generate_checksum.sh \
 	libmakepkg/integrity/generate_signature.sh \
