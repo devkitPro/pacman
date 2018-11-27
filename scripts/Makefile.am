@@ -40,6 +40,7 @@ LIBRARY = \
 libmakepkgdir = $(datarootdir)/makepkg
 
 LIBMAKEPKGDIRS = \
+	buildenv \
 	executable \
 	integrity \
 	lint_config \
@@ -61,6 +62,11 @@ LIBMAKEPKG_IN = \
 	libmakepkg/executable/strip.sh \
 	libmakepkg/executable/sudo.sh \
 	libmakepkg/executable/vcs.sh \
+	libmakepkg/buildenv.sh \
+	libmakepkg/buildenv/buildflags.sh \
+	libmakepkg/buildenv/compiler.sh \
+	libmakepkg/buildenv/debugflags.sh \
+	libmakepkg/buildenv/makeflags.sh \
 	libmakepkg/integrity.sh \
 	libmakepkg/integrity/generate_checksum.sh \
 	libmakepkg/integrity/generate_signature.sh \

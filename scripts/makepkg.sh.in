@@ -48,11 +48,10 @@ declare -r startdir="$(pwd -P)"
 
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
-build_options=('ccache' 'distcc' 'buildflags' 'makeflags')
 splitpkg_overrides=('pkgdesc' 'arch' 'url' 'license' 'groups' 'depends'
                     'optdepends' 'provides' 'conflicts' 'replaces' 'backup'
                     'options' 'install' 'changelog')
-readonly -a build_options splitpkg_overrides
+readonly -a splitpkg_overrides
 
 known_hash_algos=('md5' 'sha1' 'sha224' 'sha256' 'sha384' 'sha512')
 
@@ -378,47 +377,6 @@ merge_arch_attrs() {
 
 source_buildfile() {
 	source_safe "$@"
-}
-
-prepare_buildenv() {
-	# clear user-specified buildflags if requested
-	if check_option "buildflags" "n"; then
-		unset CPPFLAGS CFLAGS DEBUG_CFLAGS CXXFLAGS DEBUG_CXXFLAGS LDFLAGS
-	fi
-
-	if check_option "debug" "y"; then
-		DEBUG_CFLAGS+=" -fdebug-prefix-map=$srcdir=${DBGSRCDIR:-/usr/src/debug}"
-		DEBUG_CXXFLAGS+=" -fdebug-prefix-map=$srcdir=${DBGSRCDIR:-/usr/src/debug}"
-		CFLAGS+=" $DEBUG_CFLAGS"
-		CXXFLAGS+=" $DEBUG_CXXFLAGS"
-	fi
-
-	# clear user-specified makeflags if requested
-	if check_option "makeflags" "n"; then
-		unset MAKEFLAGS
-	fi
-
-	# ensure all necessary build variables are exported
-	export CPPFLAGS CFLAGS CXXFLAGS LDFLAGS MAKEFLAGS CHOST
-
-	local ccache=0
-
-	# use ccache if it is requested (check buildenv and PKGBUILD opts)
-	if check_buildoption "ccache" "y" && [[ -d /usr/lib/ccache/bin ]]; then
-		export PATH="/usr/lib/ccache/bin:$PATH"
-		ccache=1
-	fi
-
-	# use distcc if it is requested (check buildenv and PKGBUILD opts)
-	if check_buildoption "distcc" "y"; then
-		if (( ccache )); then
-			export CCACHE_PREFIX="${CCACHE_PREFIX:+$CCACHE_PREFIX }distcc"
-			export CCACHE_BASEDIR="$srcdir"
-		elif [[ -d /usr/lib/distcc/bin ]]; then
-			export PATH="/usr/lib/distcc/bin:$PATH"
-		fi
-		export DISTCC_HOSTS
-	fi
 }
 
 run_function_safe() {
