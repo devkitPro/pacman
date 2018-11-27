@@ -65,7 +65,6 @@ EXTRA_DIST = \
 	index.asciidoc \
 	submitting-patches.asciidoc \
 	translation-help.asciidoc \
-	Doxyfile \
 	$(MANPAGES) \
 	$(DOXYGEN_MANS)
 
