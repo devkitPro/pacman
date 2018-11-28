@@ -31,7 +31,7 @@ executable_strip() {
 	if check_option "strip" "y"; then
 		if ! type -p strip >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for object file stripping.")" "strip"
-			ret=1
+			return 1
 		fi
 	fi
 }

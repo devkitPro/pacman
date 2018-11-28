@@ -28,6 +28,8 @@ source "$LIBRARY/util/option.sh"
 executable_functions+=('executable_gpg')
 
 executable_gpg() {
+	local ret=0
+
 	if [[ $SIGNPKG == 'y' ]] || { [[ -z $SIGNPKG ]] && check_buildenv "sign" "y"; }; then
 		if ! type -p gpg >/dev/null; then
 			error "$(gettext "Cannot find the %s binary required for signing packages.")" "gpg"
@@ -41,4 +43,6 @@ executable_gpg() {
 			ret=1
 		fi
 	fi
+
+	return $ret
 }

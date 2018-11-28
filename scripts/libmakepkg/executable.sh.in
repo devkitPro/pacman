@@ -38,7 +38,7 @@ check_software() {
 	local ret=0
 
 	for func in ${executable_functions[@]}; do
-		$func
+		$func || ret=1
 	done
 
 	return $ret
