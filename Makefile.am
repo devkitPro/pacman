@@ -9,7 +9,8 @@ ACLOCAL_AMFLAGS = -I m4 --install
 AM_MAKEFLAGS = --no-print-directory
 
 # Make sure we test and build manpages when doing distcheck
-DISTCHECK_CONFIGURE_FLAGS = --enable-doc --disable-git-version
+DISTCHECK_CONFIGURE_FLAGS = --enable-doc --disable-git-version \
+		bashcompdir='$${prefix}/share/bash-completion/completions'
 
 # Some files automatically included, so they aren't specified below:
 #   AUTHORS, COPYING, NEWS, README
