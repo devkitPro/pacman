@@ -101,7 +101,7 @@ AC_ARG_WITH(buildscript,
 # Help line for buildscript filename
 AC_ARG_WITH(makepkg-template-dir,
 	AS_HELP_STRING([--with-makepkg-template-dir=name], [set the template dir used by makepkg-template]),
-	[TEMPLATE_DIR=$withval], [TEMPLATE_DIR=/usr/share/makepkg-template])
+	[TEMPLATE_DIR=$withval], [TEMPLATE_DIR=${datarootdir}/makepkg-template])
 
 # Help line for debug package suffix
 AC_ARG_WITH(debug-suffix,
@@ -216,7 +216,7 @@ AC_CHECK_LIB([m], [fabs], ,
 	AC_MSG_ERROR([libm is needed to compile pacman!]))
 
 PKG_CHECK_VAR(bashcompdir, [bash-completion], [completionsdir], ,
-	bashcompdir="${prefix}/share/bash-completion/completions")
+	bashcompdir="${datarootdir}/bash-completion/completions")
 
 # Check for libarchive
 PKG_CHECK_MODULES(LIBARCHIVE, [libarchive >= 3.0.0], ,
