@@ -436,6 +436,15 @@ install_data(
   'proto/proto.install',
   install_dir : join_paths(DATAROOTDIR, 'pacman'))
 
+foreach path : [
+	join_paths(LOCALSTATEDIR, 'lib/pacman/'),
+	join_paths(LOCALSTATEDIR, 'cache/pacman/pkg/'),
+	join_paths(DATAROOTDIR, 'makepkg-template/'),
+	join_paths(DATAROOTDIR, 'libalpm/hooks/'),
+	]
+	meson.add_install_script('sh', '-c', 'mkdir -p "$DESTDIR/@0@"'.format(path))
+endforeach
+
 TEST_ENV = environment()
 TEST_ENV.set('PMTEST_SCRIPTLIB_DIR', join_paths(meson.source_root(), 'scripts/library/'))
 TEST_ENV.set('PMTEST_LIBMAKEPKG_DIR', join_paths(meson.build_root(), 'scripts/libmakepkg/'))
