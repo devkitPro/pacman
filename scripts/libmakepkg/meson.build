@@ -11,8 +11,6 @@ libmakepkg_modules = [
   { 'name' : 'util',          'has_subdir' : true },
 ]
 
-mkdir_p = 'mkdir -p $DESTDIR/@0@'
-
 foreach module : libmakepkg_modules
   custom_target(
     'libmakepkg_@0@'.format(module['name']),
@@ -24,10 +22,5 @@ foreach module : libmakepkg_modules
 
   if module.get('has_subdir', false)
     subdir(module['name'])
-    path = join_paths(get_option('prefix'),
-                      get_option('datadir'),
-                      'makepkg',
-                      module['name'])
-    meson.add_install_script('sh', '-c', mkdir_p.format(path))
   endif
 endforeach
