@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-07-19 14:06+1000\n"
-"PO-Revision-Date: 2018-07-19 04:15+0000\n"
+"PO-Revision-Date: 2018-07-27 12:47+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ca/)\n"
@@ -84,7 +84,7 @@ msgstr "Degradant %s...\n"
 #: src/pacman/callback.c:230
 #, c-format
 msgid "removing %s...\n"
-msgstr "Eliminant %s...\n"
+msgstr "Suprimint %s...\n"
 
 #: src/pacman/callback.c:254
 #, c-format
@@ -169,12 +169,12 @@ msgstr "Reemplaço %s per %s/%s?"
 #: src/pacman/callback.c:417
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
-msgstr "%s i %s tenen conflictes. Elimino %s?"
+msgstr "%s i %s tenen conflictes. Suprimeixo %s?"
 
 #: src/pacman/callback.c:422
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
-msgstr "%s i %s tenen conflictes (%s). Elimino %s?"
+msgstr "%s i %s tenen conflictes (%s). Suprimeixo %s?"
 
 #: src/pacman/callback.c:441
 #, c-format
@@ -245,7 +245,7 @@ msgstr "Reinstal·lant"
 #: src/pacman/callback.c:557
 #, c-format
 msgid "removing"
-msgstr "Eliminant"
+msgstr "Suprimint"
 
 #: src/pacman/callback.c:560
 #, c-format
@@ -511,7 +511,7 @@ msgstr ""
 #: src/pacman/remove.c:91 src/pacman/sync.c:938 src/pacman/upgrade.c:47
 #, c-format
 msgid "no targets specified (use -h for help)\n"
-msgstr "no s'ha especificat cap objectiu (useu -h per a l'ajuda)\n"
+msgstr "no s'ha especificat cap objectiu (useu -h per a l'ajuda).\n"
 
 #: src/pacman/database.c:59
 #, c-format
@@ -817,12 +817,13 @@ msgstr ""
 msgid ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr ""
-"  -c, --cascade        elimina paquets i tots els paques que en depenen\n"
+"  -c, --cascade        Suprimeix els paquets i tots els paques que en "
+"depenen.\n"
 
 #: src/pacman/pacman.c:126
 #, c-format
 msgid "  -n, --nosave         remove configuration files\n"
-msgstr "  -n, --nosave         esborra els fitxers de configuració\n"
+msgstr "  -n, --nosave         Suprimeix els fitxers de configuració.\n"
 
 #: src/pacman/pacman.c:127
 #, c-format
@@ -830,43 +831,43 @@ msgid ""
 "  -s, --recursive      remove unnecessary dependencies\n"
 "                       (-ss includes explicitly installed dependencies)\n"
 msgstr ""
-"  -s, --recursive      elimina les dependències innecessàries\n"
+"  -s, --recursive      Suprimeix les dependències innecessàries.\n"
 "                       (-ss inclou dependències installades explícitament)\n"
 
 #: src/pacman/pacman.c:129
 #, c-format
 msgid "  -u, --unneeded       remove unneeded packages\n"
-msgstr "  -u, --unneeded       elimina els paquets innecessaris\n"
+msgstr "  -u, --unneeded       Suprimeix els paquets innecessaris.\n"
 
 #: src/pacman/pacman.c:132 src/pacman/pacman.c:167
 #, c-format
 msgid "      --needed         do not reinstall up to date packages\n"
-msgstr "      --needed         no reinstal·lis els paquets actualitzats\n"
+msgstr "      --needed         No reinstal·lis els paquets actualitzats.\n"
 
 #: src/pacman/pacman.c:137
 #, c-format
 msgid "  -c, --changelog      view the changelog of a package\n"
-msgstr "  -c, --changelog      mostra el registre de canvis d'un paquet\n"
+msgstr "  -c, --changelog      Mostra el registre de canvis d'un paquet.\n"
 
 #: src/pacman/pacman.c:138
 #, c-format
 msgid ""
 "  -d, --deps           list packages installed as dependencies [filter]\n"
 msgstr ""
-"  -d, --deps           llista els paquets instal·lats com a dependència "
-"[filtre]\n"
+"  -d, --deps           Llista els paquets instal·lats com a dependència "
+"[filtre].\n"
 
 #: src/pacman/pacman.c:139
 #, c-format
 msgid "  -e, --explicit       list packages explicitly installed [filter]\n"
 msgstr ""
-"  -e, --explicit       llista els paquets instal·lats explícitament "
-"[filtre]\n"
+"  -e, --explicit       Llista els paquets instal·lats explícitament "
+"[filtre].\n"
 
 #: src/pacman/pacman.c:140
 #, c-format
 msgid "  -g, --groups         view all members of a package group\n"
-msgstr "  -g, --groups         mostra tots els membres d'un grup de paquets\n"
+msgstr "  -g, --groups         Mostra tots els membres d'un grup de paquets.\n"
 
 #: src/pacman/pacman.c:141
 #, c-format
@@ -882,8 +883,8 @@ msgid ""
 "  -k, --check          check that package files exist (-kk for file "
 "properties)\n"
 msgstr ""
-"  -k, --check          comprova que els fitxers del paquet existeixin (-kk "
-"per a les propietats del fitxer)\n"
+"  -k, --check          Comprova que els fitxers del paquet existeixin (-kk "
+"per a les propietats del fitxer).\n"
 
 #: src/pacman/pacman.c:143 src/pacman/pacman.c:179
 #, c-format
@@ -897,8 +898,8 @@ msgid ""
 "  -m, --foreign        list installed packages not found in sync db(s) "
 "[filter]\n"
 msgstr ""
-"  -m, --foreign        llista els paquets instal·lats que no es troben a les "
-"bases de dades de sincronització [filtre]\n"
+"  -m, --foreign        Llista els paquets instal·lats que no es troben a les "
+"bases de dades de sincronització [filtre].\n"
 
 #: src/pacman/pacman.c:145
 #, c-format
@@ -906,20 +907,20 @@ msgid ""
 "  -n, --native         list installed packages only found in sync db(s) "
 "[filter]\n"
 msgstr ""
-"  -n, --native         llista els paquets instal·lats trobats únicament a "
+"  -n, --native         Llista els paquets instal·lats trobats únicament a "
 "les bases de dades de sincronització [filtre]\n"
 
 #: src/pacman/pacman.c:146 src/pacman/pacman.c:180
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
-msgstr "  -o, --own <fitxer>   consulta el paquet al qual pertany <fitxer>\n"
+msgstr "  -o, --own <fitxer>   Consulta el paquet al qual pertany <fitxer>.\n"
 
 #: src/pacman/pacman.c:147
 #, c-format
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr ""
-"  -p, --file <paquet>  consulta un fitxer de paquet en comptes de la base de "
-"dades\n"
+"  -p, --file <paquet>  Consulta un fitxer de paquet en comptes de la base de "
+"dades.\n"
 
 #: src/pacman/pacman.c:148 src/pacman/pacman.c:161 src/pacman/pacman.c:181
 #, c-format
@@ -933,8 +934,8 @@ msgid ""
 "  -s, --search <regex> search locally-installed packages for matching "
 "strings\n"
 msgstr ""
-"  -s, --search <exreg> cerca cadenes coincidents en paquets instal·lats "
-"localment\n"
+"  -s, --search <exreg> Cerca cadenes coincidents en paquets instal·lats "
+"localment.\n"
 
 #: src/pacman/pacman.c:150
 #, c-format
@@ -942,9 +943,9 @@ msgid ""
 "  -t, --unrequired     list packages not (optionally) required by any\n"
 "                       package (-tt to ignore optdepends) [filter]\n"
 msgstr ""
-"  -t, --unrequired     llista els paquets no (opcionalment) requerits per "
+"  -t, --unrequired     Llista els paquets no (opcionalment) requerits per "
 "cap\n"
-"paquet (-tt per ignorar dependències opcionals) [filtre]\n"
+"paquet (-tt per ignorar dependències opcionals) [filtre].\n"
 
 #: src/pacman/pacman.c:152
 #, c-format
@@ -957,8 +958,8 @@ msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
 msgstr ""
-"  -c, --clean          elimina paquets antics del directori de memòria cau (-"
-"cc per a tots)\n"
+"  -c, --clean          Suprimeix paquets antics del directori de memòria cau "
+"(-cc per a tots).\n"
 
 #: src/pacman/pacman.c:157
 #, c-format
@@ -966,8 +967,8 @@ msgid ""
 "  -g, --groups         view all members of a package group\n"
 "                       (-gg to view all groups and members)\n"
 msgstr ""
-"-g, --groups         mostra tots els membres d'un grup de paquets\n"
-"(-gg per veure tots els grups i els membres)\n"
+"-g, --groups         Mostra tots els membres d'un grup de paquets,\n"
+"(-gg per veure tots els grups i els membres).\n"
 
 #: src/pacman/pacman.c:159
 #, c-format
@@ -975,29 +976,29 @@ msgid ""
 "  -i, --info           view package information (-ii for extended "
 "information)\n"
 msgstr ""
-"  -i, --info            mostra informació dels paquets (-ii per obtenir-ne "
-"informació ampliada)\n"
+"  -i, --info            Mostra informació dels paquets (-ii per obtenir-ne "
+"informació ampliada).\n"
 
 #: src/pacman/pacman.c:160
 #, c-format
 msgid "  -l, --list <repo>    view a list of packages in a repo\n"
 msgstr ""
-"  -l, --list <repo>    mostra una llista dels paquets en un repositori\n"
+"  -l, --list <repo>    Mostra una llista dels paquets en un repositori.\n"
 
 #: src/pacman/pacman.c:162
 #, c-format
 msgid ""
 "  -s, --search <regex> search remote repositories for matching strings\n"
 msgstr ""
-"  -s, --search <exreg> cerca cadenes coincidents en repositoris remots\n"
+"  -s, --search <exreg> Cerca cadenes coincidents en repositoris remots.\n"
 
 #: src/pacman/pacman.c:163
 #, c-format
 msgid ""
 "  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"
 msgstr ""
-"  -u, --sysupgrade     actualitza els paquets instal·lats (-uu permet la "
-"desactualització)\n"
+"  -u, --sysupgrade     Actualitza els paquets instal·lats (-uu permet la "
+"desactualització).\n"
 
 #: src/pacman/pacman.c:164
 #, c-format
@@ -1005,7 +1006,8 @@ msgid ""
 "  -w, --downloadonly   download packages but do not install/upgrade "
 "anything\n"
 msgstr ""
-"  -w, --downloadonly   baixa els paquets però no instal·lis/actualitzis res\n"
+"  -w, --downloadonly   Baixa els paquets però no instal·lis ni actualitzis "
+"res.\n"
 
 #: src/pacman/pacman.c:165 src/pacman/pacman.c:184
 #, c-format
@@ -1013,10 +1015,10 @@ msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
 "                       (-yy to force a refresh even if up to date)\n"
 msgstr ""
-"  -y, --refresh        refresca les bases de dades de paquets des del "
-"servidor\n"
+"  -y, --refresh        Refresca les bases de dades de paquets des del "
+"servidor,\n"
 "(-yy per forçar una actualització de la base de dades, encara que ja estigui "
-"actualitzada)\n"
+"actualitzada).\n"
 
 #: src/pacman/pacman.c:171
 #, c-format
@@ -1036,25 +1038,25 @@ msgid ""
 "  -k, --check          test local database for validity (-kk for sync "
 "databases)\n"
 msgstr ""
-"  -k, --check          comprova la validesa de la base de dades local (-kk "
-"per sincronitzar les bases de dades)\n"
+"  -k, --check          Comprova la validesa de la base de dades local (-kk "
+"per sincronitzar les bases de dades).\n"
 
 #: src/pacman/pacman.c:174
 #, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
-msgstr "  -q, --quiet          elimina la sortida dels missatges d'èxit\n"
+msgstr "  -q, --quiet          Suprimeix la sortida dels missatges d'èxit.\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
 msgid "  -s, --search <file>  search package file names for matching strings\n"
 msgstr ""
-"  -s, --search <fitxer>  cerca cadenes coincidents als noms de fitxer dels "
-"paquets\n"
+"  -s, --search <fitxer>  Cerca cadenes coincidents als noms de fitxer dels "
+"paquets.\n"
 
 #: src/pacman/pacman.c:183
 #, c-format
 msgid "  -x, --regex          enable searching using regular expressions\n"
-msgstr "  -x, --regex          habilita la cerca amb expressions regulars\n"
+msgstr "  -x, --regex          Habilita la cerca amb expressions regulars.\n"
 
 #: src/pacman/pacman.c:186
 #, c-format
@@ -1063,7 +1065,7 @@ msgid ""
 "                       produce machine-readable output\n"
 msgstr ""
 "      --machinereadable\n"
-"                       produeix una sortida llegible per màquina\n"
+"                       Produeix una sortida llegible per màquina.\n"
 
 #: src/pacman/pacman.c:192
 #, c-format
@@ -1073,19 +1075,20 @@ msgid ""
 "once)\n"
 msgstr ""
 "      --overwrite <path>\n"
-"                       sobreescriu els fitxers conflictius (es pot usar més "
-"d'un cop)\n"
+"                       Sobreescriu els fitxers conflictius (es pot usar més "
+"d'un cop).\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
 msgstr ""
-"      --asdeps         instal·la paquets com a no instal·lats explícitament\n"
+"      --asdeps         Instal·la paquets com a no instal·lats "
+"explícitament.\n"
 
 #: src/pacman/pacman.c:195
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
-msgstr "--asexplicit     instal·la paquets com a explícitament instal·lats\n"
+msgstr "--asexplicit     Instal·la paquets com a explícitament instal·lats.\n"
 
 #: src/pacman/pacman.c:196
 #, c-format
@@ -1093,8 +1096,8 @@ msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
 "once)\n"
 msgstr ""
-"--ignore <paq>\n"
-"ignora l'actualització d'un paquet (es pot usar més d'un cop)\n"
+"      --ignore <pkg>   Ignora l'actualització d'un paquet (es pot usar més "
+"d'un cop)\n"
 
 #: src/pacman/pacman.c:197
 #, c-format
@@ -1102,8 +1105,10 @@ msgid ""
 "      --ignoregroup <grp>\n"
 "                       ignore a group upgrade (can be used more than once)\n"
 msgstr ""
-"--ignoregroup <grup>\n"
-"ignora l'actualització d'un grup (es pot usar més d'un cop)\n"
+"      --ignoregroup <grp>\n"
+"                       Ignora l'actualització d'un grup (es pot usar més "
+"d'un cop)\n"
+"\n"
 
 #: src/pacman/pacman.c:201
 #, c-format
@@ -1111,8 +1116,8 @@ msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
 msgstr ""
-"  -d, --nodeps         omet les comprovacions de versions de les "
-"dependències (-dd per ometre totes les comprovacions)\n"
+"  -d, --nodeps         Omet les comprovacions de versions de les "
+"dependències (-dd per ometre totes les comprovacions).\n"
 
 #: src/pacman/pacman.c:202
 #, c-format
@@ -1128,22 +1133,22 @@ msgstr ""
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
 msgstr ""
-"      --dbonly         modifica entrades del paquet a la base de dades, però "
-"no fitxers\n"
+"      --dbonly         Modifica entrades del paquet a la base de dades, però "
+"no fitxers.\n"
 
 #: src/pacman/pacman.c:205
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
 msgstr ""
-"      --noprogressbar  no mostris una barra de progrés en baixar fitxers\n"
+"      --noprogressbar  No mostris una barra de progrés en baixar fitxers.\n"
 
 #: src/pacman/pacman.c:206
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr ""
-"      --noscriptlet    no executis l'scriptlet d'instal·lació si existeix\n"
+"      --noscriptlet    No executis l'scriptlet d'instal·lació si existeix.\n"
 
 #: src/pacman/pacman.c:207
 #, c-format
@@ -1151,8 +1156,8 @@ msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr ""
-"  -p, --print          imprimeix els objectius en comptes d'executar "
-"l'operació\n"
+"  -p, --print          Imprimeix els objectius en comptes d'executar "
+"l'operació.\n"
 
 #: src/pacman/pacman.c:208
 #, c-format
@@ -1160,87 +1165,88 @@ msgid ""
 "      --print-format <string>\n"
 "                       specify how the targets should be printed\n"
 msgstr ""
-"--print-format <cadena>\n"
-"especifica com s'han d'imprimir els objectius\n"
+"      --print-format <string>\n"
+"                       Especifica com s'han d'imprimir els objectius.\n"
 
 #: src/pacman/pacman.c:213
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
 msgstr ""
-"  -b, --dbpath <camí>  estableix una ubicació alternativa de la base de "
-"dades\n"
+"  -b, --dbpath <camí>  Estableix una ubicació alternativa de la base de "
+"dades.\n"
 
 #: src/pacman/pacman.c:214
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
 msgstr ""
-"  -r, --root <camí>    estableix una arrel d'instal·lació alternativa\n"
+"  -r, --root <camí>    Estableix una arrel d'instal·lació alternativa.\n"
 
 #: src/pacman/pacman.c:215
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
-msgstr "  -v, --verbose        detallat\n"
+msgstr "  -v, --verbose        Detallat.\n"
 
 #: src/pacman/pacman.c:216
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
-msgstr "      --arch <arq>    estableix una arquitectura alternativa\n"
+msgstr "      --arch <arq>    Estableix una arquitectura alternativa.\n"
 
 #: src/pacman/pacman.c:217
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
-"      --sysroot        opera en un sistema de fitxers aliè muntat (només per "
-"a arrel)\n"
+"      --sysroot        Opera en un sistema de fitxers aliè muntat (només per "
+"a arrel).\n"
 
 #: src/pacman/pacman.c:218
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr ""
-"      --cachedir <dir> estableix una ubicació de la memòria cau de paquets "
-"alternativa\n"
+"      --cachedir <dir> Estableix una ubicació de la memòria cau de paquets "
+"alternativa.\n"
 
 #: src/pacman/pacman.c:219
 #, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
-msgstr "      --hookdir <dir>  estableix una ubicació alternativa de ganxo \n"
+msgstr "      --hookdir <dir>  Estableix una ubicació alternativa de ganxo.\n"
 
 #: src/pacman/pacman.c:220
 #, c-format
 msgid "      --color <when>   colorize the output\n"
-msgstr "      --color <quan>   empra color al text de sortida\n"
+msgstr "      --color <quan>   Usa color al text de sortida.\n"
 
 #: src/pacman/pacman.c:221
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr ""
-"      --config <camí>  estableix un fitxer de configuració alternatiu\n"
+"      --config <camí>  Estableix un fitxer de configuració alternatiu.\n"
 
 #: src/pacman/pacman.c:222
 #, c-format
 msgid "      --debug          display debug messages\n"
-msgstr "      --debug          mostra missatges de depuració\n"
+msgstr "      --debug          M;ostra missatges de depuració.\n"
 
 #: src/pacman/pacman.c:223
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
-msgstr "      --gpgdir <camí>  estableix un directori alternatiu per a GnuPG\n"
+msgstr ""
+"      --gpgdir <camí>  Estableix un directori alternatiu per a GnuPG.\n"
 
 #: src/pacman/pacman.c:224
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
-msgstr "      --logfile <camí> estableix un fitxer de registre alternatiu\n"
+msgstr "      --logfile <camí> Estableix un fitxer de registre alternatiu.\n"
 
 #: src/pacman/pacman.c:225
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
-msgstr "      --noconfirm      no demanis cap confirmació\n"
+msgstr "      --noconfirm      No demanis cap confirmació.\n"
 
 #: src/pacman/pacman.c:226
 #, c-format
 msgid "      --confirm        always ask for confirmation\n"
 msgstr ""
-"      --confirm        demana'n sempre la confirmació\n"
+"      --confirm        Demana'n sempre la confirmació.\n"
 "\n"
 
 #: src/pacman/pacman.c:227
@@ -1250,7 +1256,7 @@ msgid ""
 "                       use relaxed timeouts for download\n"
 msgstr ""
 "      --disable-download-timeout\n"
-"                       usa temps d'espera relaxats per a la baixada\n"
+"                       Usa temps d'espera relaxats per a la baixada.\n"
 
 #: src/pacman/pacman.c:247
 #, c-format
@@ -1284,12 +1290,12 @@ msgstr "«%s» no és un nivell de depuració vàlid\n"
 #: src/pacman/pacman.c:721
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
-msgstr "l'opció --force és obsoleta, useu --overwrite\n"
+msgstr "l'opció --force és obsoleta, useu --overwrite.\n"
 
 #: src/pacman/pacman.c:981
 #, c-format
 msgid "only one operation may be used at a time\n"
-msgstr "només es pot usar una operació cada cop\n"
+msgstr "només es pot usar una operació cada cop.\n"
 
 #: src/pacman/pacman.c:1039
 #, c-format
@@ -1401,7 +1407,7 @@ msgstr "ha fallat preparar la transacció (%s)\n"
 #: src/pacman/remove.c:125
 #, c-format
 msgid "%s: removing %s breaks dependency '%s'\n"
-msgstr "%s: si s'elimina %s es trenca la dependència \"%s\"\n"
+msgstr "%s: si se suprimeix %s es trenca la dependència \"%s\".\n"
 
 #: src/pacman/remove.c:144
 #, c-format
@@ -1421,7 +1427,7 @@ msgstr " No hi ha res per fer.\n"
 #: src/pacman/remove.c:169
 #, c-format
 msgid "Do you want to remove these packages?"
-msgstr "Voleu eliminar aquests paquets?"
+msgstr "Voleu suprimir aquests paquets?"
 
 #: src/pacman/remove.c:175 src/pacman/sync.c:812
 #, c-format
@@ -1431,7 +1437,7 @@ msgstr "ha fallat fer la transacció (%s)\n"
 #: src/pacman/sync.c:47 src/pacman/sync.c:89 src/pacman/sync.c:94
 #, c-format
 msgid "could not remove %s: %s\n"
-msgstr "no s'ha pogut eliminar %s: %s\n"
+msgstr "no s'ha pogut suprimir %s: %s\n"
 
 #: src/pacman/sync.c:63
 #, c-format
@@ -1446,12 +1452,12 @@ msgstr "Directori de la base de dades: %s\n"
 #: src/pacman/sync.c:138
 #, c-format
 msgid "Do you want to remove unused repositories?"
-msgstr "Voleu eliminar els repositoris no usats?"
+msgstr "Voleu suprimir els repositoris no usats?"
 
 #: src/pacman/sync.c:141
 #, c-format
 msgid "removing unused sync repositories...\n"
-msgstr "Eliminant els repositoris de sincronització no usats...\n"
+msgstr "Suprimint els repositoris de sincronització no usats...\n"
 
 #: src/pacman/sync.c:167
 #, c-format
@@ -1476,22 +1482,22 @@ msgstr "Directori de memòria cau: %s\n"
 #: src/pacman/sync.c:185
 #, c-format
 msgid "Do you want to remove all other packages from cache?"
-msgstr "Voleu eliminar tots els altres paquets de la memòria cau?"
+msgstr "Voleu suprimir tots els altres paquets de la memòria cau?"
 
 #: src/pacman/sync.c:189
 #, c-format
 msgid "removing old packages from cache...\n"
-msgstr "Eliminant els paquets antics de la memòria cau...\n"
+msgstr "Suprimint els paquets antics de la memòria cau...\n"
 
 #: src/pacman/sync.c:191
 #, c-format
 msgid "Do you want to remove ALL files from cache?"
-msgstr "Voleu eliminar TOTS els fitxers de la memòria cau?"
+msgstr "Voleu suprimir TOTS els fitxers de la memòria cau?"
 
 #: src/pacman/sync.c:195
 #, c-format
 msgid "removing all files from cache...\n"
-msgstr "Eliminant tots els fitxers de la memòria cau...\n"
+msgstr "Suprimint tots els fitxers de la memòria cau...\n"
 
 #: src/pacman/sync.c:201
 #, c-format
@@ -1545,7 +1551,7 @@ msgstr "instal·lar %s (%s) trenca la dependència \"%s\" requerida per %s\n"
 #: src/pacman/sync.c:728
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "eliminar %s trenca la dependència \"%s\" requerida per %s\n"
+msgstr "suprimir %s trenca la dependència \"%s\" requerida per %s.\n"
 
 #: src/pacman/sync.c:748
 #, c-format
@@ -1629,7 +1635,7 @@ msgid ""
 "  running, you can remove %s\n"
 msgstr ""
 "  si esteu segur que no hi ha cap gestor de paquets\n"
-"  en execució, podeu eliminar %s\n"
+"  en execució, podeu suprimir %s.\n"
 
 #: src/pacman/util.c:97
 #, c-format
@@ -1750,7 +1756,7 @@ msgstr "Canvi net"
 #: src/pacman/util.c:915
 #, c-format
 msgid "removal"
-msgstr "eliminació"
+msgstr "supressió"
 
 #: src/pacman/util.c:921
 #, c-format
@@ -1770,7 +1776,7 @@ msgstr "Mida total un cop feta la instal·lació:"
 #: src/pacman/util.c:949
 #, c-format
 msgid "Total Removed Size:"
-msgstr "Mida total de l'eliminació:"
+msgstr "Mida total de la supressió:"
 
 #: src/pacman/util.c:953
 #, c-format

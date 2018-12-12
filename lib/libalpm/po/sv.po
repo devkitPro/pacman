@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-05-15 10:34+1000\n"
+"POT-Creation-Date: 2018-12-12 11:09+1000\n"
 "PO-Revision-Date: 2018-05-16 20:56+0000\n"
 "Last-Translator: Kristoffer Andersson <kode.kristoff@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/toofishes/archlinux-pacman/"
@@ -51,7 +51,7 @@ msgstr "varning given vid extrahering av %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "kunde inte extrahera %s (%s)\n"
 
-#: lib/libalpm/add.c:154 lib/libalpm/dload.c:561 lib/libalpm/remove.c:541
+#: lib/libalpm/add.c:154 lib/libalpm/dload.c:569 lib/libalpm/remove.c:541
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "kunde inte döpa om %s till %s (%s)\n"
@@ -94,18 +94,18 @@ msgstr "extrahera: ersätter ej katalog med fil %s\n"
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "kunde inte extrahera %s.pacnew: sökvägen är för lång"
 
-#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:573
+#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:592
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "kunde inte hitta nuvarande sökväg\n"
 
-#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:578
-#: lib/libalpm/util.c:631
+#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:597
+#: lib/libalpm/util.c:650
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "kunde inte byta katalog till %s (%s)\n"
 
-#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:738
+#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:766
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "kunde ej återställa arbetskatalogen (%s)\n"
@@ -360,12 +360,12 @@ msgstr "kunde ej skapa temporär fil för nedladdning\n"
 msgid "url '%s' is invalid\n"
 msgstr "url '%s' är ogiltigt\n"
 
-#: lib/libalpm/dload.c:459 lib/libalpm/dload.c:484
+#: lib/libalpm/dload.c:460 lib/libalpm/dload.c:481 lib/libalpm/dload.c:492
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "misslyckades hämta filen '%s' från %s : %s\n"
 
-#: lib/libalpm/dload.c:472
+#: lib/libalpm/dload.c:473
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
@@ -373,12 +373,12 @@ msgstr ""
 "överskreds\n"
 "\n"
 
-#: lib/libalpm/dload.c:520
+#: lib/libalpm/dload.c:528
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s verkar vara trunkerad: %jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:664 lib/libalpm/dload.c:693
+#: lib/libalpm/dload.c:672 lib/libalpm/dload.c:701
 #, c-format
 msgid "failed to download %s\n"
 msgstr "misslyckades ladda ner %s\n"
@@ -971,52 +971,52 @@ msgstr "kunde inte skriva till rör (%s)\n"
 msgid "unable to read from pipe (%s)\n"
 msgstr "kunde inte läsa från rör (%s)\n"
 
-#: lib/libalpm/util.c:590 lib/libalpm/util.c:596
+#: lib/libalpm/util.c:609 lib/libalpm/util.c:615
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "kunde ej skapa pipe (%s)\n"
 
-#: lib/libalpm/util.c:604
+#: lib/libalpm/util.c:623
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "kunde inte förgrena en ny process (%s)\n"
 
-#: lib/libalpm/util.c:627
+#: lib/libalpm/util.c:646
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "kunde inte byta rootkatalogen (%s)\n"
 
-#: lib/libalpm/util.c:638
+#: lib/libalpm/util.c:658
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "anrop till execv misslyckades (%s)\n"
 
-#: lib/libalpm/util.c:709
+#: lib/libalpm/util.c:737
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "anrop till waitpid misslyckades (%s)\n"
 
-#: lib/libalpm/util.c:719
+#: lib/libalpm/util.c:747
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "kommando misslyckades att exekveras korrekt\n"
 
-#: lib/libalpm/util.c:726
+#: lib/libalpm/util.c:754
 #, c-format
 msgid "Unknown signal"
 msgstr "Okänd signal"
 
-#: lib/libalpm/util.c:728
+#: lib/libalpm/util.c:756
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "kommando avslutades av signal %d: %s\n"
 
-#: lib/libalpm/util.c:825
+#: lib/libalpm/util.c:853
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "ingen %s cache existerar, skapar...\n"
 
-#: lib/libalpm/util.c:856
+#: lib/libalpm/util.c:884
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "kunde ej hitta eller skapa paketcache, använder %s istället\n"

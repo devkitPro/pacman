@@ -8,6 +8,7 @@
 # Blask <blaskyy@gmail.com>, 2013
 # leonfeng <chaofeng111@qq.com>, 2018
 # Felix Yan <felixonmars@gmail.com>, 2015
+# Jiachen YANG <farseerfc@gmail.com>, 2018
 # leonfeng <chaofeng111@qq.com>, 2011,2013
 # leonfeng <chaofeng111@qq.com>, 2011,2013,2018
 # leonfeng <chaofeng111@qq.com>, 2011,2013
@@ -16,6 +17,8 @@
 # Nicholas Wang <wck963@gmail.com>, 2018
 # leonfeng <chaofeng111@qq.com>, 2013
 # leonfeng <chaofeng111@qq.com>, 2011
+# liushuyu011 <liushuyu011@gmail.com>, 2018
+# Tian Yunhao <t123yh@outlook.com>, 2018
 # ykelvis <ykelvis@users.noreply.github.com>, 2014
 # 张海, 2015,2018
 # 张海, 2015,2018
@@ -27,8 +30,8 @@ msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-07-19 14:06+1000\n"
-"PO-Revision-Date: 2018-07-19 04:15+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2018-09-13 11:10+0000\n"
+"Last-Translator: Jiachen YANG <farseerfc@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -60,7 +63,7 @@ msgstr "正在检查文件冲突...\n"
 #: src/pacman/callback.c:205
 #, c-format
 msgid "resolving dependencies...\n"
-msgstr "正在解决依赖关系...\n"
+msgstr "正在解析依赖关系...\n"
 
 #: src/pacman/callback.c:208
 #, c-format
@@ -90,7 +93,7 @@ msgstr "正在重新安装 %s...\n"
 #: src/pacman/callback.c:227
 #, c-format
 msgid "downgrading %s...\n"
-msgstr "正在下载 %s...\n"
+msgstr "正在降级 %s...\n"
 
 #: src/pacman/callback.c:230
 #, c-format
@@ -150,12 +153,12 @@ msgstr "正在获取软件包......\n"
 #: src/pacman/callback.c:295
 #, c-format
 msgid "checking available disk space...\n"
-msgstr "正在检查可用磁盘空间...\n"
+msgstr "正在检查可用存储空间...\n"
 
 #: src/pacman/callback.c:302
 #, c-format
 msgid "%s optionally requires %s\n"
-msgstr "%s可选依赖%s\n"
+msgstr "%s可选依赖于%s\n"
 
 #: src/pacman/callback.c:321 src/pacman/callback.c:327
 #, c-format
@@ -170,13 +173,12 @@ msgstr "%s 已被保存为 %s.pacsave\n"
 #: src/pacman/callback.c:395
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
-msgstr ""
-"%s 位于 IgnorePkg/IgnoreGroup (忽略软件包／忽略软件包组) 中。确定要安装吗?"
+msgstr "%s 在忽略软件包／忽略软件包组中。确定要安装吗?"
 
 #: src/pacman/callback.c:405
 #, c-format
 msgid "Replace %s with %s/%s?"
-msgstr "替换 %s 吗 (使用 %s/%s )？"
+msgstr "替换 %s 为 %s/%s 吗 ？"
 
 #: src/pacman/callback.c:417
 #, c-format
@@ -240,7 +242,7 @@ msgstr "正在更新"
 #: src/pacman/callback.c:551
 #, c-format
 msgid "downgrading"
-msgstr "降级中"
+msgstr "正在降级"
 
 #: src/pacman/callback.c:554
 #, c-format
@@ -260,7 +262,7 @@ msgstr "正在检查文件冲突"
 #: src/pacman/callback.c:563
 #, c-format
 msgid "checking available disk space"
-msgstr "正在检查可用硬盘空间"
+msgstr "正在检查可用存储空间"
 
 #: src/pacman/callback.c:566
 #, c-format
@@ -300,7 +302,7 @@ msgstr "%s: %s (用户组标识符GID不匹配)\n"
 #: src/pacman/check.c:101
 #, c-format
 msgid "%s: %s (Permissions mismatch)\n"
-msgstr "%s: %s (许可不匹配)\n"
+msgstr "%s: %s (权限不匹配)\n"
 
 #: src/pacman/check.c:115 src/pacman/check.c:162
 #, c-format
@@ -385,7 +387,7 @@ msgstr "无法 chdir 到下载目录 %s\n"
 #: src/pacman/conf.c:266
 #, c-format
 msgid "running XferCommand: fork failed!\n"
-msgstr "正在运行 XferCommand: fork失败！\n"
+msgstr "运行 XferCommand 创建进程失败！\n"
 
 #: src/pacman/conf.c:278
 #, c-format
@@ -521,7 +523,7 @@ msgstr "%s：安装原因设定为“单独指定安装”\n"
 #: src/pacman/database.c:293
 #, c-format
 msgid "No database errors have been found!\n"
-msgstr "未发现数据库错误！\n"
+msgstr "数据库正常！\n"
 
 #: src/pacman/files.c:81
 #, c-format
@@ -571,7 +573,7 @@ msgstr "压缩后大小"
 #: src/pacman/package.c:103
 #, c-format
 msgid "Conflicts With"
-msgstr "冲突与"
+msgstr "与它冲突"
 
 #: src/pacman/package.c:104
 #, c-format
@@ -661,7 +663,7 @@ msgstr "软件库"
 #: src/pacman/package.c:121
 #, c-format
 msgid "Required By"
-msgstr "要求被"
+msgstr "依赖它"
 
 #: src/pacman/package.c:122 src/pacman/package.c:242
 #, c-format
@@ -1248,12 +1250,12 @@ msgstr "无法打开 stdin 以读取：(%s)\n"
 #: src/pacman/pacman.c:1216
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
-msgstr "有参数 '-' 但标准输入中没有数据\n"
+msgstr "有参数 '-' 但标准输入流为空\n"
 
 #: src/pacman/pacman.c:1221
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
-msgstr "有参数'-'但标准输入中没有数据\n"
+msgstr "有参数 '-' 但标准输入流中没有输入\n"
 
 #: src/pacman/pacman.c:1298
 #, c-format
@@ -1583,7 +1585,7 @@ msgstr "同步所有数据库失败\n"
 #: src/pacman/util.c:636
 #, c-format
 msgid "insufficient columns available for table display\n"
-msgstr "栏数不足以使用表格显示视图\n"
+msgstr "屏幕宽度不足，无法使用表格视图\n"
 
 #: src/pacman/util.c:757
 #, c-format

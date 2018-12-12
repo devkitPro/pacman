@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-05-15 10:34+1000\n"
+"POT-Creation-Date: 2018-12-12 11:09+1000\n"
 "PO-Revision-Date: 2018-05-29 16:20+0000\n"
 "Last-Translator: Igor <f2404@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/toofishes/archlinux-pacman/"
@@ -61,7 +61,7 @@ msgstr "получено предупреждение при извлечени�
 msgid "could not extract %s (%s)\n"
 msgstr "не удалось извлечь %s (%s)\n"
 
-#: lib/libalpm/add.c:154 lib/libalpm/dload.c:561 lib/libalpm/remove.c:541
+#: lib/libalpm/add.c:154 lib/libalpm/dload.c:569 lib/libalpm/remove.c:541
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "не удалось переименовать %s в %s (%s)\n"
@@ -104,18 +104,18 @@ msgstr "извлечение: не перезаписывается катало
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "не удалось извлечь %s.pacnew: путь слишком длинный"
 
-#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:573
+#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:592
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "не удалось определить текущий рабочий каталог\n"
 
-#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:578
-#: lib/libalpm/util.c:631
+#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:597
+#: lib/libalpm/util.c:650
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "не удалось изменить каталог на %s (%s)\n"
 
-#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:738
+#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:766
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "не удалось восстановить рабочий каталог (%s)\n"
@@ -370,22 +370,22 @@ msgstr "не удалось создать временный файл для з
 msgid "url '%s' is invalid\n"
 msgstr "ссылка '%s' некорректна\n"
 
-#: lib/libalpm/dload.c:459 lib/libalpm/dload.c:484
+#: lib/libalpm/dload.c:460 lib/libalpm/dload.c:481 lib/libalpm/dload.c:492
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "не удалось получить файл '%s' из %s : %s\n"
 
-#: lib/libalpm/dload.c:472
+#: lib/libalpm/dload.c:473
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr "не удалось получить файл '%s' из %s: превышен ожидаемый размер\n"
 
-#: lib/libalpm/dload.c:520
+#: lib/libalpm/dload.c:528
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s, видимо, обрезан: %jd/%jd байт\n"
 
-#: lib/libalpm/dload.c:664 lib/libalpm/dload.c:693
+#: lib/libalpm/dload.c:672 lib/libalpm/dload.c:701
 #, c-format
 msgid "failed to download %s\n"
 msgstr "не удалось загрузить %s\n"
@@ -974,52 +974,52 @@ msgstr "не удалось записать в пайп (%s)\n"
 msgid "unable to read from pipe (%s)\n"
 msgstr "не удалось чтение из пайпа (%s)\n"
 
-#: lib/libalpm/util.c:590 lib/libalpm/util.c:596
+#: lib/libalpm/util.c:609 lib/libalpm/util.c:615
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "не удалось создать канал (%s)\n"
 
-#: lib/libalpm/util.c:604
+#: lib/libalpm/util.c:623
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "не удалось создать новый процесс (%s)\n"
 
-#: lib/libalpm/util.c:627
+#: lib/libalpm/util.c:646
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "не удалось изменить корневой каталог (%s)\n"
 
-#: lib/libalpm/util.c:638
+#: lib/libalpm/util.c:658
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "вызов execv завершился неудачно (%s)\n"
 
-#: lib/libalpm/util.c:709
+#: lib/libalpm/util.c:737
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "вызов waitpid не удался (%s)\n"
 
-#: lib/libalpm/util.c:719
+#: lib/libalpm/util.c:747
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "не удалось корректно выполнить команду\n"
 
-#: lib/libalpm/util.c:726
+#: lib/libalpm/util.c:754
 #, c-format
 msgid "Unknown signal"
 msgstr "Неизвестный сигнал"
 
-#: lib/libalpm/util.c:728
+#: lib/libalpm/util.c:756
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "команда завершена по сигналу %d: %s\n"
 
-#: lib/libalpm/util.c:825
+#: lib/libalpm/util.c:853
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "кэш %s не существует, создается...\n"
 
-#: lib/libalpm/util.c:856
+#: lib/libalpm/util.c:884
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "не удалось найти или создать кеш пакета, используется %s\n"

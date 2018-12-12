@@ -5,17 +5,17 @@
 # Translators:
 # 배태길 <esrevinu@gmail.com>, 2017-2018
 # Ji-Hyeon Gim <potatogim@potatogim.net>, 2014,2018
-# Sungjin Kang <potopro@gmail.com>, 2012-2013
-# Sungjin Kang <potopro@gmail.com>, 2013
-# Sungjin Kang <potopro@gmail.com>, 2013
-# Sungjin Kang <potopro@gmail.com>, 2013
+# Thomas Sungjin Kang <potopro@gmail.com>, 2012-2013
+# Thomas Sungjin Kang <potopro@gmail.com>, 2013
+# Thomas Sungjin Kang <potopro@gmail.com>, 2013
+# Thomas Sungjin Kang <potopro@gmail.com>, 2013
 # 배태길 <esrevinu@gmail.com>, 2014-2015
-# Sungjin Kang <potopro@gmail.com>, 2013
+# Thomas Sungjin Kang <potopro@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-05-15 10:34+1000\n"
+"POT-Creation-Date: 2018-12-12 11:09+1000\n"
 "PO-Revision-Date: 2018-05-15 01:05+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Korean (http://www.transifex.com/toofishes/archlinux-pacman/"
@@ -56,7 +56,7 @@ msgstr "%s 추출 시 경고 발생 (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "%s를 추출할 수 없습니다. (%s)\n"
 
-#: lib/libalpm/add.c:154 lib/libalpm/dload.c:561 lib/libalpm/remove.c:541
+#: lib/libalpm/add.c:154 lib/libalpm/dload.c:569 lib/libalpm/remove.c:541
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "%s의 이름을 %s로 바꾸지 못했습니다.(%s)\n"
@@ -101,18 +101,18 @@ msgstr "추출: %s 파일로 디렉터리를 덮어쓰지 못함\n"
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "%s.pacnew를 추출할 수 없습니다: 경로가 너무 깁니다"
 
-#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:573
+#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:592
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "현재 작업 디렉터리를 가져올 수 없습니다.\n"
 
-#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:578
-#: lib/libalpm/util.c:631
+#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:597
+#: lib/libalpm/util.c:650
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "%s로 디렉터리를 변경할 수 없습니다. (%s)\n"
 
-#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:738
+#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:766
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "작업 디렉터리를 복원할 수 없습니다. (%s)\n"
@@ -361,22 +361,22 @@ msgstr "다운로드를 위한 임시파일을 만드는 데 실패하였습니�
 msgid "url '%s' is invalid\n"
 msgstr "url '%s'가 잘못되었습니다.\n"
 
-#: lib/libalpm/dload.c:459 lib/libalpm/dload.c:484
+#: lib/libalpm/dload.c:460 lib/libalpm/dload.c:481 lib/libalpm/dload.c:492
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "파일 '%s'를 %s에서 가져오는 데 실패 : %s\n"
 
-#: lib/libalpm/dload.c:472
+#: lib/libalpm/dload.c:473
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr "파일 '%s'를 %s에서 가져오는 데 실패 : 예상 내려받기 크기 초과\n"
 
-#: lib/libalpm/dload.c:520
+#: lib/libalpm/dload.c:528
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s가 잘린 것 같습니다.: %jd/%jd 바이트\n"
 
-#: lib/libalpm/dload.c:664 lib/libalpm/dload.c:693
+#: lib/libalpm/dload.c:672 lib/libalpm/dload.c:701
 #, c-format
 msgid "failed to download %s\n"
 msgstr "%s를 다운받지 못했습니다.\n"
@@ -965,52 +965,52 @@ msgstr "파이프에 기록할 수 없습니다.(%s)\n"
 msgid "unable to read from pipe (%s)\n"
 msgstr "파이프로부터 읽을 수 없습니다.(%s)\n"
 
-#: lib/libalpm/util.c:590 lib/libalpm/util.c:596
+#: lib/libalpm/util.c:609 lib/libalpm/util.c:615
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "파이프를 만들 수 없습니다.(%s)\n"
 
-#: lib/libalpm/util.c:604
+#: lib/libalpm/util.c:623
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "새 프로세스를 포크할 수 없습니다.(%s)\n"
 
-#: lib/libalpm/util.c:627
+#: lib/libalpm/util.c:646
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "루트 디렉터리를 변경할 수 없습니다.(%s)\n"
 
-#: lib/libalpm/util.c:638
+#: lib/libalpm/util.c:658
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "execv 호출 실패 (%s)\n"
 
-#: lib/libalpm/util.c:709
+#: lib/libalpm/util.c:737
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "waitpid 호출 실패 (%s)\n"
 
-#: lib/libalpm/util.c:719
+#: lib/libalpm/util.c:747
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "명령이 올바르게 실행되지 못하였습니다.\n"
 
-#: lib/libalpm/util.c:726
+#: lib/libalpm/util.c:754
 #, c-format
 msgid "Unknown signal"
 msgstr "알 수 없는 시그널"
 
-#: lib/libalpm/util.c:728
+#: lib/libalpm/util.c:756
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "명령이 시그널 %d에 의해 종료되었습니다: %s\n"
 
-#: lib/libalpm/util.c:825
+#: lib/libalpm/util.c:853
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "%s 캐시가 없으므로 생성 중...\n"
 
-#: lib/libalpm/util.c:856
+#: lib/libalpm/util.c:884
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "꾸러미 캐시를 찾거나 생성할 수 없어 대신 %s를 사용합니다.\n"

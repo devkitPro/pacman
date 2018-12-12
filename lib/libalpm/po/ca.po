@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-05-15 10:34+1000\n"
-"PO-Revision-Date: 2018-05-16 14:16+0000\n"
+"POT-Creation-Date: 2018-12-12 11:09+1000\n"
+"PO-Revision-Date: 2018-07-27 12:31+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ca/)\n"
@@ -57,7 +57,7 @@ msgstr "advertència en extreure %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "no s'ha pogut extreure %s (%s)\n"
 
-#: lib/libalpm/add.c:154 lib/libalpm/dload.c:561 lib/libalpm/remove.c:541
+#: lib/libalpm/add.c:154 lib/libalpm/dload.c:569 lib/libalpm/remove.c:541
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "no s'ha pogut canviar el nom %s a %s (%s)\n"
@@ -102,18 +102,18 @@ msgstr "extracció: no se sobreescriurà el directori amb el fitxer %s\n"
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "no es pot extreure %s.pacnew: camí massa llarg"
 
-#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:573
+#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:592
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "no s'ha pogut obtenir el directori de treball actual\n"
 
-#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:578
-#: lib/libalpm/util.c:631
+#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:597
+#: lib/libalpm/util.c:650
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "no s'ha pogut canviar el directori a %s (%s)\n"
 
-#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:738
+#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:766
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "no s'ha pogut restaurar el directori de treball (%s)\n"
@@ -146,7 +146,7 @@ msgstr "error en llegir el fitxer %s: %s\n"
 #: lib/libalpm/be_local.c:350
 #, c-format
 msgid "removing invalid database: %s\n"
-msgstr "Eliminant la base de dades no vàlida: %s\n"
+msgstr "Suprimint la base de dades no vàlida: %s\n"
 
 #: lib/libalpm/be_local.c:401 lib/libalpm/be_local.c:887
 #, c-format
@@ -240,7 +240,7 @@ msgstr "la clau requerida manca al clauer\n"
 #: lib/libalpm/be_sync.c:62
 #, c-format
 msgid "removing invalid file: %s\n"
-msgstr "Eliminant el fitxer no vàlid: %s\n"
+msgstr "Suprimint el fitxer no vàlid: %s\n"
 
 #: lib/libalpm/be_sync.c:517
 #, c-format
@@ -283,7 +283,7 @@ msgstr "s'ha detectat una dependència cíclica:\n"
 #: lib/libalpm/deps.c:187
 #, c-format
 msgid "%s will be removed after its %s dependency\n"
-msgstr "%s s'eliminarà després de la seva dependència %s\n"
+msgstr "%s se suprimirà després de la seva dependència %s\n"
 
 #: lib/libalpm/deps.c:191
 #, c-format
@@ -368,24 +368,24 @@ msgstr "ha fallat crear un fitxer temporal per la baixada\n"
 msgid "url '%s' is invalid\n"
 msgstr "l'url \"%s\" no és vàlid\n"
 
-#: lib/libalpm/dload.c:459 lib/libalpm/dload.c:484
+#: lib/libalpm/dload.c:460 lib/libalpm/dload.c:481 lib/libalpm/dload.c:492
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "ha fallat la recuperació del fitxer \"%s\" des de %s: %s\n"
 
-#: lib/libalpm/dload.c:472
+#: lib/libalpm/dload.c:473
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "ha fallat la recuperació del fitxer \"%s\" des de %s: mida de la baixada "
 "superior a l'esperada\n"
 
-#: lib/libalpm/dload.c:520
+#: lib/libalpm/dload.c:528
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s sembla que està truncat: %jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:664 lib/libalpm/dload.c:693
+#: lib/libalpm/dload.c:672 lib/libalpm/dload.c:701
 #, c-format
 msgid "failed to download %s\n"
 msgstr "ha fallat baixar %s\n"
@@ -488,7 +488,7 @@ msgstr "no s'ha pogut actualitzar la base de dades"
 #: lib/libalpm/error.c:80
 #, c-format
 msgid "could not remove database entry"
-msgstr "no s'ha pogut eliminar l'entrada de la base de dades"
+msgstr "no s'ha pogut suprimir l'entrada de la base de dades"
 
 #: lib/libalpm/error.c:83
 #, c-format
@@ -579,7 +579,7 @@ msgstr "no s'ha pogut obrir el fitxer del paquet"
 #: lib/libalpm/error.c:121
 #, c-format
 msgid "cannot remove all files for package"
-msgstr "no s'han pogut eliminar tots els fitxers del paquet"
+msgstr "no s'han pogut suprimir tots els fitxers del paquet"
 
 #: lib/libalpm/error.c:123
 #, c-format
@@ -674,7 +674,7 @@ msgstr "falta el fitxer de bloqueig %s\n"
 #: lib/libalpm/handle.c:163
 #, c-format
 msgid "could not remove lock file %s\n"
-msgstr "no s'ha pogut eliminar el fitxer de bloqueig %s\n"
+msgstr "no s'ha pogut suprimir el fitxer de bloqueig %s\n"
 
 #: lib/libalpm/hook.c:107
 #, c-format
@@ -777,12 +777,12 @@ msgstr "No s'ha pogut trobar %s a la base de dades -- s'omet.\n"
 #: lib/libalpm/remove.c:153
 #, c-format
 msgid "removing %s from target list\n"
-msgstr "Eliminant %s de la llista d'objectius.\n"
+msgstr "Suprimint %s de la llista d'objectius.\n"
 
 #: lib/libalpm/remove.c:345
 #, c-format
 msgid "cannot remove file '%s': %s\n"
-msgstr "no s'ha pogut eliminar el fitxer '%s': %s\n"
+msgstr "no s'ha pogut suprimir el fitxer '%s': %s\n"
 
 #: lib/libalpm/remove.c:410 lib/libalpm/remove.c:419
 #, c-format
@@ -794,17 +794,17 @@ msgstr ""
 #: lib/libalpm/remove.c:561
 #, c-format
 msgid "cannot remove %s (%s)\n"
-msgstr "no es pot eliminar %s (%s)\n"
+msgstr "no es pot suprimir %s (%s)\n"
 
 #: lib/libalpm/remove.c:734
 #, c-format
 msgid "could not remove database entry %s-%s\n"
-msgstr "no s'ha pogut eliminar la entrada de la base de dades %s-%s\n"
+msgstr "no s'ha pogut suprimir l'entrada de la base de dades %s-%s\n"
 
 #: lib/libalpm/remove.c:739
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
-msgstr "no s'ha pogut eliminar l'entrada '%s' de la memòria cau\n"
+msgstr "no s'ha pogut suprimir l'entrada '%s' de la memòria cau\n"
 
 #: lib/libalpm/signing.c:171
 #, c-format
@@ -929,7 +929,7 @@ msgstr "s'ha detectat un paquet amb un conflicte impossible de resoldre\n"
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr ""
-"Eliminant \"%s\" de la llista d'objectius perquè té conflictes amb \"%s\".\n"
+"Suprimint \"%s\" de la llista d'objectius perquè té conflictes amb \"%s\".\n"
 
 #: lib/libalpm/sync.c:1019
 #, c-format
@@ -944,7 +944,7 @@ msgstr "no hi ha prou espai de disc lliure\n"
 #: lib/libalpm/sync.c:1406
 #, c-format
 msgid "could not commit removal transaction\n"
-msgstr "no s'ha pogut fer la transacció d'eliminació\n"
+msgstr "no s'ha pogut fer la transacció de supressió\n"
 
 #: lib/libalpm/sync.c:1414
 #, c-format
@@ -964,12 +964,12 @@ msgstr "no s'ha pogut copiar el fitxer temporal a %s (%s)\n"
 #: lib/libalpm/trans.c:410
 #, c-format
 msgid "could not remove %s\n"
-msgstr "no s'ha pogut eliminar %s\n"
+msgstr "no s'ha pogut suprimir %s\n"
 
 #: lib/libalpm/trans.c:414
 #, c-format
 msgid "could not remove tmpdir %s\n"
-msgstr "no s'ha pogut eliminar el directori temporal %s\n"
+msgstr "no s'ha pogut suprimir el directori temporal %s\n"
 
 #: lib/libalpm/util.c:486
 #, c-format
@@ -981,52 +981,52 @@ msgstr "no es pot escriure a la canonada (%s)\n"
 msgid "unable to read from pipe (%s)\n"
 msgstr "no es pot llegir des de la canonada (%s)\n"
 
-#: lib/libalpm/util.c:590 lib/libalpm/util.c:596
+#: lib/libalpm/util.c:609 lib/libalpm/util.c:615
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "no s'ha pogut crear la canonada (%s)\n"
 
-#: lib/libalpm/util.c:604
+#: lib/libalpm/util.c:623
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "no s'ha pogut bifurcar un nou procés (%s)\n"
 
-#: lib/libalpm/util.c:627
+#: lib/libalpm/util.c:646
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "no s'ha pogut canviar el directori d'arrel (%s)\n"
 
-#: lib/libalpm/util.c:638
+#: lib/libalpm/util.c:658
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "la crida a execv ha fallat (%s)\n"
 
-#: lib/libalpm/util.c:709
+#: lib/libalpm/util.c:737
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "ha fallat la crida a waitpid (%s)\n"
 
-#: lib/libalpm/util.c:719
+#: lib/libalpm/util.c:747
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "l'ordre a fallat a executar-se correctament\n"
 
-#: lib/libalpm/util.c:726
+#: lib/libalpm/util.c:754
 #, c-format
 msgid "Unknown signal"
 msgstr "senyal desconegut"
 
-#: lib/libalpm/util.c:728
+#: lib/libalpm/util.c:756
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "orde cancel·lada pel senyal %d: %s\n"
 
-#: lib/libalpm/util.c:825
+#: lib/libalpm/util.c:853
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "No existeix la memòria cau %s, es crea...\n"
 
-#: lib/libalpm/util.c:856
+#: lib/libalpm/util.c:884
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""

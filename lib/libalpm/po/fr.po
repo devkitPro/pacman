@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-05-15 10:34+1000\n"
+"POT-Creation-Date: 2018-12-12 11:09+1000\n"
 "PO-Revision-Date: 2018-05-20 14:11+0000\n"
 "Last-Translator: Charles Monzat <c.monzat@laposte.net>\n"
 "Language-Team: French (http://www.transifex.com/toofishes/archlinux-pacman/"
@@ -60,7 +60,7 @@ msgstr "problème pendant l’extraction de %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "l’extraction de %s a échoué (%s)\n"
 
-#: lib/libalpm/add.c:154 lib/libalpm/dload.c:561 lib/libalpm/remove.c:541
+#: lib/libalpm/add.c:154 lib/libalpm/dload.c:569 lib/libalpm/remove.c:541
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "impossible de renommer %s en %s (%s)\n"
@@ -105,18 +105,18 @@ msgstr "extraction : n’écrase pas le répertoire par le fichier %s\n"
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "impossible d’extraire %s.pacnew : chemin trop long"
 
-#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:573
+#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:592
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "déterminer le répertoire courant a échoué\n"
 
-#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:578
-#: lib/libalpm/util.c:631
+#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:597
+#: lib/libalpm/util.c:650
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "changer de répertoire vers %s a échoué (%s)\n"
 
-#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:738
+#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:766
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "impossible de restaurer le répertoire de travail (%s)\n"
@@ -371,24 +371,24 @@ msgstr "échec de création d’un fichier temporaire pour le téléchargement\n
 msgid "url '%s' is invalid\n"
 msgstr "l’URL « %s » est non valide\n"
 
-#: lib/libalpm/dload.c:459 lib/libalpm/dload.c:484
+#: lib/libalpm/dload.c:460 lib/libalpm/dload.c:481 lib/libalpm/dload.c:492
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "échec de récupération du fichier « %s » depuis %s : %s\n"
 
-#: lib/libalpm/dload.c:472
+#: lib/libalpm/dload.c:473
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "échec de récupération du fichier « %s » depuis %s : taille attendue "
 "dépassée\n"
 
-#: lib/libalpm/dload.c:520
+#: lib/libalpm/dload.c:528
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s est apparemment tronqué : %jd/%jd octets\n"
 
-#: lib/libalpm/dload.c:664 lib/libalpm/dload.c:693
+#: lib/libalpm/dload.c:672 lib/libalpm/dload.c:701
 #, c-format
 msgid "failed to download %s\n"
 msgstr "le fichier %s n’a pas pu être téléchargé\n"
@@ -986,52 +986,52 @@ msgstr ""
 msgid "unable to read from pipe (%s)\n"
 msgstr "impossible de lire à partir du tube (%s)\n"
 
-#: lib/libalpm/util.c:590 lib/libalpm/util.c:596
+#: lib/libalpm/util.c:609 lib/libalpm/util.c:615
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "impossible de créer le tube (%s)\n"
 
-#: lib/libalpm/util.c:604
+#: lib/libalpm/util.c:623
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "la génération d’un nouveau processus a échoué (%s)\n"
 
-#: lib/libalpm/util.c:627
+#: lib/libalpm/util.c:646
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "changer le répertoire racine a échoué (%s)\n"
 
-#: lib/libalpm/util.c:638
+#: lib/libalpm/util.c:658
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "l’appel à execv a échoué (%s)\n"
 
-#: lib/libalpm/util.c:709
+#: lib/libalpm/util.c:737
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "l’appel de waitpid a échoué (%s)\n"
 
-#: lib/libalpm/util.c:719
+#: lib/libalpm/util.c:747
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "la commande n’a pas pu être exécutée correctement\n"
 
-#: lib/libalpm/util.c:726
+#: lib/libalpm/util.c:754
 #, c-format
 msgid "Unknown signal"
 msgstr "Signal inconnu"
 
-#: lib/libalpm/util.c:728
+#: lib/libalpm/util.c:756
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "commande terminée par le signal %d : %s\n"
 
-#: lib/libalpm/util.c:825
+#: lib/libalpm/util.c:853
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "le cache %s n’existe pas, création…\n"
 
-#: lib/libalpm/util.c:856
+#: lib/libalpm/util.c:884
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""

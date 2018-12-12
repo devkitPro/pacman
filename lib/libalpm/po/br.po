@@ -4,14 +4,14 @@
 #
 # Translators:
 # Gwenn M <tornoz@laposte.net>, 2015
-# Gwenn M <tornoz@laposte.net>, 2015
+# Gwenn M <tornoz@laposte.net>, 2015,2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-05-15 10:34+1000\n"
-"PO-Revision-Date: 2018-05-15 01:05+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2018-12-12 11:09+1000\n"
+"PO-Revision-Date: 2018-08-06 13:32+0000\n"
+"Last-Translator: Gwenn M <tornoz@laposte.net>\n"
 "Language-Team: Breton (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/br/)\n"
 "Language: br\n"
@@ -42,7 +42,7 @@ msgstr "o pellgargañ ar pakad %s (%s => %s)\n"
 #: lib/libalpm/add.c:124
 #, c-format
 msgid "cannot allocate disk archive object"
-msgstr ""
+msgstr "n'haller ket derannañ an ergorenn kantenn diell"
 
 #: lib/libalpm/add.c:138 lib/libalpm/util.c:382
 #, c-format
@@ -54,7 +54,7 @@ msgstr "ur galv diwall a zo bet roet en ur eztennañ %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "n'haller ket eztennañ %s (%s)\n"
 
-#: lib/libalpm/add.c:154 lib/libalpm/dload.c:561 lib/libalpm/remove.c:541
+#: lib/libalpm/add.c:154 lib/libalpm/dload.c:569 lib/libalpm/remove.c:541
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "n'haller ket adenvel %s e %s (%s)\n"
@@ -99,18 +99,18 @@ msgstr "eztannadur : flastradur kavlec'h gant restr %s ebet \n"
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "n'haller ket eztennañ %s.pacnew : re hir eo an treug"
 
-#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:573
+#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:592
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "n'haller ket kaout ar c'havlec'h labour bremanel\n"
 
-#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:578
-#: lib/libalpm/util.c:631
+#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:597
+#: lib/libalpm/util.c:650
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "n'haller ket kemmañ ar c'havlec'h da %s (%s)\n"
 
-#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:738
+#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:766
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "n'haller ket assav ar c'havlec'h labour (%s)\n"
@@ -249,7 +249,7 @@ msgstr ""
 #: lib/libalpm/be_sync.c:524
 #, c-format
 msgid "could not read db '%s' (%s)\n"
-msgstr ""
+msgstr "n'haller ket lenn ar stlennvon '%s' (%s)\n"
 
 #: lib/libalpm/be_sync.c:558 lib/libalpm/be_sync.c:563
 #, c-format
@@ -363,24 +363,24 @@ msgstr "fazi en ur c'hrouiñ ar restr padennek evit ar pellgargañ\n"
 msgid "url '%s' is invalid\n"
 msgstr "direizh eo an url '%s'\n"
 
-#: lib/libalpm/dload.c:459 lib/libalpm/dload.c:484
+#: lib/libalpm/dload.c:460 lib/libalpm/dload.c:481 lib/libalpm/dload.c:492
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "fazi en ur adkavout ar restr '%s' adalek %s : %s\n"
 
-#: lib/libalpm/dload.c:472
+#: lib/libalpm/dload.c:473
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "fazi en ur adkavout ar restr '%s' adalek %s : re vras eo ment ar "
 "pellgargadur\n"
 
-#: lib/libalpm/dload.c:520
+#: lib/libalpm/dload.c:528
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "krennet e seblant bezañ %s : %jd/%jd eizhbit\n"
 
-#: lib/libalpm/dload.c:664 lib/libalpm/dload.c:693
+#: lib/libalpm/dload.c:672 lib/libalpm/dload.c:701
 #, c-format
 msgid "failed to download %s\n"
 msgstr "fazi en ur pellgargañ %s\n"
@@ -674,69 +674,69 @@ msgstr "n'haller ket dilemel ar restr marilhañ %s\n"
 #: lib/libalpm/hook.c:107
 #, c-format
 msgid "Missing trigger targets in hook: %s\n"
-msgstr ""
+msgstr "Mankout a ra bukennoù delusker er c'hrog: %s\n"
 
 #: lib/libalpm/hook.c:113
 #, c-format
 msgid "Missing trigger type in hook: %s\n"
-msgstr ""
+msgstr "Mankout a ra rizh an delusker er c'hrog: %s\n"
 
 #: lib/libalpm/hook.c:119
 #, c-format
 msgid "Missing trigger operation in hook: %s\n"
-msgstr ""
+msgstr "Mankout a ra gwezhiadur an delusker er c'hrog: %s\n"
 
 #: lib/libalpm/hook.c:146
 #, c-format
 msgid "Missing Exec option in hook: %s\n"
-msgstr ""
+msgstr "Mankout a ra an dibarzh Exec er c'hrog: %s\n"
 
 #: lib/libalpm/hook.c:152
 #, c-format
 msgid "Missing When option in hook: %s\n"
-msgstr ""
+msgstr "Mankout a ra an dibarzh When er c'hrog: %s\n"
 
 #: lib/libalpm/hook.c:155
 #, c-format
 msgid "AbortOnFail set for PostTransaction hook: %s\n"
-msgstr ""
+msgstr "AbortOnFail lakaet evit ar c'hrog PostTransaction: %s\n"
 
 #: lib/libalpm/hook.c:273
 #, c-format
 msgid "error while reading hook %s: %s\n"
-msgstr ""
+msgstr "fazi en ul lenn ar c'hrog %s: %s\n"
 
 #: lib/libalpm/hook.c:275 lib/libalpm/hook.c:315 lib/libalpm/hook.c:357
 #, c-format
 msgid "hook %s line %d: invalid option %s\n"
-msgstr ""
+msgstr "krog %s linenn %d: dibarzh didalvoudek %s\n"
 
 #: lib/libalpm/hook.c:285
 #, c-format
 msgid "hook %s line %d: invalid section %s\n"
-msgstr ""
+msgstr "krog %slinenn %d: dibarzh didalvoudek %s\n"
 
 #: lib/libalpm/hook.c:297 lib/libalpm/hook.c:308 lib/libalpm/hook.c:327
 #: lib/libalpm/hook.c:350
 #, c-format
 msgid "hook %s line %d: invalid value %s\n"
-msgstr ""
+msgstr "krog %s linenn %d: gwerzh didalvoudek %s\n"
 
 #: lib/libalpm/hook.c:301 lib/libalpm/hook.c:320 lib/libalpm/hook.c:331
 #: lib/libalpm/hook.c:345
 #, c-format
 msgid "hook %s line %d: overwriting previous definition of %s\n"
-msgstr ""
+msgstr "krog %s linenn %d: flastrañ despizadur kent %s\n"
 
 #: lib/libalpm/hook.c:352
 #, c-format
 msgid "hook %s line %d: unable to set option (%s)\n"
-msgstr ""
+msgstr "krog %s linenn %d: n'haller ket arventennañ an dibarzh (%s)\n"
 
 #: lib/libalpm/hook.c:613
 #, c-format
 msgid "unable to run hook %s: %s\n"
-msgstr ""
+msgstr "n'haller ket lañsañ ar c'hrog %s: %s\n"
 
 #: lib/libalpm/hook.c:648 lib/libalpm/hook.c:660 lib/libalpm/remove.c:385
 #, c-format
@@ -746,7 +746,7 @@ msgstr "n'haller ket digeriñ ar c'havlec'h : %s : %s\n"
 #: lib/libalpm/hook.c:676
 #, c-format
 msgid "could not open file: %s%s: %s\n"
-msgstr ""
+msgstr "n'haller ket digeriñ ar restr: %s %s: %s\n"
 
 #: lib/libalpm/hook.c:696 lib/libalpm/util.c:259
 #, c-format
@@ -756,7 +756,7 @@ msgstr "n'heller ket kaout stad ar restr %s : %s\n"
 #: lib/libalpm/hook.c:722
 #, c-format
 msgid "could not read directory: %s: %s\n"
-msgstr ""
+msgstr "n'haller ket lenn ar c'havlec'h: %s: %s\n"
 
 #: lib/libalpm/package.c:586
 #, c-format
@@ -781,7 +781,7 @@ msgstr "n'heller ket dilemel ar restr '%s' : %s\n"
 #: lib/libalpm/remove.c:410 lib/libalpm/remove.c:419
 #, c-format
 msgid "could not backup %s due to PATH_MAX overflow\n"
-msgstr ""
+msgstr "n'haller ket gwarediñ %sabalamour d'an dic'hlann PATH_MAX\n"
 
 #: lib/libalpm/remove.c:561
 #, c-format
@@ -801,17 +801,17 @@ msgstr "n'haller ket dilemel an enankad '%s' eus ar c'hrubuilh\n"
 #: lib/libalpm/signing.c:171
 #, c-format
 msgid "Public keyring not found; have you run '%s'?\n"
-msgstr ""
+msgstr "Ne gaver ket an droñsell foran; lañset ho peus '%s'?\n"
 
 #: lib/libalpm/signing.c:207 lib/libalpm/signing.c:705
 #, c-format
 msgid "GPGME error: %s\n"
-msgstr ""
+msgstr "Fazi GPGME: %s\n"
 
 #: lib/libalpm/signing.c:402
 #, c-format
 msgid "keyring is not writable\n"
-msgstr ""
+msgstr "n'haller ket skrivañ en droñsell\n"
 
 #: lib/libalpm/signing.c:460
 #, c-format
@@ -970,52 +970,52 @@ msgstr "n'haller ket skrivañ er gorzenn (%s)\n"
 msgid "unable to read from pipe (%s)\n"
 msgstr "n'haller ket lenn ar gorzenn (%s)\n"
 
-#: lib/libalpm/util.c:590 lib/libalpm/util.c:596
+#: lib/libalpm/util.c:609 lib/libalpm/util.c:615
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "n'haller ket krouiñ ar gorzenn (%s)\n"
 
-#: lib/libalpm/util.c:604
+#: lib/libalpm/util.c:623
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "n'haller ket genel un araezad nevez (%s)\n"
 
-#: lib/libalpm/util.c:627
+#: lib/libalpm/util.c:646
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "n'haller ket kemmañ ar c'havlec'h gwrizienn (%s)\n"
 
-#: lib/libalpm/util.c:638
+#: lib/libalpm/util.c:658
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "c'hwitadenn war galv execv (%s)\n"
 
-#: lib/libalpm/util.c:709
+#: lib/libalpm/util.c:737
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "c'hwitadenn war galv waitpid (%s)\n"
 
-#: lib/libalpm/util.c:719
+#: lib/libalpm/util.c:747
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "c'hwitadenn war erounezadur an urzh\n"
 
-#: lib/libalpm/util.c:726
+#: lib/libalpm/util.c:754
 #, c-format
 msgid "Unknown signal"
 msgstr "Arhent dianav"
 
-#: lib/libalpm/util.c:728
+#: lib/libalpm/util.c:756
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "arsavet eo bet an urzh gant an arhent %d : %s\n"
 
-#: lib/libalpm/util.c:825
+#: lib/libalpm/util.c:853
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "n'eus krubuilh %s ebet, o krouiñ...\n"
 
-#: lib/libalpm/util.c:856
+#: lib/libalpm/util.c:884
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""

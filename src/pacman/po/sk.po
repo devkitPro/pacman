@@ -9,16 +9,17 @@
 # Dušan Kazik <prescott66@gmail.com>, 2016
 # Dušan Lago <inactive+dudko@transifex.com>, 2011,2013
 # Dušan Lago <inactive+dudko@transifex.com>, 2011,2013
+# Erik Bročko <erik.brocko@letemsvetemapplem.eu>, 2018
 # Jose Riha <jose1711@gmail.com>, 2011
 # Jose Riha <jose1711@gmail.com>, 2011
-# Jose Riha <jose1711@gmail.com>, 2011
+# Jose Riha <jose1711@gmail.com>, 2011,2018
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
 "POT-Creation-Date: 2018-07-19 14:06+1000\n"
-"PO-Revision-Date: 2018-07-19 04:15+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"PO-Revision-Date: 2018-12-05 16:04+0000\n"
+"Last-Translator: Erik Bročko <erik.brocko@letemsvetemapplem.eu>\n"
 "Language-Team: Slovak (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/sk/)\n"
 "Language: sk\n"
@@ -56,7 +57,7 @@ msgstr "riešim závislosti.....\n"
 #: src/pacman/callback.c:208
 #, c-format
 msgid "looking for conflicting packages...\n"
-msgstr "kontrolujem konfliky balíčkov...\n"
+msgstr "kontrolujem konflikty balíčkov...\n"
 
 #: src/pacman/callback.c:211
 #, c-format
@@ -366,7 +367,7 @@ msgstr "%s: žiadny mtree súbor\n"
 #: src/pacman/check.c:312
 #, c-format
 msgid "path too long: %slocal/%s-%s/%s\n"
-msgstr ""
+msgstr "príliš dlhá cesta: %slocal/%s-%s/%s\n"
 
 #: src/pacman/check.c:339
 #, c-format
@@ -548,17 +549,17 @@ msgstr "%s: dôvod pre inštaláciu bol nastavený na 'explicitne nainštalovan�
 #: src/pacman/database.c:293
 #, c-format
 msgid "No database errors have been found!\n"
-msgstr ""
+msgstr "Neboli nájdené žiadne chyby databázy!\n"
 
 #: src/pacman/files.c:81
 #, c-format
 msgid "%s is owned by %s%s/%s%s %s%s%s\n"
-msgstr ""
+msgstr "%s vlastní %s%s/%s%s %s%s%s\n"
 
 #: src/pacman/files.c:223
 #, c-format
 msgid "invalid package: '%s'\n"
-msgstr ""
+msgstr "neplatný balíček: '%s'\n"
 
 #: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
 #, c-format
@@ -573,7 +574,7 @@ msgstr "Synchronizujem databázu balíčkov...\n"
 #: src/pacman/files.c:320
 #, c-format
 msgid "no options specified (use -h for help)\n"
-msgstr ""
+msgstr "neboli špecifikované žiadne možnosti (použite -h pre nápovedu)\n"
 
 #: src/pacman/package.c:99
 #, c-format
@@ -1048,7 +1049,7 @@ msgstr ""
 #: src/pacman/pacman.c:174
 #, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
-msgstr ""
+msgstr "  -q, --quiet          zobraziť menej správ o úspechu\n"
 
 #: src/pacman/pacman.c:182
 #, c-format
@@ -1078,6 +1079,9 @@ msgid ""
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
+"      --overwrite <path>\n"
+"                       prepísať konfliktné súbory (môže byť použité "
+"viackrát)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1185,6 +1189,8 @@ msgstr "      --arch <arch>    nastaviť alternatívnu architektúru\n"
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
+"      --sysroot        pracovať nad pripojeným hosťovským systémom (len pre "
+"roota)\n"
 
 #: src/pacman/pacman.c:218
 #, c-format
@@ -1238,6 +1244,8 @@ msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
+"      --disable-download-timeout\n"
+"                       použiť voľnejšie časové limity pre sťahovanie\n"
 
 #: src/pacman/pacman.c:247
 #, c-format
@@ -1251,7 +1259,7 @@ msgstr ""
 #: src/pacman/pacman.c:280
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
-msgstr ""
+msgstr "HTTP_USER_AGENT bol skrátený\n"
 
 #: src/pacman/pacman.c:312
 #, c-format
@@ -1273,7 +1281,7 @@ msgstr "'%s' nie je platná ladiaca úroveň\n"
 #: src/pacman/pacman.c:721
 #, c-format
 msgid "option --force is deprecated; use --overwrite instead\n"
-msgstr ""
+msgstr "možnosť --force je zastaralá; použite radšej --overwrite\n"
 
 #: src/pacman/pacman.c:981
 #, c-format
@@ -1298,12 +1306,12 @@ msgstr "operáciu nie je možné uskutočniť, ak nie ste root.\n"
 #: src/pacman/pacman.c:1172
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
-msgstr ""
+msgstr "chroot do '%s' zlyhal: (%s)\n"
 
 #: src/pacman/pacman.c:1206
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
-msgstr ""
+msgstr "zlyhalo čítanie argumentov zo stdin: (%s)\n"
 
 #: src/pacman/pacman.c:1211
 #, c-format
@@ -1328,7 +1336,7 @@ msgstr "nebola špecifikovaná operácia (použite -h pre nápovedu)\n"
 #: src/pacman/query.c:87
 #, c-format
 msgid "%s is owned by %s%s %s%s%s\n"
-msgstr ""
+msgstr "%s vlastní %s%s %s%s%s\n"
 
 #: src/pacman/query.c:149
 #, c-format
@@ -1338,7 +1346,7 @@ msgstr "nebol určený súbor pre --owns\n"
 #: src/pacman/query.c:170
 #, c-format
 msgid "empty string passed to file owner query\n"
-msgstr ""
+msgstr "dopytu na vlastníka súboru bol odovzdaný prázdny reťazec\n"
 
 #: src/pacman/query.c:197 src/pacman/query.c:219
 #, c-format
@@ -1500,10 +1508,10 @@ msgstr "repozitár \"%s\" nebol nájdený.\n"
 #, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%d člen v skupine %s%s%s:\n"
+msgstr[1] "%d členovia v skupine %s%s%s:\n"
+msgstr[2] "%d členov v skupine %s%s%s:\n"
+msgstr[3] "%d členov v skupine %s%s%s:\n"
 
 #: src/pacman/sync.c:640
 #, c-format
@@ -1523,17 +1531,17 @@ msgstr "Spúšťam aktualizáciu celého systému...\n"
 #: src/pacman/sync.c:720
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
-msgstr ""
+msgstr "nemožno splniť závislosť '%s' vyžadovanú balíčkom %s\n"
 
 #: src/pacman/sync.c:724
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
-msgstr ""
+msgstr "inštalácia %s (%s) poruší závislosť '%s' vyžadovanú balíčkom %s\n"
 
 #: src/pacman/sync.c:728
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr ""
+msgstr "odstránenie %s poruší závislosť '%s' vyžadovanú balíčkom %s\n"
 
 #: src/pacman/sync.c:748
 #, c-format
@@ -1573,7 +1581,7 @@ msgstr "%s sa nachádza v '%s' a '%s'\n"
 #: src/pacman/sync.c:828
 #, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
-msgstr ""
+msgstr "%s: %s už existuje v súborovom systéme (vlastnený %s)\n"
 
 #: src/pacman/sync.c:831
 #, c-format
@@ -1647,7 +1655,7 @@ msgstr " %s je aktuálny\n"
 #: src/pacman/util.c:170
 #, c-format
 msgid "failed to synchronize all databases\n"
-msgstr ""
+msgstr "zlyhala synchronizácia všetkých databáz\n"
 
 #: src/pacman/util.c:636
 #, c-format
@@ -1782,7 +1790,7 @@ msgstr "Voliteľné závislosti pre %s\n"
 #: src/pacman/util.c:1285
 #, c-format
 msgid "Repository %s%s\n"
-msgstr ""
+msgstr "Repozitár %s%s\n"
 
 #: src/pacman/util.c:1326
 #, c-format
