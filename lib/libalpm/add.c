@@ -53,6 +53,7 @@ int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 	const char *pkgname, *pkgver;
 	alpm_trans_t *trans;
 	alpm_pkg_t *local;
+	alpm_pkg_t *dup;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
@@ -70,7 +71,12 @@ int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "adding package '%s'\n", pkgname);
 
-	if(alpm_pkg_find(trans->add, pkgname)) {
+	if((dup = alpm_pkg_find(trans->add, pkgname))) {
+		if(dup == pkg) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "skipping duplicate target: %s\n", pkgname);
+			return 0;
+		}
+		/* error for separate packages with the same name */
 		RET_ERR(handle, ALPM_ERR_TRANS_DUP_TARGET, -1);
 	}
 

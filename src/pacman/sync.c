@@ -521,15 +521,8 @@ static int process_pkg(alpm_pkg_t *pkg)
 
 	if(ret == -1) {
 		alpm_errno_t err = alpm_errno(config->handle);
-		if(err == ALPM_ERR_TRANS_DUP_TARGET) {
-			/* just skip duplicate targets */
-			pm_printf(ALPM_LOG_WARNING, _("skipping target: %s\n"), alpm_pkg_get_name(pkg));
-			return 0;
-		} else {
-			pm_printf(ALPM_LOG_ERROR, "'%s': %s\n", alpm_pkg_get_name(pkg),
-					alpm_strerror(err));
-			return 1;
-		}
+		pm_printf(ALPM_LOG_ERROR, "'%s': %s\n", alpm_pkg_get_name(pkg), alpm_strerror(err));
+		return 1;
 	}
 	config->explicit_adds = alpm_list_add(config->explicit_adds, pkg);
 	return 0;

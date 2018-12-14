@@ -74,7 +74,8 @@ int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 	pkgname = pkg->name;
 
 	if(alpm_pkg_find(trans->remove, pkgname)) {
-		RET_ERR(handle, ALPM_ERR_TRANS_DUP_TARGET, -1);
+		_alpm_log(handle, ALPM_LOG_DEBUG, "skipping duplicate target: %s\n", pkgname);
+		return 0;
 	}
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "adding package %s to the transaction remove list\n",
