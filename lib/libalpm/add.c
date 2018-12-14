@@ -80,8 +80,7 @@ int SYMEXPORT alpm_add_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 		RET_ERR(handle, ALPM_ERR_TRANS_DUP_TARGET, -1);
 	}
 
-	local = _alpm_db_get_pkgfromcache(handle->db_local, pkgname);
-	if(local) {
+	if((local = _alpm_db_get_pkgfromcache(handle->db_local, pkgname))) {
 		const char *localpkgname = local->name;
 		const char *localpkgver = local->version;
 		int cmp = _alpm_pkg_compare_versions(pkg, local);
