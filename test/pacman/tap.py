@@ -21,6 +21,11 @@ failed = 0
 def _output(msg):
     print("%s%s" % ("    "*level, str(msg).replace("\n", "\\n")))
 
+def skip_all(description=""):
+    if description:
+        description = " # " + description
+    _output("1..0%s" % (description))
+
 def ok(ok, description=""):
     global count, failed
     count += 1
