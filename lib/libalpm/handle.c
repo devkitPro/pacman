@@ -876,6 +876,8 @@ int SYMEXPORT alpm_option_set_disable_dl_timeout(alpm_handle_t *handle,
 	CHECK_HANDLE(handle, return -1);
 #ifdef HAVE_LIBCURL
 	handle->disable_dl_timeout = disable_dl_timeout;
+#else
+	(void)disable_dl_timeout; /* silence unused variable warnings */
 #endif
 	return 0;
 }
