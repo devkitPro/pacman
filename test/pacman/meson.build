@@ -342,19 +342,26 @@ foreach testobj : pacman_tests
   input = testobj.get('name')
   test_name = input.split('/')[1]
   should_fail = testobj.get('should_fail', false)
+  args = [
+    join_paths(meson.source_root(), 'build-aux/tap-driver.py'),
+    join_paths(meson.current_source_dir(), 'pactest.py'),
+    '--scriptlet-shell', get_option('scriptlet-shell'),
+    '--bindir', meson.build_root(),
+    '--ldconfig', LDCONFIG,
+    '--verbose',
+    join_paths(meson.current_source_dir(), input)
+  ]
+  if not conf.get('HAVE_LIBCURL')
+    args += '--without-curl'
+  endif
+  if not conf.get('HAVE_LIBGPGME')
+    args += '--without-gpg'
+  endif
 
   test(
     test_name,
     PYTHON,
-    args : [
-      join_paths(meson.source_root(), 'build-aux/tap-driver.py'),
-      join_paths(meson.current_source_dir(), 'pactest.py'),
-      '--scriptlet-shell', get_option('scriptlet-shell'),
-      '--bindir', meson.build_root(),
-      '--ldconfig', LDCONFIG,
-      '--verbose',
-      join_paths(meson.current_source_dir(), input)
-    ],
+    args : args,
     depends : [pacman_bin],
     should_fail : should_fail)
 endforeach

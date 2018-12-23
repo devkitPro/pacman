@@ -51,6 +51,12 @@ AM_PY_LOG_FLAGS = \
 		--ldconfig $(LDCONFIG) \
 		--bindir $(top_builddir)/src/pacman \
 		--bindir $(top_builddir)/scripts
+if !HAVE_LIBGPGME
+AM_PY_LOG_FLAGS += --without-gpg
+endif
+if !HAVE_LIBCURL
+AM_PY_LOG_FLAGS += --without-curl
+endif
 
 # create the pacman DB, cache, makepkg-template and system hook directories upon install
 install-data-local:

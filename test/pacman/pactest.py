@@ -77,6 +77,15 @@ def create_parser():
     parser.add_option("--bindir", type = "string",
                       dest = "bindir", action = "append",
                       help = "specify location of binaries")
+    parser.add_option("--without-gpg", action = "store_true",
+                      dest = "missing_gpg", default = False,
+                      help = "skip gpg-related tests")
+    parser.add_option("--without-curl", action = "store_true",
+                      dest = "missing_curl", default = False,
+                      help = "skip downloader-related tests")
+    parser.add_option("--without-nls", action = "store_true",
+                      dest = "missing_nls", default = False,
+                      help = "skip translation-related tests")
     parser.add_option("--keep-root", action = "store_true",
                       dest = "keeproot", default = False,
                       help = "don't remove the generated pacman root filesystem")
@@ -137,6 +146,9 @@ if __name__ == "__main__":
     env.pacman["manual-confirm"] = opts.manualconfirm
     env.pacman["scriptlet-shell"] = opts.scriptletshell
     env.pacman["ldconfig"] = opts.ldconfig
+    env.config["gpg"] = not opts.missing_gpg
+    env.config["nls"] = not opts.missing_nls
+    env.config["curl"] = not opts.missing_curl
 
     try:
         for i in args:

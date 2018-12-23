@@ -36,6 +36,11 @@ class pmenv(object):
             "valgrind": 0,
             "nolog": 0
         }
+        self.config = {
+            "gpg": True,
+            "nls": True,
+            "curl": True
+        }
 
     def __str__(self):
         return "root = %s\n" \
@@ -52,15 +57,18 @@ class pmenv(object):
     def run(self):
         """
         """
-        tap.plan(len(self.testcases))
         for testcase in self.testcases:
-            t = pmtest.pmtest(testcase, self.root)
-            tap.diag("Running '%s'" % t.testname)
-
+            t = pmtest.pmtest(testcase, self.root, self.config)
             t.load()
-            t.generate(self.pacman)
-            t.run(self.pacman)
+            if t.skipall:
+                tap.skip_all("skipping %s (%s)" % (t.description, t.skipall))
+            else:
+                tap.plan(1)
+                tap.diag("Running '%s'" % t.testname)
 
-            tap.diag("==> Checking rules")
-            tap.todo = t.expectfailure
-            tap.subtest(lambda: t.check(), t.description)
+                t.generate(self.pacman)
+                t.run(self.pacman)
+
+                tap.diag("==> Checking rules")
+                tap.todo = t.expectfailure
+                tap.subtest(lambda: t.check(), t.description)

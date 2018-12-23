@@ -33,12 +33,13 @@ class pmtest(object):
     """Test object
     """
 
-    def __init__(self, name, root):
+    def __init__(self, name, root, config):
         self.name = name
         self.testname = os.path.basename(name).replace('.py', '')
         self.root = root
         self.dbver = 9
         self.cachepkgs = True
+        self.config = config
         self.cmd = ["pacman", "--noconfirm",
                 "--config", self.configfile(),
                 "--root", self.rootdir(),
@@ -101,6 +102,7 @@ class pmtest(object):
         self.rules = []
         self.files = []
         self.expectfailure = False
+        self.skipall = False
 
         if os.path.isfile(self.name):
             # all tests expect this to be available
@@ -200,6 +202,10 @@ class pmtest(object):
             f = pmfile.snapshot(self.root, filename)
             self.files.append(f)
             vprint("\t%s" % f.name)
+
+    def require_capability(self, cap):
+        if not self.config[cap]:
+            self.skipall = "missing capability " + cap
 
     def add_hook(self, name, content):
         if not name.endswith(".hook"):
