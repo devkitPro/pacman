@@ -160,6 +160,3 @@ if __name__ == "__main__":
         shutil.rmtree(root_path)
     else:
         tap.diag("pacman testing root saved: %s" % root_path)
-
-    if env.failed > 0:
-        sys.exit(1)

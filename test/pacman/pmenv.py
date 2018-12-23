@@ -24,12 +24,7 @@ import tap
 class pmenv(object):
     """Environment object
     """
-
     testcases = []
-    passed = 0
-    failed = 0
-    expectedfail = 0
-    unexpectedpass = 0
 
     def __init__(self, root = "root"):
         self.root = os.path.abspath(root)
