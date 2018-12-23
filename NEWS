@@ -1,5 +1,20 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+5.1.2         - pacman-conf: add missing DisableDownloadTimeout support
+              - Include version when checking optdepend install status
+                during -Qi (FS#60106)
+              - Improve error message for unresolvable urls (FS#48285)
+              - Do not raise SIGINT when a downloaded file exceeds the expected
+                size
+              - Fix previous download interruption status carrying over to new
+                downloads
+              - Reset known signal handlers before running install scripts or
+                hooks (FS#56756)
+              - Properly handle signal interrupts while running install scripts
+                or hooks (FS#60396)
+              - Allow explicitly disabling signature checks when compiled
+                without signature support (FS#60880)
+              - makepkg: fix linting error on environment variables (FS#60681)
 5.1.1         - Allow full path including root prefix to be passed to
                 --overwrite
               - Revert deprecation of --root
