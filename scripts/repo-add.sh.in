@@ -611,7 +611,7 @@ remove() {
 	msg "$(gettext "Searching for package '%s'...")" "$pkgname"
 
 	if db_remove_entry "$pkgname"; then
-		rm -f "$tmpdir/tree/$pkgname.deltas"
+		rm -f "$tmpdir/db/$pkgname.deltas"
 		return 0
 	else
 		error "$(gettext "Package matching '%s' not found.")" "$pkgname"
