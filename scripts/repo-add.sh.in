@@ -159,8 +159,8 @@ db_write_delta() {
 	md5sum=${md5sum%% *}
 	csize=$(wc -c "$deltafile" | cut -d' ' -f1)
 
-	oldfile=$(xdelta3 printhdr "$deltafile" | grep "XDELTA filename (source)" | sed 's/.*: *//')
-	newfile=$(xdelta3 printhdr "$deltafile" | grep "XDELTA filename (output)" | sed 's/.*: *//')
+	oldfile=$(xdelta3 printhdr "$deltafile" | sed -n 's/XDELTA filename (source):\s\+\(\.*\)/\1/p')
+	newfile=$(xdelta3 printhdr "$deltafile" | sed -n 's/XDELTA filename (output):\s\+\(\.*\)/\1/p')
 
 	if grep -q "$oldfile.*$newfile" "$deltas"; then
 		sed -i.backup "/$oldfile.*$newfile/d" "$deltas" && rm -f "$deltas.backup"
