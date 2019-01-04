@@ -58,6 +58,7 @@ known_hash_algos=('md5' 'sha1' 'sha224' 'sha256' 'sha384' 'sha512')
 # Options
 ASDEPS=0
 BUILDFUNC=0
+BUILDPKG=1
 CHECKFUNC=0
 CLEANBUILD=0
 CLEANUP=0
@@ -1047,7 +1048,7 @@ while true; do
 		--noprogressbar)  PACMAN_OPTS+=("--noprogressbar") ;;
 
 		# Makepkg Options
-		--allsource)      SOURCEONLY=2 ;;
+		--allsource)      BUILDPKG=0 SOURCEONLY=2 ;;
 		-A|--ignorearch)  IGNOREARCH=1 ;;
 		-c|--clean)       CLEANUP=1 ;;
 		-C|--cleanbuild)  CLEANBUILD=1 ;;
@@ -1058,7 +1059,7 @@ while true; do
 		-f|--force)       FORCE=1 ;;
 		-F)               INFAKEROOT=1 ;;
 		# generating integrity checks does not depend on architecture
-		-g|--geninteg)    GENINTEG=1 IGNOREARCH=1;;
+		-g|--geninteg)    BUILDPKG=0 GENINTEG=1 IGNOREARCH=1;;
 		--holdver)        HOLDVER=1 ;;
 		-i|--install)     INSTALL=1 ;;
 		--key)            shift; GPGKEY=$1 ;;
@@ -1068,10 +1069,10 @@ while true; do
 		--nocheck)        RUN_CHECK='n' ;;
 		--noprepare)      RUN_PREPARE='n' ;;
 		--nosign)         SIGNPKG='n' ;;
-		-o|--nobuild)     NOBUILD=1 ;;
+		-o|--nobuild)     BUILDPKG=0 NOBUILD=1 ;;
 		-p)               shift; BUILDFILE=$1 ;;
-		--packagelist)    PACKAGELIST=1 IGNOREARCH=1;;
-		--printsrcinfo)   PRINTSRCINFO=1 IGNOREARCH=1;;
+		--packagelist)    BUILDPKG=0 PACKAGELIST=1 IGNOREARCH=1;;
+		--printsrcinfo)   BUILDPKG=0 PRINTSRCINFO=1 IGNOREARCH=1;;
 		-r|--rmdeps)      RMDEPS=1 ;;
 		-R|--repackage)   REPKG=1 ;;
 		--sign)           SIGNPKG='y' ;;
@@ -1079,8 +1080,8 @@ while true; do
 		--skipinteg)      SKIPCHECKSUMS=1; SKIPPGPCHECK=1 ;;
 		--skippgpcheck)   SKIPPGPCHECK=1;;
 		-s|--syncdeps)    DEP_BIN=1 ;;
-		-S|--source)      SOURCEONLY=1 ;;
-		--verifysource)   VERIFYSOURCE=1 ;;
+		-S|--source)      BUILDPKG=0 SOURCEONLY=1 ;;
+		--verifysource)   BUILDPKG=0 VERIFYSOURCE=1 ;;
 
 		-h|--help)        usage; exit $E_OK ;;
 		-V|--version)     version; exit $E_OK ;;
