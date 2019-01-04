@@ -924,10 +924,10 @@ restore_package_variables() {
 
 run_split_packaging() {
 	local pkgname_backup=("${pkgname[@]}")
+	backup_package_variables
 	for pkgname in ${pkgname_backup[@]}; do
 		pkgdir="$pkgdirbase/$pkgname"
 		mkdir "$pkgdir"
-		backup_package_variables
 		run_package $pkgname
 		tidy_install
 		lint_package || exit $E_PACKAGE_FAILED
