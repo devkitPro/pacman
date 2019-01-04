@@ -739,7 +739,7 @@ create_debug_package() {
 		return 0
 	fi
 
-	pkgdir="$pkgdirbase/$pkgbase-@DEBUGSUFFIX@"
+	local pkgdir="$pkgdirbase/$pkgbase-@DEBUGSUFFIX@"
 
 	# check if we have any debug symbols to package
 	if dir_is_empty "$pkgdir/usr/lib/debug"; then
@@ -923,7 +923,7 @@ restore_package_variables() {
 }
 
 run_single_packaging() {
-	pkgdir="$pkgdirbase/$pkgname"
+	local pkgdir="$pkgdirbase/$pkgname"
 	mkdir "$pkgdir"
 	if [[ -n $1 ]] || (( PKGFUNC )); then
 		run_package $1
