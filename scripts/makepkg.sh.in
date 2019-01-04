@@ -922,20 +922,25 @@ restore_package_variables() {
 	done
 }
 
+run_single_packaging() {
+	pkgdir="$pkgdirbase/$pkgname"
+	mkdir "$pkgdir"
+	if [[ -n $1 ]] || (( PKGFUNC )); then
+		run_package $1
+	fi
+	tidy_install
+	lint_package || exit $E_PACKAGE_FAILED
+	create_package
+}
+
 run_split_packaging() {
 	local pkgname_backup=("${pkgname[@]}")
 	backup_package_variables
 	for pkgname in ${pkgname_backup[@]}; do
-		pkgdir="$pkgdirbase/$pkgname"
-		mkdir "$pkgdir"
-		run_package $pkgname
-		tidy_install
-		lint_package || exit $E_PACKAGE_FAILED
-		create_package
+		run_single_packaging $pkgname
 		restore_package_variables
 	done
 	pkgname=("${pkgname_backup[@]}")
-	create_debug_package
 }
 
 usage() {
@@ -1337,18 +1342,12 @@ if (( INFAKEROOT )); then
 
 	chmod 755 "$pkgdirbase"
 	if (( ! SPLITPKG )); then
-		pkgdir="$pkgdirbase/$pkgname"
-		mkdir "$pkgdir"
-		if (( PKGFUNC )); then
-			run_package
-		fi
-		tidy_install
-		lint_package || exit $E_PACKAGE_FAILED
-		create_package
-		create_debug_package
+		run_single_packaging
 	else
 		run_split_packaging
 	fi
+	
+	create_debug_package
 
 	msg "$(gettext "Leaving %s environment.")" "fakeroot"
 	exit $E_OK
