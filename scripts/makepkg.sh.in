@@ -1144,7 +1144,7 @@ fi
 
 # canonicalize paths and provide defaults if anything is still undefined
 for var in PKGDEST SRCDEST SRCPKGDEST LOGDEST BUILDDIR; do
-	printf -v "$var" "$(canonicalize_path "${!var:-$startdir}")"
+	printf -v "$var" '%s' "$(canonicalize_path "${!var:-$startdir}")"
 done
 unset var
 PACKAGER=${PACKAGER:-"Unknown Packager"}
