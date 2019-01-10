@@ -29,7 +29,7 @@ executable_functions+=('executable_checksum')
 executable_checksum() {
 	if (( GENINTEG || ! SKIPCHECKSUMS )); then
 		local integlist
-		IFS=$'\n' read -rd '' -a integlist < <(get_integlist)
+		mapfile -t integlist < <(get_integlist)
 
 		local integ
 		for integ in "${integlist[@]}"; do
