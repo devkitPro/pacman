@@ -443,6 +443,7 @@ if test "x$debug" = "xyes" ; then
 	# Check for -fstack-protector availability
 	GCC_STACK_PROTECT_LIB
 	GCC_STACK_PROTECT_CC
+	GCC_STACK_CLASH_PROTECTION
 	GCC_FORTIFY_SOURCE_CC
 	WARNING_CFLAGS="-g -Wall -Werror"
 else

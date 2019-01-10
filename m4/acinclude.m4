@@ -38,6 +38,25 @@ AC_DEFUN([GCC_STACK_PROTECT_CC],[
   fi
 ])
 
+dnl GCC_STACK_CLASH_PROTECTION
+dnl check -fstack-clash-protection with the C compiler, if it exists then
+dnl updates CFLAGS
+AC_DEFUN([GCC_STACK_CLASH_PROTECTION],[
+  AC_LANG_ASSERT(C)
+  if test "X$CC" != "X"; then
+    AC_CACHE_CHECK([whether ${CC} accepts -fstack-clash-protection],
+      scp_cv_cc,
+      [scp_old_cflags="$CFLAGS"
+       CFLAGS="$CFLAGS -fstack-clash-protection"
+       AC_TRY_COMPILE(,, scp_cv_cc=yes, scp_cv_cc=no)
+       CFLAGS="$scp_old_cflags"
+      ])
+    if test $scp_cv_cc = yes; then
+      CFLAGS="$CFLAGS -fstack-clash-protection"
+    fi
+  fi
+])
+
 dnl GCC_FORTIFY_SOURCE_CC
 dnl checks -D_FORTIFY_SOURCE with the C compiler, if it exists then updates
 dnl CPPFLAGS
