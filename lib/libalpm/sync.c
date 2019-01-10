@@ -51,7 +51,7 @@
 /** Check for new version of pkg in sync repos
  * (only the first occurrence is considered in sync)
  */
-alpm_pkg_t SYMEXPORT *alpm_sync_newversion(alpm_pkg_t *pkg, alpm_list_t *dbs_sync)
+alpm_pkg_t SYMEXPORT *alpm_sync_get_new_version(alpm_pkg_t *pkg, alpm_list_t *dbs_sync)
 {
 	alpm_list_t *i;
 	alpm_pkg_t *spkg = NULL;
@@ -61,10 +61,6 @@ alpm_pkg_t SYMEXPORT *alpm_sync_newversion(alpm_pkg_t *pkg, alpm_list_t *dbs_syn
 
 	for(i = dbs_sync; !spkg && i; i = i->next) {
 		alpm_db_t *db = i->data;
-		if(!(db->usage & ALPM_DB_USAGE_SEARCH)) {
-			continue;
-		}
-
 		spkg = _alpm_db_get_pkgfromcache(db, pkg->name);
 	}
 

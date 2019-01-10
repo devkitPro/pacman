@@ -286,7 +286,7 @@ static int filter(alpm_pkg_t *pkg)
 		return 0;
 	}
 	/* check if this pkg is outdated */
-	if(config->op_q_upgrade && (alpm_sync_newversion(pkg,
+	if(config->op_q_upgrade && (alpm_sync_get_new_version(pkg,
 					alpm_get_syncdbs(config->handle)) == NULL)) {
 		return 0;
 	}
@@ -325,7 +325,7 @@ static int display(alpm_pkg_t *pkg)
 					colstr->version, alpm_pkg_get_version(pkg), colstr->nocolor);
 
 			if(config->op_q_upgrade) {
-				alpm_pkg_t *newpkg = alpm_sync_newversion(pkg, alpm_get_syncdbs(config->handle));
+				alpm_pkg_t *newpkg = alpm_sync_get_new_version(pkg, alpm_get_syncdbs(config->handle));
 				printf(" -> %s%s%s", colstr->version, alpm_pkg_get_version(newpkg), colstr->nocolor);
 
 				if(alpm_pkg_should_ignore(config->handle, pkg)) {

@@ -1452,7 +1452,7 @@ alpm_list_t *alpm_find_group_pkgs(alpm_list_t *dbs, const char *name);
  * Sync
  */
 
-alpm_pkg_t *alpm_sync_newversion(alpm_pkg_t *pkg, alpm_list_t *dbs_sync);
+alpm_pkg_t *alpm_sync_get_new_version(alpm_pkg_t *pkg, alpm_list_t *dbs_sync);
 
 /** @addtogroup alpm_api_trans Transaction Functions
  * Functions to manipulate libalpm transactions
