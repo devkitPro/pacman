@@ -1222,7 +1222,7 @@ unset "${!sha384sums_@}" "${!sha512sums_@}"
 BUILDFILE=${BUILDFILE:-$BUILDSCRIPT}
 if [[ ! -f $BUILDFILE ]]; then
 	error "$(gettext "%s does not exist.")" "$BUILDFILE"
-	exit $E_USER_FUNCTION_FAILED
+	exit $E_PKGBUILD_ERROR
 
 else
 	if [[ $(<"$BUILDFILE") = *$'\r'* ]]; then
