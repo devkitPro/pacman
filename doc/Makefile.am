@@ -20,19 +20,7 @@ MANPAGES = \
 
 DOXYGEN_MANS = $(wildcard man3/*.3)
 
-HTML_MANPAGES = \
-	alpm-hooks.5.html \
-	pacman.8.html \
-	makepkg.8.html \
-	makepkg-template.1.html \
-	repo-add.8.html \
-	vercmp.8.html \
-	pkgdelta.8.html \
-	pacman-key.8.html \
-	PKGBUILD.5.html \
-	makepkg.conf.5.html \
-	pacman.conf.5.html \
-	libalpm.3.html
+HTML_MANPAGES = $(addsuffix .html,$(MANPAGES))
 
 HTML_OTHER = \
 	index.html \
