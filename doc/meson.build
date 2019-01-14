@@ -14,6 +14,13 @@ manpages = [
   { 'name': 'BUILDINFO.5' },
 ]
 
+sitepages = [
+  { 'name': 'submitting-patches' },
+  { 'name': 'translation-help' },
+  { 'name': 'HACKING', 'source': '../HACKING' },
+  { 'name': 'index' },
+]
+
 asciidoc_conf = join_paths(meson.current_source_dir(), 'asciidoc.conf')
 
 asciidoc_opts = [
@@ -58,6 +65,12 @@ foreach page : manpages
     install : true,
     install_dir : mandirn,
   )
+endforeach
+
+foreach page: manpages + sitepages
+  manpage = page['name']
+  htmlpage = '@0@.html'.format(manpage)
+  input = page.get('source', '@0@.asciidoc'.format(manpage))
 
   html = custom_target(
     htmlpage,
@@ -96,10 +109,6 @@ custom_target(
     '-C', meson.current_build_dir(),
   ] + html_files + [
     '-C', meson.current_source_dir(),
-    'submitting-patches.html',
-    'translation-help.html',
-    'HACKING.html',
-    'index.html',
     'asciidoc-override.css',
     '-C', '/etc/asciidoc/stylesheets/',
     'asciidoc.css',
