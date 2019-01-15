@@ -33,8 +33,13 @@ lint_pkgbuild_functions+=('lint_arch')
 lint_arch() {
 	local a name list ret=0
 
-	if [[ $arch == 'any' ]]; then
-		return 0
+	if in_array "any" "${arch[@]}"; then
+		if (( ${#arch[@]} == 1 )); then
+			return 0;
+		else
+			error "$(gettext "Can not use '%s' architecture with other architectures")" "any"
+			return 1;
+		fi
 	fi
 
 	for a in "${arch[@]}"; do
