@@ -1046,7 +1046,7 @@ alpm_list_t *alpm_db_get_groupcache(alpm_db_t *db);
  */
 alpm_list_t *alpm_db_search(alpm_db_t *db, const alpm_list_t *needles);
 
-typedef enum _alpm_db_usage_ {
+typedef enum _alpm_db_usage_t {
 	ALPM_DB_USAGE_SYNC = 1,
 	ALPM_DB_USAGE_SEARCH = (1 << 1),
 	ALPM_DB_USAGE_INSTALL = (1 << 2),
