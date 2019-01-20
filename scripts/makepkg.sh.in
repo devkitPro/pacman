@@ -173,7 +173,11 @@ clean_up() {
 		fi
 	fi
 
-	remove_deps
+	if ! remove_deps && (( EXIT_CODE == E_OK )); then
+	    exit $E_REMOVE_DEPS_FAILED
+	else
+	    exit $EXIT_CODE
+	fi
 }
 
 enter_fakeroot() {
