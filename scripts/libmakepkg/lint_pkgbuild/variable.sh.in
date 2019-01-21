@@ -86,7 +86,7 @@ lint_variable() {
 
 			for i in ${arch_array[@]}; do
 				if extract_function_variable "package_$pkg" "${i}_${a}" 0 out; then
-					error "$(gettext "%s_%s should be an array")" "$i" "$a"
+					error "$(gettext "%s should be an array")" "${i}_${a}"
 					ret=1
 				fi
 			done
