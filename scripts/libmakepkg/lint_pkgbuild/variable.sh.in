@@ -31,11 +31,10 @@ lint_pkgbuild_functions+=('lint_variable')
 
 lint_variable() {
 	# TODO: refactor - similar arrays are used elsewhere
-	local array=(arch backup checkdepends groups license noextract options
-	             validpgpkeys)
-	local arch_array=(conflicts depends makedepends md5sums optdepends provides
-	                  replaces sha1sums sha224sums sha256sums sha384sums sha512sums
-			  source)
+	local array=(arch backup groups license noextract options validpgpkeys)
+	local arch_array=(checkdepends conflicts depends makedepends md5sums
+	                  optdepends provides replaces sha1sums sha224sums
+	                  sha256sums sha384sums sha512sums source)
 	local string=(changelog epoch install pkgbase pkgdesc pkgrel pkgver url)
 
 	local i a pkg out bad ret=0
