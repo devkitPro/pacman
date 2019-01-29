@@ -254,13 +254,14 @@ Options
 **COMPRESSLRZ=**"(lrzip -q)"::
 **COMPRESSLZ4=**"(lz4 -q)"::
 **COMPRESSZ=**"(compress -c -f)"::
+**COMPRESSLZ=**"(lzip -c -f)"::
 	Sets the command and options used when compressing compiled or source
 	packages in the named format.
 
 **PKGEXT=**".pkg.tar.gz", **SRCEXT=**".src.tar.gz"::
 	Sets the compression used when making compiled or source packages.
 	Valid suffixes are `.tar`, `.tar.gz`, `.tar.bz2`, `.tar.xz`, `.tar.zst`,
-	`.tar.lzo`, `.tar.lrz`, `.tar.lz4`, and `.tar.Z`.
+	`.tar.lzo`, `.tar.lrz`, `.tar.lz4`, `.tar.lz` and `.tar.Z`.
 	Do not touch these unless you know what you are doing.
 
 
