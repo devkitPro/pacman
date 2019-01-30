@@ -7,6 +7,7 @@ sources = [
   'option.sh.in',
   'parseopts.sh.in',
   'pkgbuild.sh.in',
+  'schema.sh.in',
   'source.sh.in',
   'util.sh.in',
 ]

@@ -25,22 +25,16 @@ LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
 source "$LIBRARY/util/message.sh"
 source "$LIBRARY/util/pkgbuild.sh"
+source "$LIBRARY/util/schema.sh"
 
 lint_pkgbuild_functions+=('lint_variable')
 
 
 lint_variable() {
-	# TODO: refactor - similar arrays are used elsewhere
-	local array=(arch backup groups license noextract options validpgpkeys)
-	local arch_array=(checkdepends conflicts depends makedepends md5sums
-	                  optdepends provides replaces sha1sums sha224sums
-	                  sha256sums sha384sums sha512sums source)
-	local string=(changelog epoch install pkgbase pkgdesc pkgrel pkgver url)
-
 	local i a pkg out bad ret=0
 
 	# global variables
-	for i in ${array[@]} ${arch_array[@]}; do
+	for i in ${pkgbuild_schema_arrays[@]}; do
 		if declare -p $i > /dev/null 2>&1; then
 			if ! is_array $i; then
 				error "$(gettext "%s should be an array")" "$i"
@@ -52,7 +46,7 @@ lint_variable() {
 	for a in ${arch[@]}; do
 		[[ $a == "any" ]] && continue
 
-		for i in ${arch_array[@]}; do
+		for i in ${pkgbuild_schema_arch_arrays[@]}; do
 			if declare -p "${i}_${a}" > /dev/null 2>&1; then
 				if ! is_array ${i}_${a}; then
 					error "$(gettext "%s should be an array")" "${i}_${a}"
@@ -62,7 +56,7 @@ lint_variable() {
 		done
 	done
 
-	for i in ${string[@]}; do
+	for i in ${pkgbuild_schema_strings[@]}; do
 		if declare -p "$i" > /dev/null 2>&1; then
 			if is_array $i; then
 				error "$(gettext "%s should not be an array")" "$i"
@@ -73,7 +67,7 @@ lint_variable() {
 
 	# package function variables
 	for pkg in ${pkgname[@]}; do
-		for i in ${array[@]} ${arch_array[@]}; do
+		for i in ${pkgbuild_schema_arrays[@]}; do
 			if extract_function_variable "package_$pkg" $i 0 out; then
 				error "$(gettext "%s should be an array")" "$i"
 				ret=1
@@ -83,7 +77,7 @@ lint_variable() {
 		for a in ${arch[@]}; do
 			[[ $a == "any" ]] && continue
 
-			for i in ${arch_array[@]}; do
+			for i in ${pkgbuild_schema_arch_arrays[@]}; do
 				if extract_function_variable "package_$pkg" "${i}_${a}" 0 out; then
 					error "$(gettext "%s should be an array")" "${i}_${a}"
 					ret=1
@@ -91,7 +85,7 @@ lint_variable() {
 			done
 		done
 
-		for i in ${string[@]}; do
+		for i in ${pkgbuild_schema_strings[@]}; do
 			if extract_function_variable "package_$pkg" $i 1 out; then
 				error "$(gettext "%s should not be an array")" "$i"
 				ret=1

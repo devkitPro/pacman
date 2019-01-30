@@ -21,6 +21,8 @@
 [[ -n "$LIBMAKEPKG_UTIL_PKGBUILD_SH" ]] && return
 LIBMAKEPKG_UTIL_PKGBUILD_SH=1
 
+source "$LIBRARY/util/schema.sh"
+
 
 have_function() {
 	declare -f "$1" >/dev/null

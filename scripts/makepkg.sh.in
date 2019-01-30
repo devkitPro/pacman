@@ -48,13 +48,6 @@ declare -r startdir="$(pwd -P)"
 
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
-splitpkg_overrides=('pkgdesc' 'arch' 'url' 'license' 'groups' 'depends'
-                    'optdepends' 'provides' 'conflicts' 'replaces' 'backup'
-                    'options' 'install' 'changelog')
-readonly -a splitpkg_overrides
-
-known_hash_algos=('md5' 'sha1' 'sha224' 'sha256' 'sha384' 'sha512')
-
 # Options
 ASDEPS=0
 BUILDFUNC=0
@@ -905,7 +898,7 @@ check_build_status() {
 
 backup_package_variables() {
 	local var
-	for var in ${splitpkg_overrides[@]}; do
+	for var in ${pkgbuild_schema_package_overrides[@]}; do
 		local indirect="${var}_backup"
 		eval "${indirect}=(\"\${$var[@]}\")"
 	done
@@ -913,7 +906,7 @@ backup_package_variables() {
 
 restore_package_variables() {
 	local var
-	for var in ${splitpkg_overrides[@]}; do
+	for var in ${pkgbuild_schema_package_overrides[@]}; do
 		local indirect="${var}_backup"
 		if [[ -n ${!indirect} ]]; then
 			eval "${var}=(\"\${$indirect[@]}\")"

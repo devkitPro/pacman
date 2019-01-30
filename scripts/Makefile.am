@@ -124,6 +124,7 @@ LIBMAKEPKG_IN = \
 	libmakepkg/util/option.sh \
 	libmakepkg/util/parseopts.sh \
 	libmakepkg/util/pkgbuild.sh \
+	libmakepkg/util/schema.sh \
 	libmakepkg/util/source.sh \
 	libmakepkg/util/util.sh
 

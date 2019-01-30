@@ -25,6 +25,7 @@ LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
 source "$LIBRARY/util/message.sh"
 source "$LIBRARY/util/pkgbuild.sh"
+source "$LIBRARY/util/schema.sh"
 
 generate_one_checksum() {
 	local integ=$1 arch=$2 sources numsrc indentsz idx
