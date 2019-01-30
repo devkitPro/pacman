@@ -336,7 +336,7 @@ remove_deps() {
 
 	msg "Removing installed dependencies..."
 	# exit cleanly on failure to remove deps as package has been built successfully
-	if ! run_pacman -Rn ${deplist[@]}; then
+	if ! run_pacman -Rnu ${deplist[@]}; then
 		warning "$(gettext "Failed to remove installed dependencies.")"
 		return $E_REMOVE_DEPS_FAILED
 	fi
