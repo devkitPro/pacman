@@ -92,6 +92,7 @@ LIBMAKEPKG_IN = \
 	libmakepkg/lint_pkgbuild/optdepends.sh \
 	libmakepkg/lint_pkgbuild/options.sh \
 	libmakepkg/lint_pkgbuild/package_function.sh \
+	libmakepkg/lint_pkgbuild/package_function_variable.sh \
 	libmakepkg/lint_pkgbuild/pkgbase.sh \
 	libmakepkg/lint_pkgbuild/pkglist.sh \
 	libmakepkg/lint_pkgbuild/pkgname.sh \

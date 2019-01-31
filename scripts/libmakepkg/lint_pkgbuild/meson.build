@@ -14,6 +14,7 @@ sources = [
   'optdepends.sh.in',
   'options.sh.in',
   'package_function.sh.in',
+  'package_function_variable.sh.in',
   'pkgbase.sh.in',
   'pkglist.sh.in',
   'pkgname.sh.in',
