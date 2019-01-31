@@ -2,6 +2,7 @@ libmakepkg_module = 'lint_pkgbuild'
 
 sources = [
   'arch.sh.in',
+  'arch_specific.sh.in',
   'backup.sh.in',
   'changelog.sh.in',
   'checkdepends.sh.in',
