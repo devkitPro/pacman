@@ -38,7 +38,7 @@
 /** Package operations struct. This struct contains function pointers to
  * all methods used to access data in a package to allow for things such
  * as lazy package initialization (such as used by the file backend). Each
- * backend is free to define a stuct containing pointers to a specific
+ * backend is free to define a struct containing pointers to a specific
  * implementation of these methods. Some backends may find using the
  * defined default_pkg_ops struct to work just fine for their needs.
  */

@@ -182,7 +182,7 @@ static int init_gpgme(alpm_handle_t *handle)
 #endif
 	/* NOTE:
 	 * The GPGME library installs a SIGPIPE signal handler automatically if
-	 * the default signal hander is in use. The only time we set a handler
+	 * the default signal handler is in use. The only time we set a handler
 	 * for SIGPIPE is in dload.c, and we reset it when we are done. Given that
 	 * we do this, we can let GPGME do its automagic. However, if we install
 	 * a library-wide SIGPIPE handler, we will have to be careful.

@@ -72,7 +72,7 @@ if test "x$CFLAGS" = "x"; then
   CFLAGS=""
 fi
 
-# Set subsitution values for version stuff in Makefiles and anywhere else,
+# Set substitution values for version stuff in Makefiles and anywhere else,
 # and put LIB_VERSION in config.h
 AC_SUBST(LIB_VERSION)
 AC_SUBST(LIB_VERSION_INFO)

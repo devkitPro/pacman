@@ -38,7 +38,7 @@ array_build() {
 	# it's an error to try to copy a value which doesn't exist.
 	declare -p "$2" &>/dev/null || return 1
 
-	# Build an array of the indicies of the source array.
+	# Build an array of the indices of the source array.
 	eval "keys=(\"\${!$2[@]}\")"
 
 	# Clear the destination array

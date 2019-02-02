@@ -1359,7 +1359,7 @@ static int multiselect_parse(char *array, int count, char *response)
 			len--;
 			include = 0;
 		} else if(str) {
-			/* if first token is including, we unselect all targets */
+			/* if first token is including, we deselect all targets */
 			memset(array, 0, count);
 		}
 
