@@ -355,14 +355,23 @@ libcommon = static_library(
   include_directories : includes,
   install : false)
 
-libalpm = library(
+libalpm_a = static_library(
   'alpm',
   libalpm_sources,
-  version : libalpm_version,
   include_directories : includes,
   dependencies : [crypto_provider, libarchive, libcurl] + gpgme_libs,
   link_with : [libcommon],
   install : true)
+
+if not get_option('buildstatic')
+  libalpm = shared_library(
+    'alpm',
+    version : libalpm_version,
+    link_whole: [libalpm_a],
+    install : true)
+else
+  libalpm = libalpm_a
+endif
 
 install_headers(
   'lib/libalpm/alpm.h',
@@ -414,7 +423,7 @@ executable(
   'vercmp',
   vercmp_sources,
   include_directories : includes,
-  link_with : [libalpm],
+  link_with : [libalpm_a],
   install : true,
 )
 
