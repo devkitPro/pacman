@@ -220,6 +220,7 @@ if get_option('buildtype').startswith('debug')
     '-Wformat-nonliteral',
     '-Wformat-security',
     '-Wignored-qualifiers',
+    '-Wimplicit-fallthrough',
     '-Winit-self',
     '-Wlogical-op',
     '-Wmissing-declarations',

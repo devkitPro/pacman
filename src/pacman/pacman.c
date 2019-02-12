@@ -196,7 +196,7 @@ static void usage(int op, const char * const myname)
 				addlist(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
 				addlist(_("      --ignoregroup <grp>\n"
 				          "                       ignore a group upgrade (can be used more than once)\n"));
-				/* pass through */
+				/* fall through */
 			case PM_OP_REMOVE:
 				addlist(_("  -d, --nodeps         skip dependency version checks (-dd to skip all checks)\n"));
 				addlist(_("      --assume-installed <package=version>\n"

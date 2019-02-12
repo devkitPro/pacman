@@ -462,6 +462,7 @@ if test "x$warningflags" = "xyes" ; then
 	CFLAGS_ADD([-Wformat-nonliteral], [WARNING_CFLAGS])
 	CFLAGS_ADD([-Wformat-security], [WARNING_CFLAGS])
 	CFLAGS_ADD([-Wignored-qualifiers], [WARNING_CFLAGS])
+	CFLAGS_ADD([-Wimplicit-fallthrough], [WARNING_CFLAGS])
 	CFLAGS_ADD([-Winit-self], [WARNING_CFLAGS])
 	CFLAGS_ADD([-Wlogical-op], [WARNING_CFLAGS])
 	CFLAGS_ADD([-Wmissing-declarations], [WARNING_CFLAGS])
