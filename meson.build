@@ -363,8 +363,8 @@ libalpm_a = static_library(
   link_with : [libcommon],
   install : true)
 
-if not get_option('buildstatic')
-  libalpm = shared_library(
+if get_option('default_library') != 'static'
+  libalpm = library(
     'alpm',
     version : libalpm_version,
     link_whole: [libalpm_a],
