@@ -1217,7 +1217,7 @@ unset sha{1,224,256,384,512}sums makedepends optdepends options noextract validp
 unset "${!makedepends_@}" "${!depends_@}" "${!source_@}" "${!checkdepends_@}"
 unset "${!optdepends_@}" "${!conflicts_@}" "${!provides_@}" "${!replaces_@}"
 unset "${!md5sums_@}" "${!sha1sums_@}" "${!sha224sums_@}" "${!sha256sums_@}"
-unset "${!sha384sums_@}" "${!sha512sums_@}"
+unset "${!sha384sums_@}" "${!sha512sums_@}" "${!b2sums_@}"
 
 BUILDFILE=${BUILDFILE:-$BUILDSCRIPT}
 if [[ ! -f $BUILDFILE ]]; then
