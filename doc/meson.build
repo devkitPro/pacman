@@ -12,6 +12,7 @@ manpages = [
   { 'name': 'pacman.conf.5' },
   { 'name': 'libalpm.3' },
   { 'name': 'BUILDINFO.5' },
+  { 'name': 'pacman-conf.8' },
 ]
 
 sitepages = [

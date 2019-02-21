@@ -16,7 +16,8 @@ MANPAGES = \
 	makepkg.conf.5 \
 	pacman.conf.5 \
 	libalpm.3 \
-	BUILDINFO.5
+	BUILDINFO.5 \
+	pacman-conf.8
 
 DOXYGEN_MANS = $(wildcard man3/*.3)
 
