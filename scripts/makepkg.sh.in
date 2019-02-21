@@ -228,6 +228,15 @@ run_pacman() {
 		else
 			cmd=(su root -c "$(printf '%q ' "${cmd[@]}")")
 		fi
+		local lockfile="$(pacman-conf DBPath)/db.lck"
+		while [[ -f $lockfile ]]; do
+			local timer=0
+			msg "$(gettext "Pacman is currently in use, please wait...")"
+			while [[ -f $lockfile ]] && (( timer < 10 )); do
+				(( ++timer ))
+				sleep 3
+			done
+		done
 	fi
 	"${cmd[@]}"
 }
