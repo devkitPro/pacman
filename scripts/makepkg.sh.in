@@ -217,12 +217,10 @@ missing_source_file() {
 
 run_pacman() {
 	local cmd
-	if [[ $1 != -@(T|Q)*([[:alpha:]]) ]]; then
-		cmd=("$PACMAN_PATH" "${PACMAN_OPTS[@]}" "$@")
-	else
+	if [[ $1 = -@(T|Q)*([[:alpha:]]) ]]; then
 		cmd=("$PACMAN_PATH" "$@")
-	fi
-	if [[ $1 != -@(T|Q)*([[:alpha:]]) ]]; then
+	else
+		cmd=("$PACMAN_PATH" "${PACMAN_OPTS[@]}" "$@")
 		if type -p sudo >/dev/null; then
 			cmd=(sudo "${cmd[@]}")
 		else
