@@ -112,7 +112,8 @@ ASCIIDOC_OPTS = \
 	-a pkgdatadir=$(pkgdatadir) \
 	-a localstatedir=$(localstatedir) \
 	-a sysconfdir=$(sysconfdir) \
-	-a datarootdir=$(datarootdir)
+	-a datarootdir=$(datarootdir) \
+	-a rootdir=$(ROOTDIR)
 
 A2X_OPTS = \
 	--no-xmllint \

@@ -31,6 +31,7 @@ asciidoc_opts = [
  '-a', 'localstatedir=@0@'.format(LOCALSTATEDIR),
  '-a', 'sysconfdir=@0@'.format(SYSCONFDIR),
  '-a', 'datarootdir=@0@'.format(DATAROOTDIR),
+ '-a', 'rootdir=@0@'.format(ROOTDIR),
 ]
 
 html_targets = []
