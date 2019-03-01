@@ -535,7 +535,8 @@ static int curl_download_internal(struct dload_payload *payload,
 		if(payload->content_disp_name) {
 			/* content-disposition header has a better name for our file */
 			free(payload->destfile_name);
-			payload->destfile_name = get_fullpath(localpath, payload->content_disp_name, "");
+			payload->destfile_name = get_fullpath(localpath,
+				get_filename(payload->content_disp_name), "");
 		} else {
 			const char *effective_filename = strrchr(effective_url, '/');
 			if(effective_filename && strlen(effective_filename) > 2) {
