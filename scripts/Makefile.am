@@ -16,7 +16,6 @@ OURSCRIPTS = \
 	makepkg \
 	pacman-db-upgrade \
 	pacman-key \
-	pkgdelta \
 	repo-add
 
 EXTRA_DIST = \
@@ -24,7 +23,6 @@ EXTRA_DIST = \
 	makepkg-template.pl.in \
 	pacman-db-upgrade.sh.in \
 	pacman-key.sh.in \
-	pkgdelta.sh.in \
 	repo-add.sh.in \
 	wrapper.sh.in \
 	$(COMPLETION_DIST) \
@@ -137,7 +135,6 @@ WRAPPER = \
 	makepkg-wrapper \
 	pacman-db-upgrade-wrapper \
 	pacman-key-wrapper \
-	pkgdelta-wrapper \
 	repo-add-wrapper
 
 COMPLETION_IN = \

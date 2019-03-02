@@ -10,7 +10,6 @@ MANPAGES = \
 	makepkg-template.1 \
 	repo-add.8 \
 	vercmp.8 \
-	pkgdelta.8 \
 	pacman-key.8 \
 	PKGBUILD.5 \
 	makepkg.conf.5 \
@@ -42,7 +41,6 @@ EXTRA_DIST = \
 	makepkg-template.1.asciidoc \
 	repo-add.8.asciidoc \
 	vercmp.8.asciidoc \
-	pkgdelta.8.asciidoc \
 	pacman-key.8.asciidoc \
 	PKGBUILD.5.asciidoc \
 	PKGBUILD-example.txt \

@@ -5,7 +5,6 @@ manpages = [
   { 'name': 'makepkg-template.1' },
   { 'name': 'repo-add.8' },
   { 'name': 'vercmp.8' },
-  { 'name': 'pkgdelta.8' },
   { 'name': 'pacman-key.8' },
   { 'name': 'PKGBUILD.5', 'extra_depends' : [ 'PKGBUILD-example.txt' ] },
   { 'name': 'makepkg.conf.5' },
