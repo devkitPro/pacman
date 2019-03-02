@@ -130,11 +130,6 @@ const char SYMEXPORT *alpm_strerror(alpm_errno_t err)
 			return _("missing PGP signature");
 		case ALPM_ERR_SIG_INVALID:
 			return _("invalid PGP signature");
-		/* Deltas */
-		case ALPM_ERR_DLT_INVALID:
-			return _("invalid or corrupted delta");
-		case ALPM_ERR_DLT_PATCHFAILED:
-			return _("delta patch failed");
 		/* Dependencies */
 		case ALPM_ERR_UNSATISFIED_DEPS:
 			return _("could not satisfy dependencies");

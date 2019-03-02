@@ -43,7 +43,6 @@
 #include "handle.h"
 #include "alpm.h"
 #include "dload.h"
-#include "delta.h"
 #include "remove.h"
 #include "diskspace.h"
 #include "signing.h"
@@ -351,21 +350,6 @@ static int compute_download_size(alpm_pkg_t *newpkg)
 
 		/* tell the caller that we have a partial */
 		ret = 1;
-	} else if(handle->deltaratio > 0.0) {
-		off_t dltsize;
-
-		dltsize = _alpm_shortest_delta_path(handle, newpkg->deltas,
-				newpkg->filename, &newpkg->delta_path);
-
-		if(newpkg->delta_path && (dltsize < newpkg->size * handle->deltaratio)) {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "using delta size\n");
-			size = dltsize;
-		} else {
-			_alpm_log(handle, ALPM_LOG_DEBUG, "using package size\n");
-			size = newpkg->size;
-			alpm_list_free(newpkg->delta_path);
-			newpkg->delta_path = NULL;
-		}
 	} else {
 		size = newpkg->size;
 	}
@@ -696,118 +680,6 @@ off_t SYMEXPORT alpm_pkg_download_size(alpm_pkg_t *newpkg)
 	return newpkg->download_size;
 }
 
-static int endswith(const char *filename, const char *extension)
-{
-	const char *s = filename + strlen(filename) - strlen(extension);
-	return strcmp(s, extension) == 0;
-}
-
-/** Applies delta files to create an upgraded package file.
- *
- * All intermediate files are deleted, leaving only the starting and
- * ending package files.
- *
- * @param handle the context handle
- *
- * @return 0 if all delta files were able to be applied, 1 otherwise.
- */
-static int apply_deltas(alpm_handle_t *handle)
-{
-	alpm_list_t *i;
-	size_t deltas_found = 0;
-	int ret = 0;
-	const char *cachedir = _alpm_filecache_setup(handle);
-	alpm_trans_t *trans = handle->trans;
-	alpm_event_delta_patch_t event;
-
-	for(i = trans->add; i; i = i->next) {
-		alpm_pkg_t *spkg = i->data;
-		alpm_list_t *delta_path = spkg->delta_path;
-		alpm_list_t *dlts = NULL;
-
-		if(!delta_path) {
-			continue;
-		}
-
-		if(!deltas_found) {
-			/* only show this if we actually have deltas to apply, and it is before
-			 * the very first one */
-			event.type = ALPM_EVENT_DELTA_PATCHES_START;
-			EVENT(handle, &event);
-			deltas_found = 1;
-		}
-
-		for(dlts = delta_path; dlts; dlts = dlts->next) {
-			alpm_delta_t *d = dlts->data;
-			char *delta, *from, *to;
-			char command[PATH_MAX];
-			size_t len = 0;
-
-			delta = _alpm_filecache_find(handle, d->delta);
-			/* the initial package might be in a different cachedir */
-			if(dlts == delta_path) {
-				from = _alpm_filecache_find(handle, d->from);
-			} else {
-				/* len = cachedir len + from len + '/' + null */
-				len = strlen(cachedir) + strlen(d->from) + 2;
-				MALLOC(from, len, free(delta); RET_ERR(handle, ALPM_ERR_MEMORY, 1));
-				snprintf(from, len, "%s/%s", cachedir, d->from);
-			}
-			len = strlen(cachedir) + strlen(d->to) + 2;
-			MALLOC(to, len, free(delta); free(from); RET_ERR(handle, ALPM_ERR_MEMORY, 1));
-			snprintf(to, len, "%s/%s", cachedir, d->to);
-
-			/* build the patch command */
-			if(endswith(to, ".gz")) {
-				/* special handling for gzip : we disable timestamp with -n option */
-				snprintf(command, PATH_MAX, "xdelta3 -d -q -R -c -s %s %s | gzip -n > %s", from, delta, to);
-			} else {
-				snprintf(command, PATH_MAX, "xdelta3 -d -q -s %s %s %s", from, delta, to);
-			}
-
-			_alpm_log(handle, ALPM_LOG_DEBUG, "command: %s\n", command);
-
-			event.type = ALPM_EVENT_DELTA_PATCH_START;
-			event.delta = d;
-			EVENT(handle, &event);
-
-			int retval = system(command);
-			if(retval == 0) {
-				event.type = ALPM_EVENT_DELTA_PATCH_DONE;
-				EVENT(handle, &event);
-
-				/* delete the delta file */
-				unlink(delta);
-
-				/* Delete the 'from' package but only if it is an intermediate
-				 * package. The starting 'from' package should be kept, just
-				 * as if deltas were not used. */
-				if(dlts != delta_path) {
-					unlink(from);
-				}
-			}
-			FREE(from);
-			FREE(to);
-			FREE(delta);
-
-			if(retval != 0) {
-				/* one delta failed for this package, cancel the remaining ones */
-				event.type = ALPM_EVENT_DELTA_PATCH_FAILED;
-				EVENT(handle, &event);
-				handle->pm_errno = ALPM_ERR_DLT_PATCHFAILED;
-				ret = 1;
-				break;
-			}
-		}
-	}
-	if(deltas_found) {
-		event.type = ALPM_EVENT_DELTA_PATCHES_DONE;
-		EVENT(handle, &event);
-	}
-
-	return ret;
-}
-
 /**
  * Prompts to delete the file now that we know it is invalid.
  * @param handle the context handle
@@ -832,44 +704,6 @@ static int prompt_to_delete(alpm_handle_t *handle, const char *filepath,
 	return question.remove;
 }
 
-static int validate_deltas(alpm_handle_t *handle, alpm_list_t *deltas)
-{
-	alpm_list_t *i, *errors = NULL;
-	alpm_event_t event;
-
-	if(!deltas) {
-		return 0;
-	}
-
-	/* Check integrity of deltas */
-	event.type = ALPM_EVENT_DELTA_INTEGRITY_START;
-	EVENT(handle, &event);
-	for(i = deltas; i; i = i->next) {
-		alpm_delta_t *d = i->data;
-		char *filepath = _alpm_filecache_find(handle, d->delta);
-
-		if(_alpm_test_checksum(filepath, d->delta_md5, ALPM_PKG_VALIDATION_MD5SUM)) {
-			errors = alpm_list_add(errors, filepath);
-		} else {
-			FREE(filepath);
-		}
-	}
-	event.type = ALPM_EVENT_DELTA_INTEGRITY_DONE;
-	EVENT(handle, &event);
-
-	if(errors) {
-		for(i = errors; i; i = i->next) {
-			char *filepath = i->data;
-			prompt_to_delete(handle, filepath, ALPM_ERR_DLT_INVALID);
-			FREE(filepath);
-		}
-		alpm_list_free(errors);
-		handle->pm_errno = ALPM_ERR_DLT_INVALID;
-		return -1;
-	}
-	return 0;
-}
-
 static struct dload_payload *build_payload(alpm_handle_t *handle,
 		const char *filename, size_t size, alpm_list_t *servers)
 {
@@ -882,7 +716,7 @@ static struct dload_payload *build_payload(alpm_handle_t *handle,
 		return payload;
 }
 
-static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files, alpm_list_t **deltas)
+static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files)
 {
 	alpm_list_t *i;
 	alpm_handle_t *handle = repo->handle;
@@ -891,8 +725,6 @@ static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files, alpm_list_t 
 		alpm_pkg_t *spkg = i->data;
 
 		if(spkg->origin != ALPM_PKG_FROM_FILE && repo == spkg->origin_data.db) {
-			alpm_list_t *delta_path = spkg->delta_path;
-
 			if(!repo->servers) {
 				handle->pm_errno = ALPM_ERR_SERVER_NONE;
 				_alpm_log(handle, ALPM_LOG_ERROR, "%s: %s\n",
@@ -900,22 +732,7 @@ static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files, alpm_list_t 
 				return 1;
 			}
 
-			if(delta_path) {
-				/* using deltas */
-				alpm_list_t *dlts;
-				for(dlts = delta_path; dlts; dlts = dlts->next) {
-					alpm_delta_t *delta = dlts->data;
-					if(delta->download_size != 0) {
-						struct dload_payload *payload = build_payload(
-								handle, delta->delta, delta->delta_size, repo->servers);
-						ASSERT(payload, return -1);
-						*files = alpm_list_add(*files, payload);
-					}
-					/* keep a list of all the delta files for md5sums */
-					*deltas = alpm_list_add(*deltas, delta);
-				}
-
-			} else if(spkg->download_size != 0) {
+			if(spkg->download_size != 0) {
 				struct dload_payload *payload;
 				ASSERT(spkg->filename != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
 				payload = build_payload(handle, spkg->filename, spkg->size, repo->servers);
@@ -963,7 +780,7 @@ static int download_single_file(alpm_handle_t *handle, struct dload_payload *pay
 	return -1;
 }
 
-static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
+static int download_files(alpm_handle_t *handle)
 {
 	const char *cachedir;
 	alpm_list_t *i, *files = NULL;
@@ -987,7 +804,7 @@ static int download_files(alpm_handle_t *handle, alpm_list_t **deltas)
 	}
 
 	for(i = handle->dbs_sync; i; i = i->next) {
-		errors += find_dl_candidates(i->data, &files, deltas);
+		errors += find_dl_candidates(i->data, &files);
 	}
 
 	if(files) {
@@ -1309,24 +1126,12 @@ static int load_packages(alpm_handle_t *handle, alpm_list_t **data,
 
 int _alpm_sync_load(alpm_handle_t *handle, alpm_list_t **data)
 {
-	alpm_list_t *i, *deltas = NULL;
+	alpm_list_t *i;
 	size_t total = 0;
 	uint64_t total_bytes = 0;
 	alpm_trans_t *trans = handle->trans;
 
-	if(download_files(handle, &deltas)) {
-		alpm_list_free(deltas);
-		return -1;
-	}
-
-	if(validate_deltas(handle, deltas)) {
-		alpm_list_free(deltas);
-		return -1;
-	}
-	alpm_list_free(deltas);
-
-	/* Use the deltas to generate the packages */
-	if(apply_deltas(handle)) {
+	if(download_files(handle)) {
 		return -1;
 	}
 

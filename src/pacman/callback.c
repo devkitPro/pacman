@@ -347,14 +347,6 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_PKGDOWNLOAD_START:
 		case ALPM_EVENT_PKGDOWNLOAD_DONE:
 		case ALPM_EVENT_PKGDOWNLOAD_FAILED:
-		/* temporary until removed from libalpm */
-		case ALPM_EVENT_DELTA_INTEGRITY_START:
-		case ALPM_EVENT_DELTA_INTEGRITY_DONE:
-		case ALPM_EVENT_DELTA_PATCHES_START:
-		case ALPM_EVENT_DELTA_PATCHES_DONE:
-		case ALPM_EVENT_DELTA_PATCH_START:
-		case ALPM_EVENT_DELTA_PATCH_DONE:
-		case ALPM_EVENT_DELTA_PATCH_FAILED:
 			/* nothing */
 			break;
 	}

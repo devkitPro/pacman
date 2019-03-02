@@ -37,7 +37,6 @@
 #include "alpm_list.h"
 #include "package.h"
 #include "handle.h"
-#include "delta.h"
 #include "deps.h"
 #include "dload.h"
 #include "filelist.h"
@@ -427,9 +426,8 @@ static alpm_pkg_t *load_pkg_for_entry(alpm_db_t *db, const char *entryname,
 
 /* This function doesn't work as well as one might think, as size of database
  * entries varies considerably. Adding signatures nearly doubles the size of a
- * single entry; deltas also can make for large variations in size. These
- * current values are heavily influenced by Arch Linux; databases with no
- * deltas and a single signature per package. */
+ * single entry. These  current values are heavily influenced by Arch Linux;
+ * databases with a single signature per package. */
 static size_t estimate_package_count(struct stat *st, struct archive *archive)
 {
 	int per_package;
@@ -511,7 +509,7 @@ static int sync_db_populate(alpm_db_t *db)
 	while((archive_ret = archive_read_next_header(archive, &entry)) == ARCHIVE_OK) {
 		mode_t mode = archive_entry_mode(entry);
 		if(!S_ISDIR(mode)) {
-			/* we have desc, depends or deltas - parse it */
+			/* we have desc or depends - parse it */
 			if(sync_db_read(db, archive, entry, &pkg) != 0) {
 				_alpm_log(db->handle, ALPM_LOG_ERROR,
 						_("could not parse package description file '%s' from db '%s'\n"),
@@ -637,8 +635,7 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 	}
 
 	if(strcmp(filename, "desc") == 0 || strcmp(filename, "depends") == 0
-			|| strcmp(filename, "files") == 0
-			|| (strcmp(filename, "deltas") == 0 && db->handle->deltaratio > 0.0) ) {
+			|| strcmp(filename, "files") == 0) {
 		int ret;
 		while((ret = _alpm_archive_fgets(archive, &buf)) == ARCHIVE_OK) {
 			char *line = buf.line;
@@ -707,14 +704,6 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 				READ_AND_SPLITDEP(pkg->conflicts);
 			} else if(strcmp(line, "%PROVIDES%") == 0) {
 				READ_AND_SPLITDEP(pkg->provides);
-			} else if(strcmp(line, "%DELTAS%") == 0) {
-				/* Different than the rest because of the _alpm_delta_parse call. */
-				while(1) {
-					READ_NEXT();
-					if(strlen(line) == 0) break;
-					pkg->deltas = alpm_list_add(pkg->deltas,
-							_alpm_delta_parse(db->handle, line));
-				}
 			} else if(strcmp(line, "%FILES%") == 0) {
 				/* TODO: this could lazy load if there is future demand */
 				size_t files_count = 0, files_size = 0;
@@ -751,8 +740,6 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 			goto error;
 		}
 		*likely_pkg = pkg;
-	} else if(strcmp(filename, "deltas") == 0) {
-		/* skip reading delta files if UseDelta is unset */
 	} else {
 		/* unknown database file */
 		_alpm_log(db->handle, ALPM_LOG_DEBUG, "unknown database file: %s\n", filename);

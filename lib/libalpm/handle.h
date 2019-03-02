@@ -95,7 +95,6 @@ struct __alpm_handle_t {
 
 	/* options */
 	char *arch;              /* Architecture of packages we should allow */
-	double deltaratio;       /* Download deltas if possible; a ratio value */
 	int usesyslog;           /* Use syslog instead of logfile? */ /* TODO move to frontend */
 	int checkspace;          /* Check disk space before installing */
 	char *dbext;             /* Sync DB extension */
@@ -110,10 +109,6 @@ struct __alpm_handle_t {
 
 	/* lock file descriptor */
 	int lockfd;
-
-	/* for delta parsing efficiency */
-	int delta_regex_compiled;
-	regex_t delta_regex;
 };
 
 alpm_handle_t *_alpm_handle_new(void);

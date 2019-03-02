@@ -34,7 +34,6 @@
 #include "alpm_list.h"
 #include "util.h"
 #include "log.h"
-#include "delta.h"
 #include "trans.h"
 #include "alpm.h"
 #include "deps.h"
@@ -44,7 +43,6 @@ alpm_handle_t *_alpm_handle_new(void)
 	alpm_handle_t *handle;
 
 	CALLOC(handle, 1, sizeof(alpm_handle_t), return NULL);
-	handle->deltaratio = 0.0;
 	handle->lockfd = -1;
 
 	return handle;
@@ -74,8 +72,6 @@ void _alpm_handle_free(alpm_handle_t *handle)
 #ifdef HAVE_LIBGPGME
 	FREELIST(handle->known_keys);
 #endif
-
-	regfree(&handle->delta_regex);
 
 	/* free memory */
 	_alpm_trans_free(handle->trans);
@@ -301,12 +297,6 @@ const char SYMEXPORT *alpm_option_get_arch(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->arch;
-}
-
-double SYMEXPORT alpm_option_get_deltaratio(alpm_handle_t *handle)
-{
-	CHECK_HANDLE(handle, return -1);
-	return handle->deltaratio;
 }
 
 int SYMEXPORT alpm_option_get_checkspace(alpm_handle_t *handle)
@@ -752,16 +742,6 @@ int SYMEXPORT alpm_option_set_arch(alpm_handle_t *handle, const char *arch)
 	CHECK_HANDLE(handle, return -1);
 	if(handle->arch) FREE(handle->arch);
 	STRDUP(handle->arch, arch, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-	return 0;
-}
-
-int SYMEXPORT alpm_option_set_deltaratio(alpm_handle_t *handle, double ratio)
-{
-	CHECK_HANDLE(handle, return -1);
-	if(ratio < 0.0 || ratio > 2.0) {
-		RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1);
-	}
-	handle->deltaratio = ratio;
 	return 0;
 }
 

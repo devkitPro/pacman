@@ -31,7 +31,6 @@
 #include "log.h"
 #include "util.h"
 #include "db.h"
-#include "delta.h"
 #include "handle.h"
 #include "deps.h"
 
@@ -374,13 +373,6 @@ alpm_list_t SYMEXPORT *alpm_pkg_get_replaces(alpm_pkg_t *pkg)
 	return pkg->ops->get_replaces(pkg);
 }
 
-alpm_list_t SYMEXPORT *alpm_pkg_get_deltas(alpm_pkg_t *pkg)
-{
-	ASSERT(pkg != NULL, return NULL);
-	pkg->handle->pm_errno = ALPM_ERR_OK;
-	return pkg->deltas;
-}
-
 alpm_filelist_t SYMEXPORT *alpm_pkg_get_files(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return NULL);
@@ -620,9 +612,6 @@ int _alpm_pkg_dup(alpm_pkg_t *pkg, alpm_pkg_t **new_ptr)
 	newpkg->optdepends = list_depdup(pkg->optdepends);
 	newpkg->conflicts  = list_depdup(pkg->conflicts);
 	newpkg->provides   = list_depdup(pkg->provides);
-	for(i = pkg->deltas; i; i = i->next) {
-		newpkg->deltas = alpm_list_add(newpkg->deltas, _alpm_delta_dup(i->data));
-	}
 
 	if(pkg->files.count) {
 		size_t filenum;
@@ -696,9 +685,6 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	free_deplist(pkg->optdepends);
 	free_deplist(pkg->conflicts);
 	free_deplist(pkg->provides);
-	alpm_list_free_inner(pkg->deltas, (alpm_list_fn_free)_alpm_delta_free);
-	alpm_list_free(pkg->deltas);
-	alpm_list_free(pkg->delta_path);
 	alpm_list_free(pkg->removes);
 	_alpm_pkg_free(pkg->oldpkg);
 
