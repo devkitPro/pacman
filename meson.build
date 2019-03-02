@@ -404,14 +404,6 @@ executable(
 )
 
 executable(
-  'cleanupdelta',
-  cleanupdelta_sources,
-  include_directories : includes,
-  link_with : [libalpm],
-  install : true,
-)
-
-executable(
   'testpkg',
   testpkg_sources,
   include_directories : includes,
