@@ -31,7 +31,6 @@ declare -r confdir='@sysconfdir@'
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
 QUIET=0
-DELTA=0
 ONLYADDNEW=0
 RMEXISTING=0
 SIGN=0
@@ -55,18 +54,17 @@ usage() {
 	cmd=${0##*/}
 	printf -- "%s (pacman) %s\n\n" "$cmd" "$myver"
 	if [[ $cmd == "repo-add" ]] ; then
-		printf -- "$(gettext "Usage: repo-add [options] <path-to-db> <package|delta> ...\n")"
+		printf -- "$(gettext "Usage: repo-add [options] <path-to-db> <package> ...\n")"
 		printf -- "\n"
 		printf -- "$(gettext "\
 repo-add will update a package database by reading a package file.\n\
 Multiple packages to add can be specified on the command line.\n")"
 		printf -- "\n"
 		printf -- "$(gettext "Options:\n")"
-		printf -- "$(gettext "  -d, --delta       generate and add delta for package update\n")"
 		printf -- "$(gettext "  -n, --new         only add packages that are not already in the database\n")"
 		printf -- "$(gettext "  -R, --remove      remove old package file from disk after updating database\n")"
 	elif [[ $cmd == "repo-remove" ]] ; then
-		printf -- "$(gettext "Usage: repo-remove [options] <path-to-db> <packagename|delta> ...\n")"
+		printf -- "$(gettext "Usage: repo-remove [options] <path-to-db> <packagename> ...\n")"
 		printf -- "\n"
 		printf -- "$(gettext "\
 repo-remove will update a package database by removing the package name\n\
@@ -131,90 +129,6 @@ find_pkgentry() {
 	return 1
 }
 
-# Get the package name from the delta filename
-get_delta_pkgname() {
-	local tmp
-
-	tmp=${1##*/}
-	echo ${tmp%-*-*_to*}
-}
-
-# write a delta entry
-#   arg1 - path to delta file
-db_write_delta() {
-	deltafile=$1
-	pkgname=$(get_delta_pkgname "$deltafile")
-
-	pkgentry=$(find_pkgentry "$pkgname")
-	if [[ -z $pkgentry ]]; then
-		error "$(gettext "No database entry for package '%s'.")" "$pkgname"
-		return 1
-	fi
-	deltas=$pkgentry/deltas
-	if [[ ! -f $deltas ]]; then
-		echo -e "%DELTAS%" >"$deltas"
-	fi
-	# get md5sum and compressed size of package
-	md5sum=$(md5sum "$deltafile")
-	md5sum=${md5sum%% *}
-	csize=$(wc -c "$deltafile" | cut -d' ' -f1)
-
-	oldfile=$(xdelta3 printhdr "$deltafile" | sed -n 's/XDELTA filename (source):\s\+\(\.*\)/\1/p')
-	newfile=$(xdelta3 printhdr "$deltafile" | sed -n 's/XDELTA filename (output):\s\+\(\.*\)/\1/p')
-
-	if grep -q "$oldfile.*$newfile" "$deltas"; then
-		sed -i.backup "/$oldfile.*$newfile/d" "$deltas" && rm -f "$deltas.backup"
-	fi
-	msg2 "$(gettext "Adding 'deltas' entry : %s -> %s")" "$oldfile" "$newfile"
-	echo "${deltafile##*/} $md5sum $csize $oldfile $newfile" >> "$deltas"
-
-	# copy updated deltas entry into "files" database
-	local filesentry=$(echo "$pkgentry" | sed 's/\(.*\)\/db\//\1\/files\//')
-	mkdir -p "$filesentry"
-	cp $deltas "$filesentry"
-
-	return 0
-} # end db_write_delta
-
-# remove a delta entry
-#   arg1 - path to delta file
-db_remove_delta() {
-	deltafile=$1
-	filename=${deltafile##*/}
-	pkgname=$(get_delta_pkgname "$deltafile")
-
-	pkgentry=$(find_pkgentry "$pkgname")
-	if [[ -z $pkgentry ]]; then
-		return 1
-	fi
-	deltas=$pkgentry/deltas
-	if [[ ! -f $deltas ]]; then
-		return 1
-	fi
-	if grep -q "$filename" "$deltas"; then
-		sed -i.backup "/$filename/d" "$deltas" && rm -f "$deltas.backup"
-		msg2 "$(gettext "Removing existing entry '%s'...")" "$filename"
-		# empty deltas file contains only "%DELTAS%"
-		if (( $(wc -l < "$deltas") == 1 )); then
-			msg2 "$(gettext "Removing empty deltas file...")"
-			rm "$deltas"
-		fi
-
-		# copy updated deltas entry into "files" database
-		local filesentry=$(echo "$pkgentry" | sed 's/\(.*\)\/db\//\1\/files\//')
-		if [[ -f $deltas ]]; then
-			mkdir -p "$filesentry"
-			cp $deltas "$filesentry"
-		else
-			rm -f "$filesentry/deltas"
-		fi
-
-		return 0
-	fi
-
-	return 1
-} # end db_remove_delta
-
 check_gpg() {
 	if ! type -p gpg >/dev/null; then
 		error "$(gettext "Cannot find the gpg binary! Is GnuPG installed?")"
@@ -228,30 +142,6 @@ check_gpg() {
 			elif (( ! KEY )); then
 				error "$(gettext "There is no key in your keyring.")"
 			fi
-			exit 1
-		fi
-	fi
-}
-
-check_xdelta() {
-	local need_xdelta=0
-
-	if (( DELTA )); then
-		need_xdelta=1
-	else
-		if [[ $cmd == "repo-add" ]]; then
-			for f in ${args[@]:1}; do
-				case $f in
-					*.delta) need_xdelta=1 ;;
-					*) ;;
-				esac
-			done
-		fi
-	fi
-
-	if (( need_xdelta )); then
-		if ! type xdelta3 &>/dev/null; then
-			error "$(gettext "Cannot find the xdelta3 binary! Is xdelta3 installed?")"
 			exit 1
 		fi
 	fi
@@ -358,7 +248,7 @@ db_write_entry() {
 			return 0
 		fi
 	else
-		if (( DELTA || RMEXISTING )); then
+		if (( RMEXISTING )); then
 			pkgentry=$(find_pkgentry "$pkgname")
 			if [[ -n $pkgentry ]]; then
 				local oldfilename="$(sed -n '/^%FILENAME%$/ {n;p;q;}' "$pkgentry/desc")"
@@ -399,9 +289,6 @@ db_write_entry() {
 	mkdir "$pkgname-$pkgver"
 	pushd "$pkgname-$pkgver" >/dev/null
 
-	# restore an eventual deltas file
-	[[ -f ../$pkgname.deltas ]] && mv "../$pkgname.deltas" deltas
-
 	# create desc entry
 	msg2 "$(gettext "Creating '%s' db entry...")" 'desc'
 	{
@@ -439,20 +326,6 @@ db_write_entry() {
 	popd >/dev/null
 	popd >/dev/null
 
-	# create a delta file
-	if (( DELTA )); then
-		if [[ -n $oldfilename ]]; then
-			if [[ -f $oldfile ]]; then
-				delta=$(pkgdelta -q "$oldfile" "$1")
-				if [[ -f $delta ]]; then
-					db_write_delta "$delta"
-				fi
-			else
-				warning "$(gettext "Old package file not found: %s")" "$oldfilename"
-			fi
-		fi
-	fi
-
 	# copy updated package entry into "files" database
 	cp -a "$tmpdir/db/$pkgname-$pkgver" "$tmpdir/files/$pkgname-$pkgver"
 
@@ -478,9 +351,7 @@ db_remove_entry() {
 	local pkgentry=$(find_pkgentry "$pkgname")
 	while [[ -n $pkgentry ]]; do
 		notfound=0
-		if [[ -f $pkgentry/deltas ]]; then
-			mv "$pkgentry/deltas" "$tmpdir/db/$pkgname.deltas"
-		fi
+
 		msg2 "$(gettext "Removing existing entry '%s'...")" \
 		"${pkgentry##*/}"
 		rm -rf "$pkgentry"
@@ -574,16 +445,6 @@ add() {
 		return 1
 	fi
 
-	if [[ $1 = *-*-*_to_*-*-*.delta ]]; then
-		deltafile=$1
-		msg "$(gettext "Adding delta '%s'")" "$deltafile"
-		if db_write_delta "$deltafile"; then
-			return 0
-		else
-			return 1
-		fi
-	fi
-
 	pkgfile=$1
 	if ! bsdtar -tqf "$pkgfile" .PKGINFO >/dev/null 2>&1; then
 		error "$(gettext "'%s' is not a package file, skipping")" "$pkgfile"
@@ -596,27 +457,15 @@ add() {
 }
 
 remove() {
-	if [[ $1 = *-*-*_to_*-*-*.delta ]]; then
-		deltafile=$1
-		msg "$(gettext "Searching for delta '%s'...")" "$deltafile"
-		if db_remove_delta "$deltafile"; then
-			return 0
-		else
-			error "$(gettext "Delta matching '%s' not found.")" "$deltafile"
-			return 1
-		fi
-	fi
-
 	pkgname=$1
 	msg "$(gettext "Searching for package '%s'...")" "$pkgname"
 
-	if db_remove_entry "$pkgname"; then
-		rm -f "$tmpdir/db/$pkgname.deltas"
-		return 0
-	else
+	if ! db_remove_entry "$pkgname"; then
 		error "$(gettext "Package matching '%s' not found.")" "$pkgname"
 		return 1
 	fi
+	
+	return 0
 }
 
 rotate_db() {
@@ -755,7 +604,6 @@ declare -a args
 while (( $# )); do
 	case $1 in
 		-q|--quiet) QUIET=1;;
-		-d|--delta) DELTA=1;;
 		-n|--new) ONLYADDNEW=1;;
 		-R|--remove) RMEXISTING=1;;
 		--nocolor) USE_COLOR='n';;
@@ -805,8 +653,6 @@ REPO_DB_SUFFIX=${REPO_DB_FILE##*.db.}
 if (( SIGN || VERIFY )); then
 	check_gpg
 fi
-
-check_xdelta
 
 if (( VERIFY && ${#args[@]} == 1 )); then
 	for repo in "db" "files"; do
