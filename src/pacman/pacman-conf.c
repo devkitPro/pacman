@@ -125,14 +125,6 @@ static void list_repos(void)
 	}
 }
 
-static void show_float(const char *directive, float val)
-{
-	if(verbose) {
-		printf("%s = ", directive);
-	}
-	printf("%f%c", val, sep);
-}
-
 static void show_bool(const char *directive, short unsigned int val)
 {
 	if(val) {
@@ -269,8 +261,6 @@ static void dump_config(void)
 	show_bool("DisableDownloadTimeout", config->disable_dl_timeout);
 	show_bool("ILoveCandy", config->chomp);
 
-	show_float("UseDelta", config->deltaratio);
-
 	show_cleanmethod("CleanMethod", config->cleanmethod);
 
 	show_siglevel("SigLevel", config->siglevel, 0);
@@ -379,9 +369,6 @@ static int list_directives(void)
 			show_bool("VerbosePkgLists", config->verbosepkglists);
 		} else if(strcasecmp(i->data, "DisableDownloadTimeout") == 0) {
 			show_bool("DisableDownloadTimeout", config->disable_dl_timeout);
-
-		} else if(strcasecmp(i->data, "UseDelta") == 0) {
-			show_float("UseDelta", config->deltaratio);
 
 		} else if(strcasecmp(i->data, "CleanMethod") == 0) {
 			show_cleanmethod("CleanMethod", config->cleanmethod);

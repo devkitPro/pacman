@@ -267,23 +267,6 @@ void cb_event(alpm_event_t *event)
 				printf(_("loading package files...\n"));
 			}
 			break;
-		case ALPM_EVENT_DELTA_INTEGRITY_START:
-			printf(_("checking delta integrity...\n"));
-			break;
-		case ALPM_EVENT_DELTA_PATCHES_START:
-			printf(_("applying deltas...\n"));
-			break;
-		case ALPM_EVENT_DELTA_PATCH_START:
-			printf(_("generating %s with %s... "),
-					event->delta_patch.delta->to,
-					event->delta_patch.delta->delta);
-			break;
-		case ALPM_EVENT_DELTA_PATCH_DONE:
-			printf(_("success!\n"));
-			break;
-		case ALPM_EVENT_DELTA_PATCH_FAILED:
-			printf(_("failed.\n"));
-			break;
 		case ALPM_EVENT_SCRIPTLET_INFO:
 			fputs(event->scriptlet_info.line, stdout);
 			break;
@@ -355,8 +338,6 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_KEYRING_DONE:
 		case ALPM_EVENT_KEY_DOWNLOAD_DONE:
 		case ALPM_EVENT_LOAD_DONE:
-		case ALPM_EVENT_DELTA_INTEGRITY_DONE:
-		case ALPM_EVENT_DELTA_PATCHES_DONE:
 		case ALPM_EVENT_DISKSPACE_DONE:
 		case ALPM_EVENT_RETRIEVE_DONE:
 		case ALPM_EVENT_RETRIEVE_FAILED:
@@ -366,6 +347,14 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_PKGDOWNLOAD_START:
 		case ALPM_EVENT_PKGDOWNLOAD_DONE:
 		case ALPM_EVENT_PKGDOWNLOAD_FAILED:
+		/* temporary until removed from libalpm */
+		case ALPM_EVENT_DELTA_INTEGRITY_START:
+		case ALPM_EVENT_DELTA_INTEGRITY_DONE:
+		case ALPM_EVENT_DELTA_PATCHES_START:
+		case ALPM_EVENT_DELTA_PATCHES_DONE:
+		case ALPM_EVENT_DELTA_PATCH_START:
+		case ALPM_EVENT_DELTA_PATCH_DONE:
+		case ALPM_EVENT_DELTA_PATCH_FAILED:
 			/* nothing */
 			break;
 	}

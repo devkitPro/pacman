@@ -186,14 +186,6 @@ Options
 *Color*::
 	Automatically enable colors only when pacman's output is on a tty.
 
-*UseDelta* [= ratio]::
-	Download delta files instead of complete packages if possible. Requires
-	the `xdelta3` program to be installed. If a ratio is specified (e.g.,
-	`0.5`), then it is used as a cutoff for determining whether to use deltas.
-	Allowed values are between `0.0` and `2.0`; sensible values are between
-	`0.2` and `0.9`.  Using a value above `1.0` is not recommended.  The
-	default is `0.7` if left unspecified.
-
 *TotalDownload*::
 	When downloading, display the amount downloaded, download rate, ETA,
 	and completed percentage of the entire download list rather
