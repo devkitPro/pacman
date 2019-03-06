@@ -844,28 +844,28 @@ static int _parse_repo(const char *key, char *value, const char *file,
 	int ret = 0;
 	config_repo_t *repo = section->repo;
 
+#define CHECK_VALUE(val) do { \
+	if(!val) { \
+		pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"), \
+				file, line, key); \
+		return 1; \
+	} \
+} while(0)
+
 	if(strcmp(key, "Server") == 0) {
-		if(!value) {
-			pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"),
-					file, line, key);
-			ret = 1;
-		} else {
-			repo->servers = alpm_list_add(repo->servers, strdup(value));
-		}
+		CHECK_VALUE(value);
+		repo->servers = alpm_list_add(repo->servers, strdup(value));
 	} else if(strcmp(key, "SigLevel") == 0) {
-		if(!value) {
-			pm_printf(ALPM_LOG_ERROR, _("config file %s, line %d: directive '%s' needs a value\n"),
-					file, line, key);
-		} else {
-			alpm_list_t *values = NULL;
-			setrepeatingoption(value, "SigLevel", &values);
-			if(values) {
-				ret = process_siglevel(values, &repo->siglevel,
-						&repo->siglevel_mask, file, line);
-				FREELIST(values);
-			}
+		CHECK_VALUE(value);
+		alpm_list_t *values = NULL;
+		setrepeatingoption(value, "SigLevel", &values);
+		if(values) {
+			ret = process_siglevel(values, &repo->siglevel,
+					&repo->siglevel_mask, file, line);
+			FREELIST(values);
 		}
 	} else if(strcmp(key, "Usage") == 0) {
+		CHECK_VALUE(value);
 		alpm_list_t *values = NULL;
 		setrepeatingoption(value, "Usage", &values);
 		if(values) {
@@ -880,6 +880,8 @@ static int _parse_repo(const char *key, char *value, const char *file,
 				_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
 				file, line, key, repo->name);
 	}
+
+#undef CHECK_VALUE
 
 	return ret;
 }
