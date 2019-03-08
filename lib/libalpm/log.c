@@ -22,6 +22,7 @@
 #include <stdarg.h>
 #include <errno.h>
 #include <syslog.h>
+#include <time.h>
 
 /* libalpm */
 #include "log.h"
@@ -38,11 +39,12 @@ static int _alpm_log_leader(FILE *f, const char *prefix)
 {
 	time_t t = time(NULL);
 	struct tm *tm = localtime(&t);
+    int length = 32;
+    char timestamp[length];
 
 	/* Use ISO-8601 date format */
-	return fprintf(f, "[%04d-%02d-%02d %02d:%02d] [%s] ",
-			tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
-			tm->tm_hour, tm->tm_min, prefix);
+    strftime(timestamp,length,"%FT%X%z", tm);
+	return fprintf(f, "[%s] [%s] ", timestamp, prefix);
 }
 
 /** A printf-like function for logging.
