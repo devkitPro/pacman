@@ -255,8 +255,6 @@ add_project_arguments('-include', 'config.h', language : 'c')
 default_duflags = ' -sk --apparent-size'
 default_sedinplaceflags = ' --follow-symlinks -i'
 inodecmd = 'stat -c \'%i %n\''
-ownercmd = 'stat -c \'%u:%g\''
-modecmd = 'stat -c \'%a\''
 strip_binaries = '--strip-all'
 strip_shared = '--strip-unneeded'
 strip_static = '--strip-debug'
@@ -264,8 +262,6 @@ strip_static = '--strip-debug'
 os = host_machine.system()
 if os.startswith('darwin')
   inodecmd = '/usr/bin/stat -f \'%i %n\''
-  ownercmd = '/usr/bin/stat -f \'%u:%g\''
-  modecmd = '/usr/bin/stat -f \'%lp\''
   default_sedinplaceflags = ' -i \'\''
   default_duflags = ' -sk'
   strip_binaries = ''
@@ -273,8 +269,6 @@ if os.startswith('darwin')
   strip_static = '-s'
 elif os.contains('bsd') or os == 'dragonfly'
   inodecmd = 'stat -f \'%i %n\''
-  ownercmd = 'stat -f \'%u:%g\''
-  modecmd = 'stat -f \'%lp\''
   default_sedinplaceflags = ' -i \'\''
   default_duflags = ' -sk'
 endif
@@ -314,8 +308,6 @@ substs.set('BUILDSCRIPT', BUILDSCRIPT)
 substs.set('TEMPLATE_DIR', get_option('makepkg-template-dir'))
 substs.set('DEBUGSUFFIX', get_option('debug-suffix'))
 substs.set('INODECMD', inodecmd)
-substs.set('OWNERCMD', ownercmd)
-substs.set('MODECMD', modecmd)
 substs.set('SEDINPLACEFLAGS', sedinplaceflags)
 substs.set('SEDPATH', SED.path())
 substs.set('DUFLAGS', duflags)
@@ -471,8 +463,6 @@ message('\n    '.join([
   '   Architecture            : @0@'.format(carch),
   '   Host Type               : @0@'.format(chost),
   '   File inode command      : @0@'.format(inodecmd),
-  '   File owner command      : @0@'.format(ownercmd),
-  '   File mode command       : @0@'.format(modecmd),
   '   Directory size command  : @0@ @1@'.format(DU.path(), duflags),
   '   In-place sed command    : @0@ @1@'.format(SED.path(), sedinplaceflags),
   '   libalpm version         : @0@'.format(libalpm_version),

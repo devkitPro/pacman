@@ -348,24 +348,18 @@ GCC_VISIBILITY_CC
 DEFAULT_DUFLAGS=" -sk --apparent-size"
 DEFAULT_SEDINPLACEFLAGS=" --follow-symlinks -i"
 INODECMD="stat -c '%i %n'"
-OWNERCMD="stat -c '%u:%g'"
-MODECMD="stat -c '%a'"
 STRIP_BINARIES="--strip-all"
 STRIP_SHARED="--strip-unneeded"
 STRIP_STATIC="--strip-debug"
 case "${host_os}" in
 	*bsd*)
 		INODECMD="stat -f '%i %N'"
-		OWNERCMD="stat -f '%u:%g'"
-		MODECMD="stat -f '%Lp'"
 		DEFAULT_SEDINPLACEFLAGS=" -i \"\""
 		DEFAULT_DUFLAGS=" -sk"
 		;;
 	darwin*)
 		host_os_darwin=yes
 		INODECMD="/usr/bin/stat -f '%i %N'"
-		OWNERCMD="/usr/bin/stat -f '%u:%g'"
-		MODECMD="/usr/bin/stat -f '%Lp'"
 		DEFAULT_SEDINPLACEFLAGS=" -i ''"
 		DEFAULT_DUFLAGS=" -sk"
 		STRIP_BINARIES=""
@@ -377,8 +371,6 @@ AM_CONDITIONAL([DARWIN], test "x$host_os_darwin" = "xyes")
 AC_PATH_PROGS([DUPATH], [du], [du], [/usr/bin$PATH_SEPARATOR/bin] )
 AC_PATH_PROGS([SEDPATH], [sed], [sed], [/usr/bin$PATH_SEPARATOR/bin] )
 AC_SUBST(INODECMD)
-AC_SUBST(OWNERCMD)
-AC_SUBST(MODECMD)
 AC_SUBST(STRIP_BINARIES)
 AC_SUBST(STRIP_SHARED)
 AC_SUBST(STRIP_STATIC)
@@ -570,8 +562,6 @@ ${PACKAGE_NAME}:
     Architecture           : ${CARCH}
     Host Type              : ${CHOST}
     File inode command     : ${INODECMD}
-    File owner command     : ${OWNERCMD}
-    File mode command      : ${MODECMD}
     In-place sed command   : ${SEDPATH} ${SEDINPLACEFLAGS}
 
     libalpm version        : ${LIB_VERSION}
