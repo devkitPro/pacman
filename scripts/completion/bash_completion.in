@@ -41,9 +41,9 @@ _pacman_keyids() {
 }
 
 _pacman_key() {
-  local o cur opts prev wantfiles
-  COMPREPLY=()
-  _get_comp_words_by_ref cur prev
+  local o opts wantfiles
+  local cur prev words cword
+  _init_completion || return
   opts=('add config delete edit-key export finger gpgdir
          help import import-trustdb init keyserver list-keys list-sigs
          lsign-key nocolor populate recv-keys refresh-keys updatedb
@@ -72,9 +72,9 @@ _pacman_key() {
 
 _makepkg() {
   compopt +o default
-  local cur opts prev
-  COMPREPLY=()
-  _get_comp_words_by_ref cur prev
+  local opts
+  local cur prev words cword
+  _init_completion || return
   if [[ $prev = @(-p|--config) ]]; then
     compopt -o default
   elif [[ ! $prev =~ ^-(-(config|help|key|version)$|\w*[Vh]) ]]; then
@@ -105,9 +105,9 @@ _pacman_repo_list() {
 
 _pacman() {
   compopt -o default
-  local common core cur database files prev query remove sync upgrade o
-  COMPREPLY=()
-  _get_comp_words_by_ref cur prev
+  local common core database files query remove sync upgrade o
+  local cur prev words cword
+  _init_completion || return
   database=('asdeps asexplicit')
   files=('list machinereadable owns search refresh regex' 'l o s x y')
   query=('changelog check deps explicit file foreign groups info list native owns
