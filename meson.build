@@ -98,29 +98,34 @@ libcurl = dependency('libcurl',
 conf.set('HAVE_LIBCURL', libcurl.found())
 
 want_gpgme = get_option('gpgme')
-gpgme_config = find_program('gpgme-config', required : want_gpgme)
-if not want_gpgme.disabled() and gpgme_config.found()
-  gpgme_version = run_command(gpgme_config, '--version').stdout().strip()
+gpgme = dependency('gpgme',
+                   required : false,
+                   static : get_option('buildstatic'))
+# gpgme recently began providing a pkg-config file. Create a fake dependency
+# object if it cannot be found, by manually searching for libs.
+if not want_gpgme.disabled() and not gpgme.found()
+  gpgme_config = find_program('gpgme-config', required : want_gpgme)
+  if gpgme_config.found()
+    gpgme_version = run_command(gpgme_config, '--version').stdout().strip()
 
-  needed_gpgme_version = '>=1.3.0'
-  have = gpgme_version.version_compare(needed_gpgme_version)
-  if want_gpgme.enabled() and not have
-    error('gpgme @0@ is needed for GPG signature support'.format(needed_gpgme_version))
+    needed_gpgme_version = '>=1.3.0'
+    if gpgme_version.version_compare(needed_gpgme_version)
+      gpgme_libs = [
+        cc.find_library('gpgme',
+                        dirs : [get_option('gpgme-libdir')]),
+        cc.find_library('gpg-error',
+                        dirs : [get_option('gpgme-libdir')]),
+        cc.find_library('assuan',
+                        dirs : [get_option('gpgme-libdir')]),
+      ]
+      gpgme = declare_dependency(dependencies : gpgme_libs)
+    endif
   endif
+endif
 
-  gpgme_libs = [
-    cc.find_library('gpgme', required : have,
-                    dirs : [get_option('gpgme-libdir')]),
-    cc.find_library('gpg-error', required : have,
-                    dirs : [get_option('gpgme-libdir')]),
-    cc.find_library('assuan', required : have,
-                    dirs : [get_option('gpgme-libdir')]),
-  ]
-
-  conf.set('HAVE_LIBGPGME', have)
-else
-  gpgme_libs = []
-  conf.set('HAVE_LIBGPGME', false)
+conf.set('HAVE_LIBGPGME', gpgme.found())
+if want_gpgme.enabled() and not conf.get('HAVE_LIBGPGME')
+  error('gpgme @0@ is needed for GPG signature support'.format(needed_gpgme_version))
 endif
 
 want_crypto = get_option('crypto')
@@ -341,7 +346,7 @@ libalpm_a = static_library(
   'alpm',
   libalpm_sources,
   include_directories : includes,
-  dependencies : [crypto_provider, libarchive, libcurl] + gpgme_libs,
+  dependencies : [crypto_provider, libarchive, libcurl, gpgme],
   link_with : [libcommon],
   install : true)
 

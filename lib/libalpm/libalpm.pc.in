@@ -7,7 +7,7 @@ Name: libalpm
 Description: Arch Linux package management library
 URL: http://www.archlinux.org/pacman/
 Version: @LIB_VERSION@
-Requires.private: libarchive @pc_crypto@ @pc_libcurl@
+Requires.private: libarchive @pc_crypto@ @pc_libcurl@ @pc_gpgme@
 Cflags: -I${includedir} @LFS_CFLAGS@
 Libs: -L${libdir} -lalpm
-Libs.private: @LIBS@ @GPGME_LIBS@
+Libs.private: @LIBS@ @pc_gpgme_libs@

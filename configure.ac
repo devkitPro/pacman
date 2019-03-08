@@ -268,37 +268,43 @@ AS_IF([test "x$with_gpgme" != "xno"],
 	[AC_MSG_RESULT([no])])
 
 have_gpgme=no
-AS_IF([test "x$with_gpgme" != "xno"],
-	[AM_PATH_GPGME([1.3.0],
-		[LIBS_save="$LIBS"
-		CPPFLAGS_save="$CPPFLAGS"
-		CFLAGS_save="$CFLAGS"
+if test "x$with_gpgme" != "xno"; then
+	PKG_CHECK_MODULES(GPGME, [gpgme],
+		[AC_DEFINE([HAVE_LIBGPGME], [1], [Define if gpgme should be used to provide GPG signature support.])
+		AC_SUBST(pc_gpgme, [gpgme])
+		have_gpgme=yes],
+		[AM_PATH_GPGME([1.3.0],
+			[LIBS_save="$LIBS"
+			CPPFLAGS_save="$CPPFLAGS"
+			CFLAGS_save="$CFLAGS"
 
-		LIBS="$LIBS $GPGME_LIBS"
-		CPPFLAGS="$CPPFLAGS $GPGME_CPPFLAGS"
-		CFLAGS="$CFLAGS $GPGME_CFLAGS"
+			LIBS="$LIBS $GPGME_LIBS"
+			CPPFLAGS="$CPPFLAGS $GPGME_CPPFLAGS"
+			CFLAGS="$CFLAGS $GPGME_CFLAGS"
 
-		AC_MSG_CHECKING([for sane gpgme])
-		AC_LINK_IFELSE(
-			[AC_LANG_PROGRAM(
-				[[#include <gpgme.h>]],
-				[[return gpgme_check_version("1.3.0");]])],
-			[AC_MSG_RESULT([yes])
-			have_gpgme=yes
-			AC_DEFINE([HAVE_LIBGPGME], [1], [Define if gpgme should be used to provide GPG signature support.])],
-			[AC_MSG_RESULT([no])
-			have_gpgme=no
-			unset GPGME_LIBS
-			unset GPGME_CFLAGS]
-			AS_IF([test "x$with_gpgme" = "xyes"],
-				[AC_MSG_FAILURE([*** gpgme >= 1.3.0 is needed for GPG signature support])])
-			)
+			AC_MSG_CHECKING([for sane gpgme])
+			AC_LINK_IFELSE(
+				[AC_LANG_PROGRAM(
+					[[#include <gpgme.h>]],
+					[[return gpgme_check_version("1.3.0");]])],
+				[AC_MSG_RESULT([yes])
+				have_gpgme=yes
+				AC_DEFINE([HAVE_LIBGPGME], [1], [Define if gpgme should be used to provide GPG signature support.])
+				AC_SUBST(pc_gpgme_libs, ["$GPGME_LIBS"])],
+				[AC_MSG_RESULT([no])
+				have_gpgme=no
+				unset GPGME_LIBS
+				unset GPGME_CFLAGS]
+				AS_IF([test "x$with_gpgme" = "xyes"],
+					[AC_MSG_FAILURE([*** gpgme >= 1.3.0 is needed for GPG signature support])])
+				)
 
-		LIBS="$LIBS_save"
-		CPPFLAGS="$CPPFLAGS_save"
-		CFLAGS="$CFLAGS_save"
-		unset CPPFLAGS_save
-		unset CFLAGS_save],)])
+			LIBS="$LIBS_save"
+			CPPFLAGS="$CPPFLAGS_save"
+			CFLAGS="$CFLAGS_save"
+			unset CPPFLAGS_save
+			unset CFLAGS_save],)])
+fi
 
 AS_IF([test "x$have_gpgme" = xno -a "x$with_gpgme" = xyes],
 	[AC_MSG_FAILURE([--with-gpgme was given, but gpgme was not found])])
