@@ -588,8 +588,7 @@ write_kv_pair() {
 }
 
 write_pkginfo() {
-	local size="$(@DUPATH@ @DUFLAGS@)"
-	size="$(( ${size%%[^0-9]*} * 1024 ))"
+	local size="$(find . -type f -exec cat {} + 2>/dev/null | wc -c)"
 
 	merge_arch_attrs
 
