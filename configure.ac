@@ -345,7 +345,6 @@ AC_CHECK_MEMBERS([struct statfs.f_flags],,,[[#include <sys/param.h>
 GCC_VISIBILITY_CC
 
 # Host-dependant definitions
-DEFAULT_DUFLAGS=" -sk --apparent-size"
 DEFAULT_SEDINPLACEFLAGS=" --follow-symlinks -i"
 INODECMD="stat -c '%i %n'"
 STRIP_BINARIES="--strip-all"
@@ -355,31 +354,22 @@ case "${host_os}" in
 	*bsd*)
 		INODECMD="stat -f '%i %N'"
 		DEFAULT_SEDINPLACEFLAGS=" -i \"\""
-		DEFAULT_DUFLAGS=" -sk"
 		;;
 	darwin*)
 		host_os_darwin=yes
 		INODECMD="/usr/bin/stat -f '%i %N'"
 		DEFAULT_SEDINPLACEFLAGS=" -i ''"
-		DEFAULT_DUFLAGS=" -sk"
 		STRIP_BINARIES=""
 		STRIP_SHARED="-S"
 		STRIP_STATIC="-S"
 		;;
 esac
 AM_CONDITIONAL([DARWIN], test "x$host_os_darwin" = "xyes")
-AC_PATH_PROGS([DUPATH], [du], [du], [/usr/bin$PATH_SEPARATOR/bin] )
 AC_PATH_PROGS([SEDPATH], [sed], [sed], [/usr/bin$PATH_SEPARATOR/bin] )
 AC_SUBST(INODECMD)
 AC_SUBST(STRIP_BINARIES)
 AC_SUBST(STRIP_SHARED)
 AC_SUBST(STRIP_STATIC)
-
-# Flags for du
-if test "${DUFLAGS+set}" != "set"; then
-    DUFLAGS="${DEFAULT_DUFLAGS}"
-fi
-AC_ARG_VAR(DUFLAGS, [flags for du, overriding the default])
 
 # Flags for sed in place
 if test "${SEDINPLACEFLAGS+set}" != "set"; then

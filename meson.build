@@ -252,7 +252,6 @@ config_h = configure_file(
         configuration : conf)
 add_project_arguments('-include', 'config.h', language : 'c')
 
-default_duflags = ' -sk --apparent-size'
 default_sedinplaceflags = ' --follow-symlinks -i'
 inodecmd = 'stat -c \'%i %n\''
 strip_binaries = '--strip-all'
@@ -263,19 +262,12 @@ os = host_machine.system()
 if os.startswith('darwin')
   inodecmd = '/usr/bin/stat -f \'%i %n\''
   default_sedinplaceflags = ' -i \'\''
-  default_duflags = ' -sk'
   strip_binaries = ''
   strip_shared = '-s'
   strip_static = '-s'
 elif os.contains('bsd') or os == 'dragonfly'
   inodecmd = 'stat -f \'%i %n\''
   default_sedinplaceflags = ' -i \'\''
-  default_duflags = ' -sk'
-endif
-
-duflags = get_option('duflags')
-if duflags == 'autodetect'
-  duflags = default_duflags
 endif
 
 sedinplaceflags = get_option('sedinplaceflags')
@@ -310,8 +302,6 @@ substs.set('DEBUGSUFFIX', get_option('debug-suffix'))
 substs.set('INODECMD', inodecmd)
 substs.set('SEDINPLACEFLAGS', sedinplaceflags)
 substs.set('SEDPATH', SED.path())
-substs.set('DUFLAGS', duflags)
-substs.set('DUPATH', DU.path())
 substs.set('LIBMAKEPKGDIR', LIBMAKEPKGDIR)
 substs.set('STRIP_BINARIES', strip_binaries)
 substs.set('STRIP_SHARED', strip_shared)
@@ -463,7 +453,6 @@ message('\n    '.join([
   '   Architecture            : @0@'.format(carch),
   '   Host Type               : @0@'.format(chost),
   '   File inode command      : @0@'.format(inodecmd),
-  '   Directory size command  : @0@ @1@'.format(DU.path(), duflags),
   '   In-place sed command    : @0@ @1@'.format(SED.path(), sedinplaceflags),
   '   libalpm version         : @0@'.format(libalpm_version),
   '   pacman version          : @0@'.format(PACKAGE_VERSION),
