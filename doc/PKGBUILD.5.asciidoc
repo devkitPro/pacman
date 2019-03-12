@@ -296,23 +296,23 @@ underscore and the architecture name e.g., 'replaces_x86_64=()'.
 		Compress man and info pages with gzip.
 
 	*ccache*;;
-		Allow the use of ccache during build. More useful in its negative
+		Allow the use of ccache during `build()`. More useful in its negative
 		form `!ccache` with select packages that have problems building
 		with ccache.
 
 	*distcc*;;
-		Allow the use of distcc during build. More useful in its negative
+		Allow the use of distcc during `build()`. More useful in its negative
 		form `!distcc` with select packages that have problems building
 		with distcc.
 
 	*buildflags*;;
 		Allow the use of user-specific buildflags (CPPFLAGS, CFLAGS, CXXFLAGS,
-		LDFLAGS) during build as specified in linkman:makepkg.conf[5]. More
+		LDFLAGS) during `build()` as specified in linkman:makepkg.conf[5]. More
 		useful in its negative form `!buildflags` with select packages that
 		have problems building with custom buildflags.
 
 	*makeflags*;;
-		Allow the use of user-specific makeflags during build as specified
+		Allow the use of user-specific makeflags during `build()` as specified
 		in linkman:makepkg.conf[5]. More useful in its negative form
 		`!makeflags` with select packages that have problems building with
 		custom makeflags such as `-j2` (or higher).
