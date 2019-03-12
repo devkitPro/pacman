@@ -332,6 +332,14 @@ PKGBUILD must contain a `package()` function which installs all the package's
 files into the packaging directory, with optional `prepare()`, `build()`, and
 `check()` functions being used to create those files from source.
 
+This is directly sourced and executed by makepkg, so anything that Bash or the
+system has available is available for use here. Be sure any exotic commands
+used are covered by the `makedepends` array.
+
+If you create any variables of your own in any of these functions, it is
+recommended to use the Bash `local` keyword to scope the variable to inside the
+function.
+
 *package() Function*::
 	The `package()` function is used to install files into the directory that
 	will become the root directory of the built package and is run after all
@@ -348,14 +356,7 @@ files into the packaging directory, with optional `prepare()`, `build()`, and
 
 *build() Function*::
 	The optional `build()` function is use to compile and/or adjust the source
-	files in preparation to be installed by the `package()` function. This is
-	directly sourced and executed by makepkg, so anything that Bash or the
-	system has available is available for use here. Be sure any exotic
-	commands used are covered by the `makedepends` array.
-+
-If you create any variables of your own in the `build()` function, it is
-recommended to use the Bash `local` keyword to scope the variable to inside
-the `build()` function.
+	files in preparation to be installed by the `package()` function.
 
 *check() Function*::
 	An optional `check()` function can be specified in which a package's
