@@ -1,5 +1,121 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+5.2.0         - completely remove delta support (CVE-2019-18183)
+              - add support to pacman and pacman-key for downloading PGP
+                signing keys using the WKD protocol (FS#63171)
+              - completely remove the --force option
+              - renovate and simplify the UI for -F (FS#47949)
+              - hooks: rename type File to Path, for accuracy
+              - add the meson build system as an alternative to autotools, and
+                distribute it in autotools dist tarballs
+              - switch from system() to exec() when using alternative download
+                agents for XferCommand; this prevents a potential source of
+                shell injection (CVE-2019-18182)
+              - ignore .hook suffix when sorting libalpm hooks
+              - update the minimum requirement of bash to 4.4
+              - scripts: pass on options such as set -x to child processes
+              - show group and installed status during -Fs
+              - user-visible log when validity check fails due to access
+              - port pactest to python3
+              - process --needed before group selection when resolving the
+                dependencies to prompt for (FS#22870)
+              - don't error when a group exists but all packages are ignored
+              - bash completion now completes when it should, and doesn't
+                complete when it shouldn't (FS#59965)
+              - improve error message when gpg support is missing (FS#60880)
+              - don't emit confusing errors when a package is simultaneously
+                replaced and upgraded (FS#50875, FS#55534)
+              - better warning message when skipping duplicate targets
+                (FS#49377)
+              - libalpm: parse {check, make}depends when reading database
+                (FS#60347)
+              - add [ignored] to -Qu output for packages in repos that are not
+                Usage = Upgrade (FS#59854)
+              - prevent 301 redirect loop from hanging libalpm
+              - use standard, consistent units in the download progress
+                (FS#59201)
+              - fix segfault when Usage is specified without a value
+              - include timezones in pacman.log
+              - bash-completion: use POSIX character classes for portability
+              - correctly report a download failiure for 404s
+              - fix handling of signals during SIGSEGV
+              - fix buffer overread in pacman/callback
+              - fix crash when downloading files with a Content-Disposition
+                that has no directory component
+              - pacman-conf, testpkg are now properly localized
+              - when -F returns zero results, set a failing exit code
+              - improve wording for the error message when a package cannot be
+                removed due to dependencies
+              - fix segfaults and other incorrect behavior when using -Qip if
+                pacman was compiled without GPGME support
+              - makepkg:
+                - implement extendable source/signature verification routines
+                  within libmakepkg (FS#49076)
+                - if pacman is in use, wait until it is available before
+                  continuing (FS#28840)
+                - add support for lzip, lz4 and zst compressed packages
+                  (FS#56676, FS#59081)
+                - add new checksum algorithm, b2sum
+                - various improvements to PKGBUILD linting
+                - when signing packages, report package filename on failure
+                - fix pkgver() function not aborting on errors
+                - remove checksum algorithm whirlpoolsum as it has not worked
+                  for a long time
+                - reject PKGBUILDs with both split and non-split package
+                  functions
+                - send status messages to stderr rather than stdout (FS#17173)
+                - ensure debug buildflags are unset when they are supposed to be
+                - buildenv and executable detection, definitions for the
+                  PKGBUILD schema, and makepkg.conf loading are now part of
+                  libmakepkg
+                - fix broken check for the fakeroot binary
+                - improve the error message for invalid dependency versioning
+                - add routine for linting $SOURCE_DATE_EPOCH
+                - fix the error code when no PKGBUILD exists
+                - use --unneeded when removing build deps to allow runtime-only
+                  deps to work well with makepkg -sir (FS#32723)
+                - compute package sizes correctly across different filesystems
+                - use shared clones for git sources to save space when building
+                - fix reporting of invalid archive extensions
+                - correctly handle hg sources with updates on a non-default
+                  branch
+                - install pkg-config file for libmakepkg's library directory
+                - propagate error codes when package failed to sign correctly
+                - be compatible with file 5.37's application/gzip MIME type
+                - forbid non-ASCII pkgname and pkgver (FS#49342)
+                - fix exiting on failure without ensuring dependencies are
+                  prompted for removal (FS#63000)
+                - quiet superfluous warnings for missing debug source files for
+                  artificial symbols
+                - add routine for linting $PACKAGER to check that it has a
+                  valid name and email address, and document the desired format
+                  in makepkg.conf(5)
+                - add rust support for *FLAGS and debug-prefix-map
+                - correctly handle a system file command with seccomp enabled
+                  (FS#58626)
+                - try to more thoroughly clean up logpipe during unusual exit
+                  states such as CTRL-C
+                - when installing packages with -sir, be more robust against
+                  conflicting makedepends by always uninstalling them first
+                - fix exit code when removing deps fails
+                - reproducible builds: suppress filesystem-specific archive
+                  metadata from built packages as they are not needed
+              - pacman-key:
+                - just accept one file to verify, and enforce detached sigs
+                  (FS#52022)
+                - after recent GnuPG updates, ensure the Web of Trust is still
+                  used
+                - clean keys during import to reduce size consumed by unusable
+                  signatures
+              - repo-add:
+                - add support for zst compressed databases
+                - print the name of the database when extracting
+                - do not infinitely loop on malformed arguments with embedded
+                  globs
+                - add option to prevent downgrading (FS#17752)
+              - various documentation updates
+5.1.3         - Sanitize file name received from Content-Disposition header
+                during -U (CVE-2019-9686)
 5.1.2         - pacman-conf: add missing DisableDownloadTimeout support
               - Include version when checking optdepend install status
                 during -Qi (FS#60106)
