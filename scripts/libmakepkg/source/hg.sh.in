@@ -79,7 +79,11 @@ extract_hg() {
 	msg2 "$(gettext "Creating working copy of %s %s repo...")" "${repo}" "hg"
 	pushd "$srcdir" &>/dev/null
 
-	local ref=tip
+	local ref=default
+	# Is the repository configured to checkout some ref other than 'default'?
+	if hg identify -r @ "$dir" >/dev/null 2>&1; then
+		ref=@
+	fi
 	if [[ -n $fragment ]]; then
 		case ${fragment%%=*} in
 			branch|revision|tag)
