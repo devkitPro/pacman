@@ -90,7 +90,7 @@ srcinfo_write_global() {
 	local multivalued=(arch groups license checkdepends makedepends
 	                   depends optdepends provides conflicts replaces
 	                   noextract options backup
-	                   source validpgpkeys {md5,sha{1,224,256,384,512}}sums)
+	                   source validpgpkeys "${known_hash_algos[@]/%/sums}")
 
 	srcinfo_open_section 'pkgbase' "${pkgbase:-$pkgname}"
 	srcinfo_write_section_details ''
