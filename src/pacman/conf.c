@@ -975,11 +975,11 @@ int setdefaults(config_t *c)
 	if(c->rootdir) {
 		char path[PATH_MAX];
 		if(!c->dbpath) {
-			snprintf(path, PATH_MAX, "%s/%s", c->rootdir, DBPATH + 1);
+			snprintf(path, PATH_MAX, "%s/%s", c->rootdir, &DBPATH[1]);
 			SETDEFAULT(c->dbpath, strdup(path));
 		}
 		if(!c->logfile) {
-			snprintf(path, PATH_MAX, "%s/%s", c->rootdir, LOGFILE + 1);
+			snprintf(path, PATH_MAX, "%s/%s", c->rootdir, &LOGFILE[1]);
 			SETDEFAULT(c->logfile, strdup(path));
 		}
 	} else {
