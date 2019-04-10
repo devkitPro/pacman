@@ -666,7 +666,8 @@ list_package_files() {
 	(
 		export LC_COLLATE=C
 		shopt -s dotglob globstar
-		printf '%s\0' **
+		# bash 5.0 only works with combo directory + file globs
+		printf '%s\0' **/*
 	)
 }
 
