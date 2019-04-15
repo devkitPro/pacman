@@ -387,6 +387,7 @@ executable(
   pacman_conf_sources,
   include_directories : includes,
   link_with : [libalpm],
+  dependencies : [libarchive],
   install : true,
 )
 
@@ -395,6 +396,7 @@ executable(
   testpkg_sources,
   include_directories : includes,
   link_with : [libalpm],
+  dependencies : [libarchive],
   install : true,
 )
 
