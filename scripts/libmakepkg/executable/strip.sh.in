@@ -23,6 +23,7 @@ LIBMAKEPKG_EXECUTABLE_STRIP_SH=1
 
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
+source "$LIBRARY/util/message.sh"
 source "$LIBRARY/util/option.sh"
 
 executable_functions+=('executable_strip')

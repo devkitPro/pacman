@@ -23,7 +23,8 @@ LIBMAKEPKG_EXECUTABLE_VCS_SH=1
 
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
-source "$LIBRARY/util/option.sh"
+source "$LIBRARY/util/error.sh"
+source "$LIBRARY/util/message.sh"
 
 executable_functions+=('executable_vcs')
 
