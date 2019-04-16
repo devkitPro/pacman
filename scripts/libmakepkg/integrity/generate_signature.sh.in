@@ -47,6 +47,8 @@ create_signature() {
 }
 
 create_package_signatures() {
+	local ret=0
+
 	if [[ $SIGNPKG != 'y' ]]; then
 		return 0
 	fi
@@ -59,7 +61,7 @@ create_package_signatures() {
 		pkgarch=$(get_pkg_arch $pkg)
 		pkg_file="$PKGDEST/${pkg}-${fullver}-${pkgarch}${PKGEXT}"
 
-		create_signature "$pkg_file"
+		create_signature "$pkg_file" || ret=$?
 	done
 
 	# check if debug package needs a signature
@@ -68,7 +70,9 @@ create_package_signatures() {
 		pkgarch=$(get_pkg_arch)
 		pkg_file="$PKGDEST/${pkg}-${fullver}-${pkgarch}${PKGEXT}"
 		if [[ -f $pkg_file ]]; then
-			create_signature "$pkg_file"
+			create_signature "$pkg_file" || ret=$?
 		fi
 	fi
+
+	return $ret
 }

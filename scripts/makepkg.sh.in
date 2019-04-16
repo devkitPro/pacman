@@ -1481,7 +1481,7 @@ else
 
 	enter_fakeroot
 
-	create_package_signatures
+	create_package_signatures || exit $E_PRETTY_BAD_PRIVACY
 fi
 
 # if inhibiting archive creation, go no further
