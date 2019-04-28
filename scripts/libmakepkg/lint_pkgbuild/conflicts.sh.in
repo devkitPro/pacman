@@ -44,7 +44,7 @@ lint_conflicts() {
 	for conflict in "${conflicts_list[@]}"; do
 		name=${conflict%%@(<|>|=|>=|<=)*}
 		lint_one_pkgname conflicts "$name" || ret=1
-		if [[ $name != $conflict ]]; then
+		if [[ $name != "$conflict" ]]; then
 			ver=${conflict##$name@(<|>|=|>=|<=)}
 			check_fullpkgver "$ver" conflicts || ret=1
 		fi

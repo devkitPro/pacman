@@ -44,7 +44,7 @@ lint_optdepends() {
 	for optdepend in "${optdepends_list[@]%%:[[:space:]]*}"; do
 		name=${optdepend%%@(<|>|=|>=|<=)*}
 		lint_one_pkgname optdepends "$name" || ret=1
-		if [[ $name != $optdepend ]]; then
+		if [[ $name != "$optdepend" ]]; then
 			ver=${optdepend##$name@(<|>|=|>=|<=)}
 			check_fullpkgver "$ver" optdepends || ret=1
 		fi

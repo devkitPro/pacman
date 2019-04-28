@@ -121,7 +121,7 @@ find_pkgentry() {
 
 	for pkgentry in "$tmpdir/db/$pkgname"*; do
 		name=${pkgentry##*/}
-		if [[ ${name%-*-*} = $pkgname ]]; then
+		if [[ ${name%-*-*} = "$pkgname" ]]; then
 			echo $pkgentry
 			return 0
 		fi
@@ -464,7 +464,7 @@ remove() {
 		error "$(gettext "Package matching '%s' not found.")" "$pkgname"
 		return 1
 	fi
-	
+
 	return 0
 }
 

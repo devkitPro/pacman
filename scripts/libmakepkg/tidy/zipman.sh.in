@@ -40,7 +40,7 @@ tidy_zipman() {
 			while read -r link ; do
 				if [[ "${file}" -ef "${link}" ]] ; then
 					rm -f "$link" "${link}.gz"
-					if [[ ${file%/*} = ${link%/*} ]]; then
+					if [[ ${file%/*} = "${link%/*}" ]]; then
 						ln -s -- "${file##*/}.gz" "${link}.gz"
 					else
 						ln -s -- "/${file}.gz" "${link}.gz"

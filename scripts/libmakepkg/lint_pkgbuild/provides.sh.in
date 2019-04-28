@@ -49,7 +49,7 @@ lint_provides() {
 		fi
 		name=${provide%=*}
 		lint_one_pkgname provides "$name" || ret=1
-		if [[ $name != $provide ]]; then
+		if [[ $name != "$provide" ]]; then
 			ver=${provide##$name=}
 			check_fullpkgver "$ver" provides || ret=1
 		fi

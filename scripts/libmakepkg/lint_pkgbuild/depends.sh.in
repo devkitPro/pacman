@@ -44,7 +44,7 @@ lint_depends() {
 	for depend in "${depends_list[@]}"; do
 		name=${depend%%@(<|>|=|>=|<=)*}
 		lint_one_pkgname depends "$name" || ret=1
-		if [[ $name != $depend ]]; then
+		if [[ $name != "$depend" ]]; then
 			ver=${depend##$name@(<|>|=|>=|<=)}
 			# Don't validate empty version because of https://bugs.archlinux.org/task/58776
 			if [[ -n $ver ]]; then

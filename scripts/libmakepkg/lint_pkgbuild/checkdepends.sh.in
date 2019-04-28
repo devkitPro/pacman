@@ -44,7 +44,7 @@ lint_checkdepends() {
 	for checkdepend in "${checkdepends_list[@]}"; do
 		name=${checkdepend%%@(<|>|=|>=|<=)*}
 		lint_one_pkgname checkdepends "$name" || ret=1
-		if [[ $name != $checkdepend ]]; then
+		if [[ $name != "$checkdepend" ]]; then
 			ver=${checkdepend##$name@(<|>|=|>=|<=)}
 			check_fullpkgver "$ver" checkdepends || ret=1
 		fi

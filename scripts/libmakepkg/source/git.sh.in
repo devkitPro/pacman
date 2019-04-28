@@ -117,7 +117,7 @@ extract_git() {
 
 	if [[ ${fragment%%=*} = tag ]]; then
 		tagname="$(git tag -l --format='%(tag)' "$ref")"
-		if [[ -n $tagname && $tagname != $ref ]]; then
+		if [[ -n $tagname && $tagname != "$ref" ]]; then
 			error "$(gettext "Failure while checking out version %s, the git tag has been forged")" "$ref"
 			plain "$(gettext "Aborting...")"
 			exit 1

@@ -44,7 +44,7 @@ lint_makedepends() {
 	for makedepend in "${makedepends_list[@]}"; do
 		name=${makedepend%%@(<|>|=|>=|<=)*}
 		lint_one_pkgname makedepends "$name" || ret=1
-		if [[ $name != $makedepend ]]; then
+		if [[ $name != "$makedepend" ]]; then
 			ver=${makedepend##$name@(<|>|=|>=|<=)}
 			check_fullpkgver "$ver" makedepends || ret=1
 		fi

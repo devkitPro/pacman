@@ -182,7 +182,7 @@ if [[ -z "$db_version" ]]; then
 			realdir="$(resolve_dir "$dir")"
 
 			# verify realdir is inside root
-			if [[ ${realdir:0:${#pacroot}} != $pacroot ]]; then
+			if [[ ${realdir:0:${#pacroot}} != "$pacroot" ]]; then
 				warning "$(gettext "symlink '%s' points outside pacman root, manual repair required")" "$dir"
 				continue
 			fi
