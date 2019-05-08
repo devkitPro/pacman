@@ -5,6 +5,9 @@ AM_INSTALLCHECK_STD_OPTIONS_EXEMPT = \
 
 SUBDIRS = po
 
+pkgconfigdir = $(datarootdir)/pkgconfig
+pkgconfig_DATA = libmakepkg.pc
+
 bin_SCRIPTS = \
 	$(OURSCRIPTS) \
 	makepkg-template \
@@ -19,6 +22,7 @@ OURSCRIPTS = \
 	repo-add
 
 EXTRA_DIST = \
+	libmakepkg.pc.in \
 	makepkg.sh.in \
 	makepkg-template.pl.in \
 	pacman-db-upgrade.sh.in \
@@ -145,7 +149,7 @@ COMPLETION_DIST = \
 	$(addsuffix .in, $(COMPLETION_IN))
 
 # Files that should be removed, but which Automake does not know.
-MOSTLYCLEANFILES = $(bin_SCRIPTS) $(LIBMAKEPKG_IN) $(COMPLETION_IN)
+MOSTLYCLEANFILES = $(bin_SCRIPTS) $(LIBMAKEPKG_IN) $(COMPLETION_IN) libmakepkg.pc
 
 clean-local:
 	$(AM_V_at)$(RM) -r .lib
@@ -195,7 +199,7 @@ $(LIBMAKEPKG_IN): %: %.in Makefile
 	$(AM_V_at)chmod a-w $@
 	@$(BASH_SHELL) -O extglob -n $@
 
-$(COMPLETION_IN): %: %.in Makefile
+$(COMPLETION_IN) libmakepkg.pc: %: %.in Makefile
 	$(AM_V_at)$(RM) $@
 	$(AM_V_at)$(MKDIR_P) $(dir $@)
 	$(AM_V_GEN)$(edit) $(srcdir)/$@.in >$@

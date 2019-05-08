@@ -78,6 +78,12 @@ endforeach
 
 subdir('libmakepkg')
 
+configure_file(
+	configuration : { 'libmakepkgdir': LIBMAKEPKGDIR, 'PACKAGE_VERSION': PACKAGE_VERSION },
+	input : 'libmakepkg.pc.in',
+	output : '@BASENAME@',
+	install_dir : join_paths(DATAROOTDIR, 'pkgconfig'))
+
 custom_target(
   'bash_completion',
   command : [ SCRIPT_EDITOR, '@INPUT@', '@OUTPUT@' ],
