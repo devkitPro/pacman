@@ -1211,9 +1211,9 @@ else
 	fi
 fi
 
-unset pkgname pkgbase pkgver pkgrel epoch pkgdesc url license groups provides
-unset md5sums replaces depends conflicts backup source install changelog build
-unset sha{1,224,256,384,512}sums makedepends optdepends options noextract validpgpkeys
+unset pkgname "${pkgbuild_schema_strings[@]}" "${pkgbuild_schema_arrays[@]}"
+unset "${known_hash_algos[@]/%/sums}"
+unset -f pkgver prepare build check package "${!package_@}"
 unset "${!makedepends_@}" "${!depends_@}" "${!source_@}" "${!checkdepends_@}"
 unset "${!optdepends_@}" "${!conflicts_@}" "${!provides_@}" "${!replaces_@}"
 unset "${!md5sums_@}" "${!sha1sums_@}" "${!sha224sums_@}" "${!sha256sums_@}"
