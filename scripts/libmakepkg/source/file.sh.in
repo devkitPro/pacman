@@ -102,7 +102,7 @@ extract_file() {
 	case "$file_type" in
 		*application/x-tar*|*application/zip*|*application/x-zip*|*application/x-cpio*)
 			cmd="bsdtar" ;;
-		*application/x-gzip*)
+		*application/x-gzip*|*application/gzip*)
 			case "$ext" in
 				gz|z|Z) cmd="gzip" ;;
 				*) return;;
