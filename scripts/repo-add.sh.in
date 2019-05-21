@@ -42,6 +42,7 @@ REPO_DB_SUFFIX=
 LOCKFILE=
 CLEAN_LOCK=0
 USE_COLOR='y'
+PREVENT_DOWNGRADE=0
 
 # Import libmakepkg
 source "$LIBRARY"/util/message.sh
@@ -63,6 +64,7 @@ Multiple packages to add can be specified on the command line.\n")"
 		printf -- "$(gettext "Options:\n")"
 		printf -- "$(gettext "  -n, --new         only add packages that are not already in the database\n")"
 		printf -- "$(gettext "  -R, --remove      remove old package file from disk after updating database\n")"
+		printf -- "$(gettext "  -p, --prevent-downgrade  do not add package to database if a newer version is already present\n")"
 	elif [[ $cmd == "repo-remove" ]] ; then
 		printf -- "$(gettext "Usage: repo-remove [options] <path-to-db> <packagename> ...\n")"
 		printf -- "\n"
@@ -248,9 +250,17 @@ db_write_entry() {
 			return 0
 		fi
 	else
-		if (( RMEXISTING )); then
-			pkgentry=$(find_pkgentry "$pkgname")
-			if [[ -n $pkgentry ]]; then
+		pkgentry=$(find_pkgentry "$pkgname")
+		if [[ -n $pkgentry ]]; then
+
+			local version=$(sed -n '/^%VERSION%$/ {n;p;q}' "$pkgentry/desc")
+			if (( $(vercmp "$version" "$pkgver") > 0 )); then
+				warning "$(gettext "A newer version for '%s' is already present in database")" "$pkgname"
+				if (( PREVENT_DOWNGRADE )); then
+					return 0
+				fi
+			fi
+			if (( RMEXISTING )); then
 				local oldfilename="$(sed -n '/^%FILENAME%$/ {n;p;q;}' "$pkgentry/desc")"
 				local oldfile="$(dirname "$1")/$oldfilename"
 			fi
@@ -617,6 +627,9 @@ while (( $# )); do
 			;;
 		-v|--verify)
 			VERIFY=1
+			;;
+		-p|--prevent-downgrade)
+			PREVENT_DOWNGRADE=1
 			;;
 		*)
 			args+=("$1")
