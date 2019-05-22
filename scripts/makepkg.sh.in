@@ -354,15 +354,6 @@ error_function() {
 	exit $E_USER_FUNCTION_FAILED
 }
 
-source_safe() {
-	shopt -u extglob
-	if ! source "$@"; then
-		error "$(gettext "Failed to source %s")" "$1"
-		exit $E_MISSING_FILE
-	fi
-	shopt -s extglob
-}
-
 merge_arch_attrs() {
 	local attr supported_attrs=(
 		provides conflicts depends replaces optdepends
@@ -1112,28 +1103,7 @@ trap 'trap_exit USR1 "$(gettext "An unknown error has occurred. Exiting...")"' E
 # preserve environment variables to override makepkg.conf
 restore_envvars=$(declare -p PKGDEST SRCDEST SRCPKGDEST LOGDEST BUILDDIR PKGEXT SRCEXT GPGKEY PACKAGER CARCH 2>/dev/null || true)
 
-# default config is makepkg.conf
-MAKEPKG_CONF=${MAKEPKG_CONF:-$confdir/makepkg.conf}
-
-# Source the config file; fail if it is not found
-if [[ -r $MAKEPKG_CONF ]]; then
-	source_safe "$MAKEPKG_CONF"
-else
-	error "$(gettext "%s not found.")" "$MAKEPKG_CONF"
-	plain "$(gettext "Aborting...")"
-	exit $E_CONFIG_ERROR
-fi
-
-# Source user-specific makepkg.conf overrides, but only if no override config
-# file was specified
-XDG_PACMAN_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/pacman"
-if [[ "$MAKEPKG_CONF" = "$confdir/makepkg.conf" ]]; then
-	if [[ -r "$XDG_PACMAN_DIR/makepkg.conf" ]]; then
-		source_safe "$XDG_PACMAN_DIR/makepkg.conf"
-	elif [[ -r "$HOME/.makepkg.conf" ]]; then
-		source_safe "$HOME/.makepkg.conf"
-	fi
-fi
+source_makepkg_config
 
 eval "$restore_envvars"
 

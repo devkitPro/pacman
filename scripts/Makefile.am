@@ -124,6 +124,7 @@ LIBMAKEPKG_IN = \
 	libmakepkg/tidy/zipman.sh \
 	libmakepkg/util.sh \
 	libmakepkg/util/compress.sh \
+	libmakepkg/util/config.sh \
 	libmakepkg/util/error.sh \
 	libmakepkg/util/message.sh \
 	libmakepkg/util/option.sh \

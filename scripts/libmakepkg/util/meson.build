@@ -2,6 +2,7 @@ libmakepkg_module = 'util'
 
 sources = [
   'compress.sh.in',
+  'config.sh.in',
   'error.sh.in',
   'message.sh.in',
   'option.sh.in',
