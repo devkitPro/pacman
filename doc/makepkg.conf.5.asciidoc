@@ -258,11 +258,12 @@ Options
 	Sets the command and options used when compressing compiled or source
 	packages in the named format.
 
-**PKGEXT=**".pkg.tar.gz", **SRCEXT=**".src.tar.gz"::
+**PKGEXT=**"{pkgext}", **SRCEXT=**"{srcext}"::
 	Sets the compression used when making compiled or source packages.
-	Valid suffixes are `.tar`, `.tar.gz`, `.tar.bz2`, `.tar.xz`, `.tar.zst`,
-	`.tar.lzo`, `.tar.lrz`, `.tar.lz4`, `.tar.lz` and `.tar.Z`.
-	Do not touch these unless you know what you are doing.
+	Valid suffixes are `.tar.gz`, `.tar.bz2`, `.tar.xz`, `.tar.zst`,
+	`.tar.lzo`, `.tar.lrz`, `.tar.lz4`, `.tar.lz` and `.tar.Z`, or
+	simply `.tar` to disable compression entirely.
+
 
 
 See Also

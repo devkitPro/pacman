@@ -108,6 +108,8 @@ ASCIIDOC_OPTS = \
 	-f $(srcdir)/asciidoc.conf \
 	-a pacman_version="$(REAL_PACKAGE_VERSION)" \
 	-a pacman_date="`date +%Y-%m-%d`" \
+	-a srcext="$(SRCEXT)" \
+	-a pkgext="$(PKGEXT)" \
 	-a pkgdatadir=$(pkgdatadir) \
 	-a localstatedir=$(localstatedir) \
 	-a sysconfdir=$(sysconfdir) \
