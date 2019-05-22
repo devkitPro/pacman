@@ -72,6 +72,7 @@ LIBMAKEPKG_IN = \
 	libmakepkg/integrity/verify_checksum.sh \
 	libmakepkg/integrity/verify_signature.sh \
 	libmakepkg/lint_config.sh \
+	libmakepkg/lint_config/ext.sh \
 	libmakepkg/lint_config/paths.sh \
 	libmakepkg/lint_config/source_date_epoch.sh \
 	libmakepkg/lint_config/variable.sh \

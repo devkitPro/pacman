@@ -1,6 +1,7 @@
 libmakepkg_module = 'lint_config'
 
 sources = [
+  'ext.sh.in',
   'paths.sh.in',
   'source_date_epoch.sh.in',
   'variable.sh.in',
