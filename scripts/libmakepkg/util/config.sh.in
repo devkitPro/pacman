@@ -54,3 +54,23 @@ source_makepkg_config() {
 		fi
 	fi
 }
+
+# load makepkg.conf by sourcing the configuration files, and preserving
+# existing environment settings
+load_makepkg_config() {
+	# $1: override system config file
+
+	local MAKEPKG_CONF=${1:-${MAKEPKG_CONF:-@sysconfdir@/makepkg.conf}}
+
+	# preserve environment variables to override makepkg.conf
+	local restore_envvars=$(
+		for var in PKGDEST SRCDEST SRCPKGDEST LOGDEST BUILDDIR PKGEXT SRCEXT GPGKEY PACKAGER CARCH; do
+			# the output of 'declare -p' results in locally scoped values when used within a function
+			[[ -v $var ]] && printf '%s=%s\n' "$var" "${!var@Q}"
+		done
+	)
+
+	source_makepkg_config "$MAKEPKG_CONF"
+
+	eval "$restore_envvars"
+}

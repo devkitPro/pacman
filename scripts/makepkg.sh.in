@@ -1100,12 +1100,7 @@ done
 trap 'trap_exit INT "$(gettext "Aborted by user! Exiting...")"' INT
 trap 'trap_exit USR1 "$(gettext "An unknown error has occurred. Exiting...")"' ERR
 
-# preserve environment variables to override makepkg.conf
-restore_envvars=$(declare -p PKGDEST SRCDEST SRCPKGDEST LOGDEST BUILDDIR PKGEXT SRCEXT GPGKEY PACKAGER CARCH 2>/dev/null || true)
-
-source_makepkg_config
-
-eval "$restore_envvars"
+load_makepkg_config
 
 # override settings from extra variables on commandline, if any
 if (( ${#extra_environment[*]} )); then
