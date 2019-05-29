@@ -488,14 +488,8 @@ File Options (apply to '-F')[[FO]]
 *-l, \--list*::
 	List the files owned by the queried package.
 
-*-s, \--search*::
-	Search package file names for matching strings.
-
 *-x, --regex*::
-	Treat arguments to '--search' as regular expressions.
-
-*-o, \--owns*::
-	Search for packages that own a particular file.
+	Interpret each query as a regular expression.
 
 *-q, \--quiet*::
 	Show less information for certain file operations. This is useful when
@@ -503,9 +497,9 @@ File Options (apply to '-F')[[FO]]
 	'--machinereadable' instead.
 
 *--machinereadable*::
-	Use a machine readable output format for '--list', '--search' and
-	'--owns'. The format is 'repository\0pkgname\0pkgver\0path\n' with '\0'
-	being the NULL character and '\n' a linefeed.
+	Print each match in a machine readable output format. The format is
+	'repository\0pkgname\0pkgver\0path\n' with '\0' being the NULL character
+	and '\n' a linefeed.
 
 Handling Config Files[[HCF]]
 ----------------------------

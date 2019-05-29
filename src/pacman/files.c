@@ -58,53 +58,7 @@ static void print_owned_by(alpm_db_t *db, alpm_pkg_t *pkg, char *filename)
 		alpm_pkg_get_version(pkg), colstr->nocolor);
 }
 
-static int files_fileowner(alpm_list_t *syncs, alpm_list_t *targets) {
-	int ret = 0;
-	alpm_list_t *t;
-
-	for(t = targets; t; t = alpm_list_next(t)) {
-		char *filename = t->data;
-		int found = 0;
-		alpm_list_t *s;
-		size_t len = strlen(filename);
-
-		while(len > 1 && filename[0] == '/') {
-			filename++;
-			len--;
-		}
-
-		for(s = syncs; s; s = alpm_list_next(s)) {
-			alpm_list_t *p;
-			alpm_db_t *repo = s->data;
-			alpm_list_t *packages = alpm_db_get_pkgcache(repo);
-
-			for(p = packages; p; p = alpm_list_next(p)) {
-				alpm_pkg_t *pkg = p->data;
-				alpm_filelist_t *files = alpm_pkg_get_files(pkg);
-
-				if(alpm_filelist_contains(files, filename)) {
-					if(config->op_f_machinereadable) {
-						print_line_machinereadable(repo, pkg, filename);
-					} else if(!config->quiet) {
-						print_owned_by(repo, pkg, filename);
-					} else {
-						printf("%s/%s\n", alpm_db_get_name(repo), alpm_pkg_get_name(pkg));
-					}
-
-					found = 1;
-				}
-			}
-		}
-
-		if(!found) {
-			ret++;
-		}
-	}
-
-	return 0;
-}
-
-static void print_match(alpm_list_t *match, alpm_db_t *repo, alpm_pkg_t *pkg)
+static void print_match(alpm_list_t *match, alpm_db_t *repo, alpm_pkg_t *pkg, char *exact_file)
 {
 	alpm_db_t *db_local = alpm_get_localdb(config->handle);
 	const colstr_t *colstr = &config->colstr;
@@ -117,6 +71,12 @@ static void print_match(alpm_list_t *match, alpm_db_t *repo, alpm_pkg_t *pkg)
 		}
 	} else if(config->quiet) {
 		printf("%s/%s\n", alpm_db_get_name(repo), alpm_pkg_get_name(pkg));
+	} else if(exact_file != NULL) {
+		alpm_list_t *ml;
+		for(ml = match; ml; ml = alpm_list_next(ml)) {
+			char *filename = ml->data;
+			print_owned_by(repo, pkg, filename);
+		}
 	} else {
 		alpm_list_t *ml;
 		printf("%s%s/%s%s %s%s%s", colstr->repo, alpm_db_get_name(repo),
@@ -143,6 +103,15 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 		alpm_list_t *s;
 		int found = 0;
 		regex_t reg;
+		size_t len = strlen(targ);
+		char *exact_file = strchr(targ, '/');
+
+		if(exact_file != NULL) {
+			while(len > 1 && targ[0] == '/') {
+				targ++;
+				len--;
+			}
+		}
 
 		if(regex) {
 			if(regcomp(&reg, targ, REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE) != 0) {
@@ -158,30 +127,44 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 			int m;
 
 			for(p = packages; p; p = alpm_list_next(p)) {
-				size_t f = 0;
-				char* c;
 				alpm_pkg_t *pkg = p->data;
 				alpm_filelist_t *files = alpm_pkg_get_files(pkg);
 				alpm_list_t *match = NULL;
 
-				while(f < files->count) {
-					c = strrchr(files->files[f].name, '/');
-					if(c && *(c + 1)) {
-						if(regex) {
-							m = regexec(&reg, (c + 1), 0, 0, 0);
-						} else {
-							m = strcmp(c + 1, targ);
+				if(exact_file != NULL) {
+					if (regex) {
+						for(size_t f = 0; f < files->count; f++) {
+							char *c = files->files[f].name;
+							if(regexec(&reg, c, 0, 0, 0) == 0) {
+								match = alpm_list_add(match, files->files[f].name);
+								found = 1;
+							}
 						}
-						if(m == 0) {
-							match = alpm_list_add(match, files->files[f].name);
+					} else {
+						if(alpm_filelist_contains(files, targ)) {
+							match = alpm_list_add(match, targ);
 							found = 1;
 						}
 					}
-					f++;
+				} else {
+					for(size_t f = 0; f < files->count; f++) {
+						char *c = strrchr(files->files[f].name, '/');
+						if(c && *(c + 1)) {
+							if(regex) {
+								m = regexec(&reg, (c + 1), 0, 0, 0);
+							} else {
+								m = strcmp(c + 1, targ);
+							}
+							if(m == 0) {
+								match = alpm_list_add(match, files->files[f].name);
+								found = 1;
+							}
+						}
+					}
 				}
 
 				if(match != NULL) {
-					print_match(match, repo, pkg);
+					print_match(match, repo, pkg, exact_file);
 					alpm_list_free(match);
 				}
 			}
@@ -312,30 +295,16 @@ int pacman_files(alpm_list_t *targets)
 		}
 	}
 
-	if(targets == NULL && (config->op_q_owns | config->op_s_search)) {
-		pm_printf(ALPM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
-		return 1;
-	}
-
-	/* determine the owner of a file */
-	if(config->op_q_owns) {
-		return files_fileowner(files_dbs, targets);
-	}
-
-	/* search for a file */
-	if(config->op_s_search) {
-		return files_search(files_dbs, targets, config->op_f_regex);
-	}
-
 	/* get a listing of files in sync DBs */
 	if(config->op_q_list) {
 		return files_list(files_dbs, targets);
 	}
 
-	if(targets != NULL) {
-		pm_printf(ALPM_LOG_ERROR, _("no options specified (use -h for help)\n"));
+	if(targets == NULL) {
+		pm_printf(ALPM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
 		return 1;
 	}
 
-	return 0;
+	/* search for a file */
+	return files_search(files_dbs, targets, config->op_f_regex);
 }

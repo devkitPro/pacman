@@ -177,9 +177,7 @@ static void usage(int op, const char * const myname)
 			printf("%s:\n", str_opt);
 		} else if(op == PM_OP_FILES) {
 			addlist(_("  -l, --list           list the files owned by the queried package\n"));
-			addlist(_("  -o, --owns <file>    query the package that owns <file>\n"));
 			addlist(_("  -q, --quiet          show less information for query and search\n"));
-			addlist(_("  -s, --search <file>  search package file names for matching strings\n"));
 			addlist(_("  -x, --regex          enable searching using regular expressions\n"));
 			addlist(_("  -y, --refresh        download fresh package databases from the server\n"
 			          "                       (-yy to force a refresh even if up to date)\n"));
@@ -753,17 +751,9 @@ static int parsearg_files(int opt)
 		return 0;
 	}
 	switch(opt) {
-		case OP_OWNS:
-		case 'o':
-			config->op_q_owns = 1;
-			break;
 		case OP_LIST:
 		case 'l':
 			config->op_q_list = 1;
-			break;
-		case OP_SEARCH:
-		case 's':
-			config->op_s_search = 1;
 			break;
 		case OP_REFRESH:
 		case 'y':
@@ -788,13 +778,8 @@ static int parsearg_files(int opt)
 
 static void checkargs_files(void)
 {
-	if(config->op_q_owns) {
-		invalid_opt(config->op_q_list, "--owns", "--list");
-		invalid_opt(config->op_q_search, "--owns", "--search");
-		invalid_opt(config->op_f_regex, "--owns", "--regex");
-	} else if(config->op_q_list) {
-		invalid_opt(config->op_q_search, "--list", "--search");
-		invalid_opt(config->op_f_regex, "--list", "--regex");
+	if(config->op_q_search) {
+		invalid_opt(config->op_q_list, "--regex", "--list");
 	}
 }
 
