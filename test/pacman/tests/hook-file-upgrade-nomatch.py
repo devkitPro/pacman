@@ -4,7 +4,7 @@ self.add_script("hook-script", ": > hook-output")
 self.add_hook("hook",
         """
         [Trigger]
-        Type = File
+        Type = Path
         Operation = Upgrade
         Target = bin/?*
 

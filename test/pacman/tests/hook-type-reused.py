@@ -4,7 +4,7 @@ self.add_hook("hook",
         """
         [Trigger]
         Type = Package
-        Type = File
+        Type = Path
         Operation = Install
         Target = foo
 

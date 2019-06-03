@@ -38,7 +38,7 @@ enum _alpm_hook_op_t {
 
 enum _alpm_trigger_type_t {
 	ALPM_HOOK_TYPE_PACKAGE = 1,
-	ALPM_HOOK_TYPE_FILE,
+	ALPM_HOOK_TYPE_PATH,
 };
 
 struct _alpm_trigger_t {
@@ -303,7 +303,11 @@ static int _alpm_hook_parse_cb(const char *file, int line,
 			if(strcmp(value, "Package") == 0) {
 				t->type = ALPM_HOOK_TYPE_PACKAGE;
 			} else if(strcmp(value, "File") == 0) {
-				t->type = ALPM_HOOK_TYPE_FILE;
+				_alpm_log(handle, ALPM_LOG_DEBUG,
+						"File targets are deprecated, use Path instead\n");
+				t->type = ALPM_HOOK_TYPE_PATH;
+			} else if(strcmp(value, "Path") == 0) {
+				t->type = ALPM_HOOK_TYPE_PATH;
 			} else {
 				error(_("hook %s line %d: invalid value %s\n"), file, line, value);
 			}

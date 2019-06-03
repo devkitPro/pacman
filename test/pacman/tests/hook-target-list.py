@@ -14,7 +14,7 @@ self.add_hook("hook",
         Target = foo
 
         [Trigger]
-        Type = File
+        Type = Path
         Operation = Install
         # matches files in 'file/' but not 'file/' itself
         Target = file/?*
