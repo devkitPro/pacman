@@ -41,6 +41,11 @@ check_pkgver() {
 		error "$(gettext "%s is not allowed to contain colons, forward slashes, hyphens or whitespace.")" "pkgver${type:+ in $type}"
 		return 1
 	fi
+
+	if [[ $ver = *[![:ascii:]]* ]]; then
+		error "$(gettext "%s may only contain ascii characters.")" "pkgver${type:+ in $type}"
+		return 1
+	fi
 }
 
 lint_pkgver() {

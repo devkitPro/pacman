@@ -45,6 +45,10 @@ lint_one_pkgname() {
 		error "$(gettext "%s is not allowed to start with a dot.")" "$type"
 		ret=1
 	fi
+	if [[ $name = *[![:ascii:]]* ]]; then
+		error "$(gettext "%s may only contain ascii characters.")" "$type"
+		return 1
+	fi
 	if [[ $name = *[^[:alnum:]+_.@-]* ]]; then
 		error "$(gettext "%s contains invalid characters: '%s'")" \
 				"$type" "${name//[[:alnum:]+_.@-]}"
