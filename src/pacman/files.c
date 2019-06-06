@@ -300,7 +300,7 @@ int pacman_files(alpm_list_t *targets)
 		return files_list(files_dbs, targets);
 	}
 
-	if(targets == NULL) {
+	if(targets == NULL && !config->op_s_sync) {
 		pm_printf(ALPM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
 		return 1;
 	}
