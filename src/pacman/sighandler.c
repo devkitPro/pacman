@@ -96,7 +96,7 @@ void install_segv_handler(void)
 {
 	struct sigaction new_action;
 	new_action.sa_handler = segv_handler;
-	sigemptyset(&new_action.sa_mask);
+	sigfillset(&new_action.sa_mask);
 	new_action.sa_flags = SA_RESTART;
 	sigaction(SIGSEGV, &new_action, NULL);
 }
