@@ -38,6 +38,15 @@ static ssize_t xwrite(int fd, const void *buf, size_t count)
 	return ret;
 }
 
+static void _reset_handler(int signum)
+{
+	struct sigaction new_action;
+	sigemptyset(&new_action.sa_mask);
+	new_action.sa_handler = SIG_DFL;
+	new_action.sa_flags = 0;
+	sigaction(signum, &new_action, NULL);
+}
+
 /** Catches thrown signals. Performs necessary cleanup to ensure database is
  * in a consistent state.
  * @param signum the thrown signal
@@ -76,19 +85,26 @@ void install_soft_interrupt_handler(void)
 
 void remove_soft_interrupt_handler(void)
 {
-	struct sigaction new_action;
-	sigemptyset(&new_action.sa_mask);
-	new_action.sa_handler = SIG_DFL;
-	new_action.sa_flags = 0;
-	sigaction(SIGINT, &new_action, NULL);
-	sigaction(SIGHUP, &new_action, NULL);
+	_reset_handler(SIGINT);
+	_reset_handler(SIGHUP);
 }
 
 static void segv_handler(int signum)
 {
+	sigset_t segvset;
 	const char msg[] = "\nerror: segmentation fault\n"
 		"Please submit a full bug report with --debug if appropriate.\n";
 	xwrite(STDERR_FILENO, msg, sizeof(msg) - 1);
+
+	/* restore the default handler */
+	_reset_handler(signum);
+	/* unblock SIGSEGV */
+	sigaddset(&segvset, signum);
+	sigprocmask(SIG_UNBLOCK, &segvset, NULL);
+	/* re-raise to trigger a core dump */
+	raise(signum);
+
+	/* raise should immediately abort, but just to make absolutely sure */
 	_Exit(signum);
 }
 
