@@ -39,11 +39,11 @@ static int _alpm_log_leader(FILE *f, const char *prefix)
 {
 	time_t t = time(NULL);
 	struct tm *tm = localtime(&t);
-    int length = 32;
-    char timestamp[length];
+	int length = 32;
+	char timestamp[length];
 
 	/* Use ISO-8601 date format */
-    strftime(timestamp,length,"%FT%X%z", tm);
+	strftime(timestamp,length,"%FT%T%z", tm);
 	return fprintf(f, "[%s] [%s] ", timestamp, prefix);
 }
 
