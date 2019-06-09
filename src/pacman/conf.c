@@ -29,6 +29,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/utsname.h> /* uname */
+#include <sys/wait.h>
 #include <unistd.h>
 
 /* pacman */
@@ -152,6 +153,7 @@ int config_free(config_t *oldconfig)
 	free(oldconfig->xfercommand);
 	free(oldconfig->print_format);
 	free(oldconfig->arch);
+	wordsplit_free(oldconfig->xfercommand_argv);
 	free(oldconfig);
 
 	return 0;
@@ -201,18 +203,86 @@ static char *get_tempfile(const char *path, const char *filename)
 	return tempfile;
 }
 
+/* system()/exec() hybrid function allowing exec()-style direct execution
+ * of a command with the simplicity of system()
+ * - not thread-safe
+ * - errno may be set by fork(), pipe(), or execvp()
+ */
+static int systemvp(const char *file, char *const argv[])
+{
+	int pid, err = 0, ret = -1, err_fd[2];
+	sigset_t oldblock;
+	struct sigaction sa_ign = { .sa_handler = SIG_IGN }, oldint, oldquit;
+
+	if(pipe(err_fd) != 0) {
+		return -1;
+	}
+
+	sigaction(SIGINT, &sa_ign, &oldint);
+	sigaction(SIGQUIT, &sa_ign, &oldquit);
+	sigaddset(&sa_ign.sa_mask, SIGCHLD);
+	sigprocmask(SIG_BLOCK, &sa_ign.sa_mask, &oldblock);
+
+	pid = fork();
+
+	/* child */
+	if(pid == 0) {
+		close(err_fd[0]);
+		fcntl(err_fd[1], F_SETFD, FD_CLOEXEC);
+
+		/* restore signal handling for the child to inherit */
+		sigaction(SIGINT, &oldint, NULL);
+		sigaction(SIGQUIT, &oldquit, NULL);
+		sigprocmask(SIG_SETMASK, &oldblock, NULL);
+
+		execvp(file, argv);
+
+		/* execvp failed, pass the error back to the parent */
+		while(write(err_fd[1], &errno, sizeof(errno)) == -1 && errno == EINTR);
+		_Exit(127);
+	}
+
+	/* parent */
+	close(err_fd[1]);
+
+	if(pid != -1)  {
+		int wret;
+		while((wret = waitpid(pid, &ret, 0)) == -1 && errno == EINTR);
+		if(wret > 0) {
+			while(read(err_fd[0], &err, sizeof(err)) == -1 && errno == EINTR);
+		}
+	} else {
+		/* fork failed, make sure errno is preserved after cleanup */
+		err = errno;
+	}
+
+	close(err_fd[0]);
+
+	sigaction(SIGINT, &oldint, NULL);
+	sigaction(SIGQUIT, &oldquit, NULL);
+	sigprocmask(SIG_SETMASK, &oldblock, NULL);
+
+	if(err) {
+		errno = err;
+		ret = -1;
+	}
+
+	return ret;
+}
+
 /** External fetch callback */
 static int download_with_xfercommand(const char *url, const char *localpath,
 		int force)
 {
 	int ret = 0, retval;
 	int usepart = 0;
-	int cwdfd;
+	int cwdfd = -1;
 	struct stat st;
-	char *parsedcmd, *tempcmd;
 	char *destfile, *tempfile, *filename;
+	const char **argv;
+	size_t i;
 
-	if(!config->xfercommand) {
+	if(!config->xfercommand_argv) {
 		return -1;
 	}
 
@@ -230,17 +300,26 @@ static int download_with_xfercommand(const char *url, const char *localpath,
 		unlink(destfile);
 	}
 
-	tempcmd = strdup(config->xfercommand);
-	/* replace all occurrences of %o with fn.part */
-	if(strstr(tempcmd, "%o")) {
-		usepart = 1;
-		parsedcmd = strreplace(tempcmd, "%o", tempfile);
-		free(tempcmd);
-		tempcmd = parsedcmd;
+	if((argv = calloc(config->xfercommand_argc + 1, sizeof(char*))) == NULL) {
+		size_t bytes = (config->xfercommand_argc + 1) * sizeof(char*);
+		pm_printf(ALPM_LOG_ERROR,
+				_n("malloc failure: could not allocate %zu byte\n",
+				   "malloc failure: could not allocate %zu bytes\n",
+					 bytes),
+				bytes);
+		goto cleanup;
 	}
-	/* replace all occurrences of %u with the download URL */
-	parsedcmd = strreplace(tempcmd, "%u", url);
-	free(tempcmd);
+
+	for(i = 0; i <= config->xfercommand_argc; i++) {
+		const char *val = config->xfercommand_argv[i];
+		if(val && strcmp(val, "%o") == 0) {
+			usepart = 1;
+			val = tempfile;
+		} else if(val && strcmp(val, "%u") == 0) {
+			val = url;
+		}
+		argv[i] = val;
+	}
 
 	/* save the cwd so we can restore it later */
 	do {
@@ -256,9 +335,15 @@ static int download_with_xfercommand(const char *url, const char *localpath,
 		ret = -1;
 		goto cleanup;
 	}
-	/* execute the parsed command via /bin/sh -c */
-	pm_printf(ALPM_LOG_DEBUG, "running command: %s\n", parsedcmd);
-	retval = system(parsedcmd);
+
+	if(config->logmask & ALPM_LOG_DEBUG) {
+		char *cmd = arg_to_string(config->xfercommand_argc, (char**)argv);
+		if(cmd) {
+			pm_printf(ALPM_LOG_DEBUG, "running command: %s\n", cmd);
+			free(cmd);
+		}
+	}
+	retval = systemvp(argv[0], (char**)argv);
 
 	if(retval == -1) {
 		pm_printf(ALPM_LOG_WARNING, _("running XferCommand: fork failed!\n"));
@@ -296,7 +381,7 @@ cleanup:
 	}
 	free(destfile);
 	free(tempfile);
-	free(parsedcmd);
+	free(argv);
 
 	return ret;
 }
@@ -544,6 +629,17 @@ static int _parse_options(const char *key, char *value,
 				pm_printf(ALPM_LOG_DEBUG, "config: logfile: %s\n", value);
 			}
 		} else if(strcmp(key, "XferCommand") == 0) {
+			char **c;
+			if((config->xfercommand_argv = wordsplit(value)) == NULL) {
+				pm_printf(ALPM_LOG_WARNING,
+						_("config file %s, line %d: invalid value for '%s' : '%s'\n"),
+						file, linenum, "XferCommand", value);
+				return 1;
+			}
+			config->xfercommand_argc = 0;
+			for(c = config->xfercommand_argv; *c; c++) {
+				config->xfercommand_argc++;
+			}
 			config->xfercommand = strdup(value);
 			pm_printf(ALPM_LOG_DEBUG, "config: xfercommand: %s\n", value);
 		} else if(strcmp(key, "CleanMethod") == 0) {

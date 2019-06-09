@@ -3,7 +3,7 @@ self.description = "Quick check for using XferCommand"
 # this setting forces us to download packages
 self.cachepkgs = False
 #wget doesn't support file:// urls.  curl does
-self.option['XferCommand'] = ['/usr/bin/curl %u > %o']
+self.option['XferCommand'] = ['/usr/bin/curl %u -o %o']
 
 numpkgs = 10
 pkgnames = []
