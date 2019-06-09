@@ -17,7 +17,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <ctype.h>
 #include <dirent.h>
 #include <errno.h>
 #include <limits.h>
@@ -71,23 +70,12 @@ static void _alpm_trigger_free(struct _alpm_trigger_t *trigger)
 	}
 }
 
-static void _alpm_wordsplit_free(char **ws)
-{
-	if(ws) {
-		char **c;
-		for(c = ws; *c; c++) {
-			free(*c);
-		}
-		free(ws);
-	}
-}
-
 static void _alpm_hook_free(struct _alpm_hook_t *hook)
 {
 	if(hook) {
 		free(hook->name);
 		free(hook->desc);
-		_alpm_wordsplit_free(hook->cmd);
+		wordsplit_free(hook->cmd);
 		alpm_list_free_inner(hook->triggers, (alpm_list_fn_free) _alpm_trigger_free);
 		alpm_list_free(hook->triggers);
 		alpm_list_free(hook->matches);
@@ -156,107 +144,6 @@ static int _alpm_hook_validate(alpm_handle_t *handle,
 	}
 
 	return ret;
-}
-
-static char **_alpm_wordsplit(char *str)
-{
-	char *c = str, *end;
-	char **out = NULL, **outsave;
-	size_t count = 0;
-
-	if(str == NULL) {
-		errno = EINVAL;
-		return NULL;
-	}
-
-	for(c = str; isspace(*c); c++);
-	while(*c) {
-		size_t wordlen = 0;
-
-		/* extend our array */
-		outsave = out;
-		if((out = realloc(out, (count + 1) * sizeof(char*))) == NULL) {
-			out = outsave;
-			goto error;
-		}
-
-		/* calculate word length and check for unbalanced quotes */
-		for(end = c; *end && !isspace(*end); end++) {
-			if(*end == '\'' || *end == '"') {
-				char quote = *end;
-				while(*(++end) && *end != quote) {
-					if(*end == '\\' && *(end + 1) == quote) {
-						end++;
-					}
-					wordlen++;
-				}
-				if(*end != quote) {
-					errno = EINVAL;
-					goto error;
-				}
-			} else {
-				if(*end == '\\' && (end[1] == '\'' || end[1] == '"')) {
-					end++; /* skip the '\\' */
-				}
-				wordlen++;
-			}
-		}
-
-		if(wordlen == (size_t) (end - c)) {
-			/* no internal quotes or escapes, copy it the easy way */
-			if((out[count++] = strndup(c, wordlen)) == NULL) {
-				goto error;
-			}
-		} else {
-			/* manually copy to remove quotes and escapes */
-			char *dest = out[count++] = malloc(wordlen + 1);
-			if(dest == NULL) { goto error; }
-			while(c < end) {
-				if(*c == '\'' || *c == '"') {
-					char quote = *c;
-					/* we know there must be a matching end quote,
-					 * no need to check for '\0' */
-					for(c++; *c != quote; c++) {
-						if(*c == '\\' && *(c + 1) == quote) {
-							c++;
-						}
-						*(dest++) = *c;
-					}
-					c++;
-				} else {
-					if(*c == '\\' && (c[1] == '\'' || c[1] == '"')) {
-						c++; /* skip the '\\' */
-					}
-					*(dest++) = *(c++);
-				}
-			}
-			*dest = '\0';
-		}
-
-		if(*end == '\0') {
-			break;
-		} else {
-			for(c = end + 1; isspace(*c); c++);
-		}
-	}
-
-	outsave = out;
-	if((out = realloc(out, (count + 1) * sizeof(char*))) == NULL) {
-		out = outsave;
-		goto error;
-	}
-
-	out[count++] = NULL;
-
-	return out;
-
-error:
-	/* can't use wordsplit_free here because NULL has not been appended */
-	while(count) {
-		free(out[--count]);
-	}
-	free(out);
-	return NULL;
 }
 
 static int _alpm_hook_parse_cb(const char *file, int line,
@@ -347,9 +234,9 @@ static int _alpm_hook_parse_cb(const char *file, int line,
 		} else if(strcmp(key, "Exec") == 0) {
 			if(hook->cmd != NULL) {
 				warning(_("hook %s line %d: overwriting previous definition of %s\n"), file, line, "Exec");
-				_alpm_wordsplit_free(hook->cmd);
+				wordsplit_free(hook->cmd);
 			}
-			if((hook->cmd = _alpm_wordsplit(value)) == NULL) {
+			if((hook->cmd = wordsplit(value)) == NULL) {
 				if(errno == EINVAL) {
 					error(_("hook %s line %d: invalid value %s\n"), file, line, value);
 				} else {

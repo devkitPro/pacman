@@ -30,6 +30,9 @@ int llstat(char *path, struct stat *buf);
 
 char *safe_fgets(char *s, int size, FILE *stream);
 
+void wordsplit_free(char **ws);
+char **wordsplit(const char *str);
+
 size_t strtrim(char *str);
 
 #ifndef HAVE_STRNDUP
