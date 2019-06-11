@@ -454,6 +454,7 @@ static int curl_download_internal(struct dload_payload *payload,
 			if(payload->respcode >= 400) {
 				payload->unlink_on_fail = 1;
 				if(!payload->errors_ok) {
+					handle->pm_errno = ALPM_ERR_RETRIEVE;
 					/* non-translated message is same as libcurl */
 					snprintf(error_buffer, sizeof(error_buffer),
 							"The requested URL returned error: %ld", payload->respcode);
