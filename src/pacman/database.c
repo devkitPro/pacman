@@ -105,7 +105,8 @@ static int check_db_missing_deps(alpm_list_t *pkglist)
 		free(depstring);
 		ret++;
 	}
-	FREELIST(data);
+	alpm_list_free_inner(data, (alpm_list_fn_free)alpm_depmissing_free);
+	alpm_list_free(data);
 	return ret;
 }
 
@@ -159,7 +160,8 @@ static int check_db_local_package_conflicts(alpm_list_t *pkglist)
 				conflict->package1, conflict->package2);
 		ret++;
 	}
-	FREELIST(data);
+	alpm_list_free_inner(data, (alpm_list_fn_free)alpm_conflict_free);
+	alpm_list_free(data);
 	return ret;
 }
 
