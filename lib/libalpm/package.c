@@ -683,6 +683,8 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	alpm_list_free(pkg->backup);
 	free_deplist(pkg->depends);
 	free_deplist(pkg->optdepends);
+	free_deplist(pkg->checkdepends);
+	free_deplist(pkg->makedepends);
 	free_deplist(pkg->conflicts);
 	free_deplist(pkg->provides);
 	alpm_list_free(pkg->removes);
