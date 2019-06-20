@@ -804,7 +804,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 		int i = filenamelen - 3;
 		wchar_t *wcp = wcfname;
 		/* grab the max number of char columns we can fill */
-		while(i > 0 && wcwidth(*wcp) < i) {
+		while(wcwidth(*wcp) < i) {
 			i -= wcwidth(*wcp);
 			wcp++;
 		}

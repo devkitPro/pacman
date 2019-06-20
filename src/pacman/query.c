@@ -189,7 +189,7 @@ static int query_fileowner(alpm_list_t *targets)
 
 		if(!lrealpath(filename, rpath)) {
 			/* Can't canonicalize path, try to proceed anyway */
-			strncpy(rpath, filename, PATH_MAX);
+			strcpy(rpath, filename);
 		}
 
 		if(strncmp(rpath, root, rootlen) != 0) {
