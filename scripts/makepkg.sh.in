@@ -273,7 +273,7 @@ handle_deps() {
 
 		if ! run_pacman -S --asdeps "${deplist[@]}"; then
 			error "$(gettext "'%s' failed to install missing dependencies.")" "$PACMAN"
-			exit $E_INSTALL_DEPS_FAILED
+			return $R_DEPS_MISSING
 		fi
 	fi
 
@@ -303,7 +303,7 @@ resolve_deps() {
 
 	if handle_deps "${deplist[@]}"; then
 		# check deps again to make sure they were resolved
-		deplist=$(check_deps "$@") || exit $E_INSTALL_DEPS_FAILED
+		deplist=$(check_deps "$@")
 		[[ -z $deplist ]] && return $R_DEPS_SATISFIED
 	fi
 
