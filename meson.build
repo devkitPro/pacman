@@ -97,36 +97,13 @@ libcurl = dependency('libcurl',
                      static : get_option('buildstatic'))
 conf.set('HAVE_LIBCURL', libcurl.found())
 
-want_gpgme = get_option('gpgme')
+needed_gpgme_version = '>=1.3.0'
 gpgme = dependency('gpgme',
-                   required : false,
-                   static : get_option('buildstatic'))
-# gpgme recently began providing a pkg-config file. Create a fake dependency
-# object if it cannot be found, by manually searching for libs.
-if not want_gpgme.disabled() and not gpgme.found()
-  gpgme_config = find_program('gpgme-config', required : want_gpgme)
-  if gpgme_config.found()
-    gpgme_version = run_command(gpgme_config, '--version').stdout().strip()
-
-    needed_gpgme_version = '>=1.3.0'
-    if gpgme_version.version_compare(needed_gpgme_version)
-      gpgme_libs = [
-        cc.find_library('gpgme',
-                        dirs : [get_option('gpgme-libdir')]),
-        cc.find_library('gpg-error',
-                        dirs : [get_option('gpgme-libdir')]),
-        cc.find_library('assuan',
-                        dirs : [get_option('gpgme-libdir')]),
-      ]
-      gpgme = declare_dependency(dependencies : gpgme_libs)
-    endif
-  endif
-endif
-
+                   version : needed_gpgme_version,
+                   required : get_option('gpgme'),
+                   static : get_option('buildstatic'),
+                   not_found_message : 'gpgme @0@ is needed for GPG signature support'.format(needed_gpgme_version))
 conf.set('HAVE_LIBGPGME', gpgme.found())
-if want_gpgme.enabled() and not conf.get('HAVE_LIBGPGME')
-  error('gpgme @0@ is needed for GPG signature support'.format(needed_gpgme_version))
-endif
 
 want_crypto = get_option('crypto')
 if want_crypto == 'openssl'

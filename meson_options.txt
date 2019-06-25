@@ -47,8 +47,6 @@ option('crypto', type : 'combo', choices : ['openssl', 'nettle'],
 
 option('gpgme', type : 'feature', value : 'auto',
        description : 'use GPGME for PGP signature verification')
-option('gpgme-libdir', type : 'string', value : '/usr/lib',
-       description : 'search directory for gpgme libraries.')
 
 option('i18n', type : 'boolean', value : true,
        description : 'enable localization of pacman, libalpm and scripts')
