@@ -8,7 +8,7 @@ project('pacman',
           'sysconfdir=/etc',
           'localstatedir=/var',
         ],
-        meson_version : '>= 0.47')
+        meson_version : '>= 0.51')
 
 libalpm_version = '11.0.1'
 
