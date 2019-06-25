@@ -130,17 +130,13 @@ endif
 
 want_crypto = get_option('crypto')
 if want_crypto == 'openssl'
-  libcrypto = dependency('libcrypto', static : get_option('buildstatic'))
-  if not libcrypto.found()
-    error('openssl support requested but not found')
-  endif
+  libcrypto = dependency('libcrypto', static : get_option('buildstatic'),
+    not_found_message : 'openssl support requested but not found')
   crypto_provider = libcrypto
   conf.set10('HAVE_LIBSSL', true)
 elif want_crypto == 'nettle'
-  libnettle = dependency('nettle', static : get_option('buildstatic'))
-  if not libnettle.found()
-    error('nettle support requested but not found')
-  endif
+  libnettle = dependency('nettle', static : get_option('buildstatic'),
+    not_found_message : 'nettle support requested but not found')
   crypto_provider = libnettle
   conf.set10('HAVE_LIBNETTLE', true)
 else
