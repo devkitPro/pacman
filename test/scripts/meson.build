@@ -6,10 +6,9 @@ tests = [
 
 foreach tst : tests
   test(tst,
-       PYTHON,
+       BASH,
        env : TEST_ENV,
        args : [
-         join_paths(meson.source_root(), 'build-aux/tap-driver.py'),
          join_paths(meson.current_source_dir(), tst),
        ])
 endforeach

@@ -19,7 +19,8 @@ level = 0
 failed = 0
 
 def _output(msg):
-    print("%s%s" % ("    "*level, str(msg).replace("\n", "\\n")))
+    leader = "#" if level > 0 else ""
+    print("%s%s%s" % (leader, "    "*level, str(msg).replace("\n", "\\n")))
 
 def skip_all(description=""):
     if description:
