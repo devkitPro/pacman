@@ -158,6 +158,21 @@ foreach member : [
   conf.set('HAVE_' + '_'.join([member[0], member[1]]).underscorify().to_upper(), have)
 endforeach
 
+foreach type : [
+    # type       # program prefix              # fallback
+    ['mode_t',   '''#include <sys/types.h>''', 'unsigned int'],
+    ['uid_t',    '''#include <sys/types.h>''', 'unsigned int'],
+    ['off_t',    '''#include <sys/types.h>''', 'signed int'],
+    ['pid_t',    '''#include <sys/types.h>''', 'signed int'],
+    ['size_t',   '''#include <sys/types.h>''', 'unsigned int'],
+    ['ssize_t',  '''#include <sys/types.h>''', 'signed int'],
+    ['int64_t',  '''#include <stdint.h>''',    'signed long int'],
+  ]
+  if not cc.has_type(type[0], prefix: type[1])
+    conf.set(type[0], type[2])
+  endif
+endforeach
+
 if conf.has('HAVE_STRUCT_STATVFS_F_FLAG')
   conf.set('FSSTATSTYPE', 'struct statvfs')
 elif conf.has('HAVE_STRUCT_STATFS_F_FLAGS')
