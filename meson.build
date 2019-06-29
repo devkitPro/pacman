@@ -136,38 +136,13 @@ foreach header : [
 endforeach
 
 foreach sym : [
-    'dup2',
-    'fork',
-    'getcwd',
     'getmntent',
     'getmntinfo',
-    'gettimeofday',
-    'memmove',
-    'memset',
-    'mkdir',
-    'realpath',
-    'regcomp',
-    'rmdir',
-    'setenv',
-    'setlocale',
-    'strcasecmp',
-    'strchr',
-    'strcspn',
-    'strdup',
-    'strerror',
     'strndup',
     'strnlen',
-    'strnlen',
-    'strrchr',
     'strsep',
-    'strsep',
-    'strstr',
-    'strtol',
     'swprintf',
     'tcflush',
-    'tcflush',
-    'uname',
-    'wcwidth',
   ]
   have = cc.has_function(sym, args : '-D_GNU_SOURCE')
   conf.set10('HAVE_' + sym.to_upper(), have)
