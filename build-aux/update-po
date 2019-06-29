@@ -1,7 +1,7 @@
 #!/bin/bash
 
 find_build_directory() {
-  local build_dirs=(*/.ninja_log)
+  local build_dirs=(*/build.ninja)
 
   if [[ ! -e ${build_dirs[0]} ]]; then
     echo "error: No build directory found. Have you run 'meson build' yet?" >&2
