@@ -169,7 +169,7 @@ add_gpg_conf_option() {
 	local conffile=$1; shift
 	# looking for the option 'bare', only leading spaces or # chars allowed,
 	# followed by at least one space and any other text or the end of line.
-	if ! grep -q "^[[:space:]#]*$1\([[:space:]].*\)*$" "$conffile" &>/dev/null; then
+	if ! grep -q "^[[:space:]#]*$*\([[:space:]].*\)*$" "$conffile" &>/dev/null; then
 		printf '%s\n' "$*" >> "$conffile"
 	fi
 }
