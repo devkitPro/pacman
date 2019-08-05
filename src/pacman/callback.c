@@ -765,7 +765,7 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 
 	len = strlen(filename);
 	fname = malloc(len + 1);
-	memcpy(fname, filename, len);
+	memcpy(fname, filename, len + 1);
 	/* strip package or DB extension for cleaner look */
 	if((p = strstr(fname, ".pkg")) || (p = strstr(fname, ".db")) || (p = strstr(fname, ".files"))) {
 		/* tack on a .sig suffix for signatures */
@@ -777,8 +777,8 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 		} else {
 			len = p - fname;
 		}
+		fname[len] = '\0';
 	}
-	fname[len] = '\0';
 
 	/* 1 space + filenamelen + 1 space + 6 for size + 1 space + 3 for label +
 	 * + 2 spaces + 4 for rate + 1 space + 3 for label + 2 for /s + 1 space +
