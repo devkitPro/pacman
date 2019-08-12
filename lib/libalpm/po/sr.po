@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-05-15 10:34+1000\n"
+"POT-Creation-Date: 2019-08-12 11:37+1000\n"
 "PO-Revision-Date: 2018-05-23 12:45+0000\n"
 "Last-Translator: Slobodan Terzić <githzerai06@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/toofishes/archlinux-pacman/"
@@ -25,52 +25,52 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: lib/libalpm/add.c:86
+#: lib/libalpm/add.c:91 lib/libalpm/sync.c:284
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s је већ ажуран — прескачем\n"
 
-#: lib/libalpm/add.c:90
+#: lib/libalpm/add.c:95
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
 msgstr "%s-%s је већ ажуран — инсталирам поново\n"
 
-#: lib/libalpm/add.c:95
+#: lib/libalpm/add.c:100
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
 msgstr "разграђујем пакет %s (%s -> %s)\n"
 
-#: lib/libalpm/add.c:124
+#: lib/libalpm/add.c:129
 #, c-format
 msgid "cannot allocate disk archive object"
 msgstr "не могу да доделим објекат архиве диска"
 
-#: lib/libalpm/add.c:138 lib/libalpm/util.c:382
+#: lib/libalpm/add.c:143 lib/libalpm/util.c:382
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
 msgstr "дато је упозорење при распакивању %s (%s)\n"
 
-#: lib/libalpm/add.c:141 lib/libalpm/util.c:385
+#: lib/libalpm/add.c:146 lib/libalpm/util.c:385
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "не могу да распакујем %s (%s)\n"
 
-#: lib/libalpm/add.c:154 lib/libalpm/dload.c:561 lib/libalpm/remove.c:541
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:572 lib/libalpm/remove.c:542
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "не могу да преименујем %s у %s (%s)\n"
 
-#: lib/libalpm/add.c:205
+#: lib/libalpm/add.c:210
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
 msgstr "фајл није нађен у списку фајлова пакета %s, прескачем распакивање %s\n"
 
-#: lib/libalpm/add.c:214
+#: lib/libalpm/add.c:219
 #, c-format
 msgid "unable to extract %s%s: path too long"
 msgstr "не могу да распакујем %s%s: путања је предугачка"
 
-#: lib/libalpm/add.c:256
+#: lib/libalpm/add.c:261
 #, c-format
 msgid ""
 "directory permissions differ on %s\n"
@@ -79,7 +79,7 @@ msgstr ""
 "дозволе фасцикле се разликују за %s\n"
 "систем фајлова: %o пакет: %o\n"
 
-#: lib/libalpm/add.c:271
+#: lib/libalpm/add.c:276
 #, c-format
 msgid ""
 "directory ownership differs on %s\n"
@@ -88,101 +88,101 @@ msgstr ""
 "власништво фасциклре се разликује за %s\n"
 "систем фајлова: %u:%u  пакет: %u:%u\n"
 
-#: lib/libalpm/add.c:287
+#: lib/libalpm/add.c:292
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
 msgstr "распакивање: не преписујем фасциклу фајлом %s\n"
 
-#: lib/libalpm/add.c:315
+#: lib/libalpm/add.c:320
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "не могу да распакујем %s.pacnew: путања је предугачка"
 
-#: lib/libalpm/add.c:508 lib/libalpm/util.c:334 lib/libalpm/util.c:573
+#: lib/libalpm/add.c:513 lib/libalpm/util.c:334 lib/libalpm/util.c:592
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "не могу да одредим радну фасциклу\n"
 
-#: lib/libalpm/add.c:513 lib/libalpm/util.c:339 lib/libalpm/util.c:578
-#: lib/libalpm/util.c:631
+#: lib/libalpm/add.c:518 lib/libalpm/util.c:339 lib/libalpm/util.c:597
+#: lib/libalpm/util.c:650
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "не могу да променим фасциклу у %s (%s)\n"
 
-#: lib/libalpm/add.c:570 lib/libalpm/util.c:403 lib/libalpm/util.c:738
+#: lib/libalpm/add.c:575 lib/libalpm/util.c:403 lib/libalpm/util.c:766
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "не могу да повратим радну фасциклу (%s)\n"
 
-#: lib/libalpm/add.c:578
+#: lib/libalpm/add.c:583
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "дошло је до грешке при надоградњи %s\n"
 
-#: lib/libalpm/add.c:584
+#: lib/libalpm/add.c:589
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "дошло је до грешке при инсталирању %s\n"
 
-#: lib/libalpm/add.c:599
+#: lib/libalpm/add.c:604
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "не могу да ажурирам унос у бази %s - %s\n"
 
-#: lib/libalpm/add.c:610
+#: lib/libalpm/add.c:615
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "не могу да додам унос „%s“ у кеш\n"
 
-#: lib/libalpm/be_local.c:255
+#: lib/libalpm/be_local.c:267
 #, c-format
 msgid "error while reading file %s: %s\n"
 msgstr "грешка при читању фајла %s: %s\n"
 
-#: lib/libalpm/be_local.c:350
+#: lib/libalpm/be_local.c:364
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "уклањам неисправну базу: %s\n"
 
-#: lib/libalpm/be_local.c:401 lib/libalpm/be_local.c:887
+#: lib/libalpm/be_local.c:415 lib/libalpm/be_local.c:905
 #, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "не могу да направим фасциклу %s: %s\n"
 
-#: lib/libalpm/be_local.c:576 lib/libalpm/be_sync.c:387
+#: lib/libalpm/be_local.c:590 lib/libalpm/be_sync.c:386
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "неисправно име уноса базе „%s“\n"
 
-#: lib/libalpm/be_local.c:584
+#: lib/libalpm/be_local.c:598
 #, c-format
 msgid "duplicated database entry '%s'\n"
 msgstr "дупликат уноса базе „%s“\n"
 
-#: lib/libalpm/be_local.c:596
+#: lib/libalpm/be_local.c:610
 #, c-format
 msgid "corrupted database entry '%s'\n"
 msgstr "оштећен унос базе „%s“\n"
 
-#: lib/libalpm/be_local.c:699 lib/libalpm/be_local.c:791
-#: lib/libalpm/be_local.c:936 lib/libalpm/be_local.c:1033
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:419 lib/libalpm/util.c:253
+#: lib/libalpm/be_local.c:713 lib/libalpm/be_local.c:809
+#: lib/libalpm/be_local.c:954 lib/libalpm/be_local.c:1051
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:420 lib/libalpm/util.c:253
 #: lib/libalpm/util.c:269
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "не могу да отворим фајл %s: %s\n"
 
-#: lib/libalpm/be_local.c:715 lib/libalpm/be_sync.c:653
+#: lib/libalpm/be_local.c:729 lib/libalpm/be_sync.c:650
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
 msgstr "недоследност базе „%s“: разлика у имену пакета %s\n"
 
-#: lib/libalpm/be_local.c:721 lib/libalpm/be_sync.c:659
+#: lib/libalpm/be_local.c:735 lib/libalpm/be_sync.c:656
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "недоследност базе „%s“: разлика у верзији пакета %s\n"
 
-#: lib/libalpm/be_local.c:762
+#: lib/libalpm/be_local.c:776
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
 msgstr "непознат тип овере за пакет %s: %s\n"
@@ -228,37 +228,37 @@ msgstr "недостају метаподаци пакета %s\n"
 msgid "failed to read signature file: %s\n"
 msgstr "не могу да прочитам фајл потписа: %s\n"
 
-#: lib/libalpm/be_package.c:769 lib/libalpm/sync.c:1113
+#: lib/libalpm/be_package.c:769 lib/libalpm/sync.c:937
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "захтеваног кључа нема на привеску\n"
 
-#: lib/libalpm/be_sync.c:62
+#: lib/libalpm/be_sync.c:61
 #, c-format
 msgid "removing invalid file: %s\n"
 msgstr "уклањам неисправан фајл: %s\n"
 
-#: lib/libalpm/be_sync.c:517
+#: lib/libalpm/be_sync.c:515
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "не могу да обрадим фајл описа пакета „%s“ из базе „%s“\n"
 
-#: lib/libalpm/be_sync.c:524
+#: lib/libalpm/be_sync.c:522
 #, c-format
 msgid "could not read db '%s' (%s)\n"
 msgstr "не могу да читам базу „%s“ (%s)\n"
 
-#: lib/libalpm/be_sync.c:558 lib/libalpm/be_sync.c:563
+#: lib/libalpm/be_sync.c:556 lib/libalpm/be_sync.c:561
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
 msgstr "недоследност базе „%s“: име фајла пакета %s је неисправно\n"
 
-#: lib/libalpm/be_sync.c:568
+#: lib/libalpm/be_sync.c:566
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "недоследност базе „%s“: име фајла пакета %s је предугачко\n"
 
-#: lib/libalpm/be_sync.c:634
+#: lib/libalpm/be_sync.c:632
 #, c-format
 msgid "unknown database file: %s\n"
 msgstr "непознат фајл базе: %s\n"
@@ -348,34 +348,34 @@ msgstr "Партиција %s је монтирана само за читање
 msgid "disk"
 msgstr "диск"
 
-#: lib/libalpm/dload.c:345
+#: lib/libalpm/dload.c:346
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "неуспело стварање привременог фајла преузимања\n"
 
-#: lib/libalpm/dload.c:390
+#: lib/libalpm/dload.c:391
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "„%s“ је неисправан урл\n"
 
-#: lib/libalpm/dload.c:459 lib/libalpm/dload.c:484
+#: lib/libalpm/dload.c:462 lib/libalpm/dload.c:483 lib/libalpm/dload.c:494
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "неуспешно преузимање фајла „%s“ са „%s“: %s\n"
 
-#: lib/libalpm/dload.c:472
+#: lib/libalpm/dload.c:475
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "неуспело добављање фајла %s са %s: премашена је предвиђена величина "
 "преузимања\n"
 
-#: lib/libalpm/dload.c:520
+#: lib/libalpm/dload.c:530
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "изгледа да је %s окрњен: %jd/%jd бајтова\n"
 
-#: lib/libalpm/dload.c:664 lib/libalpm/dload.c:693
+#: lib/libalpm/dload.c:675 lib/libalpm/dload.c:704
 #, c-format
 msgid "failed to download %s\n"
 msgstr "неуспешно преузимање %s\n"
@@ -595,72 +595,67 @@ msgstr "недостаје ПГП потпис"
 msgid "invalid PGP signature"
 msgstr "неисправан ПГП потпис"
 
-#: lib/libalpm/error.c:135
-#, c-format
-msgid "invalid or corrupted delta"
-msgstr "неисправна или покварена делта"
-
-#: lib/libalpm/error.c:137
-#, c-format
-msgid "delta patch failed"
-msgstr "неуспела закрпа делтом"
-
-#: lib/libalpm/error.c:140 lib/libalpm/hook.c:614
+#: lib/libalpm/error.c:135 lib/libalpm/hook.c:627
 #, c-format
 msgid "could not satisfy dependencies"
 msgstr "не могу да задовољим зависности"
 
-#: lib/libalpm/error.c:142
+#: lib/libalpm/error.c:137
 #, c-format
 msgid "conflicting dependencies"
 msgstr "сукоб зависности"
 
-#: lib/libalpm/error.c:144
+#: lib/libalpm/error.c:139
 #, c-format
 msgid "conflicting files"
 msgstr "сукоб фајлова"
 
-#: lib/libalpm/error.c:147
+#: lib/libalpm/error.c:142
 #, c-format
 msgid "failed to retrieve some files"
 msgstr "неуспешно преузимање неких фајлова"
 
-#: lib/libalpm/error.c:149
+#: lib/libalpm/error.c:144
 #, c-format
 msgid "invalid regular expression"
 msgstr "неисправан регуларни израз"
 
-#: lib/libalpm/error.c:155
+#: lib/libalpm/error.c:150
 #, c-format
 msgid "libarchive error"
 msgstr "грешка либархајва"
 
-#: lib/libalpm/error.c:157
+#: lib/libalpm/error.c:152
 #, c-format
 msgid "download library error"
 msgstr "грешка у библиотеци преузимања"
 
-#: lib/libalpm/error.c:159
+#: lib/libalpm/error.c:154
 #, c-format
 msgid "gpgme error"
 msgstr "грешка гпгмија"
 
-#: lib/libalpm/error.c:161
+#: lib/libalpm/error.c:156
 #, c-format
 msgid "error invoking external downloader"
 msgstr "грешка при покретању спољног програма за преузимање"
 
-#: lib/libalpm/error.c:164
+#: lib/libalpm/error.c:159
+#, c-format
+msgid "compiled without signature support"
+msgstr ""
+
+#: lib/libalpm/error.c:162
 #, c-format
 msgid "unexpected error"
 msgstr "неочекивана грешка"
 
-#: lib/libalpm/handle.c:157
+#: lib/libalpm/handle.c:153
 #, c-format
 msgid "lock file missing %s\n"
 msgstr "недостаје забравни фајл %s\n"
 
-#: lib/libalpm/handle.c:163
+#: lib/libalpm/handle.c:159
 #, c-format
 msgid "could not remove lock file %s\n"
 msgstr "не могу да уклоним фајл браве %s\n"
@@ -700,7 +695,7 @@ msgstr "Одустани-при-неуспеху је постављено за 
 msgid "error while reading hook %s: %s\n"
 msgstr "грешка при читању копче %s: %s\n"
 
-#: lib/libalpm/hook.c:275 lib/libalpm/hook.c:315 lib/libalpm/hook.c:357
+#: lib/libalpm/hook.c:275 lib/libalpm/hook.c:319 lib/libalpm/hook.c:361
 #, c-format
 msgid "hook %s line %d: invalid option %s\n"
 msgstr "копча %s ред %d: неисправна опција %s\n"
@@ -710,84 +705,84 @@ msgstr "копча %s ред %d: неисправна опција %s\n"
 msgid "hook %s line %d: invalid section %s\n"
 msgstr "копча %s ред %d: неисправан одељак %s\n"
 
-#: lib/libalpm/hook.c:297 lib/libalpm/hook.c:308 lib/libalpm/hook.c:327
-#: lib/libalpm/hook.c:350
+#: lib/libalpm/hook.c:297 lib/libalpm/hook.c:312 lib/libalpm/hook.c:331
+#: lib/libalpm/hook.c:354
 #, c-format
 msgid "hook %s line %d: invalid value %s\n"
 msgstr "копча %s ред %d: неисправна вредност %s\n"
 
-#: lib/libalpm/hook.c:301 lib/libalpm/hook.c:320 lib/libalpm/hook.c:331
-#: lib/libalpm/hook.c:345
+#: lib/libalpm/hook.c:301 lib/libalpm/hook.c:324 lib/libalpm/hook.c:335
+#: lib/libalpm/hook.c:349
 #, c-format
 msgid "hook %s line %d: overwriting previous definition of %s\n"
 msgstr "копча %s ред %d: преписујем претходну дефиниција за %s\n"
 
-#: lib/libalpm/hook.c:352
+#: lib/libalpm/hook.c:356
 #, c-format
 msgid "hook %s line %d: unable to set option (%s)\n"
 msgstr "копча %s ред %d: не могу да поставим опцију (%s)\n"
 
-#: lib/libalpm/hook.c:613
+#: lib/libalpm/hook.c:626
 #, c-format
 msgid "unable to run hook %s: %s\n"
 msgstr "не могу да покренем копчу %s: %s\n"
 
-#: lib/libalpm/hook.c:648 lib/libalpm/hook.c:660 lib/libalpm/remove.c:385
+#: lib/libalpm/hook.c:660 lib/libalpm/hook.c:672 lib/libalpm/remove.c:386
 #, c-format
 msgid "could not open directory: %s: %s\n"
 msgstr "не могу да отворим фасциклу: %s: %s\n"
 
-#: lib/libalpm/hook.c:676
+#: lib/libalpm/hook.c:688
 #, c-format
 msgid "could not open file: %s%s: %s\n"
 msgstr "не могу да отворим фајл: %s%s: %s\n"
 
-#: lib/libalpm/hook.c:696 lib/libalpm/util.c:259
+#: lib/libalpm/hook.c:708 lib/libalpm/util.c:259
 #, c-format
 msgid "could not stat file %s: %s\n"
 msgstr "не могу да одредим особине фајла %s: %s\n"
 
-#: lib/libalpm/hook.c:722
+#: lib/libalpm/hook.c:734
 #, c-format
 msgid "could not read directory: %s: %s\n"
 msgstr "не могу да читам фасциклу: %s: %s\n"
 
-#: lib/libalpm/package.c:586
+#: lib/libalpm/package.c:578
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
 msgstr "не могу у потпуности да учитам метаподатке пакета %s—%s\n"
 
-#: lib/libalpm/remove.c:118
+#: lib/libalpm/remove.c:119
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "не могу да нађем %s у бази — прескачем\n"
 
-#: lib/libalpm/remove.c:153
+#: lib/libalpm/remove.c:154
 #, c-format
 msgid "removing %s from target list\n"
 msgstr "уклањам %s са списка циљева\n"
 
-#: lib/libalpm/remove.c:345
+#: lib/libalpm/remove.c:346
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "не могу да уклоним фајл „%s“: %s\n"
 
-#: lib/libalpm/remove.c:410 lib/libalpm/remove.c:419
+#: lib/libalpm/remove.c:411 lib/libalpm/remove.c:420
 #, c-format
 msgid "could not backup %s due to PATH_MAX overflow\n"
 msgstr "не могу а направим резерну копију %s услед преливања PATH_MAX\n"
 
-#: lib/libalpm/remove.c:561
+#: lib/libalpm/remove.c:562
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "не могу да уклоним %s (%s)\n"
 
-#: lib/libalpm/remove.c:734
+#: lib/libalpm/remove.c:735
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "не могу да уклоним унос базе %s — %s\n"
 
-#: lib/libalpm/remove.c:739
+#: lib/libalpm/remove.c:740
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "не могу да уклоним унос „%s“ из кеша\n"
@@ -822,7 +817,7 @@ msgstr "кључ %s, „%s“ нађен на серверу, привезак �
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "кључ „%s“ се не може потражити удаљено\n"
 
-#: lib/libalpm/signing.c:859 lib/libalpm/sync.c:1181
+#: lib/libalpm/signing.c:859 lib/libalpm/sync.c:1006
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: недостаје захтевани потпис\n"
@@ -874,62 +869,67 @@ msgstr "%s: грешка у формату потписа\n"
 msgid "%s: unsupported signature format\n"
 msgstr "%s: неподржан формат потписа\n"
 
-#: lib/libalpm/sync.c:98
+#: lib/libalpm/sync.c:93
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: игноришем надоградњу пакета (%s -> %s)\n"
 
-#: lib/libalpm/sync.c:110
+#: lib/libalpm/sync.c:105
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
 msgstr "%s: игноришем разградњу пакета (%s -> %s)\n"
 
-#: lib/libalpm/sync.c:113
+#: lib/libalpm/sync.c:108
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
 msgstr "%s: разграђујем са верзије %s на верзију %s\n"
 
-#: lib/libalpm/sync.c:119
+#: lib/libalpm/sync.c:114
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: локални (%s) је новији од %s (%s)\n"
 
-#: lib/libalpm/sync.c:160
+#: lib/libalpm/sync.c:155
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "игноришем замену пакета (%s-%s -> %s-%s)\n"
 
-#: lib/libalpm/sync.c:176
+#: lib/libalpm/sync.c:171
 #, c-format
 msgid "cannot replace %s by %s\n"
 msgstr "не могу да заменим %s са %s\n"
 
-#: lib/libalpm/sync.c:538 lib/libalpm/sync.c:608
+#: lib/libalpm/sync.c:529 lib/libalpm/sync.c:599
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "откривени су неразрешиви сукоби пакета\n"
 
-#: lib/libalpm/sync.c:558
+#: lib/libalpm/sync.c:549
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "уклањам „%s“ са списка циљева због сукоба са „%s“\n"
 
-#: lib/libalpm/sync.c:1019
+#: lib/libalpm/sync.c:843
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "неуспешно преузимање неких фајлова\n"
 
-#: lib/libalpm/sync.c:1384
+#: lib/libalpm/sync.c:1020
+#, fuzzy, c-format
+msgid "failed to read file %s: %s\n"
+msgstr "не могу да прочитам фајл потписа: %s\n"
+
+#: lib/libalpm/sync.c:1207
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "нема довољно слободног простора на диску\n"
 
-#: lib/libalpm/sync.c:1406
+#: lib/libalpm/sync.c:1229
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "не могу да обавим уклањање\n"
 
-#: lib/libalpm/sync.c:1414
+#: lib/libalpm/sync.c:1237
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "не могу да обавим пренос\n"
@@ -964,52 +964,58 @@ msgstr "не могу да пишем у цев (%s)\n"
 msgid "unable to read from pipe (%s)\n"
 msgstr "не могу да читам из цеви (%s)\n"
 
-#: lib/libalpm/util.c:590 lib/libalpm/util.c:596
+#: lib/libalpm/util.c:609 lib/libalpm/util.c:615
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "не могу да направим цев (%s)\n"
 
-#: lib/libalpm/util.c:604
+#: lib/libalpm/util.c:623
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "не могу да рачвам нови процес (%s)\n"
 
-#: lib/libalpm/util.c:627
+#: lib/libalpm/util.c:646
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "ме могу да променим корену фасциклу (%s)\n"
 
-#: lib/libalpm/util.c:638
+#: lib/libalpm/util.c:658
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "неуспео позив извршног аргумента (%s)\n"
 
-#: lib/libalpm/util.c:709
+#: lib/libalpm/util.c:737
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "неуспешно позивање процеса чекања (%s)\n"
 
-#: lib/libalpm/util.c:719
+#: lib/libalpm/util.c:747
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "неуспешно правилно извршавање наредбе\n"
 
-#: lib/libalpm/util.c:726
+#: lib/libalpm/util.c:754
 #, c-format
 msgid "Unknown signal"
 msgstr "Непознат сигнал"
 
-#: lib/libalpm/util.c:728
+#: lib/libalpm/util.c:756
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "наредба прекинута сигналом %d: %s\n"
 
-#: lib/libalpm/util.c:825
+#: lib/libalpm/util.c:853
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "не постоји кеш за %s; правим....\n"
 
-#: lib/libalpm/util.c:856
+#: lib/libalpm/util.c:884
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "не могу да нађем или направим кеш пакета, као замену користим %s\n"
+
+#~ msgid "invalid or corrupted delta"
+#~ msgstr "неисправна или покварена делта"
+
+#~ msgid "delta patch failed"
+#~ msgstr "неуспела закрпа делтом"

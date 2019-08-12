@@ -11,14 +11,15 @@
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # Kiprianas Spiridonovas <k.spiridonovas@gmail.com>, 2012-2013
 # Moo, 2015-2018
+# Tautvydas Ž., 2019
 # Dan McGee <dpmcgee@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-07-19 14:06+1000\n"
-"PO-Revision-Date: 2018-07-19 04:15+0000\n"
-"Last-Translator: Algimantas Margevičius <algimantas@margevicius.lt>\n"
+"POT-Creation-Date: 2019-08-12 11:37+1000\n"
+"PO-Revision-Date: 2019-08-09 19:33+0000\n"
+"Last-Translator: Tautvydas Ž.\n"
 "Language-Team: Lithuanian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/lt/)\n"
 "Language: lt\n"
@@ -109,77 +110,52 @@ msgstr "parsiunčiami reikalingi raktai...\n"
 msgid "loading package files...\n"
 msgstr "įkraunami paketo failai...\n"
 
-#: src/pacman/callback.c:271
-#, c-format
-msgid "checking delta integrity...\n"
-msgstr "tikrinama delta vientisumas...\n"
-
 #: src/pacman/callback.c:274
-#, c-format
-msgid "applying deltas...\n"
-msgstr "pritaikomi delta...\n"
-
-#: src/pacman/callback.c:277
-#, c-format
-msgid "generating %s with %s... "
-msgstr "generuojama %s su %s..."
-
-#: src/pacman/callback.c:282
-#, c-format
-msgid "success!\n"
-msgstr "pavyko!\n"
-
-#: src/pacman/callback.c:285
-#, c-format
-msgid "failed.\n"
-msgstr "nepavyko.\n"
-
-#: src/pacman/callback.c:291
 #, c-format
 msgid "Retrieving packages...\n"
 msgstr "Gaunami paketai...\n"
 
-#: src/pacman/callback.c:295
+#: src/pacman/callback.c:278
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "tikrinama laisva disko vieta...\n"
 
-#: src/pacman/callback.c:302
+#: src/pacman/callback.c:285
 #, c-format
 msgid "%s optionally requires %s\n"
 msgstr "%s nebūtina priklausomybė yra %s\n"
 
-#: src/pacman/callback.c:321 src/pacman/callback.c:327
+#: src/pacman/callback.c:304 src/pacman/callback.c:310
 #, c-format
 msgid "%s installed as %s.pacnew\n"
 msgstr "%s įdiegta kaip %s.pacnew\n"
 
-#: src/pacman/callback.c:337 src/pacman/callback.c:343
+#: src/pacman/callback.c:320 src/pacman/callback.c:326
 #, c-format
 msgid "%s saved as %s.pacsave\n"
 msgstr "%s įrašyta kaip %s.pacsave\n"
 
-#: src/pacman/callback.c:395
+#: src/pacman/callback.c:376
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr "%s yra IgnorePkg/IgnoreGroup sąraše. Vistiek įdiegti?"
 
-#: src/pacman/callback.c:405
+#: src/pacman/callback.c:386
 #, c-format
 msgid "Replace %s with %s/%s?"
 msgstr "Vietoje %s įrašyti %s/%s?"
 
-#: src/pacman/callback.c:417
+#: src/pacman/callback.c:398
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
 msgstr "%s ir %s nesuderinami. Pašalinti %s?"
 
-#: src/pacman/callback.c:422
+#: src/pacman/callback.c:403
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
 msgstr "%s ir %s nesuderinama (%s). Pašalinti %s?"
 
-#: src/pacman/callback.c:441
+#: src/pacman/callback.c:422
 #, c-format
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
@@ -194,7 +170,7 @@ msgstr[2] ""
 msgstr[3] ""
 "Šių paketų atnaujinti neįmanoma, dėl neišsprendžiamų priklausomybių:\n"
 
-#: src/pacman/callback.c:447
+#: src/pacman/callback.c:428
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
@@ -203,7 +179,7 @@ msgstr[1] "Ar norite praleisti šiuos paketus šiam atnaujinimui?"
 msgstr[2] "Ar norite praleisti šiuos paketus šiam atnaujinimui?"
 msgstr[3] "Ar norite praleisti šiuos paketus šiam atnaujinimui?"
 
-#: src/pacman/callback.c:458
+#: src/pacman/callback.c:439
 #, c-format
 msgid "There is %zu provider available for %s\n"
 msgid_plural "There are %zu providers available for %s:\n"
@@ -212,7 +188,7 @@ msgstr[1] "Yra prieinami %zu %s tiekėjai\n"
 msgstr[2] "Yra prieinama %zu %s tiekėjų\n"
 msgstr[3] "Yra prieinama %zu %s tiekėjų\n"
 
-#: src/pacman/callback.c:469
+#: src/pacman/callback.c:450
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
@@ -221,67 +197,67 @@ msgstr ""
 "Failas %s yra sugadintas (%s).\n"
 "Ar norite jį ištrinti?"
 
-#: src/pacman/callback.c:483
+#: src/pacman/callback.c:464
 #, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
 msgstr "Importuoti PGP raktą %u%c/%s, \"%s\", sukurtas: %s (atšauktas)?"
 
-#: src/pacman/callback.c:486
+#: src/pacman/callback.c:467
 #, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s?"
 msgstr "Importuoti PGP raktą %u%c/%s, \"%s\", sukurtas: %s?"
 
-#: src/pacman/callback.c:545
+#: src/pacman/callback.c:526
 #, c-format
 msgid "installing"
 msgstr "diegiama"
 
-#: src/pacman/callback.c:548
+#: src/pacman/callback.c:529
 #, c-format
 msgid "upgrading"
 msgstr "atnaujinama"
 
-#: src/pacman/callback.c:551
+#: src/pacman/callback.c:532
 #, c-format
 msgid "downgrading"
 msgstr "sendinama"
 
-#: src/pacman/callback.c:554
+#: src/pacman/callback.c:535
 #, c-format
 msgid "reinstalling"
 msgstr "diegiama iš naujo"
 
-#: src/pacman/callback.c:557
+#: src/pacman/callback.c:538
 #, c-format
 msgid "removing"
 msgstr "šalinama"
 
-#: src/pacman/callback.c:560
+#: src/pacman/callback.c:541
 #, c-format
 msgid "checking for file conflicts"
 msgstr "tikrinamas failų suderinamumas"
 
-#: src/pacman/callback.c:563
+#: src/pacman/callback.c:544
 #, c-format
 msgid "checking available disk space"
 msgstr "tikrinama laisva disko vieta"
 
-#: src/pacman/callback.c:566
+#: src/pacman/callback.c:547
 #, c-format
 msgid "checking package integrity"
 msgstr "tikrinamas paketo vientisumas"
 
-#: src/pacman/callback.c:569
+#: src/pacman/callback.c:550
 #, c-format
 msgid "checking keys in keyring"
 msgstr "tikrinami raktai raktinėje"
 
-#: src/pacman/callback.c:572
+#: src/pacman/callback.c:553
 #, c-format
 msgid "loading package files"
 msgstr "įkraunami paketo failai"
 
-#: src/pacman/callback.c:689
+#: src/pacman/callback.c:670
 #, c-format
 msgid "downloading %s...\n"
 msgstr "parsisiunčiama %s...\n"
@@ -385,7 +361,7 @@ msgstr[1] "%jd pakeisti failai\n"
 msgstr[2] "%jd pakeistų failų\n"
 msgstr[3] "%jd pakeistų failų\n"
 
-#: src/pacman/conf.c:98
+#: src/pacman/conf.c:97
 #, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
@@ -394,44 +370,44 @@ msgstr[1] "malloc triktis: nepavyko paskirstyti %zu baitų\n"
 msgstr[2] "malloc triktis: nepavyko paskirstyti %zu baitų\n"
 msgstr[3] "malloc triktis: nepavyko paskirstyti %zu baitų\n"
 
-#: src/pacman/conf.c:252
+#: src/pacman/conf.c:250
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "nepavyko sužinoti darbinio katalogo\n"
 
-#: src/pacman/conf.c:257
+#: src/pacman/conf.c:255
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "nepavyko pereiti į parsiuntimų katalogą %s\n"
 
-#: src/pacman/conf.c:266
+#: src/pacman/conf.c:264
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "vykdant XferCommand: fork nepavyko!\n"
 
-#: src/pacman/conf.c:278
+#: src/pacman/conf.c:276
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "nepavyko pervadinti %s į %s (%s)\n"
 
-#: src/pacman/conf.c:289
+#: src/pacman/conf.c:287
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "nepavyko atstatyti darbinio aplanko (%s)\n"
 
-#: src/pacman/conf.c:398 src/pacman/conf.c:447 src/pacman/conf.c:543
+#: src/pacman/conf.c:396 src/pacman/conf.c:445
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr "konfigūracijos failas %s, eilutė %d: netinkama reikšmė „%s“ : „%s“\n"
 
-#: src/pacman/conf.c:412
+#: src/pacman/conf.c:410
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
 "konfigūracijos failas %s, eilutė %d: „%s“ pasirinktis neteisinga, nėra "
 "pasirašymo palaikymo\n"
 
-#: src/pacman/conf.c:506 src/pacman/conf.c:611 src/pacman/conf.c:881
+#: src/pacman/conf.c:501 src/pacman/conf.c:586 src/pacman/conf.c:855
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
@@ -439,22 +415,22 @@ msgstr ""
 "konfigūracijos failas %s, eilutė %d: direktyva „%s“ sekcijoj „%s“ "
 "neatpažinta.\n"
 
-#: src/pacman/conf.c:623
+#: src/pacman/conf.c:598
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr "veidrodis „%s“ turi „%s“ kintamąjį, bet „%s“ neapibrėžta.\n"
 
-#: src/pacman/conf.c:647
+#: src/pacman/conf.c:622
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "nepavyko pridėti serverio URL į duomenų bazę „%s“: %s (%s)\n"
 
-#: src/pacman/conf.c:662
+#: src/pacman/conf.c:637
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "nepavyko užregistruoti duomenų bazės „%s“ (%s)\n"
 
-#: src/pacman/conf.c:698
+#: src/pacman/conf.c:673
 #, c-format
 msgid ""
 "failed to initialize alpm library\n"
@@ -463,67 +439,67 @@ msgstr ""
 "nepavyko inicijuoti alpm bibliotekos\n"
 "(%s: %s)\n"
 
-#: src/pacman/conf.c:701
+#: src/pacman/conf.c:676
 #, c-format
 msgid "try running pacman-db-upgrade\n"
 msgstr "bandykite įvykdyti komandą pacman-db-upgrade\n"
 
-#: src/pacman/conf.c:719
+#: src/pacman/conf.c:694
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "nepavyko nustatyti žurnalo failo „%s“ (%s)\n"
 
-#: src/pacman/conf.c:728
+#: src/pacman/conf.c:703
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "nepavyko nustatyti gpgdir „%s“ (%s)\n"
 
-#: src/pacman/conf.c:738
+#: src/pacman/conf.c:713
 #, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
 msgstr "problema, pridedant hookdir \"%s\" (%s)\n"
 
-#: src/pacman/conf.c:760
+#: src/pacman/conf.c:735
 #, c-format
 msgid "no '%s' configured\n"
 msgstr "nėra sukonfigūruota \"%s\"\n"
 
-#: src/pacman/conf.c:790
+#: src/pacman/conf.c:764
 #, c-format
 msgid "Failed to pass %s entry to libalpm"
 msgstr "Nepavyko perduoti %s įrašo į libalpm"
 
-#: src/pacman/conf.c:830
+#: src/pacman/conf.c:804
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr ""
 "konfigūracijos failas %s, eilutė %d: \"%s\" parinktis \"%s\" neatpažinta\n"
 
-#: src/pacman/conf.c:850 src/pacman/conf.c:858 src/pacman/conf.c:901
+#: src/pacman/conf.c:824 src/pacman/conf.c:877
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr ""
 "konfigūracijos failas %s, eilutė %d: direktyva „%s“ turi turėt reikšmę\n"
 
-#: src/pacman/conf.c:908
+#: src/pacman/conf.c:884
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "skaitant konfigūracijos failą, prieita gylio riba %d.\n"
 
-#: src/pacman/conf.c:956
+#: src/pacman/conf.c:932
 #, c-format
 msgid "config file %s could not be read: %s\n"
 msgstr "konfigūracijos failas %s neperskaitomas: %s\n"
 
-#: src/pacman/conf.c:979
+#: src/pacman/conf.c:955
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
 "konfigūracijos failas %s, eilutė %d: Visos direktyvos turi priklausyti "
 "skyriuj\n"
 
-#: src/pacman/database.c:50 src/pacman/files.c:300 src/pacman/query.c:426
-#: src/pacman/remove.c:91 src/pacman/sync.c:938 src/pacman/upgrade.c:47
+#: src/pacman/database.c:50 src/pacman/files.c:304 src/pacman/query.c:430
+#: src/pacman/remove.c:85 src/pacman/sync.c:943 src/pacman/upgrade.c:47
 #, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "nenurodytas joks objektas (bandykite -h pagalbai)\n"
@@ -548,35 +524,30 @@ msgstr "%s: diegimo priežastis nustatyta kaip „įdiegta kaip priklausomybė�
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s: diegimo priežastis nustatyta kaip „įdiegta savarankiškai“\n"
 
-#: src/pacman/database.c:293
+#: src/pacman/database.c:295
 #, c-format
 msgid "No database errors have been found!\n"
 msgstr "Nerasta jokių duomenų bazės klaidų!\n"
 
-#: src/pacman/files.c:81
+#: src/pacman/files.c:55
 #, c-format
 msgid "%s is owned by %s%s/%s%s %s%s%s\n"
 msgstr "%s priklauso %s%s/%s%s %s%s%s\n"
 
-#: src/pacman/files.c:223
+#: src/pacman/files.c:222
 #, c-format
 msgid "invalid package: '%s'\n"
 msgstr "neteisingas paketas: \"%s\"\n"
 
-#: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
+#: src/pacman/files.c:254 src/pacman/query.c:484 src/pacman/sync.c:427
 #, c-format
 msgid "package '%s' was not found\n"
 msgstr "paketas „%s“ nerastas\n"
 
-#: src/pacman/files.c:291 src/pacman/sync.c:898
+#: src/pacman/files.c:290 src/pacman/sync.c:903
 #, c-format
 msgid "Synchronizing package databases...\n"
 msgstr "Sinchronizuojamos paketų duomenų bazės...\n"
-
-#: src/pacman/files.c:320
-#, c-format
-msgid "no options specified (use -h for help)\n"
-msgstr ""
 
 #: src/pacman/package.c:99
 #, c-format
@@ -923,7 +894,7 @@ msgstr ""
 "  -n, --native           parodo paketų sąrašą, kurie yra tik "
 "sinchronizacijos duomenų bazėje [filtras]\n"
 
-#: src/pacman/pacman.c:146 src/pacman/pacman.c:180
+#: src/pacman/pacman.c:146
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
 msgstr "  -o, --owns <file>      užklausti paketą kuriam priklauso <failas>\n"
@@ -933,7 +904,7 @@ msgstr "  -o, --owns <file>      užklausti paketą kuriam priklauso <failas>\n"
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr "  -p, --file <paketas>   užklausti paketo failą vietoj duomenų bazės\n"
 
-#: src/pacman/pacman.c:148 src/pacman/pacman.c:161 src/pacman/pacman.c:181
+#: src/pacman/pacman.c:148 src/pacman/pacman.c:161 src/pacman/pacman.c:180
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
 msgstr ""
@@ -1015,7 +986,7 @@ msgid ""
 msgstr ""
 "  -w, --downloadonly     parsisiųsti paketus, bet nediegti/neatnaujinti\n"
 
-#: src/pacman/pacman.c:165 src/pacman/pacman.c:184
+#: src/pacman/pacman.c:165 src/pacman/pacman.c:182
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
@@ -1049,23 +1020,16 @@ msgstr ""
 #: src/pacman/pacman.c:174
 #, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
-msgstr ""
+msgstr "  -q, --quiet          nerodyti pavykusio veiksmo žinučių\n"
 
-#: src/pacman/pacman.c:182
-#, c-format
-msgid "  -s, --search <file>  search package file names for matching strings\n"
-msgstr ""
-"  -s, --search <failas>  ieškoti paketų failų pavadinimus, kurie atitinka "
-"kriterijus\n"
-
-#: src/pacman/pacman.c:183
+#: src/pacman/pacman.c:181
 #, c-format
 msgid "  -x, --regex          enable searching using regular expressions\n"
 msgstr ""
 "  -x, --regex          įjungti reguliariuosius reiškinius naudojančią "
 "paiešką\n"
 
-#: src/pacman/pacman.c:186
+#: src/pacman/pacman.c:184
 #, c-format
 msgid ""
 "      --machinereadable\n"
@@ -1074,25 +1038,28 @@ msgstr ""
 "      --machinereadable\n"
 "                       sukurti kompiuterio skaitomą išvestį\n"
 
-#: src/pacman/pacman.c:192
+#: src/pacman/pacman.c:190
 #, c-format
 msgid ""
 "      --overwrite <path>\n"
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
+"      --overwrite <path>\n"
+"                       perrašyti konfliktuojančius failus (galima naudoti "
+"daugiau nei vieną kartą)\n"
 
-#: src/pacman/pacman.c:194
+#: src/pacman/pacman.c:192
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
 msgstr "      --asdeps           įdiegti paketus kaip nesavarankiškus\n"
 
-#: src/pacman/pacman.c:195
+#: src/pacman/pacman.c:193
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
 msgstr "      --asexplicit       įdiegti paketus kaip savarankiškus\n"
 
-#: src/pacman/pacman.c:196
+#: src/pacman/pacman.c:194
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
@@ -1101,7 +1068,7 @@ msgstr ""
 "      --ignore <pkg>     ignoruoti paketo atnaujinimą (galima naudoti "
 "daugiau nei vieną kartą)\n"
 
-#: src/pacman/pacman.c:197
+#: src/pacman/pacman.c:195
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
@@ -1111,7 +1078,7 @@ msgstr ""
 "                         ignoruoti grupinį atnaujinimą (galima naudoti "
 "daugiau nei vieną kartą)\n"
 
-#: src/pacman/pacman.c:201
+#: src/pacman/pacman.c:199
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
@@ -1120,7 +1087,7 @@ msgstr ""
 "  -d, --nodeps           praleisti priklausomybių versijų tikrinimą (-dd "
 "praleisti visus tikrinimus)\n"
 
-#: src/pacman/pacman.c:202
+#: src/pacman/pacman.c:200
 #, c-format
 msgid ""
 "      --assume-installed <package=version>\n"
@@ -1130,7 +1097,7 @@ msgstr ""
 "                       pridėti virtualų paketą, kad būtų patenkintos "
 "priklausomybės\n"
 
-#: src/pacman/pacman.c:204
+#: src/pacman/pacman.c:202
 #, c-format
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
@@ -1138,20 +1105,20 @@ msgstr ""
 "      --dbonly           pakeisti tik duomenų bazės įrašus, bet ne paketo "
 "failus\n"
 
-#: src/pacman/pacman.c:205
+#: src/pacman/pacman.c:203
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
 msgstr "      --noprogressbar    siunčiant failus nerodyti pažangos juostos\n"
 
-#: src/pacman/pacman.c:206
+#: src/pacman/pacman.c:204
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr ""
 "      --noscriptlet      nevykdyti diegimo scenarijaus, jei toks egzistuoja\n"
 
-#: src/pacman/pacman.c:207
+#: src/pacman/pacman.c:205
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
@@ -1159,7 +1126,7 @@ msgid ""
 msgstr ""
 "  -p, --print            parodyti objektus vietoje užduoties įvykdymo\n"
 
-#: src/pacman/pacman.c:208
+#: src/pacman/pacman.c:206
 #, c-format
 msgid ""
 "      --print-format <string>\n"
@@ -1168,85 +1135,88 @@ msgstr ""
 "      --print-format <string>\n"
 "                         nurodyti kaip objektai turi būti atvaizduoti\n"
 
-#: src/pacman/pacman.c:213
+#: src/pacman/pacman.c:211
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
 msgstr "  -b, --dbpath <kelias>  nurodyti alternatyvią duomenų bazės vietą\n"
 
-#: src/pacman/pacman.c:214
+#: src/pacman/pacman.c:212
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
 msgstr ""
 "  -r, --root <kelias>    nurodyti alternatyvų diegimo šakninį katalogą\n"
 
-#: src/pacman/pacman.c:215
+#: src/pacman/pacman.c:213
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "  -v, --verbose          plačiau\n"
 
-#: src/pacman/pacman.c:216
+#: src/pacman/pacman.c:214
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "      --arch <arch>      nurodyti alternatyvią architektūrą\n"
 
-#: src/pacman/pacman.c:217
+#: src/pacman/pacman.c:215
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
+"      --sysroot        veikti prijungtoj svečio sistemoje (root-only)\n"
 
-#: src/pacman/pacman.c:218
+#: src/pacman/pacman.c:216
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "      --cachedir <dir>   nurodyti alternatyvią podėlio vietą\n"
 
-#: src/pacman/pacman.c:219
+#: src/pacman/pacman.c:217
 #, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
 msgstr "      --hookdir <katalogas>  nustatyti alternatyvią gaudyklės vietą\n"
 
-#: src/pacman/pacman.c:220
+#: src/pacman/pacman.c:218
 #, c-format
 msgid "      --color <when>   colorize the output\n"
 msgstr "      --color <kada>     nuspalvoti išvestį\n"
 
-#: src/pacman/pacman.c:221
+#: src/pacman/pacman.c:219
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "      --config <kelias>  nurodyti alternatyvų konfigūracijos failą\n"
 
-#: src/pacman/pacman.c:222
+#: src/pacman/pacman.c:220
 #, c-format
 msgid "      --debug          display debug messages\n"
 msgstr "      --debug            rodyti derinimo pranešimus\n"
 
-#: src/pacman/pacman.c:223
+#: src/pacman/pacman.c:221
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr "      --gpgdir <kelias>  nurodyti alternatyvų namų katalogą\n"
 
-#: src/pacman/pacman.c:224
+#: src/pacman/pacman.c:222
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "      --logfile <kelias> nurodyti alternatyvų žurnalo failą\n"
 
-#: src/pacman/pacman.c:225
+#: src/pacman/pacman.c:223
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "      --noconfirm        nereikalauti patvirtinimo\n"
 
-#: src/pacman/pacman.c:226
+#: src/pacman/pacman.c:224
 #, c-format
 msgid "      --confirm        always ask for confirmation\n"
 msgstr "      --confirm        visada reikalauti patvirtinimo\n"
 
-#: src/pacman/pacman.c:227
+#: src/pacman/pacman.c:225
 #, c-format
 msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
+"      --disable-download-timeout\n"
+"                       išjungti siuntimų laiko pasibaigimą\n"
 
-#: src/pacman/pacman.c:247
+#: src/pacman/pacman.c:245
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -1255,78 +1225,73 @@ msgstr ""
 "                       Ši programa gali būti laisvai platinama\n"
 "                       pagal GNU General Public License.\n"
 
-#: src/pacman/pacman.c:280
+#: src/pacman/pacman.c:278
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
 msgstr "HTTP_USER_AGENT sutrumpintas\n"
 
-#: src/pacman/pacman.c:312
+#: src/pacman/pacman.c:310
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr ""
 "neteisinga pasirinktis: \"%s\" ir \"%s\" negali būti naudojamos kartu\n"
 
-#: src/pacman/pacman.c:396
+#: src/pacman/pacman.c:394
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "netinkamas argumentas „%s“ skirtas %s\n"
 
-#: src/pacman/pacman.c:419
+#: src/pacman/pacman.c:417
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "„%s“ nėra teisingas derinimo informacijos lygis\n"
 
-#: src/pacman/pacman.c:721
-#, c-format
-msgid "option --force is deprecated; use --overwrite instead\n"
-msgstr ""
-
-#: src/pacman/pacman.c:981
+#: src/pacman/pacman.c:961
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "vienu metu gali būti vykdoma tik viena operacija\n"
 
-#: src/pacman/pacman.c:1039
+#: src/pacman/pacman.c:1019
 #, c-format
 msgid "invalid option '-%c'\n"
 msgstr "neteisinga pasirinktis \"-%c\"\n"
 
-#: src/pacman/pacman.c:1041
+#: src/pacman/pacman.c:1021
 #, c-format
 msgid "invalid option '--%s'\n"
 msgstr "neteisinga pasirinktis \"--%s\"\n"
 
-#: src/pacman/pacman.c:1166
+#: src/pacman/pacman.c:1146
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "jūs negalite įvykdyti šios komandos jei nesate root naudotojas.\n"
 
-#: src/pacman/pacman.c:1172
+#: src/pacman/pacman.c:1152
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
-msgstr ""
+msgstr "pakeisti root į '%s' nepavyko: (%s)\n"
 
-#: src/pacman/pacman.c:1206
+#: src/pacman/pacman.c:1186
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr "nepavyko perskaityti argumentus iš stdin: (%s)\n"
 
-#: src/pacman/pacman.c:1211
+#: src/pacman/pacman.c:1191
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "nepavyko pakartotinai atidaryti skaitymui stdin: (%s)\n"
 
-#: src/pacman/pacman.c:1216
+#: src/pacman/pacman.c:1196
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "argumentas \"-\" nurodytas su tuščiu stdin\n"
 
-#: src/pacman/pacman.c:1221
+#: src/pacman/pacman.c:1201
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "argumentas „-“ nurodytas be stdin įvesties\n"
 
-#: src/pacman/pacman.c:1298
+#: src/pacman/pacman.c:1278
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "nenurodyta jokia komanda (naudokite -h pagalbai)\n"
@@ -1344,7 +1309,7 @@ msgstr "nenurodytas failas --owns\n"
 #: src/pacman/query.c:170
 #, c-format
 msgid "empty string passed to file owner query\n"
-msgstr ""
+msgstr "tuščia eilutė perduota failo savininko užklausai\n"
 
 #: src/pacman/query.c:197 src/pacman/query.c:219
 #, c-format
@@ -1356,67 +1321,62 @@ msgstr "%s nepriklauso jokiam paketui\n"
 msgid "path too long: %s/\n"
 msgstr "kelias pernelyg ilgas: %s/\n"
 
-#: src/pacman/query.c:332
+#: src/pacman/query.c:336
 #, c-format
 msgid "[ignored]"
 msgstr "[ignoruota]"
 
-#: src/pacman/query.c:383
+#: src/pacman/query.c:387
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "grupė „%s“ nerasta\n"
 
-#: src/pacman/query.c:469
+#: src/pacman/query.c:473
 #, c-format
 msgid "could not load package '%s': %s\n"
 msgstr "nepavyko įkrauti paketo „%s“: %s\n"
 
-#: src/pacman/query.c:483
+#: src/pacman/query.c:487
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
 msgstr "„%s“ yra failas, turbūt norėsite naudoti %s.\n"
 
-#: src/pacman/remove.c:49 src/pacman/sync.c:526 src/pacman/sync.c:611
-#, c-format
-msgid "skipping target: %s\n"
-msgstr "objektas praleidžiamas: %s\n"
-
-#: src/pacman/remove.c:63 src/pacman/sync.c:546
+#: src/pacman/remove.c:57 src/pacman/sync.c:555
 #, c-format
 msgid "target not found: %s\n"
 msgstr "objektas nerastas: %s\n"
 
-#: src/pacman/remove.c:118 src/pacman/sync.c:742
+#: src/pacman/remove.c:112 src/pacman/sync.c:751
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "nepavyko paruošti operacijos (%s)\n"
 
-#: src/pacman/remove.c:125
+#: src/pacman/remove.c:119
 #, c-format
 msgid "%s: removing %s breaks dependency '%s'\n"
 msgstr "%s: šalinant %s sulaužoma priklausomybė \"%s\"\n"
 
-#: src/pacman/remove.c:144
+#: src/pacman/remove.c:138
 #, c-format
 msgid "%s is designated as a HoldPkg.\n"
 msgstr "%s pažymėtas kaip HoldPkg.\n"
 
-#: src/pacman/remove.c:149
+#: src/pacman/remove.c:143
 #, c-format
 msgid "HoldPkg was found in target list. Do you want to continue?"
 msgstr "HoldPkg buvo rastas objektų sąraše. Ar tęsti?"
 
-#: src/pacman/remove.c:157 src/pacman/sync.c:785
+#: src/pacman/remove.c:151 src/pacman/sync.c:794
 #, c-format
 msgid " there is nothing to do\n"
 msgstr " nėra ką daryti\n"
 
-#: src/pacman/remove.c:169
+#: src/pacman/remove.c:163
 #, c-format
 msgid "Do you want to remove these packages?"
 msgstr "Ar norite pašalinti šiuos paketus?"
 
-#: src/pacman/remove.c:175 src/pacman/sync.c:812
+#: src/pacman/remove.c:169 src/pacman/sync.c:821
 #, c-format
 msgid "failed to commit transaction (%s)\n"
 msgstr "nepavyko pritaikyti operacijos (%s)\n"
@@ -1491,106 +1451,107 @@ msgstr "šalinami visi failai iš podėlio...\n"
 msgid "could not access cache directory %s\n"
 msgstr "nepavyko pasiekti podėlio aplanko %s\n"
 
-#: src/pacman/sync.c:424
+#: src/pacman/sync.c:422
 #, c-format
 msgid "repository '%s' does not exist\n"
 msgstr "saugykla „%s“ neegzistuoja\n"
 
-#: src/pacman/sync.c:470
+#: src/pacman/sync.c:468
 #, c-format
 msgid "repository \"%s\" was not found.\n"
 msgstr "saugykla „%s“ nerasta.\n"
 
-#: src/pacman/sync.c:561
+#: src/pacman/sync.c:570
 #, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Grupėje %2$s%3$s%4$s yra %1$d narys:\n"
+msgstr[1] "Grupėje %2$s%3$s%4$s yra %1$d nariai:\n"
+msgstr[2] "Grupėje %2$s%3$s%4$s yra %1$d narių:\n"
+msgstr[3] "Grupėje %2$s%3$s%4$s yra %1$d narių:\n"
 
-#: src/pacman/sync.c:640
+#: src/pacman/sync.c:620
+#, c-format
+msgid "skipping target: %s\n"
+msgstr "objektas praleidžiamas: %s\n"
+
+#: src/pacman/sync.c:649
 #, c-format
 msgid "database not found: %s\n"
 msgstr "nerasta duomenų bazė: %s\n"
 
-#: src/pacman/sync.c:668
+#: src/pacman/sync.c:677
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
 msgstr "„%s“ yra failas, gal turėjote omeny %s, o ne %s?\n"
 
-#: src/pacman/sync.c:699
+#: src/pacman/sync.c:708
 #, c-format
 msgid "Starting full system upgrade...\n"
 msgstr "Pradedamas sistemos atnaujinimas...\n"
 
-#: src/pacman/sync.c:720
+#: src/pacman/sync.c:729
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
 msgstr "nepavyko patenkinti priklausomybės \"%s\", kurios reikalauja %s\n"
 
-#: src/pacman/sync.c:724
+#: src/pacman/sync.c:733
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
 msgstr ""
+"įdiegiant %s (%s) sugadinama \"%s\" priklausomybė, kurios reikalauja %s\n"
 
-#: src/pacman/sync.c:728
+#: src/pacman/sync.c:737
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr ""
+msgstr "šalinant %s sugadinama \"%s\" priklausomybė, kurios reikalauja %s\n"
 
-#: src/pacman/sync.c:748
+#: src/pacman/sync.c:757
 #, c-format
 msgid "package %s does not have a valid architecture\n"
 msgstr "paketas %s neturi tinkamos architektūros\n"
 
-#: src/pacman/sync.c:763
+#: src/pacman/sync.c:772
 #, c-format
 msgid "%s and %s are in conflict\n"
 msgstr "%s ir %s yra nesuderinami\n"
 
-#: src/pacman/sync.c:767
+#: src/pacman/sync.c:776
 #, c-format
 msgid "%s and %s are in conflict (%s)\n"
 msgstr "%s ir %s yra nesuderinami (%s)\n"
 
-#: src/pacman/sync.c:801
+#: src/pacman/sync.c:810
 #, c-format
 msgid "Proceed with download?"
 msgstr "Vykdyti parsisiuntimą?"
 
-#: src/pacman/sync.c:803
+#: src/pacman/sync.c:812
 #, c-format
 msgid "Proceed with installation?"
 msgstr "Vykdyti diegimą?"
 
-#: src/pacman/sync.c:817
-#, c-format
-msgid "unable to %s directory-file conflicts\n"
-msgstr "neįmanoma %s katalogų-failų nesuderinamumų\n"
-
-#: src/pacman/sync.c:823
+#: src/pacman/sync.c:829
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
 msgstr "%s jau yra ir „%s“ ir „%s“\n"
 
-#: src/pacman/sync.c:828
+#: src/pacman/sync.c:834
 #, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
 msgstr "%s: %s yra failų sistemoje (priklauso %s)\n"
 
-#: src/pacman/sync.c:831
+#: src/pacman/sync.c:837
 #, c-format
 msgid "%s: %s exists in filesystem\n"
 msgstr "%s: %s jau egzistuoja failų sistemoje\n"
 
-#: src/pacman/sync.c:845
+#: src/pacman/sync.c:850
 #, c-format
 msgid "%s is invalid or corrupted\n"
 msgstr "%s yra netinkamas arba sugadintas\n"
 
-#: src/pacman/sync.c:853
+#: src/pacman/sync.c:858
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
 msgstr "Buvo klaidų, paketų neatnaujinta.\n"
@@ -1853,3 +1814,33 @@ msgstr "klaida: "
 #, c-format
 msgid "warning: "
 msgstr "įspėjimas: "
+
+#~ msgid "checking delta integrity...\n"
+#~ msgstr "tikrinama delta vientisumas...\n"
+
+#~ msgid "applying deltas...\n"
+#~ msgstr "pritaikomi delta...\n"
+
+#~ msgid "generating %s with %s... "
+#~ msgstr "generuojama %s su %s..."
+
+#~ msgid "success!\n"
+#~ msgstr "pavyko!\n"
+
+#~ msgid "failed.\n"
+#~ msgstr "nepavyko.\n"
+
+#~ msgid "no options specified (use -h for help)\n"
+#~ msgstr "nėra nurodyti jokie parametrai (pagalbai, naudokite -h)\n"
+
+#~ msgid ""
+#~ "  -s, --search <file>  search package file names for matching strings\n"
+#~ msgstr ""
+#~ "  -s, --search <failas>  ieškoti paketų failų pavadinimus, kurie atitinka "
+#~ "kriterijus\n"
+
+#~ msgid "option --force is deprecated; use --overwrite instead\n"
+#~ msgstr "parametras --force yra pasenęs; naudokite --overwrite\n"
+
+#~ msgid "unable to %s directory-file conflicts\n"
+#~ msgstr "neįmanoma %s katalogų-failų nesuderinamumų\n"

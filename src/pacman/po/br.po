@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Gwenn M <tornoz@laposte.net>, 2015-2016
+# Gwenn M <tornoz@laposte.net>, 2015-2016,2019
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2018-07-19 14:06+1000\n"
-"PO-Revision-Date: 2018-07-19 04:15+0000\n"
+"POT-Creation-Date: 2019-08-12 11:37+1000\n"
+"PO-Revision-Date: 2019-01-11 10:33+0000\n"
 "Last-Translator: Gwenn M <tornoz@laposte.net>\n"
 "Language-Team: Breton (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/br/)\n"
@@ -103,77 +103,52 @@ msgstr "o pellgargañ an alc'hwezioù dleet...\n"
 msgid "loading package files...\n"
 msgstr "o kargañ ar restroù pakad...\n"
 
-#: src/pacman/callback.c:271
-#, c-format
-msgid "checking delta integrity...\n"
-msgstr "o wiriañ an anterinder delta...\n"
-
 #: src/pacman/callback.c:274
-#, c-format
-msgid "applying deltas...\n"
-msgstr "oc'h arloañ an delta...\n"
-
-#: src/pacman/callback.c:277
-#, c-format
-msgid "generating %s with %s... "
-msgstr "o c'henel %s gant %s..."
-
-#: src/pacman/callback.c:282
-#, c-format
-msgid "success!\n"
-msgstr "berzh !\n"
-
-#: src/pacman/callback.c:285
-#, c-format
-msgid "failed.\n"
-msgstr "c'hwitet.\n"
-
-#: src/pacman/callback.c:291
 #, c-format
 msgid "Retrieving packages...\n"
 msgstr "Oc'h adkavout ar pakadoù...\n"
 
-#: src/pacman/callback.c:295
+#: src/pacman/callback.c:278
 #, c-format
 msgid "checking available disk space...\n"
 msgstr "o wiriañ an egor dieub er bladenn...\n"
 
-#: src/pacman/callback.c:302
+#: src/pacman/callback.c:285
 #, c-format
 msgid "%s optionally requires %s\n"
 msgstr "%s a azgoulenn %s (diret)\n"
 
-#: src/pacman/callback.c:321 src/pacman/callback.c:327
+#: src/pacman/callback.c:304 src/pacman/callback.c:310
 #, c-format
 msgid "%s installed as %s.pacnew\n"
 msgstr "staliet eo %s evel %s.pacnew\n"
 
-#: src/pacman/callback.c:337 src/pacman/callback.c:343
+#: src/pacman/callback.c:320 src/pacman/callback.c:326
 #, c-format
 msgid "%s saved as %s.pacsave\n"
 msgstr "enrollet eo %s evel %s.pacsave\n"
 
-#: src/pacman/callback.c:395
+#: src/pacman/callback.c:376
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr "E IgnorePkg/IgnoreGroup emañ %s. Staliañ memestra ?"
 
-#: src/pacman/callback.c:405
+#: src/pacman/callback.c:386
 #, c-format
 msgid "Replace %s with %s/%s?"
 msgstr "Erlec'hiañ %s gant %s/%s ?"
 
-#: src/pacman/callback.c:417
+#: src/pacman/callback.c:398
 #, c-format
 msgid "%s and %s are in conflict. Remove %s?"
 msgstr "Tabutoù a zo etre %s ha %s. Dilemel %s ?"
 
-#: src/pacman/callback.c:422
+#: src/pacman/callback.c:403
 #, c-format
 msgid "%s and %s are in conflict (%s). Remove %s?"
 msgstr "Tabutoù a zo etre %s ha %s (%s). Dilemel %s ?"
 
-#: src/pacman/callback.c:441
+#: src/pacman/callback.c:422
 #, c-format
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
@@ -195,7 +170,7 @@ msgstr[4] ""
 "N'haller ket hizivaat ar pakadoù da-heul abalamour da amzalc'hoù n'haller "
 "ket diskoulmañ :\n"
 
-#: src/pacman/callback.c:447
+#: src/pacman/callback.c:428
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
@@ -214,7 +189,7 @@ msgstr[4] ""
 "Fellout a ra deoc'h leuskel ar pakadoù a-us da-gostez evit an hizivadenn-"
 "mañ ?"
 
-#: src/pacman/callback.c:458
+#: src/pacman/callback.c:439
 #, c-format
 msgid "There is %zu provider available for %s\n"
 msgid_plural "There are %zu providers available for %s:\n"
@@ -224,7 +199,7 @@ msgstr[2] "%zu a bourchaserien hegerz a zo evit %s :\n"
 msgstr[3] "%zu a bourchaserien hegerz a zo evit %s :\n"
 msgstr[4] "%zu a bourchaserien hegerz a zo evit %s :\n"
 
-#: src/pacman/callback.c:469
+#: src/pacman/callback.c:450
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
@@ -233,67 +208,67 @@ msgstr ""
 "Kontronet eo ar restr %s (%s)\n"
 "Fellout a ra deoc'h dilemel anezhañ ?"
 
-#: src/pacman/callback.c:483
+#: src/pacman/callback.c:464
 #, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
 msgstr "Enporzhiañ an alc'hwez PGP %u%c/%s, \"%s\", krouet : %s (dizorniet) ?"
 
-#: src/pacman/callback.c:486
+#: src/pacman/callback.c:467
 #, c-format
 msgid "Import PGP key %u%c/%s, \"%s\", created: %s?"
 msgstr "Enporzhiañ an alc'hwez PGP %u%c/%s, \"%s\", krouet : %s ?"
 
-#: src/pacman/callback.c:545
+#: src/pacman/callback.c:526
 #, c-format
 msgid "installing"
 msgstr "o staliañ"
 
-#: src/pacman/callback.c:548
+#: src/pacman/callback.c:529
 #, c-format
 msgid "upgrading"
 msgstr "o hizivaat"
 
-#: src/pacman/callback.c:551
+#: src/pacman/callback.c:532
 #, c-format
 msgid "downgrading"
 msgstr "o tiskenn an handelv"
 
-#: src/pacman/callback.c:554
+#: src/pacman/callback.c:535
 #, c-format
 msgid "reinstalling"
 msgstr "oc'h adstaliañ"
 
-#: src/pacman/callback.c:557
+#: src/pacman/callback.c:538
 #, c-format
 msgid "removing"
 msgstr "o tilemel"
 
-#: src/pacman/callback.c:560
+#: src/pacman/callback.c:541
 #, c-format
 msgid "checking for file conflicts"
 msgstr "o wiriañ tabutoù etre restroù"
 
-#: src/pacman/callback.c:563
+#: src/pacman/callback.c:544
 #, c-format
 msgid "checking available disk space"
 msgstr "o wiriañ an egor dieub hegerz war ar bladenn"
 
-#: src/pacman/callback.c:566
+#: src/pacman/callback.c:547
 #, c-format
 msgid "checking package integrity"
 msgstr "o wiriañ anterinder ar pakad"
 
-#: src/pacman/callback.c:569
+#: src/pacman/callback.c:550
 #, c-format
 msgid "checking keys in keyring"
 msgstr "o wiriañ an alc'hwezioù en droñsell"
 
-#: src/pacman/callback.c:572
+#: src/pacman/callback.c:553
 #, c-format
 msgid "loading package files"
 msgstr "o kargañ ar restroù pakad"
 
-#: src/pacman/callback.c:689
+#: src/pacman/callback.c:670
 #, c-format
 msgid "downloading %s...\n"
 msgstr "o pellgargañ %s...\n"
@@ -377,7 +352,7 @@ msgstr "%s : restr mtree ebet\n"
 #: src/pacman/check.c:312
 #, c-format
 msgid "path too long: %slocal/%s-%s/%s\n"
-msgstr ""
+msgstr "treug re hir: %slocal/%s-%s/%s\n"
 
 #: src/pacman/check.c:339
 #, c-format
@@ -394,7 +369,7 @@ msgstr[2] "%jd restr daskemmet\n"
 msgstr[3] "%jd restr daskemmet\n"
 msgstr[4] "%jd restr daskemmet\n"
 
-#: src/pacman/conf.c:98
+#: src/pacman/conf.c:97
 #, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
@@ -404,43 +379,43 @@ msgstr[2] "c'hwitadenn ar malloc : n'haller ket derannañ %zu eizhbit\n"
 msgstr[3] "c'hwitadenn ar malloc : n'haller ket derannañ %zu eizhbit\n"
 msgstr[4] "c'hwitadenn ar malloc : n'haller ket derannañ %zu eizhbit\n"
 
-#: src/pacman/conf.c:252
+#: src/pacman/conf.c:250
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "n'haller ket kaout ar c'havlec'h labour bremanel\n"
 
-#: src/pacman/conf.c:257
+#: src/pacman/conf.c:255
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "n'heller ket erounit chdir evit pellgargañ ar c'havlec'h %s\n"
 
-#: src/pacman/conf.c:266
+#: src/pacman/conf.c:264
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "oc'h erounit XferCommand : c'hwitadenn war ar fork !\n"
 
-#: src/pacman/conf.c:278
+#: src/pacman/conf.c:276
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "n'haller ket adenvel %s e %s (%s)\n"
 
-#: src/pacman/conf.c:289
+#: src/pacman/conf.c:287
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "n'haller ket assav ar c'havlec'h labour (%s)\n"
 
-#: src/pacman/conf.c:398 src/pacman/conf.c:447 src/pacman/conf.c:543
+#: src/pacman/conf.c:396 src/pacman/conf.c:445
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr "restr kefluniañ %s, linenn %d : talvoud direizh evit '%s' : '%s'\n"
 
-#: src/pacman/conf.c:412
+#: src/pacman/conf.c:410
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
 "restr kefluniañ %s, linenn %d : dibarzh '%s' direizh, skor sinadur ebet\n"
 
-#: src/pacman/conf.c:506 src/pacman/conf.c:611 src/pacman/conf.c:881
+#: src/pacman/conf.c:501 src/pacman/conf.c:586 src/pacman/conf.c:855
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
@@ -449,25 +424,25 @@ msgstr ""
 "c'hevrenn '%s'.\n"
 "\n"
 
-#: src/pacman/conf.c:623
+#: src/pacman/conf.c:598
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr ""
 "ar melezour '%s' a endalc'h an argemmenn '%s', met n'eus '%s' ebet "
 "andespizet.\n"
 
-#: src/pacman/conf.c:647
+#: src/pacman/conf.c:622
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr ""
 "n'haller ket ouzhpennañ URL an dafariad d'ar stlennvon '%s' : %s (%s)\n"
 
-#: src/pacman/conf.c:662
+#: src/pacman/conf.c:637
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "n'haller ket marilhañ ar stlennvon '%s' (%s)\n"
 
-#: src/pacman/conf.c:698
+#: src/pacman/conf.c:673
 #, c-format
 msgid ""
 "failed to initialize alpm library\n"
@@ -476,68 +451,68 @@ msgstr ""
 "c'hwitadenn war deraouekaat al levraoueg alpm\n"
 "(%s : %s)\n"
 
-#: src/pacman/conf.c:701
+#: src/pacman/conf.c:676
 #, c-format
 msgid "try running pacman-db-upgrade\n"
 msgstr "klaskit erounit pacman-db-upgrade\n"
 
-#: src/pacman/conf.c:719
+#: src/pacman/conf.c:694
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "kudenn en ur arventennañ ar restr kerzhlevr '%s' (%s)\n"
 
-#: src/pacman/conf.c:728
+#: src/pacman/conf.c:703
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "kudenn en ur arventennañ gpgdir '%s' (%s)\n"
 
-#: src/pacman/conf.c:738
+#: src/pacman/conf.c:713
 #, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
 msgstr "kudenn en ur arventennañ gpgdir '%s' (%s)\n"
 
-#: src/pacman/conf.c:760
+#: src/pacman/conf.c:735
 #, c-format
 msgid "no '%s' configured\n"
 msgstr "'%s' ebet kefluniet\n"
 
-#: src/pacman/conf.c:790
+#: src/pacman/conf.c:764
 #, c-format
 msgid "Failed to pass %s entry to libalpm"
 msgstr "C'hwitadenn evit tremen %s enankad da libpalm"
 
-#: src/pacman/conf.c:830
+#: src/pacman/conf.c:804
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr ""
 "restr kefluniañ %s, linenn %d : '%s' n'eo ket anavezet an dibarzh '%s'\n"
 
-#: src/pacman/conf.c:850 src/pacman/conf.c:858 src/pacman/conf.c:901
+#: src/pacman/conf.c:824 src/pacman/conf.c:877
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr ""
 "restr kefluniañ %s, linenn %d : ezhomm en deus ar sturiad '%s' un talvoud\n"
 
-#: src/pacman/conf.c:908
+#: src/pacman/conf.c:884
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
 "Dezrannañ ar c'hefluniadur a zo aet dreist an askizadenn donnañ evit %d.\n"
 
-#: src/pacman/conf.c:956
+#: src/pacman/conf.c:932
 #, c-format
 msgid "config file %s could not be read: %s\n"
 msgstr "n'haller ket lenn ar restr kefluniañ %s : %s\n"
 
-#: src/pacman/conf.c:979
+#: src/pacman/conf.c:955
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
 "restr kefluniañ %s, linenn %d : an holl sturiadoù o deus ezhomm bezañ en ur "
 "c'hevrenn\n"
 
-#: src/pacman/database.c:50 src/pacman/files.c:300 src/pacman/query.c:426
-#: src/pacman/remove.c:91 src/pacman/sync.c:938 src/pacman/upgrade.c:47
+#: src/pacman/database.c:50 src/pacman/files.c:304 src/pacman/query.c:430
+#: src/pacman/remove.c:85 src/pacman/sync.c:943 src/pacman/upgrade.c:47
 #, c-format
 msgid "no targets specified (use -h for help)\n"
 msgstr "bukenn ebet erspizet (implijit -h evit ar skoazell)\n"
@@ -562,35 +537,30 @@ msgstr "%s : abeg ar staliadur a zo bet lakaet da 'staliet evel un amzalc'h'\n"
 msgid "%s: install reason has been set to 'explicitly installed'\n"
 msgstr "%s : abeg ar staliadur a zo bet lakaet da 'staliet a-ratozh'\n"
 
-#: src/pacman/database.c:293
+#: src/pacman/database.c:295
 #, c-format
 msgid "No database errors have been found!\n"
 msgstr ""
 
-#: src/pacman/files.c:81
+#: src/pacman/files.c:55
 #, c-format
 msgid "%s is owned by %s%s/%s%s %s%s%s\n"
 msgstr ""
 
-#: src/pacman/files.c:223
+#: src/pacman/files.c:222
 #, c-format
 msgid "invalid package: '%s'\n"
 msgstr ""
 
-#: src/pacman/files.c:255 src/pacman/query.c:480 src/pacman/sync.c:429
+#: src/pacman/files.c:254 src/pacman/query.c:484 src/pacman/sync.c:427
 #, c-format
 msgid "package '%s' was not found\n"
 msgstr "n'eo ket bet kavet ar pakad '%s'\n"
 
-#: src/pacman/files.c:291 src/pacman/sync.c:898
+#: src/pacman/files.c:290 src/pacman/sync.c:903
 #, c-format
 msgid "Synchronizing package databases...\n"
 msgstr "O goubredañ stlennvon ar pakadoù...\n"
-
-#: src/pacman/files.c:320
-#, c-format
-msgid "no options specified (use -h for help)\n"
-msgstr ""
 
 #: src/pacman/package.c:99
 #, c-format
@@ -928,7 +898,7 @@ msgstr ""
 "-n, --native roll ar pakadoù staliet ha ne vez kavet nemet er stlennvon "
 "goubredet [sil]\n"
 
-#: src/pacman/pacman.c:146 src/pacman/pacman.c:180
+#: src/pacman/pacman.c:146
 #, c-format
 msgid "  -o, --owns <file>    query the package that owns <file>\n"
 msgstr "-o, --owns <restr> azgoulenn ar pakad o perc'hennañ <restr>\n"
@@ -938,7 +908,7 @@ msgstr "-o, --owns <restr> azgoulenn ar pakad o perc'hennañ <restr>\n"
 msgid "  -p, --file <package> query a package file instead of the database\n"
 msgstr "-p, --file <pakad> azgoulenn ur restr pakad e plas ar stlennvon\n"
 
-#: src/pacman/pacman.c:148 src/pacman/pacman.c:161 src/pacman/pacman.c:181
+#: src/pacman/pacman.c:148 src/pacman/pacman.c:161 src/pacman/pacman.c:180
 #, c-format
 msgid "  -q, --quiet          show less information for query and search\n"
 msgstr ""
@@ -1019,7 +989,7 @@ msgstr ""
 "-w, --downloadonly pellgargañ ar pakadoù met chom hep staliañ/hizivaat "
 "anezhe\n"
 
-#: src/pacman/pacman.c:165 src/pacman/pacman.c:184
+#: src/pacman/pacman.c:165 src/pacman/pacman.c:182
 #, c-format
 msgid ""
 "  -y, --refresh        download fresh package databases from the server\n"
@@ -1052,19 +1022,12 @@ msgstr ""
 msgid "  -q, --quiet          suppress output of success messages\n"
 msgstr ""
 
-#: src/pacman/pacman.c:182
-#, c-format
-msgid "  -s, --search <file>  search package file names for matching strings\n"
-msgstr ""
-"  -s, --search <restr>  klask war-lec'h chadennoù kenglotus evit anvioù "
-"pakadoù\n"
-
-#: src/pacman/pacman.c:183
+#: src/pacman/pacman.c:181
 #, c-format
 msgid "  -x, --regex          enable searching using regular expressions\n"
 msgstr "  -x, --regex          gweredekaat an enklask gant bommoù reol\n"
 
-#: src/pacman/pacman.c:186
+#: src/pacman/pacman.c:184
 #, c-format
 msgid ""
 "      --machinereadable\n"
@@ -1073,7 +1036,7 @@ msgstr ""
 "--machinereadable\n"
 "ec'hankad lennus gant ur mekanik\n"
 
-#: src/pacman/pacman.c:192
+#: src/pacman/pacman.c:190
 #, c-format
 msgid ""
 "      --overwrite <path>\n"
@@ -1081,17 +1044,17 @@ msgid ""
 "once)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:194
+#: src/pacman/pacman.c:192
 #, c-format
 msgid "      --asdeps         install packages as non-explicitly installed\n"
 msgstr "--asdeps staliañ ar pakadoù evel amzalc'hoù\n"
 
-#: src/pacman/pacman.c:195
+#: src/pacman/pacman.c:193
 #, c-format
 msgid "      --asexplicit     install packages as explicitly installed\n"
 msgstr "--asexplicit staliañ ar pakadoù evel staliet a-ratozh\n"
 
-#: src/pacman/pacman.c:196
+#: src/pacman/pacman.c:194
 #, c-format
 msgid ""
 "      --ignore <pkg>   ignore a package upgrade (can be used more than "
@@ -1100,7 +1063,7 @@ msgstr ""
 "--ignore <pakad> leuskel hizivadenn ar pakad a-gostez (gallout a ra bezañ "
 "implijet meur a wech)\n"
 
-#: src/pacman/pacman.c:197
+#: src/pacman/pacman.c:195
 #, c-format
 msgid ""
 "      --ignoregroup <grp>\n"
@@ -1109,7 +1072,7 @@ msgstr ""
 "--ignoregroup <strollad>\n"
 "leuskel ur strollad a-gostez (gallout a ra bezañ implijet meur a wech)\n"
 
-#: src/pacman/pacman.c:201
+#: src/pacman/pacman.c:199
 #, c-format
 msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
@@ -1118,7 +1081,7 @@ msgstr ""
 "-d, --nodeps tremen ar gwiriadur handelv amzalc'hoù (-dd evit tremen an holl "
 "gwiriadurioù)\n"
 
-#: src/pacman/pacman.c:202
+#: src/pacman/pacman.c:200
 #, c-format
 msgid ""
 "      --assume-installed <package=version>\n"
@@ -1127,14 +1090,14 @@ msgstr ""
 "--assume-installed <pakad=handelv>\n"
 "ouzhpennañ ur pakad galloudel evit plegañ d'an amzalc'hoù\n"
 
-#: src/pacman/pacman.c:204
+#: src/pacman/pacman.c:202
 #, c-format
 msgid ""
 "      --dbonly         only modify database entries, not package files\n"
 msgstr ""
 "--dbonly kemmañ enankadoù ar stlennvon nemetken, ket ar restroù pakad\n"
 
-#: src/pacman/pacman.c:205
+#: src/pacman/pacman.c:203
 #, c-format
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
@@ -1142,20 +1105,20 @@ msgstr ""
 "--noprogressbar chom hep diskouez ar varren araokaat e-pad pellgargadur ar "
 "restroù\n"
 
-#: src/pacman/pacman.c:206
+#: src/pacman/pacman.c:204
 #, c-format
 msgid ""
 "      --noscriptlet    do not execute the install scriptlet if one exists\n"
 msgstr "--noscriptlet chom hep erounit ar skriptig staliadur ma vez unan\n"
 
-#: src/pacman/pacman.c:207
+#: src/pacman/pacman.c:205
 #, c-format
 msgid ""
 "  -p, --print          print the targets instead of performing the "
 "operation\n"
 msgstr "-p, --print moullañ ar bukennoù e plas erounit an oberatadenn\n"
 
-#: src/pacman/pacman.c:208
+#: src/pacman/pacman.c:206
 #, c-format
 msgid ""
 "      --print-format <string>\n"
@@ -1164,84 +1127,84 @@ msgstr ""
 "--print-format <chadenn>\n"
 "erspizañ penaos e rank ar chadenn bezañ moullet\n"
 
-#: src/pacman/pacman.c:213
+#: src/pacman/pacman.c:211
 #, c-format
 msgid "  -b, --dbpath <path>  set an alternate database location\n"
 msgstr "-b, --dbpath <treug> arventennañ ul lec'hiadur stlennvon a-eil\n"
 
-#: src/pacman/pacman.c:214
+#: src/pacman/pacman.c:212
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
 msgstr "-r, --root <treug> arventennañ ur gwrizienn staliadur a-eil\n"
 
-#: src/pacman/pacman.c:215
+#: src/pacman/pacman.c:213
 #, c-format
 msgid "  -v, --verbose        be verbose\n"
 msgstr "-v, --verbose skrammañ munudoù\n"
 
-#: src/pacman/pacman.c:216
+#: src/pacman/pacman.c:214
 #, c-format
 msgid "      --arch <arch>    set an alternate architecture\n"
 msgstr "--arch <arch> arventennañ ur savouriezh a-eil\n"
 
-#: src/pacman/pacman.c:217
+#: src/pacman/pacman.c:215
 #, c-format
 msgid "      --sysroot        operate on a mounted guest system (root-only)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:218
+#: src/pacman/pacman.c:216
 #, c-format
 msgid "      --cachedir <dir> set an alternate package cache location\n"
 msgstr "--cahedir <dir> arventennañ ul lec'hiadur krubuilh pakadoù a-eil\n"
 
-#: src/pacman/pacman.c:219
+#: src/pacman/pacman.c:217
 #, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
 msgstr "--hookdir <kavlec'h> arventennañ ul lec'hiadur krog a-eil\n"
 
-#: src/pacman/pacman.c:220
+#: src/pacman/pacman.c:218
 #, c-format
 msgid "      --color <when>   colorize the output\n"
 msgstr "--color <pegoulz> livañ an ec'hankad\n"
 
-#: src/pacman/pacman.c:221
+#: src/pacman/pacman.c:219
 #, c-format
 msgid "      --config <path>  set an alternate configuration file\n"
 msgstr "--config <treug> arventennañ ur restr kefluniañ a-eil\n"
 
-#: src/pacman/pacman.c:222
+#: src/pacman/pacman.c:220
 #, c-format
 msgid "      --debug          display debug messages\n"
 msgstr "--debug skrammañ kemennadennoù diveugañ\n"
 
-#: src/pacman/pacman.c:223
+#: src/pacman/pacman.c:221
 #, c-format
 msgid "      --gpgdir <path>  set an alternate home directory for GnuPG\n"
 msgstr "--gpgdir <treug> arventennañ ur c'havlec'h degemer a-eil evit GnuPG\n"
 
-#: src/pacman/pacman.c:224
+#: src/pacman/pacman.c:222
 #, c-format
 msgid "      --logfile <path> set an alternate log file\n"
 msgstr "--logfile <treug> arventennañ ur restr kerzhlevr a-eil\n"
 
-#: src/pacman/pacman.c:225
+#: src/pacman/pacman.c:223
 #, c-format
 msgid "      --noconfirm      do not ask for any confirmation\n"
 msgstr "--noconfirm chom hep goulenn kadarnaat\n"
 
-#: src/pacman/pacman.c:226
+#: src/pacman/pacman.c:224
 #, c-format
 msgid "      --confirm        always ask for confirmation\n"
 msgstr "--confirm atav goulenn kadarnaat\n"
 
-#: src/pacman/pacman.c:227
+#: src/pacman/pacman.c:225
 #, c-format
 msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
 
-#: src/pacman/pacman.c:247
+#: src/pacman/pacman.c:245
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -1250,77 +1213,72 @@ msgstr ""
 "Gallout a ra ar meziant-mañ bezañ addasparzhet\n"
 "dindan divizoù ar GNU General Public License.\n"
 
-#: src/pacman/pacman.c:280
+#: src/pacman/pacman.c:278
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
 msgstr ""
 
-#: src/pacman/pacman.c:312
+#: src/pacman/pacman.c:310
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr "dibarzh direizh : '%s' ha '%s' n'hallont ket bezañ implijet asambles\n"
 
-#: src/pacman/pacman.c:396
+#: src/pacman/pacman.c:394
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "arguzenn direizh '%s' evit %s\n"
 
-#: src/pacman/pacman.c:419
+#: src/pacman/pacman.c:417
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' n'eo ket ul live diveugañ reizh\n"
 
-#: src/pacman/pacman.c:721
-#, c-format
-msgid "option --force is deprecated; use --overwrite instead\n"
-msgstr ""
-
-#: src/pacman/pacman.c:981
+#: src/pacman/pacman.c:961
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "n'haller implij nemet un oberatadenn d'un taol\n"
 
-#: src/pacman/pacman.c:1039
+#: src/pacman/pacman.c:1019
 #, c-format
 msgid "invalid option '-%c'\n"
 msgstr "dibarzh direizh '-%c'\n"
 
-#: src/pacman/pacman.c:1041
+#: src/pacman/pacman.c:1021
 #, c-format
 msgid "invalid option '--%s'\n"
 msgstr "dibarzh direizh '--%s'\n"
 
-#: src/pacman/pacman.c:1166
+#: src/pacman/pacman.c:1146
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "n'hallit ket sevenniñ an oberatadenn-mañ ma n'oc'h ket root\n"
 
-#: src/pacman/pacman.c:1172
+#: src/pacman/pacman.c:1152
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:1206
+#: src/pacman/pacman.c:1186
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:1211
+#: src/pacman/pacman.c:1191
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "c'hwitadenn war ad-digoradur stdin evit lenn : (%s)\n"
 
-#: src/pacman/pacman.c:1216
+#: src/pacman/pacman.c:1196
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "gant un stdin goullo eo bet erspizet an arguzenn '-'\n"
 
-#: src/pacman/pacman.c:1221
+#: src/pacman/pacman.c:1201
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "hep enankad war stdin eo bet erspizet an arguzenn '-'\n"
 
-#: src/pacman/pacman.c:1298
+#: src/pacman/pacman.c:1278
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "oberatadenn ebet erspizet (implijit -h evit ar skoazell)\n"
@@ -1350,67 +1308,62 @@ msgstr "N'eus pakad ebet o perc'heniñ %s\n"
 msgid "path too long: %s/\n"
 msgstr "re hir eo an treug : %s\n"
 
-#: src/pacman/query.c:332
+#: src/pacman/query.c:336
 #, c-format
 msgid "[ignored]"
 msgstr "[laosket a-gostez]"
 
-#: src/pacman/query.c:383
+#: src/pacman/query.c:387
 #, c-format
 msgid "group '%s' was not found\n"
 msgstr "n'eo ket bet kavet ar strollad '%s'\n"
 
-#: src/pacman/query.c:469
+#: src/pacman/query.c:473
 #, c-format
 msgid "could not load package '%s': %s\n"
 msgstr "n'haller ket kargañ ar pakad '%s' : %s\n"
 
-#: src/pacman/query.c:483
+#: src/pacman/query.c:487
 #, c-format
 msgid "'%s' is a file, you might want to use %s.\n"
 msgstr "ur restr eo '%s', marteze ho peus c'hoant implijout %s.\n"
 
-#: src/pacman/remove.c:49 src/pacman/sync.c:526 src/pacman/sync.c:611
-#, c-format
-msgid "skipping target: %s\n"
-msgstr "o leuskel ar vukenn a-gostez : %s\n"
-
-#: src/pacman/remove.c:63 src/pacman/sync.c:546
+#: src/pacman/remove.c:57 src/pacman/sync.c:555
 #, c-format
 msgid "target not found: %s\n"
 msgstr "n'eo ket bet kavet ar vukenn : %s\n"
 
-#: src/pacman/remove.c:118 src/pacman/sync.c:742
+#: src/pacman/remove.c:112 src/pacman/sync.c:751
 #, c-format
 msgid "failed to prepare transaction (%s)\n"
 msgstr "c'hwitadenn war prientadur an treuzkas (%s)\n"
 
-#: src/pacman/remove.c:125
+#: src/pacman/remove.c:119
 #, c-format
 msgid "%s: removing %s breaks dependency '%s'\n"
 msgstr "%s : dilemel %s a dorr an amzalc'h '%s'\n"
 
-#: src/pacman/remove.c:144
+#: src/pacman/remove.c:138
 #, c-format
 msgid "%s is designated as a HoldPkg.\n"
 msgstr "Evel un HoldPkg eo anavezet %s\n"
 
-#: src/pacman/remove.c:149
+#: src/pacman/remove.c:143
 #, c-format
 msgid "HoldPkg was found in target list. Do you want to continue?"
 msgstr "Kavet eo bet HoldPkg er roll bukenn. Fellout a ra deoc'h kenderc'hel ?"
 
-#: src/pacman/remove.c:157 src/pacman/sync.c:785
+#: src/pacman/remove.c:151 src/pacman/sync.c:794
 #, c-format
 msgid " there is nothing to do\n"
 msgstr "n'eus netra d'ober\n"
 
-#: src/pacman/remove.c:169
+#: src/pacman/remove.c:163
 #, c-format
 msgid "Do you want to remove these packages?"
 msgstr "Fellout a ra deoc'h dilemel ar pakadoù-mañ ?"
 
-#: src/pacman/remove.c:175 src/pacman/sync.c:812
+#: src/pacman/remove.c:169 src/pacman/sync.c:821
 #, c-format
 msgid "failed to commit transaction (%s)\n"
 msgstr "c'hwitadenn war erounezadur an treuzkas (%s)\n"
@@ -1485,17 +1438,17 @@ msgstr "o tilemel holl restroù ar c'hrubuilh...\n"
 msgid "could not access cache directory %s\n"
 msgstr "n'haller ket haeziñ kavlec'h ar c'hrubuilh %s\n"
 
-#: src/pacman/sync.c:424
+#: src/pacman/sync.c:422
 #, c-format
 msgid "repository '%s' does not exist\n"
 msgstr "n'eus ket eus ar mirlec'h '%s'\n"
 
-#: src/pacman/sync.c:470
+#: src/pacman/sync.c:468
 #, c-format
 msgid "repository \"%s\" was not found.\n"
 msgstr "n'eo ket bet kavet ar mirlec'h '%s'.\n"
 
-#: src/pacman/sync.c:561
+#: src/pacman/sync.c:570
 #, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
@@ -1505,89 +1458,89 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: src/pacman/sync.c:640
+#: src/pacman/sync.c:620
+#, c-format
+msgid "skipping target: %s\n"
+msgstr "o leuskel ar vukenn a-gostez : %s\n"
+
+#: src/pacman/sync.c:649
 #, c-format
 msgid "database not found: %s\n"
 msgstr "n'eo ket bet kavet ar stlennvon : %s\n"
 
-#: src/pacman/sync.c:668
+#: src/pacman/sync.c:677
 #, c-format
 msgid "'%s' is a file, did you mean %s instead of %s?\n"
 msgstr "ur restr eo '%s', fellout a rae deoc'h skrivañ %s e plas %s ?\n"
 
-#: src/pacman/sync.c:699
+#: src/pacman/sync.c:708
 #, c-format
 msgid "Starting full system upgrade...\n"
 msgstr "O kregiñ gant hizivadur klok ar reizhad...\n"
 
-#: src/pacman/sync.c:720
+#: src/pacman/sync.c:729
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
 msgstr ""
 
-#: src/pacman/sync.c:724
+#: src/pacman/sync.c:733
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
 msgstr ""
 
-#: src/pacman/sync.c:728
+#: src/pacman/sync.c:737
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
 msgstr ""
 
-#: src/pacman/sync.c:748
+#: src/pacman/sync.c:757
 #, c-format
 msgid "package %s does not have a valid architecture\n"
 msgstr "ar pakad %s n'eus ket ur savouriezh reizh\n"
 
-#: src/pacman/sync.c:763
+#: src/pacman/sync.c:772
 #, c-format
 msgid "%s and %s are in conflict\n"
 msgstr "tabutoù a zo etre %s ha %s\n"
 
-#: src/pacman/sync.c:767
+#: src/pacman/sync.c:776
 #, c-format
 msgid "%s and %s are in conflict (%s)\n"
 msgstr ""
 "tabutoù a zo etre %s ha %s (%s)\n"
 "\n"
 
-#: src/pacman/sync.c:801
+#: src/pacman/sync.c:810
 #, c-format
 msgid "Proceed with download?"
 msgstr "kregiñ gant ar pellgargañ ?"
 
-#: src/pacman/sync.c:803
+#: src/pacman/sync.c:812
 #, c-format
 msgid "Proceed with installation?"
 msgstr "Kregiñ gant ar staliadur ?"
 
-#: src/pacman/sync.c:817
-#, c-format
-msgid "unable to %s directory-file conflicts\n"
-msgstr "n'haller ket %s : tabutoù kavlec'h-restr\n"
-
-#: src/pacman/sync.c:823
+#: src/pacman/sync.c:829
 #, c-format
 msgid "%s exists in both '%s' and '%s'\n"
 msgstr "kavet e vez %s e '%s' kement hag e '%s'\n"
 
-#: src/pacman/sync.c:828
+#: src/pacman/sync.c:834
 #, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
 msgstr ""
 
-#: src/pacman/sync.c:831
+#: src/pacman/sync.c:837
 #, c-format
 msgid "%s: %s exists in filesystem\n"
 msgstr "%s : %s a zo er reizhad restroù\n"
 
-#: src/pacman/sync.c:845
+#: src/pacman/sync.c:850
 #, c-format
 msgid "%s is invalid or corrupted\n"
 msgstr "kontronet pe direizh eo %s\n"
 
-#: src/pacman/sync.c:853
+#: src/pacman/sync.c:858
 #, c-format
 msgid "Errors occurred, no packages were upgraded.\n"
 msgstr "Kudennoù a zo bet, n'eo bet hizivaet pakad ebet\n"
@@ -1850,3 +1803,27 @@ msgstr "fazi :"
 #, c-format
 msgid "warning: "
 msgstr "diwallit :"
+
+#~ msgid "checking delta integrity...\n"
+#~ msgstr "o wiriañ an anterinder delta...\n"
+
+#~ msgid "applying deltas...\n"
+#~ msgstr "oc'h arloañ an delta...\n"
+
+#~ msgid "generating %s with %s... "
+#~ msgstr "o c'henel %s gant %s..."
+
+#~ msgid "success!\n"
+#~ msgstr "berzh !\n"
+
+#~ msgid "failed.\n"
+#~ msgstr "c'hwitet.\n"
+
+#~ msgid ""
+#~ "  -s, --search <file>  search package file names for matching strings\n"
+#~ msgstr ""
+#~ "  -s, --search <restr>  klask war-lec'h chadennoù kenglotus evit anvioù "
+#~ "pakadoù\n"
+
+#~ msgid "unable to %s directory-file conflicts\n"
+#~ msgstr "n'haller ket %s : tabutoù kavlec'h-restr\n"
