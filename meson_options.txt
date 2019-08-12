@@ -52,5 +52,8 @@ option('i18n', type : 'boolean', value : true,
        description : 'enable localization of pacman, libalpm and scripts')
 
 # tools
+option('file-seccomp', type: 'feature', value: 'auto',
+	   description: 'determine whether file is seccomp-enabled')
+
 option('sedinplaceflags', type : 'string', value : 'auto',
        description : 'flags to pass to sed to edit a file in-place')

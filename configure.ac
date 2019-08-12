@@ -120,6 +120,12 @@ AC_ARG_WITH(ldconfig,
 		[set the full path to ldconfig]),
 	[LDCONFIG=$withval], [LDCONFIG=/sbin/ldconfig])
 
+# Help line for determining whether file is seccomp-enabled
+AC_ARG_WITH(file-seccomp,
+	AS_HELP_STRING([--with-file-seccomp={yes|no|auto}],
+		[determine whether file is seccomp-enabled @<:@default=auto@:>@]),
+	[with_file_seccomp=$withval], [with_file_seccomp=auto])
+
 # Help line for selecting a crypto library
 AC_ARG_WITH(crypto,
 	AS_HELP_STRING([--with-crypto={openssl|nettle}],
@@ -221,6 +227,18 @@ PKG_CHECK_VAR(bashcompdir, [bash-completion], [completionsdir], ,
 # Check for libarchive
 PKG_CHECK_MODULES(LIBARCHIVE, [libarchive >= 3.0.0], ,
 	AC_MSG_ERROR([*** libarchive >= 3.0.0 is needed to compile pacman!]))
+
+# Check file for seccomp
+if test "x$with_file_seccomp" = "xauto"; then
+	file_version="$(file --version| sed -n 's/^file-\(.*\)/\1/p')"
+	AX_COMPARE_VERSION([$file_version], [ge], [5.38], [with_file_seccomp=yes])
+fi
+if test "x$with_file_seccomp" = "xyes"; then
+	FILECMD="file -S"
+else
+	FILECMD="file"
+fi
+AC_SUBST(FILECMD)
 
 # Check for OpenSSL
 have_openssl=no
@@ -559,6 +577,7 @@ ${PACKAGE_NAME}:
     Host Type              : ${CHOST}
     File inode command     : ${INODECMD}
     In-place sed command   : ${SEDPATH} ${SEDINPLACEFLAGS}
+    File seccomp command   : ${FILECMD}
 
     libalpm version        : ${LIB_VERSION}
     libalpm version info   : ${LIB_VERSION_INFO}

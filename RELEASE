@@ -11,6 +11,7 @@ The following checklist should be used for making a pacman release.
 - Update doc/index.asciidoc
 - Create a signed git tag (git tag -s vX.Y.Z -m "commit message")
 - Create and sign release tarballs (generate with "make distcheck")
+  - In addition to the standard autotools toolchain, autoconf-archive is needed
 - Update pacman website
 
 Transifex updates are handled using the transifex client. The basic process is:

@@ -182,6 +182,7 @@ edit = sed \
 	-e 's|@TEMPLATE_DIR[@]|$(TEMPLATE_DIR)|g' \
 	-e 's|@DEBUGSUFFIX[@]|$(DEBUGSUFFIX)|g' \
 	-e "s|@INODECMD[@]|$(INODECMD)|g" \
+	-e "s|@FILECMD[@]|$(FILECMD)|g" \
 	-e 's|@SEDINPLACEFLAGS[@]|$(SEDINPLACEFLAGS)|g' \
 	-e 's|@SEDPATH[@]|$(SEDPATH)|g' \
 	-e 's|@SCRIPTNAME[@]|$@|g' \

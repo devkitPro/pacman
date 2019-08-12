@@ -220,11 +220,19 @@ config_h = configure_file(
         configuration : conf)
 add_project_arguments('-include', 'config.h', language : 'c')
 
+filecmd = 'file'
 default_sedinplaceflags = ' --follow-symlinks -i'
 inodecmd = 'stat -c \'%i %n\''
 strip_binaries = '--strip-all'
 strip_shared = '--strip-unneeded'
 strip_static = '--strip-debug'
+
+file_seccomp = get_option('file-seccomp')
+# meson-git has find_program('file', required: false, version: '>=5.38')
+filever = run_command('sh', '-c', 'file --version | sed -n "s/^file-\(.*\)/\\1/p"').stdout()
+if file_seccomp.enabled() or ( file_seccomp.auto() and filever.version_compare('>= 5.38') )
+  filecmd = 'file -S'
+endif
 
 os = host_machine.system()
 if os.startswith('darwin')
@@ -268,6 +276,7 @@ substs.set('BUILDSCRIPT', BUILDSCRIPT)
 substs.set('TEMPLATE_DIR', get_option('makepkg-template-dir'))
 substs.set('DEBUGSUFFIX', get_option('debug-suffix'))
 substs.set('INODECMD', inodecmd)
+substs.set('FILECMD', filecmd)
 substs.set('SEDINPLACEFLAGS', sedinplaceflags)
 substs.set('SEDPATH', SED.path())
 substs.set('LIBMAKEPKGDIR', LIBMAKEPKGDIR)
@@ -424,6 +433,7 @@ message('\n    '.join([
   '   Host Type               : @0@'.format(chost),
   '   File inode command      : @0@'.format(inodecmd),
   '   In-place sed command    : @0@ @1@'.format(SED.path(), sedinplaceflags),
+  '   File seccomp command    : @0@'.format(filecmd),
   '   libalpm version         : @0@'.format(libalpm_version),
   '   pacman version          : @0@'.format(PACKAGE_VERSION),
   '',
