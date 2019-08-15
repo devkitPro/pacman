@@ -22,6 +22,7 @@ OURSCRIPTS = \
 	repo-add
 
 EXTRA_DIST = \
+	meson.build \
 	libmakepkg.pc.in \
 	makepkg.sh.in \
 	makepkg-template.pl.in \
@@ -135,6 +136,7 @@ LIBMAKEPKG_IN = \
 	libmakepkg/util/util.sh
 
 LIBMAKEPKG_DIST = \
+	$(addprefix libmakepkg/, $(addsuffix /meson.build, $(LIBMAKEPKGDIRS))) \
 	$(addsuffix .in, $(LIBMAKEPKG_IN))
 
 WRAPPER = \

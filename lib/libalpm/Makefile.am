@@ -2,6 +2,8 @@ AUTOMAKE_OPTIONS = gnu
 
 SUBDIRS = po
 
+EXTRA_DIST = meson.build po/meson.build
+
 lib_LTLIBRARIES = libalpm.la
 include_HEADERS = alpm_list.h alpm.h
 

@@ -33,6 +33,7 @@ HTML_DOCS = \
 	$(HTML_OTHER)
 
 EXTRA_DIST = \
+	meson.build \
 	asciidoc.conf \
 	asciidoc-override.css \
 	alpm-hooks.5.asciidoc \

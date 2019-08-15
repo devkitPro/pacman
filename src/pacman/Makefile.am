@@ -1,5 +1,7 @@
 SUBDIRS = po
 
+EXTRA_DIST = meson.build po/meson.build
+
 # paths set at make time
 conffile  = ${sysconfdir}/pacman.conf
 dbpath    = ${localstatedir}/lib/pacman/

@@ -14,7 +14,14 @@ DISTCHECK_CONFIGURE_FLAGS = --enable-doc --disable-git-version \
 
 # Some files automatically included, so they aren't specified below:
 #   AUTHORS, COPYING, NEWS, README
-EXTRA_DIST = HACKING test/tap.sh
+EXTRA_DIST = \
+	HACKING test/tap.sh \
+	meson.build meson_options.txt \
+	build-aux/edit-script.sh.in \
+	build-aux/meson-install-script.sh \
+	build-aux/meson-make-symlink.sh \
+	build-aux/script-wrapper.sh.in
+
 
 # Sample makepkg prototype files
 pkgdatadir = ${datadir}/${PACKAGE}

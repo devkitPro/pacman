@@ -14,6 +14,7 @@ check_SCRIPTS = \
 noinst_SCRIPTS = $(check_SCRIPTS)
 
 EXTRA_DIST = \
+	meson.build \
 	README \
 	TODO \
 	ChangeLog \
