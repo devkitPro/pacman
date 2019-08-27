@@ -129,6 +129,10 @@ clean_up() {
 		return 0
 	fi
 
+	if [[ -p $logpipe ]]; then
+		rm "$logpipe"
+	fi
+
 	if (( (EXIT_CODE == E_OK || EXIT_CODE == E_INSTALL_FAILED) && CLEANUP )); then
 		local pkg file
 
@@ -343,9 +347,6 @@ remove_deps() {
 }
 
 error_function() {
-	if [[ -p $logpipe ]]; then
-		rm "$logpipe"
-	fi
 	# first exit all subshells, then print the error
 	if (( ! BASH_SUBSHELL )); then
 		error "$(gettext "A failure occurred in %s().")" "$1"
