@@ -719,20 +719,19 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 				}
 				_alpm_log(handle, ALPM_LOG_DEBUG, "provider found (%s provides %s)\n",
 						pkg->name, dep->name);
+
+				/* provide is already installed so return early instead of prompting later */
+				if(_alpm_db_get_pkgfromcache(handle->db_local, pkg->name)) {
+					alpm_list_free(providers);
+					return pkg;
+				}
+
 				providers = alpm_list_add(providers, pkg);
 				/* keep looking for other providers in the all dbs */
 			}
 		}
 	}
 
-	/* first check if one provider is already installed locally */
-	for(i = providers; i; i = i->next) {
-		alpm_pkg_t *pkg = i->data;
-		if(_alpm_db_get_pkgfromcache(handle->db_local, pkg->name)) {
-			alpm_list_free(providers);
-			return pkg;
-		}
-	}
 	count = alpm_list_count(providers);
 	if(count >= 1) {
 		alpm_question_select_provider_t question = {
