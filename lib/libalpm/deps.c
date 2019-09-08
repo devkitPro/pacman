@@ -643,10 +643,9 @@ int _alpm_recursedeps(alpm_db_t *db, alpm_list_t **targs, int include_explicit)
  * @param dep is the dependency to search for
  * @param dbs are the databases to search
  * @param excluding are the packages to exclude from the search
- * @param prompt if true, will cause an unresolvable dependency to issue an
- *        interactive prompt asking whether the package should be removed from
- *        the transaction or the transaction aborted; if false, simply returns
- *        an error code without prompting
+ * @param prompt if true, ask an alpm_question_install_ignorepkg_t to decide
+ *        if ignored packages should be installed; if false, skip ignored
+ *        packages.
  * @return the resolved package
  **/
 static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
@@ -767,8 +766,11 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 
 /** Find a package satisfying a specified dependency.
  * First look for a literal, going through each db one by one. Then look for
- * providers. The first satisfier found is returned.
+ * providers. The first satisfier that belongs to an installed package is
+ * returned. If no providers belong to an installed package then an
+ * alpm_question_select_provider_t is created to select the provider.
  * The dependency can include versions with depmod operators.
+ *
  * @param handle the context handle
  * @param dbs an alpm_list_t* of alpm_db_t where the satisfier will be searched
  * @param depstring package or provision name, versioned or not
