@@ -37,19 +37,17 @@ static void cleanup(void)
 static void usage(int ret)
 {
 	FILE *stream = (ret ? stderr : stdout);
-#define hputs(x) fputs(x"\n", stream)
-	hputs("pacman-conf - query pacman's configuration file");
-	hputs("usage:  pacman-conf [options] [<directive>...]");
-	hputs("        pacman-conf (--repo-list|--help|--version)");
-	hputs("options:");
-	hputs("  -c, --config=<path>  set an alternate configuration file");
-	hputs("  -R, --rootdir=<path> set an alternate installation root");
-	hputs("  -r, --repo=<remote>  query options for a specific repo");
-	hputs("  -v, --verbose        always show directive names");
-	hputs("  -l, --repo-list      list configured repositories");
-	hputs("  -h, --help           display this help information");
-	hputs("  -V, --version        display version information");
-#undef hputs
+	fputs("pacman-conf - query pacman's configuration file\n", stream);
+	fputs("usage:  pacman-conf [options] [<directive>...]\n", stream);
+	fputs("        pacman-conf (--repo-list|--help|--version)\n", stream);
+	fputs("options:\n", stream);
+	fputs("  -c, --config=<path>  set an alternate configuration file\n", stream);
+	fputs("  -R, --rootdir=<path> set an alternate installation root\n", stream);
+	fputs("  -r, --repo=<remote>  query options for a specific repo\n", stream);
+	fputs("  -v, --verbose        always show directive names\n", stream);
+	fputs("  -l, --repo-list      list configured repositories\n", stream);
+	fputs("  -h, --help           display this help information\n", stream);
+	fputs("  -V, --version        display version information\n", stream);
 	cleanup();
 	exit(ret);
 }
