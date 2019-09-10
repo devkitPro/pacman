@@ -20,6 +20,7 @@
 #include <getopt.h>
 #include <string.h>
 #include "conf.h"
+#include "util.h"
 
 const char *myname = "pacman-conf", *myver = "1.0.0";
 
@@ -37,17 +38,17 @@ static void cleanup(void)
 static void usage(int ret)
 {
 	FILE *stream = (ret ? stderr : stdout);
-	fputs("pacman-conf - query pacman's configuration file\n", stream);
-	fputs("usage:  pacman-conf [options] [<directive>...]\n", stream);
-	fputs("        pacman-conf (--repo-list|--help|--version)\n", stream);
-	fputs("options:\n", stream);
-	fputs("  -c, --config=<path>  set an alternate configuration file\n", stream);
-	fputs("  -R, --rootdir=<path> set an alternate installation root\n", stream);
-	fputs("  -r, --repo=<remote>  query options for a specific repo\n", stream);
-	fputs("  -v, --verbose        always show directive names\n", stream);
-	fputs("  -l, --repo-list      list configured repositories\n", stream);
-	fputs("  -h, --help           display this help information\n", stream);
-	fputs("  -V, --version        display version information\n", stream);
+	fputs(_("pacman-conf - query pacman's configuration file\n"), stream);
+	fputs(_("usage:  pacman-conf [options] [<directive>...]\n"), stream);
+	fputs(_("        pacman-conf (--repo-list|--help|--version)\n"), stream);
+	fputs(_("options:\n"), stream);
+	fputs(_("  -c, --config=<path>  set an alternate configuration file\n"), stream);
+	fputs(_("  -R, --rootdir=<path> set an alternate installation root\n"), stream);
+	fputs(_("  -r, --repo=<remote>  query options for a specific repo\n"), stream);
+	fputs(_("  -v, --verbose        always show directive names\n"), stream);
+	fputs(_("  -l, --repo-list      list configured repositories\n"), stream);
+	fputs(_("  -h, --help           display this help information\n"), stream);
+	fputs(_("  -V, --version        display version information\n"), stream);
 	cleanup();
 	exit(ret);
 }
@@ -76,7 +77,7 @@ static void parse_opts(int argc, char **argv)
 				break;
 			case 'R':
 				if ((config->rootdir = strdup(optarg)) == NULL) {
-					fprintf(stderr, "error setting rootdir '%s': out of memory\n", optarg);
+					fprintf(stderr, _("error setting rootdir '%s': out of memory\n"), optarg);
 					cleanup();
 					exit(1);
 				}
@@ -106,7 +107,7 @@ static void parse_opts(int argc, char **argv)
 	}
 
 	if(parseconfigfile(config_file) != 0 || setdefaults(config) != 0) {
-		fprintf(stderr, "error parsing '%s'\n", config_file);
+		fprintf(stderr, _("error parsing '%s'\n"), config_file);
 		cleanup();
 		exit(1);
 	}
@@ -286,7 +287,7 @@ static int list_repo_directives(void)
 	}
 
 	if(!repo) {
-		fprintf(stderr, "error: repo '%s' not configured\n", repo_name);
+		fprintf(stderr, _("error: repo '%s' not configured\n"), repo_name);
 		return 1;
 	}
 
@@ -303,10 +304,10 @@ static int list_repo_directives(void)
 		} else if(strcasecmp(i->data, "Usage") == 0) {
 			show_usage("Usage", repo->usage);
 		} else if(strcasecmp(i->data, "Include") == 0) {
-			fputs("warning: 'Include' directives cannot be queried\n", stderr);
+			fprintf(stderr,_("warning: '%s' directives cannot be queried\n"), "Include");
 			ret = 1;
 		} else {
-			fprintf(stderr, "warning: unknown directive '%s'\n", (char*) i->data);
+			fprintf(stderr, _("warning: unknown directive '%s'\n"), (char*) i->data);
 			ret = 1;
 		}
 	}
@@ -379,10 +380,10 @@ static int list_directives(void)
 			show_siglevel("RemoteFileSigLevel", config->remotefilesiglevel, 1);
 
 		} else if(strcasecmp(i->data, "Include") == 0) {
-			fputs("warning: 'Include' directives cannot be queried\n", stderr);
+			fprintf(stderr, _("warning: '%s' directives cannot be queried\n"), "Include");
 			ret = 1;
 		} else {
-			fprintf(stderr, "warning: unknown directive '%s'\n", (char*) i->data);
+			fprintf(stderr, _("warning: unknown directive '%s'\n"), (char*) i->data);
 			ret = 1;
 		}
 	}
@@ -404,6 +405,11 @@ int main(int argc, char **argv)
 		goto cleanup;
 	}
 
+		/* i18n init */
+#if defined(ENABLE_NLS)
+	bindtextdomain(PACKAGE, LOCALEDIR);
+#endif
+
 	for(; optind < argc; optind++) {
 		directives = alpm_list_add(directives, argv[optind]);
 	}
@@ -414,7 +420,7 @@ int main(int argc, char **argv)
 
 	if(repo_list) {
 		if(directives) {
-			fputs("error: directives may not be specified with --repo-list\n", stderr);
+			fprintf(stderr, _("error: directives may not be specified with %s\n"), "--repo-list");
 			ret = 1;
 			goto cleanup;
 		}

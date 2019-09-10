@@ -22,6 +22,7 @@
 #include <stdarg.h> /* va_list */
 
 #include <alpm.h>
+#include "util.h" /* For Localization */
 
 __attribute__((format(printf, 2, 0)))
 static void output_cb(alpm_loglevel_t level, const char *fmt, va_list args)
@@ -30,8 +31,8 @@ static void output_cb(alpm_loglevel_t level, const char *fmt, va_list args)
 		return;
 	}
 	switch(level) {
-		case ALPM_LOG_ERROR: printf("error: "); break;
-		case ALPM_LOG_WARNING: printf("warning: "); break;
+		case ALPM_LOG_ERROR: printf(_("error: ")); break;
+		case ALPM_LOG_WARNING: printf(_("warning: ")); break;
 		default: return; /* skip other messages */
 	}
 	vprintf(fmt, args);
@@ -45,16 +46,20 @@ int main(int argc, char *argv[])
 	alpm_pkg_t *pkg = NULL;
 	const int siglevel = ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL;
 
+#if defined(ENABLE_NLS)
+	bindtextdomain(PACKAGE, LOCALEDIR);
+#endif
+
 	if(argc != 2) {
-		fprintf(stderr, "testpkg (pacman) v" PACKAGE_VERSION "\n\n"
-			"Test a pacman package for validity.\n\n"
-			"Usage: testpkg <package file>\n");
+		fprintf(stderr, "testpkg (pacman) v" PACKAGE_VERSION "\n\n");
+		fprintf(stderr,	_("Test a pacman package for validity.\n\n"));
+		fprintf(stderr,	_("Usage: testpkg <package file>\n"));
 		return 1;
 	}
 
 	handle = alpm_initialize(ROOTDIR, DBPATH, &err);
 	if(!handle) {
-		fprintf(stderr, "cannot initialize alpm: %s\n", alpm_strerror(err));
+		fprintf(stderr, _("cannot initialize alpm: %s\n"), alpm_strerror(err));
 		return 1;
 	}
 
@@ -69,28 +74,28 @@ int main(int argc, char *argv[])
 		err = alpm_errno(handle);
 		switch(err) {
 			case ALPM_ERR_PKG_NOT_FOUND:
-				printf("Cannot find the given file.\n");
+				printf(_("Cannot find the given file.\n"));
 				break;
 			case ALPM_ERR_PKG_OPEN:
-				printf("Cannot open the given file.\n");
+				printf(_("Cannot open the given file.\n"));
 				break;
 			case ALPM_ERR_LIBARCHIVE:
 			case ALPM_ERR_PKG_INVALID:
-				printf("Package is invalid.\n");
+				printf(_("Package is invalid.\n"));
 				break;
 			default:
-				printf("libalpm error: %s\n", alpm_strerror(err));
+				printf(_("libalpm error: %s\n"), alpm_strerror(err));
 				break;
 		}
 		retval = 1;
 	} else {
 		alpm_pkg_free(pkg);
-		printf("Package is valid.\n");
+		printf(_("Package is valid.\n"));
 		retval = 0;
 	}
 
 	if(alpm_release(handle) == -1) {
-		fprintf(stderr, "error releasing alpm\n");
+		fprintf(stderr, _("error releasing alpm\n"));
 	}
 
 	return retval;
