@@ -822,6 +822,9 @@ create_srcpackage() {
 install_package() {
 	(( ! INSTALL )) && return 0
 
+	remove_deps || return $?
+	RMDEPS=0
+
 	if (( ! SPLITPKG )); then
 		msg "$(gettext "Installing package %s with %s...")" "$pkgname" "$PACMAN -U"
 	else
