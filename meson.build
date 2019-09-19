@@ -317,9 +317,10 @@ libcommon = static_library(
 libalpm_a = static_library(
   'alpm',
   libalpm_sources,
+  # https://github.com/mesonbuild/meson/issues/3937
+  objects : libcommon.extract_all_objects(),
   include_directories : includes,
   dependencies : [crypto_provider, libarchive, libcurl, gpgme],
-  link_with : [libcommon],
   install : true)
 
 if get_option('default_library') != 'static'
@@ -336,7 +337,6 @@ install_headers(
   'lib/libalpm/alpm.h',
   'lib/libalpm/alpm_list.h')
 
-# TODO: libs.private seem quite wrong here
 pkgconfig = import('pkgconfig')
 pkgconfig.generate(
   libalpm,
