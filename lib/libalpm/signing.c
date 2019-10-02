@@ -258,7 +258,46 @@ error:
 }
 
 /**
- * Search for a GPG key in a remote location.
+ * Import a key from a Web Key Directory (WKD) into the local keyring using.
+ * This requires GPGME to call the gpg binary.
+ * @param handle the context handle
+ * @param email the email address of the key to import
+ * @return 0 on success, -1 on error
+ */
+static int key_import_wkd(alpm_handle_t *handle, const char *email)
+{
+	gpgme_error_t gpg_err;
+	gpgme_ctx_t ctx;
+	gpgme_keylist_mode_t mode;
+	gpgme_key_t key;
+	int ret = -1;
+
+	memset(&ctx, 0, sizeof(ctx));
+	gpg_err = gpgme_new(&ctx);
+	CHECK_ERR();
+
+	mode = gpgme_get_keylist_mode(ctx);
+	mode |= GPGME_KEYLIST_MODE_LOCATE;
+	gpg_err = gpgme_set_keylist_mode(ctx, mode);
+	CHECK_ERR();
+
+	_alpm_log(handle, ALPM_LOG_DEBUG, _("looking up key %s using WKD\n"), email);
+	gpg_err = gpgme_get_key(ctx, email, &key, 0);
+	if(gpg_err_code(gpg_err) == GPG_ERR_NO_ERROR) {
+		ret = 0;
+	}
+	gpgme_key_unref(key);
+
+gpg_error:
+	if(ret != 0) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, _("gpg error: %s\n"), gpgme_strerror(gpg_err));
+	}
+	gpgme_release(ctx);
+	return ret;
+}
+
+/**
+ * Search for a GPG key on a keyserver.
  * This requires GPGME to call the gpg binary and have a keyserver previously
  * defined in a gpg.conf configuration file.
  * @param handle the context handle
@@ -266,7 +305,7 @@ error:
  * @param pgpkey storage location for the given key if found
  * @return 1 on success, 0 on key not found, -1 on error
  */
-static int key_search(alpm_handle_t *handle, const char *fpr,
+static int key_search_keyserver(alpm_handle_t *handle, const char *fpr,
 		alpm_pgpkey_t *pgpkey)
 {
 	gpgme_error_t gpg_err;
@@ -386,10 +425,10 @@ gpg_error:
 /**
  * Import a key into the local keyring.
  * @param handle the context handle
- * @param key the key to import, likely retrieved from #key_search
+ * @param key the key to import, likely retrieved from #key_search_keyserver
  * @return 0 on success, -1 on error
  */
-static int key_import(alpm_handle_t *handle, alpm_pgpkey_t *key)
+static int key_import_keyserver(alpm_handle_t *handle, alpm_pgpkey_t *key)
 {
 	gpgme_error_t gpg_err;
 	gpgme_ctx_t ctx;
@@ -430,6 +469,29 @@ gpg_error:
 	return ret;
 }
 
+/** Extract the email address from a user ID
+ * @param uid the user ID to parse in the form "Example Name <email@address.invalid>"
+ * @param email to hold email address
+ * @return 0 on success, -1 on error
+ */
+static int email_from_uid(const char *uid, char **email)
+{
+       char *start, *end;
+
+       start = strrchr(uid, '<');
+       if(start) {
+               end = strrchr(start, '>');
+       }
+
+       if(start && end) {
+               STRNDUP(*email, start+1, end-start-1, return -1);
+               return 0;
+       } else {
+               email = NULL;
+               return -1;
+       }
+}
+
 /**
  * Import a key defined by a fingerprint into the local keyring.
  * @param handle the context handle
@@ -441,6 +503,7 @@ int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr)
 {
 	int ret = -1;
 	alpm_pgpkey_t fetch_key;
+	char *email;
 
 	if(_alpm_access(handle, handle->gpgdir, "pubring.gpg", W_OK)) {
 		/* no chance of import succeeding if pubring isn't writable */
@@ -459,18 +522,26 @@ int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr)
 			};
 	QUESTION(handle, &question);
 	if(question.import) {
-		if(key_search(handle, fpr, &fetch_key) == 1) {
-			_alpm_log(handle, ALPM_LOG_DEBUG,
-					_("key \"%s\" on keyserver\n"), fetch_key.uid);
-			if(key_import(handle, &fetch_key) == 0) {
-				ret = 0;
+		/* Try to import the key from a WKD first */
+		if(email_from_uid(uid, &email) == 0) {
+			ret = key_import_wkd(handle, email);
+		}
+
+		/* If importing from the WKD fails, fall back to keyserver lookup */
+		if(ret != 0) {
+			if(key_search_keyserver(handle, fpr, &fetch_key) == 1) {
+				_alpm_log(handle, ALPM_LOG_DEBUG,
+						_("key \"%s\" on keyserver\n"), fetch_key.uid);
+				if(key_import_keyserver(handle, &fetch_key) == 0) {
+					ret = 0;
+				} else {
+					_alpm_log(handle, ALPM_LOG_ERROR,
+							_("key \"%s\" could not be imported\n"), fetch_key.uid);
+				}
 			} else {
 				_alpm_log(handle, ALPM_LOG_ERROR,
-						_("key \"%s\" could not be imported\n"), fetch_key.uid);
+						_("key \"%s\" could not be looked up remotely\n"), fpr);
 			}
-		} else {
-			_alpm_log(handle, ALPM_LOG_ERROR,
-					_("key \"%s\" could not be looked up remotely\n"), fpr);
 		}
 	}
 	gpgme_key_unref(fetch_key.data);
