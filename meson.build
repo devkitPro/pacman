@@ -314,24 +314,22 @@ libcommon = static_library(
   include_directories : includes,
   install : false)
 
+alpm_deps = [crypto_provider, libarchive, libcurl, gpgme]
+
 libalpm_a = static_library(
-  'alpm',
+  'alpm_objlib',
   libalpm_sources,
   # https://github.com/mesonbuild/meson/issues/3937
   objects : libcommon.extract_all_objects(),
   include_directories : includes,
-  dependencies : [crypto_provider, libarchive, libcurl, gpgme],
-  install : true)
+  dependencies : alpm_deps)
 
-if get_option('default_library') != 'static'
-  libalpm = library(
-    'alpm',
-    version : libalpm_version,
-    link_whole: [libalpm_a],
-    install : true)
-else
-  libalpm = libalpm_a
-endif
+libalpm = library(
+  'alpm',
+  version : libalpm_version,
+  objects: libalpm_a.extract_all_objects(recursive: true),
+  dependencies : alpm_deps,
+  install : true)
 
 install_headers(
   'lib/libalpm/alpm.h',
