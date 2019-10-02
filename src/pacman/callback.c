@@ -456,17 +456,8 @@ void cb_question(alpm_question_t *question)
 		case ALPM_QUESTION_IMPORT_KEY:
 			{
 				alpm_question_import_key_t *q = &question->import_key;
-				char created[12];
-				time_t time = (time_t)q->key->created;
-				strftime(created, 12, "%Y-%m-%d", localtime(&time));
-
-				if(q->key->revoked) {
-					q->import = yesno(_("Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"),
-							q->key->length, q->key->pubkey_algo, q->key->fingerprint, q->key->uid, created);
-				} else {
-					q->import = yesno(_("Import PGP key %u%c/%s, \"%s\", created: %s?"),
-							q->key->length, q->key->pubkey_algo, q->key->fingerprint, q->key->uid, created);
-				}
+				q->import = yesno(_("Import PGP key %s, \"%s\"?"),
+						q->key->fingerprint, q->key->uid);
 			}
 			break;
 	}

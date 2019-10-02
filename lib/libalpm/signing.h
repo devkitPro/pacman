@@ -32,6 +32,6 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 		alpm_siglist_t *siglist, int optional, int marginal, int unknown);
 
 int _alpm_key_in_keychain(alpm_handle_t *handle, const char *fpr);
-int _alpm_key_import(alpm_handle_t *handle, const char *fpr);
+int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr);
 
 #endif /* ALPM_SIGNING_H */

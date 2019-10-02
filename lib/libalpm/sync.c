@@ -47,6 +47,12 @@
 #include "diskspace.h"
 #include "signing.h"
 
+struct keyinfo_t {
+       char* uid;
+       char* keyid;
+};
+
+
 /** Check for new version of pkg in sync repos
  * (only the first occurrence is considered in sync)
  */
@@ -872,6 +878,7 @@ static int check_keyring(alpm_handle_t *handle)
 	size_t current = 0, numtargs;
 	alpm_list_t *i, *errors = NULL;
 	alpm_event_t event;
+	struct keyinfo_t *keyinfo;
 
 	event.type = ALPM_EVENT_KEYRING_START;
 	EVENT(handle, &event);
@@ -905,7 +912,13 @@ static int check_keyring(alpm_handle_t *handle)
 						char *key = k->data;
 						if(!alpm_list_find_str(errors, key) &&
 								_alpm_key_in_keychain(handle, key) == 0) {
-							errors = alpm_list_add(errors, strdup(key));
+							keyinfo = malloc(sizeof(struct keyinfo_t));
+							if(!keyinfo) {
+								break;
+							}
+							keyinfo->uid = strdup(pkg->packager);
+							keyinfo->keyid = strdup(key);
+							errors = alpm_list_add(errors, keyinfo);
 						}
 					}
 					FREELIST(keys);
@@ -926,10 +939,13 @@ static int check_keyring(alpm_handle_t *handle)
 		int fail = 0;
 		alpm_list_t *k;
 		for(k = errors; k; k = k->next) {
-			char *key = k->data;
-			if(_alpm_key_import(handle, key) == -1) {
+			keyinfo = k->data;
+				if(_alpm_key_import(handle, keyinfo->uid, keyinfo->keyid) == -1) {
 				fail = 1;
 			}
+			free(keyinfo->uid);
+			free(keyinfo->keyid);
+
 		}
 		event.type = ALPM_EVENT_KEY_DOWNLOAD_DONE;
 		EVENT(handle, &event);
