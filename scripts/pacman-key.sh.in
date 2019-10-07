@@ -209,6 +209,7 @@ initialize() {
 	add_gpg_conf_option "$conffile" 'no-permission-warning'
 	add_gpg_conf_option "$conffile" 'lock-never'
 	add_gpg_conf_option "$conffile" 'keyserver-options' 'timeout=10'
+	add_gpg_conf_option "$conffile" 'keyserver-options' 'import-clean'
 
 	local gpg_ver=$(gpg --version | awk '{print $3; exit}')
 	if (( $(vercmp "$gpg_ver" 2.2.17) >= 0 )); then
