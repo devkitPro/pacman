@@ -456,8 +456,14 @@ void cb_question(alpm_question_t *question)
 		case ALPM_QUESTION_IMPORT_KEY:
 			{
 				alpm_question_import_key_t *q = &question->import_key;
-				q->import = yesno(_("Import PGP key %s, \"%s\"?"),
-						q->key->fingerprint, q->key->uid);
+				/* the uid is unknown with db signatures */
+				if (q->key->uid == NULL) {
+					q->import = yesno(_("Import PGP key %s?"),
+							q->key->fingerprint);
+				} else {
+					q->import = yesno(_("Import PGP key %s, \"%s\"?"),
+							q->key->fingerprint, q->key->uid);
+				}
 			}
 			break;
 	}
