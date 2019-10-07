@@ -72,6 +72,10 @@ Options
 **CXXFLAGS=**"cxxflags"::
 	Flags used for the C++ compiler; see CFLAGS for more info.
 
+**RUSTFLAGS=**"rustflags"::
+	Flags used for the Rust compiler, similar in spirit to CFLAGS. Read
+	linkman:rustc[1] for more details on the available flags.
+
 **LDFLAGS=**"ldflags"::
 	Flags used for the linker. Several options may be specified with common
 	usage resembling ``-Wl,--hash-style=gnu''. Read ld(1) for more details on
@@ -88,6 +92,11 @@ Options
 
 **DEBUG_CXXFLAGS=**"debug_cxxflags"::
 	Debug flags used for the C++ compiler; see DEBUG_CFLAGS for more info.
+
+**DEBUG_RUSTFLAGS=**"debug_rustflags"::
+	Additional compiler flags appended to `RUSTFLAGS` for use in debugging.
+	Usually this would include: ``-C debuginfo=2''. Read linkman:rustc[1] for
+	more details on the available flags.
 
 **BUILDENV=(**!distcc !color !ccache check !sign**)**::
 	This array contains options that affect the build environment; the defaults
