@@ -461,25 +461,34 @@ lsign_keys() {
 }
 
 receive_keys() {
-	local name id keyids
+	local ret=0 name id keyids emails
 
 	# if the key is not a hex ID, do a lookup
 	for name; do
 		if [[ $name = ?(0x)+([0-9a-fA-F]) ]]; then
 			keyids+=("$name")
-		else
-			if id=$(key_lookup_from_name "$name"); then
-				keyids+=("$id")
-			fi
+		elif [[ $name = *@*.* ]]; then
+			emails+=("$name")
+		elif id=$(key_lookup_from_name "$name"); then
+			keyids+=("$id")
 		fi
 	done
 
-	(( ${#keyids[*]} > 0 )) || exit 1
+	(( ${#keyids[*]}+${#emails[*]} > 0 )) || exit 1
 
-	if ! "${GPG_PACMAN[@]}" --recv-keys "${keyids[@]}" ; then
-		error "$(gettext "Remote key not fetched correctly from keyserver.")"
-		exit 1
+	if (( ${#emails[*]} > 0 )) && \
+	   ! "${GPG_PACMAN[@]}" --auto-key-locate clear,nodefault,wkd,keyserver \
+	                        --locate-key "${emails[@]}" ; then
+		error "$(gettext "Remote key not fetched correctly from WKD or keyserver.")"
+		ret=1
 	fi
+
+	if (( ${#keyids[*]} > 0 )) && ! "${GPG_PACMAN[@]}" --recv-keys "${keyids[@]}" ; then
+		error "$(gettext "Remote key not fetched correctly from keyserver.")"
+		ret=1
+	fi
+
+	exit $ret
 }
 
 refresh_keys() {
