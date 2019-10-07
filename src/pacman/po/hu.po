@@ -12,13 +12,14 @@
 # Balló György <ballogyor@gmail.com>, 2014,2017
 # Gábor Nagy <ngaba@bibl.u-szeged.hu>, 2013
 # Gábor Nagy <ngaba@bibl.u-szeged.hu>, 2011,2013
+# user14 <nleknh@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-08-12 11:37+1000\n"
-"PO-Revision-Date: 2018-07-19 04:15+0000\n"
-"Last-Translator: Transifex Bot <>\n"
+"POT-Creation-Date: 2019-10-07 18:10+1000\n"
+"PO-Revision-Date: 2019-09-06 14:19+0000\n"
+"Last-Translator: user14 <nleknh@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/hu/)\n"
 "Language: hu\n"
@@ -187,69 +188,62 @@ msgstr ""
 "A %s fájl sérült (%s).\n"
 "Szeretné törölni?"
 
-#: src/pacman/callback.c:464
-#, c-format
-msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-msgstr ""
-"Importálja ezt a PGP kulcsot: %u%c/%s, \"%s\", ami ekkor készült: %s "
-"(visszavonva)?"
-
-#: src/pacman/callback.c:467
-#, c-format
-msgid "Import PGP key %u%c/%s, \"%s\", created: %s?"
+#: src/pacman/callback.c:459
+#, fuzzy, c-format
+msgid "Import PGP key %s, \"%s\"?"
 msgstr "Importálja ezt a PGP kulcsot: %u%c/%s, \"%s\", ami ekkor készült: %s?"
 
-#: src/pacman/callback.c:526
+#: src/pacman/callback.c:517
 #, c-format
 msgid "installing"
 msgstr "telepítés:"
 
-#: src/pacman/callback.c:529
+#: src/pacman/callback.c:520
 #, c-format
 msgid "upgrading"
 msgstr "frissítés:"
 
-#: src/pacman/callback.c:532
+#: src/pacman/callback.c:523
 #, c-format
 msgid "downgrading"
 msgstr "visszafejlesztés:"
 
-#: src/pacman/callback.c:535
+#: src/pacman/callback.c:526
 #, c-format
 msgid "reinstalling"
 msgstr "újratelepítés:"
 
-#: src/pacman/callback.c:538
+#: src/pacman/callback.c:529
 #, c-format
 msgid "removing"
 msgstr "eltávolítás:"
 
-#: src/pacman/callback.c:541
+#: src/pacman/callback.c:532
 #, c-format
 msgid "checking for file conflicts"
 msgstr "fájlütközések vizsgálata"
 
-#: src/pacman/callback.c:544
+#: src/pacman/callback.c:535
 #, c-format
 msgid "checking available disk space"
 msgstr "szabad lemezterület ellenőrzése"
 
-#: src/pacman/callback.c:547
+#: src/pacman/callback.c:538
 #, c-format
 msgid "checking package integrity"
 msgstr "csomagok integritásának ellenőrzése"
 
-#: src/pacman/callback.c:550
+#: src/pacman/callback.c:541
 #, c-format
 msgid "checking keys in keyring"
 msgstr "kulcsok vizsgálata a kulcstartóban"
 
-#: src/pacman/callback.c:553
+#: src/pacman/callback.c:544
 #, c-format
 msgid "loading package files"
 msgstr "csomagfájlok betöltése"
 
-#: src/pacman/callback.c:670
+#: src/pacman/callback.c:661
 #, c-format
 msgid "downloading %s...\n"
 msgstr "%s letöltése...\n"
@@ -507,7 +501,7 @@ msgstr "%s: a telepítés okát beállítottam arra, hogy \"kézzel telepítve\"
 #: src/pacman/database.c:295
 #, c-format
 msgid "No database errors have been found!\n"
-msgstr ""
+msgstr " Adatbázishiba nem található!\n"
 
 #: src/pacman/files.c:55
 #, c-format
@@ -517,7 +511,7 @@ msgstr ""
 #: src/pacman/files.c:222
 #, c-format
 msgid "invalid package: '%s'\n"
-msgstr ""
+msgstr "érvénytelen csomag: '%s'\n"
 
 #: src/pacman/files.c:254 src/pacman/query.c:484 src/pacman/sync.c:427
 #, c-format
@@ -1000,7 +994,7 @@ msgstr ""
 #: src/pacman/pacman.c:174
 #, c-format
 msgid "  -q, --quiet          suppress output of success messages\n"
-msgstr ""
+msgstr "-q, --quiet elnémítja a sikeres üzenetek meglejenítését\n"
 
 #: src/pacman/pacman.c:181
 #, c-format
@@ -1198,6 +1192,8 @@ msgid ""
 "      --disable-download-timeout\n"
 "                       use relaxed timeouts for download\n"
 msgstr ""
+"--disable-download-timeout\n"
+"végtelen időkorlátot használ a letöltéshez\n"
 
 #: src/pacman/pacman.c:245
 #, c-format
@@ -1211,7 +1207,7 @@ msgstr ""
 #: src/pacman/pacman.c:278
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
-msgstr ""
+msgstr "HTTP_USER_AGENT meg lett csonkítva\n"
 
 #: src/pacman/pacman.c:310
 #, c-format
@@ -1256,7 +1252,7 @@ msgstr ""
 #: src/pacman/pacman.c:1186
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
-msgstr ""
+msgstr "stdin -ről nem lehetett beolvasni az argumentumot: (%s)\n"
 
 #: src/pacman/pacman.c:1191
 #, c-format
@@ -1518,7 +1514,7 @@ msgstr "%s létezik a(z) '%s' és a(z) '%s' csomagban is\n"
 #: src/pacman/sync.c:834
 #, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
-msgstr ""
+msgstr "%s: %s létezik a fájlrendszerben (%s tulajdona)\n"
 
 #: src/pacman/sync.c:837
 #, c-format
@@ -1592,7 +1588,7 @@ msgstr " a(z) %s naprakész\n"
 #: src/pacman/util.c:170
 #, c-format
 msgid "failed to synchronize all databases\n"
-msgstr ""
+msgstr "nem sikerült szinkronizálni az összes adatbázist\n"
 
 #: src/pacman/util.c:636
 #, c-format
@@ -1727,7 +1723,7 @@ msgstr "A(z) %s csomag opcionális függőségei:\n"
 #: src/pacman/util.c:1285
 #, c-format
 msgid "Repository %s%s\n"
-msgstr ""
+msgstr "Tároló %s%s\n"
 
 #: src/pacman/util.c:1326
 #, c-format
@@ -1784,36 +1780,155 @@ msgstr "NEM"
 msgid "failed to allocate string\n"
 msgstr "nem sikerült lefoglalni a karakterláncot\n"
 
-#: src/pacman/util.c:1703 src/pacman/util.c:1753
+#: src/pacman/util.c:1703 src/pacman/util.c:1753 src/util/testpkg.c:34
 #, c-format
 msgid "error: "
 msgstr "hiba: "
 
-#: src/pacman/util.c:1707 src/pacman/util.c:1757
+#: src/pacman/util.c:1707 src/pacman/util.c:1757 src/util/testpkg.c:35
 #, c-format
 msgid "warning: "
 msgstr "figyelmeztetés: "
 
-#~ msgid "checking delta integrity...\n"
-#~ msgstr "delták integritásának ellenőrzése...\n"
+#: src/pacman/pacman-conf.c:41
+#, c-format
+msgid "pacman-conf - query pacman's configuration file\n"
+msgstr ""
 
-#~ msgid "applying deltas...\n"
-#~ msgstr "delták alkalmazása...\n"
+#: src/pacman/pacman-conf.c:42
+#, c-format
+msgid "usage:  pacman-conf [options] [<directive>...]\n"
+msgstr ""
 
-#~ msgid "generating %s with %s... "
-#~ msgstr "%s létrehozása %s segítségével... "
+#: src/pacman/pacman-conf.c:43
+#, c-format
+msgid "        pacman-conf (--repo-list|--help|--version)\n"
+msgstr ""
 
-#~ msgid "success!\n"
-#~ msgstr "sikeres!\n"
+#: src/pacman/pacman-conf.c:44
+#, fuzzy, c-format
+msgid "options:\n"
+msgstr "opciók"
 
-#~ msgid "failed.\n"
-#~ msgstr "sikertelen.\n"
+#: src/pacman/pacman-conf.c:45
+#, fuzzy, c-format
+msgid "  -c, --config=<path>  set an alternate configuration file\n"
+msgstr ""
+"      --config <útvonal>\n"
+"                       alternatív konfigurációs fájl beállítása\n"
 
-#~ msgid ""
-#~ "  -s, --search <file>  search package file names for matching strings\n"
+#: src/pacman/pacman-conf.c:46
+#, fuzzy, c-format
+msgid "  -R, --rootdir=<path> set an alternate installation root\n"
+msgstr ""
+"  -r, --root <útvonal> alternatív telepítési gyökérkönyvtár beállítása\n"
+
+#: src/pacman/pacman-conf.c:47
+#, c-format
+msgid "  -r, --repo=<remote>  query options for a specific repo\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:48
+#, fuzzy, c-format
+msgid "  -v, --verbose        always show directive names\n"
+msgstr "  -v, --verbose        legyen bőbeszédű\n"
+
+#: src/pacman/pacman-conf.c:49
+#, fuzzy, c-format
+msgid "  -l, --repo-list      list configured repositories\n"
+msgstr "  -l, --list <tároló>  egy tároló csomagjainak listázása\n"
+
+#: src/pacman/pacman-conf.c:50
+#, c-format
+msgid "  -h, --help           display this help information\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:51
+#, fuzzy, c-format
+msgid "  -V, --version        display version information\n"
+msgstr "      --confirm        mindig kérjen megerősítést\n"
+
+#: src/pacman/pacman-conf.c:80
+#, c-format
+msgid "error setting rootdir '%s': out of memory\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:110
+#, c-format
+msgid "error parsing '%s'\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:290
+#, fuzzy, c-format
+msgid "error: repo '%s' not configured\n"
+msgstr "'%s' nincs beállítva\n"
+
+#: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:383
+#, c-format
+msgid "warning: '%s' directives cannot be queried\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:386
+#, c-format
+msgid "warning: unknown directive '%s'\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:423
+#, c-format
+msgid "error: directives may not be specified with %s\n"
+msgstr ""
+
+#: src/util/testpkg.c:55
+#, c-format
+msgid ""
+"Test a pacman package for validity.\n"
+"\n"
+msgstr ""
+
+#: src/util/testpkg.c:56
+#, c-format
+msgid "Usage: testpkg <package file>\n"
+msgstr ""
+
+#: src/util/testpkg.c:62
+#, fuzzy, c-format
+msgid "cannot initialize alpm: %s\n"
+msgstr ""
+"az alpm függvénytár inicializálása sikertelen\n"
+"(%s: %s)\n"
+
+#: src/util/testpkg.c:77
+#, c-format
+msgid "Cannot find the given file.\n"
+msgstr ""
+
+#: src/util/testpkg.c:80
+#, c-format
+msgid "Cannot open the given file.\n"
+msgstr ""
+
+#: src/util/testpkg.c:84
+#, c-format
+msgid "Package is invalid.\n"
+msgstr ""
+
+#: src/util/testpkg.c:87
+#, c-format
+msgid "libalpm error: %s\n"
+msgstr ""
+
+#: src/util/testpkg.c:93
+#, fuzzy, c-format
+msgid "Package is valid.\n"
+msgstr "Csomagok"
+
+#: src/util/testpkg.c:98
+#, c-format
+msgid "error releasing alpm\n"
+msgstr ""
+
+#, c-format
+#~ msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
 #~ msgstr ""
-#~ "  -s, --search <fájl>  a karakterláncra illeszkedő csomagfájlnevek "
-#~ "keresése\n"
-
-#~ msgid "unable to %s directory-file conflicts\n"
-#~ msgstr "nem lehet %s-olni a könyvtár-fájlütközéseket\n"
+#~ "Importálja ezt a PGP kulcsot: %u%c/%s, \"%s\", ami ekkor készült: %s "
+#~ "(visszavonva)?"

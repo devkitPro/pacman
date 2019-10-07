@@ -3,64 +3,67 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2013
-# Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2013-2016
-# Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2015
-# Daniel, 2016
-# Daniel, 2016-2017
+# Dejan Rožič <drozic1989@gmail.com>, 2015
+# ansich <mojmejlzaforume@gmail.com>, 2014
+# Dejan Rožič <drozic1989@gmail.com>, 2019
+# Dejan Rožič <drozic1989@gmail.com>, 2015
+# ansich <mojmejlzaforume@gmail.com>, 2014
+# Readage, 2014
+# Simon Gomizelj <simongmzlj@gmail.com>, 2011
+# smlu <smluprenos@gmail.com>, 2012
+# smlu <smluprenos@gmail.com>, 2012
+# Timotej Marosevic <timotej.marosevic@gmail.com>, 2018
+# Readage, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:09+1000\n"
-"PO-Revision-Date: 2019-08-12 01:49+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
-"Language-Team: Galician (http://www.transifex.com/toofishes/archlinux-pacman/"
-"language/gl/)\n"
-"Language: gl\n"
+"POT-Creation-Date: 2019-08-12 11:37+1000\n"
+"PO-Revision-Date: 2019-08-12 05:30+0000\n"
+"Last-Translator: Dejan Rožič <drozic1989@gmail.com>\n"
+"Language-Team: Slovenian (http://www.transifex.com/toofishes/archlinux-pacman/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: scripts/makepkg.sh.in:140
+#: scripts/makepkg.sh.in:136
 msgid "Cleaning up..."
-msgstr "Facendo limpeza…"
+msgstr "Čiščenje..."
 
-#: scripts/makepkg.sh.in:184
+#: scripts/makepkg.sh.in:176
 msgid "Entering %s environment..."
-msgstr "Entrando no ambiente «%s»…"
+msgstr "Vstop v okolje %s ..."
 
-#: scripts/makepkg.sh.in:191 scripts/makepkg.sh.in:407
+#: scripts/makepkg.sh.in:183 scripts/makepkg.sh.in:402
 msgid "Starting %s()..."
-msgstr "Iniciando «%s()»…"
+msgstr "Zagon %s()..."
 
-#: scripts/makepkg.sh.in:197
+#: scripts/makepkg.sh.in:189
 msgid "pkgver() generated an invalid version: %s"
-msgstr "pkgver() xerou unha versión non válida: %s"
+msgstr "pkgver() ustvaril napačno različico: %s"
 
-#: scripts/makepkg.sh.in:204
+#: scripts/makepkg.sh.in:196
 msgid "Failed to update %s from %s to %s"
-msgstr "Non foi posíbel actualizar «%s» de %s a %s."
+msgstr "Spodletelo posodobiti %s iz %s v %s"
 
-#: scripts/makepkg.sh.in:211
+#: scripts/makepkg.sh.in:203
 msgid "Updated version: %s"
-msgstr "Versión actualizada: %s"
+msgstr "Posodobljena različica: %s"
+
+#: scripts/makepkg.sh.in:205
+msgid "%s is not writeable -- pkgver will not be updated"
+msgstr "%s ni zapisljiv -- pkgver ne bo posodobljen"
 
 #: scripts/makepkg.sh.in:213
-msgid "%s is not writeable -- pkgver will not be updated"
-msgstr ""
-"Non pode escribirse en «%s», polo que non se actualizará a versión do "
-"paquete («pkgver»)."
-
-#: scripts/makepkg.sh.in:221
 msgid "Unable to find source file %s."
-msgstr "Non foi posíbel atopar o ficheiro fonte «%s»."
+msgstr "Izvorne datoteke %s ni mogoče najti."
 
-#: scripts/makepkg.sh.in:222 scripts/makepkg.sh.in:357
-#: scripts/makepkg.sh.in:675 scripts/makepkg.sh.in:1144
-#: scripts/makepkg.sh.in:1149 scripts/makepkg.sh.in:1154
-#: scripts/makepkg.sh.in:1160 scripts/makepkg.sh.in:1170
+#: scripts/makepkg.sh.in:214 scripts/makepkg.sh.in:352
+#: scripts/makepkg.sh.in:670 scripts/makepkg.sh.in:1136
+#: scripts/makepkg.sh.in:1141 scripts/makepkg.sh.in:1146
+#: scripts/makepkg.sh.in:1152 scripts/makepkg.sh.in:1162
 #: scripts/libmakepkg/source/bzr.sh.in:55
 #: scripts/libmakepkg/source/bzr.sh.in:86
 #: scripts/libmakepkg/source/bzr.sh.in:101
@@ -83,555 +86,505 @@ msgstr "Non foi posíbel atopar o ficheiro fonte «%s»."
 #: scripts/libmakepkg/util/source.sh.in:168
 #: scripts/libmakepkg/util/util.sh.in:81
 msgid "Aborting..."
-msgstr "Interrompendo…"
+msgstr "Prekinjam..."
 
-#: scripts/makepkg.sh.in:240
+#: scripts/makepkg.sh.in:232
 msgid "Pacman is currently in use, please wait..."
-msgstr ""
+msgstr "Pacman v uporabi, prosim počakaj..."
 
-#: scripts/makepkg.sh.in:261
+#: scripts/makepkg.sh.in:253
 msgid "'%s' returned a fatal error (%i): %s"
-msgstr "«%s» informou dun erro irrecuperábel (%i): %s"
+msgstr "'%s' prišlo je do usodne napake (%i): %s"
 
-#: scripts/makepkg.sh.in:280
+#: scripts/makepkg.sh.in:272
 msgid "Installing missing dependencies..."
-msgstr "Instalando as dependencias que faltan…"
+msgstr "Nameščanje manjkajočih odvisnosti..."
 
-#: scripts/makepkg.sh.in:283
+#: scripts/makepkg.sh.in:275
 msgid "'%s' failed to install missing dependencies."
-msgstr "Non puideron instalarse as dependencias necesarias para «%s»."
+msgstr "'%s' spodletela namestitev manjkajočih odvisnosti"
 
-#: scripts/makepkg.sh.in:318
+#: scripts/makepkg.sh.in:310
 msgid "Missing dependencies:"
-msgstr "Dependencias que faltan:"
+msgstr "Manjkajoče odvisnosti:"
 
-#: scripts/makepkg.sh.in:334 scripts/makepkg.sh.in:348
+#: scripts/makepkg.sh.in:326 scripts/makepkg.sh.in:340
 msgid "Failed to remove installed dependencies."
-msgstr "Non foi posíbel eliminar as dependencias instaladas."
+msgstr "Spodletela odstranitev nameščenih odvisnosti."
 
-#: scripts/makepkg.sh.in:356
+#: scripts/makepkg.sh.in:351
 msgid "A failure occurred in %s()."
-msgstr "Produciuse un erro en «%s()»."
+msgstr "Prišlo je do napake v %s()."
 
-#: scripts/makepkg.sh.in:509
+#: scripts/makepkg.sh.in:504
 msgid "Library listed in %s is not required by any files: %s"
-msgstr "Ningún ficheiro necesita a biblioteca listada en «%s»: %s"
+msgstr "Knjižnica navedena v %s ne zahteva nobena datoteka: %s"
 
-#: scripts/makepkg.sh.in:538
+#: scripts/makepkg.sh.in:533
 msgid "Library listed in %s is not versioned: %s"
-msgstr "A biblioteca listada en «%s» carece de versión: %s"
+msgstr "Knjižnica navedene v %s ni različica: %s"
 
-#: scripts/makepkg.sh.in:551
+#: scripts/makepkg.sh.in:546
 msgid "Library listed in %s is not a shared object: %s"
-msgstr "A biblioteca listada en «%s» non é un obxecto compartido: %s"
+msgstr "Knjižnica navedena v %s ni v skupni rabi objekta: %s"
 
-#: scripts/makepkg.sh.in:566
+#: scripts/makepkg.sh.in:561
 msgid "Cannot find library listed in %s: %s"
-msgstr "Non é posíbel atopar a biblioteca listada en «%s»: %s"
+msgstr "Knjižnice, navedene v %s ni bilo mogoče najti: %s"
 
-#: scripts/makepkg.sh.in:579
+#: scripts/makepkg.sh.in:574
 msgid "Invalid value for %s: %s"
-msgstr ""
+msgstr "Neustrezna vrednost %s : 1%s"
 
-#: scripts/makepkg.sh.in:674
+#: scripts/makepkg.sh.in:669
 msgid "Missing %s directory."
-msgstr "Falta o cartafol «%s»."
+msgstr "Mapa %s manjka."
 
-#: scripts/makepkg.sh.in:680
+#: scripts/makepkg.sh.in:675
 msgid "Creating package \"%s\"..."
-msgstr "Creando o paquete «%s»…"
+msgstr "Ustvarjanje paketa \"%s\"..."
 
-#: scripts/makepkg.sh.in:683 scripts/makepkg.sh.in:685
-#: scripts/makepkg.sh.in:770
+#: scripts/makepkg.sh.in:678 scripts/makepkg.sh.in:680
+#: scripts/makepkg.sh.in:765
 msgid "Generating %s file..."
-msgstr "Xerando o ficheiro «%s»…"
+msgstr "Ustvarjanje datoteke %s..."
 
-#: scripts/makepkg.sh.in:693
+#: scripts/makepkg.sh.in:688
 msgid "Adding %s file..."
-msgstr "Engadindo o ficheiro «%s»…"
+msgstr "Dodajanje datoteke %s..."
 
-#: scripts/makepkg.sh.in:695
+#: scripts/makepkg.sh.in:690
 msgid "Failed to add %s file to package."
-msgstr "Non foi posíbel engadir o ficheiro «%s» ao paquete."
+msgstr "Ne more dodati datoteke %s paketu."
 
-#: scripts/makepkg.sh.in:713
+#: scripts/makepkg.sh.in:708
 msgid "Generating .MTREE file..."
-msgstr "Xerando o ficheiro «.MTREE»…"
+msgstr "Ustvarjanje .MTREE datoteke..."
 
-#: scripts/makepkg.sh.in:719
+#: scripts/makepkg.sh.in:714
 msgid "Compressing package..."
-msgstr "Comprimindo o paquete…"
+msgstr "Stiskanje paketa..."
 
-#: scripts/makepkg.sh.in:728
+#: scripts/makepkg.sh.in:723
 msgid "Failed to create package file."
-msgstr "Non foi posíbel crear o ficheiro do paquete."
+msgstr "Ustvarjanje paketne datoteke spodletelo."
 
-#: scripts/makepkg.sh.in:763
+#: scripts/makepkg.sh.in:758
 msgid "Creating source package..."
-msgstr "Creando o paquete de fontes…"
+msgstr "Ustvarjanje paketa izvorne kode..."
 
-#: scripts/makepkg.sh.in:767 scripts/makepkg.sh.in:780
+#: scripts/makepkg.sh.in:762 scripts/makepkg.sh.in:775
 msgid "Adding %s..."
-msgstr "Engadindo «%s»…"
+msgstr "Dodajanje %s..."
 
-#: scripts/makepkg.sh.in:798
+#: scripts/makepkg.sh.in:793
 msgid "Adding %s file (%s)..."
-msgstr "Engadindo o ficheiro «%s» (%s)…"
+msgstr "Dodajanje datoteke %s (%s)..."
 
-#: scripts/makepkg.sh.in:808
+#: scripts/makepkg.sh.in:803
 msgid "Compressing source package..."
-msgstr "Comprimindo o paquete de fontes…"
+msgstr "Stiskanje paketa izvorne kode..."
 
-#: scripts/makepkg.sh.in:818
+#: scripts/makepkg.sh.in:813
 msgid "Failed to create source package file."
-msgstr "Non foi posíbel crear o ficheiro do paquete de fontes."
+msgstr "Ustvarjanje izvorne paketne datoteke spodletelo."
 
-#: scripts/makepkg.sh.in:833
+#: scripts/makepkg.sh.in:825
 msgid "Installing package %s with %s..."
-msgstr "Instalando o paquete «%s» con «%s»…"
+msgstr "Nameščanje paketa %s z %s..."
 
-#: scripts/makepkg.sh.in:835
+#: scripts/makepkg.sh.in:827
 msgid "Installing %s package group with %s..."
-msgstr "Instalando o grupo de paquetes «%s» con «%s»…"
+msgstr "Nameščanje paketne skupine %s z %s..."
 
-#: scripts/makepkg.sh.in:853
+#: scripts/makepkg.sh.in:845
 msgid "Failed to install built package(s)."
-msgstr "Non foi posíbel instalar os paquetes construídos."
+msgstr "Nameščanje izgrajenega paketa/paketov je spodletelo."
 
-#: scripts/makepkg.sh.in:865
+#: scripts/makepkg.sh.in:857
 msgid "A package has already been built, installing existing package..."
-msgstr "Xa se construíu un paquete, instalando o paquete existente…"
+msgstr "Paket je že bil izgrajen, nameščanje obstoječega paketa ..."
 
-#: scripts/makepkg.sh.in:869
+#: scripts/makepkg.sh.in:861
 msgid "A package has already been built. (use %s to overwrite)"
-msgstr "Xa se construíu un paquete (use «%s» para forzar)."
+msgstr "Paket je že bil izgrajen. (uporabite %s za prepis)"
 
-#: scripts/makepkg.sh.in:888
+#: scripts/makepkg.sh.in:880
 msgid ""
 "The package group has already been built, installing existing packages..."
-msgstr ""
-"Xa se construíu o grupo de paquetes, instalando os paquetes existentes…"
+msgstr "Ta paketna skupina je že bila izgrajena, nameščajo se obstoječi paketi ..."
 
-#: scripts/makepkg.sh.in:892
+#: scripts/makepkg.sh.in:884
 msgid "The package group has already been built. (use %s to overwrite)"
-msgstr "Xa se construíu o grupo de paquetes (use «%s» para forzar)."
+msgstr "Ta paketna skupina je že bila nameščena. (uporabite %s za prepis)"
 
-#: scripts/makepkg.sh.in:897
-msgid "Part of the package group has already been built. (use %s to overwrite)"
-msgstr "Xa se construíu parte do grupo de paquetes (use «%s» para forzar)."
+#: scripts/makepkg.sh.in:889
+msgid ""
+"Part of the package group has already been built. (use %s to overwrite)"
+msgstr "Del paketne skupine je že bil izgrajen. (uporabite %s za prepis)"
+
+#: scripts/makepkg.sh.in:941
+msgid "Make packages compatible for use with pacman"
+msgstr "Ustvari pakete primerne za uporabo s Pacman"
+
+#: scripts/makepkg.sh.in:943 scripts/pacman-db-upgrade.sh.in:42
+msgid "Usage: %s [options]"
+msgstr "Uporaba: %s [možnosti]"
+
+#: scripts/makepkg.sh.in:945 scripts/pacman-key.sh.in:81
+msgid "Options:"
+msgstr "Možnosti:"
+
+#: scripts/makepkg.sh.in:946
+msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
+msgstr "-A, --ignorearch Prezri nezaključena polja %s v %s"
+
+#: scripts/makepkg.sh.in:947
+msgid "  -c, --clean      Clean up work files after build"
+msgstr "-c, --clean Po izgradnji počisti delovne datoteke"
+
+#: scripts/makepkg.sh.in:948
+msgid "  -C, --cleanbuild Remove %s dir before building the package"
+msgstr "-C, --cleanbuild Odstraniti %s mapo pred gradnjo paketa"
 
 #: scripts/makepkg.sh.in:949
-msgid "Make packages compatible for use with pacman"
-msgstr "Facer os paquetes compatíbeis con Pacman."
+msgid "  -d, --nodeps     Skip all dependency checks"
+msgstr "-d, --nodeps Prezri vsa preverjanja odvisnosti"
 
-#: scripts/makepkg.sh.in:951 scripts/pacman-db-upgrade.sh.in:42
-msgid "Usage: %s [options]"
-msgstr "Sintaxe: %s [opcións]"
+#: scripts/makepkg.sh.in:950
+msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
+msgstr "-e, --noextract Ne razširi datotek izvorne kode (uporabi obstoječo mapo %s)"
 
-#: scripts/makepkg.sh.in:953 scripts/pacman-key.sh.in:81
-msgid "Options:"
-msgstr "Opcións:"
+#: scripts/makepkg.sh.in:951
+msgid "  -f, --force      Overwrite existing package"
+msgstr "-f, --force Prepiši obstoječi paket"
+
+#: scripts/makepkg.sh.in:952
+msgid "  -g, --geninteg   Generate integrity checks for source files"
+msgstr "-g, --geninteg Ustvari preverjanja celovitosti za datoteke izvorne kode"
+
+#: scripts/makepkg.sh.in:953
+msgid "  -h, --help       Show this help message and exit"
+msgstr "-h, --help Pokaži to sporočilo pomoči in končaj program"
 
 #: scripts/makepkg.sh.in:954
-msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
-msgstr "  -A, --ignorearch    Ignorar os campos «%s» incompletos en «%s»."
+msgid "  -i, --install    Install package after successful build"
+msgstr "-i, --install Po uspešni izgradnji namesti paket"
 
 #: scripts/makepkg.sh.in:955
-msgid "  -c, --clean      Clean up work files after build"
-msgstr ""
-"  -c, --clean         Limpar os ficheiros de traballo despois da construción."
+msgid "  -L, --log        Log package build process"
+msgstr "-L, --log Beleži proces izgradnje paketa"
 
 #: scripts/makepkg.sh.in:956
-msgid "  -C, --cleanbuild Remove %s dir before building the package"
-msgstr ""
-"  -C, --cleanbuild    Eliminar o cartafol «%s» antes de construír o paquete."
+msgid "  -m, --nocolor    Disable colorized output messages"
+msgstr "-m, --nocolor Onemogoči barvna izhodna sporočila"
 
 #: scripts/makepkg.sh.in:957
-msgid "  -d, --nodeps     Skip all dependency checks"
-msgstr "  -d, --nodeps        Saltarse as comprobacións de dependencias."
+msgid "  -o, --nobuild    Download and extract files only"
+msgstr "-o, --nobuild Datoteke zgolj prenesi in razširi"
 
 #: scripts/makepkg.sh.in:958
-msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
-msgstr ""
-"  -e, --noextract     Non extraer os ficheiros das fontes (usar o cartafol"
-"\\n                      «%s» existente)."
+msgid "  -p <file>        Use an alternate build script (instead of '%s')"
+msgstr "-p <datoteka> Uporabi alternativni skript (namesto '%s')"
 
 #: scripts/makepkg.sh.in:959
-msgid "  -f, --force      Overwrite existing package"
-msgstr ""
-"  -f, --force         Substituír calquera paquete previamente construído."
-
-#: scripts/makepkg.sh.in:960
-msgid "  -g, --geninteg   Generate integrity checks for source files"
-msgstr ""
-"  -g, --geninteg      Xerar comprobacións de integridade para os ficheiros "
-"fonte."
-
-#: scripts/makepkg.sh.in:961
-msgid "  -h, --help       Show this help message and exit"
-msgstr "  -h, --help          Mostrar esta mensaxe de axuda e saír."
-
-#: scripts/makepkg.sh.in:962
-msgid "  -i, --install    Install package after successful build"
-msgstr ""
-"  -i, --install       Instalar o paquete despois de construílo correctamente."
-
-#: scripts/makepkg.sh.in:963
-msgid "  -L, --log        Log package build process"
-msgstr "  -L, --log           Gardar un rexistro co proceso de construción."
-
-#: scripts/makepkg.sh.in:964
-msgid "  -m, --nocolor    Disable colorized output messages"
-msgstr "  -m, --nocolor       Desactivar as cores nas mensaxes de saída."
-
-#: scripts/makepkg.sh.in:965
-msgid "  -o, --nobuild    Download and extract files only"
-msgstr "  -o, --nobuild       Unicamente descargar e extraer os ficheiros."
-
-#: scripts/makepkg.sh.in:966
-msgid "  -p <file>        Use an alternate build script (instead of '%s')"
-msgstr ""
-"  -p <ficheiro>       Usar un script de construción alternativo (en vez de"
-"\\n                      «%s»)."
-
-#: scripts/makepkg.sh.in:967
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
-msgstr ""
-"  -r, --rmdeps        Eliminar as dependencias instaladas tras construír o"
-"\\n                      paquete correctamente."
+msgstr "-r, --rmdeps Po uspešni izgradnji odstrani nameščene odvisnosti"
 
-#: scripts/makepkg.sh.in:968
-msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
-msgstr ""
-"  -R, --repackage     Volver empaquetar o contido do paquete sen reconstruír."
+#: scripts/makepkg.sh.in:960
+msgid ""
+"  -R, --repackage  Repackage contents of the package without rebuilding"
+msgstr "-R, --repackage Ponovno pakiraj vsebino paketa, a brez ponovne izgradnje"
 
-#: scripts/makepkg.sh.in:969
+#: scripts/makepkg.sh.in:961
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
-msgstr "  -s, --syncdeps      Instalar as dependencias que faltan con «%s»."
+msgstr "-s, --syncdeps Namesti manjkajoče odvisnosti z %s"
 
-#: scripts/makepkg.sh.in:970
+#: scripts/makepkg.sh.in:962
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
-msgstr ""
-"  -S, --source        Xerar un arquivo coas fontes do paquete (sen os "
-"ficheiros\\n                      de fontes descargados)."
+msgstr "-S, --source Ustvari arhivsko datoteko zgolj izvorne kode, brez prenešenih virov"
 
-#: scripts/makepkg.sh.in:971
+#: scripts/makepkg.sh.in:963
 msgid "  -V, --version    Show version information and exit"
-msgstr "  -V, --version       Mostrar información sobre a versión e saír."
+msgstr "-V, --version Pokaži različico programa in izstopi"
 
-#: scripts/makepkg.sh.in:972
+#: scripts/makepkg.sh.in:964
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
-msgstr ""
-"  --allsource         Xerar un arquivo coas fontes do paquete incluíndo os"
-"\\n                      ficheiros de fontes descargados."
+msgstr "--allsource Ustvari arhivsko datoteko zgolj izvorne kode, vključno s prenešenimi viri"
+
+#: scripts/makepkg.sh.in:965
+msgid "  --check          Run the %s function in the %s"
+msgstr "--check Izvedi funkcijo %s v %s"
+
+#: scripts/makepkg.sh.in:966
+msgid "  --config <file>  Use an alternate config file (instead of '%s')"
+msgstr "--config <datoteka> Uporabi alternativno nastavitveno datoteko (namesto '%s')"
+
+#: scripts/makepkg.sh.in:967
+msgid "  --holdver        Do not update VCS sources"
+msgstr "--holdver Ne posodobi VCS virov"
+
+#: scripts/makepkg.sh.in:968
+msgid ""
+"  --key <key>      Specify a key to use for %s signing instead of the "
+"default"
+msgstr "--key <ključ> Navedite ključ, ki naj bo, namesto privzetega ključa, uporabljen za %s podpisovanje"
+
+#: scripts/makepkg.sh.in:969
+msgid "  --noarchive      Do not create package archive"
+msgstr "--noarchive Ne ustvari arhiv paketa"
+
+#: scripts/makepkg.sh.in:970
+msgid "  --nocheck        Do not run the %s function in the %s"
+msgstr "--nocheck Ne izvedi %s funkcije v %s"
+
+#: scripts/makepkg.sh.in:971
+msgid "  --noprepare      Do not run the %s function in the %s"
+msgstr "--noprepare Ne izvedi %s funkcije v %s"
+
+#: scripts/makepkg.sh.in:972
+msgid "  --nosign         Do not create a signature for the package"
+msgstr "--nosign Za paket ne ustvari podpisa"
 
 #: scripts/makepkg.sh.in:973
-msgid "  --check          Run the %s function in the %s"
-msgstr "  --check             Executar a función «%s» do «%s»."
-
-#: scripts/makepkg.sh.in:974
-msgid "  --config <file>  Use an alternate config file (instead of '%s')"
-msgstr ""
-"  --config <ficheiro> Usar un ficheiro de configuración alternativo (en vez "
-"de\\n                      «%s»)."
-
-#: scripts/makepkg.sh.in:975
-msgid "  --holdver        Do not update VCS sources"
-msgstr ""
-"  --holdver           Non actualizar as fontes obtidas dun sistema de "
-"control de\\n                      versións."
-
-#: scripts/makepkg.sh.in:976
-msgid ""
-"  --key <key>      Specify a key to use for %s signing instead of the default"
-msgstr ""
-"  --key <chave>       Indicar unha chave de asinado «%s» que usar en vez"
-"\\n                      da predeterminada."
-
-#: scripts/makepkg.sh.in:977
-msgid "  --noarchive      Do not create package archive"
-msgstr "  --noarchive         Non crear un arquivo de paquete."
-
-#: scripts/makepkg.sh.in:978
-msgid "  --nocheck        Do not run the %s function in the %s"
-msgstr "  --nocheck           Non executar a función «%s» do «%s»."
-
-#: scripts/makepkg.sh.in:979
-msgid "  --noprepare      Do not run the %s function in the %s"
-msgstr "  --noprepare         Non executar a función %s no %s."
-
-#: scripts/makepkg.sh.in:980
-msgid "  --nosign         Do not create a signature for the package"
-msgstr "  --nosign            Non crear unha sinatura para o paquete."
-
-#: scripts/makepkg.sh.in:981
 msgid "  --packagelist    Only list package filepaths that would be produced"
 msgstr ""
 
-#: scripts/makepkg.sh.in:982
+#: scripts/makepkg.sh.in:974
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
-msgstr "  --printsrcinfo   Imprimir o SRCINFO xerado e saír."
-
-#: scripts/makepkg.sh.in:983
-msgid "  --sign           Sign the resulting package with %s"
-msgstr "  --sign              Asinar o paquete resultante con «%s»."
-
-#: scripts/makepkg.sh.in:984
-msgid "  --skipchecksums  Do not verify checksums of the source files"
 msgstr ""
-"  --skipchecksums     Non comprobar as sumas de comprobación dos ficheiros de"
-"\\n                      fontes."
 
-#: scripts/makepkg.sh.in:985
+#: scripts/makepkg.sh.in:975
+msgid "  --sign           Sign the resulting package with %s"
+msgstr "--sign Podpiši proizvedeni paket z %s"
+
+#: scripts/makepkg.sh.in:976
+msgid "  --skipchecksums  Do not verify checksums of the source files"
+msgstr "--skipchecksums Ne preveri nadzorne vsote izvornih datotek"
+
+#: scripts/makepkg.sh.in:977
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
-msgstr ""
-"  --skipinteg         Non realizar ningunha verificación dos ficheiros de "
-"fontes."
+msgstr "--skipinteg Na izvornih datotekah ne izvedi nobenih preverjanj "
 
-#: scripts/makepkg.sh.in:986
+#: scripts/makepkg.sh.in:978
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
-msgstr ""
-"  --skippgpcheck      Non verificar os ficheiros de fontes con sinaturas PGP."
+msgstr "--skippgpcheck  Ne preverjaj izvornih datotek z PGP podpisi"
 
-#: scripts/makepkg.sh.in:987
+#: scripts/makepkg.sh.in:979
 msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
-msgstr ""
-"  --verifysource      Descargar os ficheiros de fontes (se non se descargaron"
-"\\n                      previamente) e comprobar a súa integridade."
+msgstr "--verifysource  Prenesi izvorne datoteke (če je potrebno) in opravi pregled celovitosti"
 
-#: scripts/makepkg.sh.in:989
+#: scripts/makepkg.sh.in:981
 msgid "These options can be passed to %s:"
-msgstr "As seguintes opcións pódenselle pasar a «%s»:"
+msgstr "Te možnosti so lahko posredovane do %s:"
 
-#: scripts/makepkg.sh.in:991
+#: scripts/makepkg.sh.in:983
 msgid "  --asdeps         Install packages as non-explicitly installed"
-msgstr ""
-"  --asdeps            Marcar os paquetes instalados como paquetes «instalados"
-"\\n                      indirectamente»."
+msgstr "--asdeps Namesti pakete kot neizrecno nameščene"
 
-#: scripts/makepkg.sh.in:992
+#: scripts/makepkg.sh.in:984
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
-msgstr ""
-"  --needed            Non instalar de novo os paquetes que xa estean ao día."
+msgstr "--needed Ne nameščaj ponovno paketov, ki so že posodobljeni"
 
-#: scripts/makepkg.sh.in:993
+#: scripts/makepkg.sh.in:985
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
-msgstr ""
-"  --noconfirm         Non pedir confirmación á hora de solucionar as"
-"\\n                      dependencias."
+msgstr "--noconfirm Ne sprašuj za potrditev pri razreševanju odvisnosti"
 
-#: scripts/makepkg.sh.in:994
+#: scripts/makepkg.sh.in:986
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
-msgstr ""
-"  --noprogressbar     Non mostrar unha barra de progreso ao descargar "
-"ficheiros."
+msgstr "--noprogressbar Pri prenosu datotek ne pokaži vrstice napredka"
 
-#: scripts/makepkg.sh.in:996
+#: scripts/makepkg.sh.in:988
 msgid "If %s is not specified, %s will look for '%s'"
-msgstr "Se non se usa o parámetro «%s», «%s» buscará un ficheiro co nome «%s»."
+msgstr "Če %s ni podan, bo %s iskal '%s'"
 
-#: scripts/makepkg.sh.in:1005 scripts/pacman-db-upgrade.sh.in:58
+#: scripts/makepkg.sh.in:997 scripts/pacman-db-upgrade.sh.in:58
 #: scripts/pacman-key.sh.in:96 scripts/repo-add.sh.in:101
 msgid ""
 "This is free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
 
-#: scripts/makepkg.sh.in:1106 scripts/repo-add.sh.in:607
+#: scripts/makepkg.sh.in:1098 scripts/repo-add.sh.in:607
 msgid "%s signal caught. Exiting..."
-msgstr "Detectouse o sinal «%s». Saíndo…"
+msgstr "Ujet je bil signala %s. Izhod..."
 
-#: scripts/makepkg.sh.in:1176
+#: scripts/makepkg.sh.in:1168
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
-msgstr ""
-"Non se permite executar «%s» como administrador porque pode\\ncausar dano "
-"permanente e catastrófico ao sistema."
+msgstr "Začeti %s kot root ni dovoljeno, saj lahko povzroči trajne,\\nkatastrofalne poškodbe vašemu sistem."
 
-#: scripts/makepkg.sh.in:1182
+#: scripts/makepkg.sh.in:1174
 msgid "Do not use the %s option. This option is only for internal use by %s."
 msgstr ""
 
-#: scripts/makepkg.sh.in:1197
+#: scripts/makepkg.sh.in:1189
 msgid "%s does not exist."
-msgstr "«%s» non existe."
+msgstr "%s ne obstaja."
 
-#: scripts/makepkg.sh.in:1202
+#: scripts/makepkg.sh.in:1194
 msgid "%s contains %s characters and cannot be sourced."
-msgstr "«%s» contén %s caracteres e non pode importarse."
+msgstr "%s vsebuje %znake in zanj ni možno ugotoviti vira."
 
-#: scripts/makepkg.sh.in:1207
+#: scripts/makepkg.sh.in:1199
 msgid "%s must be in the current working directory."
-msgstr "%s debe estar no cartafol de traballo actual."
+msgstr "%s mora biti v trenutnem delovnem imeniku."
 
-#: scripts/makepkg.sh.in:1285
+#: scripts/makepkg.sh.in:1277
 msgid "The key %s does not exist in your keyring."
-msgstr "A chave %s non existe no chaveiro."
+msgstr "Ključa %s ni v vašem obroču ključev."
 
-#: scripts/makepkg.sh.in:1287 scripts/repo-add.sh.in:145
+#: scripts/makepkg.sh.in:1279 scripts/repo-add.sh.in:145
 msgid "There is no key in your keyring."
-msgstr "O chaveiro está baleiro."
+msgstr "V vašem obroču ključev ni nobenega ključa."
 
-#: scripts/makepkg.sh.in:1311 scripts/makepkg.sh.in:1326
+#: scripts/makepkg.sh.in:1303 scripts/makepkg.sh.in:1318
 msgid "Leaving %s environment."
-msgstr "Saíndo do ambiente «%s»."
+msgstr "Zapuščanje okolja %s."
 
-#: scripts/makepkg.sh.in:1330
+#: scripts/makepkg.sh.in:1322
 msgid "Making package: %s"
-msgstr "Creando o paquete «%s»…"
+msgstr "Izdelava paketa: %s"
 
-#: scripts/makepkg.sh.in:1336
+#: scripts/makepkg.sh.in:1328
 msgid "A source package has already been built. (use %s to overwrite)"
-msgstr "Xa se construíu un paquete de fontes (use «%s» para forzar)."
+msgstr "Izvorni paket je bil že izgrajen. (uporabite %s za prepis)"
 
-#: scripts/makepkg.sh.in:1356
+#: scripts/makepkg.sh.in:1348
 msgid "Signing package..."
-msgstr "Asinando o paquete…"
+msgstr "Podpisujem paket..."
 
-#: scripts/makepkg.sh.in:1360
+#: scripts/makepkg.sh.in:1352
 msgid "Source package created: %s"
-msgstr "Creouse o paquete de fontes «%s»."
+msgstr "Ustvarjen je bil izvorni paket: %s"
+
+#: scripts/makepkg.sh.in:1358
+msgid "Skipping dependency checks."
+msgstr "Izpuščanje preverjanj odvisnosti."
 
 #: scripts/makepkg.sh.in:1366
-msgid "Skipping dependency checks."
-msgstr "Saltándose as comprobacións de dependencias."
-
-#: scripts/makepkg.sh.in:1374
 msgid "Checking runtime dependencies..."
-msgstr "Comprobando as dependencias en tempo de execución…"
+msgstr "Preverjanje izvajalne odvisnosti ..."
 
-#: scripts/makepkg.sh.in:1381
+#: scripts/makepkg.sh.in:1373
 msgid "Checking buildtime dependencies..."
-msgstr "Comprobando as dependencias en tempo de construción…"
+msgstr "Preverjanje izgradnih odvisnosti ..."
 
-#: scripts/makepkg.sh.in:1393
+#: scripts/makepkg.sh.in:1385
 msgid "Could not resolve all dependencies."
-msgstr "Non puideron satisfacerse todas as dependencias."
+msgstr "Ni bilo mogoče razrešiti vseh odvisnosti."
 
-#: scripts/makepkg.sh.in:1405
+#: scripts/makepkg.sh.in:1397
 msgid "Using existing %s tree"
-msgstr "Usando a árbore existente «%s»."
+msgstr "Uporaba obstoječega %s tree"
 
-#: scripts/makepkg.sh.in:1412 scripts/makepkg.sh.in:1440
+#: scripts/makepkg.sh.in:1404 scripts/makepkg.sh.in:1432
 msgid "Removing existing %s directory..."
-msgstr "Eliminando o cartafol existente «%s»…"
+msgstr "Odstranjevanje obstoječe mape %s ..."
 
-#: scripts/makepkg.sh.in:1435
+#: scripts/makepkg.sh.in:1427
 msgid "Sources are ready."
-msgstr "As fontes están listas."
+msgstr "Viri so pripravljeni."
 
-#: scripts/makepkg.sh.in:1462
+#: scripts/makepkg.sh.in:1454
 msgid "Package directory is ready."
-msgstr "O cartafol do paquete está listo."
+msgstr "Paketna mapa je pripravjena."
 
-#: scripts/makepkg.sh.in:1466
+#: scripts/makepkg.sh.in:1458
 msgid "Finished making: %s"
-msgstr "Rematouse a creación de «%s»."
+msgstr "Zaključek izdelave: %s"
 
 #: scripts/makepkg-template.pl.in:55
 #, perl-format
 msgid "can't create '%s': %s"
-msgstr "Non foi posíbel crear «%s»: %s"
+msgstr "Ne morem ustvariti '%s': %s"
 
 #: scripts/makepkg-template.pl.in:73
 msgid "invalid key/value pair\n"
-msgstr "O par clave-valor é incorrecto.\n"
+msgstr "neveljavni ključ/parna vrednost\n"
 
 #: scripts/makepkg-template.pl.in:82
 msgid "invalid template line: can't find template name\n"
-msgstr "A liña modelo é incorrecta: non é posíbel atopar o nome do modelo.\n"
+msgstr ""
 
 #: scripts/makepkg-template.pl.in:87
 #, perl-format
 msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-msgstr ""
-"Usáronse caracteres non permitidos no nome «%s». Permítense os seguintes: «[:"
-"alnum:]+_.@-».\n"
+msgstr "neveljavni znaki uporabljeni v imenu '%s'. dovoljeno: [:alnum:]+_.@-\n"
 
 #: scripts/makepkg-template.pl.in:114
 #, perl-format
 msgid "Couldn't detect version for template '%s'\n"
-msgstr "Non foi posíbel detectar a versión do modelo «%s».\n"
+msgstr ""
 
 #: scripts/makepkg-template.pl.in:125
 #, perl-format
 msgid "Failed to find template file matching '%s'\n"
 msgstr ""
-"Non foi posíbel atopar un ficheiro de modelo que se corresponda con «%s».\n"
 
 #: scripts/makepkg-template.pl.in:136
 #, perl-format
 msgid "failed to open '%s': %s\n"
-msgstr "non foi posíbel abrir «%s»: %s\n"
+msgstr "Napaka pri odpiranju ' 1%s ': 1%s\n"
 
 #: scripts/makepkg-template.pl.in:153
 #, perl-format
 msgid "Unknown template marker '%s'\n"
-msgstr "Descoñécese o marcador «%s» do modelo.\n"
+msgstr ""
 
 #: scripts/makepkg-template.pl.in:175
 msgid "makepkg-template [options]\n"
-msgstr "makepkg-template [opcións]\n"
+msgstr ""
 
 #: scripts/makepkg-template.pl.in:177
 msgid "Options:\n"
-msgstr "Opcións:\n"
+msgstr "Možnosti:\n"
 
 #: scripts/makepkg-template.pl.in:178
 #, perl-format
 msgid "  --input, -p <file>    Build script to read (default: %s)\n"
 msgstr ""
-"  --input, -p <ficheiro>\n"
-"                        Script de construción para ler (valor "
-"predeterminado: %s).\n"
 
 #: scripts/makepkg-template.pl.in:179
 msgid "  --output, -o <file>   file to output to (default: input file)\n"
 msgstr ""
-"  --output, -o <ficheiro>                           Ficheiro no que gardar a "
-"saída. Úsase o ficheiro de\n"
-"                        entrada de maneira predeterminada.\n"
 
 #: scripts/makepkg-template.pl.in:180
 msgid "  --newest, -n          update templates to newest version\n"
-msgstr "  --newest, -n          Actualizar os modelos á última versión.\n"
+msgstr ""
 
 #: scripts/makepkg-template.pl.in:181
 msgid ""
 "                        (default: use version specified in the template "
 "markers)\n"
 msgstr ""
-"                        (de maneira predeterminada úsase a versión dos\n"
-"                        marcadores do modelo).\n"
 
 #: scripts/makepkg-template.pl.in:182
 msgid "  --template-dir <dir>  directory to search for templates\n"
 msgstr ""
-"  --template-dir <cartafol>\n"
-"                        Cartafol no que buscar modelos.\n"
 
 #: scripts/makepkg-template.pl.in:183
 #, perl-format
 msgid "                        (default: %s)\n"
-msgstr "                        (valor predeterminado: %s)\n"
+msgstr "(privzeto: %s)\n"
 
 #: scripts/makepkg-template.pl.in:184
 msgid "  --help, -h            This help message\n"
-msgstr "  --help, -h            Mostra esta mensaxe de axuda.\n"
+msgstr "--help, -h To sporočilo pomoči\n"
 
 #: scripts/makepkg-template.pl.in:185
 msgid "  --version             Version information\n"
-msgstr "  --version             Información da versión.\n"
+msgstr "--version Informacije o različici\n"
 
 #: scripts/makepkg-template.pl.in:194
 msgid ""
@@ -642,381 +595,331 @@ msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:40
 msgid "Upgrade the local pacman database to a newer format"
-msgstr ""
-"Anovar a base de datos local de Pacman para que use un formato máis novo."
+msgstr "Nadgradi lokalno bazo podatkov pacman z novejšo obliko"
 
 #: scripts/pacman-db-upgrade.sh.in:44
 msgid "options:"
-msgstr "Opcións:"
+msgstr "možnosti:"
 
 #: scripts/pacman-db-upgrade.sh.in:45
 msgid "  -d, --dbpath <path>  set an alternate database location"
-msgstr "  -d, --dbpath <ruta>  Define a ruta dunha base de datos alternativa."
+msgstr ""
 
 #: scripts/pacman-db-upgrade.sh.in:46
 msgid "  -h, --help           show this help message and exit"
-msgstr "  -h, --help           Mostra esta mensaxe de axuda."
+msgstr "-h, --help pokaži to sporočilo pomoči in končaj program"
 
 #: scripts/pacman-db-upgrade.sh.in:47
 msgid "  -r, --root <path>    set an alternate installation root"
-msgstr ""
-"  -r, --root <ruta>    Define unha ruta raíz de instalación alternativa."
+msgstr "-r, -root <path> nastavi alternativno pot root inštalacije"
 
 #: scripts/pacman-db-upgrade.sh.in:48
 msgid "  -V, --version        show version information and exit"
-msgstr "  -V, --version        Mostra información da versión."
+msgstr "-V, --version pokazi informacije o različici in izhod"
 
 #: scripts/pacman-db-upgrade.sh.in:49
 msgid "  --config <path>      set an alternate configuration file"
-msgstr ""
-"  --config <ruta>      Definir un ficheiro de configuración alternativo."
+msgstr "--config <path> nastavi alternativno nastavitveno datoteko"
 
 #: scripts/pacman-db-upgrade.sh.in:50
 msgid "  --nocolor            disable colorized output messages"
-msgstr "  --nocolor            Desactiva o uso de cores nas mensaxes de saída."
+msgstr "--nocolor onemogoči barvna izhodna sporočila"
 
 #: scripts/pacman-db-upgrade.sh.in:123 scripts/repo-add.sh.in:400
 msgid "%s does not exist or is not a directory."
-msgstr "«%s» non existe ou non é un cartafol."
+msgstr "%s ne obstaja ali pa ni mapa."
 
 #: scripts/pacman-db-upgrade.sh.in:127
 msgid "%s is not a pacman database directory."
-msgstr "«%s» non é o cartafol dunha base de datos de Pacman."
+msgstr "%s ni mapa podatkovne baze pacman."
 
 #: scripts/pacman-db-upgrade.sh.in:131
 msgid "You must have correct permissions to upgrade the database."
-msgstr "Debe contar cos permisos necesarios para anovar a base de datos."
+msgstr "Za nadgraditev podatkovne baze morate imeti ustrezna dovoljenja."
 
 #: scripts/pacman-db-upgrade.sh.in:141
 msgid "Pacman lock file was found. Cannot run while pacman is running."
-msgstr ""
-"Atopouse o ficheiro de bloqueo de Pacman. Non pode executar este script ao "
-"mesmo tempo que executa Pacman."
+msgstr "Najdena je bila zaklenitvena datoteka pacman. Ni možno izvesti, medtem ko se pacman izvaja."
 
 #: scripts/pacman-db-upgrade.sh.in:153
 msgid "Pre-3.5 database format detected - upgrading..."
-msgstr ""
-"Detectouse que o formato da base de datos é anterior á versión 3.5. "
-"Anovándoo…"
+msgstr "Zaznan je bil format podatkovne baze, ki predhaja različici 3.5 - nadgrajevanje ..."
 
 #: scripts/pacman-db-upgrade.sh.in:160
 msgid "Done."
-msgstr "Listo."
+msgstr "Končano."
 
 #: scripts/pacman-db-upgrade.sh.in:164
 msgid "Pre-4.2 database format detected - upgrading..."
-msgstr ""
-"Detectouse un formato de base de datos anterior á versión 4.2, anovándoo…"
+msgstr "Zaznan je bil format podatkovne baze, ki pre-4.2 - nadgrajevanje..."
 
 #: scripts/pacman-db-upgrade.sh.in:186
 msgid "symlink '%s' points outside pacman root, manual repair required"
 msgstr ""
-"A ligazón simbólica «%s» apunta fóra da raíz de Pacman, debe solucionar o "
-"problema manualmente."
 
 #: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
-msgstr "Sintaxe: %s [opcións] operación [obxectivos]"
+msgstr ""
 
 #: scripts/pacman-key.sh.in:60
 msgid "Manage pacman's list of trusted keys"
-msgstr "Xestionar a lista de chaves de confianza de Pacman."
+msgstr "Upravljanje s pacmanovim seznamom zaupanja vrednih ključev"
 
 #: scripts/pacman-key.sh.in:62
 msgid "Operations:"
-msgstr "Operacións:"
+msgstr "Operacije:"
 
 #: scripts/pacman-key.sh.in:63
 msgid "  -a, --add                 Add the specified keys (empty for stdin)"
 msgstr ""
-"  -a, --add                 Engadir as chaves especificadas. Se non "
-"especifica\\n                            ningunha, leranse da entrada "
-"estándar (stdin)."
 
 #: scripts/pacman-key.sh.in:64
 msgid "  -d, --delete              Remove the specified keyids"
-msgstr ""
-"  -d, --delete              Eliminar os identificadores de chave indicados."
+msgstr "-d, --delete Zbriši določene keyids"
 
 #: scripts/pacman-key.sh.in:65
 msgid "  -e, --export              Export the specified or all keyids"
-msgstr ""
-"  -e, --export              Exportar os identificadores de chave indicados ou"
-"\\n                            todos eles."
+msgstr "-e, --export Izvozi določeno ali vse keyids"
 
 #: scripts/pacman-key.sh.in:66
 msgid ""
 "  -f, --finger              List fingerprint for specified or all keyids"
 msgstr ""
-"  -f, --finger              Listar as pegadas dixitais dos identificadores de"
-"\\n                            chave indicados ou de todos eles."
 
 #: scripts/pacman-key.sh.in:67
 msgid "  -l, --list-keys           List the specified or all keys"
-msgstr "  -l, --list-keys           Listar as chaves indicadas ou todas elas."
+msgstr ""
 
 #: scripts/pacman-key.sh.in:68
 msgid "  -r, --recv-keys           Fetch the specified keyids"
 msgstr ""
-"  -r, --recv-keys           Obter os identificadores de chave indicados."
 
 #: scripts/pacman-key.sh.in:69
 msgid "  -u, --updatedb            Update the trustdb of pacman"
 msgstr ""
-"  -u, --updatedb            Actualizar a táboa de confianza (trustdb) de "
-"Pacman."
 
 #: scripts/pacman-key.sh.in:70
 msgid ""
 "  -v, --verify              Verify the file(s) specified by the signature(s)"
 msgstr ""
-"  -v, --verify              Verificar os ficheiros indicados polas sinaturas."
 
 #: scripts/pacman-key.sh.in:71
 msgid ""
 "  --edit-key                Present a menu for key management task on keyids"
 msgstr ""
-"  --edit-key                Mostrar un menú para tarefas de xestión de "
-"chaves en\\n                            identificadores de chaves."
 
 #: scripts/pacman-key.sh.in:72
 msgid "  --import                  Imports pubring.gpg from dir(s)"
-msgstr "  --import                  Importa «pubring.gpg» dos cartafoles."
+msgstr ""
 
 #: scripts/pacman-key.sh.in:73
 msgid ""
 "  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
 "dir(s)"
 msgstr ""
-"  --import-trustdb          Importa os valores de confianza en propietarios"
-"\\n                            (ownertrust) de «trustdb.gpg» nos cartafoles."
 
 #: scripts/pacman-key.sh.in:74
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
-"  --init                    Asegúrase de que o chaveiro se cree "
-"correctamente."
 
 #: scripts/pacman-key.sh.in:75
 msgid "  --list-sigs               List keys and their signatures"
-msgstr "  --list-sigs               Lista chaves e mailas súas sinaturas."
+msgstr ""
 
 #: scripts/pacman-key.sh.in:76
 msgid "  --lsign-key               Locally sign the specified keyid"
 msgstr ""
-"  --lsign-key               Asina o identificador de chave indicado "
-"localmente."
 
 #: scripts/pacman-key.sh.in:77
 msgid ""
-"  --populate                Reload the default keys from the (given) keyrings"
-"\\n                            in '%s'"
+"  --populate                Reload the default keys from the (given) "
+"keyrings\\n                            in '%s'"
 msgstr ""
-"  --populate                Recargar as chaves predeterminadas dos chaveiros"
-"\\n                            indicados en «%s»."
 
 #: scripts/pacman-key.sh.in:79
 msgid ""
 "  --refresh-keys            Update specified or all keys from a keyserver"
 msgstr ""
-"  --refresh-keys            Actualizar as chaves indicadas ou todas desde un"
-"\\n                            servidor."
 
 #: scripts/pacman-key.sh.in:82
 msgid ""
-"  --config <file>           Use an alternate config file (instead of"
-"\\n                            '%s')"
+"  --config <file>           Use an alternate config file (instead of\\n"
+"                            '%s')"
 msgstr ""
-"  --config <ficheiro>       Usar un ficheiro de configuración alternativo "
-"(en vez de\\n                            «%s»)"
 
 #: scripts/pacman-key.sh.in:84
 msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
-"\\n                            of '%s')"
+"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\\n"
+"                            of '%s')"
 msgstr ""
-"  --gpgdir <cartafol>       Definir un cartafol alternativo para GnuPG (en "
-"vez\\n                            de «%s»)."
 
 #: scripts/pacman-key.sh.in:86
 msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
 msgstr ""
-"  --keyserver <URL>         Indique o servidor de chaves a usar se fose"
-"\\n                            necesario."
 
 #: scripts/pacman-key.sh.in:88
 msgid "  -h, --help                Show this help message and exit"
-msgstr "  -h, --help                Mostrar esta mensaxe de axuda e saír."
+msgstr "-h, --help Pokaži to sporočilo pomoči in končaj program"
 
 #: scripts/pacman-key.sh.in:89
 msgid "  -V, --version             Show program version"
-msgstr "  -V, --version             Mostrar a versión do programa."
+msgstr "-V, --version Pokaži različico programa"
 
 #: scripts/pacman-key.sh.in:131
 msgid "Failed to lookup key by name:"
-msgstr "Non foi posíbel atopar a chave polo nome:"
+msgstr "Napaka pri proizvedbi ključa z imenom:"
 
 #: scripts/pacman-key.sh.in:139
 msgid "Key name is ambiguous:"
-msgstr "O nome da chave é ambiguo."
+msgstr "Ime ključa je dvoumno:"
 
 #: scripts/pacman-key.sh.in:182
 msgid "The key identified by %s could not be found locally."
-msgstr "Non se atopou ningunha clave identificada como «%s» no sistema."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:235
+#: scripts/pacman-key.sh.in:229
 msgid "You do not have sufficient permissions to read the %s keyring."
-msgstr "Non ter permisos de lectura para o anel de chaves «%s»."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:236 scripts/pacman-key.sh.in:243
+#: scripts/pacman-key.sh.in:230 scripts/pacman-key.sh.in:237
 msgid "Use '%s' to correct the keyring permissions."
-msgstr "Use «%s» para corrixir os permisos do anel de chaves."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:242
+#: scripts/pacman-key.sh.in:236
 msgid "You do not have sufficient permissions to run this command."
-msgstr "Non ten permisos suficientes para executar esta orde."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:250
+#: scripts/pacman-key.sh.in:244
 msgid "There is no secret key available to sign with."
-msgstr "Non hai dispoñíbel ningunha chave secreta coa que asinar."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:251
+#: scripts/pacman-key.sh.in:245
 msgid "Use '%s' to generate a default secret key."
-msgstr "Use «%s» para xerar unha chave secreta predeterminada."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:270
+#: scripts/pacman-key.sh.in:264
 msgid "No keyring files exist in %s."
-msgstr "En «%s» non existen ficheiros de aneis de chaves."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:277
+#: scripts/pacman-key.sh.in:271
 msgid "The keyring file %s does not exist."
-msgstr "O ficheiro de anel de chaves «%s» non existe."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:292
+#: scripts/pacman-key.sh.in:286
 msgid "Appending keys from %s.gpg..."
-msgstr "Engadindo as chaves de «%s.gpg»…"
+msgstr ""
 
-#: scripts/pacman-key.sh.in:315
+#: scripts/pacman-key.sh.in:309
 msgid "Locally signing trusted keys in keyring..."
-msgstr "Asinando localmente as chaves de confianza do anel…"
+msgstr ""
 
-#: scripts/pacman-key.sh.in:317
+#: scripts/pacman-key.sh.in:311
 msgid "Importing owner trust values..."
-msgstr "Importando os valores de confianza do propietario…"
+msgstr "vnašanje lastniških zaupnih vrednosti..."
 
-#: scripts/pacman-key.sh.in:335
+#: scripts/pacman-key.sh.in:329
 msgid "Disabling revoked keys in keyring..."
-msgstr "Desactivando as chaves revogadas do anel…"
+msgstr ""
 
-#: scripts/pacman-key.sh.in:337
+#: scripts/pacman-key.sh.in:331
 msgid "Disabling key %s..."
-msgstr "Desactivando a chave «%s»…"
+msgstr "Izklopni ključ %s ..."
 
-#: scripts/pacman-key.sh.in:345
+#: scripts/pacman-key.sh.in:339
 msgid "A specified keyfile could not be added to the keyring."
 msgstr ""
-"Un dos ficheiros de anel de chaves indicado non puido engadirse ao anel de "
-"chaves."
 
-#: scripts/pacman-key.sh.in:353
+#: scripts/pacman-key.sh.in:347
 msgid "A specified key could not be removed from the keyring."
-msgstr "Unha das chaves indicadas non puido eliminarse do anel."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:363
+#: scripts/pacman-key.sh.in:357
 msgid "The key identified by %s could not be edited."
-msgstr "Non foi posíbel editar a chave con identificador «%s»."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:375
+#: scripts/pacman-key.sh.in:369
 msgid "A specified key could not be exported from the keyring."
-msgstr "Non foi posíbel exportar desde o anel unha das chaves indicadas."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:383
+#: scripts/pacman-key.sh.in:377
 msgid "The fingerprint of a specified key could not be determined."
 msgstr ""
-"Non foi posíbel determinar a pegada dixital dunha das chaves indicadas."
 
-#: scripts/pacman-key.sh.in:396 scripts/pacman-key.sh.in:415
+#: scripts/pacman-key.sh.in:390 scripts/pacman-key.sh.in:409
 msgid "%s could not be imported."
-msgstr "Non foi posíbel importar «%s»."
+msgstr "%s ne more biti vstavljeno."
 
-#: scripts/pacman-key.sh.in:400 scripts/pacman-key.sh.in:419
+#: scripts/pacman-key.sh.in:394 scripts/pacman-key.sh.in:413
 msgid "File %s does not exist and could not be imported."
-msgstr "O ficheiro «%s» non existe. Non foi posíbel importalo."
+msgstr "Datoteka %s ne obstaja ali ne more biti vnešena"
 
-#: scripts/pacman-key.sh.in:431
+#: scripts/pacman-key.sh.in:425
 msgid "A specified key could not be listed."
-msgstr "Non foi posíbel listar unha das chaves indicadas."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:439
+#: scripts/pacman-key.sh.in:433
 msgid "A specified signature could not be listed."
-msgstr "Non foi posíbel listar unha das sinaturas indicadas."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:449
+#: scripts/pacman-key.sh.in:443
 msgid "Locally signing key %s..."
-msgstr "Asinando a chave «%s» localmente…"
+msgstr ""
 
-#: scripts/pacman-key.sh.in:453
+#: scripts/pacman-key.sh.in:447
 msgid "%s could not be locally signed."
-msgstr "Non foi posíbel asinar «%s» localmente."
+msgstr "%s ni bilo mogoče lokalno podpisati."
 
-#: scripts/pacman-key.sh.in:480
+#: scripts/pacman-key.sh.in:474
 msgid "Remote key not fetched correctly from keyserver."
-msgstr "Non foi posíbel obter a chave remota correctamente do servidor."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:488
+#: scripts/pacman-key.sh.in:482
 msgid "A specified local key could not be updated from a keyserver."
 msgstr ""
-"Non foi posíbel actualizar unha das chaves locais indicadas usando o "
-"servidor."
 
-#: scripts/pacman-key.sh.in:506 scripts/repo-add.sh.in:273
+#: scripts/pacman-key.sh.in:500 scripts/repo-add.sh.in:273
 msgid "Cannot use armored signatures for packages: %s"
-msgstr "Non poden usarse sinaturas protexidas para paquetes: %s"
-
-#: scripts/pacman-key.sh.in:510
-msgid "The signature identified by %s could not be verified."
-msgstr "Non foi posíbel verificar a sinatura identificada como «%s»."
-
-#: scripts/pacman-key.sh.in:517
-msgid "Updating trust database..."
-msgstr "Actualizando a base de datos de confianza…"
-
-#: scripts/pacman-key.sh.in:519
-msgid "Trust database could not be updated."
-msgstr "Non foi posíbel actualizar a base de datos de confianza."
-
-#: scripts/pacman-key.sh.in:586
-msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
-"Non foi posíbel atopar o executábel «%s», necesario para todas as operacións "
-"de «%s»."
+
+#: scripts/pacman-key.sh.in:504
+msgid "The signature identified by %s could not be verified."
+msgstr ""
+
+#: scripts/pacman-key.sh.in:511
+msgid "Updating trust database..."
+msgstr "Posodabljanje zaupne baze podatkov..."
+
+#: scripts/pacman-key.sh.in:513
+msgid "Trust database could not be updated."
+msgstr "Zauone baze podatko ni moč posodobiti."
+
+#: scripts/pacman-key.sh.in:580
+msgid "Cannot find the %s binary required for all %s operations."
+msgstr "Ne najdem %s binarno datoteko potrebne za vse %s operacije."
+
+#: scripts/pacman-key.sh.in:585
+msgid "%s needs to be run as root for this operation."
+msgstr "%s je treba pognati kot root za to operacijo."
 
 #: scripts/pacman-key.sh.in:591
-msgid "%s needs to be run as root for this operation."
-msgstr ""
-"Para realizar esta operación, ten que executar «%s» como administrador "
-"(root)."
-
-#: scripts/pacman-key.sh.in:597
 msgid "%s configuration file '%s' not found."
-msgstr "%s non se atopou o ficheiro de configuración «%s»."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:618
+#: scripts/pacman-key.sh.in:612
 msgid "no operation specified (use -h for help)"
 msgstr ""
-"non indicou ningunha operación. Use o parámetro «-h» para máis información."
 
-#: scripts/pacman-key.sh.in:623
+#: scripts/pacman-key.sh.in:617
 msgid "Multiple operations specified."
-msgstr "Indicou máis dunha operación."
+msgstr ""
 
-#: scripts/pacman-key.sh.in:624
+#: scripts/pacman-key.sh.in:618
 msgid "Please run %s with each operation separately."
-msgstr "Execute «%s» con cada unha das operacións por separado."
+msgstr "Prosim zaženi %s z vsako peracijo posebej."
 
-#: scripts/pacman-key.sh.in:632
+#: scripts/pacman-key.sh.in:626
 msgid "No targets specified"
-msgstr "Non indicou ningún argumento."
+msgstr ""
 
 #: scripts/repo-add.sh.in:58
 msgid "Usage: repo-add [options] <path-to-db> <package> ...\\n"
@@ -1024,35 +927,30 @@ msgstr ""
 
 #: scripts/repo-add.sh.in:60
 msgid ""
-"repo-add will update a package database by reading a package file."
-"\\nMultiple packages to add can be specified on the command line.\\n"
-msgstr ""
-"repo-add actualizará unha base de datos de paquetes a partir dun ficheiro de "
-"paquete.\\nPode indicar varios paquetes para engadir."
+"repo-add will update a package database by reading a package "
+"file.\\nMultiple packages to add can be specified on the command line.\\n"
+msgstr "repo-add bo posodobil paketno podatkovno bazo z branjem paketne datoteke.\\nVeč paketov za dodajanje lahko podate v ukazni vrstici.\\n"
 
 #: scripts/repo-add.sh.in:64 scripts/repo-add.sh.in:76
 msgid "Options:\\n"
-msgstr "Opcións:\\n"
+msgstr "Možnosti:\\n"
 
 #: scripts/repo-add.sh.in:65
 msgid ""
-"  -n, --new         only add packages that are not already in the database\\n"
+"  -n, --new         only add packages that are not already in the "
+"database\\n"
 msgstr ""
-"  -n, --new         Só engadir paquetes que non estean xa na base de datos."
-"\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid ""
-"  -R, --remove      remove old package file from disk after updating database"
-"\\n"
+"  -R, --remove      remove old package file from disk after updating "
+"database\\n"
 msgstr ""
-"  -R, --remove      Eliminar do disco o ficheiro antigo do paquete"
-"\\n                    tras actualizar a base de datos.\\n"
 
 #: scripts/repo-add.sh.in:67
 msgid ""
-"  -p, --prevent-downgrade  do not add package to database if a newer version "
-"is already present\\n"
+"  -p, --prevent-downgrade  do not add package to database if a newer version"
+" is already present\\n"
 msgstr ""
 
 #: scripts/repo-add.sh.in:69
@@ -1061,100 +959,92 @@ msgstr ""
 
 #: scripts/repo-add.sh.in:71
 msgid ""
-"repo-remove will update a package database by removing the package name"
-"\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n"
-msgstr ""
-"repo-remove eliminará da base de datos de paquetes indicada o paquete co nome"
-"\\nindicado. Pode indicar varios paquetes para eliminar.\\n"
+"repo-remove will update a package database by removing the package "
+"name\\nspecified on the command line from the given repo database. "
+"Multiple\\npackages to remove can be specified on the command line.\\n"
+msgstr "repo-remove bo posodobil paketno podatkovno bazo z odstranitvijo ime paketa \\ndoločeno v ukazni vrstici od danega repo baze podatkov. Več\\npaketov se lahko določi za odstranitev v ukazni vrstici.\\n"
 
 #: scripts/repo-add.sh.in:78
 msgid "Please move along, there is nothing to see here.\\n"
-msgstr "Continúe, aquí non hai nada que ver.\\n"
+msgstr "Prosim premikaj se naprej, tukaj ni nič za vidit.\\n"
 
 #: scripts/repo-add.sh.in:81
 msgid "  --nocolor         turn off color in output\\n"
-msgstr ""
-"  --nocolor         Desactivar o uso de cores nas mensaxes de saída.\\n"
+msgstr "--nocolor izklop barve v izhodu\\n"
 
 #: scripts/repo-add.sh.in:82
 msgid "  -q, --quiet       minimize output\\n"
-msgstr "  -q, --quiet       Limitar a información da saída estándar.\\n"
+msgstr "-q, -quiet minimiziraj izhod \\n"
 
 #: scripts/repo-add.sh.in:83
 msgid "  -s, --sign        sign database with GnuPG after update\\n"
-msgstr ""
-"  -s, --sign        Asinar a base de datos con GnuPG tras a actualización.\\n"
+msgstr "-s, --sign Podpiši podatkovno bazo z GnuPG po posodobitvi\\n"
 
 #: scripts/repo-add.sh.in:84
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
-msgstr ""
-"  -k, --key <chave> Usar a chave indicada para asinar a base de datos.\\n"
+msgstr "-k --key <ključ> uporabi določen ključ za podpisovanje baze podatkov\\n"
 
 #: scripts/repo-add.sh.in:85
 msgid "  -v, --verify      verify database's signature before update\\n"
-msgstr ""
-"  -v, --verify      Verificar a sinatura da base de datos antes de "
-"actualizala.\\n"
+msgstr "-v, --verify preveri podpis podatkovne baze prez posodobitev\\n"
 
 #: scripts/repo-add.sh.in:86
 msgid ""
 "\\nSee %s(8) for more details and descriptions of the available options.\\n"
-msgstr "\\nVéxase %s(8) para máis información sobre as opcións dispoñíbeis.\\n"
+msgstr "\\nGlej %s(8) za več podrobnosti in opise razpoložljivih možnosti.\\n"
 
 #: scripts/repo-add.sh.in:90
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
-msgstr ""
-"Exemplo:  repo-add /ruta/a/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
+msgstr "Primer: repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 
 #: scripts/repo-add.sh.in:92
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
-msgstr "Exemplo:  repo-remove /ruta/a/repo.db.tar.gz kernel26\\n"
+msgstr "Primer: repo-remove /path/to/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:136
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
-msgstr "Non foi posíbel atopar o executábel «gpg». Instalou GnuPG?"
+msgstr "Ne najdem gpg binarno! Je GnuPG nameščen?"
 
 #: scripts/repo-add.sh.in:157
 msgid "Signing database '%s'..."
-msgstr "Asinando a base de datos «%s»…"
+msgstr "Podpisovanje baze '%s'..."
 
 #: scripts/repo-add.sh.in:166
 msgid "Created signature file '%s'"
-msgstr "Creouse o ficheiro de sinatura «%s»."
+msgstr "Ustvaril podpis datoteke '%s'"
 
 #: scripts/repo-add.sh.in:168
 msgid "Failed to sign package database file '%s'"
-msgstr "Non foi posíbel asinar o ficheiro de base de datos de paquetes «%s»."
+msgstr "Napaka podpisovanja paketa, datoteke baze '%s'"
 
 #: scripts/repo-add.sh.in:177
 msgid "Verifying database signature..."
-msgstr "Verificando a sinatura da base de datos…"
+msgstr "Preverjanje podpisa podatkovne baze..."
 
 #: scripts/repo-add.sh.in:180
 msgid "No existing signature found, skipping verification."
-msgstr "Non se atopou ningunha sinatura, omitiuse o paso de verificación."
+msgstr "Ni obstoječega podpisa, preskoči preverjanje."
 
 #: scripts/repo-add.sh.in:185
 msgid "Database signature file verified."
-msgstr "Verificouse o ficheiro de sinatura da base de datos."
+msgstr "Podpis datoteka baze podatkov je preverjena."
 
 #: scripts/repo-add.sh.in:187
 msgid "Database signature was NOT valid!"
-msgstr "A sinatura da base de datos non é correcta!"
+msgstr "Podpis podatkovne baze NI bil ustrezen!"
 
 #: scripts/repo-add.sh.in:202
 msgid "'%s' does not have a valid database archive extension."
-msgstr "«%s» non ten unha extensión de arquivo de base de datos válida."
+msgstr ""
 
 #: scripts/repo-add.sh.in:243
 msgid "Invalid package file '%s'."
-msgstr "O ficheiro «%s» do paquete non é válido."
+msgstr "Neveljaven paket datoteka '%s'."
 
 #: scripts/repo-add.sh.in:248
 msgid "An entry for '%s' already existed"
-msgstr "Xa existía unha entrada para «%s»."
+msgstr "Vnos za '%s' je že obstajal"
 
 #: scripts/repo-add.sh.in:258
 msgid "A newer version for '%s' is already present in database"
@@ -1162,40 +1052,39 @@ msgstr ""
 
 #: scripts/repo-add.sh.in:278
 msgid "Invalid package signature file '%s'."
-msgstr "O ficheiro de sinatura de paquete «%s» non é válido."
+msgstr "Neveljaven podpis paketne datoteke '%s'."
 
 #: scripts/repo-add.sh.in:281
 msgid "Adding package signature..."
-msgstr "Engadindo a sinatura do paquete…"
+msgstr "Dodajanje podpis paketa..."
 
 #: scripts/repo-add.sh.in:288
 msgid "Computing checksums..."
-msgstr "Xerando as sumas de verificación…"
+msgstr "Računanje kontrolne vsote..."
 
 #: scripts/repo-add.sh.in:303 scripts/repo-add.sh.in:343
 msgid "Creating '%s' db entry..."
-msgstr "Creando a entrada «%s» da base de datos…"
+msgstr "Ustvarjam '%s' bazni vnos..."
 
 #: scripts/repo-add.sh.in:349
 msgid "Removing old package file '%s'"
-msgstr "Eliminando o ficheiro anterior do paquete, «%s»."
+msgstr "Odstranjevanje starih paketnih datotek '%s'"
 
 #: scripts/repo-add.sh.in:365
 msgid "Removing existing entry '%s'..."
-msgstr "Eliminando a entrada «%s»…"
+msgstr "Odstranjevanje obstoječih vpisov '%s'..."
 
 #: scripts/repo-add.sh.in:408
 msgid "Failed to acquire lockfile: %s."
-msgstr "Non foi posíbel reservar a base de datos: %s."
+msgstr ""
 
 #: scripts/repo-add.sh.in:409
 msgid "Held by process %s"
-msgstr "O proceso «%s» está a usala."
+msgstr "Ustavljen pri procesu %s"
 
 #: scripts/repo-add.sh.in:422
 msgid "Repository file '%s' is not a proper pacman database."
 msgstr ""
-"O ficheiro de repositorio «%s» non é unha base de datos de Pacman válida."
 
 #: scripts/repo-add.sh.in:427
 msgid "Extracting %s to a temporary location..."
@@ -1203,191 +1092,188 @@ msgstr ""
 
 #: scripts/repo-add.sh.in:435
 msgid "Repository file '%s' was not found."
-msgstr "Non se atopou o ficheiro de repositorio «%s»."
+msgstr ""
 
 #: scripts/repo-add.sh.in:442
 msgid "Repository file '%s' could not be created."
-msgstr "Non foi posíbel crear o ficheiro de repositorio «%s»."
+msgstr ""
 
 #: scripts/repo-add.sh.in:454
 msgid "File '%s' not found."
-msgstr "Non foi posíbel atopar o ficheiro «%s»."
+msgstr "Ne more najti datoteke '%s'"
 
 #: scripts/repo-add.sh.in:460
 msgid "'%s' is not a package file, skipping"
-msgstr "«%s» omitiuse por non ser un ficheiro de paquete."
+msgstr "'%s' ni paket, prezri"
 
 #: scripts/repo-add.sh.in:464
 msgid "Adding package '%s'"
-msgstr "Engadindo o paquete «%s»…"
+msgstr "Dodajam pakete '%s'"
 
 #: scripts/repo-add.sh.in:471
 msgid "Searching for package '%s'..."
-msgstr "Buscando o paquete «%s»…"
+msgstr "Iskanje paketa '%s' v teku..."
 
 #: scripts/repo-add.sh.in:474
 msgid "Package matching '%s' not found."
-msgstr "Non se atopou o paquete «%s»."
+msgstr "Ni bilo mogoče najti nobenega paketa, ki ustreza '%s'."
 
 #: scripts/repo-add.sh.in:540
 msgid "No packages remain, creating empty database."
-msgstr "Non quedan paquetes, creando unha base de datos baleira."
+msgstr ""
 
 #: scripts/repo-add.sh.in:593
 msgid "Invalid command name '%s' specified."
-msgstr "A orde indicada, «%s», non é válida."
+msgstr "Naveden ukaz '%s' ni veljaven."
 
 #: scripts/repo-add.sh.in:598
 msgid "Cannot create temp directory for database building."
-msgstr ""
-"Non foi posíbel crear un cartafol temporal para construír a base de datos."
+msgstr "Ne morete ustvariti začasno mapo za izgradnjo podatkovne baze."
 
 #: scripts/repo-add.sh.in:693
 msgid "Creating updated database file '%s'"
-msgstr "Creouse un ficheiro de base de datos actualizado: «%s»."
+msgstr "Ustvarja posodobljeno podatkovno bazo '%s'"
 
 #: scripts/repo-add.sh.in:697
 msgid "No packages modified, nothing to do."
-msgstr "Non se modificou ningún paquete, non hai que facer nada."
+msgstr ""
 
 #: scripts/libmakepkg/integrity.sh.in:34
 msgid "Skipping all source file integrity checks."
-msgstr "Saltando as comprobacións de integridade dos ficheiros fonte."
+msgstr "Vsa preverjanja integritete izvorne datoteke, bodo izpuščena."
 
 #: scripts/libmakepkg/integrity.sh.in:36
 msgid "Skipping verification of source file checksums."
-msgstr "Saltando a verificación das sumas de comprobación dos ficheiros fonte."
+msgstr "Preverjanje kontrolne vsote izvorne datoteke, bo izpuščeno."
 
 #: scripts/libmakepkg/integrity.sh.in:39
 msgid "Skipping verification of source file PGP signatures."
-msgstr "Saltando a verificación das sinaturas PGP dos ficheiros fonte."
+msgstr "Preverjanje podpisov izvorne datoteke PGP, bo izpuščeno."
 
 #: scripts/libmakepkg/integrity/generate_checksum.sh.in:82
 msgid "Generating checksums for source files..."
-msgstr "Xerando as sumas de comprobación dos ficheiros fonte…"
+msgstr "Ustvarjanje kontrolnih vsot izvornih datotek..."
 
 #: scripts/libmakepkg/integrity/generate_checksum.sh.in:94
 msgid "Invalid integrity algorithm '%s' specified."
-msgstr "O algoritmo de integridade «%s» non é compatíbel."
+msgstr "Algoritem, podan za preverjanje integritete '%s' , je neveljaven."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:41
 msgid "Created signature file %s."
-msgstr "Creouse o ficheiro de sinatura «%s»."
+msgstr "Ustvarjena signaturna datoteka %s."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:43
 msgid "Failed to sign package file %s."
-msgstr ""
+msgstr "Napaka podpisovanja paketa %s."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:58
 msgid "Signing package(s)..."
-msgstr ""
+msgstr "Podpisujem paket(e)..."
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:65
 msgid "Integrity checks are missing for: %s"
-msgstr "Faltan as probas de validación para: %s"
+msgstr "Manjka integracijsko preverjanje za: %s"
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:77
 msgid "Skipped"
-msgstr "Saltado"
+msgstr "Preskočeno"
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:82
 msgid "NOT FOUND"
-msgstr "Non atopado"
+msgstr "NI MOGOČE NAJTI."
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:89
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:90
 msgid "Passed"
-msgstr "Verificado"
+msgstr "Opravljeno"
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:91
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:66
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:84
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:87
 msgid "FAILED"
-msgstr "Incorrecto"
+msgstr "SPODLETELO"
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:115
 msgid "Validating %s files with %s..."
-msgstr "Validando os ficheiros de %s con %s…"
+msgstr "Validacija %s datoteke z %s ..."
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:122
 msgid "One or more files did not pass the validity check!"
-msgstr "Un ou máis ficheiros non pasaron a proba de verificación."
+msgstr "Eden ali več datotek ni prestalo preverjanja!"
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:126
 msgid "Integrity checks (%s) differ in size from the source array."
-msgstr ""
-"O número de sumas de comprobación (%s) e distinto do número de ficheiros "
-"fonte."
+msgstr "Preverjanja integritete (%s), se razlikuje od izvora po velikosti."
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:33
 msgid "Verifying source file signatures with %s..."
-msgstr "Verificando as sinaturas dos ficheiros fontes con «%s»…"
+msgstr "Preverjanje podpisa izvorne datoteke s %s..."
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:69
 msgid "unknown public key"
-msgstr "chave pública descoñecida."
+msgstr "neznan javni ključ"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:72
 msgid "public key %s has been revoked"
-msgstr "A chave pública «%s» foi revogada."
+msgstr "javni kjuč %s je bil preklican"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:75
 msgid "bad signature from public key"
-msgstr "A sinatura da chave pública é incorrecta."
+msgstr "slab podpis od javnega ključa"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:78
 msgid "error during signature verification"
-msgstr "Produciuse un erro durante a verificación da sinatura."
+msgstr "napaka pri preverjanju podpisa"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:84
 msgid "the public key %s is not trusted"
-msgstr "Non se confía na chave pública «%s»."
+msgstr "javni ključ %s ni vreden zaupanja"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:87
 msgid "invalid public key"
-msgstr "A chave pública non é correcta."
+msgstr "neveljaven javni ključ"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:93
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:97
 #: scripts/libmakepkg/util/message.sh.in:71
 msgid "WARNING:"
-msgstr "Aviso:"
+msgstr "OPOZORILO:"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:93
 msgid "the signature has expired."
-msgstr "A sinatura caducou."
+msgstr "podpis je potekel."
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:97
 msgid "the key has expired."
-msgstr "A chave caducou."
+msgstr "ključ je potekel."
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:109
 msgid "One or more PGP signatures could not be verified!"
-msgstr "Non foi posíbel verificar unha ou máis sinaturas PGP."
+msgstr "Enega ali več PGP podpisov ni mogoče preveriti!"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:114
 msgid "Warnings have occurred while verifying the signatures."
-msgstr "Apareceron avisos durante a verificación das sinaturas."
+msgstr "Pri preverjanju podpisov je prišlo do opozoril."
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:115
 msgid "Please make sure you really trust them."
-msgstr "Asegúrese de que son de confianza."
+msgstr "Prosimo prepričajte se, da jim res zaupate."
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:131
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:193
 msgid "SIGNATURE NOT FOUND"
-msgstr "Non se atopou a sinatura"
+msgstr "PODPISA NI MOGOČE NAJTI"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:144
 msgid "SOURCE FILE NOT FOUND"
-msgstr "Non se atopou o ficheiro"
+msgstr "IZVORNE DATOTEKE NI MOGOČE NAJTI"
 
 #: scripts/libmakepkg/lint_config/paths.sh.in:39
 #: scripts/libmakepkg/lint_pkgbuild/arch.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/pkgname.sh.in:53
 msgid "%s contains invalid characters: '%s'"
-msgstr "«%s» contén caracteres non válidos: «%s»."
+msgstr "%s vsebuje neveljavne znake: '%s'"
 
 #: scripts/libmakepkg/lint_config/variable.sh.in:47
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:40
@@ -1395,17 +1281,13 @@ msgstr "«%s» contén caracteres non válidos: «%s»."
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr "%s debería ser unha matriz."
+msgstr "%s naj bi bila matrika"
 
 #: scripts/libmakepkg/lint_config/variable.sh.in:57
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:62
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:90
 msgid "%s should not be an array"
-msgstr "%s non debería ser unha matriz."
-
-#: scripts/libmakepkg/lint_config/variable.sh.in:66
-msgid "PACKAGER should have the format 'Example Name <email@address.invalid>'"
-msgstr ""
+msgstr "%s naj nebi bila matrika"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
 msgid "Checking for packaging issues..."
@@ -1413,7 +1295,7 @@ msgstr ""
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
 msgid "Package contains reference to %s"
-msgstr "O paquete contén unha referencia a «%s»."
+msgstr "Paket vsebuje sklic na %s"
 
 #: scripts/libmakepkg/lint_package/dotfiles.sh.in:34
 msgid "Dotfile found in package root '%s'"
@@ -1425,7 +1307,7 @@ msgstr ""
 
 #: scripts/libmakepkg/lint_package/missing_backup.sh.in:35
 msgid "%s entry file not in package : %s"
-msgstr "A entrada de ficheiro «%s» non está no paquete: %s"
+msgstr "%s vnosne datoteke ni v paketu : %s"
 
 #: scripts/libmakepkg/lint_pkgbuild/arch.sh.in:40
 msgid "Can not use '%s' architecture with other architectures"
@@ -1434,19 +1316,19 @@ msgstr ""
 #: scripts/libmakepkg/lint_pkgbuild/arch.sh.in:54
 #: scripts/libmakepkg/lint_pkgbuild/arch.sh.in:62
 msgid "%s is not available for the '%s' architecture."
-msgstr "«%s» non está dispoñíbel para a arquitectura «%s»."
+msgstr "%s ni na voljo za arhitekturo '%s'."
 
 #: scripts/libmakepkg/lint_pkgbuild/backup.sh.in:45
 msgid "%s entry should not contain leading slash : %s"
-msgstr "A entrada «%s» non pode empezar por unha barra inclinada: %s"
+msgstr "Vnos %s ne sme vsebovati začetne poševnice : %s"
 
 #: scripts/libmakepkg/lint_pkgbuild/epoch.sh.in:36
 msgid "%s must be an integer, not %s."
-msgstr "%s debe ser un valor enteiro, non %s."
+msgstr "%s mora biti celo števino, ne %."
 
 #: scripts/libmakepkg/lint_pkgbuild/options.sh.in:52
 msgid "%s array contains unknown option '%s'"
-msgstr "A matriz «%s» contén unha opción descoñecida: «%s»."
+msgstr "Polje %s vsebuje neznano možnost '%s'"
 
 #: scripts/libmakepkg/lint_pkgbuild/package_function.sh.in:38
 msgid "Conflicting %s and %s functions in %s"
@@ -1454,7 +1336,7 @@ msgstr ""
 
 #: scripts/libmakepkg/lint_pkgbuild/package_function.sh.in:41
 msgid "Missing %s function in %s"
-msgstr "Falta a función %s en %s."
+msgstr "Manjka %s funkcija v %s"
 
 #: scripts/libmakepkg/lint_pkgbuild/package_function.sh.in:46
 msgid "Extra %s function for split package '%s'"
@@ -1462,31 +1344,31 @@ msgstr ""
 
 #: scripts/libmakepkg/lint_pkgbuild/package_function.sh.in:51
 msgid "Missing %s function for split package '%s'"
-msgstr "Fáltalle a función «%s» ao paquete múltiple «%s»."
+msgstr "Za deljeni paket '%s' manjka funkcija %s"
 
 #: scripts/libmakepkg/lint_pkgbuild/pkglist.sh.in:38
 msgid "Requested package %s is not provided in %s"
-msgstr "O paquete solicitado, «%s», non está dispoñíbel en «%s»."
+msgstr "Zahtevani paket %s ni na voljo v %s"
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgname.sh.in:37
 #: scripts/libmakepkg/lint_pkgbuild/pkgname.sh.in:65
 #: scripts/libmakepkg/lint_pkgbuild/pkgrel.sh.in:35
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:36
 msgid "%s is not allowed to be empty."
-msgstr "«%s» non pode quedar baleiro."
+msgstr "%s ne sme biti prazno."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgname.sh.in:41
 msgid "%s is not allowed to start with a hyphen."
-msgstr "«%s» non pode comezar cun guión."
+msgstr "%s se ne sme začeti z vezajem."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgname.sh.in:45
 msgid "%s is not allowed to start with a dot."
-msgstr "«%s» non pode comezar cun punto."
+msgstr "%s se ne sme začeti z piko."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgname.sh.in:49
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:46
 msgid "%s may only contain ascii characters."
-msgstr ""
+msgstr "%s lahko vsebuje samo ascii znake."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgrel.sh.in:40
 msgid "%s must be of the form 'integer[.integer]', not %s."
@@ -1499,112 +1381,115 @@ msgstr ""
 
 #: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:46
 msgid "%s array cannot contain comparison (< or >) operators."
-msgstr "A matriz «%s» non pode conter operadores de comparación («<» ou «>»)."
+msgstr "polje %s ne sme vsebovati primerjalnih (< or >) operatorjev."
 
 #: scripts/libmakepkg/lint_pkgbuild/source.sh.in:36
 msgid "Sparse arrays are not allowed for source"
-msgstr "A variábel «source» non admite valores nulos."
+msgstr "Redki nizi niso dovoljeni za viru"
 
 #: scripts/libmakepkg/lint_pkgbuild/util.sh.in:34
 msgid "%s file (%s) does not exist or is not a regular file."
-msgstr "O ficheiro %s (%s) non existe ou non é un ficheiro normal."
+msgstr "datoteka %s (%s) ne obstaja ali pa ni normalna datoteka."
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
-msgstr "Obtendo as fontes…"
+msgstr "Pridobivanje virov..."
 
 #: scripts/libmakepkg/source.sh.in:73
 msgid "Extracting sources..."
-msgstr "Extraendo as fontes…"
+msgstr "Izvažanje virov..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:52
 msgid "Branching %s..."
-msgstr "Creando unha rama a partir de %s…"
+msgstr ""
 
 #: scripts/libmakepkg/source/bzr.sh.in:54
 msgid "Failure while branching %s"
-msgstr "Non foi posíbel crear unha rama para «%s»…"
+msgstr "Napaka med ustvarjanjem datoteke %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:59
 msgid "Pulling %s..."
-msgstr "Descargando %s…"
+msgstr ""
 
 #: scripts/libmakepkg/source/bzr.sh.in:63
 msgid "Failure while pulling %s"
-msgstr "Produciuse un erro ao obter «%s»."
+msgstr "Med prenosom %s, je prišlo do napake"
 
 #: scripts/libmakepkg/source/bzr.sh.in:85
 #: scripts/libmakepkg/source/git.sh.in:112
-#: scripts/libmakepkg/source/hg.sh.in:93 scripts/libmakepkg/source/svn.sh.in:62
+#: scripts/libmakepkg/source/hg.sh.in:93
+#: scripts/libmakepkg/source/svn.sh.in:62
 msgid "Unrecognized reference: %s"
-msgstr "Referencia descoñecida: %s"
+msgstr "Neprepoznan sklic: %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:94
-#: scripts/libmakepkg/source/git.sh.in:81 scripts/libmakepkg/source/hg.sh.in:79
+#: scripts/libmakepkg/source/git.sh.in:81
+#: scripts/libmakepkg/source/hg.sh.in:79
 #: scripts/libmakepkg/source/svn.sh.in:95
 msgid "Creating working copy of %s %s repo..."
-msgstr "Creando unha copia de traballo do repositorio %s %s…"
+msgstr "Ustvarjanje delovne kopije od %s %s repo..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:100
 #: scripts/libmakepkg/source/git.sh.in:89
 #: scripts/libmakepkg/source/hg.sh.in:102
 msgid "Failure while updating working copy of %s %s repo"
-msgstr ""
-"Produciuse un erro durante a actualización da copia local do repositorio «%s "
-"%s»."
+msgstr "Napaka med posodabljanjem delovne kopije od %s %s repo"
 
 #: scripts/libmakepkg/source/bzr.sh.in:105
 #: scripts/libmakepkg/source/git.sh.in:95
 #: scripts/libmakepkg/source/git.sh.in:129
 #: scripts/libmakepkg/source/hg.sh.in:107
 msgid "Failure while creating working copy of %s %s repo"
-msgstr ""
-"Produciuse un erro ao crear unha copia de traballo do repositorio %s %s."
+msgstr "Neuspeh pri ustvarjanju delovne kopije od %s %s repo"
 
 #: scripts/libmakepkg/source/file.sh.in:36
 #: scripts/libmakepkg/source/local.sh.in:36
 msgid "Found %s"
-msgstr "Atopouse «%s»."
+msgstr "Najdeno %s"
 
 #: scripts/libmakepkg/source/file.sh.in:55
 msgid "Downloading %s..."
-msgstr "Descargando «%s»…"
+msgstr "Prenašanje %s..."
 
 #: scripts/libmakepkg/source/file.sh.in:74
 msgid "Failure while downloading %s"
-msgstr "Produciuse un erro ao descargar «%s»…"
+msgstr "Med prenosom %s, je prišlo do napake"
 
 #: scripts/libmakepkg/source/file.sh.in:130
 msgid "Extracting %s with %s"
-msgstr "Extraendo «%s» con «%s»."
+msgstr "Izvažanje %s s/z %s"
 
 #: scripts/libmakepkg/source/file.sh.in:138
 msgid "Failed to extract %s"
-msgstr "Non foi posíbel extraer «%s»."
+msgstr "Izvažanje %s, je spodletelo"
 
-#: scripts/libmakepkg/source/git.sh.in:50 scripts/libmakepkg/source/hg.sh.in:49
+#: scripts/libmakepkg/source/git.sh.in:50
+#: scripts/libmakepkg/source/hg.sh.in:49
 #: scripts/libmakepkg/source/svn.sh.in:69
 msgid "Cloning %s %s repo..."
-msgstr "Clonando o repositorio %s %s…"
+msgstr "Cloning %s %s repo..."
 
-#: scripts/libmakepkg/source/git.sh.in:52 scripts/libmakepkg/source/hg.sh.in:51
+#: scripts/libmakepkg/source/git.sh.in:52
+#: scripts/libmakepkg/source/hg.sh.in:51
 #: scripts/libmakepkg/source/svn.sh.in:72
 msgid "Failure while downloading %s %s repo"
-msgstr "Produciuse un erro ao descargar o repositorio %s %s."
+msgstr "Napaka pri prenosu %s %s repo"
 
 #: scripts/libmakepkg/source/git.sh.in:60
 msgid "%s is not a clone of %s"
-msgstr "%s non é un clon de %s."
+msgstr "%s ni clone od %s"
 
-#: scripts/libmakepkg/source/git.sh.in:64 scripts/libmakepkg/source/hg.sh.in:56
+#: scripts/libmakepkg/source/git.sh.in:64
+#: scripts/libmakepkg/source/hg.sh.in:56
 #: scripts/libmakepkg/source/svn.sh.in:77
 msgid "Updating %s %s repo..."
-msgstr "Actualizando o repositorio %s %s…"
+msgstr "Posodabljanje %s %s repo..."
 
-#: scripts/libmakepkg/source/git.sh.in:67 scripts/libmakepkg/source/hg.sh.in:60
+#: scripts/libmakepkg/source/git.sh.in:67
+#: scripts/libmakepkg/source/hg.sh.in:60
 #: scripts/libmakepkg/source/svn.sh.in:81
 msgid "Failure while updating %s %s repo"
-msgstr "Produciuse un erro ao actualizar o repositorio %s %s."
+msgstr "Napaka pri posodabljanju %s %s repo..."
 
 #: scripts/libmakepkg/source/git.sh.in:121
 msgid "Failure while checking out version %s, the git tag has been forged"
@@ -1612,84 +1497,84 @@ msgstr ""
 
 #: scripts/libmakepkg/source/local.sh.in:39
 msgid "%s was not found in the build directory and is not a URL."
-msgstr "«%s» non se atopou no cartafol de construción e non é un URL."
+msgstr "%s ni bil najden v izgraditveni mapi in ni URL naslov"
 
 #: scripts/libmakepkg/tidy.sh.in:41
 msgid "Tidying install..."
-msgstr "Limpando a instalación…"
+msgstr "Urejanje namestitve.."
 
 #: scripts/libmakepkg/tidy/docs.sh.in:34
 msgid "Removing doc files..."
-msgstr "Eliminando os ficheiros de documentación…"
+msgstr "Odstranjevanje datotek doc..."
 
 #: scripts/libmakepkg/tidy/emptydirs.sh.in:35
 msgid "Removing empty directories..."
-msgstr "Eliminando os cartafoles baleiros…"
+msgstr "Odstranjevanje praznih map ..."
 
 #: scripts/libmakepkg/tidy/libtool.sh.in:35
 msgid "Removing %s files..."
-msgstr "Eliminando «%s» ficheiros…"
+msgstr "Odstranjevanje datotek  %s ..."
 
 #: scripts/libmakepkg/tidy/purge.sh.in:35
 msgid "Purging unwanted files..."
-msgstr "Eliminando os ficheiros non desexados…"
+msgstr "Odstranjevanje nezaželenih datotek..."
 
 #: scripts/libmakepkg/tidy/staticlibs.sh.in:35
 msgid "Removing static library files..."
-msgstr "Eliminando os ficheiros de bibliotecas estáticas…"
+msgstr "Odstranjevanje statične knjižniče datoteke..."
 
 #: scripts/libmakepkg/tidy/strip.sh.in:99
 msgid "Stripping unneeded symbols from binaries and libraries..."
-msgstr "Eliminando símbolos innecesarios dos programas e bibliotecas…"
+msgstr "Odstranjevanje nepotrebnih simbolov binarnih in knjižničnih datotek..."
 
 #: scripts/libmakepkg/tidy/zipman.sh.in:35
 msgid "Compressing man and info pages..."
-msgstr "Comprimindo as páxinas de axuda (man) e información…"
+msgstr "Arhiviranje man info info strani..."
 
 #: scripts/libmakepkg/util/compress.sh.in:47
 msgid "'%s' is not a valid archive extension."
-msgstr "«%s» non é unha extensión de arquivo coñecida."
+msgstr "'%s' ni veljavna končnica arhiva."
 
 #: scripts/libmakepkg/util/message.sh.in:76
 msgid "ERROR:"
-msgstr "Erro:"
+msgstr "NAPAKA:"
 
 #: scripts/libmakepkg/util/parseopts.sh.in:73
 msgid "option '%s' is ambiguous; possibilities:"
-msgstr "A opción «%s» é ambigua. As posibilidades son:"
+msgstr "stikalo '%s' je dvoumna; možnosti:"
 
 #: scripts/libmakepkg/util/parseopts.sh.in:92
 #: scripts/libmakepkg/util/parseopts.sh.in:155
 msgid "invalid option"
-msgstr "Opción non válida."
+msgstr "neveljavna stikalo"
 
 #: scripts/libmakepkg/util/parseopts.sh.in:111
 msgid "option requires an argument"
-msgstr "A opción precisa dun argumento."
+msgstr "stikalo zahteva argument"
 
 #: scripts/libmakepkg/util/parseopts.sh.in:125
 msgid "option '%s' does not allow an argument"
-msgstr "A opción «%s» non permite un argumento."
+msgstr "Stikalo '%s' ne dovoljuje uporabe trditve"
 
 #: scripts/libmakepkg/util/parseopts.sh.in:143
 msgid "option '%s' requires an argument"
-msgstr "A opción «%s» precisa dun argumento."
+msgstr "stikalo '%s' zahteva trditev"
 
 #: scripts/libmakepkg/util/source.sh.in:158
 msgid "Unknown download protocol: %s"
-msgstr "Protocolo de descarga descoñecido: %s"
+msgstr "Neznani protokol prenosa: %s"
 
 #: scripts/libmakepkg/util/source.sh.in:167
 msgid "The download program %s is not installed."
-msgstr "O programa de descarga, «%s», non está instalado."
+msgstr "Program za prenos %s ni nameščen."
 
 #: scripts/libmakepkg/util/util.sh.in:80
 msgid "Failed to change to directory %s"
-msgstr "Non foi posíbel entrar no cartafol «%s»."
+msgstr "Ni mogoče spremeniti mape %s"
 
 #: scripts/libmakepkg/util/util.sh.in:93
 msgid "Failed to create the directory $%s (%s)."
-msgstr ""
+msgstr "Napaka pri ustvarjanju mape $ 1%s (1%s)"
 
 #: scripts/libmakepkg/util/util.sh.in:96
 msgid "You do not have write permission for the directory $%s (%s)."
@@ -1697,4 +1582,4 @@ msgstr ""
 
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
-msgstr "Non foi posíbel executar «%s»."
+msgstr "Ni mogoče najti vire %s"

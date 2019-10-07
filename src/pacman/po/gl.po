@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-08-12 11:37+1000\n"
-"PO-Revision-Date: 2018-07-19 04:15+0000\n"
-"Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
+"POT-Creation-Date: 2019-10-07 18:10+1000\n"
+"PO-Revision-Date: 2019-08-12 01:45+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Galician (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/gl/)\n"
 "Language: gl\n"
@@ -187,67 +187,62 @@ msgstr ""
 "O ficheiro «%s» está en mal estado (%s).\n"
 "Quere eliminalo?"
 
-#: src/pacman/callback.c:464
-#, c-format
-msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-msgstr "Importar a chave PGP %u%c/%s, «%s», creada: %s (revogada)?"
-
-#: src/pacman/callback.c:467
-#, c-format
-msgid "Import PGP key %u%c/%s, \"%s\", created: %s?"
+#: src/pacman/callback.c:459
+#, fuzzy, c-format
+msgid "Import PGP key %s, \"%s\"?"
 msgstr "Importar a chave PGP %u%c/%s, «%s», creada: %s?"
 
-#: src/pacman/callback.c:526
+#: src/pacman/callback.c:517
 #, c-format
 msgid "installing"
 msgstr "Instalando"
 
-#: src/pacman/callback.c:529
+#: src/pacman/callback.c:520
 #, c-format
 msgid "upgrading"
 msgstr "Anovando"
 
-#: src/pacman/callback.c:532
+#: src/pacman/callback.c:523
 #, c-format
 msgid "downgrading"
 msgstr "Devolvendo a unha versión anterior"
 
-#: src/pacman/callback.c:535
+#: src/pacman/callback.c:526
 #, c-format
 msgid "reinstalling"
 msgstr "Reinstalando"
 
-#: src/pacman/callback.c:538
+#: src/pacman/callback.c:529
 #, c-format
 msgid "removing"
 msgstr "quitando"
 
-#: src/pacman/callback.c:541
+#: src/pacman/callback.c:532
 #, c-format
 msgid "checking for file conflicts"
 msgstr "Verificando que non hai conflitos entre ficheiros."
 
-#: src/pacman/callback.c:544
+#: src/pacman/callback.c:535
 #, c-format
 msgid "checking available disk space"
 msgstr "Verificando que hai espazo dispoñíbel."
 
-#: src/pacman/callback.c:547
+#: src/pacman/callback.c:538
 #, c-format
 msgid "checking package integrity"
 msgstr "Verificando a integridade dos paquetes."
 
-#: src/pacman/callback.c:550
+#: src/pacman/callback.c:541
 #, c-format
 msgid "checking keys in keyring"
 msgstr "Verificando as chaves do anel."
 
-#: src/pacman/callback.c:553
+#: src/pacman/callback.c:544
 #, c-format
 msgid "loading package files"
 msgstr "Cargando os ficheiros dos paquetes."
 
-#: src/pacman/callback.c:670
+#: src/pacman/callback.c:661
 #, c-format
 msgid "downloading %s...\n"
 msgstr "Descargando %s…\n"
@@ -1822,36 +1817,153 @@ msgstr "NO"
 msgid "failed to allocate string\n"
 msgstr "error ao asignar espazo para a cadena\n"
 
-#: src/pacman/util.c:1703 src/pacman/util.c:1753
+#: src/pacman/util.c:1703 src/pacman/util.c:1753 src/util/testpkg.c:34
 #, c-format
 msgid "error: "
 msgstr "Produciuse un erro: "
 
-#: src/pacman/util.c:1707 src/pacman/util.c:1757
+#: src/pacman/util.c:1707 src/pacman/util.c:1757 src/util/testpkg.c:35
 #, c-format
 msgid "warning: "
 msgstr "Atención: "
 
-#~ msgid "checking delta integrity...\n"
-#~ msgstr "Verificando a integridade das diferencias…\n"
+#: src/pacman/pacman-conf.c:41
+#, c-format
+msgid "pacman-conf - query pacman's configuration file\n"
+msgstr ""
 
-#~ msgid "applying deltas...\n"
-#~ msgstr "Aplicando as diferencias…\n"
+#: src/pacman/pacman-conf.c:42
+#, c-format
+msgid "usage:  pacman-conf [options] [<directive>...]\n"
+msgstr ""
 
-#~ msgid "generating %s with %s... "
-#~ msgstr "Xerando %s con %s…"
+#: src/pacman/pacman-conf.c:43
+#, c-format
+msgid "        pacman-conf (--repo-list|--help|--version)\n"
+msgstr ""
 
-#~ msgid "success!\n"
-#~ msgstr "éxito!\n"
+#: src/pacman/pacman-conf.c:44
+#, fuzzy, c-format
+msgid "options:\n"
+msgstr "opcións"
 
-#~ msgid "failed.\n"
-#~ msgstr "error.\n"
+#: src/pacman/pacman-conf.c:45
+#, fuzzy, c-format
+msgid "  -c, --config=<path>  set an alternate configuration file\n"
+msgstr ""
+"      --config <ruta>  Definir un ficheiro de configuración alternativo.\n"
 
-#~ msgid ""
-#~ "  -s, --search <file>  search package file names for matching strings\n"
-#~ msgstr ""
-#~ "  -s, --search <fich>  Buscar coincidencias nos nomes de ficheiro dos "
-#~ "paquetes.\n"
+#: src/pacman/pacman-conf.c:46
+#, fuzzy, c-format
+msgid "  -R, --rootdir=<path> set an alternate installation root\n"
+msgstr ""
+"  -r, --root <ruta>    Define unha ruta raíz de instalación alternativa.\n"
 
-#~ msgid "unable to %s directory-file conflicts\n"
-#~ msgstr "Non foi posíbel %s os conflitos entre cartafoles e ficheiros.\n"
+#: src/pacman/pacman-conf.c:47
+#, c-format
+msgid "  -r, --repo=<remote>  query options for a specific repo\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:48
+#, fuzzy, c-format
+msgid "  -v, --verbose        always show directive names\n"
+msgstr "  -v, --verbose        Mostrar toda a información posíbel.\n"
+
+#: src/pacman/pacman-conf.c:49
+#, fuzzy, c-format
+msgid "  -l, --repo-list      list configured repositories\n"
+msgstr ""
+"  -l, --list <repo>    Visualiza unha lista de paquetes nun repositorio.\n"
+
+#: src/pacman/pacman-conf.c:50
+#, c-format
+msgid "  -h, --help           display this help information\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:51
+#, fuzzy, c-format
+msgid "  -V, --version        display version information\n"
+msgstr "      --confirm        Pide sempre confirmación.\n"
+
+#: src/pacman/pacman-conf.c:80
+#, c-format
+msgid "error setting rootdir '%s': out of memory\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:110
+#, c-format
+msgid "error parsing '%s'\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:290
+#, fuzzy, c-format
+msgid "error: repo '%s' not configured\n"
+msgstr "Non se configurou ningún «%s».\n"
+
+#: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:383
+#, c-format
+msgid "warning: '%s' directives cannot be queried\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:386
+#, c-format
+msgid "warning: unknown directive '%s'\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:423
+#, c-format
+msgid "error: directives may not be specified with %s\n"
+msgstr ""
+
+#: src/util/testpkg.c:55
+#, c-format
+msgid ""
+"Test a pacman package for validity.\n"
+"\n"
+msgstr ""
+
+#: src/util/testpkg.c:56
+#, c-format
+msgid "Usage: testpkg <package file>\n"
+msgstr ""
+
+#: src/util/testpkg.c:62
+#, fuzzy, c-format
+msgid "cannot initialize alpm: %s\n"
+msgstr ""
+"Non foi posíbel iniciar a biblioteca «alpm».\n"
+"(%s: %s)\n"
+
+#: src/util/testpkg.c:77
+#, c-format
+msgid "Cannot find the given file.\n"
+msgstr ""
+
+#: src/util/testpkg.c:80
+#, c-format
+msgid "Cannot open the given file.\n"
+msgstr ""
+
+#: src/util/testpkg.c:84
+#, c-format
+msgid "Package is invalid.\n"
+msgstr ""
+
+#: src/util/testpkg.c:87
+#, c-format
+msgid "libalpm error: %s\n"
+msgstr ""
+
+#: src/util/testpkg.c:93
+#, fuzzy, c-format
+msgid "Package is valid.\n"
+msgstr "Paquetes"
+
+#: src/util/testpkg.c:98
+#, c-format
+msgid "error releasing alpm\n"
+msgstr ""
+
+#, c-format
+#~ msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
+#~ msgstr "Importar a chave PGP %u%c/%s, «%s», creada: %s (revogada)?"

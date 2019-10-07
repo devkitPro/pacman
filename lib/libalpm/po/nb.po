@@ -7,12 +7,13 @@
 # Alexander F Rødseth <rodseth@gmail.com>, 2011,2013
 # Eyolf Østrem <eyolf@oestrem.com>, 2014
 # Jon Gjengset <jon@thesquareplanet.com>, 2011,2013,2015,2017
+# Thor K. H. <nitrolinken@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-08-12 11:37+1000\n"
-"PO-Revision-Date: 2019-04-21 15:49+0000\n"
+"POT-Creation-Date: 2019-10-07 18:07+1000\n"
+"PO-Revision-Date: 2019-09-02 11:08+0000\n"
 "Last-Translator: Alexander F Rødseth <rodseth@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/nb/)\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/libalpm/add.c:91 lib/libalpm/sync.c:284
+#: lib/libalpm/add.c:91 lib/libalpm/sync.c:290
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s er allerede oppdatert -- hopper over\n"
@@ -52,7 +53,7 @@ msgstr "fikk en advarsel ved utpakking av %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "kan ikke pakke ut %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:572 lib/libalpm/remove.c:542
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:574 lib/libalpm/remove.c:542
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "kunne ikke omdøpe %s til %s (%s)\n"
@@ -163,7 +164,7 @@ msgstr "korrupt databaseoppføring '%s'\n"
 
 #: lib/libalpm/be_local.c:713 lib/libalpm/be_local.c:809
 #: lib/libalpm/be_local.c:954 lib/libalpm/be_local.c:1051
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:420 lib/libalpm/util.c:253
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:422 lib/libalpm/util.c:253
 #: lib/libalpm/util.c:269
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -220,12 +221,12 @@ msgstr "ugyldig pakkeversjon i %s\n"
 msgid "missing package metadata in %s\n"
 msgstr "mangler metadata i %s\n"
 
-#: lib/libalpm/be_package.c:748
+#: lib/libalpm/be_package.c:750
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "kan ikke lese signaturfil: %s\n"
 
-#: lib/libalpm/be_package.c:769 lib/libalpm/sync.c:937
+#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:953
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "den nødvendige nøkkelen finnes ikke på nøkkelringen\n"
@@ -280,12 +281,12 @@ msgstr "%s vil fjernes etter dens avhengighet %s\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s vil bli installert før dens avhengighet %s\n"
 
-#: lib/libalpm/deps.c:682 lib/libalpm/deps.c:712
+#: lib/libalpm/deps.c:681 lib/libalpm/deps.c:712
 #, c-format
 msgid "ignoring package %s-%s\n"
 msgstr "ignorerer pakke %s-%s\n"
 
-#: lib/libalpm/deps.c:867
+#: lib/libalpm/deps.c:869
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "kan ikke finne \"%s\", en avhengighet av \"%s\"\n"
@@ -340,37 +341,37 @@ msgstr "kunne ikke montere bunnmappen %s\n"
 msgid "Partition %s is mounted read only\n"
 msgstr "Partisjonen %s kan bare leses fra\n"
 
-#: lib/libalpm/dload.c:159
+#: lib/libalpm/dload.c:161
 #, c-format
 msgid "disk"
 msgstr "disk"
 
-#: lib/libalpm/dload.c:346
+#: lib/libalpm/dload.c:348
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "kunne ikke opprette midlertidig fil i sammengeng med nedlasting\n"
 
-#: lib/libalpm/dload.c:391
+#: lib/libalpm/dload.c:393
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "url '%s' er ugyldig\n"
 
-#: lib/libalpm/dload.c:462 lib/libalpm/dload.c:483 lib/libalpm/dload.c:494
+#: lib/libalpm/dload.c:464 lib/libalpm/dload.c:485 lib/libalpm/dload.c:496
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "kunne ikke hente filen '%s' fra %s : %s\n"
 
-#: lib/libalpm/dload.c:475
+#: lib/libalpm/dload.c:477
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr "kunne ikke hente filen '%s' fra %s : filen er større enn forventet\n"
 
-#: lib/libalpm/dload.c:530
+#: lib/libalpm/dload.c:532
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s ser ut til å være avkortet: %jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:675 lib/libalpm/dload.c:704
+#: lib/libalpm/dload.c:677 lib/libalpm/dload.c:706
 #, c-format
 msgid "failed to download %s\n"
 msgstr "kunne ikke laste ned %s\n"
@@ -638,7 +639,7 @@ msgstr "feil ved bruk av eksternt nedlastningsprogram"
 #: lib/libalpm/error.c:159
 #, c-format
 msgid "compiled without signature support"
-msgstr ""
+msgstr "kompilert uten støtte for signaturer"
 
 #: lib/libalpm/error.c:162
 #, c-format
@@ -787,145 +788,154 @@ msgstr "kunne ikke fjerne oppføring '%s' fra mellomlageret\n"
 msgid "Public keyring not found; have you run '%s'?\n"
 msgstr "Fant ikke offentlig nøkkelring. Har du kjørt '%s'?\n"
 
-#: lib/libalpm/signing.c:207 lib/libalpm/signing.c:705
+#: lib/libalpm/signing.c:207 lib/libalpm/signing.c:779
 #, c-format
 msgid "GPGME error: %s\n"
 msgstr "GPGME feil: %s\n"
 
-#: lib/libalpm/signing.c:402
+#: lib/libalpm/signing.c:284
+#, c-format
+msgid "looking up key %s using WKD\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:293
+#, fuzzy, c-format
+msgid "gpg error: %s\n"
+msgstr "GPGME feil: %s\n"
+
+#: lib/libalpm/signing.c:441 lib/libalpm/signing.c:510
 #, c-format
 msgid "keyring is not writable\n"
 msgstr "nøkkelringen er ikke skrivbar\n"
 
-#: lib/libalpm/signing.c:460
+#: lib/libalpm/signing.c:534
+#, fuzzy, c-format
+msgid "key \"%s\" on keyserver\n"
+msgstr "kan ikke importere nøkkel \"%s\"\n"
+
+#: lib/libalpm/signing.c:539
 #, c-format
 msgid "key \"%s\" could not be imported\n"
 msgstr "kan ikke importere nøkkel \"%s\"\n"
 
-#: lib/libalpm/signing.c:466
-#, c-format
-msgid "key %s, \"%s\" found on keyserver, keyring is not writable\n"
-msgstr ""
-"nøkkel %s, fant \"%s\" på nøkkeltjeneren, men nøkkelringen er ikke skrivbar\n"
-
-#: lib/libalpm/signing.c:471
+#: lib/libalpm/signing.c:543
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "kunne ikke finne nøkkel \"%s\" på avstand\n"
 
-#: lib/libalpm/signing.c:859 lib/libalpm/sync.c:1006
+#: lib/libalpm/signing.c:934 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: mangler påkrevd signatur\n"
 
-#: lib/libalpm/signing.c:874
+#: lib/libalpm/signing.c:949
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
 msgstr "%s: signaturen fra \"%s\" har veldig liten tillit\n"
 
-#: lib/libalpm/signing.c:882
+#: lib/libalpm/signing.c:957
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
 msgstr "%s: signaturen fra \"%s\" har ukjent tillit\n"
 
-#: lib/libalpm/signing.c:889
+#: lib/libalpm/signing.c:964
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
 msgstr "%s: signaturen fra \"%s\" er ikke til å stole på\n"
 
-#: lib/libalpm/signing.c:901
+#: lib/libalpm/signing.c:976
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
 msgstr "%s: nøkkel \"%s\" er ukjent\n"
 
-#: lib/libalpm/signing.c:910
+#: lib/libalpm/signing.c:985
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
 msgstr "%s: nøkkrl \"%s\" er slått av\n"
 
-#: lib/libalpm/signing.c:914
+#: lib/libalpm/signing.c:989
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
 msgstr "%s: signaturen fra \"%s\" er utløpt\n"
 
-#: lib/libalpm/signing.c:918
+#: lib/libalpm/signing.c:993
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
 msgstr "%s: signaturen fra \"%s\" er ugyldig\n"
 
-#: lib/libalpm/signing.c:995 lib/libalpm/signing.c:1063
-#: lib/libalpm/signing.c:1142
+#: lib/libalpm/signing.c:1070 lib/libalpm/signing.c:1138
+#: lib/libalpm/signing.c:1217
 #, c-format
 msgid "%s: signature format error\n"
 msgstr "%s: feil ved signaturformatering\n"
 
-#: lib/libalpm/signing.c:1095 lib/libalpm/signing.c:1128
-#: lib/libalpm/signing.c:1136
+#: lib/libalpm/signing.c:1170 lib/libalpm/signing.c:1203
+#: lib/libalpm/signing.c:1211
 #, c-format
 msgid "%s: unsupported signature format\n"
 msgstr "%s: signaturformatet er ikke støttet\n"
 
-#: lib/libalpm/sync.c:93
+#: lib/libalpm/sync.c:99
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: ignorerer pakkeoppgradering (%s => %s)\n"
 
-#: lib/libalpm/sync.c:105
+#: lib/libalpm/sync.c:111
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
 msgstr "%s: ignorerer pakkenedgradering (%s => %s)\n"
 
-#: lib/libalpm/sync.c:108
+#: lib/libalpm/sync.c:114
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
 msgstr "%s: nedgraderer fra versjon %s til versjon %s\n"
 
-#: lib/libalpm/sync.c:114
+#: lib/libalpm/sync.c:120
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: lokal (%s) er nyere enn %s (%s)\n"
 
-#: lib/libalpm/sync.c:155
+#: lib/libalpm/sync.c:161
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "ignorerer erstatning for pakke (%s-%s => %s-%s)\n"
 
-#: lib/libalpm/sync.c:171
+#: lib/libalpm/sync.c:177
 #, c-format
 msgid "cannot replace %s by %s\n"
 msgstr "kunne ikke erstatte %s med %s\n"
 
-#: lib/libalpm/sync.c:529 lib/libalpm/sync.c:599
+#: lib/libalpm/sync.c:535 lib/libalpm/sync.c:605
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "uløselige pakkekollisjoner oppdaget\n"
 
-#: lib/libalpm/sync.c:549
+#: lib/libalpm/sync.c:555
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "fjerner '%s' fra listen over mål fordi den kolliderer med '%s'\n"
 
-#: lib/libalpm/sync.c:843
+#: lib/libalpm/sync.c:849
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "noen filer kunne ikke hentes\n"
 
-#: lib/libalpm/sync.c:1020
-#, fuzzy, c-format
+#: lib/libalpm/sync.c:1036
+#, c-format
 msgid "failed to read file %s: %s\n"
-msgstr "kan ikke lese signaturfil: %s\n"
+msgstr "kunne ikke lese fil %s: %s\n"
 
-#: lib/libalpm/sync.c:1207
+#: lib/libalpm/sync.c:1223
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "ikke nok ledig diskplass\n"
 
-#: lib/libalpm/sync.c:1229
+#: lib/libalpm/sync.c:1245
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "kunne ikke utføre transaksjon (fjerning)\n"
 
-#: lib/libalpm/sync.c:1237
+#: lib/libalpm/sync.c:1253
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "kunne ikke utføre transaksjon\n"
@@ -973,7 +983,7 @@ msgstr "kunne ikke føde en ny prosess (%s)\n"
 #: lib/libalpm/util.c:646
 #, c-format
 msgid "could not change the root directory (%s)\n"
-msgstr "kunne ikke endre rotmappe (%s)\n"
+msgstr "kunne ikke endre bunnmappen (%s)\n"
 
 #: lib/libalpm/util.c:658
 #, c-format
@@ -1012,8 +1022,8 @@ msgstr ""
 "kunne ikke finne eller opprette mellomlager for pakker, bruker %s "
 "istedenfor\n"
 
-#~ msgid "invalid or corrupted delta"
-#~ msgstr "ugyldig eller korrupt filforskjell"
-
-#~ msgid "delta patch failed"
-#~ msgstr "fiks av filforskjell feilet"
+#, c-format
+#~ msgid "key %s, \"%s\" found on keyserver, keyring is not writable\n"
+#~ msgstr ""
+#~ "nøkkel %s, fant \"%s\" på nøkkeltjeneren, men nøkkelringen er ikke "
+#~ "skrivbar\n"

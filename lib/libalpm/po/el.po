@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-08-12 11:37+1000\n"
-"PO-Revision-Date: 2019-01-26 18:09+0000\n"
-"Last-Translator: Christos Nouskas <nous@archlinux.us>\n"
+"POT-Creation-Date: 2019-10-07 18:07+1000\n"
+"PO-Revision-Date: 2019-08-12 01:42+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Greek (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/el/)\n"
 "Language: el\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/libalpm/add.c:91 lib/libalpm/sync.c:284
+#: lib/libalpm/add.c:91 lib/libalpm/sync.c:290
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s ενημερωμένο -- παράλειψη\n"
@@ -58,7 +58,7 @@ msgstr "προειδοποίηση κατά την εξαγωγή του %s (%s)
 msgid "could not extract %s (%s)\n"
 msgstr "αδυναμία εξαγωγής %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:572 lib/libalpm/remove.c:542
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:574 lib/libalpm/remove.c:542
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "αδυναμία μετονομασίας %s σε %s (%s)\n"
@@ -171,7 +171,7 @@ msgstr "κατεστραμμένη εγγραφή βάσης '%s'\n"
 
 #: lib/libalpm/be_local.c:713 lib/libalpm/be_local.c:809
 #: lib/libalpm/be_local.c:954 lib/libalpm/be_local.c:1051
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:420 lib/libalpm/util.c:253
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:422 lib/libalpm/util.c:253
 #: lib/libalpm/util.c:269
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -228,12 +228,12 @@ msgstr "άκυρη έκδοση πακέτου στο %s\n"
 msgid "missing package metadata in %s\n"
 msgstr "απόντα μετα-δεδομένα πακέτου στο %s\n"
 
-#: lib/libalpm/be_package.c:748
+#: lib/libalpm/be_package.c:750
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "αδυναμία ανάγνωσης αρχείου υπογραφής: %s\n"
 
-#: lib/libalpm/be_package.c:769 lib/libalpm/sync.c:937
+#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:953
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr ""
@@ -291,12 +291,12 @@ msgstr "κατάργηση του %s μετά την εξάρτησή του %s\
 msgid "%s will be installed before its %s dependency\n"
 msgstr "εγκατάσταση του %s πρίν από την εξάρτησή του %s\n"
 
-#: lib/libalpm/deps.c:682 lib/libalpm/deps.c:712
+#: lib/libalpm/deps.c:681 lib/libalpm/deps.c:712
 #, c-format
 msgid "ignoring package %s-%s\n"
 msgstr "παράβλεψη πακέτου %s-%s\n"
 
-#: lib/libalpm/deps.c:867
+#: lib/libalpm/deps.c:869
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "αδυναμία εύρεσης του \"%s\", εξάρτησης του \"%s\"\n"
@@ -353,38 +353,38 @@ msgstr "αδυναμία καθορισμού ριζικού σημείου πρ
 msgid "Partition %s is mounted read only\n"
 msgstr "Η κατάτμηση %s είναι προσαρτημένη μόνο για ανάγνωση\n"
 
-#: lib/libalpm/dload.c:159
+#: lib/libalpm/dload.c:161
 #, c-format
 msgid "disk"
 msgstr "δίσκο"
 
-#: lib/libalpm/dload.c:346
+#: lib/libalpm/dload.c:348
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "αποτυχία δημιουργίας προσωρινού αρχείου λήψης\n"
 
-#: lib/libalpm/dload.c:391
+#: lib/libalpm/dload.c:393
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "άκυρη διεύθυνση '%s'\n"
 
-#: lib/libalpm/dload.c:462 lib/libalpm/dload.c:483 lib/libalpm/dload.c:494
+#: lib/libalpm/dload.c:464 lib/libalpm/dload.c:485 lib/libalpm/dload.c:496
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "αποτυχία λήψης αρχείου '%s' από %s : %s\n"
 
-#: lib/libalpm/dload.c:475
+#: lib/libalpm/dload.c:477
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "αποτυχία λήψης αρχείου '%s' από %s : υπέρβαση αναμενομένου μεγέθους λήψης\n"
 
-#: lib/libalpm/dload.c:530
+#: lib/libalpm/dload.c:532
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "το %s δείχνει ημιτελές: %jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:675 lib/libalpm/dload.c:704
+#: lib/libalpm/dload.c:677 lib/libalpm/dload.c:706
 #, c-format
 msgid "failed to download %s\n"
 msgstr "αποτυχία λήψης %s\n"
@@ -801,146 +801,155 @@ msgstr "αδυναμία κατάργησης εγγραφής '%s' από κρ�
 msgid "Public keyring not found; have you run '%s'?\n"
 msgstr "Δεν ευρέθη δημόσιος κλειδούχος· εκτελέστηκε '%s';\n"
 
-#: lib/libalpm/signing.c:207 lib/libalpm/signing.c:705
+#: lib/libalpm/signing.c:207 lib/libalpm/signing.c:779
 #, c-format
 msgid "GPGME error: %s\n"
 msgstr "σφάλμα GPGME: %s\n"
 
-#: lib/libalpm/signing.c:402
+#: lib/libalpm/signing.c:284
+#, c-format
+msgid "looking up key %s using WKD\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:293
+#, fuzzy, c-format
+msgid "gpg error: %s\n"
+msgstr "σφάλμα GPGME: %s\n"
+
+#: lib/libalpm/signing.c:441 lib/libalpm/signing.c:510
 #, c-format
 msgid "keyring is not writable\n"
 msgstr "μη εγγράψιμος κλειδούχος\n"
 
-#: lib/libalpm/signing.c:460
+#: lib/libalpm/signing.c:534
+#, fuzzy, c-format
+msgid "key \"%s\" on keyserver\n"
+msgstr "αδυναμία εισαγωγής κλειδιού \"%s\"\n"
+
+#: lib/libalpm/signing.c:539
 #, c-format
 msgid "key \"%s\" could not be imported\n"
 msgstr "αδυναμία εισαγωγής κλειδιού \"%s\"\n"
 
-#: lib/libalpm/signing.c:466
-#, c-format
-msgid "key %s, \"%s\" found on keyserver, keyring is not writable\n"
-msgstr ""
-"κλειδί %s, \"%s\" ευρέθη στον διακομιστή κλειδιών, μη εγγράψιμος κλειδούχος\n"
-
-#: lib/libalpm/signing.c:471
+#: lib/libalpm/signing.c:543
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "αδυναμία απομεμακρυσμένης αναζήτησης κλειδιού \"%s\"\n"
 
-#: lib/libalpm/signing.c:859 lib/libalpm/sync.c:1006
+#: lib/libalpm/signing.c:934 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: απούσα απαιτούμενη υπογραφή\n"
 
-#: lib/libalpm/signing.c:874
+#: lib/libalpm/signing.c:949
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
 msgstr "%s: υπογραφή από \"%s\" οριακής εμπιστοσύνης\n"
 
-#: lib/libalpm/signing.c:882
+#: lib/libalpm/signing.c:957
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
 msgstr "%s: υπογραφή από \"%s\" αγνώστου εμπιστοσύνης\n"
 
-#: lib/libalpm/signing.c:889
+#: lib/libalpm/signing.c:964
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
 msgstr "%s: υπογραφή από \"%s\" ουδεμίας εμπιστοσύνης\n"
 
-#: lib/libalpm/signing.c:901
+#: lib/libalpm/signing.c:976
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
 msgstr "%s: κλειδί \"%s\" άγνωστο\n"
 
-#: lib/libalpm/signing.c:910
+#: lib/libalpm/signing.c:985
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
 msgstr "%s: κλειδί \"%s\" απενεργοποιημένο\n"
 
-#: lib/libalpm/signing.c:914
+#: lib/libalpm/signing.c:989
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
 msgstr "%s: υπογραφή από \"%s\" ληγμένη\n"
 
-#: lib/libalpm/signing.c:918
+#: lib/libalpm/signing.c:993
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
 msgstr "%s: υπογραφή από \"%s\" άκυρη\n"
 
-#: lib/libalpm/signing.c:995 lib/libalpm/signing.c:1063
-#: lib/libalpm/signing.c:1142
+#: lib/libalpm/signing.c:1070 lib/libalpm/signing.c:1138
+#: lib/libalpm/signing.c:1217
 #, c-format
 msgid "%s: signature format error\n"
 msgstr "%s: σφάλμα μορφής υπογραφής\n"
 
-#: lib/libalpm/signing.c:1095 lib/libalpm/signing.c:1128
-#: lib/libalpm/signing.c:1136
+#: lib/libalpm/signing.c:1170 lib/libalpm/signing.c:1203
+#: lib/libalpm/signing.c:1211
 #, c-format
 msgid "%s: unsupported signature format\n"
 msgstr "%s: μη υποστηριζόμενη μορφή υπογραφής\n"
 
-#: lib/libalpm/sync.c:93
+#: lib/libalpm/sync.c:99
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: παράβλεψη αναβάθμισης πακέτου (%s => %s)\n"
 
-#: lib/libalpm/sync.c:105
+#: lib/libalpm/sync.c:111
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
 msgstr "%s: παράβλεψη υποβάθμισης πακέτου (%s => %s)\n"
 
-#: lib/libalpm/sync.c:108
+#: lib/libalpm/sync.c:114
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
 msgstr "%s: υποβάθμιση από έκδοση %s στην έκδοση %s\n"
 
-#: lib/libalpm/sync.c:114
+#: lib/libalpm/sync.c:120
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: τοπικό (%s) νεότερο από του [%s] (%s)\n"
 
-#: lib/libalpm/sync.c:155
+#: lib/libalpm/sync.c:161
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "παράβλεψη αντικατάστασης πακέτου (%s-%s => %s-%s)\n"
 
-#: lib/libalpm/sync.c:171
+#: lib/libalpm/sync.c:177
 #, c-format
 msgid "cannot replace %s by %s\n"
 msgstr "αδυναμία αντικατάστασης του %s από το %s\n"
 
-#: lib/libalpm/sync.c:529 lib/libalpm/sync.c:599
+#: lib/libalpm/sync.c:535 lib/libalpm/sync.c:605
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "εντοπισμός ανεπίλυτων διενέξεων πακέτων\n"
 
-#: lib/libalpm/sync.c:549
+#: lib/libalpm/sync.c:555
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr ""
 "αφαίρεση του '%s' από την λίστα διεκπεραίωσης λόγω διένεξης με το '%s'\n"
 
-#: lib/libalpm/sync.c:843
+#: lib/libalpm/sync.c:849
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "σφάλμα λήψης μερικών αρχείων\n"
 
-#: lib/libalpm/sync.c:1020
-#, fuzzy, c-format
+#: lib/libalpm/sync.c:1036
+#, c-format
 msgid "failed to read file %s: %s\n"
-msgstr "αδυναμία ανάγνωσης αρχείου υπογραφής: %s\n"
+msgstr ""
 
-#: lib/libalpm/sync.c:1207
+#: lib/libalpm/sync.c:1223
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "μη αρκετός ελεύθερος χώρος στο δίσκο\n"
 
-#: lib/libalpm/sync.c:1229
+#: lib/libalpm/sync.c:1245
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "αδυναμία διεκπεραίωσης διαγραφής\n"
 
-#: lib/libalpm/sync.c:1237
+#: lib/libalpm/sync.c:1253
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "αδυναμία διεκπεραίωσης\n"
@@ -1025,8 +1034,8 @@ msgstr "μη υπάρχουσα κρύπτη %s, δημιουργία...\n"
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "αδυναμία εύρεσης ή δημιουργίας κρύπτης πακέτων, χρήση %s\n"
 
-#~ msgid "invalid or corrupted delta"
-#~ msgstr "άκυρο ή κατεστραμμένο delta"
-
-#~ msgid "delta patch failed"
-#~ msgstr "αποτυχία μπάλωματος delta"
+#, c-format
+#~ msgid "key %s, \"%s\" found on keyserver, keyring is not writable\n"
+#~ msgstr ""
+#~ "κλειδί %s, \"%s\" ευρέθη στον διακομιστή κλειδιών, μη εγγράψιμος "
+#~ "κλειδούχος\n"

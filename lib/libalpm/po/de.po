@@ -4,6 +4,7 @@
 #
 # Translators:
 # Dan McGee <dpmcgee@gmail.com>, 2011
+# Dieter S <ptpsmail@web.de>, 2019
 # Frank Theile, 2018
 # Frank Theile, 2018
 # Jakob Gahde <j5lx@fmail.co.uk>, 2014-2015
@@ -20,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-08-12 11:37+1000\n"
-"PO-Revision-Date: 2018-05-15 15:58+0000\n"
-"Last-Translator: Frank Theile\n"
+"POT-Creation-Date: 2019-10-07 18:07+1000\n"
+"PO-Revision-Date: 2019-08-17 13:35+0000\n"
+"Last-Translator: Matthias Gorissen <matthias@archlinux.de>\n"
 "Language-Team: German (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/de/)\n"
 "Language: de\n"
@@ -31,7 +32,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/libalpm/add.c:91 lib/libalpm/sync.c:284
+#: lib/libalpm/add.c:91 lib/libalpm/sync.c:290
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s ist aktuell -- Überspringe\n"
@@ -61,7 +62,7 @@ msgstr "Es erscheint eine Warnung, wenn %s extrahiert wird (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "Konnte %s nicht entpacken (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:572 lib/libalpm/remove.c:542
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:574 lib/libalpm/remove.c:542
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "Konnte %s nicht in %s umbenennen (%s)\n"
@@ -174,7 +175,7 @@ msgstr "Beschädigter Datenbank-Eintrag '%s'\n"
 
 #: lib/libalpm/be_local.c:713 lib/libalpm/be_local.c:809
 #: lib/libalpm/be_local.c:954 lib/libalpm/be_local.c:1051
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:420 lib/libalpm/util.c:253
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:422 lib/libalpm/util.c:253
 #: lib/libalpm/util.c:269
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -235,12 +236,12 @@ msgstr "Ungültige Paketversion in %s\n"
 msgid "missing package metadata in %s\n"
 msgstr "Fehlende Paket-Metadaten in %s\n"
 
-#: lib/libalpm/be_package.c:748
+#: lib/libalpm/be_package.c:750
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "Konnte die Signatur-Datei nicht lesen: %s\n"
 
-#: lib/libalpm/be_package.c:769 lib/libalpm/sync.c:937
+#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:953
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "Erforderlicher Schlüssel fehlt im Schlüsselbund\n"
@@ -259,7 +260,7 @@ msgstr ""
 #: lib/libalpm/be_sync.c:522
 #, c-format
 msgid "could not read db '%s' (%s)\n"
-msgstr ""
+msgstr "konnte Datenbank '%s' (%s) nicht lesen\n"
 
 #: lib/libalpm/be_sync.c:556 lib/libalpm/be_sync.c:561
 #, c-format
@@ -300,12 +301,12 @@ msgstr "%s wird nach seiner Abhängigkeit %s entfernt werden\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s wird vor seiner Abhängigkeit %s installiert werden\n"
 
-#: lib/libalpm/deps.c:682 lib/libalpm/deps.c:712
+#: lib/libalpm/deps.c:681 lib/libalpm/deps.c:712
 #, c-format
 msgid "ignoring package %s-%s\n"
 msgstr "Ignoriere Paket %s-%s\n"
 
-#: lib/libalpm/deps.c:867
+#: lib/libalpm/deps.c:869
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "Kann \"%s\" nicht auflösen (eine Abhängigkeit von \"%s\")\n"
@@ -362,39 +363,39 @@ msgstr "Konnte den Root-Einhängepunkt %s nicht ermitteln\n"
 msgid "Partition %s is mounted read only\n"
 msgstr "Die Partition %s ist so eingehängt, dass sie nur gelesen werden kann\n"
 
-#: lib/libalpm/dload.c:159
+#: lib/libalpm/dload.c:161
 #, c-format
 msgid "disk"
 msgstr "Platte"
 
-#: lib/libalpm/dload.c:346
+#: lib/libalpm/dload.c:348
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "Konnte temporäre Datei für den Download nicht anlegen\n"
 
-#: lib/libalpm/dload.c:391
+#: lib/libalpm/dload.c:393
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "URL '%s' ist ungültig\n"
 
-#: lib/libalpm/dload.c:462 lib/libalpm/dload.c:483 lib/libalpm/dload.c:494
+#: lib/libalpm/dload.c:464 lib/libalpm/dload.c:485 lib/libalpm/dload.c:496
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "Konnte Datei '%s' nicht von %s übertragen : %s\n"
 
-#: lib/libalpm/dload.c:475
+#: lib/libalpm/dload.c:477
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "Konnte Datei '%s' nicht von %s empfangen: Erwartete Downloadgröße "
 "überschritten\n"
 
-#: lib/libalpm/dload.c:530
+#: lib/libalpm/dload.c:532
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s scheint abgeschnitten zu sein: %jd/%jd Bytes\n"
 
-#: lib/libalpm/dload.c:675 lib/libalpm/dload.c:704
+#: lib/libalpm/dload.c:677 lib/libalpm/dload.c:706
 #, c-format
 msgid "failed to download %s\n"
 msgstr "Konnte %s nicht herunterladen\n"
@@ -663,7 +664,7 @@ msgstr "Fehler beim Aufruf eines externen Downloaders"
 #: lib/libalpm/error.c:159
 #, c-format
 msgid "compiled without signature support"
-msgstr ""
+msgstr "Kompiliert ohne Signatur-Unterstützung"
 
 #: lib/libalpm/error.c:162
 #, c-format
@@ -698,12 +699,12 @@ msgstr ""
 #: lib/libalpm/hook.c:146
 #, c-format
 msgid "Missing Exec option in hook: %s\n"
-msgstr ""
+msgstr "Fehlende Exec-Option im hook: %s\n"
 
 #: lib/libalpm/hook.c:152
 #, c-format
 msgid "Missing When option in hook: %s\n"
-msgstr ""
+msgstr "Fehlende Exec-Option im hook: %s\n"
 
 #: lib/libalpm/hook.c:155
 #, c-format
@@ -713,7 +714,7 @@ msgstr ""
 #: lib/libalpm/hook.c:273
 #, c-format
 msgid "error while reading hook %s: %s\n"
-msgstr ""
+msgstr "Fehler beim Lesen des hooks %s: %s\n"
 
 #: lib/libalpm/hook.c:275 lib/libalpm/hook.c:319 lib/libalpm/hook.c:361
 #, c-format
@@ -723,29 +724,29 @@ msgstr "Hook %s, Zeile %d: ungültige Option %s\n"
 #: lib/libalpm/hook.c:285
 #, c-format
 msgid "hook %s line %d: invalid section %s\n"
-msgstr ""
+msgstr "hook %s, Zeile %d: Ungültige Sektion %s\n"
 
 #: lib/libalpm/hook.c:297 lib/libalpm/hook.c:312 lib/libalpm/hook.c:331
 #: lib/libalpm/hook.c:354
 #, c-format
 msgid "hook %s line %d: invalid value %s\n"
-msgstr ""
+msgstr "hook %s, Zeile %d: Ungültiger Wert %s\n"
 
 #: lib/libalpm/hook.c:301 lib/libalpm/hook.c:324 lib/libalpm/hook.c:335
 #: lib/libalpm/hook.c:349
 #, c-format
 msgid "hook %s line %d: overwriting previous definition of %s\n"
-msgstr ""
+msgstr "hook %s, Zeile %d: Üerschreibe vorherige Definition von %s\n"
 
 #: lib/libalpm/hook.c:356
 #, c-format
 msgid "hook %s line %d: unable to set option (%s)\n"
-msgstr ""
+msgstr "hook %s, Zeile %d: Kann die Option (%s) nicht setzen\n"
 
 #: lib/libalpm/hook.c:626
 #, c-format
 msgid "unable to run hook %s: %s\n"
-msgstr ""
+msgstr "Kann den hook %s nicht starten: %s\n"
 
 #: lib/libalpm/hook.c:660 lib/libalpm/hook.c:672 lib/libalpm/remove.c:386
 #, c-format
@@ -755,7 +756,7 @@ msgstr "Konnte das Verzeichnis nicht öffnen: %s: %s\n"
 #: lib/libalpm/hook.c:688
 #, c-format
 msgid "could not open file: %s%s: %s\n"
-msgstr ""
+msgstr "Konnte die Datei nicht öffnen: %s%s: %s\n"
 
 #: lib/libalpm/hook.c:708 lib/libalpm/util.c:259
 #, c-format
@@ -765,7 +766,7 @@ msgstr "Konnte Status-Information für die Datei %s nicht ermitteln: %s\n"
 #: lib/libalpm/hook.c:734
 #, c-format
 msgid "could not read directory: %s: %s\n"
-msgstr ""
+msgstr "Konnte Verzeichnis nicht lesen: %s: %s\n"
 
 #: lib/libalpm/package.c:578
 #, c-format
@@ -790,7 +791,7 @@ msgstr "Kann Datei '%s' nicht entfernen: %s\n"
 #: lib/libalpm/remove.c:411 lib/libalpm/remove.c:420
 #, c-format
 msgid "could not backup %s due to PATH_MAX overflow\n"
-msgstr ""
+msgstr "Kann kein Backup von %s erstellen, auf Grund eines PATH_MAX overflow\n"
 
 #: lib/libalpm/remove.c:562
 #, c-format
@@ -812,144 +813,154 @@ msgstr "Konnte Eintrag '%s' nicht aus dem Puffer entfernen\n"
 msgid "Public keyring not found; have you run '%s'?\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:207 lib/libalpm/signing.c:705
+#: lib/libalpm/signing.c:207 lib/libalpm/signing.c:779
 #, c-format
 msgid "GPGME error: %s\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:402
+#: lib/libalpm/signing.c:284
+#, c-format
+msgid "looking up key %s using WKD\n"
+msgstr ""
+
+#: lib/libalpm/signing.c:293
+#, fuzzy, c-format
+msgid "gpg error: %s\n"
+msgstr "gpgme-Fehler"
+
+#: lib/libalpm/signing.c:441 lib/libalpm/signing.c:510
 #, c-format
 msgid "keyring is not writable\n"
-msgstr ""
+msgstr "Schlüssebund ist nicht schreibbar\n"
 
-#: lib/libalpm/signing.c:460
+#: lib/libalpm/signing.c:534
+#, fuzzy, c-format
+msgid "key \"%s\" on keyserver\n"
+msgstr "Schlüssel \"%s\" konnte nicht importiert werden\n"
+
+#: lib/libalpm/signing.c:539
 #, c-format
 msgid "key \"%s\" could not be imported\n"
-msgstr ""
+msgstr "Schlüssel \"%s\" konnte nicht importiert werden\n"
 
-#: lib/libalpm/signing.c:466
-#, c-format
-msgid "key %s, \"%s\" found on keyserver, keyring is not writable\n"
-msgstr ""
-
-#: lib/libalpm/signing.c:471
+#: lib/libalpm/signing.c:543
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
-msgstr ""
+msgstr "Schlüssel \"%s\" konnte nicht entfernt abgerufen werden\n"
 
-#: lib/libalpm/signing.c:859 lib/libalpm/sync.c:1006
+#: lib/libalpm/signing.c:934 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: Erforderliche Signatur fehlt\n"
 
-#: lib/libalpm/signing.c:874
+#: lib/libalpm/signing.c:949
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:882
+#: lib/libalpm/signing.c:957
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:889
+#: lib/libalpm/signing.c:964
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:901
+#: lib/libalpm/signing.c:976
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
-msgstr ""
+msgstr "%s: Schlüssel \"%s\" ist unbekannt\n"
 
-#: lib/libalpm/signing.c:910
+#: lib/libalpm/signing.c:985
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
-msgstr ""
+msgstr "%s: Schlüssel \"%s\" ist deaktiviert\n"
 
-#: lib/libalpm/signing.c:914
+#: lib/libalpm/signing.c:989
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
-msgstr ""
+msgstr "%s: Signatur von \"%s\" ist abgelaufen\n"
 
-#: lib/libalpm/signing.c:918
+#: lib/libalpm/signing.c:993
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
-msgstr ""
+msgstr "%s: Signatur von \"%s\" ist ungültig\n"
 
-#: lib/libalpm/signing.c:995 lib/libalpm/signing.c:1063
-#: lib/libalpm/signing.c:1142
+#: lib/libalpm/signing.c:1070 lib/libalpm/signing.c:1138
+#: lib/libalpm/signing.c:1217
 #, c-format
 msgid "%s: signature format error\n"
-msgstr ""
+msgstr "%s: Signaturformatfehler\n"
 
-#: lib/libalpm/signing.c:1095 lib/libalpm/signing.c:1128
-#: lib/libalpm/signing.c:1136
+#: lib/libalpm/signing.c:1170 lib/libalpm/signing.c:1203
+#: lib/libalpm/signing.c:1211
 #, c-format
 msgid "%s: unsupported signature format\n"
-msgstr ""
+msgstr "%s: nicht unterstütztes Signaturformat\n"
 
-#: lib/libalpm/sync.c:93
+#: lib/libalpm/sync.c:99
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s: Ignoriere Paket-Aktualisierung (%s => %s)\n"
 
-#: lib/libalpm/sync.c:105
+#: lib/libalpm/sync.c:111
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
 msgstr "%s: Ignoriere Paket-Downgrade (%s => %s)\n"
 
-#: lib/libalpm/sync.c:108
+#: lib/libalpm/sync.c:114
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
 msgstr "%s: Downgrade von Version %s zu Version %s\n"
 
-#: lib/libalpm/sync.c:114
+#: lib/libalpm/sync.c:120
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: Lokale Version (%s) ist neuer als %s (%s)\n"
 
-#: lib/libalpm/sync.c:155
+#: lib/libalpm/sync.c:161
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "Ignoriere Paket-Ersetzung (%s-%s => %s-%s)\n"
 
-#: lib/libalpm/sync.c:171
+#: lib/libalpm/sync.c:177
 #, c-format
 msgid "cannot replace %s by %s\n"
 msgstr "Kann %s nicht durch %s ersetzen\n"
 
-#: lib/libalpm/sync.c:529 lib/libalpm/sync.c:599
+#: lib/libalpm/sync.c:535 lib/libalpm/sync.c:605
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "Nicht auflösbare Paketkonflikte gefunden\n"
 
-#: lib/libalpm/sync.c:549
+#: lib/libalpm/sync.c:555
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "Entferne '%s' aus der Ziel-Liste, da es mit '%s' in Konflikt steht\n"
 
-#: lib/libalpm/sync.c:843
+#: lib/libalpm/sync.c:849
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "Konnte einige Dateien nicht übertragen\n"
 
-#: lib/libalpm/sync.c:1020
-#, fuzzy, c-format
+#: lib/libalpm/sync.c:1036
+#, c-format
 msgid "failed to read file %s: %s\n"
-msgstr "Konnte die Signatur-Datei nicht lesen: %s\n"
+msgstr "konnte die Datei nicht lesen %s: %s\n"
 
-#: lib/libalpm/sync.c:1207
+#: lib/libalpm/sync.c:1223
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "Nicht genug freier Festplattenspeicher\n"
 
-#: lib/libalpm/sync.c:1229
+#: lib/libalpm/sync.c:1245
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "Konnte Löschvorgang nicht durchführen\n"
 
-#: lib/libalpm/sync.c:1237
+#: lib/libalpm/sync.c:1253
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "Konnte den Vorgang nicht durchführen\n"
@@ -1035,8 +1046,8 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "Konnte den Paket-Puffer nicht finden oder erstellen, benutze stattdessen %s\n"
 
-#~ msgid "invalid or corrupted delta"
-#~ msgstr "Ungültiges oder beschädigtes Delta"
-
-#~ msgid "delta patch failed"
-#~ msgstr "Delta-Patch fehlgeschlagen"
+#, c-format
+#~ msgid "key %s, \"%s\" found on keyserver, keyring is not writable\n"
+#~ msgstr ""
+#~ "Schlüssel %s, \"%s\" auf dem Schlüsselserver gefunden, Schlüsselbund ist "
+#~ "nicht schreibbar\n"

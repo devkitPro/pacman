@@ -13,13 +13,14 @@
 # Thomas Sungjin Kang <potopro@gmail.com>, 2013
 # Thomas Sungjin Kang <potopro@gmail.com>, 2013-2014
 # 배태길 <esrevinu@gmail.com>, 2014,2016
+# Thomas Sungjin Kang <potopro@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-08-12 11:37+1000\n"
-"PO-Revision-Date: 2018-07-19 04:15+0000\n"
-"Last-Translator: 배태길 <esrevinu@gmail.com>\n"
+"POT-Creation-Date: 2019-10-07 18:10+1000\n"
+"PO-Revision-Date: 2019-08-12 01:45+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Korean (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
 "Language: ko\n"
@@ -183,67 +184,62 @@ msgstr ""
 "%s 파일이 깨졌습니다(%s).\n"
 "삭제하시겠습니까?"
 
-#: src/pacman/callback.c:464
-#, c-format
-msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-msgstr "PGP 키[%u%c/%s, \"%s\", 생성: %s (폐기됨)]를 불러들일까요?"
-
-#: src/pacman/callback.c:467
-#, c-format
-msgid "Import PGP key %u%c/%s, \"%s\", created: %s?"
+#: src/pacman/callback.c:459
+#, fuzzy, c-format
+msgid "Import PGP key %s, \"%s\"?"
 msgstr "PGP 키[%u%c/%s, \"%s\", 생성: %s]를 불러들일까요?"
 
-#: src/pacman/callback.c:526
+#: src/pacman/callback.c:517
 #, c-format
 msgid "installing"
 msgstr "설치 중"
 
-#: src/pacman/callback.c:529
+#: src/pacman/callback.c:520
 #, c-format
 msgid "upgrading"
 msgstr "업그레이드 중"
 
-#: src/pacman/callback.c:532
+#: src/pacman/callback.c:523
 #, c-format
 msgid "downgrading"
 msgstr "다운그레이드 중"
 
-#: src/pacman/callback.c:535
+#: src/pacman/callback.c:526
 #, c-format
 msgid "reinstalling"
 msgstr "재설치 중"
 
-#: src/pacman/callback.c:538
+#: src/pacman/callback.c:529
 #, c-format
 msgid "removing"
 msgstr "삭제 중"
 
-#: src/pacman/callback.c:541
+#: src/pacman/callback.c:532
 #, c-format
 msgid "checking for file conflicts"
 msgstr "파일 충돌 검사 중"
 
-#: src/pacman/callback.c:544
+#: src/pacman/callback.c:535
 #, c-format
 msgid "checking available disk space"
 msgstr "사용 가능한 디스크 공간 검사 중"
 
-#: src/pacman/callback.c:547
+#: src/pacman/callback.c:538
 #, c-format
 msgid "checking package integrity"
 msgstr "꾸러미 무결성 검사 중"
 
-#: src/pacman/callback.c:550
+#: src/pacman/callback.c:541
 #, c-format
 msgid "checking keys in keyring"
 msgstr "키링의 키를 검사 중"
 
-#: src/pacman/callback.c:553
+#: src/pacman/callback.c:544
 #, c-format
 msgid "loading package files"
 msgstr "꾸러미 파일 불러오는 중"
 
-#: src/pacman/callback.c:670
+#: src/pacman/callback.c:661
 #, c-format
 msgid "downloading %s...\n"
 msgstr "%s 다운로드 중...\n"
@@ -1752,44 +1748,150 @@ msgstr "NO"
 msgid "failed to allocate string\n"
 msgstr "문자열을 할당하는데 실패했습니다.\n"
 
-#: src/pacman/util.c:1703 src/pacman/util.c:1753
+#: src/pacman/util.c:1703 src/pacman/util.c:1753 src/util/testpkg.c:34
 #, c-format
 msgid "error: "
 msgstr "오류: "
 
-#: src/pacman/util.c:1707 src/pacman/util.c:1757
+#: src/pacman/util.c:1707 src/pacman/util.c:1757 src/util/testpkg.c:35
 #, c-format
 msgid "warning: "
 msgstr "경고: "
 
-#~ msgid "checking delta integrity...\n"
-#~ msgstr "델타 무결성 검사 중...\n"
+#: src/pacman/pacman-conf.c:41
+#, c-format
+msgid "pacman-conf - query pacman's configuration file\n"
+msgstr ""
 
-#~ msgid "applying deltas...\n"
-#~ msgstr "델타를 적용 중...\n"
+#: src/pacman/pacman-conf.c:42
+#, c-format
+msgid "usage:  pacman-conf [options] [<directive>...]\n"
+msgstr ""
 
-#~ msgid "generating %s with %s... "
-#~ msgstr "%2$s로 %1$s 생성 중... "
+#: src/pacman/pacman-conf.c:43
+#, c-format
+msgid "        pacman-conf (--repo-list|--help|--version)\n"
+msgstr ""
 
-#~ msgid "success!\n"
-#~ msgstr "성공!\n"
+#: src/pacman/pacman-conf.c:44
+#, fuzzy, c-format
+msgid "options:\n"
+msgstr "옵션"
 
-#~ msgid "failed.\n"
-#~ msgstr "실패.\n"
+#: src/pacman/pacman-conf.c:45
+#, fuzzy, c-format
+msgid "  -c, --config=<path>  set an alternate configuration file\n"
+msgstr "      --config <path>  대체 환경 설정 파일을 설정합니다.\n"
 
-#~ msgid "no options specified (use -h for help)\n"
-#~ msgstr ""
-#~ "옵션이 지정되지 않았습니다 (도움말을 보기 위해 -h 옵션을 사용합니다)\n"
+#: src/pacman/pacman-conf.c:46
+#, fuzzy, c-format
+msgid "  -R, --rootdir=<path> set an alternate installation root\n"
+msgstr "  -r, --root <patn>    대체 설치 최상위 경로를 설정합니다.\n"
 
-#~ msgid ""
-#~ "  -s, --search <file>  search package file names for matching strings\n"
-#~ msgstr ""
-#~ "  -s, --search <file>  문자열과 일치하는 꾸러미 파일 이름 검색합니다\n"
+#: src/pacman/pacman-conf.c:47
+#, c-format
+msgid "  -r, --repo=<remote>  query options for a specific repo\n"
+msgstr ""
 
-#~ msgid "option --force is deprecated; use --overwrite instead\n"
-#~ msgstr ""
-#~ "--force 옵션은 더 이상 사용되지 않습니다; 대신에 --overwrite 옵션을 사용하"
-#~ "세요\n"
+#: src/pacman/pacman-conf.c:48
+#, fuzzy, c-format
+msgid "  -v, --verbose        always show directive names\n"
+msgstr "  -v, --verbose        자세하게 보여줍니다.\n"
 
-#~ msgid "unable to %s directory-file conflicts\n"
-#~ msgstr "디렉터리와 파일이 충돌하여 %s 할 수 없습니다\n"
+#: src/pacman/pacman-conf.c:49
+#, fuzzy, c-format
+msgid "  -l, --repo-list      list configured repositories\n"
+msgstr "  -l, --list <repo>    저장소에 있는 꾸러미 목록을 봅니다.\n"
+
+#: src/pacman/pacman-conf.c:50
+#, c-format
+msgid "  -h, --help           display this help information\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:51
+#, fuzzy, c-format
+msgid "  -V, --version        display version information\n"
+msgstr "      --confirm        항상 확인 메시지를 묻습니다.\n"
+
+#: src/pacman/pacman-conf.c:80
+#, c-format
+msgid "error setting rootdir '%s': out of memory\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:110
+#, c-format
+msgid "error parsing '%s'\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:290
+#, fuzzy, c-format
+msgid "error: repo '%s' not configured\n"
+msgstr "'%s'를 구성하지 않았습니다\n"
+
+#: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:383
+#, c-format
+msgid "warning: '%s' directives cannot be queried\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:386
+#, c-format
+msgid "warning: unknown directive '%s'\n"
+msgstr ""
+
+#: src/pacman/pacman-conf.c:423
+#, c-format
+msgid "error: directives may not be specified with %s\n"
+msgstr ""
+
+#: src/util/testpkg.c:55
+#, c-format
+msgid ""
+"Test a pacman package for validity.\n"
+"\n"
+msgstr ""
+
+#: src/util/testpkg.c:56
+#, c-format
+msgid "Usage: testpkg <package file>\n"
+msgstr ""
+
+#: src/util/testpkg.c:62
+#, fuzzy, c-format
+msgid "cannot initialize alpm: %s\n"
+msgstr ""
+"ALPM 라이브러리를 초기화하지 못했습니다\n"
+"(%s: %s)\n"
+
+#: src/util/testpkg.c:77
+#, c-format
+msgid "Cannot find the given file.\n"
+msgstr ""
+
+#: src/util/testpkg.c:80
+#, c-format
+msgid "Cannot open the given file.\n"
+msgstr ""
+
+#: src/util/testpkg.c:84
+#, c-format
+msgid "Package is invalid.\n"
+msgstr ""
+
+#: src/util/testpkg.c:87
+#, c-format
+msgid "libalpm error: %s\n"
+msgstr ""
+
+#: src/util/testpkg.c:93
+#, fuzzy, c-format
+msgid "Package is valid.\n"
+msgstr "꾸러미"
+
+#: src/util/testpkg.c:98
+#, c-format
+msgid "error releasing alpm\n"
+msgstr ""
+
+#, c-format
+#~ msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
+#~ msgstr "PGP 키[%u%c/%s, \"%s\", 생성: %s (폐기됨)]를 불러들일까요?"
