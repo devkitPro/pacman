@@ -478,6 +478,11 @@ static int email_from_uid(const char *uid, char **email)
 {
        char *start, *end;
 
+       if (uid == NULL) {
+               email = NULL;
+               return -1;
+       }
+
        start = strrchr(uid, '<');
        if(start) {
                end = strrchr(start, '>');
