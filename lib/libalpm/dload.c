@@ -53,9 +53,11 @@ static const char *get_filename(const char *url)
 {
 	char *filename = strrchr(url, '/');
 	if(filename != NULL) {
-		filename++;
+		return filename + 1;
 	}
-	return filename;
+
+	/* no slash found, it's a filename */
+	return url;
 }
 
 static char *get_fullpath(const char *path, const char *filename,
