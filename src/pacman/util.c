@@ -1771,3 +1771,26 @@ int pm_vfprintf(FILE *stream, alpm_loglevel_t level, const char *format, va_list
 	ret = vfprintf(stream, format, args);
 	return ret;
 }
+
+char *arg_to_string(int argc, char *argv[])
+{
+	char *cl_text, *p;
+	size_t size = 0;
+	int i;
+	for(i = 0; i < argc; i++) {
+		size += strlen(argv[i]) + 1;
+	}
+	if(!size) {
+		return NULL;
+	}
+	if(!(cl_text = malloc(size))) {
+		return NULL;
+	}
+	for(p = cl_text, i = 0; i + 1 < argc; i++) {
+		strcpy(p, argv[i]);
+		p += strlen(argv[i]);
+		*p++ = ' ';
+	}
+	strcpy(p, argv[i]);
+	return cl_text;
+}

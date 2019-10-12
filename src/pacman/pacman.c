@@ -1066,28 +1066,12 @@ static int parseargs(int argc, char *argv[])
  */
 static void cl_to_log(int argc, char *argv[])
 {
-	size_t size = 0;
-	int i;
-	for(i = 0; i < argc; i++) {
-		size += strlen(argv[i]) + 1;
+	char *cl_text = arg_to_string(argc, argv);
+	if(cl_text) {
+		alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
+				"Running '%s'\n", cl_text);
+		free(cl_text);
 	}
-	if(!size) {
-		return;
-	}
-	char *cl_text = malloc(size);
-	if(!cl_text) {
-		return;
-	}
-	char *p = cl_text;
-	for(i = 0; i + 1 < argc; i++) {
-		strcpy(p, argv[i]);
-		p += strlen(argv[i]);
-		*p++ = ' ';
-	}
-	strcpy(p, argv[i]);
-	alpm_logaction(config->handle, PACMAN_CALLER_PREFIX,
-			"Running '%s'\n", cl_text);
-	free(cl_text);
 }
 
 /** Main function.
