@@ -176,11 +176,11 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 
 notfound:
 		if(!found) {
-			ret++;
+			ret = 1;
 		}
 	}
 
-	return 0;
+	return ret;
 }
 
 static void dump_file_list(alpm_pkg_t *pkg) {
