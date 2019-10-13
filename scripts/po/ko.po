@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:09+1000\n"
-"PO-Revision-Date: 2019-08-28 15:47+0000\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-08 20:10+0000\n"
 "Last-Translator: 배태길 <esrevinu@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
@@ -895,55 +895,60 @@ msgstr "키 %s로 로컬 서명중..."
 msgid "%s could not be locally signed."
 msgstr "%s를 자체적으로 서명할 수 없습니다."
 
-#: scripts/pacman-key.sh.in:480
+#: scripts/pacman-key.sh.in:482
+#, fuzzy
+msgid "Remote key not fetched correctly from WKD or keyserver."
+msgstr "원격 키를 키 서버에서 올바르게 가져올 수 없습니다."
+
+#: scripts/pacman-key.sh.in:487
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "원격 키를 키 서버에서 올바르게 가져올 수 없습니다."
 
-#: scripts/pacman-key.sh.in:488
+#: scripts/pacman-key.sh.in:497
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "지정한 로컬 키를 키 서버에서 가져와 업데이트할 수 없습니다."
 
-#: scripts/pacman-key.sh.in:506 scripts/repo-add.sh.in:273
+#: scripts/pacman-key.sh.in:515 scripts/repo-add.sh.in:273
 msgid "Cannot use armored signatures for packages: %s"
 msgstr "꾸러미들에 외장 서명을 사용할 수 없습니다: %s"
 
-#: scripts/pacman-key.sh.in:510
+#: scripts/pacman-key.sh.in:519
 msgid "The signature identified by %s could not be verified."
 msgstr "%s가 식별한 서명을 검증할 수 없습니다."
 
-#: scripts/pacman-key.sh.in:517
+#: scripts/pacman-key.sh.in:526
 msgid "Updating trust database..."
 msgstr "신뢰 데이터베이스 업그레이드 중..."
 
-#: scripts/pacman-key.sh.in:519
+#: scripts/pacman-key.sh.in:528
 msgid "Trust database could not be updated."
 msgstr "신뢰 데이터베이스를 업데이트할 수 없습니다."
 
-#: scripts/pacman-key.sh.in:586
+#: scripts/pacman-key.sh.in:595
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "%s 바이너리를 찾을 수 없습니다. 모든 %s 동작에 필요합니다."
 
-#: scripts/pacman-key.sh.in:591
+#: scripts/pacman-key.sh.in:600
 msgid "%s needs to be run as root for this operation."
 msgstr "%s의 동작을 루트 권한으로 실행해야 합니다."
 
-#: scripts/pacman-key.sh.in:597
+#: scripts/pacman-key.sh.in:606
 msgid "%s configuration file '%s' not found."
 msgstr "%s 설정 파일 '%s'가 없습니다."
 
-#: scripts/pacman-key.sh.in:618
+#: scripts/pacman-key.sh.in:627
 msgid "no operation specified (use -h for help)"
 msgstr "동작을 지정하지 않았습니다(도움말을 보시려면 -h를 사용하십시오)"
 
-#: scripts/pacman-key.sh.in:623
+#: scripts/pacman-key.sh.in:632
 msgid "Multiple operations specified."
 msgstr "여러 동작을 지정했습니다."
 
-#: scripts/pacman-key.sh.in:624
+#: scripts/pacman-key.sh.in:633
 msgid "Please run %s with each operation separately."
 msgstr "각각의 동작을 따로따로 지정하여 %s를 실행하십시오."
 
-#: scripts/pacman-key.sh.in:632
+#: scripts/pacman-key.sh.in:641
 msgid "No targets specified"
 msgstr "대상을 지정하지 않았습니다"
 
@@ -1329,7 +1334,7 @@ msgstr "%s는 배열이면 안 됩니다"
 
 #: scripts/libmakepkg/lint_config/variable.sh.in:66
 msgid "PACKAGER should have the format 'Example Name <email@address.invalid>'"
-msgstr ""
+msgstr "PACKAGER는 'Example Name <email@address.invalid>'의 형식이어야 합니다"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
 msgid "Checking for packaging issues..."

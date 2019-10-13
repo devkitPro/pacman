@@ -5,7 +5,7 @@
 # Translators:
 # Alan Lee <bkrhlim@aol.com>, 2013
 # Seong-ho Cho <darkcircle.0426@gmail.com>, 2013
-# 배태길 <esrevinu@gmail.com>, 2014,2016-2018
+# 배태길 <esrevinu@gmail.com>, 2014,2016-2019
 # Ji-Hyeon Gim <potatogim@potatogim.net>, 2014,2018
 # Alan Lee <bkrhlim@aol.com>, 2013
 # Seong-ho Cho <darkcircle.0426@gmail.com>, 2013
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:10+1000\n"
-"PO-Revision-Date: 2019-08-12 01:45+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-08 20:47+0000\n"
+"Last-Translator: 배태길 <esrevinu@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
 "Language: ko\n"
@@ -184,62 +184,67 @@ msgstr ""
 "%s 파일이 깨졌습니다(%s).\n"
 "삭제하시겠습니까?"
 
-#: src/pacman/callback.c:459
+#: src/pacman/callback.c:461
 #, fuzzy, c-format
-msgid "Import PGP key %s, \"%s\"?"
-msgstr "PGP 키[%u%c/%s, \"%s\", 생성: %s]를 불러들일까요?"
+msgid "Import PGP key %s?"
+msgstr "PGP 키 %s, \"%s\"를 들여오겠습니까?"
 
-#: src/pacman/callback.c:517
+#: src/pacman/callback.c:464
+#, c-format
+msgid "Import PGP key %s, \"%s\"?"
+msgstr "PGP 키 %s, \"%s\"를 들여오겠습니까?"
+
+#: src/pacman/callback.c:523
 #, c-format
 msgid "installing"
 msgstr "설치 중"
 
-#: src/pacman/callback.c:520
+#: src/pacman/callback.c:526
 #, c-format
 msgid "upgrading"
 msgstr "업그레이드 중"
 
-#: src/pacman/callback.c:523
+#: src/pacman/callback.c:529
 #, c-format
 msgid "downgrading"
 msgstr "다운그레이드 중"
 
-#: src/pacman/callback.c:526
+#: src/pacman/callback.c:532
 #, c-format
 msgid "reinstalling"
 msgstr "재설치 중"
 
-#: src/pacman/callback.c:529
+#: src/pacman/callback.c:535
 #, c-format
 msgid "removing"
 msgstr "삭제 중"
 
-#: src/pacman/callback.c:532
+#: src/pacman/callback.c:538
 #, c-format
 msgid "checking for file conflicts"
 msgstr "파일 충돌 검사 중"
 
-#: src/pacman/callback.c:535
+#: src/pacman/callback.c:541
 #, c-format
 msgid "checking available disk space"
 msgstr "사용 가능한 디스크 공간 검사 중"
 
-#: src/pacman/callback.c:538
+#: src/pacman/callback.c:544
 #, c-format
 msgid "checking package integrity"
 msgstr "꾸러미 무결성 검사 중"
 
-#: src/pacman/callback.c:541
+#: src/pacman/callback.c:547
 #, c-format
 msgid "checking keys in keyring"
 msgstr "키링의 키를 검사 중"
 
-#: src/pacman/callback.c:544
+#: src/pacman/callback.c:550
 #, c-format
 msgid "loading package files"
 msgstr "꾸러미 파일 불러오는 중"
 
-#: src/pacman/callback.c:661
+#: src/pacman/callback.c:667
 #, c-format
 msgid "downloading %s...\n"
 msgstr "%s 다운로드 중...\n"
@@ -328,49 +333,49 @@ msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
 msgstr[0] "대체한 파일 %jd개\n"
 
-#: src/pacman/conf.c:97
+#: src/pacman/conf.c:98 src/pacman/conf.c:306
 #, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
 msgstr[0] "malloc 실패: %zu 바이트를 할당할 수 없습니다\n"
 
-#: src/pacman/conf.c:250
+#: src/pacman/conf.c:329
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "현재 작업 디렉터리를 가져올 수 없습니다\n"
 
-#: src/pacman/conf.c:255
+#: src/pacman/conf.c:334
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "%s 다운로드 디렉터리로 이동할 수 없습니다\n"
 
-#: src/pacman/conf.c:264
+#: src/pacman/conf.c:349
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "실행 중인 XferCommand: fork에 실패했습니다!\n"
 
-#: src/pacman/conf.c:276
+#: src/pacman/conf.c:361
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "%s 이름을 %s로 바꿀 수 없습니다(%s)\n"
 
-#: src/pacman/conf.c:287
+#: src/pacman/conf.c:372
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "작업 디렉터리를 복구할 수 없습니다(%s)\n"
 
-#: src/pacman/conf.c:396 src/pacman/conf.c:445
+#: src/pacman/conf.c:481 src/pacman/conf.c:530 src/pacman/conf.c:635
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr "구성파일 %s, %d번째 줄: '%s'에 대한 잘못된 값입니다: '%s'\n"
 
-#: src/pacman/conf.c:410
+#: src/pacman/conf.c:495
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
 "구성파일 %s, %d번째 줄: '%s' 옵션이 잘못되었으며, 서명을 지원하지 않습니다\n"
 
-#: src/pacman/conf.c:501 src/pacman/conf.c:586 src/pacman/conf.c:855
+#: src/pacman/conf.c:586 src/pacman/conf.c:682 src/pacman/conf.c:951
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
@@ -378,22 +383,22 @@ msgstr ""
 "구성파일 %1$s, %2$d번째 줄: '%4$s' 섹션의 '%3$s' 지시자를 인식하지 못했습니"
 "다.\n"
 
-#: src/pacman/conf.c:598
+#: src/pacman/conf.c:694
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr "'%s' 미러에 '%s' 변수를 포함하고 있지만 '%s'를 정의하지 않았습니다.\n"
 
-#: src/pacman/conf.c:622
+#: src/pacman/conf.c:718
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "'%s' 데이터베이스에 서버 URL을 추가할 수 없습니다: %s (%s)\n"
 
-#: src/pacman/conf.c:637
+#: src/pacman/conf.c:733
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "'%s' 데이터베이스를 등록할 수 없습니다(%s)\n"
 
-#: src/pacman/conf.c:673
+#: src/pacman/conf.c:769
 #, c-format
 msgid ""
 "failed to initialize alpm library\n"
@@ -402,57 +407,57 @@ msgstr ""
 "ALPM 라이브러리를 초기화하지 못했습니다\n"
 "(%s: %s)\n"
 
-#: src/pacman/conf.c:676
+#: src/pacman/conf.c:772
 #, c-format
 msgid "try running pacman-db-upgrade\n"
 msgstr "pacman-db-upgrade를 실행해 보세요\n"
 
-#: src/pacman/conf.c:694
+#: src/pacman/conf.c:790
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "로그파일을 '%s'로 설정하는 데 문제가 있습니다(%s)\n"
 
-#: src/pacman/conf.c:703
+#: src/pacman/conf.c:799
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "GPG 디렉터리를 '%s'로 설정하는 데 문제가 있습니다(%s)\n"
 
-#: src/pacman/conf.c:713
+#: src/pacman/conf.c:809
 #, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
 msgstr "훅 디렉토리 '%s'를 추가하는 데 문제가 있습니다(%s)\n"
 
-#: src/pacman/conf.c:735
+#: src/pacman/conf.c:831
 #, c-format
 msgid "no '%s' configured\n"
 msgstr "'%s'를 구성하지 않았습니다\n"
 
-#: src/pacman/conf.c:764
+#: src/pacman/conf.c:860
 #, c-format
 msgid "Failed to pass %s entry to libalpm"
 msgstr "libalpm에 %s 항목을 넘기는 데 실패했습니다"
 
-#: src/pacman/conf.c:804
+#: src/pacman/conf.c:900
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr "구성파일 %s, %d번째 줄: '%s' 옵션의 '%s'를 인식할 수 없습니다.\n"
 
-#: src/pacman/conf.c:824 src/pacman/conf.c:877
+#: src/pacman/conf.c:920 src/pacman/conf.c:973
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr "구성파일 %s, %d번째 줄: '%s' 지시자에 값이 필요합니다\n"
 
-#: src/pacman/conf.c:884
+#: src/pacman/conf.c:980
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "설정 내용 해석에 %d 최대 재귀 단계를 초과했습니다.\n"
 
-#: src/pacman/conf.c:932
+#: src/pacman/conf.c:1028
 #, c-format
 msgid "config file %s could not be read: %s\n"
 msgstr "%s 설정 파일을 읽을 수 없습니다: %s\n"
 
-#: src/pacman/conf.c:955
+#: src/pacman/conf.c:1051
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr "구성파일 %s, %d번째 줄: 모든 지시자는 섹션에 속해있어야 합니다.\n"
@@ -1208,37 +1213,37 @@ msgstr "잘못된 옵션 '-%c'\n"
 msgid "invalid option '--%s'\n"
 msgstr "잘못된 옵션 '--%s'\n"
 
-#: src/pacman/pacman.c:1146
+#: src/pacman/pacman.c:1130
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "루트 계정이 아니라면 이 동작을 수행할 수 없습니다.\n"
 
-#: src/pacman/pacman.c:1152
+#: src/pacman/pacman.c:1136
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
 msgstr "'%s'로의 루트 변경을 실패했습니다: (%s)\n"
 
-#: src/pacman/pacman.c:1186
+#: src/pacman/pacman.c:1170
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr "표준 입력으로부터 인자를 읽지 못했습니다: (%s)\n"
 
-#: src/pacman/pacman.c:1191
+#: src/pacman/pacman.c:1175
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "읽어오기 위한 표준 입력을 다시 여는데 실패했습니다: (%s)\n"
 
-#: src/pacman/pacman.c:1196
+#: src/pacman/pacman.c:1180
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "빈 표준 입력으로 인수 '-' 지정\n"
 
-#: src/pacman/pacman.c:1201
+#: src/pacman/pacman.c:1185
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "표준입력에 대한 입력을 빠뜨리고 '-' 인자를 지정했습니다\n"
 
-#: src/pacman/pacman.c:1278
+#: src/pacman/pacman.c:1262
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "동작을 지정하지 않았습니다(도움말을 보려면 -h 사용)\n"
@@ -1298,10 +1303,10 @@ msgstr "대상이 없습니다: %s\n"
 msgid "failed to prepare transaction (%s)\n"
 msgstr "트랜잭션을 준비하는데 실패했습니다(%s)\n"
 
-#: src/pacman/remove.c:119
+#: src/pacman/remove.c:119 src/pacman/sync.c:737
 #, c-format
-msgid "%s: removing %s breaks dependency '%s'\n"
-msgstr "%s: %s 제거로 의존성 '%s'가 깨집니다\n"
+msgid "removing %s breaks dependency '%s' required by %s\n"
+msgstr "%s 제거로 의존성 '%s'(%s가 요구)가 깨집니다\n"
 
 #: src/pacman/remove.c:138
 #, c-format
@@ -1443,11 +1448,6 @@ msgstr "의존성 '%s'(%s가 요구)를 만족시킬 수 없습니다\n"
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
 msgstr "%s(%s) 설치로 의존성 '%s'(%s가 요구)가 깨집니다\n"
-
-#: src/pacman/sync.c:737
-#, c-format
-msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "%s 제거로 의존성 '%s'(%s가 요구)가 깨집니다\n"
 
 #: src/pacman/sync.c:757
 #, c-format
@@ -1761,87 +1761,87 @@ msgstr "경고: "
 #: src/pacman/pacman-conf.c:41
 #, c-format
 msgid "pacman-conf - query pacman's configuration file\n"
-msgstr ""
+msgstr "pacman-conf - pacman의 설정 파일 조회\n"
 
 #: src/pacman/pacman-conf.c:42
 #, c-format
 msgid "usage:  pacman-conf [options] [<directive>...]\n"
-msgstr ""
+msgstr "사용법:  pacman-conf [옵션들] [<directive>...]\n"
 
 #: src/pacman/pacman-conf.c:43
 #, c-format
 msgid "        pacman-conf (--repo-list|--help|--version)\n"
-msgstr ""
+msgstr "        pacman-conf (--repo-list|--help|--version)\n"
 
 #: src/pacman/pacman-conf.c:44
-#, fuzzy, c-format
+#, c-format
 msgid "options:\n"
-msgstr "옵션"
+msgstr "옵션들:\n"
 
 #: src/pacman/pacman-conf.c:45
-#, fuzzy, c-format
+#, c-format
 msgid "  -c, --config=<path>  set an alternate configuration file\n"
-msgstr "      --config <path>  대체 환경 설정 파일을 설정합니다.\n"
+msgstr "  -c, --config=<path>  대체 설정파일을 지정합니다\n"
 
 #: src/pacman/pacman-conf.c:46
-#, fuzzy, c-format
+#, c-format
 msgid "  -R, --rootdir=<path> set an alternate installation root\n"
-msgstr "  -r, --root <patn>    대체 설치 최상위 경로를 설정합니다.\n"
+msgstr "  -R, --rootdir=<path> 대체 설치 최상위 경로를 지정합니다\n"
 
 #: src/pacman/pacman-conf.c:47
 #, c-format
 msgid "  -r, --repo=<remote>  query options for a specific repo\n"
-msgstr ""
+msgstr "  -r, --repo=<remote>  특정 저장소를 위한 옵션들을 조회합니다\n"
 
 #: src/pacman/pacman-conf.c:48
-#, fuzzy, c-format
+#, c-format
 msgid "  -v, --verbose        always show directive names\n"
-msgstr "  -v, --verbose        자세하게 보여줍니다.\n"
+msgstr "  -v, --verbose        항상 지시어 이름을 보여줍니다\n"
 
 #: src/pacman/pacman-conf.c:49
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --repo-list      list configured repositories\n"
-msgstr "  -l, --list <repo>    저장소에 있는 꾸러미 목록을 봅니다.\n"
+msgstr "  -l, --repo-list      설정된 저장소들을 열거합니다\n"
 
 #: src/pacman/pacman-conf.c:50
 #, c-format
 msgid "  -h, --help           display this help information\n"
-msgstr ""
+msgstr "  -h, --help           이 도움말을 표시합니다\n"
 
 #: src/pacman/pacman-conf.c:51
-#, fuzzy, c-format
+#, c-format
 msgid "  -V, --version        display version information\n"
-msgstr "      --confirm        항상 확인 메시지를 묻습니다.\n"
+msgstr "  -V, --version        버전 정보를 표시합니다\n"
 
 #: src/pacman/pacman-conf.c:80
 #, c-format
 msgid "error setting rootdir '%s': out of memory\n"
-msgstr ""
+msgstr "최상위 경로 '%s' 설정 중 오류: 메모리 부족\n"
 
 #: src/pacman/pacman-conf.c:110
 #, c-format
 msgid "error parsing '%s'\n"
-msgstr ""
+msgstr "'%s' 해석 중 오류\n"
 
 #: src/pacman/pacman-conf.c:290
-#, fuzzy, c-format
+#, c-format
 msgid "error: repo '%s' not configured\n"
-msgstr "'%s'를 구성하지 않았습니다\n"
+msgstr "오류: 저장소 '%s'가 설정되지 않음\n"
 
 #: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:383
 #, c-format
 msgid "warning: '%s' directives cannot be queried\n"
-msgstr ""
+msgstr "경고: '%s' 지시어를 조회할 수 없음\n"
 
 #: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:386
 #, c-format
 msgid "warning: unknown directive '%s'\n"
-msgstr ""
+msgstr "경고: 알 수 없는 지시어 '%s'\n"
 
 #: src/pacman/pacman-conf.c:423
 #, c-format
 msgid "error: directives may not be specified with %s\n"
-msgstr ""
+msgstr "오류: 지시어는 %s로 지정할 수 없음\n"
 
 #: src/util/testpkg.c:55
 #, c-format
@@ -1849,49 +1849,49 @@ msgid ""
 "Test a pacman package for validity.\n"
 "\n"
 msgstr ""
+"Pacman 꾸러미를 유효한지 시험합니다.\n"
+"\n"
 
 #: src/util/testpkg.c:56
 #, c-format
 msgid "Usage: testpkg <package file>\n"
-msgstr ""
+msgstr "사용법: testpkg <package file>\n"
 
 #: src/util/testpkg.c:62
-#, fuzzy, c-format
+#, c-format
 msgid "cannot initialize alpm: %s\n"
-msgstr ""
-"ALPM 라이브러리를 초기화하지 못했습니다\n"
-"(%s: %s)\n"
+msgstr "alpm을 초기화할 수 없음: %s\n"
 
 #: src/util/testpkg.c:77
 #, c-format
 msgid "Cannot find the given file.\n"
-msgstr ""
+msgstr "주어진 파일을 찾을 수 없습니다.\n"
 
 #: src/util/testpkg.c:80
 #, c-format
 msgid "Cannot open the given file.\n"
-msgstr ""
+msgstr "주어진 파일을 열 수 없습니다.\n"
 
 #: src/util/testpkg.c:84
 #, c-format
 msgid "Package is invalid.\n"
-msgstr ""
+msgstr "꾸러미가 올바르지 않습니다.\n"
 
 #: src/util/testpkg.c:87
 #, c-format
 msgid "libalpm error: %s\n"
-msgstr ""
+msgstr "libalpm 오류: %s\n"
 
 #: src/util/testpkg.c:93
-#, fuzzy, c-format
+#, c-format
 msgid "Package is valid.\n"
-msgstr "꾸러미"
+msgstr "꾸러미가 올바릅니다.\n"
 
 #: src/util/testpkg.c:98
 #, c-format
 msgid "error releasing alpm\n"
-msgstr ""
+msgstr "alpm을 놓아주는 중 오류\n"
 
 #, c-format
-#~ msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-#~ msgstr "PGP 키[%u%c/%s, \"%s\", 생성: %s (폐기됨)]를 불러들일까요?"
+#~ msgid "%s: removing %s breaks dependency '%s'\n"
+#~ msgstr "%s: %s 제거로 의존성 '%s'가 깨집니다\n"

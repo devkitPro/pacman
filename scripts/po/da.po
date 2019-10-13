@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:09+1000\n"
-"PO-Revision-Date: 2019-08-25 14:25+0000\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-07 15:24+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/da/)\n"
@@ -394,7 +394,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:989
 msgid "These options can be passed to %s:"
-msgstr "Disse indstillinger kan videresendes til %s:"
+msgstr "Tilvalgene kan videresendes til %s:"
 
 #: scripts/makepkg.sh.in:991
 msgid "  --asdeps         Install packages as non-explicitly installed"
@@ -701,7 +701,7 @@ msgstr "-d, --delete Fjern de specificerede nøgle-id'er"
 
 #: scripts/pacman-key.sh.in:65
 msgid "  -e, --export              Export the specified or all keyids"
-msgstr "-e, --export Eksporter de specificerede eller alle nøgle-id'er"
+msgstr "-e, --export Eksportér de specificerede eller alle nøgle-id'er"
 
 #: scripts/pacman-key.sh.in:66
 msgid ""
@@ -898,56 +898,61 @@ msgstr "Signerer nøglen %s lokalt..."
 msgid "%s could not be locally signed."
 msgstr "%s kunne ikke signeres lokalt."
 
-#: scripts/pacman-key.sh.in:480
+#: scripts/pacman-key.sh.in:482
+#, fuzzy
+msgid "Remote key not fetched correctly from WKD or keyserver."
+msgstr "Fjern-nøgle ikke hentet korrekt fra nøgleserver."
+
+#: scripts/pacman-key.sh.in:487
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Fjern-nøgle ikke hentet korrekt fra nøgleserver."
 
-#: scripts/pacman-key.sh.in:488
+#: scripts/pacman-key.sh.in:497
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "En angivet lokalt nøgle kunne ikke opdateres fra nøgleserver."
 
-#: scripts/pacman-key.sh.in:506 scripts/repo-add.sh.in:273
+#: scripts/pacman-key.sh.in:515 scripts/repo-add.sh.in:273
 msgid "Cannot use armored signatures for packages: %s"
 msgstr "Kan ikke bruge armerede signaturer til pakker: %s"
 
-#: scripts/pacman-key.sh.in:510
+#: scripts/pacman-key.sh.in:519
 msgid "The signature identified by %s could not be verified."
 msgstr "Signaturen identificeret ved %s kunne ikke verficeres."
 
-#: scripts/pacman-key.sh.in:517
+#: scripts/pacman-key.sh.in:526
 msgid "Updating trust database..."
 msgstr "Opdaterer tillidsdatabase..."
 
-#: scripts/pacman-key.sh.in:519
+#: scripts/pacman-key.sh.in:528
 msgid "Trust database could not be updated."
 msgstr "Tillidsdatabase kunne ikke opdateres."
 
-#: scripts/pacman-key.sh.in:586
+#: scripts/pacman-key.sh.in:595
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
 "Kan ikke finde den binære fil %s, der er krævet for alle %s operationer."
 
-#: scripts/pacman-key.sh.in:591
+#: scripts/pacman-key.sh.in:600
 msgid "%s needs to be run as root for this operation."
 msgstr "%s skal køres som root for denne operation."
 
-#: scripts/pacman-key.sh.in:597
+#: scripts/pacman-key.sh.in:606
 msgid "%s configuration file '%s' not found."
 msgstr "%s konfigurationsfil '%s' ikke fundet."
 
-#: scripts/pacman-key.sh.in:618
+#: scripts/pacman-key.sh.in:627
 msgid "no operation specified (use -h for help)"
 msgstr "ingen operation angivet (brug -h for hjælp)."
 
-#: scripts/pacman-key.sh.in:623
+#: scripts/pacman-key.sh.in:632
 msgid "Multiple operations specified."
 msgstr "Flere operationer angivet."
 
-#: scripts/pacman-key.sh.in:624
+#: scripts/pacman-key.sh.in:633
 msgid "Please run %s with each operation separately."
 msgstr "Kør venligst %s seperat med hver operation."
 
-#: scripts/pacman-key.sh.in:632
+#: scripts/pacman-key.sh.in:641
 msgid "No targets specified"
 msgstr "Ingen mål angivet"
 
@@ -1241,7 +1246,7 @@ msgstr "Validerer %s filer med %s ..."
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:122
 msgid "One or more files did not pass the validity check!"
-msgstr "En eller flere filer bestod ikke validitetstjekket!"
+msgstr "En eller flere filer bestod ikke gyldighedstjekket!"
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:126
 msgid "Integrity checks (%s) differ in size from the source array."
@@ -1332,7 +1337,7 @@ msgstr "%s burde ikke være et matrix"
 
 #: scripts/libmakepkg/lint_config/variable.sh.in:66
 msgid "PACKAGER should have the format 'Example Name <email@address.invalid>'"
-msgstr ""
+msgstr "PAKKEVEDLIGEHOLDER skal have formatet 'Navn <email@adresse.invalid>'"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
 msgid "Checking for packaging issues..."
@@ -1373,7 +1378,7 @@ msgstr "%s skal være et heltal, ikke %s."
 
 #: scripts/libmakepkg/lint_pkgbuild/options.sh.in:52
 msgid "%s array contains unknown option '%s'"
-msgstr "%s tabel indeholder ukendt indstilling '%s'"
+msgstr "%s tabel indeholder ukendt tilvalg '%s'"
 
 #: scripts/libmakepkg/lint_pkgbuild/package_function.sh.in:38
 msgid "Conflicting %s and %s functions in %s"

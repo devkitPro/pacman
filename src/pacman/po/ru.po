@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:10+1000\n"
-"PO-Revision-Date: 2019-08-12 01:45+0000\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-07 08:15+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Russian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ru/)\n"
@@ -203,62 +203,67 @@ msgstr ""
 "Файл %s поврежден (%s).\n"
 "Хотите его удалить?"
 
-#: src/pacman/callback.c:459
-#, fuzzy, c-format
-msgid "Import PGP key %s, \"%s\"?"
-msgstr "Импортировать PGP ключ %u%c/%s, \"%s\", создан: %s?"
+#: src/pacman/callback.c:461
+#, c-format
+msgid "Import PGP key %s?"
+msgstr ""
 
-#: src/pacman/callback.c:517
+#: src/pacman/callback.c:464
+#, c-format
+msgid "Import PGP key %s, \"%s\"?"
+msgstr ""
+
+#: src/pacman/callback.c:523
 #, c-format
 msgid "installing"
 msgstr "установка"
 
-#: src/pacman/callback.c:520
+#: src/pacman/callback.c:526
 #, c-format
 msgid "upgrading"
 msgstr "обновление"
 
-#: src/pacman/callback.c:523
+#: src/pacman/callback.c:529
 #, c-format
 msgid "downgrading"
 msgstr "откат версии"
 
-#: src/pacman/callback.c:526
+#: src/pacman/callback.c:532
 #, c-format
 msgid "reinstalling"
 msgstr "переустановка"
 
-#: src/pacman/callback.c:529
+#: src/pacman/callback.c:535
 #, c-format
 msgid "removing"
 msgstr "удаление"
 
-#: src/pacman/callback.c:532
+#: src/pacman/callback.c:538
 #, c-format
 msgid "checking for file conflicts"
 msgstr "проверка конфликтов файлов"
 
-#: src/pacman/callback.c:535
+#: src/pacman/callback.c:541
 #, c-format
 msgid "checking available disk space"
 msgstr "проверка доступного места"
 
-#: src/pacman/callback.c:538
+#: src/pacman/callback.c:544
 #, c-format
 msgid "checking package integrity"
 msgstr "проверка целостности пакета"
 
-#: src/pacman/callback.c:541
+#: src/pacman/callback.c:547
 #, c-format
 msgid "checking keys in keyring"
 msgstr "проверка ключей"
 
-#: src/pacman/callback.c:544
+#: src/pacman/callback.c:550
 #, c-format
 msgid "loading package files"
 msgstr "загрузка файлов пакетов"
 
-#: src/pacman/callback.c:661
+#: src/pacman/callback.c:667
 #, c-format
 msgid "downloading %s...\n"
 msgstr "загрузка %s...\n"
@@ -356,7 +361,7 @@ msgstr[1] "%jd измененных файлов\n"
 msgstr[2] "%jd измененных файлов\n"
 msgstr[3] "%jd измененных файлов\n"
 
-#: src/pacman/conf.c:97
+#: src/pacman/conf.c:98 src/pacman/conf.c:306
 #, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
@@ -365,65 +370,65 @@ msgstr[1] "ошибка malloc: не удалось выделить %zu бай�
 msgstr[2] "ошибка malloc: не удалось выделить %zu байт\n"
 msgstr[3] "ошибка malloc: не удалось выделить %zu байт\n"
 
-#: src/pacman/conf.c:250
+#: src/pacman/conf.c:329
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "не удалось получить текущий рабочий каталог\n"
 
-#: src/pacman/conf.c:255
+#: src/pacman/conf.c:334
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "не удалось перейти в каталог загрузок %s\n"
 
-#: src/pacman/conf.c:264
+#: src/pacman/conf.c:349
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "запуск XferCommand: fork failed!\n"
 
-#: src/pacman/conf.c:276
+#: src/pacman/conf.c:361
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "не удалось переименовать %s в %s (%s)\n"
 
-#: src/pacman/conf.c:287
+#: src/pacman/conf.c:372
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "не удалось восстановить рабочий каталог (%s)\n"
 
-#: src/pacman/conf.c:396 src/pacman/conf.c:445
+#: src/pacman/conf.c:481 src/pacman/conf.c:530 src/pacman/conf.c:635
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr "файл %s, строка %d: недопустимое значение для '%s' : '%s'\n"
 
-#: src/pacman/conf.c:410
+#: src/pacman/conf.c:495
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
 "файл %s, строка %d: '%s' недопустимый параметр, поддержка подписей "
 "недоступна\n"
 
-#: src/pacman/conf.c:501 src/pacman/conf.c:586 src/pacman/conf.c:855
+#: src/pacman/conf.c:586 src/pacman/conf.c:682 src/pacman/conf.c:951
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr "файл %s, строка %d: параметр '%s' в секции '%s' не распознан.\n"
 
-#: src/pacman/conf.c:598
+#: src/pacman/conf.c:694
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr "зеркало '%s' содержит переменную '%s', но '%s' не определена.\n"
 
-#: src/pacman/conf.c:622
+#: src/pacman/conf.c:718
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "не удалось добавить адрес сервера в базу данных '%s': %s (%s)\n"
 
-#: src/pacman/conf.c:637
+#: src/pacman/conf.c:733
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "не удалось зарегистрировать базу данных '%s' (%s)\n"
 
-#: src/pacman/conf.c:673
+#: src/pacman/conf.c:769
 #, c-format
 msgid ""
 "failed to initialize alpm library\n"
@@ -432,58 +437,58 @@ msgstr ""
 "не удалось инициализировать библиотеку alpm\n"
 "(%s: %s)\n"
 
-#: src/pacman/conf.c:676
+#: src/pacman/conf.c:772
 #, c-format
 msgid "try running pacman-db-upgrade\n"
 msgstr "попробуйте запустить pacman-db-upgrade\n"
 
-#: src/pacman/conf.c:694
+#: src/pacman/conf.c:790
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "не удалось использовать файл журнала '%s' (%s)\n"
 
-#: src/pacman/conf.c:703
+#: src/pacman/conf.c:799
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "проблема при установке gpgdir '%s' (%s)\n"
 
-#: src/pacman/conf.c:713
+#: src/pacman/conf.c:809
 #, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
 msgstr "не удалось добавить hookdir '%s' (%s)\n"
 
-#: src/pacman/conf.c:735
+#: src/pacman/conf.c:831
 #, c-format
 msgid "no '%s' configured\n"
 msgstr "'%s' не настроено\n"
 
-#: src/pacman/conf.c:764
+#: src/pacman/conf.c:860
 #, c-format
 msgid "Failed to pass %s entry to libalpm"
 msgstr "Не удалось передать запись %s libalpm"
 
-#: src/pacman/conf.c:804
+#: src/pacman/conf.c:900
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr "файл %s, строка %d: параметр '%s' в секции '%s' не распознан.\n"
 
-#: src/pacman/conf.c:824 src/pacman/conf.c:877
+#: src/pacman/conf.c:920 src/pacman/conf.c:973
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr "файл %s, строка %d: параметр '%s' требует значения\n"
 
-#: src/pacman/conf.c:884
+#: src/pacman/conf.c:980
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
 "достинут максимум вложенности при разборе конфигурационного файла %d.\n"
 
-#: src/pacman/conf.c:932
+#: src/pacman/conf.c:1028
 #, c-format
 msgid "config file %s could not be read: %s\n"
 msgstr "файл конфигурации %s не может быть прочитан: %s\n"
 
-#: src/pacman/conf.c:955
+#: src/pacman/conf.c:1051
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
@@ -1230,37 +1235,37 @@ msgstr "недопустимый параметр '-%c'\n"
 msgid "invalid option '--%s'\n"
 msgstr "недопустимый параметр '--%s'\n"
 
-#: src/pacman/pacman.c:1146
+#: src/pacman/pacman.c:1130
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "для выполнения этой операции требуются права root.\n"
 
-#: src/pacman/pacman.c:1152
+#: src/pacman/pacman.c:1136
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
 msgstr "вызов chroot на '%s' завершился неудачно: (%s)\n"
 
-#: src/pacman/pacman.c:1186
+#: src/pacman/pacman.c:1170
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr "не удалось прочитать аргументы из стандартного ввода: (%s)\n"
 
-#: src/pacman/pacman.c:1191
+#: src/pacman/pacman.c:1175
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "не удалось заново открыть stdin для чтения: (%s)\n"
 
-#: src/pacman/pacman.c:1196
+#: src/pacman/pacman.c:1180
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "аргумент '-' указан с пустым stdin\n"
 
-#: src/pacman/pacman.c:1201
+#: src/pacman/pacman.c:1185
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "аргумент '-' указан без ввода в stdin\n"
 
-#: src/pacman/pacman.c:1278
+#: src/pacman/pacman.c:1262
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "не указана операция (используйте -h для справки)\n"
@@ -1320,10 +1325,10 @@ msgstr "не найдена цель: %s\n"
 msgid "failed to prepare transaction (%s)\n"
 msgstr "не удалось подготовить транзакцию (%s)\n"
 
-#: src/pacman/remove.c:119
+#: src/pacman/remove.c:119 src/pacman/sync.c:737
 #, c-format
-msgid "%s: removing %s breaks dependency '%s'\n"
-msgstr "%s: удаление %s ломает зависимость '%s'\n"
+msgid "removing %s breaks dependency '%s' required by %s\n"
+msgstr ""
 
 #: src/pacman/remove.c:138
 #, c-format
@@ -1469,11 +1474,6 @@ msgstr ""
 #: src/pacman/sync.c:733
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
-msgstr ""
-
-#: src/pacman/sync.c:737
-#, c-format
-msgid "removing %s breaks dependency '%s' required by %s\n"
 msgstr ""
 
 #: src/pacman/sync.c:757
@@ -1801,19 +1801,19 @@ msgid "        pacman-conf (--repo-list|--help|--version)\n"
 msgstr ""
 
 #: src/pacman/pacman-conf.c:44
-#, fuzzy, c-format
+#, c-format
 msgid "options:\n"
-msgstr "параметры"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:45
-#, fuzzy, c-format
+#, c-format
 msgid "  -c, --config=<path>  set an alternate configuration file\n"
-msgstr "--config <путь> использовать альтернативный конфигурационный файл\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:46
-#, fuzzy, c-format
+#, c-format
 msgid "  -R, --rootdir=<path> set an alternate installation root\n"
-msgstr "-r, --root <путь> указать альтернативный корневой каталог\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:47
 #, c-format
@@ -1821,14 +1821,14 @@ msgid "  -r, --repo=<remote>  query options for a specific repo\n"
 msgstr ""
 
 #: src/pacman/pacman-conf.c:48
-#, fuzzy, c-format
+#, c-format
 msgid "  -v, --verbose        always show directive names\n"
-msgstr "-v, --verbose выводить больше информации\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:49
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --repo-list      list configured repositories\n"
-msgstr "-l, --list <repo> показать все пакеты из этого репозитория\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:50
 #, c-format
@@ -1836,9 +1836,9 @@ msgid "  -h, --help           display this help information\n"
 msgstr ""
 
 #: src/pacman/pacman-conf.c:51
-#, fuzzy, c-format
+#, c-format
 msgid "  -V, --version        display version information\n"
-msgstr "--confirm всегда спрашивать подтверждения\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:80
 #, c-format
@@ -1851,9 +1851,9 @@ msgid "error parsing '%s'\n"
 msgstr ""
 
 #: src/pacman/pacman-conf.c:290
-#, fuzzy, c-format
+#, c-format
 msgid "error: repo '%s' not configured\n"
-msgstr "'%s' не настроено\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:383
 #, c-format
@@ -1883,11 +1883,9 @@ msgid "Usage: testpkg <package file>\n"
 msgstr ""
 
 #: src/util/testpkg.c:62
-#, fuzzy, c-format
+#, c-format
 msgid "cannot initialize alpm: %s\n"
 msgstr ""
-"не удалось инициализировать библиотеку alpm\n"
-"(%s: %s)\n"
 
 #: src/util/testpkg.c:77
 #, c-format
@@ -1910,9 +1908,9 @@ msgid "libalpm error: %s\n"
 msgstr ""
 
 #: src/util/testpkg.c:93
-#, fuzzy, c-format
+#, c-format
 msgid "Package is valid.\n"
-msgstr "Пакеты"
+msgstr ""
 
 #: src/util/testpkg.c:98
 #, c-format
@@ -1920,5 +1918,5 @@ msgid "error releasing alpm\n"
 msgstr ""
 
 #, c-format
-#~ msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-#~ msgstr "Импортировать PGP ключ %u%c/%s, \"%s\", создан: %s (отозван)?"
+#~ msgid "%s: removing %s breaks dependency '%s'\n"
+#~ msgstr "%s: удаление %s ломает зависимость '%s'\n"

@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:09+1000\n"
-"PO-Revision-Date: 2019-08-23 15:53+0000\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-07 10:21+0000\n"
 "Last-Translator: Rafael Fontenelle <rffontenelle@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/pt_BR/)\n"
@@ -927,59 +927,64 @@ msgstr "Assinando localmente a chave %s..."
 msgid "%s could not be locally signed."
 msgstr "%s não pôde ser assinado localmente."
 
-#: scripts/pacman-key.sh.in:480
+#: scripts/pacman-key.sh.in:482
+#, fuzzy
+msgid "Remote key not fetched correctly from WKD or keyserver."
+msgstr "A chave remota não foi adquirida corretamente do servidor de chaves."
+
+#: scripts/pacman-key.sh.in:487
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "A chave remota não foi adquirida corretamente do servidor de chaves."
 
-#: scripts/pacman-key.sh.in:488
+#: scripts/pacman-key.sh.in:497
 msgid "A specified local key could not be updated from a keyserver."
 msgstr ""
 "Uma chave local especifica não pôde ser atualizada a partir do servidor de "
 "chaves."
 
-#: scripts/pacman-key.sh.in:506 scripts/repo-add.sh.in:273
+#: scripts/pacman-key.sh.in:515 scripts/repo-add.sh.in:273
 msgid "Cannot use armored signatures for packages: %s"
 msgstr "Não foi possível utilizar assinaturas para os pacotes: %s"
 
-#: scripts/pacman-key.sh.in:510
+#: scripts/pacman-key.sh.in:519
 msgid "The signature identified by %s could not be verified."
 msgstr "A assinatura identificada por %s não pôde ser verificada."
 
-#: scripts/pacman-key.sh.in:517
+#: scripts/pacman-key.sh.in:526
 msgid "Updating trust database..."
 msgstr "Atualizando base de dados de confiança..."
 
-#: scripts/pacman-key.sh.in:519
+#: scripts/pacman-key.sh.in:528
 msgid "Trust database could not be updated."
 msgstr "A base de dados de confiança não pôde ser atualizada."
 
-#: scripts/pacman-key.sh.in:586
+#: scripts/pacman-key.sh.in:595
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
 "Não foi possível encontrar o executável %s necessário para todas %s "
 "operações."
 
-#: scripts/pacman-key.sh.in:591
+#: scripts/pacman-key.sh.in:600
 msgid "%s needs to be run as root for this operation."
 msgstr "%s precisa ser executado como root para esta operação."
 
-#: scripts/pacman-key.sh.in:597
+#: scripts/pacman-key.sh.in:606
 msgid "%s configuration file '%s' not found."
 msgstr "arquivo de configuração do %s '%s' não foi encontrado."
 
-#: scripts/pacman-key.sh.in:618
+#: scripts/pacman-key.sh.in:627
 msgid "no operation specified (use -h for help)"
 msgstr "nenhuma operação especificada (use -h para ajuda)"
 
-#: scripts/pacman-key.sh.in:623
+#: scripts/pacman-key.sh.in:632
 msgid "Multiple operations specified."
 msgstr "Múltiplas operações especificadas."
 
-#: scripts/pacman-key.sh.in:624
+#: scripts/pacman-key.sh.in:633
 msgid "Please run %s with each operation separately."
 msgstr "Por favor, execute %s com cada operação separadamente."
 
-#: scripts/pacman-key.sh.in:632
+#: scripts/pacman-key.sh.in:641
 msgid "No targets specified"
 msgstr "Nenhum alvo especificado"
 
@@ -1374,7 +1379,7 @@ msgstr "%s não deveria ser um array"
 
 #: scripts/libmakepkg/lint_config/variable.sh.in:66
 msgid "PACKAGER should have the format 'Example Name <email@address.invalid>'"
-msgstr ""
+msgstr "PACKAGER deve ter o formato 'Nome Exemplo <email@endereço.inválido>'"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
 msgid "Checking for packaging issues..."

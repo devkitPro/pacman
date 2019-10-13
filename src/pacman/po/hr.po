@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:10+1000\n"
-"PO-Revision-Date: 2019-09-24 20:47+0000\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-07 20:43+0000\n"
 "Last-Translator: Ivica  Kolić <ikoli@yahoo.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/hr/)\n"
@@ -212,62 +212,67 @@ msgstr ""
 "Datoteka %s je oštećena (%s).\n"
 "Želite li je izbrisati?"
 
-#: src/pacman/callback.c:459
+#: src/pacman/callback.c:461
 #, fuzzy, c-format
-msgid "Import PGP key %s, \"%s\"?"
-msgstr "Unesi PGP ključ %u%c/%s, \"%s\", napravljen: %s?"
+msgid "Import PGP key %s?"
+msgstr "Uvezi PGP ključ %s, \"%s\"?"
 
-#: src/pacman/callback.c:517
+#: src/pacman/callback.c:464
+#, c-format
+msgid "Import PGP key %s, \"%s\"?"
+msgstr "Uvezi PGP ključ %s, \"%s\"?"
+
+#: src/pacman/callback.c:523
 #, c-format
 msgid "installing"
 msgstr "instaliram"
 
-#: src/pacman/callback.c:520
+#: src/pacman/callback.c:526
 #, c-format
 msgid "upgrading"
 msgstr "nadograđujem"
 
-#: src/pacman/callback.c:523
+#: src/pacman/callback.c:529
 #, c-format
 msgid "downgrading"
 msgstr "unazađujem"
 
-#: src/pacman/callback.c:526
+#: src/pacman/callback.c:532
 #, c-format
 msgid "reinstalling"
 msgstr "ponovno instaliram"
 
-#: src/pacman/callback.c:529
+#: src/pacman/callback.c:535
 #, c-format
 msgid "removing"
 msgstr "uklanjam"
 
-#: src/pacman/callback.c:532
+#: src/pacman/callback.c:538
 #, c-format
 msgid "checking for file conflicts"
 msgstr "provjera sukoba datoteka"
 
-#: src/pacman/callback.c:535
+#: src/pacman/callback.c:541
 #, c-format
 msgid "checking available disk space"
 msgstr "provjeravam dostupni prostor diska"
 
-#: src/pacman/callback.c:538
+#: src/pacman/callback.c:544
 #, c-format
 msgid "checking package integrity"
 msgstr "provjeravam integritet paketa"
 
-#: src/pacman/callback.c:541
+#: src/pacman/callback.c:547
 #, c-format
 msgid "checking keys in keyring"
 msgstr "provjeravam ključeve na privjesku"
 
-#: src/pacman/callback.c:544
+#: src/pacman/callback.c:550
 #, c-format
 msgid "loading package files"
 msgstr "učitavam datoteke paketa"
 
-#: src/pacman/callback.c:661
+#: src/pacman/callback.c:667
 #, c-format
 msgid "downloading %s...\n"
 msgstr ""
@@ -370,7 +375,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/pacman/conf.c:97
+#: src/pacman/conf.c:98 src/pacman/conf.c:306
 #, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
@@ -378,27 +383,27 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/pacman/conf.c:250
+#: src/pacman/conf.c:329
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "ne mogu dobaviti trenutni radni direktorij\n"
 
-#: src/pacman/conf.c:255
+#: src/pacman/conf.c:334
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "ne mogu promjeniti direktorij u direktorij za skidanje od %s\n"
 
-#: src/pacman/conf.c:264
+#: src/pacman/conf.c:349
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "pokrećem XfceCommand: račvanje nije uspjelo!\n"
 
-#: src/pacman/conf.c:276
+#: src/pacman/conf.c:361
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "ne mogu preimenovati %s u %s (%s)\n"
 
-#: src/pacman/conf.c:287
+#: src/pacman/conf.c:372
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr ""
@@ -406,20 +411,20 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/pacman/conf.c:396 src/pacman/conf.c:445
+#: src/pacman/conf.c:481 src/pacman/conf.c:530 src/pacman/conf.c:635
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr ""
 "konfiguracijska datoteka %s, red %d: neispravna vrijednost za '%s' : '%s'\n"
 
-#: src/pacman/conf.c:410
+#: src/pacman/conf.c:495
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
 "konfiguracijska datoteka %s, redak %d: '%s neispravna opcija, nema podrške "
 "potpisa\n"
 
-#: src/pacman/conf.c:501 src/pacman/conf.c:586 src/pacman/conf.c:855
+#: src/pacman/conf.c:586 src/pacman/conf.c:682 src/pacman/conf.c:951
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
@@ -427,17 +432,17 @@ msgstr ""
 "Datoteka postavki %s, linija %d: direktiva '%s' u odjeljku '%s' nije "
 "prepoznata.\n"
 
-#: src/pacman/conf.c:598
+#: src/pacman/conf.c:694
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr "zrcalo '%s' sadrži '%s' varijablu, ali nijedan '%s' nije definiran.\n"
 
-#: src/pacman/conf.c:622
+#: src/pacman/conf.c:718
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "ne mogu dodati URL poslužitelja bazi podataka  '%s': %s (%s)\n"
 
-#: src/pacman/conf.c:637
+#: src/pacman/conf.c:733
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr ""
@@ -445,7 +450,7 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/pacman/conf.c:673
+#: src/pacman/conf.c:769
 #, c-format
 msgid ""
 "failed to initialize alpm library\n"
@@ -454,59 +459,59 @@ msgstr ""
 "ne mogu inicijalizirati alpm biblioteku\n"
 "(%s: %s)\n"
 
-#: src/pacman/conf.c:676
+#: src/pacman/conf.c:772
 #, c-format
 msgid "try running pacman-db-upgrade\n"
 msgstr "pokušajte pokrenuti pacman-db-upgrade\n"
 
-#: src/pacman/conf.c:694
+#: src/pacman/conf.c:790
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problem pri postavljanju zapisnika promjena '%s' (%s)\n"
 
-#: src/pacman/conf.c:703
+#: src/pacman/conf.c:799
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "problem pri postavljanju gpg direktorija '%s' (%s)\n"
 
-#: src/pacman/conf.c:713
+#: src/pacman/conf.c:809
 #, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
 msgstr "problem pri dodavanju direktorija zakačke '%s' (%s)\n"
 
-#: src/pacman/conf.c:735
+#: src/pacman/conf.c:831
 #, c-format
 msgid "no '%s' configured\n"
 msgstr "'%s' nije konfiguriran\n"
 
-#: src/pacman/conf.c:764
+#: src/pacman/conf.c:860
 #, c-format
 msgid "Failed to pass %s entry to libalpm"
 msgstr "ne mogu proslijediti %s unos libalpm-u"
 
-#: src/pacman/conf.c:804
+#: src/pacman/conf.c:900
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr "datoteka postavki %s, linija %d: '%s' opcija '%s' nije prepoznata\n"
 
-#: src/pacman/conf.c:824 src/pacman/conf.c:877
+#: src/pacman/conf.c:920 src/pacman/conf.c:973
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr "datoteka postavki %s, linija %d: direktiva '%s' treba vrijednost\n"
 
-#: src/pacman/conf.c:884
+#: src/pacman/conf.c:980
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
 "pri obradi konfiguracijske datoteke premašena je maksimalna dubina rekurzije "
 "%d\n"
 
-#: src/pacman/conf.c:932
+#: src/pacman/conf.c:1028
 #, c-format
 msgid "config file %s could not be read: %s\n"
 msgstr "ne mogu pročitati %s konfiguracijsku datoteku: %s\n"
 
-#: src/pacman/conf.c:955
+#: src/pacman/conf.c:1051
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
@@ -1326,37 +1331,37 @@ msgstr "neispravna opcija '-%c'\n"
 msgid "invalid option '--%s'\n"
 msgstr "neispravn opcija '--%s'\n"
 
-#: src/pacman/pacman.c:1146
+#: src/pacman/pacman.c:1130
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "ne možete izvršavati ovu operaciju ukoliko niste root\n"
 
-#: src/pacman/pacman.c:1152
+#: src/pacman/pacman.c:1136
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:1186
+#: src/pacman/pacman.c:1170
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr ""
 
-#: src/pacman/pacman.c:1191
+#: src/pacman/pacman.c:1175
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "neuspjelo ponovno otvaranje stdin za čitanje: (%s)\n"
 
-#: src/pacman/pacman.c:1196
+#: src/pacman/pacman.c:1180
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "argument '-' je zadat praznim stidn ulazom\n"
 
-#: src/pacman/pacman.c:1201
+#: src/pacman/pacman.c:1185
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "argument '-' je zadat bez ulaza u stind\n"
 
-#: src/pacman/pacman.c:1278
+#: src/pacman/pacman.c:1262
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "nije određena nijedna operacija (koristite -h za pomoć)\n"
@@ -1420,10 +1425,10 @@ msgstr "meta nije nađena: %s\n"
 msgid "failed to prepare transaction (%s)\n"
 msgstr "greška pri pripremanju transakcije (%s)\n"
 
-#: src/pacman/remove.c:119
+#: src/pacman/remove.c:119 src/pacman/sync.c:737
 #, c-format
-msgid "%s: removing %s breaks dependency '%s'\n"
-msgstr "%s: uklanjanje paketa %s kvari zavisnost '%s'\n"
+msgid "removing %s breaks dependency '%s' required by %s\n"
+msgstr "uklanjanje %s slama zavisnost '%s' koju zahtjeva %s\n"
 
 #: src/pacman/remove.c:138
 #, c-format
@@ -1584,11 +1589,6 @@ msgstr "nije moguće zadovoljiti zavisnost '%s' koju zahtjeva %s\n"
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
 msgstr "instaliranje %s (%s) slama zavisnost '%s' koju zahtjeva %s\n"
-
-#: src/pacman/sync.c:737
-#, c-format
-msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "uklanjanje %s slama zavisnost '%s' koju zahtjeva %s\n"
 
 #: src/pacman/sync.c:757
 #, c-format
@@ -1922,21 +1922,19 @@ msgid "        pacman-conf (--repo-list|--help|--version)\n"
 msgstr ""
 
 #: src/pacman/pacman-conf.c:44
-#, fuzzy, c-format
+#, c-format
 msgid "options:\n"
-msgstr "opcije"
+msgstr "opcije:\n"
 
 #: src/pacman/pacman-conf.c:45
-#, fuzzy, c-format
+#, c-format
 msgid "  -c, --config=<path>  set an alternate configuration file\n"
 msgstr ""
-"      --config <path>  postavi altenativnu konfiguracijsku datoteku\n"
-"\n"
 
 #: src/pacman/pacman-conf.c:46
-#, fuzzy, c-format
+#, c-format
 msgid "  -R, --rootdir=<path> set an alternate installation root\n"
-msgstr "-r, --root <putanja> postavlja drugi instalacijski korijen\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:47
 #, c-format
@@ -1944,18 +1942,14 @@ msgid "  -r, --repo=<remote>  query options for a specific repo\n"
 msgstr ""
 
 #: src/pacman/pacman-conf.c:48
-#, fuzzy, c-format
+#, c-format
 msgid "  -v, --verbose        always show directive names\n"
 msgstr ""
-"  -v, --verbose        budi opširan\n"
-"\n"
 
 #: src/pacman/pacman-conf.c:49
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --repo-list      list configured repositories\n"
 msgstr ""
-"  -l, --list <repo>    pogledaj listu paketa u repozitoriju\n"
-"\n"
 
 #: src/pacman/pacman-conf.c:50
 #, c-format
@@ -1963,11 +1957,9 @@ msgid "  -h, --help           display this help information\n"
 msgstr ""
 
 #: src/pacman/pacman-conf.c:51
-#, fuzzy, c-format
+#, c-format
 msgid "  -V, --version        display version information\n"
 msgstr ""
-"      --confirm        uvijek pitaj za potvrdu\n"
-"\n"
 
 #: src/pacman/pacman-conf.c:80
 #, c-format
@@ -1980,9 +1972,9 @@ msgid "error parsing '%s'\n"
 msgstr ""
 
 #: src/pacman/pacman-conf.c:290
-#, fuzzy, c-format
+#, c-format
 msgid "error: repo '%s' not configured\n"
-msgstr "'%s' nije konfiguriran\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:383
 #, c-format
@@ -2005,18 +1997,18 @@ msgid ""
 "Test a pacman package for validity.\n"
 "\n"
 msgstr ""
+"Testiraj valjanost pacman paketa.\n"
+"\n"
 
 #: src/util/testpkg.c:56
 #, c-format
 msgid "Usage: testpkg <package file>\n"
-msgstr ""
+msgstr "Uporaba: testpkg <package file>\n"
 
 #: src/util/testpkg.c:62
-#, fuzzy, c-format
+#, c-format
 msgid "cannot initialize alpm: %s\n"
 msgstr ""
-"ne mogu inicijalizirati alpm biblioteku\n"
-"(%s: %s)\n"
 
 #: src/util/testpkg.c:77
 #, c-format
@@ -2031,7 +2023,7 @@ msgstr ""
 #: src/util/testpkg.c:84
 #, c-format
 msgid "Package is invalid.\n"
-msgstr ""
+msgstr "Paket inje valjan.\n"
 
 #: src/util/testpkg.c:87
 #, c-format
@@ -2039,9 +2031,9 @@ msgid "libalpm error: %s\n"
 msgstr ""
 
 #: src/util/testpkg.c:93
-#, fuzzy, c-format
+#, c-format
 msgid "Package is valid.\n"
-msgstr "Paketi"
+msgstr "Paket je valjan.\n"
 
 #: src/util/testpkg.c:98
 #, c-format
@@ -2049,5 +2041,5 @@ msgid "error releasing alpm\n"
 msgstr ""
 
 #, c-format
-#~ msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-#~ msgstr "Uvoz PGP ključa %u%c/%s, \"%s\", stvoren: %s (povučen)?"
+#~ msgid "%s: removing %s breaks dependency '%s'\n"
+#~ msgstr "%s: uklanjanje paketa %s kvari zavisnost '%s'\n"

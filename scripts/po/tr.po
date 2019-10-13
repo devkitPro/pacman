@@ -3,21 +3,23 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Arda Ünlü <aarda.uunlu@gmail.com>, 2018
+# Betül Ünlü <aarda.uunlu@gmail.com>, 2018
 # tarakbumba <tarakbumba@gmail.com>, 2011-2015
 # Bek, 2016
 # Bek, 2016
+# Betül Ünlü <aarda.uunlu@gmail.com>, 2019
 # Demiray Muhterem <mdemiray@msn.com>, 2016,2018
 # Demiray Muhterem <mdemiray@msn.com>, 2016
+# Betül Ünlü <aarda.uunlu@gmail.com>, 2019
 # Samed Beyribey <samed@ozguryazilim.com.tr>, 2012-2013
 # Serpil Acar <acarserpil89@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:09+1000\n"
-"PO-Revision-Date: 2019-08-12 01:49+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-10 11:06+0000\n"
+"Last-Translator: Betül Ünlü <aarda.uunlu@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/tr/)\n"
 "Language: tr\n"
@@ -88,7 +90,7 @@ msgstr "Çıkılıyor..."
 
 #: scripts/makepkg.sh.in:240
 msgid "Pacman is currently in use, please wait..."
-msgstr ""
+msgstr "Pacman şu anda kullanımda, lütfen bekleyin..."
 
 #: scripts/makepkg.sh.in:261
 msgid "'%s' returned a fatal error (%i): %s"
@@ -422,6 +424,8 @@ msgid ""
 "This is free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Bu bir özgür yazılımdır. Kopyalama koşulları için kaynak kodlara bakınız."
+"\\nYasaların izin verdiği ölçüde HİÇBİR GARANTİSİ YOKTUR.\\n"
 
 #: scripts/makepkg.sh.in:1106 scripts/repo-add.sh.in:607
 msgid "%s signal caught. Exiting..."
@@ -910,61 +914,66 @@ msgstr "%s anahtarı yerel olarak imzalanıyor ..."
 msgid "%s could not be locally signed."
 msgstr "%s yerelde imzalanamadı."
 
-#: scripts/pacman-key.sh.in:480
+#: scripts/pacman-key.sh.in:482
+#, fuzzy
+msgid "Remote key not fetched correctly from WKD or keyserver."
+msgstr "Uzak konumdaki anahtar anahtar sunucusundan doğruca alınamadı."
+
+#: scripts/pacman-key.sh.in:487
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Uzak konumdaki anahtar anahtar sunucusundan doğruca alınamadı."
 
-#: scripts/pacman-key.sh.in:488
+#: scripts/pacman-key.sh.in:497
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "Belirtilen yerel anahtar, anahtar sunucusundan güncellenemedi."
 
-#: scripts/pacman-key.sh.in:506 scripts/repo-add.sh.in:273
+#: scripts/pacman-key.sh.in:515 scripts/repo-add.sh.in:273
 msgid "Cannot use armored signatures for packages: %s"
 msgstr "Şu paketler için zırhlı imzalar kullanılamaz:%s"
 
-#: scripts/pacman-key.sh.in:510
+#: scripts/pacman-key.sh.in:519
 msgid "The signature identified by %s could not be verified."
 msgstr "%s tarafından tanımlanan imza doğrulanamadı."
 
-#: scripts/pacman-key.sh.in:517
+#: scripts/pacman-key.sh.in:526
 msgid "Updating trust database..."
 msgstr "Güvenilir veritabanı güncelleniyor ..."
 
-#: scripts/pacman-key.sh.in:519
+#: scripts/pacman-key.sh.in:528
 msgid "Trust database could not be updated."
 msgstr "Güvenilirlik veritabanı güncellenemedi."
 
-#: scripts/pacman-key.sh.in:586
+#: scripts/pacman-key.sh.in:595
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "%s ikili dosyası tüm %s işlemleri için gerekli ancak bulunamıyor."
 
-#: scripts/pacman-key.sh.in:591
+#: scripts/pacman-key.sh.in:600
 msgid "%s needs to be run as root for this operation."
 msgstr "Bu işlem için %s kök olarak çalıştırılmalıdır."
 
-#: scripts/pacman-key.sh.in:597
+#: scripts/pacman-key.sh.in:606
 msgid "%s configuration file '%s' not found."
 msgstr "%s yapılandırma dosyası '%s' bulunamadı."
 
-#: scripts/pacman-key.sh.in:618
+#: scripts/pacman-key.sh.in:627
 msgid "no operation specified (use -h for help)"
 msgstr "herhangi bir işlem belirtilmedi (yardım için -h kullanın)"
 
-#: scripts/pacman-key.sh.in:623
+#: scripts/pacman-key.sh.in:632
 msgid "Multiple operations specified."
 msgstr "Birden çok işlem yapılması istendi."
 
-#: scripts/pacman-key.sh.in:624
+#: scripts/pacman-key.sh.in:633
 msgid "Please run %s with each operation separately."
 msgstr "Lütfen her işlem ile ayrı ayrı %s çalıştırın."
 
-#: scripts/pacman-key.sh.in:632
+#: scripts/pacman-key.sh.in:641
 msgid "No targets specified"
 msgstr "Hedef belirtilmedi"
 
 #: scripts/repo-add.sh.in:58
 msgid "Usage: repo-add [options] <path-to-db> <package> ...\\n"
-msgstr ""
+msgstr "Kullanımı: repo-add [seçenekler] <path-to-db> <package> ...\\n"
 
 #: scripts/repo-add.sh.in:60
 msgid ""
@@ -996,10 +1005,12 @@ msgid ""
 "  -p, --prevent-downgrade  do not add package to database if a newer version "
 "is already present\\n"
 msgstr ""
+"  -p, --prevent-downgrade  veritabanında yeni sürüm bulunuyorsa paketi "
+"veritabanına ekleme\\n"
 
 #: scripts/repo-add.sh.in:69
 msgid "Usage: repo-remove [options] <path-to-db> <packagename> ...\\n"
-msgstr ""
+msgstr "Kullanım: repo-remove [seçenek] <path-to-db> <packagename> ...\\n"
 
 #: scripts/repo-add.sh.in:71
 msgid ""
@@ -1101,7 +1112,7 @@ msgstr "'%s' için zaten bir kayıt bulunuyor"
 
 #: scripts/repo-add.sh.in:258
 msgid "A newer version for '%s' is already present in database"
-msgstr ""
+msgstr "Veritabanında \"%s\" için yeni bir sürüm bulunuyor"
 
 #: scripts/repo-add.sh.in:278
 msgid "Invalid package signature file '%s'."
@@ -1141,7 +1152,7 @@ msgstr "'%s' depo dosyası uygun bir pacman veritabanı değil."
 
 #: scripts/repo-add.sh.in:427
 msgid "Extracting %s to a temporary location..."
-msgstr ""
+msgstr "%s geçici bir yere açılıyor..."
 
 #: scripts/repo-add.sh.in:435
 msgid "Repository file '%s' was not found."
@@ -1218,7 +1229,7 @@ msgstr "%s imza dosyası oluşturuldu."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:43
 msgid "Failed to sign package file %s."
-msgstr ""
+msgstr "Paket dosyası %s imzalanamadı."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:58
 msgid "Signing package(s)..."
@@ -1348,6 +1359,7 @@ msgstr "%s bir dizi olmamalı"
 #: scripts/libmakepkg/lint_config/variable.sh.in:66
 msgid "PACKAGER should have the format 'Example Name <email@address.invalid>'"
 msgstr ""
+"PACKAGER şu şekilde biçimlendirilmeli: 'Örnek İsim <email@address.invalid>'"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
 msgid "Checking for packaging issues..."
@@ -1371,7 +1383,7 @@ msgstr "%s girdi dosyası paket içinde değil: %s"
 
 #: scripts/libmakepkg/lint_pkgbuild/arch.sh.in:40
 msgid "Can not use '%s' architecture with other architectures"
-msgstr ""
+msgstr "\"%s\" mimarisi diğer mimariler ile kullanılamaz"
 
 #: scripts/libmakepkg/lint_pkgbuild/arch.sh.in:54
 #: scripts/libmakepkg/lint_pkgbuild/arch.sh.in:62
@@ -1428,11 +1440,11 @@ msgstr "%s nokta ile başlayamaz."
 #: scripts/libmakepkg/lint_pkgbuild/pkgname.sh.in:49
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:46
 msgid "%s may only contain ascii characters."
-msgstr ""
+msgstr "%s sadece ascii karakterleri içerebilir."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgrel.sh.in:40
 msgid "%s must be of the form 'integer[.integer]', not %s."
-msgstr ""
+msgstr "%s bir \"tamsayı[.tamsayı]\" olmalı, %s değil."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:41
 msgid ""

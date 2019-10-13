@@ -12,13 +12,14 @@
 # Balló György <ballogyor@gmail.com>, 2013,2017
 # JUHASZ, Peter Karoly <stone@midway.hu>, 2013
 # Gábor Nagy <ngaba@bibl.u-szeged.hu>, 2012
+# user14 <nleknh@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:09+1000\n"
-"PO-Revision-Date: 2019-08-12 01:49+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-09 21:03+0000\n"
+"Last-Translator: user14 <nleknh@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/hu/)\n"
 "Language: hu\n"
@@ -89,7 +90,7 @@ msgstr "Megszakítás..."
 
 #: scripts/makepkg.sh.in:240
 msgid "Pacman is currently in use, please wait..."
-msgstr ""
+msgstr "A Pacman jelenleg használatban van. Kérem várjon..."
 
 #: scripts/makepkg.sh.in:261
 msgid "'%s' returned a fatal error (%i): %s"
@@ -133,7 +134,7 @@ msgstr "Nem található egy, a %s tömbben megadott függvénytár: %s"
 
 #: scripts/makepkg.sh.in:579
 msgid "Invalid value for %s: %s"
-msgstr ""
+msgstr "%s: Érvénytelen érték %s"
 
 #: scripts/makepkg.sh.in:674
 msgid "Missing %s directory."
@@ -362,6 +363,8 @@ msgstr "  --nosign         Ne készítsen aláírást a csomaghoz"
 #: scripts/makepkg.sh.in:981
 msgid "  --packagelist    Only list package filepaths that would be produced"
 msgstr ""
+"  --packagelist    Csak azokat a csomag elérési útvonalakat listázza amelyek "
+"létrehozhatóak"
 
 #: scripts/makepkg.sh.in:982
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
@@ -426,6 +429,8 @@ msgid ""
 "This is free software; see the source for copying conditions.\\nThere is NO "
 "WARRANTY, to the extent permitted by law.\\n"
 msgstr ""
+"Ez szabad szoftver; a használati feltételekért nézd meg a forrást.\\nNINCS "
+"GARANCIA a törvény által megengedett mértékig.\\n"
 
 #: scripts/makepkg.sh.in:1106 scripts/repo-add.sh.in:607
 msgid "%s signal caught. Exiting..."
@@ -442,6 +447,7 @@ msgstr ""
 #: scripts/makepkg.sh.in:1182
 msgid "Do not use the %s option. This option is only for internal use by %s."
 msgstr ""
+"Ne használd a %s opciót. Ezt a lehetőséget a %s használja a belső működésben."
 
 #: scripts/makepkg.sh.in:1197
 msgid "%s does not exist."
@@ -615,6 +621,10 @@ msgid ""
 "This is free software; see the source for copying conditions.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
+"Szerzői jogvédett (c) 2013-2018 Pacman fejlesztői csapat <pacman-"
+"dev@archlinux.org>.\n"
+"Ez egy szabad szoftver; a használati feltételekért nézd meg a forrást.\n"
+"NINCS GARANCIA a törvény által megengedett mértékben.\n"
 
 #: scripts/pacman-db-upgrade.sh.in:40
 msgid "Upgrade the local pacman database to a newer format"
@@ -921,61 +931,66 @@ msgstr "%s kulcs aláírása helyileg..."
 msgid "%s could not be locally signed."
 msgstr "%s nem írható alá helyileg."
 
-#: scripts/pacman-key.sh.in:480
+#: scripts/pacman-key.sh.in:482
+#, fuzzy
+msgid "Remote key not fetched correctly from WKD or keyserver."
+msgstr "A távoli kulcs nem töltődött le helyesen a kulcsszerverről."
+
+#: scripts/pacman-key.sh.in:487
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "A távoli kulcs nem töltődött le helyesen a kulcsszerverről."
 
-#: scripts/pacman-key.sh.in:488
+#: scripts/pacman-key.sh.in:497
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "A megadott helyi kulcsot nem sikerült frissíteni a kulcsszerverről."
 
-#: scripts/pacman-key.sh.in:506 scripts/repo-add.sh.in:273
+#: scripts/pacman-key.sh.in:515 scripts/repo-add.sh.in:273
 msgid "Cannot use armored signatures for packages: %s"
 msgstr "Nem használhatók páncélozott aláírások a csomagokhoz: %s"
 
-#: scripts/pacman-key.sh.in:510
+#: scripts/pacman-key.sh.in:519
 msgid "The signature identified by %s could not be verified."
 msgstr "A %s azonosítójú aláírást nem sikerült ellenőrizni."
 
-#: scripts/pacman-key.sh.in:517
+#: scripts/pacman-key.sh.in:526
 msgid "Updating trust database..."
 msgstr "Megbízhatósági adatbázis frissítése..."
 
-#: scripts/pacman-key.sh.in:519
+#: scripts/pacman-key.sh.in:528
 msgid "Trust database could not be updated."
 msgstr "A megbízhatósági adatbázist nem sikerült frissíteni."
 
-#: scripts/pacman-key.sh.in:586
+#: scripts/pacman-key.sh.in:595
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Nem található a %s bináris, ami minden %s művelethez szükséges."
 
-#: scripts/pacman-key.sh.in:591
+#: scripts/pacman-key.sh.in:600
 msgid "%s needs to be run as root for this operation."
 msgstr "A %st rendszergazdaként kell futtatni ehhez a művelethez."
 
-#: scripts/pacman-key.sh.in:597
+#: scripts/pacman-key.sh.in:606
 msgid "%s configuration file '%s' not found."
 msgstr "Nem található a %s konfigurációs fájlja: '%s'."
 
-#: scripts/pacman-key.sh.in:618
+#: scripts/pacman-key.sh.in:627
 msgid "no operation specified (use -h for help)"
 msgstr "nincs művelet megadva (használja a \"-h\"-t segítségért)"
 
-#: scripts/pacman-key.sh.in:623
+#: scripts/pacman-key.sh.in:632
 msgid "Multiple operations specified."
 msgstr "Több művelet lett megadva."
 
-#: scripts/pacman-key.sh.in:624
+#: scripts/pacman-key.sh.in:633
 msgid "Please run %s with each operation separately."
 msgstr "Kérem, futtassa a %st minden művelethez külön-külön."
 
-#: scripts/pacman-key.sh.in:632
+#: scripts/pacman-key.sh.in:641
 msgid "No targets specified"
 msgstr "Nincs cél megadva"
 
 #: scripts/repo-add.sh.in:58
 msgid "Usage: repo-add [options] <path-to-db> <package> ...\\n"
-msgstr ""
+msgstr "Használat: repo-add [opciók] <path-to-db> <package> ...\\n"
 
 #: scripts/repo-add.sh.in:60
 msgid ""
@@ -1009,10 +1024,12 @@ msgid ""
 "  -p, --prevent-downgrade  do not add package to database if a newer version "
 "is already present\\n"
 msgstr ""
+"  -p, --prevent-downgrade  Nem adja hozzá a csomagot az adatbázishoz "
+"amennyiben ott már egy újabb verziójú csomag jelen van\\n"
 
 #: scripts/repo-add.sh.in:69
 msgid "Usage: repo-remove [options] <path-to-db> <packagename> ...\\n"
-msgstr ""
+msgstr "Használat: repo-remove [opciók] <path-to-db> <packagename> ...\\n"
 
 #: scripts/repo-add.sh.in:71
 msgid ""
@@ -1112,7 +1129,7 @@ msgstr "Egy bejegyzés már létezett ehhez: '%s'"
 
 #: scripts/repo-add.sh.in:258
 msgid "A newer version for '%s' is already present in database"
-msgstr ""
+msgstr "Az adatbázisban már elérhető a '%s' egy újabb változata"
 
 #: scripts/repo-add.sh.in:278
 msgid "Invalid package signature file '%s'."
@@ -1152,7 +1169,7 @@ msgstr "A(z) '%s' tárolófájl nem egy megfelelő pacman adatbázis."
 
 #: scripts/repo-add.sh.in:427
 msgid "Extracting %s to a temporary location..."
-msgstr ""
+msgstr "%s kicsomagolása egy ideiglenes helyre..."
 
 #: scripts/repo-add.sh.in:435
 msgid "Repository file '%s' was not found."
@@ -1229,11 +1246,11 @@ msgstr "%s aláírásfájl létrehozva."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:43
 msgid "Failed to sign package file %s."
-msgstr ""
+msgstr "A %s fájlt nem lehetett aláírni."
 
 #: scripts/libmakepkg/integrity/generate_signature.sh.in:58
 msgid "Signing package(s)..."
-msgstr ""
+msgstr "Csomag(ok) aláírása..."
 
 #: scripts/libmakepkg/integrity/verify_checksum.sh.in:65
 msgid "Integrity checks are missing for: %s"
@@ -1357,10 +1374,12 @@ msgstr "%s nem kellene, hogy egy tömb legyen"
 #: scripts/libmakepkg/lint_config/variable.sh.in:66
 msgid "PACKAGER should have the format 'Example Name <email@address.invalid>'"
 msgstr ""
+"PACKAGER-nek ilyen formátumnak kell lennie: 'Példa Név <email@address."
+"invalid>'"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
 msgid "Checking for packaging issues..."
-msgstr ""
+msgstr "Csomagolási problémák ellenőrzése..."
 
 #: scripts/libmakepkg/lint_package/build_references.sh.in:36
 msgid "Package contains reference to %s"
@@ -1369,10 +1388,11 @@ msgstr "A csomag hivatkozik a(z) %s-re"
 #: scripts/libmakepkg/lint_package/dotfiles.sh.in:34
 msgid "Dotfile found in package root '%s'"
 msgstr ""
+"A '%s' root csomagban olyan fájl van melynek a fájlnevében pont található"
 
 #: scripts/libmakepkg/lint_package/file_names.sh.in:36
 msgid "Package contains paths with newlines"
-msgstr ""
+msgstr "A csomag elérés útvonalában sortörés van"
 
 #: scripts/libmakepkg/lint_package/missing_backup.sh.in:35
 msgid "%s entry file not in package : %s"
@@ -1380,7 +1400,7 @@ msgstr "A %s bejegyzés nincs a csomagban : %s"
 
 #: scripts/libmakepkg/lint_pkgbuild/arch.sh.in:40
 msgid "Can not use '%s' architecture with other architectures"
-msgstr ""
+msgstr "A '%s' architektúrát nem lehet használni más architektúrával"
 
 #: scripts/libmakepkg/lint_pkgbuild/arch.sh.in:54
 #: scripts/libmakepkg/lint_pkgbuild/arch.sh.in:62
@@ -1401,7 +1421,7 @@ msgstr "Az %s tömb ismeretlen opciót tartalmaz: '%s'"
 
 #: scripts/libmakepkg/lint_pkgbuild/package_function.sh.in:38
 msgid "Conflicting %s and %s functions in %s"
-msgstr ""
+msgstr "Konfliktusban vannak a %s és %s funkciók a %s-ban"
 
 #: scripts/libmakepkg/lint_pkgbuild/package_function.sh.in:41
 msgid "Missing %s function in %s"
@@ -1409,7 +1429,7 @@ msgstr "Hiányzó %s funkció: %s"
 
 #: scripts/libmakepkg/lint_pkgbuild/package_function.sh.in:46
 msgid "Extra %s function for split package '%s'"
-msgstr ""
+msgstr "Extra %s funkció a '%s' csomag szétválasztásához"
 
 #: scripts/libmakepkg/lint_pkgbuild/package_function.sh.in:51
 msgid "Missing %s function for split package '%s'"
@@ -1437,16 +1457,19 @@ msgstr "A %s nem kezdődhet ponttal."
 #: scripts/libmakepkg/lint_pkgbuild/pkgname.sh.in:49
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:46
 msgid "%s may only contain ascii characters."
-msgstr ""
+msgstr "%s lehet, hogy ascii karaktert tartalmaz."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgrel.sh.in:40
 msgid "%s must be of the form 'integer[.integer]', not %s."
 msgstr ""
+"A(z) %s 'integer[.integer]' formában kell, hogy legyen. Nem %s formában."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:41
 msgid ""
 "%s is not allowed to contain colons, forward slashes, hyphens or whitespace."
 msgstr ""
+"%s nem tartalmazhat kettőspontot, előredöntött pervonalat, kötőjelet vagy "
+"helykihagyást."
 
 #: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:46
 msgid "%s array cannot contain comparison (< or >) operators."
@@ -1556,7 +1579,7 @@ msgstr "Hiba történt %s %s tároló frissítése közben"
 
 #: scripts/libmakepkg/source/git.sh.in:121
 msgid "Failure while checking out version %s, the git tag has been forged"
-msgstr ""
+msgstr "Hiba a %s verzióellenőrzése közben. A git címke el lett felejtve"
 
 #: scripts/libmakepkg/source/local.sh.in:39
 msgid "%s was not found in the build directory and is not a URL."
@@ -1637,11 +1660,11 @@ msgstr "Nem sikerült belépni a %s könyvtárba"
 
 #: scripts/libmakepkg/util/util.sh.in:93
 msgid "Failed to create the directory $%s (%s)."
-msgstr ""
+msgstr "A  $%s (%s) könyvtár létrehozása sikertelen."
 
 #: scripts/libmakepkg/util/util.sh.in:96
 msgid "You do not have write permission for the directory $%s (%s)."
-msgstr ""
+msgstr "A $%s (%s) mappán nincs írási jogosultságod."
 
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"

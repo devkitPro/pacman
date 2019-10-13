@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:07+1000\n"
-"PO-Revision-Date: 2019-08-16 08:46+0000\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-07 09:40+0000\n"
 "Last-Translator: Charles Monzat <c.monzat@laposte.net>\n"
 "Language-Team: French (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/fr/)\n"
@@ -611,7 +611,7 @@ msgstr "signature PGP manquante"
 msgid "invalid PGP signature"
 msgstr "signature PGP non valide"
 
-#: lib/libalpm/error.c:135 lib/libalpm/hook.c:627
+#: lib/libalpm/error.c:135 lib/libalpm/hook.c:514
 #, c-format
 msgid "could not satisfy dependencies"
 msgstr "la satisfaction des dépendances a échoué"
@@ -676,89 +676,89 @@ msgstr "fichier de verrou manquant %s\n"
 msgid "could not remove lock file %s\n"
 msgstr "la suppression du fichier de verrouillage %s a échoué\n"
 
-#: lib/libalpm/hook.c:107
+#: lib/libalpm/hook.c:95
 #, c-format
 msgid "Missing trigger targets in hook: %s\n"
 msgstr "Cibles de déclenchement manquantes dans le crochet : %s\n"
 
-#: lib/libalpm/hook.c:113
+#: lib/libalpm/hook.c:101
 #, c-format
 msgid "Missing trigger type in hook: %s\n"
 msgstr "Type de déclenchement manquant dans le crochet : %s\n"
 
-#: lib/libalpm/hook.c:119
+#: lib/libalpm/hook.c:107
 #, c-format
 msgid "Missing trigger operation in hook: %s\n"
 msgstr "Opération de déclenchement manquante dans le crochet : %s\n"
 
-#: lib/libalpm/hook.c:146
+#: lib/libalpm/hook.c:134
 #, c-format
 msgid "Missing Exec option in hook: %s\n"
 msgstr "Option d’exécution manquante dans le crochet : %s\n"
 
-#: lib/libalpm/hook.c:152
+#: lib/libalpm/hook.c:140
 #, c-format
 msgid "Missing When option in hook: %s\n"
 msgstr "Option manquante dans le crochet  : %s\n"
 
-#: lib/libalpm/hook.c:155
+#: lib/libalpm/hook.c:143
 #, c-format
 msgid "AbortOnFail set for PostTransaction hook: %s\n"
 msgstr "AbortOnFail défini pour le crochet de post-transaction : %s\n"
 
-#: lib/libalpm/hook.c:273
+#: lib/libalpm/hook.c:160
 #, c-format
 msgid "error while reading hook %s: %s\n"
 msgstr "erreur lors de la lecture du crochet %s : %s\n"
 
-#: lib/libalpm/hook.c:275 lib/libalpm/hook.c:319 lib/libalpm/hook.c:361
+#: lib/libalpm/hook.c:162 lib/libalpm/hook.c:206 lib/libalpm/hook.c:248
 #, c-format
 msgid "hook %s line %d: invalid option %s\n"
 msgstr "crochet %s ligne %d: option incorrecte %s\n"
 
-#: lib/libalpm/hook.c:285
+#: lib/libalpm/hook.c:172
 #, c-format
 msgid "hook %s line %d: invalid section %s\n"
 msgstr "crochet %s ligne %d : section %s incorrecte\n"
 
-#: lib/libalpm/hook.c:297 lib/libalpm/hook.c:312 lib/libalpm/hook.c:331
-#: lib/libalpm/hook.c:354
+#: lib/libalpm/hook.c:184 lib/libalpm/hook.c:199 lib/libalpm/hook.c:218
+#: lib/libalpm/hook.c:241
 #, c-format
 msgid "hook %s line %d: invalid value %s\n"
 msgstr "crochet %s ligne %d : valeur %s incorrecte\n"
 
-#: lib/libalpm/hook.c:301 lib/libalpm/hook.c:324 lib/libalpm/hook.c:335
-#: lib/libalpm/hook.c:349
+#: lib/libalpm/hook.c:188 lib/libalpm/hook.c:211 lib/libalpm/hook.c:222
+#: lib/libalpm/hook.c:236
 #, c-format
 msgid "hook %s line %d: overwriting previous definition of %s\n"
 msgstr "crochet %s ligne %d : remplacement de la définition précédente de %s\n"
 
-#: lib/libalpm/hook.c:356
+#: lib/libalpm/hook.c:243
 #, c-format
 msgid "hook %s line %d: unable to set option (%s)\n"
 msgstr "crochet %s ligne %d : impossible de définir l’option (%s)\n"
 
-#: lib/libalpm/hook.c:626
+#: lib/libalpm/hook.c:513
 #, c-format
 msgid "unable to run hook %s: %s\n"
 msgstr "impossible d’exécuter le crochet %s : %s\n"
 
-#: lib/libalpm/hook.c:660 lib/libalpm/hook.c:672 lib/libalpm/remove.c:386
+#: lib/libalpm/hook.c:547 lib/libalpm/hook.c:559 lib/libalpm/remove.c:386
 #, c-format
 msgid "could not open directory: %s: %s\n"
 msgstr "impossible d’ouvrir le dossier %s : %s\n"
 
-#: lib/libalpm/hook.c:688
+#: lib/libalpm/hook.c:575
 #, c-format
 msgid "could not open file: %s%s: %s\n"
 msgstr "impossible d’ouvrir le fichier : %s%s : %s\n"
 
-#: lib/libalpm/hook.c:708 lib/libalpm/util.c:259
+#: lib/libalpm/hook.c:595 lib/libalpm/util.c:259
 #, c-format
 msgid "could not stat file %s: %s\n"
 msgstr "impossible de connaître l’état du fichier %s : %s\n"
 
-#: lib/libalpm/hook.c:734
+#: lib/libalpm/hook.c:621
 #, c-format
 msgid "could not read directory: %s: %s\n"
 msgstr "impossible de lire le répertoire : %s : %s\n"
@@ -810,7 +810,7 @@ msgid "Public keyring not found; have you run '%s'?\n"
 msgstr ""
 "Le trousseau de clés publique est introuvable ; avez-vous exécuté « %s » ?\n"
 
-#: lib/libalpm/signing.c:207 lib/libalpm/signing.c:779
+#: lib/libalpm/signing.c:207 lib/libalpm/signing.c:784
 #, c-format
 msgid "GPGME error: %s\n"
 msgstr "erreur GPGME : %s\n"
@@ -821,78 +821,78 @@ msgid "looking up key %s using WKD\n"
 msgstr ""
 
 #: lib/libalpm/signing.c:293
-#, fuzzy, c-format
+#, c-format
 msgid "gpg error: %s\n"
-msgstr "erreur GPGME : %s\n"
+msgstr "erreur gpg : %s\n"
 
-#: lib/libalpm/signing.c:441 lib/libalpm/signing.c:510
+#: lib/libalpm/signing.c:441 lib/libalpm/signing.c:515
 #, c-format
 msgid "keyring is not writable\n"
 msgstr "le trousseau de clés n’est pas accessible en écriture\n"
 
-#: lib/libalpm/signing.c:534
-#, fuzzy, c-format
-msgid "key \"%s\" on keyserver\n"
-msgstr "la clé « %s » n’a pas pu être importée\n"
-
 #: lib/libalpm/signing.c:539
+#, c-format
+msgid "key \"%s\" on keyserver\n"
+msgstr "clé « %s » sur le serveur de clés\n"
+
+#: lib/libalpm/signing.c:544
 #, c-format
 msgid "key \"%s\" could not be imported\n"
 msgstr "la clé « %s » n’a pas pu être importée\n"
 
-#: lib/libalpm/signing.c:543
+#: lib/libalpm/signing.c:548
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "la clé « %s » ne peut être recherchée à distance\n"
 
-#: lib/libalpm/signing.c:934 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:939 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s : signature requise manquante\n"
 
-#: lib/libalpm/signing.c:949
+#: lib/libalpm/signing.c:954
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
 msgstr "%s : la signature de « %s » est de confiance mitigée\n"
 
-#: lib/libalpm/signing.c:957
+#: lib/libalpm/signing.c:962
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
 msgstr "%s : la signature de « %s » est de confiance inconnue\n"
 
-#: lib/libalpm/signing.c:964
+#: lib/libalpm/signing.c:969
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
 msgstr "%s : la signature de « %s » n’est pas digne de confiance\n"
 
-#: lib/libalpm/signing.c:976
+#: lib/libalpm/signing.c:981
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
 msgstr "%s : la clé « %s » est inconnue\n"
 
-#: lib/libalpm/signing.c:985
+#: lib/libalpm/signing.c:990
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
 msgstr "%s : la clé « %s » est désactivée\n"
 
-#: lib/libalpm/signing.c:989
+#: lib/libalpm/signing.c:994
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
 msgstr "%s : la signature de « %s » est périmée\n"
 
-#: lib/libalpm/signing.c:993
+#: lib/libalpm/signing.c:998
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
 msgstr "%s : la signature de « %s » n’est pas valide\n"
 
-#: lib/libalpm/signing.c:1070 lib/libalpm/signing.c:1138
-#: lib/libalpm/signing.c:1217
+#: lib/libalpm/signing.c:1075 lib/libalpm/signing.c:1143
+#: lib/libalpm/signing.c:1222
 #, c-format
 msgid "%s: signature format error\n"
 msgstr "%s : erreur de format de signature\n"
 
-#: lib/libalpm/signing.c:1170 lib/libalpm/signing.c:1203
-#: lib/libalpm/signing.c:1211
+#: lib/libalpm/signing.c:1175 lib/libalpm/signing.c:1208
+#: lib/libalpm/signing.c:1216
 #, c-format
 msgid "%s: unsupported signature format\n"
 msgstr "%s : format de signature non pris en charge\n"
@@ -1046,9 +1046,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "impossible de trouver ou de créer le cache des paquets, utilisation de %s à "
 "la place\n"
-
-#, c-format
-#~ msgid "key %s, \"%s\" found on keyserver, keyring is not writable\n"
-#~ msgstr ""
-#~ "clé %s, « %s » trouvée sur le serveur de clés, le trousseau de clés n’est "
-#~ "pas accessible en écriture\n"

@@ -4,6 +4,7 @@
 #
 # Translators:
 # Alimspender Dong <akillcool@outlook.com>, 2019
+# leonfeng <chaofeng111@qq.com>, 2019
 # Felix Yan <felixonmars@gmail.com>, 2015-2016
 # Isaac Ge <acgtyrant@gmail.com>, 2014
 # leonfeng <chaofeng111@qq.com>, 2011
@@ -21,9 +22,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:09+1000\n"
-"PO-Revision-Date: 2019-08-12 06:38+0000\n"
-"Last-Translator: Alimspender Dong <akillcool@outlook.com>\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-09 08:56+0000\n"
+"Last-Translator: leonfeng <chaofeng111@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -877,55 +878,60 @@ msgstr "正在本地签名密匙 %s..."
 msgid "%s could not be locally signed."
 msgstr "%s无法在本地签署。"
 
-#: scripts/pacman-key.sh.in:480
+#: scripts/pacman-key.sh.in:482
+#, fuzzy
+msgid "Remote key not fetched correctly from WKD or keyserver."
+msgstr "无法从密匙服务器中正确取回远端密匙。"
+
+#: scripts/pacman-key.sh.in:487
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "无法从密匙服务器中正确取回远端密匙。"
 
-#: scripts/pacman-key.sh.in:488
+#: scripts/pacman-key.sh.in:497
 msgid "A specified local key could not be updated from a keyserver."
 msgstr "指定的本地密匙无法从密匙服务器中更新。"
 
-#: scripts/pacman-key.sh.in:506 scripts/repo-add.sh.in:273
+#: scripts/pacman-key.sh.in:515 scripts/repo-add.sh.in:273
 msgid "Cannot use armored signatures for packages: %s"
 msgstr "无法对这些软件包使用明文签名: %s"
 
-#: scripts/pacman-key.sh.in:510
+#: scripts/pacman-key.sh.in:519
 msgid "The signature identified by %s could not be verified."
 msgstr "由 %s 认定的签名无法验证。"
 
-#: scripts/pacman-key.sh.in:517
+#: scripts/pacman-key.sh.in:526
 msgid "Updating trust database..."
 msgstr "正在更新可信数据库..."
 
-#: scripts/pacman-key.sh.in:519
+#: scripts/pacman-key.sh.in:528
 msgid "Trust database could not be updated."
 msgstr "信任数据库无法更新。"
 
-#: scripts/pacman-key.sh.in:586
+#: scripts/pacman-key.sh.in:595
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "无法找到所需的 %s 二进制文件以进行所有 %s 操作。"
 
-#: scripts/pacman-key.sh.in:591
+#: scripts/pacman-key.sh.in:600
 msgid "%s needs to be run as root for this operation."
 msgstr "%s 需要以 root 运行来完成此操作。"
 
-#: scripts/pacman-key.sh.in:597
+#: scripts/pacman-key.sh.in:606
 msgid "%s configuration file '%s' not found."
 msgstr "%s 配置文件 '%s' 没有找到"
 
-#: scripts/pacman-key.sh.in:618
+#: scripts/pacman-key.sh.in:627
 msgid "no operation specified (use -h for help)"
 msgstr "没有指定的操作 (使用 -h 获取帮助)"
 
-#: scripts/pacman-key.sh.in:623
+#: scripts/pacman-key.sh.in:632
 msgid "Multiple operations specified."
 msgstr "多个操作已指定。"
 
-#: scripts/pacman-key.sh.in:624
+#: scripts/pacman-key.sh.in:633
 msgid "Please run %s with each operation separately."
 msgstr "请分别加 %s 每个操作运行。"
 
-#: scripts/pacman-key.sh.in:632
+#: scripts/pacman-key.sh.in:641
 msgid "No targets specified"
 msgstr "没有指定目标"
 
@@ -1305,7 +1311,7 @@ msgstr "%s 不应该是个数组"
 
 #: scripts/libmakepkg/lint_config/variable.sh.in:66
 msgid "PACKAGER should have the format 'Example Name <email@address.invalid>'"
-msgstr ""
+msgstr "PACKAGER 请使用如下格式 “姓名 <email@address.invalid>”"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
 msgid "Checking for packaging issues..."

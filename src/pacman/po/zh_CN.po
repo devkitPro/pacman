@@ -6,7 +6,7 @@
 # Allan McRae <allan@archlinux.org>, 2014
 # Blask <blaskyy@gmail.com>, 2013
 # Blask <blaskyy@gmail.com>, 2013
-# leonfeng <chaofeng111@qq.com>, 2018
+# leonfeng <chaofeng111@qq.com>, 2018-2019
 # Felix Yan <felixonmars@gmail.com>, 2015
 # Jiachen YANG <farseerfc@gmail.com>, 2018-2019
 # leonfeng <chaofeng111@qq.com>, 2011,2013
@@ -30,9 +30,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:10+1000\n"
-"PO-Revision-Date: 2019-08-12 01:45+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-09 09:00+0000\n"
+"Last-Translator: leonfeng <chaofeng111@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -195,62 +195,67 @@ msgstr ""
 "文件 %s 已损坏 (%s).\n"
 "打算删除吗？"
 
-#: src/pacman/callback.c:459
-#, fuzzy, c-format
-msgid "Import PGP key %s, \"%s\"?"
-msgstr "导入 PGP 密匙 %u%c/%s，\"%s\"，创建 %s 吗？"
+#: src/pacman/callback.c:461
+#, c-format
+msgid "Import PGP key %s?"
+msgstr ""
 
-#: src/pacman/callback.c:517
+#: src/pacman/callback.c:464
+#, c-format
+msgid "Import PGP key %s, \"%s\"?"
+msgstr ""
+
+#: src/pacman/callback.c:523
 #, c-format
 msgid "installing"
 msgstr "正在安装"
 
-#: src/pacman/callback.c:520
+#: src/pacman/callback.c:526
 #, c-format
 msgid "upgrading"
 msgstr "正在更新"
 
-#: src/pacman/callback.c:523
+#: src/pacman/callback.c:529
 #, c-format
 msgid "downgrading"
 msgstr "正在降级"
 
-#: src/pacman/callback.c:526
+#: src/pacman/callback.c:532
 #, c-format
 msgid "reinstalling"
 msgstr "正在重新安装"
 
-#: src/pacman/callback.c:529
+#: src/pacman/callback.c:535
 #, c-format
 msgid "removing"
 msgstr "正在删除"
 
-#: src/pacman/callback.c:532
+#: src/pacman/callback.c:538
 #, c-format
 msgid "checking for file conflicts"
 msgstr "正在检查文件冲突"
 
-#: src/pacman/callback.c:535
+#: src/pacman/callback.c:541
 #, c-format
 msgid "checking available disk space"
 msgstr "正在检查可用存储空间"
 
-#: src/pacman/callback.c:538
+#: src/pacman/callback.c:544
 #, c-format
 msgid "checking package integrity"
 msgstr "正在检查软件包完整性"
 
-#: src/pacman/callback.c:541
+#: src/pacman/callback.c:547
 #, c-format
 msgid "checking keys in keyring"
 msgstr "正在检查密钥环里的密钥"
 
-#: src/pacman/callback.c:544
+#: src/pacman/callback.c:550
 #, c-format
 msgid "loading package files"
 msgstr "正在加载软件包文件"
 
-#: src/pacman/callback.c:661
+#: src/pacman/callback.c:667
 #, c-format
 msgid "downloading %s...\n"
 msgstr "正在下载 %s...\n"
@@ -339,69 +344,69 @@ msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
 msgstr[0] "%jd 变化的文件\n"
 
-#: src/pacman/conf.c:97
+#: src/pacman/conf.c:98 src/pacman/conf.c:306
 #, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
 msgstr[0] "malloc 失败：无法分配 %zu 字节\n"
 
-#: src/pacman/conf.c:250
+#: src/pacman/conf.c:329
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "无法获取当前的工作目录\n"
 
-#: src/pacman/conf.c:255
+#: src/pacman/conf.c:334
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "无法 chdir 到下载目录 %s\n"
 
-#: src/pacman/conf.c:264
+#: src/pacman/conf.c:349
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "运行 XferCommand 创建进程失败！\n"
 
-#: src/pacman/conf.c:276
+#: src/pacman/conf.c:361
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "无法将 %s 重命名为 %s (%s)\n"
 
-#: src/pacman/conf.c:287
+#: src/pacman/conf.c:372
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "无法恢复工作目录 (%s)\n"
 
-#: src/pacman/conf.c:396 src/pacman/conf.c:445
+#: src/pacman/conf.c:481 src/pacman/conf.c:530 src/pacman/conf.c:635
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr "配置文件 %s，第 %d 行：无有效值 '%s'：'%s'\n"
 
-#: src/pacman/conf.c:410
+#: src/pacman/conf.c:495
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr "配置文件 %s，第 %d 行：'%s' 选项无效，无签名支持\n"
 
-#: src/pacman/conf.c:501 src/pacman/conf.c:586 src/pacman/conf.c:855
+#: src/pacman/conf.c:586 src/pacman/conf.c:682 src/pacman/conf.c:951
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr "配置文件 %s，第 %d 行：指令 '%s'(位于章节 '%s' 中) 无法识别。\n"
 
-#: src/pacman/conf.c:598
+#: src/pacman/conf.c:694
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr "镜像 '%s' 包含可变参数 '%s' ，但是没有定义 '%s'。\n"
 
-#: src/pacman/conf.c:622
+#: src/pacman/conf.c:718
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "无法添加服务器 URL 到数据库 '%s'：%s (%s)\n"
 
-#: src/pacman/conf.c:637
+#: src/pacman/conf.c:733
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "无法注册 '%s' 数据库 (%s)\n"
 
-#: src/pacman/conf.c:673
+#: src/pacman/conf.c:769
 #, c-format
 msgid ""
 "failed to initialize alpm library\n"
@@ -410,57 +415,57 @@ msgstr ""
 "初始化 alpm 库失败\n"
 "(%s: %s)\n"
 
-#: src/pacman/conf.c:676
+#: src/pacman/conf.c:772
 #, c-format
 msgid "try running pacman-db-upgrade\n"
 msgstr "请尝试运行 pacman-db-upgrade\n"
 
-#: src/pacman/conf.c:694
+#: src/pacman/conf.c:790
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "设定日志文件 '%s' (%s) 时出现问题\n"
 
-#: src/pacman/conf.c:703
+#: src/pacman/conf.c:799
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "设定 gpgdir '%s' 时出现问题 (%s)\n"
 
-#: src/pacman/conf.c:713
+#: src/pacman/conf.c:809
 #, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
 msgstr "添加 hookdir '%s' 时出现问题 (%s)\n"
 
-#: src/pacman/conf.c:735
+#: src/pacman/conf.c:831
 #, c-format
 msgid "no '%s' configured\n"
 msgstr "没有配置 '%s' \n"
 
-#: src/pacman/conf.c:764
+#: src/pacman/conf.c:860
 #, c-format
 msgid "Failed to pass %s entry to libalpm"
 msgstr "传递 %s 条目至 libalpm 失败"
 
-#: src/pacman/conf.c:804
+#: src/pacman/conf.c:900
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr "配置文件 %s，第 %d 行：'%s' 选项 '%s' 无法识别\n"
 
-#: src/pacman/conf.c:824 src/pacman/conf.c:877
+#: src/pacman/conf.c:920 src/pacman/conf.c:973
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr "配置文件 %s，第 %d 行：指令 '%s' 需要赋值\n"
 
-#: src/pacman/conf.c:884
+#: src/pacman/conf.c:980
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "配置解析时超过最大 %d 的递归深度。\n"
 
-#: src/pacman/conf.c:932
+#: src/pacman/conf.c:1028
 #, c-format
 msgid "config file %s could not be read: %s\n"
 msgstr "无法读取配置文件 %s: %s\n"
 
-#: src/pacman/conf.c:955
+#: src/pacman/conf.c:1051
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr "配置文件 %s，第 %d 行：所有的命令必须属于同一章节。\n"
@@ -1183,37 +1188,37 @@ msgstr "无效选项 '-%c'\n"
 msgid "invalid option '--%s'\n"
 msgstr "无效选项 '--%s'\n"
 
-#: src/pacman/pacman.c:1146
+#: src/pacman/pacman.c:1130
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "非 root (根用户) 无法执行指定操作。\n"
 
-#: src/pacman/pacman.c:1152
+#: src/pacman/pacman.c:1136
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
 msgstr "chroot 到 '%s' 失败：(%s)\n"
 
-#: src/pacman/pacman.c:1186
+#: src/pacman/pacman.c:1170
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr "从标准输入读取参数失败：(%s)\n"
 
-#: src/pacman/pacman.c:1191
+#: src/pacman/pacman.c:1175
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "无法打开 stdin 以读取：(%s)\n"
 
-#: src/pacman/pacman.c:1196
+#: src/pacman/pacman.c:1180
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "有参数 '-' 但标准输入流为空\n"
 
-#: src/pacman/pacman.c:1201
+#: src/pacman/pacman.c:1185
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "有参数 '-' 但标准输入流中没有输入\n"
 
-#: src/pacman/pacman.c:1278
+#: src/pacman/pacman.c:1262
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "没有指定操作 (使用 -h 获取帮助) \n"
@@ -1273,10 +1278,10 @@ msgstr "未找到目标：%s\n"
 msgid "failed to prepare transaction (%s)\n"
 msgstr "无法准备事务处理 (%s)\n"
 
-#: src/pacman/remove.c:119
+#: src/pacman/remove.c:119 src/pacman/sync.c:737
 #, c-format
-msgid "%s: removing %s breaks dependency '%s'\n"
-msgstr "%s：移除 %s 将破坏依赖关系 '%s'\n"
+msgid "removing %s breaks dependency '%s' required by %s\n"
+msgstr "删除 %s 破坏依赖 '%s' （%s 需要）\n"
 
 #: src/pacman/remove.c:138
 #, c-format
@@ -1418,11 +1423,6 @@ msgstr "无法满足依赖 '%s' （%s 需要）\n"
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
 msgstr "安装 %s (%s) 破坏依赖 '%s' （%s 需要）\n"
-
-#: src/pacman/sync.c:737
-#, c-format
-msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "删除 %s 破坏依赖 '%s' （%s 需要）\n"
 
 #: src/pacman/sync.c:757
 #, c-format
@@ -1736,57 +1736,57 @@ msgstr "警告："
 #: src/pacman/pacman-conf.c:41
 #, c-format
 msgid "pacman-conf - query pacman's configuration file\n"
-msgstr ""
+msgstr "pacman-conf - 查询 pacman 的配置文件\n"
 
 #: src/pacman/pacman-conf.c:42
 #, c-format
 msgid "usage:  pacman-conf [options] [<directive>...]\n"
-msgstr ""
+msgstr "用法:  pacman-conf [options] [<directive>...]\n"
 
 #: src/pacman/pacman-conf.c:43
 #, c-format
 msgid "        pacman-conf (--repo-list|--help|--version)\n"
-msgstr ""
+msgstr "        pacman-conf (--repo-list|--help|--version)\n"
 
 #: src/pacman/pacman-conf.c:44
-#, fuzzy, c-format
+#, c-format
 msgid "options:\n"
-msgstr "选项"
+msgstr "选项:\n"
 
 #: src/pacman/pacman-conf.c:45
-#, fuzzy, c-format
+#, c-format
 msgid "  -c, --config=<path>  set an alternate configuration file\n"
-msgstr "      --config <路径>  指定另外的配置文件\n"
+msgstr "  -c, --config=<path>  设置要使用的配置文件\n"
 
 #: src/pacman/pacman-conf.c:46
-#, fuzzy, c-format
+#, c-format
 msgid "  -R, --rootdir=<path> set an alternate installation root\n"
-msgstr "  -r, --root <路径>    指定另外的安装根目录\n"
+msgstr "  -R, --rootdir=<path> 设置安装根目录\n"
 
 #: src/pacman/pacman-conf.c:47
 #, c-format
 msgid "  -r, --repo=<remote>  query options for a specific repo\n"
-msgstr ""
+msgstr "  -r, --repo=<remote>  在某个特定的仓库中查询\n"
 
 #: src/pacman/pacman-conf.c:48
-#, fuzzy, c-format
+#, c-format
 msgid "  -v, --verbose        always show directive names\n"
-msgstr "  -v, --verbose        显示详细信息\n"
+msgstr "  -v, --verbose        总是显示指令名称\n"
 
 #: src/pacman/pacman-conf.c:49
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --repo-list      list configured repositories\n"
-msgstr "  -l, --list <repo>    查看在该软件库中的软件包清单\n"
+msgstr "  -l, --repo-list      列出配置的仓库\n"
 
 #: src/pacman/pacman-conf.c:50
 #, c-format
 msgid "  -h, --help           display this help information\n"
-msgstr ""
+msgstr "  -h, --help           显示此帮助信息\n"
 
 #: src/pacman/pacman-conf.c:51
-#, fuzzy, c-format
+#, c-format
 msgid "  -V, --version        display version information\n"
-msgstr "      --confirm        总是询问确认\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:80
 #, c-format
@@ -1799,9 +1799,9 @@ msgid "error parsing '%s'\n"
 msgstr ""
 
 #: src/pacman/pacman-conf.c:290
-#, fuzzy, c-format
+#, c-format
 msgid "error: repo '%s' not configured\n"
-msgstr "没有配置 '%s' \n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:383
 #, c-format
@@ -1831,11 +1831,9 @@ msgid "Usage: testpkg <package file>\n"
 msgstr ""
 
 #: src/util/testpkg.c:62
-#, fuzzy, c-format
+#, c-format
 msgid "cannot initialize alpm: %s\n"
 msgstr ""
-"初始化 alpm 库失败\n"
-"(%s: %s)\n"
 
 #: src/util/testpkg.c:77
 #, c-format
@@ -1858,9 +1856,9 @@ msgid "libalpm error: %s\n"
 msgstr ""
 
 #: src/util/testpkg.c:93
-#, fuzzy, c-format
+#, c-format
 msgid "Package is valid.\n"
-msgstr "软件包"
+msgstr ""
 
 #: src/util/testpkg.c:98
 #, c-format
@@ -1868,5 +1866,5 @@ msgid "error releasing alpm\n"
 msgstr ""
 
 #, c-format
-#~ msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-#~ msgstr "导入 PGP 密匙 %u%c/%s，\"%s\"，创建 %s (已吊销) 吗？"
+#~ msgid "%s: removing %s breaks dependency '%s'\n"
+#~ msgstr "%s：移除 %s 将破坏依赖关系 '%s'\n"

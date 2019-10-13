@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:10+1000\n"
-"PO-Revision-Date: 2019-08-12 01:45+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-07 10:28+0000\n"
+"Last-Translator: Alexander F Rødseth <rodseth@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/nb/)\n"
 "Language: nb\n"
@@ -184,62 +184,67 @@ msgstr ""
 "Filen %s er korrupt (%s).\n"
 "Slette?"
 
-#: src/pacman/callback.c:459
+#: src/pacman/callback.c:461
 #, fuzzy, c-format
-msgid "Import PGP key %s, \"%s\"?"
-msgstr "PGP nøkkel %u%c/%s, \"%s\", opprettet: %s. Skal den importeres?"
+msgid "Import PGP key %s?"
+msgstr "Importer PGP-nøkkel %s, \"%s\"?"
 
-#: src/pacman/callback.c:517
+#: src/pacman/callback.c:464
+#, c-format
+msgid "Import PGP key %s, \"%s\"?"
+msgstr "Importer PGP-nøkkel %s, \"%s\"?"
+
+#: src/pacman/callback.c:523
 #, c-format
 msgid "installing"
 msgstr "installerer"
 
-#: src/pacman/callback.c:520
+#: src/pacman/callback.c:526
 #, c-format
 msgid "upgrading"
 msgstr "oppgraderer"
 
-#: src/pacman/callback.c:523
+#: src/pacman/callback.c:529
 #, c-format
 msgid "downgrading"
 msgstr "nedgraderer"
 
-#: src/pacman/callback.c:526
+#: src/pacman/callback.c:532
 #, c-format
 msgid "reinstalling"
 msgstr "reinstallerer"
 
-#: src/pacman/callback.c:529
+#: src/pacman/callback.c:535
 #, c-format
 msgid "removing"
 msgstr "fjerner"
 
-#: src/pacman/callback.c:532
+#: src/pacman/callback.c:538
 #, c-format
 msgid "checking for file conflicts"
 msgstr "finner filkollisjoner"
 
-#: src/pacman/callback.c:535
+#: src/pacman/callback.c:541
 #, c-format
 msgid "checking available disk space"
 msgstr "ser om det er ledig plass på disken"
 
-#: src/pacman/callback.c:538
+#: src/pacman/callback.c:544
 #, c-format
 msgid "checking package integrity"
 msgstr "kontrollerer pakkeintegritet"
 
-#: src/pacman/callback.c:541
+#: src/pacman/callback.c:547
 #, c-format
 msgid "checking keys in keyring"
 msgstr "kontrollerer nøkler i nøkkelringen"
 
-#: src/pacman/callback.c:544
+#: src/pacman/callback.c:550
 #, c-format
 msgid "loading package files"
 msgstr "henter pakkefiler"
 
-#: src/pacman/callback.c:661
+#: src/pacman/callback.c:667
 #, c-format
 msgid "downloading %s...\n"
 msgstr "laster ned %s...\n"
@@ -331,51 +336,51 @@ msgid_plural "%jd altered files\n"
 msgstr[0] "%jd endret fil\n"
 msgstr[1] "%jd endrede filer\n"
 
-#: src/pacman/conf.c:97
+#: src/pacman/conf.c:98 src/pacman/conf.c:306
 #, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
 msgstr[0] "malloc-feil: kunne ikke avsette %zu byte\n"
 msgstr[1] "malloc-feil: kan ikke sette av %zu bytes\n"
 
-#: src/pacman/conf.c:250
+#: src/pacman/conf.c:329
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "kan ikke finne gjeldende mappe\n"
 
-#: src/pacman/conf.c:255
+#: src/pacman/conf.c:334
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "kan ikke gå inn i nedlastingsmappen %s\n"
 
-#: src/pacman/conf.c:264
+#: src/pacman/conf.c:349
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "ved utføring av XferCommand: forgrening feilet!\n"
 
-#: src/pacman/conf.c:276
+#: src/pacman/conf.c:361
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "kunne ikke gi %s det nye navnet %s (%s)\n"
 
-#: src/pacman/conf.c:287
+#: src/pacman/conf.c:372
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "kunne ikke gjenopprette gjeldende mappe (%s)\n"
 
-#: src/pacman/conf.c:396 src/pacman/conf.c:445
+#: src/pacman/conf.c:481 src/pacman/conf.c:530 src/pacman/conf.c:635
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr "konfigurasjonsfil %s, linje %d: ugyldig verdi for '%s': '%s'\n"
 
-#: src/pacman/conf.c:410
+#: src/pacman/conf.c:495
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
 "konfigurasjonsfil %s, linje %d: valget '%s' er ugyldig, ingen støtte for å "
 "signere\n"
 
-#: src/pacman/conf.c:501 src/pacman/conf.c:586 src/pacman/conf.c:855
+#: src/pacman/conf.c:586 src/pacman/conf.c:682 src/pacman/conf.c:951
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
@@ -383,23 +388,23 @@ msgstr ""
 "konfigurasjonsfil %s, linje %d: direktiv '%s' i seksjon '%s' ikke "
 "gjenkjent.\n"
 
-#: src/pacman/conf.c:598
+#: src/pacman/conf.c:694
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr ""
 "pakkebrønnen '%s' inneholder variablen '%s', men ingen '%s' er definert.\n"
 
-#: src/pacman/conf.c:622
+#: src/pacman/conf.c:718
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "kan ikke legge tjener-addresse til databasen '%s': %s (%s)\n"
 
-#: src/pacman/conf.c:637
+#: src/pacman/conf.c:733
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "kan ikke registrere '%s'-databasen (%s)\n"
 
-#: src/pacman/conf.c:673
+#: src/pacman/conf.c:769
 #, c-format
 msgid ""
 "failed to initialize alpm library\n"
@@ -408,57 +413,57 @@ msgstr ""
 "alpm-biblioteket kunne ikke igangsettes\n"
 "(%s: %s)\n"
 
-#: src/pacman/conf.c:676
+#: src/pacman/conf.c:772
 #, c-format
 msgid "try running pacman-db-upgrade\n"
 msgstr "  prøv å kjøre pacman-db-upgrade\n"
 
-#: src/pacman/conf.c:694
+#: src/pacman/conf.c:790
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problem ved valg av loggfil '%s' (%s)\n"
 
-#: src/pacman/conf.c:703
+#: src/pacman/conf.c:799
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "problem ved valg av gpgdir '%s' (%s)\n"
 
-#: src/pacman/conf.c:713
+#: src/pacman/conf.c:809
 #, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
 msgstr "kan ikke legge til mappe med hekter '%s' (%s)\n"
 
-#: src/pacman/conf.c:735
+#: src/pacman/conf.c:831
 #, c-format
 msgid "no '%s' configured\n"
 msgstr "ingen '%s' har blitt konfigurert\n"
 
-#: src/pacman/conf.c:764
+#: src/pacman/conf.c:860
 #, c-format
 msgid "Failed to pass %s entry to libalpm"
 msgstr "Kunne ikke videresende %s-opptegnelsen til libalpm"
 
-#: src/pacman/conf.c:804
+#: src/pacman/conf.c:900
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr "konfigurasjonsfil %s, linje %d: '%s' valg '%s' er ukjent\n"
 
-#: src/pacman/conf.c:824 src/pacman/conf.c:877
+#: src/pacman/conf.c:920 src/pacman/conf.c:973
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr "konfigurasjonsfil %s, linje %d: '%s' direktivet trenger en verdi\n"
 
-#: src/pacman/conf.c:884
+#: src/pacman/conf.c:980
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "tolkning av konfigurasjon gikk forbi maks rekursjonsdybde (på %d).\n"
 
-#: src/pacman/conf.c:932
+#: src/pacman/conf.c:1028
 #, c-format
 msgid "config file %s could not be read: %s\n"
 msgstr "kunne ikke lese konfigurasjonsfil %s: %s\n"
 
-#: src/pacman/conf.c:955
+#: src/pacman/conf.c:1051
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
@@ -1219,37 +1224,37 @@ msgstr "ugyldig tilvalg '-%c'\n"
 msgid "invalid option '--%s'\n"
 msgstr "ugyldig tilvalg '--%s'\n"
 
-#: src/pacman/pacman.c:1146
+#: src/pacman/pacman.c:1130
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "dette kan bare utføres som root.\n"
 
-#: src/pacman/pacman.c:1152
+#: src/pacman/pacman.c:1136
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
 msgstr "chroot til '%s' gikk galt: (%s)\n"
 
-#: src/pacman/pacman.c:1186
+#: src/pacman/pacman.c:1170
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr "kunne ikke lese inn argumenter fra stdin: (%s)\n"
 
-#: src/pacman/pacman.c:1191
+#: src/pacman/pacman.c:1175
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "klarte ikke å åpne stdin for lesing: (%s)\n"
 
-#: src/pacman/pacman.c:1196
+#: src/pacman/pacman.c:1180
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "'-' ble oppgitt, men programmet mottok ingen data\n"
 
-#: src/pacman/pacman.c:1201
+#: src/pacman/pacman.c:1185
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "'-' oppgitt uten tilgjengelig data på stdin\n"
 
-#: src/pacman/pacman.c:1278
+#: src/pacman/pacman.c:1262
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "ingen handling angitt (bruk -h for hjelp)\n"
@@ -1309,10 +1314,10 @@ msgstr "valget ble ikke funnet: %s\n"
 msgid "failed to prepare transaction (%s)\n"
 msgstr "kunne ikke forberede transaksjon (%s)\n"
 
-#: src/pacman/remove.c:119
+#: src/pacman/remove.c:119 src/pacman/sync.c:737
 #, c-format
-msgid "%s: removing %s breaks dependency '%s'\n"
-msgstr "%s: å fjerne %s bryter med avhengigheten '%s'\n"
+msgid "removing %s breaks dependency '%s' required by %s\n"
+msgstr "fjerning av %s bryter avhengigheten '%s' behøves av %s\n"
 
 #: src/pacman/remove.c:138
 #, c-format
@@ -1455,11 +1460,6 @@ msgstr "kunne ikke tilfredstille avhengigheten '%s' behøves av %s\n"
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
 msgstr "installasjon av %s (%s) bryter avhengigheten '%s' behøves av %s\n"
-
-#: src/pacman/sync.c:737
-#, c-format
-msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "fjerning av %s bryter avhengigheten '%s' behøves av %s\n"
 
 #: src/pacman/sync.c:757
 #, c-format
@@ -1774,87 +1774,87 @@ msgstr "advarsel: "
 #: src/pacman/pacman-conf.c:41
 #, c-format
 msgid "pacman-conf - query pacman's configuration file\n"
-msgstr ""
+msgstr "pacman-conf - utfør spørringer mot pacman sin konfigurasjonsfil\n"
 
 #: src/pacman/pacman-conf.c:42
 #, c-format
 msgid "usage:  pacman-conf [options] [<directive>...]\n"
-msgstr ""
+msgstr "bruk:  pacman-conf [tilvalg] [<directive>...]\n"
 
 #: src/pacman/pacman-conf.c:43
 #, c-format
 msgid "        pacman-conf (--repo-list|--help|--version)\n"
-msgstr ""
+msgstr "        pacman-conf (--repo-list|--help|--version)\n"
 
 #: src/pacman/pacman-conf.c:44
-#, fuzzy, c-format
+#, c-format
 msgid "options:\n"
-msgstr "tilvalg"
+msgstr "tilvalg:\n"
 
 #: src/pacman/pacman-conf.c:45
-#, fuzzy, c-format
+#, c-format
 msgid "  -c, --config=<path>  set an alternate configuration file\n"
-msgstr "      --config <fil>   bruk en annen konfigurasjonsfil\n"
+msgstr "  -c, --config=<path>  bruk en alternativ konfigurasjonsfil\n"
 
 #: src/pacman/pacman-conf.c:46
-#, fuzzy, c-format
+#, c-format
 msgid "  -R, --rootdir=<path> set an alternate installation root\n"
-msgstr "  -r, --root <mappe>   bruk en annen bunnmappe for installasjonen\n"
+msgstr "  -R, --rootdir=<path> bruk en alternativ rotkatalog\n"
 
 #: src/pacman/pacman-conf.c:47
 #, c-format
 msgid "  -r, --repo=<remote>  query options for a specific repo\n"
-msgstr ""
+msgstr "  -r, --repo=<remote>  gjør spørringer mot en spesifikk pakkebrønn\n"
 
 #: src/pacman/pacman-conf.c:48
-#, fuzzy, c-format
+#, c-format
 msgid "  -v, --verbose        always show directive names\n"
-msgstr "  -v, --verbose        vis mer informasjon\n"
+msgstr "  -v, --verbose        alltid vis direktivnavn\n"
 
 #: src/pacman/pacman-conf.c:49
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --repo-list      list configured repositories\n"
-msgstr "  -l, --list <brønn>   list opp pakker i en gitt pakkebrønn\n"
+msgstr "  -l, --repo-list      vis en liste med konfigurerte pakkebrønner\n"
 
 #: src/pacman/pacman-conf.c:50
 #, c-format
 msgid "  -h, --help           display this help information\n"
-msgstr ""
+msgstr "  -h, --help           vis denne hjelpen\n"
 
 #: src/pacman/pacman-conf.c:51
-#, fuzzy, c-format
+#, c-format
 msgid "  -V, --version        display version information\n"
-msgstr "      --confirm        alltid vent på svar før noe gjøres\n"
+msgstr "  -V, --version        vis versjonsinformasjon\n"
 
 #: src/pacman/pacman-conf.c:80
 #, c-format
 msgid "error setting rootdir '%s': out of memory\n"
-msgstr ""
+msgstr "feil ved bruk av rotkatalog '%s': tom for minne\n"
 
 #: src/pacman/pacman-conf.c:110
 #, c-format
 msgid "error parsing '%s'\n"
-msgstr ""
+msgstr "feil ved tolking '%s'\n"
 
 #: src/pacman/pacman-conf.c:290
-#, fuzzy, c-format
+#, c-format
 msgid "error: repo '%s' not configured\n"
-msgstr "ingen '%s' har blitt konfigurert\n"
+msgstr "feil: pakkebrønnen '%s' er ikke konfigurert\n"
 
 #: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:383
 #, c-format
 msgid "warning: '%s' directives cannot be queried\n"
-msgstr ""
+msgstr "advarsel: kan ikke gjøre forespørsler mot direktiver: '%s'\n"
 
 #: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:386
 #, c-format
 msgid "warning: unknown directive '%s'\n"
-msgstr ""
+msgstr "advarsel: ukjent direktiv '%s'\n"
 
 #: src/pacman/pacman-conf.c:423
 #, c-format
 msgid "error: directives may not be specified with %s\n"
-msgstr ""
+msgstr "feil: direktiver kan ikke spesifiseres med %s\n"
 
 #: src/util/testpkg.c:55
 #, c-format
@@ -1862,51 +1862,49 @@ msgid ""
 "Test a pacman package for validity.\n"
 "\n"
 msgstr ""
+"Kontroller gyldigheten til en pakke.\n"
+"\n"
 
 #: src/util/testpkg.c:56
 #, c-format
 msgid "Usage: testpkg <package file>\n"
-msgstr ""
+msgstr "Bruk: testpkg <package file>\n"
 
 #: src/util/testpkg.c:62
-#, fuzzy, c-format
+#, c-format
 msgid "cannot initialize alpm: %s\n"
-msgstr ""
-"alpm-biblioteket kunne ikke igangsettes\n"
-"(%s: %s)\n"
+msgstr "alpm kan ikke igangsettes: %s\n"
 
 #: src/util/testpkg.c:77
 #, c-format
 msgid "Cannot find the given file.\n"
-msgstr ""
+msgstr "Fant ikke filen.\n"
 
 #: src/util/testpkg.c:80
 #, c-format
 msgid "Cannot open the given file.\n"
-msgstr ""
+msgstr "Filen kan ikke åpnes.\n"
 
 #: src/util/testpkg.c:84
 #, c-format
 msgid "Package is invalid.\n"
-msgstr ""
+msgstr "Ugyldig pakke.\n"
 
 #: src/util/testpkg.c:87
 #, c-format
 msgid "libalpm error: %s\n"
-msgstr ""
+msgstr "libalpm feil: %s\n"
 
 #: src/util/testpkg.c:93
-#, fuzzy, c-format
+#, c-format
 msgid "Package is valid.\n"
-msgstr "Pakker"
+msgstr "Gyldig pakke.\n"
 
 #: src/util/testpkg.c:98
 #, c-format
 msgid "error releasing alpm\n"
-msgstr ""
+msgstr "feil ved slipp av alpm\n"
 
 #, c-format
-#~ msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-#~ msgstr ""
-#~ "PGP nøkkel %u%c/%s, \"%s\", opprettet: %s (tilbakekalt). Skal den "
-#~ "importeres?"
+#~ msgid "%s: removing %s breaks dependency '%s'\n"
+#~ msgstr "%s: å fjerne %s bryter med avhengigheten '%s'\n"

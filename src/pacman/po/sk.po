@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:10+1000\n"
-"PO-Revision-Date: 2019-08-12 01:45+0000\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-07 08:15+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Slovak (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/sk/)\n"
@@ -200,62 +200,67 @@ msgstr ""
 "Súbor %s je poškodený (%s).\n"
 "Chcete ho vymazať?"
 
-#: src/pacman/callback.c:459
-#, fuzzy, c-format
-msgid "Import PGP key %s, \"%s\"?"
-msgstr "Importovať PGP kľúč %u%c/%s, \"%s\", vytvorený: %s?"
+#: src/pacman/callback.c:461
+#, c-format
+msgid "Import PGP key %s?"
+msgstr ""
 
-#: src/pacman/callback.c:517
+#: src/pacman/callback.c:464
+#, c-format
+msgid "Import PGP key %s, \"%s\"?"
+msgstr ""
+
+#: src/pacman/callback.c:523
 #, c-format
 msgid "installing"
 msgstr "inštalujem"
 
-#: src/pacman/callback.c:520
+#: src/pacman/callback.c:526
 #, c-format
 msgid "upgrading"
 msgstr "aktualizujem"
 
-#: src/pacman/callback.c:523
+#: src/pacman/callback.c:529
 #, c-format
 msgid "downgrading"
 msgstr "znižujem verziu"
 
-#: src/pacman/callback.c:526
+#: src/pacman/callback.c:532
 #, c-format
 msgid "reinstalling"
 msgstr "reinštalujem"
 
-#: src/pacman/callback.c:529
+#: src/pacman/callback.c:535
 #, c-format
 msgid "removing"
 msgstr "odstraňujem"
 
-#: src/pacman/callback.c:532
+#: src/pacman/callback.c:538
 #, c-format
 msgid "checking for file conflicts"
 msgstr "kontrolujem konflikty súborov"
 
-#: src/pacman/callback.c:535
+#: src/pacman/callback.c:541
 #, c-format
 msgid "checking available disk space"
 msgstr "zisťujem voľné miesto na disku"
 
-#: src/pacman/callback.c:538
+#: src/pacman/callback.c:544
 #, c-format
 msgid "checking package integrity"
 msgstr "kontrolujem integritu balíčkov"
 
-#: src/pacman/callback.c:541
+#: src/pacman/callback.c:547
 #, c-format
 msgid "checking keys in keyring"
 msgstr "overujem kľúče v kľúčenke"
 
-#: src/pacman/callback.c:544
+#: src/pacman/callback.c:550
 #, c-format
 msgid "loading package files"
 msgstr "načítavam súbory balíčkov"
 
-#: src/pacman/callback.c:661
+#: src/pacman/callback.c:667
 #, c-format
 msgid "downloading %s...\n"
 msgstr "sťahujem %s...\n"
@@ -353,7 +358,7 @@ msgstr[1] "%jd zmenené súbory\n"
 msgstr[2] "%jd zmenených súborov\n"
 msgstr[3] "%jd zmenených súborov\n"
 
-#: src/pacman/conf.c:97
+#: src/pacman/conf.c:98 src/pacman/conf.c:306
 #, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
@@ -362,44 +367,44 @@ msgstr[1] "malloc chyba: nepodarilo sa alokovať %zu bajty\n"
 msgstr[2] "malloc chyba: nepodarilo sa alokovať %zu bajtov\n"
 msgstr[3] "malloc chyba: nepodarilo sa alokovať %zu bajtov\n"
 
-#: src/pacman/conf.c:250
+#: src/pacman/conf.c:329
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "nepodarilo sa zistiť aktuálny pracovný adresár\n"
 
-#: src/pacman/conf.c:255
+#: src/pacman/conf.c:334
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "nie je možné sa prepnúť do adresára pre sťahovanie %s)\n"
 
-#: src/pacman/conf.c:264
+#: src/pacman/conf.c:349
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "spustenie XferCommand: bolo neúspešné!\n"
 
-#: src/pacman/conf.c:276
+#: src/pacman/conf.c:361
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "nepodarilo sa premenovať %s na %s (%s)\n"
 
-#: src/pacman/conf.c:287
+#: src/pacman/conf.c:372
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "nie je možné obnoviť pracovný adresár (%s)\n"
 
-#: src/pacman/conf.c:396 src/pacman/conf.c:445
+#: src/pacman/conf.c:481 src/pacman/conf.c:530 src/pacman/conf.c:635
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr "konfiguračný súbor %s, riadok %d: neplatná hodnota pre '%s' : '%s'\n"
 
-#: src/pacman/conf.c:410
+#: src/pacman/conf.c:495
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
 "konfiguračný súbor %s, riadok %d: voľba '%s'  nie je platná, cýba podpora "
 "pre podpisovanie\n"
 
-#: src/pacman/conf.c:501 src/pacman/conf.c:586 src/pacman/conf.c:855
+#: src/pacman/conf.c:586 src/pacman/conf.c:682 src/pacman/conf.c:951
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
@@ -407,22 +412,22 @@ msgstr ""
 "konfiguračný súbor %s, riadok %d: direktíva '%s' v sekcii '%s' nebola "
 "rozpoznaná.\n"
 
-#: src/pacman/conf.c:598
+#: src/pacman/conf.c:694
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr "zrkadlo '%s' obsahuje  premmenú \"%s\", ale '%s' nie je definovaná.\n"
 
-#: src/pacman/conf.c:622
+#: src/pacman/conf.c:718
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "nebolo možné pridať URL servera k databáze '%s': %s (%s)\n"
 
-#: src/pacman/conf.c:637
+#: src/pacman/conf.c:733
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "nie je možné zaregistrovať databázu '%s' (%s)\n"
 
-#: src/pacman/conf.c:673
+#: src/pacman/conf.c:769
 #, c-format
 msgid ""
 "failed to initialize alpm library\n"
@@ -431,58 +436,58 @@ msgstr ""
 "zlyhala inicializácia knižnice alpm\n"
 "(%s: %s)\n"
 
-#: src/pacman/conf.c:676
+#: src/pacman/conf.c:772
 #, c-format
 msgid "try running pacman-db-upgrade\n"
 msgstr "skúste spustiť pacman-db-upgrade\n"
 
-#: src/pacman/conf.c:694
+#: src/pacman/conf.c:790
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problém s nastavením log súboru '%s' (%s)\n"
 
-#: src/pacman/conf.c:703
+#: src/pacman/conf.c:799
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "problém pri nastavovaní gpgdir '%s' (%s)\n"
 
-#: src/pacman/conf.c:713
+#: src/pacman/conf.c:809
 #, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
 msgstr "problém počas pridávania adresára hákov \"%s\" (%s)\n"
 
-#: src/pacman/conf.c:735
+#: src/pacman/conf.c:831
 #, c-format
 msgid "no '%s' configured\n"
 msgstr "'%s' nie je nastavený\n"
 
-#: src/pacman/conf.c:764
+#: src/pacman/conf.c:860
 #, c-format
 msgid "Failed to pass %s entry to libalpm"
 msgstr "Nepodarilo sa predať záznam %s do libalpm"
 
-#: src/pacman/conf.c:804
+#: src/pacman/conf.c:900
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr "konfiguračný súbor %s, riadok %d: '%s' voľba '%s' nebola rozpoznaná\n"
 
-#: src/pacman/conf.c:824 src/pacman/conf.c:877
+#: src/pacman/conf.c:920 src/pacman/conf.c:973
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr "konfiguračný súbor %s, riadok %d: direktíva '%s' vyžaduje hodnotu\n"
 
-#: src/pacman/conf.c:884
+#: src/pacman/conf.c:980
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr ""
 "parsovanie konfiguračného súboru prekročilo maximálnu hĺbku rekurzie %d.\n"
 
-#: src/pacman/conf.c:932
+#: src/pacman/conf.c:1028
 #, c-format
 msgid "config file %s could not be read: %s\n"
 msgstr "konfiguračný súbor %s nie je možné načítať: %s\n"
 
-#: src/pacman/conf.c:955
+#: src/pacman/conf.c:1051
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
@@ -1251,37 +1256,37 @@ msgstr "neplatná voľba '-%c'\n"
 msgid "invalid option '--%s'\n"
 msgstr "neplatná voľba '--%s'\n"
 
-#: src/pacman/pacman.c:1146
+#: src/pacman/pacman.c:1130
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "operáciu nie je možné uskutočniť, ak nie ste root.\n"
 
-#: src/pacman/pacman.c:1152
+#: src/pacman/pacman.c:1136
 #, c-format
 msgid "chroot to '%s' failed: (%s)\n"
 msgstr "chroot do '%s' zlyhal: (%s)\n"
 
-#: src/pacman/pacman.c:1186
+#: src/pacman/pacman.c:1170
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr "zlyhalo čítanie argumentov zo stdin: (%s)\n"
 
-#: src/pacman/pacman.c:1191
+#: src/pacman/pacman.c:1175
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "nepodarilo sa znovuotvoriť štandardný vstup na čítanie: (%s)\n"
 
-#: src/pacman/pacman.c:1196
+#: src/pacman/pacman.c:1180
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "argument '-' zadaný s prázdnym vstupom na stdin\n"
 
-#: src/pacman/pacman.c:1201
+#: src/pacman/pacman.c:1185
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "argument '-' špecifikovaný bez vstupu na stdin\n"
 
-#: src/pacman/pacman.c:1278
+#: src/pacman/pacman.c:1262
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "nebola špecifikovaná operácia (použite -h pre nápovedu)\n"
@@ -1341,10 +1346,10 @@ msgstr "cieľ nebol nájdený: %s\n"
 msgid "failed to prepare transaction (%s)\n"
 msgstr "zlyhala príprava transakcie (%s)\n"
 
-#: src/pacman/remove.c:119
+#: src/pacman/remove.c:119 src/pacman/sync.c:737
 #, c-format
-msgid "%s: removing %s breaks dependency '%s'\n"
-msgstr "%s: odstránenie %s poruší závislosť '%s'\n"
+msgid "removing %s breaks dependency '%s' required by %s\n"
+msgstr "odstránenie %s poruší závislosť '%s' vyžadovanú balíčkom %s\n"
 
 #: src/pacman/remove.c:138
 #, c-format
@@ -1490,11 +1495,6 @@ msgstr "nemožno splniť závislosť '%s' vyžadovanú balíčkom %s\n"
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
 msgstr "inštalácia %s (%s) poruší závislosť '%s' vyžadovanú balíčkom %s\n"
-
-#: src/pacman/sync.c:737
-#, c-format
-msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "odstránenie %s poruší závislosť '%s' vyžadovanú balíčkom %s\n"
 
 #: src/pacman/sync.c:757
 #, c-format
@@ -1821,19 +1821,19 @@ msgid "        pacman-conf (--repo-list|--help|--version)\n"
 msgstr ""
 
 #: src/pacman/pacman-conf.c:44
-#, fuzzy, c-format
+#, c-format
 msgid "options:\n"
-msgstr "voľby"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:45
-#, fuzzy, c-format
+#, c-format
 msgid "  -c, --config=<path>  set an alternate configuration file\n"
-msgstr "      --config <path>  nastaviť cestu ku konfiguračnému súboru\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:46
-#, fuzzy, c-format
+#, c-format
 msgid "  -R, --rootdir=<path> set an alternate installation root\n"
-msgstr "  -r, --root <path>    nastaviť iný koreňový adresár pre inštaláciu\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:47
 #, c-format
@@ -1841,14 +1841,14 @@ msgid "  -r, --repo=<remote>  query options for a specific repo\n"
 msgstr ""
 
 #: src/pacman/pacman-conf.c:48
-#, fuzzy, c-format
+#, c-format
 msgid "  -v, --verbose        always show directive names\n"
-msgstr "  -v, --verbose        zobraziť viac informácii\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:49
-#, fuzzy, c-format
+#, c-format
 msgid "  -l, --repo-list      list configured repositories\n"
-msgstr "  -l, --list <repo>    zobraziť zoznam balíčkov v repozitári\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:50
 #, c-format
@@ -1856,9 +1856,9 @@ msgid "  -h, --help           display this help information\n"
 msgstr ""
 
 #: src/pacman/pacman-conf.c:51
-#, fuzzy, c-format
+#, c-format
 msgid "  -V, --version        display version information\n"
-msgstr "      --confirm        vždy požaduj potvrdenie\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:80
 #, c-format
@@ -1871,9 +1871,9 @@ msgid "error parsing '%s'\n"
 msgstr ""
 
 #: src/pacman/pacman-conf.c:290
-#, fuzzy, c-format
+#, c-format
 msgid "error: repo '%s' not configured\n"
-msgstr "'%s' nie je nastavený\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:383
 #, c-format
@@ -1903,11 +1903,9 @@ msgid "Usage: testpkg <package file>\n"
 msgstr ""
 
 #: src/util/testpkg.c:62
-#, fuzzy, c-format
+#, c-format
 msgid "cannot initialize alpm: %s\n"
 msgstr ""
-"zlyhala inicializácia knižnice alpm\n"
-"(%s: %s)\n"
 
 #: src/util/testpkg.c:77
 #, c-format
@@ -1930,9 +1928,9 @@ msgid "libalpm error: %s\n"
 msgstr ""
 
 #: src/util/testpkg.c:93
-#, fuzzy, c-format
+#, c-format
 msgid "Package is valid.\n"
-msgstr "Balíčky"
+msgstr ""
 
 #: src/util/testpkg.c:98
 #, c-format
@@ -1940,5 +1938,5 @@ msgid "error releasing alpm\n"
 msgstr ""
 
 #, c-format
-#~ msgid "Import PGP key %u%c/%s, \"%s\", created: %s (revoked)?"
-#~ msgstr "Importovať PGP kľúč %u%c/%s, \"%s\", vytvorený: %s (odvolaný)?"
+#~ msgid "%s: removing %s breaks dependency '%s'\n"
+#~ msgstr "%s: odstránenie %s poruší závislosť '%s'\n"

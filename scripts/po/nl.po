@@ -13,7 +13,7 @@
 # Peter van den Hurk, 2014-2016
 # Ray Drossaert <info@linuxmusicproduction.com>, 2014
 # Ronald Uit <ronald645@gmail.com>, 2015
-# Ruben Van Boxem <vanboxem.ruben@gmail.com>, 2015,2018
+# Ruben Van Boxem <vanboxem.ruben@gmail.com>, 2015,2018-2019
 # 56d5d7c9ccc04394ef84fc87640272f6, 2014
 # 56d5d7c9ccc04394ef84fc87640272f6, 2014
 # W J <transifex@woutje.be>, 2018
@@ -23,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:09+1000\n"
-"PO-Revision-Date: 2019-08-14 09:37+0000\n"
-"Last-Translator: zenlord <zenlord@gmail.com>\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-07 09:17+0000\n"
+"Last-Translator: Ruben Van Boxem <vanboxem.ruben@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/nl/)\n"
 "Language: nl\n"
@@ -913,58 +913,63 @@ msgstr "Lokaal ondertekenen sleutel %s..."
 msgid "%s could not be locally signed."
 msgstr "%s kon niet lokaal ondertekend worden."
 
-#: scripts/pacman-key.sh.in:480
+#: scripts/pacman-key.sh.in:482
+#, fuzzy
+msgid "Remote key not fetched correctly from WKD or keyserver."
+msgstr "Sleutel op afstand niet correct van sleutelserver gehaald."
+
+#: scripts/pacman-key.sh.in:487
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Sleutel op afstand niet correct van sleutelserver gehaald."
 
-#: scripts/pacman-key.sh.in:488
+#: scripts/pacman-key.sh.in:497
 msgid "A specified local key could not be updated from a keyserver."
 msgstr ""
 "Een bepaalde lokale sleutel kon niet worden bijgewerkt van een sleutelserver."
 
-#: scripts/pacman-key.sh.in:506 scripts/repo-add.sh.in:273
+#: scripts/pacman-key.sh.in:515 scripts/repo-add.sh.in:273
 msgid "Cannot use armored signatures for packages: %s"
 msgstr "Kan geen gepantserde signaturen gebruiken voor pakketten: %s"
 
-#: scripts/pacman-key.sh.in:510
+#: scripts/pacman-key.sh.in:519
 msgid "The signature identified by %s could not be verified."
 msgstr "De signatuur, geïdentificeerd door %s, kon niet geverifieerd worden."
 
-#: scripts/pacman-key.sh.in:517
+#: scripts/pacman-key.sh.in:526
 msgid "Updating trust database..."
 msgstr "Trust database bijwerken..."
 
-#: scripts/pacman-key.sh.in:519
+#: scripts/pacman-key.sh.in:528
 msgid "Trust database could not be updated."
 msgstr "Trust database kon niet worden bijgewerkt..."
 
-#: scripts/pacman-key.sh.in:586
+#: scripts/pacman-key.sh.in:595
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
 "Kan het uitvoerbare bestand %s, vereist voor alle %s bewerkingen, niet "
 "vinden."
 
-#: scripts/pacman-key.sh.in:591
+#: scripts/pacman-key.sh.in:600
 msgid "%s needs to be run as root for this operation."
 msgstr "De bewerking %s moet worden uitgevoerd als root."
 
-#: scripts/pacman-key.sh.in:597
+#: scripts/pacman-key.sh.in:606
 msgid "%s configuration file '%s' not found."
 msgstr "%s configuratiebestand '%s' niet gevonden."
 
-#: scripts/pacman-key.sh.in:618
+#: scripts/pacman-key.sh.in:627
 msgid "no operation specified (use -h for help)"
 msgstr "geen bewerking gespecificeerd (gebruik -h voor hulp)"
 
-#: scripts/pacman-key.sh.in:623
+#: scripts/pacman-key.sh.in:632
 msgid "Multiple operations specified."
 msgstr "Meerdere bewerkingen gespecificeerd."
 
-#: scripts/pacman-key.sh.in:624
+#: scripts/pacman-key.sh.in:633
 msgid "Please run %s with each operation separately."
 msgstr "Draai %s op iedere bewerking afzonderlijk."
 
-#: scripts/pacman-key.sh.in:632
+#: scripts/pacman-key.sh.in:641
 msgid "No targets specified"
 msgstr "Geen doel gespecificeerd."
 
@@ -1354,6 +1359,7 @@ msgstr "%s mag geen array zijn"
 #: scripts/libmakepkg/lint_config/variable.sh.in:66
 msgid "PACKAGER should have the format 'Example Name <email@address.invalid>'"
 msgstr ""
+"PACKAGER moet volgend formaat hebben: 'Voorbeeld Naam <email@adres.ongeldig>'"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
 msgid "Checking for packaging issues..."

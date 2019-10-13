@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:09+1000\n"
-"PO-Revision-Date: 2019-08-14 09:34+0000\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-07 15:11+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ca/)\n"
@@ -227,7 +227,7 @@ msgstr "Feu paquets compatibles per usar amb el Pacman."
 
 #: scripts/makepkg.sh.in:951 scripts/pacman-db-upgrade.sh.in:42
 msgid "Usage: %s [options]"
-msgstr "Sintaxi: %s [opcions]"
+msgstr "Ús: %s [opcions]"
 
 #: scripts/makepkg.sh.in:953 scripts/pacman-key.sh.in:81
 msgid "Options:"
@@ -716,7 +716,7 @@ msgstr ""
 
 #: scripts/pacman-key.sh.in:58
 msgid "Usage: %s [options] operation [targets]"
-msgstr "Sintaxi: %s [opcions] operació [objectius]"
+msgstr "Ús: %s [opcions] operació [objectius]"
 
 #: scripts/pacman-key.sh.in:60
 msgid "Manage pacman's list of trusted keys"
@@ -815,7 +815,7 @@ msgid ""
 "\\n                            in '%s'"
 msgstr ""
 "  --populate                Recarrega les claus per defecte dels clauers "
-"(proporcionats)\\n a \"%s\"."
+"(indicats)\\n a \"%s\"."
 
 #: scripts/pacman-key.sh.in:79
 msgid ""
@@ -956,63 +956,68 @@ msgstr "Se signa localment la clau %s..."
 msgid "%s could not be locally signed."
 msgstr "%s no s'ha pogut signar localment."
 
-#: scripts/pacman-key.sh.in:480
+#: scripts/pacman-key.sh.in:482
+#, fuzzy
+msgid "Remote key not fetched correctly from WKD or keyserver."
+msgstr "Clau remota no recollida correctament del servidor de claus."
+
+#: scripts/pacman-key.sh.in:487
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "Clau remota no recollida correctament del servidor de claus."
 
-#: scripts/pacman-key.sh.in:488
+#: scripts/pacman-key.sh.in:497
 msgid "A specified local key could not be updated from a keyserver."
 msgstr ""
 "No s'ha pogut actualitzar una clau local espcificada des d'un servidor de "
 "claus."
 
-#: scripts/pacman-key.sh.in:506 scripts/repo-add.sh.in:273
+#: scripts/pacman-key.sh.in:515 scripts/repo-add.sh.in:273
 msgid "Cannot use armored signatures for packages: %s"
 msgstr "No es poden usar signatures blindades per als paquets: %s"
 
-#: scripts/pacman-key.sh.in:510
+#: scripts/pacman-key.sh.in:519
 msgid "The signature identified by %s could not be verified."
 msgstr "No s'ha pogut verificar la signatura identificada per %s."
 
-#: scripts/pacman-key.sh.in:517
+#: scripts/pacman-key.sh.in:526
 msgid "Updating trust database..."
 msgstr "S'actualitza la base de dades de confiança... "
 
-#: scripts/pacman-key.sh.in:519
+#: scripts/pacman-key.sh.in:528
 msgid "Trust database could not be updated."
 msgstr "No s'ha pogut actualitzar la base de dades de confiança."
 
-#: scripts/pacman-key.sh.in:586
+#: scripts/pacman-key.sh.in:595
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "No es pot trobar el binari %s necessari per a totes les operacions %s."
 
-#: scripts/pacman-key.sh.in:591
+#: scripts/pacman-key.sh.in:600
 msgid "%s needs to be run as root for this operation."
 msgstr "%s s'ha d'executar com a arrel per a aquesta operació."
 
-#: scripts/pacman-key.sh.in:597
+#: scripts/pacman-key.sh.in:606
 msgid "%s configuration file '%s' not found."
 msgstr "No s'ha trobat el fitxer de configuració \"%s\" de %s."
 
-#: scripts/pacman-key.sh.in:618
+#: scripts/pacman-key.sh.in:627
 msgid "no operation specified (use -h for help)"
 msgstr "no s'ha especificat cap operació (useu -h per a l'ajuda)."
 
-#: scripts/pacman-key.sh.in:623
+#: scripts/pacman-key.sh.in:632
 msgid "Multiple operations specified."
 msgstr "Operacions múltiples especificades."
 
-#: scripts/pacman-key.sh.in:624
+#: scripts/pacman-key.sh.in:633
 msgid "Please run %s with each operation separately."
 msgstr "Si us plau, executeu %s amb cada operació separadament."
 
-#: scripts/pacman-key.sh.in:632
+#: scripts/pacman-key.sh.in:641
 msgid "No targets specified"
 msgstr "No s'ha especificat cap objectiu."
 
 #: scripts/repo-add.sh.in:58
 msgid "Usage: repo-add [options] <path-to-db> <package> ...\\n"
-msgstr "Sintaxi: repo-add [opcions] <path-to-db> <package> ...\\n"
+msgstr "Ús: repo-add [opcions] <path-to-db> <package> ...\\n"
 
 #: scripts/repo-add.sh.in:60
 msgid ""
@@ -1052,7 +1057,7 @@ msgstr ""
 
 #: scripts/repo-add.sh.in:69
 msgid "Usage: repo-remove [options] <path-to-db> <packagename> ...\\n"
-msgstr "Sintaxi: repo-remove [opcions] <path-to-db> <packagename> ...\\n"
+msgstr "Ús: repo-remove [opcions] <path-to-db> <packagename> ...\\n"
 
 #: scripts/repo-add.sh.in:71
 msgid ""
@@ -1062,8 +1067,8 @@ msgid ""
 msgstr ""
 "repo-remove actualitzarà una base de dades de paquets suprimint el nom del "
 "paquet,\\nespecificat a la línia d'ordres de la base de dades del repositori "
-"proporcionat.\\nA la línia d'ordres es poden especificar paquets múltiples "
-"per suprimir.\\n"
+"indicat.\\nA la línia d'ordres es poden especificar paquets múltiples per "
+"suprimir.\\n"
 
 #: scripts/repo-add.sh.in:78
 msgid "Please move along, there is nothing to see here.\\n"
@@ -1408,6 +1413,8 @@ msgstr "%s no hauria de ser una matriu."
 #: scripts/libmakepkg/lint_config/variable.sh.in:66
 msgid "PACKAGER should have the format 'Example Name <email@address.invalid>'"
 msgstr ""
+"L'EMPAQUETADOR hauria de tenir el format \"Nom i cognoms "
+"<adreçaelectronical@adreça.novalida>\"."
 
 #: scripts/libmakepkg/lint_package.sh.in:41
 msgid "Checking for packaging issues..."

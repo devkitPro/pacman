@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-07 18:07+1000\n"
-"PO-Revision-Date: 2019-08-28 15:06+0000\n"
+"POT-Creation-Date: 2019-10-14 09:42+1000\n"
+"PO-Revision-Date: 2019-10-08 20:07+0000\n"
 "Last-Translator: 배태길 <esrevinu@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
@@ -597,7 +597,7 @@ msgstr "PGP 서명이 누락되었습니다."
 msgid "invalid PGP signature"
 msgstr "PGP 서명이 잘못되었습니다."
 
-#: lib/libalpm/error.c:135 lib/libalpm/hook.c:627
+#: lib/libalpm/error.c:135 lib/libalpm/hook.c:514
 #, c-format
 msgid "could not satisfy dependencies"
 msgstr "의존성이 만족되지 못하였습니다."
@@ -662,89 +662,89 @@ msgstr "잠금 파일 %s가 없습니다.\n"
 msgid "could not remove lock file %s\n"
 msgstr "잠금 파일 %s를 삭제하지 못하였습니다.\n"
 
-#: lib/libalpm/hook.c:107
+#: lib/libalpm/hook.c:95
 #, c-format
 msgid "Missing trigger targets in hook: %s\n"
 msgstr "훅의 트리거 대상이 없습니다: %s\n"
 
-#: lib/libalpm/hook.c:113
+#: lib/libalpm/hook.c:101
 #, c-format
 msgid "Missing trigger type in hook: %s\n"
 msgstr "훅의 트리거 유형이 없습니다: %s\n"
 
-#: lib/libalpm/hook.c:119
+#: lib/libalpm/hook.c:107
 #, c-format
 msgid "Missing trigger operation in hook: %s\n"
 msgstr "훅의 트리거 명령이 없습니다: %s\n"
 
-#: lib/libalpm/hook.c:146
+#: lib/libalpm/hook.c:134
 #, c-format
 msgid "Missing Exec option in hook: %s\n"
 msgstr "훅의 Exec 옵션이 없습니다: %s\n"
 
-#: lib/libalpm/hook.c:152
+#: lib/libalpm/hook.c:140
 #, c-format
 msgid "Missing When option in hook: %s\n"
 msgstr "훅의 When 옵션이 없습니다: %s\n"
 
-#: lib/libalpm/hook.c:155
+#: lib/libalpm/hook.c:143
 #, c-format
 msgid "AbortOnFail set for PostTransaction hook: %s\n"
 msgstr "PostTransaction 훅에 대해 AbortOnFail이 설정됨: %s\n"
 
-#: lib/libalpm/hook.c:273
+#: lib/libalpm/hook.c:160
 #, c-format
 msgid "error while reading hook %s: %s\n"
 msgstr "%s훅을 읽는 동안에 오류가 발생했습니다: %s\n"
 
-#: lib/libalpm/hook.c:275 lib/libalpm/hook.c:319 lib/libalpm/hook.c:361
+#: lib/libalpm/hook.c:162 lib/libalpm/hook.c:206 lib/libalpm/hook.c:248
 #, c-format
 msgid "hook %s line %d: invalid option %s\n"
 msgstr "훅 %s, %d 번째 줄: 유효하지 않은 옵션 %s\n"
 
-#: lib/libalpm/hook.c:285
+#: lib/libalpm/hook.c:172
 #, c-format
 msgid "hook %s line %d: invalid section %s\n"
 msgstr "훅 %s, %d 번째 줄: 유효하지 않은 섹션 %s\n"
 
-#: lib/libalpm/hook.c:297 lib/libalpm/hook.c:312 lib/libalpm/hook.c:331
-#: lib/libalpm/hook.c:354
+#: lib/libalpm/hook.c:184 lib/libalpm/hook.c:199 lib/libalpm/hook.c:218
+#: lib/libalpm/hook.c:241
 #, c-format
 msgid "hook %s line %d: invalid value %s\n"
 msgstr "훅 %s, %d 번째 줄: 유효하지 않은 값 %s\n"
 
-#: lib/libalpm/hook.c:301 lib/libalpm/hook.c:324 lib/libalpm/hook.c:335
-#: lib/libalpm/hook.c:349
+#: lib/libalpm/hook.c:188 lib/libalpm/hook.c:211 lib/libalpm/hook.c:222
+#: lib/libalpm/hook.c:236
 #, c-format
 msgid "hook %s line %d: overwriting previous definition of %s\n"
 msgstr "훅 %s, %d 번째 줄: %s의 이전 정의 덮어 씀\n"
 
-#: lib/libalpm/hook.c:356
+#: lib/libalpm/hook.c:243
 #, c-format
 msgid "hook %s line %d: unable to set option (%s)\n"
 msgstr "훅 %s, %d 번째 줄: 옵션 (%s)를 설정할 수 없음\n"
 
-#: lib/libalpm/hook.c:626
+#: lib/libalpm/hook.c:513
 #, c-format
 msgid "unable to run hook %s: %s\n"
 msgstr "%s 훅을 실행할 수 없습니다: %s\n"
 
-#: lib/libalpm/hook.c:660 lib/libalpm/hook.c:672 lib/libalpm/remove.c:386
+#: lib/libalpm/hook.c:547 lib/libalpm/hook.c:559 lib/libalpm/remove.c:386
 #, c-format
 msgid "could not open directory: %s: %s\n"
 msgstr "디렉터리를 열 수 없습니다: %s: %s\n"
 
-#: lib/libalpm/hook.c:688
+#: lib/libalpm/hook.c:575
 #, c-format
 msgid "could not open file: %s%s: %s\n"
 msgstr "파일을 열 수 없습니다: %s%s: %s\n"
 
-#: lib/libalpm/hook.c:708 lib/libalpm/util.c:259
+#: lib/libalpm/hook.c:595 lib/libalpm/util.c:259
 #, c-format
 msgid "could not stat file %s: %s\n"
 msgstr "%s 파일 상태를 알 수 없음: %s\n"
 
-#: lib/libalpm/hook.c:734
+#: lib/libalpm/hook.c:621
 #, c-format
 msgid "could not read directory: %s: %s\n"
 msgstr "디렉터리를 읽을 수 없습니다: %s: %s\n"
@@ -794,7 +794,7 @@ msgstr "캐시에서 '%s' 항목을 제거하지 못했습니다.\n"
 msgid "Public keyring not found; have you run '%s'?\n"
 msgstr "공개 키링을 찾을 수 없습니다; '%s'을 실행하셨나요?\n"
 
-#: lib/libalpm/signing.c:207 lib/libalpm/signing.c:779
+#: lib/libalpm/signing.c:207 lib/libalpm/signing.c:784
 #, c-format
 msgid "GPGME error: %s\n"
 msgstr "GPGME 오류: %s\n"
@@ -802,81 +802,81 @@ msgstr "GPGME 오류: %s\n"
 #: lib/libalpm/signing.c:284
 #, c-format
 msgid "looking up key %s using WKD\n"
-msgstr ""
+msgstr "WKD를 사용해서 키 %s를 찾는 중\n"
 
 #: lib/libalpm/signing.c:293
-#, fuzzy, c-format
+#, c-format
 msgid "gpg error: %s\n"
-msgstr "GPGME 오류: %s\n"
+msgstr "gpg 오류: %s\n"
 
-#: lib/libalpm/signing.c:441 lib/libalpm/signing.c:510
+#: lib/libalpm/signing.c:441 lib/libalpm/signing.c:515
 #, c-format
 msgid "keyring is not writable\n"
 msgstr "키링을 쓸 수 없음\n"
 
-#: lib/libalpm/signing.c:534
-#, fuzzy, c-format
-msgid "key \"%s\" on keyserver\n"
-msgstr "\"%s\" 키를 들여오지 못했습니다\n"
-
 #: lib/libalpm/signing.c:539
+#, c-format
+msgid "key \"%s\" on keyserver\n"
+msgstr "키 \"%s\"가 키서버에 있음\n"
+
+#: lib/libalpm/signing.c:544
 #, c-format
 msgid "key \"%s\" could not be imported\n"
 msgstr "\"%s\" 키를 들여오지 못했습니다\n"
 
-#: lib/libalpm/signing.c:543
+#: lib/libalpm/signing.c:548
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "원격의 \"%s\" 키를 조회하지 못했습니다\n"
 
-#: lib/libalpm/signing.c:934 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:939 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: 필요한 서명이 없습니다.\n"
 
-#: lib/libalpm/signing.c:949
+#: lib/libalpm/signing.c:954
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
 msgstr "%s: \"%s\" 로부터의 서명은 부분 신뢰입니다\n"
 
-#: lib/libalpm/signing.c:957
+#: lib/libalpm/signing.c:962
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
 msgstr "%s: \"%s\"로부터의 서명은 알 수 없는 신뢰입니다\n"
 
-#: lib/libalpm/signing.c:964
+#: lib/libalpm/signing.c:969
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
 msgstr "%s: \"%s\"로부터의 서명은 신뢰될 수 없습니다\n"
 
-#: lib/libalpm/signing.c:976
+#: lib/libalpm/signing.c:981
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
 msgstr "%s: \"%s\" 키는 알 수 없는 키입니다\n"
 
-#: lib/libalpm/signing.c:985
+#: lib/libalpm/signing.c:990
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
 msgstr "%s: \"%s\" 키는 비활성화 되었습니다\n"
 
-#: lib/libalpm/signing.c:989
+#: lib/libalpm/signing.c:994
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
 msgstr "%s: \"%s\"로부터의 서명이 만료되었습니다\n"
 
-#: lib/libalpm/signing.c:993
+#: lib/libalpm/signing.c:998
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
 msgstr "%s: \"%s\"로부터의 서명이 유효하지 않습니다\n"
 
-#: lib/libalpm/signing.c:1070 lib/libalpm/signing.c:1138
-#: lib/libalpm/signing.c:1217
+#: lib/libalpm/signing.c:1075 lib/libalpm/signing.c:1143
+#: lib/libalpm/signing.c:1222
 #, c-format
 msgid "%s: signature format error\n"
 msgstr "%s: 서명 형식 오류\n"
 
-#: lib/libalpm/signing.c:1170 lib/libalpm/signing.c:1203
-#: lib/libalpm/signing.c:1211
+#: lib/libalpm/signing.c:1175 lib/libalpm/signing.c:1208
+#: lib/libalpm/signing.c:1216
 #, c-format
 msgid "%s: unsupported signature format\n"
 msgstr "%s: 지원하지 않는 서명 형식\n"
@@ -1025,7 +1025,3 @@ msgstr "%s 캐시가 없으므로 생성 중...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "꾸러미 캐시를 찾거나 생성할 수 없어 대신 %s를 사용합니다.\n"
-
-#, c-format
-#~ msgid "key %s, \"%s\" found on keyserver, keyring is not writable\n"
-#~ msgstr "열쇠 %s, \"%s\"이 열쇠서버에서 발견됨, 열쇠고리는 쓰기 불가\n"
