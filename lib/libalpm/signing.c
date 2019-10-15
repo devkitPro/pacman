@@ -800,8 +800,9 @@ int _alpm_key_import(alpm_handle_t UNUSED *handle, const char UNUSED *uid,
 }
 
 int _alpm_gpgme_checksig(alpm_handle_t UNUSED *handle, const char UNUSED *path,
-		const char UNUSED *base64_sig, alpm_siglist_t UNUSED *siglist)
+		const char UNUSED *base64_sig, alpm_siglist_t *siglist)
 {
+	siglist->count = 0;
 	return -1;
 }
 #endif /* HAVE_LIBGPGME */
