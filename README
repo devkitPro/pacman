@@ -630,3 +630,28 @@ API CHANGES BETWEEN 5.0 AND 5.1
   - alpm_capabilities()
 - duplicate and add to list
   - alpm_list_append_strdup()
+
+
+API CHANGES BETWEEN 5.1 AND 5.2
+===============================
+
+[REMOVED]
+- package delta support
+  - alpm_delta_t
+  - alpm_event_delta_patch_t
+  - alpm_event_t union - removed alpm_event_delta_patch_t
+  - ALPM_EVENT_DELTA_INTEGRITY_START, ALPM_EVENT_DELTA_INTEGRITY_DONE,
+    ALPM_EVENT_DELTA_PATCHES_START, ALPM_EVENT_DELTA_PATCHES_DONE,
+    ALPM_EVENT_DELTA_PATCH_START, ALPM_EVENT_DELTA_PATCH_DONE,
+    ALPM_EVENT_DELTA_PATCH_FAILED
+  - ALPM_ERR_DLT_INVALID, ALPM_ERR_DLT_PATCHFAILED
+  - alpm_option_get_deltaratio()
+  - alpm_option_set_deltaratio()
+  - alpm_pkg_get_deltas()
+  - alpm_pkg_unused_deltas()
+- alpm_transflag_t - removed member ALPM_TRANS_FLAG_FORCE
+
+[CHANGED]
+- alpm_errno_t - added member ALPM_ERR_MISSING_CAPABILITY_SIGNATURES
+- alpm_sync_newversion() replaced with alpm_sync_get_new_version() which
+  does not filter on any ALPM_DB_USAGE_*.
