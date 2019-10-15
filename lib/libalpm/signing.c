@@ -788,21 +788,24 @@ error:
 }
 
 #else /* HAVE_LIBGPGME */
-int _alpm_key_in_keychain(alpm_handle_t UNUSED *handle, const char UNUSED *fpr)
+int _alpm_key_in_keychain(alpm_handle_t *handle, const char UNUSED *fpr)
 {
+	handle->pm_errno = ALPM_ERR_MISSING_CAPABILITY_SIGNATURES;
 	return -1;
 }
 
-int _alpm_key_import(alpm_handle_t UNUSED *handle, const char UNUSED *uid,
+int _alpm_key_import(alpm_handle_t *handle, const char UNUSED *uid,
 		const char UNUSED *fpr)
 {
+	handle->pm_errno = ALPM_ERR_MISSING_CAPABILITY_SIGNATURES;
 	return -1;
 }
 
-int _alpm_gpgme_checksig(alpm_handle_t UNUSED *handle, const char UNUSED *path,
+int _alpm_gpgme_checksig(alpm_handle_t *handle, const char UNUSED *path,
 		const char UNUSED *base64_sig, alpm_siglist_t *siglist)
 {
 	siglist->count = 0;
+	handle->pm_errno = ALPM_ERR_MISSING_CAPABILITY_SIGNATURES;
 	return -1;
 }
 #endif /* HAVE_LIBGPGME */
