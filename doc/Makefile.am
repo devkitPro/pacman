@@ -48,6 +48,7 @@ EXTRA_DIST = \
 	makepkg.conf.5.asciidoc \
 	pacman.conf.5.asciidoc \
 	BUILDINFO.5.asciidoc \
+	pacman-conf.8.asciidoc \
 	libalpm.3.asciidoc \
 	footer.asciidoc \
 	index.asciidoc \

@@ -32,7 +32,8 @@ EXTRA_DIST = \
 	wrapper.sh.in \
 	$(COMPLETION_DIST) \
 	$(LIBRARY) \
-	$(LIBMAKEPKG_DIST)
+	$(LIBMAKEPKG_DIST) \
+	po/meson.build
 
 LIBRARY = \
 	library/human_to_size.sh
@@ -136,6 +137,7 @@ LIBMAKEPKG_IN = \
 	libmakepkg/util/util.sh
 
 LIBMAKEPKG_DIST = \
+	libmakepkg/meson.build \
 	$(addprefix libmakepkg/, $(addsuffix /meson.build, $(LIBMAKEPKGDIRS))) \
 	$(addsuffix .in, $(LIBMAKEPKG_IN))
 
