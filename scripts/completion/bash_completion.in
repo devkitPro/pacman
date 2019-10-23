@@ -109,7 +109,7 @@ _pacman() {
   local cur prev words cword
   _init_completion || return
   database=('asdeps asexplicit')
-  files=('list machinereadable owns search refresh regex' 'l o s x y')
+  files=('list machinereadable refresh regex' 'l x y')
   query=('changelog check deps explicit file foreign groups info list native owns
           search unrequired upgrades' 'c e g i k l m n o p s t u')
   remove=('cascade dbonly nodeps assume-installed nosave print recursive unneeded' 'c n p s u')
@@ -136,7 +136,6 @@ _pacman() {
           _pacman_pkg Qq;;
       F)
         { _arch_incomp 'l list'   && _pacman_pkg Slq ; }       ||
-          _arch_incomp 'o owns'   ||
           compopt +o default;;
       Q)
         { _arch_incomp 'g groups' && _pacman_pkg Qg sort; }    ||
