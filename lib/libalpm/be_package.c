@@ -760,14 +760,14 @@ int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int ful
 						pkg_temp = _alpm_pkg_load_internal(handle, filename, full);
 						if(pkg_temp) {
 							packager = pkg_temp->packager;
-							_alpm_pkg_free(pkg_temp);
+
 						} else {
 							packager = NULL;
 						}
 						if(_alpm_key_import(handle, packager, key) == -1) {
 							fail = 1;
 						}
-						free(packager);
+						_alpm_pkg_free(pkg_temp);
 					}
 				}
 				FREELIST(keys);
