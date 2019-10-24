@@ -21,6 +21,7 @@ MANPAGES = \
 DOXYGEN_MANS = $(wildcard man3/*.3)
 
 HTML_MANPAGES = $(addsuffix .html,$(MANPAGES))
+ASCIIDOC_MANPAGES = $(addsuffix .asciidoc,$(MANPAGES))
 
 HTML_OTHER = \
 	index.html \
@@ -36,24 +37,12 @@ EXTRA_DIST = \
 	meson.build \
 	asciidoc.conf \
 	asciidoc-override.css \
-	alpm-hooks.5.asciidoc \
-	pacman.8.asciidoc \
-	makepkg.8.asciidoc \
-	makepkg-template.1.asciidoc \
-	repo-add.8.asciidoc \
-	vercmp.8.asciidoc \
-	pacman-key.8.asciidoc \
-	PKGBUILD.5.asciidoc \
 	PKGBUILD-example.txt \
-	makepkg.conf.5.asciidoc \
-	pacman.conf.5.asciidoc \
-	BUILDINFO.5.asciidoc \
-	pacman-conf.8.asciidoc \
-	libalpm.3.asciidoc \
 	footer.asciidoc \
 	index.asciidoc \
 	submitting-patches.asciidoc \
 	translation-help.asciidoc \
+	$(ASCIIDOC_MANPAGES) \
 	$(MANPAGES) \
 	$(DOXYGEN_MANS)
 
