@@ -57,7 +57,7 @@ strip_file() {
 
 		# copy source files to debug directory
 		local f t
-		while read -r t; do
+		while IFS= read -r t; do
 			f=${t/${dbgsrcdir}/"$srcdir"}
 			mkdir -p "${dbgsrc/"$dbgsrcdir"/}${t%/*}"
 			cp -- "$f" "${dbgsrc/"$dbgsrcdir"/}$t"
@@ -69,7 +69,7 @@ strip_file() {
 		objcopy --add-gnu-debuglink="$dbgdir/${binary#/}.debug" "$binary"
 
 		# create any needed hardlinks
-		while read -rd '' file ; do
+		while IFS= read -rd '' file ; do
 			if [[ "${binary}" -ef "${file}" && ! -f "$dbgdir/${file}.debug" ]]; then
 				mkdir -p "$dbgdir/${file%/*}"
 				ln "$dbgdir/${binary}.debug" "$dbgdir/${file}.debug"
@@ -110,7 +110,7 @@ tidy_strip() {
 		fi
 
 		local binary strip_flags
-		find . -type f -perm -u+w -print0 2>/dev/null | while read -rd '' binary ; do
+		find . -type f -perm -u+w -print0 2>/dev/null | while IFS= read -rd '' binary ; do
 			case "$(file -bi "$binary")" in
 				*application/x-sharedlib*)  # Libraries (.so)
 					strip_flags="$STRIP_SHARED";;

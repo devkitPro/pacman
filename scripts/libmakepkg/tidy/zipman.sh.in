@@ -35,9 +35,9 @@ tidy_zipman() {
 		msg2 "$(gettext "Compressing man and info pages...")"
 		local file files inode link
 		while read -rd ' ' inode; do
-			read file
-			find ${MAN_DIRS[@]} -type l 2>/dev/null |
-			while read -r link ; do
+			IFS= read -r file
+			find "${MAN_DIRS[@]}" -type l -print0 2>/dev/null |
+			while IFS= read -rd '' link ; do
 				if [[ "${file}" -ef "${link}" ]] ; then
 					rm -f "$link" "${link}.gz"
 					if [[ ${file%/*} = "${link%/*}" ]]; then
@@ -55,7 +55,7 @@ tidy_zipman() {
 				ln "${files[$inode]}.gz" "${file}.gz"
 				chmod 644 "${file}.gz"
 			fi
-		done < <(find ${MAN_DIRS[@]} -type f \! -name "*.gz" \! -name "*.bz2" \
+		done < <(find "${MAN_DIRS[@]}" -type f \! -name "*.gz" \! -name "*.bz2" \
 			-exec @INODECMD@ '{}' + 2>/dev/null)
 	fi
 }

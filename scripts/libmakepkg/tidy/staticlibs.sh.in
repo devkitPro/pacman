@@ -34,7 +34,7 @@ tidy_staticlibs() {
 	if check_option "staticlibs" "n"; then
 		msg2 "$(gettext "Removing static library files...")"
 		local l
-		while read -rd '' l; do
+		while IFS= read -rd '' l; do
 			if [[ -f "${l%.a}.so" || -h "${l%.a}.so" ]]; then
 				rm "$l"
 			fi

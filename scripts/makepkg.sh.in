@@ -474,7 +474,7 @@ find_libdepends() {
 	local libdeps filename soarch sofile soname soversion
 	declare -A libdeps
 
-	while read -r filename; do
+	while IFS= read -rd '' filename; do
 		# get architecture of the file; if soarch is empty it's not an ELF binary
 		soarch=$(LC_ALL=C readelf -h "$filename" 2>/dev/null | sed -n 's/.*Class.*ELF\(32\|64\)/\1/p')
 		[[ -n "$soarch" ]] || continue
@@ -495,7 +495,7 @@ find_libdepends() {
 				libdeps[$soname]="${soversion}-${soarch}"
 			fi
 		done
-	done < <(find "$pkgdir" -type f -perm -u+x)
+	done < <(find "$pkgdir" -type f -perm -u+x -print0)
 
 	local libdepends v
 	for d in "${depends[@]}"; do
@@ -1320,7 +1320,7 @@ if (( INFAKEROOT )); then
 	else
 		run_split_packaging
 	fi
-	
+
 	create_debug_package
 
 	msg "$(gettext "Leaving %s environment.")" "fakeroot"
