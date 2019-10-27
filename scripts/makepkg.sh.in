@@ -584,7 +584,7 @@ write_kv_pair() {
 }
 
 write_pkginfo() {
-	local size="$(find . -type f -exec cat {} + 2>/dev/null | wc -c)"
+	local size=$(dirsize)
 
 	merge_arch_attrs
 

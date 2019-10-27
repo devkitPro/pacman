@@ -127,6 +127,7 @@ LIBMAKEPKG_IN = \
 	libmakepkg/util.sh \
 	libmakepkg/util/compress.sh \
 	libmakepkg/util/config.sh \
+	libmakepkg/util/dirsize.sh \
 	libmakepkg/util/error.sh \
 	libmakepkg/util/message.sh \
 	libmakepkg/util/option.sh \
