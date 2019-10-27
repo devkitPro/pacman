@@ -236,13 +236,13 @@ endif
 
 os = host_machine.system()
 if os.startswith('darwin')
-  inodecmd = '/usr/bin/stat -f \'%i %n\''
+  inodecmd = '/usr/bin/stat -f \'%i %N\''
   default_sedinplaceflags = ' -i \'\''
   strip_binaries = ''
   strip_shared = '-s'
   strip_static = '-s'
 elif os.contains('bsd') or os == 'dragonfly'
-  inodecmd = 'stat -f \'%i %n\''
+  inodecmd = 'stat -f \'%i %N\''
   default_sedinplaceflags = ' -i \'\''
 endif
 
