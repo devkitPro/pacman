@@ -133,7 +133,7 @@ clean_up() {
 		rm "$logpipe"
 	fi
 
-	if (( (EXIT_CODE == E_OK || EXIT_CODE == E_INSTALL_FAILED) && CLEANUP )); then
+	if (( (EXIT_CODE == E_OK || EXIT_CODE == E_INSTALL_FAILED) && BUILDPKG && CLEANUP )); then
 		local pkg file
 
 		# If it's a clean exit and -c/--clean has been passed...
