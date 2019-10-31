@@ -1,5 +1,16 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+5.2.1         - fix segfault on importing PGP keys for -U operations
+              - fix distribution of meson files
+              - fix inode command for darwin/bsd
+              - distribute all documentation files
+              - update bash/zsh completion for -F changes, remove --force
+              - makepkg:
+                - fix calculation of package sizes in presence of hardlinks
+                - do not warn about PACKAGER format if not set
+                - only run --clean when a package is built
+              - repo-add:
+                - fix compression of databases with zstd
 5.2.0         - completely remove delta support (CVE-2019-18183)
               - add support to pacman and pacman-key for downloading PGP
                 signing keys using the WKD protocol (FS#63171)
