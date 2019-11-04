@@ -16,12 +16,12 @@ if ! type -t parseopts &>/dev/null; then
 fi
 
 # borrow opts from makepkg
-OPT_SHORT="AcdefFghiLmop:rRsV"
+OPT_SHORT="AcdefFghiLmop:rRsVb?"
 OPT_LONG=('allsource' 'asroot' 'ignorearch' 'check' 'clean:' 'cleanall' 'nodeps'
           'noextract' 'force' 'forcever:' 'geninteg' 'help' 'holdver'
           'install' 'key:' 'log' 'nocolor' 'nobuild' 'nocheck' 'noprepare' 'nosign' 'pkg:' 'rmdeps'
           'repackage' 'skipinteg' 'sign' 'source' 'syncdeps' 'version' 'config:'
-          'noconfirm' 'noprogressbar')
+          'noconfirm' 'noprogressbar' 'opt?')
 
 tap_parse() {
 	local result=$1 tokencount=$2; shift 2
@@ -31,7 +31,7 @@ tap_parse() {
 	unset OPTRET
 }
 
-tap_plan 50
+tap_plan 54
 
 # usage: tap_parse <expected result> <token count> test-params...
 # a failed tap_parse will match only the end of options marker '--'
@@ -110,5 +110,11 @@ tap_parse '--force --' 2 --force
 
 # exact match on possible stem (opt has optarg)
 tap_parse '--clean foo --' 3 --clean=foo
+
+# long opt with empty, non-empty, and no optional arg
+tap_parse '--opt= --opt=foo --opt --' 4 --opt= --opt=foo --opt
+
+# short opt with and without optional arg, and non-option arg
+tap_parse '-b=foo -A -b -- foo' 5 -bfoo -Ab foo
 
 tap_finish
