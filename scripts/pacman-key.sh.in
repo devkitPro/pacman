@@ -51,6 +51,7 @@ REFRESH=0
 UPDATEDB=0
 USE_COLOR='y'
 VERIFY=0
+VERBOSE=0
 
 usage() {
 	printf "pacman-key (pacman) %s\n" ${myver}
@@ -77,6 +78,7 @@ usage() {
 	printf -- "$(gettext "  --populate                Reload the default keys from the (given) keyrings\n\
                             in '%s'")\n" "@pkgdatadir@/keyrings"
 	printf -- "$(gettext "  --refresh-keys            Update specified or all keys from a keyserver")\n"
+	printf -- "$(gettext "  --verbose                 Show extra information")\n"
 	echo
 	printf -- "$(gettext "Options:")\n"
 	printf -- "$(gettext "  --config <file>           Use an alternate config file (instead of\n\
@@ -332,11 +334,16 @@ populate_keyring() {
 	done
 
 	if (( ${#revoked_ids[@]} > 0 )); then
+		local key_count=0
 		msg "$(gettext "Disabling revoked keys in keyring...")"
 		for key_id in "${!revoked_ids[@]}"; do
-			msg2 "$(gettext "Disabling key %s...")" "${key_id}"
+			if (( VERBOSE )); then
+				msg2 "$(gettext "Disabling key %s...")" "${key_id}"
+			fi
 			printf 'disable\nquit\n' | LANG=C "${GPG_PACMAN[@]}" --command-fd 0 --quiet --batch --edit-key "${key_id}" 2>/dev/null
+			key_count=$((key_count+1))
 		done
+		msg2 "$(gettext "Disabled %s keys.")" "${key_count}"
 	fi
 }
 
@@ -445,19 +452,24 @@ lsign_keys() {
 	check_keyids_exist
 
 	local ret=0
+	local key_count=0
 	for key_id in "$@"; do
-		msg2 "$(gettext "Locally signing key %s...")" "${key_id}"
+		if (( VERBOSE )); then
+			msg2 "$(gettext "Locally signing key %s...")" "${key_id}"
+		fi
 		# we cannot use --yes here as gpg would still ask for confirmation if a key has more than one uid
 		printf 'y\ny\n' | LANG=C "${GPG_PACMAN[@]}" --command-fd 0 --quiet --batch --lsign-key "${key_id}" 2>/dev/null
 		if (( PIPESTATUS[1] )); then
 			error "$(gettext "%s could not be locally signed.")" "${key_id}"
 			ret=1
 		fi
+		key_count=$((key_count+1))
 	done
 
 	if (( ret )); then
 		exit 1
 	fi
+	msg2 "$(gettext "Locally signed %s keys.")" "${key_count}"
 }
 
 receive_keys() {
@@ -541,7 +553,7 @@ OPT_SHORT="adefhlruvV"
 OPT_LONG=('add' 'config:' 'delete' 'edit-key' 'export' 'finger' 'gpgdir:'
           'help' 'import' 'import-trustdb' 'init' 'keyserver:' 'list-keys' 'list-sigs'
           'lsign-key' 'nocolor' 'populate' 'recv-keys' 'refresh-keys' 'updatedb'
-          'verify' 'version')
+          'verbose' 'verify' 'version')
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	exit 1 # E_INVALID_OPTION
 fi
@@ -574,6 +586,7 @@ while (( $# )); do
 		-r|--recv-keys)   RECEIVE=1 UPDATEDB=1 ;;
 		--refresh-keys)   REFRESH=1 ;;
 		-u|--updatedb)    UPDATEDB=1 ;;
+		--verbose)        VERBOSE=1 ;;
 		-v|--verify)      VERIFY=1 ;;
 
 		-h|--help)        usage; exit 0 ;;
