@@ -766,8 +766,8 @@ static int setup_libalpm(void)
 	/* initialize library */
 	handle = alpm_initialize(config->rootdir, config->dbpath, &err);
 	if(!handle) {
-		pm_printf(ALPM_LOG_ERROR, _("failed to initialize alpm library\n(%s: %s)\n"),
-		        alpm_strerror(err), config->dbpath);
+		pm_printf(ALPM_LOG_ERROR, _("failed to initialize alpm library:\n(root: %s, dbpath: %s)\n%s\n"),
+		        config->rootdir, config->dbpath, alpm_strerror(err));
 		if(err == ALPM_ERR_DB_VERSION) {
 			fprintf(stderr, _("try running pacman-db-upgrade\n"));
 		}
