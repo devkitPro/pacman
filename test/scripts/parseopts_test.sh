@@ -31,7 +31,7 @@ tap_parse() {
 	unset OPTRET
 }
 
-tap_plan 54
+tap_plan 56
 
 # usage: tap_parse <expected result> <token count> test-params...
 # a failed tap_parse will match only the end of options marker '--'
@@ -116,5 +116,8 @@ tap_parse '--opt= --opt=foo --opt --' 4 --opt= --opt=foo --opt
 
 # short opt with and without optional arg, and non-option arg
 tap_parse '-b=foo -A -b -- foo' 5 -bfoo -Ab foo
+
+# all possible ways to specify empty optargs
+tap_parse '--key  --pkg  -p  --' 7 --key '' --pkg='' -p ''
 
 tap_finish

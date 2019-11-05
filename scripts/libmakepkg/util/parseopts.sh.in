@@ -103,7 +103,7 @@ parseopts() {
 								OPTRET+=("-$opt" "${1:i+1}")
 								break
 							# if we're at the end, grab the the next positional, if it exists
-							elif (( i == ${#1} - 1 )) && [[ $2 ]]; then
+							elif (( i == ${#1} - 1 && $# > 1 )); then
 								OPTRET+=("-$opt" "$2")
 								shift
 								break
@@ -144,7 +144,7 @@ parseopts() {
 				case $? in
 					0)
 						# parse failure
-						if [[ $optarg ]]; then
+						if [[ $1 = *=* ]]; then
 							printf "${0##*/}: $(gettext "option '%s' does not allow an argument")\n" "--$opt" >&2
 							OPTRET=(--)
 							return 1
@@ -155,10 +155,10 @@ parseopts() {
 						;;
 					1)
 						# --longopt=optarg
-						if [[ $optarg ]]; then
+						if [[ $1 = *=* ]]; then
 							OPTRET+=("--$opt" "$optarg")
 						# --longopt optarg
-						elif [[ $2 ]]; then
+						elif (( $# > 1 )); then
 							OPTRET+=("--$opt" "$2" )
 							shift
 						# parse failure
