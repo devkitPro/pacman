@@ -77,9 +77,4 @@ update-po:
 	$(MAKE) -C scripts/po update-po
 	$(MAKE) -C src/pacman/po update-po
 
-update-copyright:
-	for file in $(shell sh -c 'git grep -l "Copyright .* Pacman Development" | grep -v "\.po"'); do \
-	  sed -i -e "/Copyright (/s/-$(OLD)/-$(NEW)/" -e "/Copyright (/s/ $(OLD)/ $(OLD)-$(NEW)/" "$$file"; \
-	done
-
-.PHONY: update-po update-copyright
+.PHONY: update-po

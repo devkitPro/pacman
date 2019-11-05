@@ -1,0 +1,8 @@
+#! /bin/sh
+
+OLD=$1
+NEW=$2
+
+for file in $(git grep -l "Copyright .* Pacman Development" | grep -v "\.po"); do \
+	sed -i -e "/Copyright (/s/-${OLD}/-${NEW}/" -e "/Copyright (/s/ ${OLD}/ ${OLD}-${NEW}/" "$file"
+done
