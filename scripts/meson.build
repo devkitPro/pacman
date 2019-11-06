@@ -14,18 +14,12 @@ SCRIPT_EDITOR = find_program(configure_file(
   output : 'edit-script.sh',
   configuration : substs))
 
-m4_edit = generator(
-  M4,
-  arguments : ['-P', '-I', meson.current_source_dir(), '@INPUT@'],
-  output : '@PLAINNAME@',
-  capture : true)
-
 foreach script : scripts
   script_shortname = script.split('.')[0]
 
   custom_target(
     script,
-    input : m4_edit.process(script),
+    input : script,
     command : [ SCRIPT_EDITOR, '@INPUT@', '@OUTPUT@', '0755'],
     output : script_shortname,
     install : true,
@@ -40,7 +34,7 @@ foreach script : wrapped_scripts
   # the build directory.
   internal_script = custom_target(
     script,
-    input : m4_edit.process(script),
+    input : script,
     command : [ SCRIPT_EDITOR, '@INPUT@', '@OUTPUT@', '0755'],
     output : script,
     build_by_default : true)

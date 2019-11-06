@@ -189,7 +189,7 @@ edit = sed \
 ## wrong file by accident.
 $(OURSCRIPTS): %: %.sh.in wrapper.sh.in $(LIBMAKEPKG_IN) Makefile
 	$(AM_V_at)$(RM) $@
-	$(AM_V_GEN)test -f $(srcdir)/$@.sh.in && m4 -P -I $(srcdir) $(srcdir)/$@.sh.in | $(edit) >$@
+	$(AM_V_GEN)test -f $(srcdir)/$@.sh.in && $(edit) $(srcdir)/$@.sh.in >$@
 	$(AM_V_at)chmod +x,a-w $@
 	@$(BASH_SHELL) -O extglob -n $@
 

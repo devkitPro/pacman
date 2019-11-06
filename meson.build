@@ -28,7 +28,6 @@ LIBMAKEPKGDIR = join_paths(PREFIX, DATAROOTDIR, 'makepkg')
 PKGDATADIR = join_paths(PREFIX, DATAROOTDIR, meson.project_name())
 
 PYTHON = import('python').find_installation('python3')
-M4 = find_program('m4')
 SED = find_program('sed')
 DU = find_program('du')
 LDCONFIG = get_option('ldconfig')
@@ -250,7 +249,6 @@ carch = chost.split('-')[0]
 # largely identical, but which distinguishes between quoting needs.
 substs = configuration_data()
 substs.set('SED', SED.path())
-substs.set('M4', M4.path())
 substs.set('CARCH', carch)
 substs.set('CHOST', chost)
 substs.set('PKGEXT', get_option('pkg-ext'))
