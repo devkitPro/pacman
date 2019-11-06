@@ -186,8 +186,7 @@ edit = sed \
 	-e 's|@DEBUGSUFFIX[@]|$(DEBUGSUFFIX)|g' \
 	-e "s|@INODECMD[@]|$(INODECMD)|g" \
 	-e "s|@FILECMD[@]|$(FILECMD)|g" \
-	-e 's|@SCRIPTNAME[@]|$@|g' \
-	-e 's|@configure_input[@]|Generated from $<; do not edit by hand.|g'
+	-e 's|@SCRIPTNAME[@]|$@|g'
 
 ## All the scripts depend on Makefile so that they are rebuilt when the
 ## prefix etc. changes. Use chmod -w to prevent people from editing the
