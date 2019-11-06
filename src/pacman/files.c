@@ -58,7 +58,7 @@ static void print_owned_by(alpm_db_t *db, alpm_pkg_t *pkg, char *filename)
 		alpm_pkg_get_version(pkg), colstr->nocolor);
 }
 
-static void print_match(alpm_list_t *match, alpm_db_t *repo, alpm_pkg_t *pkg, char *exact_file)
+static void print_match(alpm_list_t *match, alpm_db_t *repo, alpm_pkg_t *pkg, int exact_file)
 {
 	alpm_db_t *db_local = alpm_get_localdb(config->handle);
 	const colstr_t *colstr = &config->colstr;
@@ -71,7 +71,7 @@ static void print_match(alpm_list_t *match, alpm_db_t *repo, alpm_pkg_t *pkg, ch
 		}
 	} else if(config->quiet) {
 		printf("%s/%s\n", alpm_db_get_name(repo), alpm_pkg_get_name(pkg));
-	} else if(exact_file != NULL) {
+	} else if(exact_file) {
 		alpm_list_t *ml;
 		for(ml = match; ml; ml = alpm_list_next(ml)) {
 			char *filename = ml->data;
@@ -104,9 +104,9 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 		int found = 0;
 		regex_t reg;
 		size_t len = strlen(targ);
-		char *exact_file = strchr(targ, '/');
+		int exact_file = strchr(targ, '/') != NULL;
 
-		if(exact_file != NULL) {
+		if(exact_file) {
 			while(len > 1 && targ[0] == '/') {
 				targ++;
 				len--;
@@ -131,7 +131,7 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 				alpm_filelist_t *files = alpm_pkg_get_files(pkg);
 				alpm_list_t *match = NULL;
 
-				if(exact_file != NULL) {
+				if(exact_file) {
 					if (regex) {
 						for(size_t f = 0; f < files->count; f++) {
 							char *c = files->files[f].name;
