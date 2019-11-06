@@ -518,12 +518,13 @@ void print_groups(alpm_pkg_t *pkg)
  * @param db the database we're searching
  * @param targets the targets we're searching for
  * @param show_status show if the package is also in the local db
+ * @return -1 on error, 0 if there were matches, 1 if there were not
  */
 int dump_pkg_search(alpm_db_t *db, alpm_list_t *targets, int show_status)
 {
 	int freelist = 0;
 	alpm_db_t *db_local;
-	alpm_list_t *i, *searchlist;
+	alpm_list_t *i, *searchlist = NULL;
 	unsigned short cols;
 	const colstr_t *colstr = &config->colstr;
 
@@ -533,7 +534,9 @@ int dump_pkg_search(alpm_db_t *db, alpm_list_t *targets, int show_status)
 
 	/* if we have a targets list, search for packages matching it */
 	if(targets) {
-		searchlist = alpm_db_search(db, targets);
+		if(alpm_db_search(db, targets, &searchlist) != 0) {
+			return -1;
+		}
 		freelist = 1;
 	} else {
 		searchlist = alpm_db_get_pkgcache(db);

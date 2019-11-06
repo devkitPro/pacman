@@ -311,7 +311,15 @@ static int sync_search(alpm_list_t *syncs, alpm_list_t *targets)
 
 	for(i = syncs; i; i = alpm_list_next(i)) {
 		alpm_db_t *db = i->data;
-		found += !dump_pkg_search(db, targets, 1);
+		int ret = dump_pkg_search(db, targets, 1);
+
+		if(ret == -1) {
+			alpm_errno_t err = alpm_errno(config->handle);
+			pm_printf(ALPM_LOG_ERROR, "search failed: %s\n", alpm_strerror(err));
+			return 1;
+		}
+
+		found += !ret;
 	}
 
 	return (found == 0);

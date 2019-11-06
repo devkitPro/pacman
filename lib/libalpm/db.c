@@ -298,12 +298,14 @@ alpm_list_t SYMEXPORT *alpm_db_get_groupcache(alpm_db_t *db)
 }
 
 /** Searches a database. */
-alpm_list_t SYMEXPORT *alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
+int SYMEXPORT alpm_db_search(alpm_db_t *db, const alpm_list_t *needles,
+		alpm_list_t **ret)
 {
-	ASSERT(db != NULL, return NULL);
+	ASSERT(db != NULL && ret != NULL && *ret == NULL,
+			RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, -1));
 	db->handle->pm_errno = ALPM_ERR_OK;
 
-	return _alpm_db_search(db, needles);
+	return _alpm_db_search(db, needles, ret);
 }
 
 /** Sets the usage bitmask for a repo */
@@ -396,13 +398,13 @@ int _alpm_db_cmp(const void *d1, const void *d2)
 	return strcmp(db1->treename, db2->treename);
 }
 
-alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
+int _alpm_db_search(alpm_db_t *db, const alpm_list_t *needles,
+		alpm_list_t **ret)
 {
 	const alpm_list_t *i, *j, *k;
-	alpm_list_t *ret = NULL;
 
 	if(!(db->usage & ALPM_DB_USAGE_SEARCH)) {
-		return NULL;
+		return 0;
 	}
 
 	/* copy the pkgcache- we will free the list var after each needle */
@@ -415,12 +417,12 @@ alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 		if(i->data == NULL) {
 			continue;
 		}
-		ret = NULL;
+		*ret = NULL;
 		targ = i->data;
 		_alpm_log(db->handle, ALPM_LOG_DEBUG, "searching for target '%s'\n", targ);
 
 		if(regcomp(&reg, targ, REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE) != 0) {
-			RET_ERR(db->handle, ALPM_ERR_INVALID_REGEX, NULL);
+			RET_ERR(db->handle, ALPM_ERR_INVALID_REGEX, -1);
 		}
 
 		for(j = list; j; j = j->next) {
@@ -463,18 +465,18 @@ alpm_list_t *_alpm_db_search(alpm_db_t *db, const alpm_list_t *needles)
 				_alpm_log(db->handle, ALPM_LOG_DEBUG,
 						"search target '%s' matched '%s' on package '%s'\n",
 						targ, matched, name);
-				ret = alpm_list_add(ret, pkg);
+				*ret = alpm_list_add(*ret, pkg);
 			}
 		}
 
 		/* Free the existing search list, and use the returned list for the
 		 * next needle. This allows for AND-based package searching. */
 		alpm_list_free(list);
-		list = ret;
+		list = *ret;
 		regfree(&reg);
 	}
 
-	return ret;
+	return 0;
 }
 
 /* Returns a new package cache from db.
