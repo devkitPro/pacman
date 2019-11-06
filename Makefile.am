@@ -35,7 +35,6 @@ $(top_srcdir)/test/pacman/tests/TESTS: $(wildcard test/pacman/tests/*.py)
 	@printf "TESTS += %s\n" $^ | LC_ALL=C sort -u > "$@"
 
 TESTS =  test/scripts/parseopts_test.sh \
-				 test/scripts/human_to_size_test.sh \
 				 test/scripts/makepkg-template_test.sh \
 				 test/scripts/pacman-db-upgrade-v9.py \
 				 test/util/vercmptest.sh

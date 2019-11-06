@@ -9,10 +9,6 @@ scripts = [
   'makepkg-template.pl.in',
 ]
 
-library_files = [
-  'library/human_to_size.sh',
-]
-
 SCRIPT_EDITOR = find_program(configure_file(
   input : join_paths(meson.source_root(), 'build-aux/edit-script.sh.in'),
   output : 'edit-script.sh',
@@ -32,7 +28,6 @@ foreach script : scripts
     input : m4_edit.process(script),
     command : [ SCRIPT_EDITOR, '@INPUT@', '@OUTPUT@', '0755'],
     output : script_shortname,
-    depend_files : library_files,
     install : true,
     install_dir : get_option('bindir'))
 endforeach
@@ -48,7 +43,6 @@ foreach script : wrapped_scripts
     input : m4_edit.process(script),
     command : [ SCRIPT_EDITOR, '@INPUT@', '@OUTPUT@', '0755'],
     output : script,
-    depend_files : library_files,
     build_by_default : true)
 
   cdata = configuration_data()

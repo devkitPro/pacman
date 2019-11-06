@@ -31,12 +31,8 @@ EXTRA_DIST = \
 	repo-add.sh.in \
 	wrapper.sh.in \
 	$(COMPLETION_DIST) \
-	$(LIBRARY) \
 	$(LIBMAKEPKG_DIST) \
 	po/meson.build
-
-LIBRARY = \
-	library/human_to_size.sh
 
 libmakepkgdir = $(datarootdir)/makepkg
 
