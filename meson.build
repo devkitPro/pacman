@@ -221,7 +221,6 @@ config_h = configure_file(
 add_project_arguments('-include', 'config.h', language : 'c')
 
 filecmd = 'file'
-default_sedinplaceflags = ' --follow-symlinks -i'
 inodecmd = 'stat -c \'%i %n\''
 strip_binaries = '--strip-all'
 strip_shared = '--strip-unneeded'
@@ -237,18 +236,11 @@ endif
 os = host_machine.system()
 if os.startswith('darwin')
   inodecmd = '/usr/bin/stat -f \'%i %N\''
-  default_sedinplaceflags = ' -i \'\''
   strip_binaries = ''
   strip_shared = '-s'
   strip_static = '-s'
 elif os.contains('bsd') or os == 'dragonfly'
   inodecmd = 'stat -f \'%i %N\''
-  default_sedinplaceflags = ' -i \'\''
-endif
-
-sedinplaceflags = get_option('sedinplaceflags')
-if sedinplaceflags == 'auto'
-  sedinplaceflags = default_sedinplaceflags
 endif
 
 chost = run_command(cc, '-dumpmachine').stdout().strip()
@@ -277,8 +269,6 @@ substs.set('TEMPLATE_DIR', get_option('makepkg-template-dir'))
 substs.set('DEBUGSUFFIX', get_option('debug-suffix'))
 substs.set('INODECMD', inodecmd)
 substs.set('FILECMD', filecmd)
-substs.set('SEDINPLACEFLAGS', sedinplaceflags)
-substs.set('SEDPATH', SED.path())
 substs.set('LIBMAKEPKGDIR', LIBMAKEPKGDIR)
 substs.set('STRIP_BINARIES', strip_binaries)
 substs.set('STRIP_SHARED', strip_shared)
@@ -430,7 +420,6 @@ message('\n    '.join([
   '   Architecture            : @0@'.format(carch),
   '   Host Type               : @0@'.format(chost),
   '   File inode command      : @0@'.format(inodecmd),
-  '   In-place sed command    : @0@ @1@'.format(SED.path(), sedinplaceflags),
   '   File seccomp command    : @0@'.format(filecmd),
   '   libalpm version         : @0@'.format(libalpm_version),
   '   pacman version          : @0@'.format(PACKAGE_VERSION),

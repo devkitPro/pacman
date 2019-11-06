@@ -186,8 +186,6 @@ edit = sed \
 	-e 's|@DEBUGSUFFIX[@]|$(DEBUGSUFFIX)|g' \
 	-e "s|@INODECMD[@]|$(INODECMD)|g" \
 	-e "s|@FILECMD[@]|$(FILECMD)|g" \
-	-e 's|@SEDINPLACEFLAGS[@]|$(SEDINPLACEFLAGS)|g' \
-	-e 's|@SEDPATH[@]|$(SEDPATH)|g' \
 	-e 's|@SCRIPTNAME[@]|$@|g' \
 	-e 's|@configure_input[@]|Generated from $<; do not edit by hand.|g'
 

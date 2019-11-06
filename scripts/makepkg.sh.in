@@ -199,13 +199,15 @@ update_pkgver() {
 	fi
 
 	if [[ -n $newpkgver && $newpkgver != "$pkgver" ]]; then
-		if [[ -f $BUILDFILE && -w $BUILDFILE ]]; then
-			if ! @SEDPATH@ @SEDINPLACEFLAGS@ "s:^pkgver=[^ ]*:pkgver=$newpkgver:" "$BUILDFILE"; then
+		if [[ -w $BUILDFILE ]]; then
+			mapfile -t buildfile < "$BUILDFILE"
+			buildfile=("${buildfile[@]/#pkgver=*([^ ])/pkgver=$newpkgver}")
+			buildfile=("${buildfile[@]/#pkgrel=*([^ ])/pkgrel=1}")
+			if ! printf '%s\n' "${buildfile[@]}" > "$BUILDFILE"; then
 				error "$(gettext "Failed to update %s from %s to %s")" \
 						"pkgver" "$pkgver" "$newpkgver"
 				exit $E_PKGBUILD_ERROR
 			fi
-			@SEDPATH@ @SEDINPLACEFLAGS@ "s:^pkgrel=[^ ]*:pkgrel=1:" "$BUILDFILE"
 			source_safe "$BUILDFILE"
 			local fullver=$(get_full_version)
 			msg "$(gettext "Updated version: %s")" "$pkgbase $fullver"

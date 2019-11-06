@@ -369,7 +369,6 @@ AC_CHECK_MEMBERS([struct statfs.f_flags],,,[[#include <sys/param.h>
 GCC_VISIBILITY_CC
 
 # Host-dependant definitions
-DEFAULT_SEDINPLACEFLAGS=" --follow-symlinks -i"
 INODECMD="stat -c '%i %n'"
 STRIP_BINARIES="--strip-all"
 STRIP_SHARED="--strip-unneeded"
@@ -377,29 +376,20 @@ STRIP_STATIC="--strip-debug"
 case "${host_os}" in
 	*bsd*)
 		INODECMD="stat -f '%i %N'"
-		DEFAULT_SEDINPLACEFLAGS=" -i \"\""
 		;;
 	darwin*)
 		host_os_darwin=yes
 		INODECMD="/usr/bin/stat -f '%i %N'"
-		DEFAULT_SEDINPLACEFLAGS=" -i ''"
 		STRIP_BINARIES=""
 		STRIP_SHARED="-S"
 		STRIP_STATIC="-S"
 		;;
 esac
 AM_CONDITIONAL([DARWIN], test "x$host_os_darwin" = "xyes")
-AC_PATH_PROGS([SEDPATH], [sed], [sed], [/usr/bin$PATH_SEPARATOR/bin] )
 AC_SUBST(INODECMD)
 AC_SUBST(STRIP_BINARIES)
 AC_SUBST(STRIP_SHARED)
 AC_SUBST(STRIP_STATIC)
-
-# Flags for sed in place
-if test "${SEDINPLACEFLAGS+set}" != "set"; then
-    SEDINPLACEFLAGS="${DEFAULT_SEDINPLACEFLAGS}"
-fi
-AC_ARG_VAR(SEDINPLACEFLAGS, [flags for sed, overriding the default])
 
 # Variables plugged into makepkg.conf
 CARCH="${host%%-*}"
@@ -576,7 +566,6 @@ ${PACKAGE_NAME}:
     Architecture           : ${CARCH}
     Host Type              : ${CHOST}
     File inode command     : ${INODECMD}
-    In-place sed command   : ${SEDPATH} ${SEDINPLACEFLAGS}
     File seccomp command   : ${FILECMD}
 
     libalpm version        : ${LIB_VERSION}
