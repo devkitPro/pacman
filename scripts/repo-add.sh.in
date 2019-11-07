@@ -272,7 +272,7 @@ db_write_entry() {
 			error "$(gettext "Cannot use armored signatures for packages: %s")" "$pkgfile.sig"
 			return 1
 		fi
-		pgpsigsize=$(wc -c "$pkgfile.sig" | cut -d' ' -f1)
+		pgpsigsize=$(wc -c < "$pkgfile.sig")
 		if (( pgpsigsize > 16384 )); then
 			error "$(gettext "Invalid package signature file '%s'.")" "$pkgfile.sig"
 			return 1
@@ -281,7 +281,7 @@ db_write_entry() {
 		pgpsig=$(base64 "$pkgfile.sig" | tr -d '\n')
 	fi
 
-	csize=$(wc -c "$pkgfile" | cut -d' ' -f1)
+	csize=$(wc -c < "$pkgfile")
 
 	# compute checksums
 	msg2 "$(gettext "Computing checksums...")"
