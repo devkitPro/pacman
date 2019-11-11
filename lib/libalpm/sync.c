@@ -873,6 +873,14 @@ finish:
 }
 
 #ifdef HAVE_LIBGPGME
+
+static int key_cmp(const void *k1, const void *k2) {
+	const struct keyinfo_t *key1 = k1;
+	const char *key2 = k2;
+
+	return strcmp(key1->keyid, key2);
+}
+
 static int check_keyring(alpm_handle_t *handle)
 {
 	size_t current = 0, numtargs;
@@ -910,7 +918,7 @@ static int check_keyring(alpm_handle_t *handle)
 					alpm_list_t *k;
 					for(k = keys; k; k = k->next) {
 						char *key = k->data;
-						if(!alpm_list_find_str(errors, key) &&
+						if(!alpm_list_find(errors, key, key_cmp) &&
 								_alpm_key_in_keychain(handle, key) == 0) {
 							keyinfo = malloc(sizeof(struct keyinfo_t));
 							if(!keyinfo) {
@@ -940,7 +948,7 @@ static int check_keyring(alpm_handle_t *handle)
 		alpm_list_t *k;
 		for(k = errors; k; k = k->next) {
 			keyinfo = k->data;
-				if(_alpm_key_import(handle, keyinfo->uid, keyinfo->keyid) == -1) {
+			if(_alpm_key_import(handle, keyinfo->uid, keyinfo->keyid) == -1) {
 				fail = 1;
 			}
 			free(keyinfo->uid);
