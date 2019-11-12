@@ -142,7 +142,7 @@ class pmpkg(object):
         util.mkdir(os.path.dirname(self.path))
 
         # Generate package metadata
-        tar = tarfile.open(self.path, "w:gz")
+        tar = tarfile.open(self.path, "w:gz", format=tarfile.GNU_FORMAT)
         for name, data in archive_files:
             info = tarfile.TarInfo(name)
             info.size = len(data)
