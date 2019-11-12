@@ -26,42 +26,38 @@ foreach script : scripts
     install_dir : get_option('bindir'))
 endforeach
 
+script_wrappers = []
 foreach script : wrapped_scripts
   script_shortname = script.split('.')[0]
 
-  # Build the script, but don't install it. We want to keep it as a "private"
-  # artifact that we reference from a wrapper script in order to bootstrap it
-  # the build directory.
   internal_script = custom_target(
     script,
     input : script,
     command : [ SCRIPT_EDITOR, '@INPUT@', '@OUTPUT@', '0755'],
-    output : script,
-    build_by_default : true)
-
-  cdata = configuration_data()
-  cdata.set_quoted('BASH', BASH.path())
-  cdata.set_quoted('BUILDDIR', meson.current_build_dir())
-  cdata.set_quoted('REAL_PROGPATH', internal_script.full_path())
-
-  # Create a wrapper script that bootstraps the real script within the build
-  # directory. Use configure_file instead of a custom_target to ensure that
-  # permissions on the input script wrapper are preserved.
-  configure_file(
-    input : join_paths(meson.source_root(), 'build-aux', 'script-wrapper.sh.in'),
     output : script_shortname,
-    configuration : cdata)
+    install : true,
+    install_dir : BINDIR)
 
-  # Install the real script
-  meson.add_install_script(MESON_INSTALL_SCRIPT,
-                           internal_script.full_path(),
-                           join_paths(BINDIR, script_shortname))
+  script_wrappers += [[ script_shortname, internal_script, meson.current_build_dir() ]]
+
+  if script_shortname == 'repo-add'
+    repo_add = internal_script
+  endif
 endforeach
 
 foreach symlink : ['repo-remove', 'repo-elephant']
   meson.add_install_script(MESON_MAKE_SYMLINK,
                            'repo-add',
                            join_paths(BINDIR, symlink))
+
+  internal_script = custom_target(
+    symlink,
+    build_by_default : true,
+    command : ['ln', '-sf', 'repo-add', '@OUTPUT@'],
+    depends : repo_add,
+    output : symlink)
+
+  script_wrappers += [[ symlink, internal_script, meson.current_build_dir() ]]
 endforeach
 
 subdir('libmakepkg')

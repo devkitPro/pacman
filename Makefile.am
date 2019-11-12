@@ -18,7 +18,6 @@ EXTRA_DIST = \
 	HACKING test/tap.sh \
 	meson.build meson_options.txt \
 	build-aux/edit-script.sh.in \
-	build-aux/meson-install-script.sh \
 	build-aux/meson-make-symlink.sh \
 	build-aux/script-wrapper.sh.in
 

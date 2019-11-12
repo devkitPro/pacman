@@ -32,7 +32,6 @@ SED = find_program('sed')
 DU = find_program('du')
 LDCONFIG = get_option('ldconfig')
 MESON_MAKE_SYMLINK = join_paths(meson.source_root(), 'build-aux/meson-make-symlink.sh')
-MESON_INSTALL_SCRIPT = join_paths(meson.source_root(), 'build-aux/meson-install-script.sh')
 
 BASH = find_program('bash4', 'bash')
 if BASH.found()
@@ -365,6 +364,21 @@ executable(
   link_with : [libalpm_a],
   install : true,
 )
+
+foreach wrapper : script_wrappers
+  cdata = configuration_data()
+  cdata.set_quoted('BASH', BASH.path())
+  cdata.set_quoted('BUILDDIR', wrapper[2])
+  cdata.set_quoted('REAL_PROGPATH', wrapper[1].full_path())
+
+  # Create a wrapper script that bootstraps the real script within the build
+  # directory. Use configure_file instead of a custom_target to ensure that
+  # permissions on the input script wrapper are preserved.
+  configure_file(
+    input : join_paths(meson.source_root(), 'build-aux', 'script-wrapper.sh.in'),
+    output : wrapper[0],
+    configuration : cdata)
+endforeach
 
 configure_file(
   input : 'etc/makepkg.conf.in',
