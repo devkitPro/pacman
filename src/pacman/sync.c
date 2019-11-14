@@ -778,12 +778,19 @@ int sync_prepare_execute(void)
 					alpm_conflict_t *conflict = i->data;
 					/* only print reason if it contains new information */
 					if(conflict->reason->mod == ALPM_DEP_MOD_ANY) {
-						colon_printf(_("%s and %s are in conflict\n"),
-								conflict->package1, conflict->package2);
+						colon_printf(_("%s-%s and %s-%s are in conflict\n"),
+								alpm_pkg_get_name(conflict->package1),
+								alpm_pkg_get_version(conflict->package1),
+								alpm_pkg_get_name(conflict->package2),
+								alpm_pkg_get_version(conflict->package2));
 					} else {
 						char *reason = alpm_dep_compute_string(conflict->reason);
-						colon_printf(_("%s and %s are in conflict (%s)\n"),
-								conflict->package1, conflict->package2, reason);
+						colon_printf(_("%s-%s and %s-%s are in conflict (%s)\n"),
+								alpm_pkg_get_name(conflict->package1),
+								alpm_pkg_get_version(conflict->package1),
+								alpm_pkg_get_name(conflict->package2),
+								alpm_pkg_get_version(conflict->package2),
+								reason);
 						free(reason);
 					}
 					alpm_conflict_free(conflict);

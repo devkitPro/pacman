@@ -517,21 +517,23 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 
 		for(i = deps; i; i = i->next) {
 			alpm_conflict_t *conflict = i->data;
+			const char *name1 = conflict->package1->name;
+			const char *name2 = conflict->package2->name;
 			alpm_pkg_t *rsync, *sync, *sync1, *sync2;
 
 			/* have we already removed one of the conflicting targets? */
-			sync1 = alpm_pkg_find(trans->add, conflict->package1);
-			sync2 = alpm_pkg_find(trans->add, conflict->package2);
+			sync1 = alpm_pkg_find(trans->add, name1);
+			sync2 = alpm_pkg_find(trans->add, name2);
 			if(!sync1 || !sync2) {
 				continue;
 			}
 
 			_alpm_log(handle, ALPM_LOG_DEBUG, "conflicting packages in the sync list: '%s' <-> '%s'\n",
-					conflict->package1, conflict->package2);
+					name1, name2);
 
 			/* if sync1 provides sync2, we remove sync2 from the targets, and vice versa */
-			alpm_depend_t *dep1 = alpm_dep_from_string(conflict->package1);
-			alpm_depend_t *dep2 = alpm_dep_from_string(conflict->package2);
+			alpm_depend_t *dep1 = alpm_dep_from_string(name1);
+			alpm_depend_t *dep2 = alpm_dep_from_string(name2);
 			if(_alpm_depcmp(sync1, dep2)) {
 				rsync = sync2;
 				sync = sync1;
@@ -559,8 +561,8 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 
 			/* Prints warning */
 			_alpm_log(handle, ALPM_LOG_WARNING,
-					_("removing '%s' from target list because it conflicts with '%s'\n"),
-					rsync->name, sync->name);
+					_("removing '%s-%s' from target list because it conflicts with '%s-%s'\n"),
+					rsync->name, rsync->version, sync->name, sync->version);
 			trans->add = alpm_list_remove(trans->add, rsync, _alpm_pkg_cmp, NULL);
 			/* rsync is not a transaction target anymore */
 			trans->unresolvable = alpm_list_add(trans->unresolvable, rsync);
@@ -581,16 +583,18 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				.conflict = i->data
 			};
 			alpm_conflict_t *conflict = i->data;
+			const char *name1 = conflict->package1->name;
+			const char *name2 = conflict->package2->name;
 			int found = 0;
 
-			/* if conflict->package2 (the local package) is not elected for removal,
+			/* if name2 (the local package) is not elected for removal,
 			   we ask the user */
-			if(alpm_pkg_find(trans->remove, conflict->package2)) {
+			if(alpm_pkg_find(trans->remove, name2)) {
 				found = 1;
 			}
 			for(j = trans->add; j && !found; j = j->next) {
 				alpm_pkg_t *spkg = j->data;
-				if(alpm_pkg_find(spkg->removes, conflict->package2)) {
+				if(alpm_pkg_find(spkg->removes, name2)) {
 					found = 1;
 				}
 			}
@@ -598,15 +602,15 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				continue;
 			}
 
-			_alpm_log(handle, ALPM_LOG_DEBUG, "package '%s' conflicts with '%s'\n",
-					conflict->package1, conflict->package2);
+			_alpm_log(handle, ALPM_LOG_DEBUG, "package '%s-%s' conflicts with '%s-%s'\n",
+					name1, conflict->package1->version, name2,conflict->package2->version);
 
 			QUESTION(handle, &question);
 			if(question.remove) {
 				/* append to the removes list */
-				alpm_pkg_t *sync = alpm_pkg_find(trans->add, conflict->package1);
-				alpm_pkg_t *local = _alpm_db_get_pkgfromcache(handle->db_local, conflict->package2);
-				_alpm_log(handle, ALPM_LOG_DEBUG, "electing '%s' for removal\n", conflict->package2);
+				alpm_pkg_t *sync = alpm_pkg_find(trans->add, name1);
+				alpm_pkg_t *local = _alpm_db_get_pkgfromcache(handle->db_local, name2);
+				_alpm_log(handle, ALPM_LOG_DEBUG, "electing '%s' for removal\n", name2);
 				sync->removes = alpm_list_add(sync->removes, local);
 			} else { /* abort */
 				_alpm_log(handle, ALPM_LOG_ERROR, _("unresolvable package conflicts detected\n"));

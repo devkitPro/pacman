@@ -50,10 +50,8 @@ static alpm_conflict_t *conflict_new(alpm_pkg_t *pkg1, alpm_pkg_t *pkg2,
 
 	CALLOC(conflict, 1, sizeof(alpm_conflict_t), return NULL);
 
-	conflict->package1_hash = pkg1->name_hash;
-	conflict->package2_hash = pkg2->name_hash;
-	STRDUP(conflict->package1, pkg1->name, goto error);
-	STRDUP(conflict->package2, pkg2->name, goto error);
+	ASSERT(_alpm_pkg_dup(pkg1, &conflict->package1) == 0, goto error);
+	ASSERT(_alpm_pkg_dup(pkg2, &conflict->package2) == 0, goto error);
 	conflict->reason = reason;
 
 	return conflict;
@@ -66,8 +64,9 @@ error:
 void SYMEXPORT alpm_conflict_free(alpm_conflict_t *conflict)
 {
 	ASSERT(conflict != NULL, return);
-	FREE(conflict->package2);
-	FREE(conflict->package1);
+	_alpm_pkg_free(conflict->package1);
+	_alpm_pkg_free(conflict->package2);
+
 	FREE(conflict);
 }
 
@@ -79,10 +78,8 @@ alpm_conflict_t *_alpm_conflict_dup(const alpm_conflict_t *conflict)
 	alpm_conflict_t *newconflict;
 	CALLOC(newconflict, 1, sizeof(alpm_conflict_t), return NULL);
 
-	newconflict->package1_hash = conflict->package1_hash;
-	newconflict->package2_hash = conflict->package2_hash;
-	STRDUP(newconflict->package1, conflict->package1, goto error);
-	STRDUP(newconflict->package2, conflict->package2, goto error);
+	ASSERT(_alpm_pkg_dup(conflict->package1, &newconflict->package1) == 0, goto error);
+	ASSERT(_alpm_pkg_dup(conflict->package2, &newconflict->package2) == 0, goto error);
 	newconflict->reason = conflict->reason;
 
 	return newconflict;
@@ -105,10 +102,10 @@ static int conflict_isin(alpm_conflict_t *needle, alpm_list_t *haystack)
 	alpm_list_t *i;
 	for(i = haystack; i; i = i->next) {
 		alpm_conflict_t *conflict = i->data;
-		if(needle->package1_hash == conflict->package1_hash
-				&& needle->package2_hash == conflict->package2_hash
-				&& strcmp(needle->package1, conflict->package1) == 0
-				&& strcmp(needle->package2, conflict->package2) == 0) {
+		if(needle->package1->name_hash == conflict->package1->name_hash
+				&& needle->package2->name_hash == conflict->package2->name_hash
+				&& strcmp(needle->package1->name, conflict->package1->name) == 0
+				&& strcmp(needle->package2->name, conflict->package2->name) == 0) {
 			return 1;
 		}
 	}

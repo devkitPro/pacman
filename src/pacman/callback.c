@@ -423,6 +423,8 @@ void cb_event(void *ctx, alpm_event_t *event)
 void cb_question(void *ctx, alpm_question_t *question)
 {
 	(void)ctx;
+	const colstr_t *colstr = &config->colstr;
+
 	if(config->print) {
 		switch(question->type) {
 			case ALPM_QUESTION_INSTALL_IGNOREPKG:
@@ -460,18 +462,30 @@ void cb_question(void *ctx, alpm_question_t *question)
 			{
 				alpm_question_conflict_t *q = &question->conflict;
 				/* print conflict only if it contains new information */
-				if(strcmp(q->conflict->package1, q->conflict->reason->name) == 0
-						|| strcmp(q->conflict->package2, q->conflict->reason->name) == 0) {
-					q->remove = noyes(_("%s and %s are in conflict. Remove %s?"),
-							q->conflict->package1,
-							q->conflict->package2,
-							q->conflict->package2);
+				if(strcmp(alpm_pkg_get_name(q->conflict->package1), q->conflict->reason->name) == 0
+						|| strcmp(alpm_pkg_get_name(q->conflict->package2), q->conflict->reason->name) == 0) {
+					q->remove = noyes(_("%s-%s%s%s and %s-%s%s%s are in conflict. Remove %s?"),
+							alpm_pkg_get_name(q->conflict->package1),
+							colstr->faint,
+							alpm_pkg_get_version(q->conflict->package1),
+							colstr->nocolor,
+							alpm_pkg_get_name(q->conflict->package2),
+							colstr->faint,
+							alpm_pkg_get_version(q->conflict->package2),
+							colstr->nocolor,
+							alpm_pkg_get_name(q->conflict->package2));
 				} else {
-					q->remove = noyes(_("%s and %s are in conflict (%s). Remove %s?"),
-							q->conflict->package1,
-							q->conflict->package2,
+					q->remove = noyes(_("%s-%s%s%s and %s-%s%s%s are in conflict (%s). Remove %s?"),
+							alpm_pkg_get_name(q->conflict->package1),
+							colstr->faint,
+							alpm_pkg_get_version(q->conflict->package1),
+							colstr->nocolor,
+							alpm_pkg_get_name(q->conflict->package2),
+							colstr->faint,
+							alpm_pkg_get_version(q->conflict->package2),
+							colstr->nocolor,
 							q->conflict->reason->name,
-							q->conflict->package2);
+							alpm_pkg_get_name(q->conflict->package2));
 				}
 			}
 			break;

@@ -600,16 +600,10 @@ typedef struct _alpm_depmissing_t {
 
 /** A conflict that has occurred between two packages. */
 typedef struct _alpm_conflict_t {
-	/** Hash of the first package name
-	 * (used internally to speed up conflict checks) */
-	unsigned long package1_hash;
-	/** Hash of the second package name
-	 * (used internally to speed up conflict checks) */
-	unsigned long package2_hash;
-	/** Name of the first package */
-	char *package1;
-	/** Name of the second package */
-	char *package2;
+	/** The first package */
+	alpm_pkg_t *package1;
+	/** The second package */
+	alpm_pkg_t *package2;
 	/** The conflict */
 	alpm_depend_t *reason;
 } alpm_conflict_t;

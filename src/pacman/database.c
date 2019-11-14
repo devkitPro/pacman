@@ -157,7 +157,7 @@ static int check_db_local_package_conflicts(alpm_list_t *pkglist)
 	for(i = data; i; i = i->next) {
 		alpm_conflict_t *conflict = i->data;
 		pm_printf(ALPM_LOG_ERROR, "'%s' conflicts with '%s'\n",
-				conflict->package1, conflict->package2);
+				alpm_pkg_get_name(conflict->package1), alpm_pkg_get_name(conflict->package2));
 		ret++;
 	}
 	alpm_list_free_inner(data, (alpm_list_fn_free)alpm_conflict_free);
