@@ -414,6 +414,12 @@ static int curl_download_internal(struct dload_payload *payload,
 
 	curl_set_handle_opts(payload, curl, error_buffer);
 
+	if(payload->max_size == payload->initial_size) {
+		/* .part file is complete */
+		ret = 0;
+		goto cleanup;
+	}
+
 	if(localf == NULL) {
 		localf = fopen(payload->tempfile_name, payload->tempfile_openmode);
 		if(localf == NULL) {
