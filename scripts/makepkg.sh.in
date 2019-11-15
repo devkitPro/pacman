@@ -626,7 +626,7 @@ write_pkginfo() {
 }
 
 write_buildinfo() {
-	write_kv_pair "format" "1"
+	write_kv_pair "format" "2"
 
 	write_kv_pair "pkgname" "$pkgname"
 	write_kv_pair "pkgbase" "$pkgbase"
@@ -643,6 +643,7 @@ write_buildinfo() {
 	write_kv_pair "packager" "${PACKAGER}"
 	write_kv_pair "builddate" "${SOURCE_DATE_EPOCH}"
 	write_kv_pair "builddir"  "${BUILDDIR}"
+	write_kv_pair "startdir"  "${startdir}"
 	write_kv_pair "buildenv" "${BUILDENV[@]}"
 	write_kv_pair "options" "${OPTIONS[@]}"
 
