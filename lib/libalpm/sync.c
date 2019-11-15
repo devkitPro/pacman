@@ -731,6 +731,8 @@ static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files)
 		alpm_pkg_t *spkg = i->data;
 
 		if(spkg->origin != ALPM_PKG_FROM_FILE && repo == spkg->origin_data.db) {
+			char *fpath = NULL;
+
 			if(!repo->servers) {
 				handle->pm_errno = ALPM_ERR_SERVER_NONE;
 				_alpm_log(handle, ALPM_LOG_ERROR, "%s: %s\n",
@@ -738,13 +740,21 @@ static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files)
 				return 1;
 			}
 
-			if(spkg->download_size != 0) {
+			ASSERT(spkg->filename != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
+
+			if(spkg->download_size == 0) {
+				/* check for file in cache - allows us to handle complete .part files */
+				fpath = _alpm_filecache_find(handle, spkg->filename);
+			}
+
+			if(spkg->download_size != 0 || !fpath) {
 				struct dload_payload *payload;
-				ASSERT(spkg->filename != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
 				payload = build_payload(handle, spkg->filename, spkg->size, repo->servers);
 				ASSERT(payload, return -1);
 				*files = alpm_list_add(*files, payload);
 			}
+
+			FREE(fpath);
 		}
 	}
 
