@@ -479,7 +479,7 @@ static int email_from_uid(const char *uid, char **email)
        char *start, *end;
 
        if (uid == NULL) {
-               email = NULL;
+               *email = NULL;
                return -1;
        }
 
@@ -492,7 +492,7 @@ static int email_from_uid(const char *uid, char **email)
                STRNDUP(*email, start+1, end-start-1, return -1);
                return 0;
        } else {
-               email = NULL;
+               *email = NULL;
                return -1;
        }
 }
