@@ -997,7 +997,8 @@ alpm_list_t *alpm_db_get_groupcache(alpm_db_t *db);
 /** Searches a database with regular expressions.
  * @param db pointer to the package database to search in
  * @param needles a list of regular expressions to search for
- * @param ret the list of packages matching all regular expressions
+ * @param ret pointer to list for storing packages matching all
+ * regular expressions - must point to an empty (NULL) alpm_list_t *.
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int alpm_db_search(alpm_db_t *db, const alpm_list_t *needles,
