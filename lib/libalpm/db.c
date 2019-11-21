@@ -422,7 +422,10 @@ int _alpm_db_search(alpm_db_t *db, const alpm_list_t *needles,
 		_alpm_log(db->handle, ALPM_LOG_DEBUG, "searching for target '%s'\n", targ);
 
 		if(regcomp(&reg, targ, REG_EXTENDED | REG_NOSUB | REG_ICASE | REG_NEWLINE) != 0) {
-			RET_ERR(db->handle, ALPM_ERR_INVALID_REGEX, -1);
+			db->handle->pm_errno = ALPM_ERR_INVALID_REGEX;
+			alpm_list_free(list);
+			alpm_list_free(*ret);
+			return -1;
 		}
 
 		for(j = list; j; j = j->next) {
