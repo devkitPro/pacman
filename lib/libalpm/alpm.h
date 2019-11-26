@@ -1329,7 +1329,7 @@ struct archive *alpm_pkg_mtree_open(alpm_pkg_t *pkg);
  * @param pkg the package that the mtree file is being read from
  * @param archive the archive structure reading from the mtree file
  * @param entry an archive_entry to store the entry header information
- * @return 0 if end of archive is reached, non-zero otherwise.
+ * @return 0 on success, 1 if end of archive is reached, -1 otherwise.
  */
 int alpm_pkg_mtree_next(const alpm_pkg_t *pkg, struct archive *archive,
 		struct archive_entry **entry);

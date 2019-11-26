@@ -277,7 +277,7 @@ int check_pkg_full(alpm_pkg_t *pkg)
 		return 0;
 	}
 
-	while(alpm_pkg_mtree_next(pkg, mtree, &entry) == ARCHIVE_OK) {
+	while(alpm_pkg_mtree_next(pkg, mtree, &entry) == 0) {
 		struct stat st;
 		const char *path = archive_entry_pathname(entry);
 		char filepath[PATH_MAX];

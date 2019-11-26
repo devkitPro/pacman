@@ -284,12 +284,26 @@ error:
  * @param pkg the package that the mtree file is being read from
  * @param archive the archive structure reading from the mtree file
  * @param entry an archive_entry to store the entry header information
- * @return 0 if end of archive is reached, non-zero otherwise.
+ * @return 0 on success, 1 if end of archive is reached, -1 otherwise.
  */
 static int _cache_mtree_next(const alpm_pkg_t UNUSED *pkg,
 		struct archive *mtree, struct archive_entry **entry)
 {
-	return archive_read_next_header(mtree, entry);
+	int ret;
+	ret = archive_read_next_header(mtree, entry);
+
+	switch(ret) {
+		case ARCHIVE_OK:
+			return 0;
+			break;
+		case ARCHIVE_EOF:
+			return 1;
+			break;
+		default:
+			break;
+	}
+
+	return -1;
 }
 
 /**
