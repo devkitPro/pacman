@@ -96,7 +96,7 @@ def create_parser():
                       dest = "gdb", default = False,
                       help = "use gdb while calling pacman")
     parser.add_option("--valgrind", action = "store_true",
-                      dest = "valgrind", default = False,
+                      dest = "valgrind", default = os.getenv('PACTEST_VALGRIND'),
                       help = "use valgrind while calling pacman")
     parser.add_option("--manual-confirm", action = "store_true",
                       dest = "manualconfirm", default = False,
