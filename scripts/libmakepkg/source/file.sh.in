@@ -83,8 +83,9 @@ download_file() {
 }
 
 extract_file() {
-	local file=$1
+	local netfile=$1
 
+	local file=$(get_filename "$netfile")
 	local filepath=$(get_filepath "$file")
 	rm -f "$srcdir/${file}"
 	ln -s "$filepath" "$srcdir/"
