@@ -75,12 +75,11 @@ extract_sources() {
 
 	get_all_sources_for_arch 'all_sources'
 	for netfile in "${all_sources[@]}"; do
-		local file=$(get_filename "$netfile")
 		local proto=$(get_protocol "$netfile")
 		if declare -f extract_$proto > /dev/null; then
 			extract_$proto "$netfile"
 		else
-			extract_file "$file"
+			extract_file "$netfile"
 		fi
 	done
 }
