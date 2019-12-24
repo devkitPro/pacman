@@ -217,7 +217,7 @@ gpg_error:
 int _alpm_key_in_keychain(alpm_handle_t *handle, const char *fpr)
 {
 	gpgme_error_t gpg_err;
-	gpgme_ctx_t ctx;
+	gpgme_ctx_t ctx = {0};
 	gpgme_key_t key;
 	int ret = -1;
 
@@ -231,7 +231,6 @@ int _alpm_key_in_keychain(alpm_handle_t *handle, const char *fpr)
 		goto error;
 	}
 
-	memset(&ctx, 0, sizeof(ctx));
 	gpg_err = gpgme_new(&ctx);
 	CHECK_ERR();
 
@@ -267,12 +266,11 @@ error:
 static int key_import_wkd(alpm_handle_t *handle, const char *email)
 {
 	gpgme_error_t gpg_err;
-	gpgme_ctx_t ctx;
+	gpgme_ctx_t ctx = {0};
 	gpgme_keylist_mode_t mode;
 	gpgme_key_t key;
 	int ret = -1;
 
-	memset(&ctx, 0, sizeof(ctx));
 	gpg_err = gpgme_new(&ctx);
 	CHECK_ERR();
 
@@ -309,7 +307,7 @@ static int key_search_keyserver(alpm_handle_t *handle, const char *fpr,
 		alpm_pgpkey_t *pgpkey)
 {
 	gpgme_error_t gpg_err;
-	gpgme_ctx_t ctx;
+	gpgme_ctx_t ctx = {0};
 	gpgme_keylist_mode_t mode;
 	gpgme_key_t key;
 	int ret = -1;
@@ -322,7 +320,6 @@ static int key_search_keyserver(alpm_handle_t *handle, const char *fpr,
 	MALLOC(full_fpr, fpr_len + 3, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 	sprintf(full_fpr, "0x%s", fpr);
 
-	memset(&ctx, 0, sizeof(ctx));
 	gpg_err = gpgme_new(&ctx);
 	CHECK_ERR();
 
@@ -431,7 +428,7 @@ gpg_error:
 static int key_import_keyserver(alpm_handle_t *handle, alpm_pgpkey_t *key)
 {
 	gpgme_error_t gpg_err;
-	gpgme_ctx_t ctx;
+	gpgme_ctx_t ctx = {0};
 	gpgme_key_t keys[2];
 	gpgme_import_result_t result;
 	int ret = -1;
@@ -442,7 +439,6 @@ static int key_import_keyserver(alpm_handle_t *handle, alpm_pgpkey_t *key)
 		return -1;
 	}
 
-	memset(&ctx, 0, sizeof(ctx));
 	gpg_err = gpgme_new(&ctx);
 	CHECK_ERR();
 
@@ -507,7 +503,7 @@ static int email_from_uid(const char *uid, char **email)
 int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr)
 {
 	int ret = -1;
-	alpm_pgpkey_t fetch_key;
+	alpm_pgpkey_t fetch_key = {0};
 	char *email;
 
 	if(_alpm_access(handle, handle->gpgdir, "pubring.gpg", W_OK)) {
@@ -516,7 +512,6 @@ int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr)
 		return -1;
 	}
 
-	memset(&fetch_key, 0, sizeof(fetch_key));
 	STRDUP(fetch_key.uid, uid, return -1);
 	STRDUP(fetch_key.fingerprint, fpr, return -1);
 
@@ -576,8 +571,8 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 {
 	int ret = -1, sigcount;
 	gpgme_error_t gpg_err = 0;
-	gpgme_ctx_t ctx;
-	gpgme_data_t filedata, sigdata;
+	gpgme_ctx_t ctx = {0};
+	gpgme_data_t filedata = {0}, sigdata = {0};
 	gpgme_verify_result_t verify_result;
 	gpgme_signature_t gpgsig;
 	char *sigpath = NULL;
@@ -617,10 +612,6 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 	}
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "checking signature for %s\n", path);
-
-	memset(&ctx, 0, sizeof(ctx));
-	memset(&sigdata, 0, sizeof(sigdata));
-	memset(&filedata, 0, sizeof(filedata));
 
 	gpg_err = gpgme_new(&ctx);
 	CHECK_ERR();

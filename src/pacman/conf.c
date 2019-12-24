@@ -1117,8 +1117,7 @@ int setdefaults(config_t *c)
 
 int parseconfigfile(const char *file)
 {
-	struct section_t section;
-	memset(&section, 0, sizeof(struct section_t));
+	struct section_t section = {0};
 	pm_printf(ALPM_LOG_DEBUG, "config: attempting to read file %s\n", file);
 	return parse_ini(file, _parse_directive, &section);
 }

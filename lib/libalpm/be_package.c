@@ -164,9 +164,8 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 	char *ptr = NULL;
 	char *key = NULL;
 	int ret, linenum = 0;
-	struct archive_read_buffer buf;
+	struct archive_read_buffer buf = {0};
 
-	memset(&buf, 0, sizeof(buf));
 	/* 512K for a line length seems reasonable */
 	buf.max_line_size = 512 * 1024;
 
@@ -448,12 +447,10 @@ static int build_filelist_from_mtree(alpm_handle_t *handle, alpm_pkg_t *pkg, str
 	char *mtree_data = NULL;
 	struct archive *mtree;
 	struct archive_entry *mtree_entry = NULL;
-	alpm_filelist_t filelist;
+	alpm_filelist_t filelist = {0};
 
 	_alpm_log(handle, ALPM_LOG_DEBUG,
 			"found mtree for package %s, getting file list\n", pkg->filename);
-
-	memset(&filelist, 0, sizeof(alpm_filelist_t));
 
 	/* create a new archive to parse the mtree and load it from archive into memory */
 	/* TODO: split this into a function */

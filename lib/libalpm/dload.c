@@ -195,9 +195,10 @@ static int curl_gethost(const char *url, char *buffer, size_t buf_len)
 static int utimes_long(const char *path, long seconds)
 {
 	if(seconds != -1) {
-		struct timeval tv[2];
-		memset(&tv, 0, sizeof(tv));
-		tv[0].tv_sec = tv[1].tv_sec = seconds;
+		struct timeval tv[2] = {
+			{ .tv_sec = seconds, },
+			{ .tv_sec = seconds, },
+		};
 		return utimes(path, tv);
 	}
 	return 0;
@@ -657,7 +658,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 	char *filepath;
 	const char *cachedir, *final_pkg_url = NULL;
 	char *final_file = NULL;
-	struct dload_payload payload;
+	struct dload_payload payload = {0};
 	int ret = 0;
 
 	CHECK_HANDLE(handle, return NULL);
@@ -665,8 +666,6 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 
 	/* find a valid cache dir to download to */
 	cachedir = _alpm_filecache_setup(handle);
-
-	memset(&payload, 0, sizeof(struct dload_payload));
 
 	/* attempt to find the file in our pkgcache */
 	filepath = filecache_find_url(handle, url);
@@ -740,7 +739,7 @@ void _alpm_dload_payload_reset(struct dload_payload *payload)
 	FREE(payload->destfile_name);
 	FREE(payload->content_disp_name);
 	FREE(payload->fileurl);
-	memset(payload, '\0', sizeof(*payload));
+	*payload = (struct dload_payload){0};
 }
 
 void _alpm_dload_payload_reset_for_retry(struct dload_payload *payload)

@@ -219,11 +219,9 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 
 	for(i = db->servers; i; i = i->next) {
 		const char *server = i->data, *final_db_url = NULL;
-		struct dload_payload payload;
+		struct dload_payload payload = {0};
 		size_t len;
 		int sig_ret = 0;
-
-		memset(&payload, 0, sizeof(struct dload_payload));
 
 		/* set hard upper limit of 25MiB */
 		payload.max_size = 25 * 1024 * 1024;
@@ -601,7 +599,7 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 {
 	const char *entryname, *filename;
 	alpm_pkg_t *pkg;
-	struct archive_read_buffer buf;
+	struct archive_read_buffer buf = {0};
 
 	entryname = archive_entry_pathname(entry);
 	if(entryname == NULL) {
@@ -613,7 +611,6 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 	_alpm_log(db->handle, ALPM_LOG_FUNCTION, "loading package data from archive entry %s\n",
 			entryname);
 
-	memset(&buf, 0, sizeof(buf));
 	/* 512K for a line length seems reasonable */
 	buf.max_line_size = 512 * 1024;
 

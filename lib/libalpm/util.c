@@ -1191,7 +1191,7 @@ cleanup:
 	{
 		int ret = b->ret;
 		FREE(b->line);
-		memset(b, 0, sizeof(struct archive_read_buffer));
+		*b = (struct archive_read_buffer){0};
 		return ret;
 	}
 }

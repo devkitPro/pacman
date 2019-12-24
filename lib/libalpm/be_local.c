@@ -694,7 +694,7 @@ char *_alpm_local_db_pkgpath(alpm_db_t *db, alpm_pkg_t *info,
 static int local_db_read(alpm_pkg_t *info, int inforeq)
 {
 	FILE *fp = NULL;
-	char line[1024];
+	char line[1024] = {0};
 	alpm_db_t *db = info->origin_data.db;
 
 	/* bitmask logic here:
@@ -716,9 +716,6 @@ static int local_db_read(alpm_pkg_t *info, int inforeq)
 	_alpm_log(db->handle, ALPM_LOG_FUNCTION,
 			"loading package data for %s : level=0x%x\n",
 			info->name, inforeq);
-
-	/* clear out 'line', to be certain - and to make valgrind happy */
-	memset(line, 0, sizeof(line));
 
 	/* DESC */
 	if(inforeq & INFRQ_DESC && !(info->infolevel & INFRQ_DESC)) {
