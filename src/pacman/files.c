@@ -114,7 +114,7 @@ static int files_search(alpm_list_t *syncs, alpm_list_t *targets, int regex) {
 		char *targ = t->data;
 		size_t len = strlen(targ);
 		int exact_file = strchr(targ, '/') != NULL;
-		regex_t reg;
+		regex_t reg = {0};
 
 		if(exact_file) {
 			while(len > 1 && targ[0] == '/') {
