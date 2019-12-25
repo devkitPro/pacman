@@ -466,11 +466,13 @@ reference with all of the available functions defined.
 Using VCS Sources[[VCS]]
 ------------------------
 Building a developmental version of a package using sources from a version
-control system (VCS) is enabled by specifying the source in the form
-`source=('directory::url#fragment?query')`. Currently makepkg supports the
-Bazaar, Git, Subversion, and Mercurial version control systems. For other
-version control systems, manual cloning of upstream repositories must be done
-in the `prepare()` function.
+control system (VCS) is enabled by specifying the source in the form:
+
+	source=('directory::url#fragment?query')
+
+Currently makepkg supports the Bazaar, Git, Subversion, and Mercurial version
+control systems. For other version control systems, manual cloning of upstream
+repositories must be done in the `prepare()` function.
 
 The source URL is divided into four components:
 
