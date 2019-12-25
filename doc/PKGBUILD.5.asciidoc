@@ -488,9 +488,9 @@ The source URL is divided into four components:
 
 *fragment*::
 	(optional) Allows specifying a revision number or branch for makepkg to checkout
-	from the VCS. For example, to checkout a given revision, the source line would
-	have the format `source=(url#revision=123)`. The available fragments depends on
-	the VCS being used:
+	from the VCS. A fragment has the form `type=value`, for example to checkout a
+	given revision the source line would be `source=(url#revision=123)`. The
+	available types depends on the VCS being used:
 
 	*bzr*;;
 		revision (see `'bzr help revisionspec'` for details)
