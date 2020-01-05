@@ -228,6 +228,7 @@ PKG_CHECK_VAR(bashcompdir, [bash-completion], [completionsdir], ,
 PKG_CHECK_MODULES(LIBARCHIVE, [libarchive >= 3.0.0], ,
 	AC_MSG_ERROR([*** libarchive >= 3.0.0 is needed to compile pacman!]))
 
+m4_pattern_forbid([^AX_COMPARE_VERSION$])
 # Check file for seccomp
 if test "x$with_file_seccomp" = "xauto"; then
 	file_version="$(file --version| sed -n 's/^file-\(.*\)/\1/p')"
