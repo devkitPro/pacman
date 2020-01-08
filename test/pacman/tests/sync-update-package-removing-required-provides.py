@@ -1,4 +1,4 @@
-self.description = "Upgrade a package that loose a provides entry which moves to a dedicated package"
+self.description = "Upgrade a package that loses a provides entry which moves to a dedicated package"
 
 lp1 = pmpkg("pkg1", "1-1")
 lp1.provides = ["feature=1"]
