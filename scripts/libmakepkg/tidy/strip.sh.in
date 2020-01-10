@@ -111,7 +111,7 @@ tidy_strip() {
 
 		local binary strip_flags
 		find . -type f -perm -u+w -print0 2>/dev/null | while IFS= read -rd '' binary ; do
-			case "$(file -bi "$binary")" in
+			case "$(@FILECMD@ -bi "$binary")" in
 				*application/x-sharedlib*)  # Libraries (.so)
 					strip_flags="$STRIP_SHARED";;
 				*application/x-archive*)    # Libraries (.a)
