@@ -352,5 +352,6 @@ foreach input : pacman_tests
     PYTHON,
     protocol : 'tap',
     args : args,
+    timeout: 120,
     depends : [pacman_bin])
 endforeach
