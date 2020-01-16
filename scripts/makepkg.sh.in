@@ -782,13 +782,16 @@ create_srcpackage() {
 		fi
 	done
 
-	local i
+	# set pkgname the same way we do for running package(), this way we get
+	# the right value in extract_function_variable
+	local pkgname_backup=(${pkgname[@]})
+	local i pkgname
 	for i in 'changelog' 'install'; do
 		local file files
 
 		[[ ${!i} ]] && files+=("${!i}")
-		for name in "${pkgname[@]}"; do
-			if extract_function_variable "package_$name" "$i" 0 file; then
+		for pkgname in "${pkgname_backup[@]}"; do
+			if extract_function_variable "package_$pkgname" "$i" 0 file; then
 				files+=("$file")
 			fi
 		done
@@ -800,6 +803,7 @@ create_srcpackage() {
 			fi
 		done
 	done
+	pkgname=(${pkgname_backup[@]})
 
 	local fullver=$(get_full_version)
 	local pkg_file="$SRCPKGDEST/${pkgbase}-${fullver}${SRCEXT}"
