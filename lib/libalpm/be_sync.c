@@ -223,8 +223,8 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 		size_t len;
 		int sig_ret = 0;
 
-		/* set hard upper limit of 25MiB */
-		payload.max_size = 25 * 1024 * 1024;
+		/* set hard upper limit of 128MiB */
+		payload.max_size = 128 * 1024 * 1024;
 
 		/* print server + filename into a buffer */
 		len = strlen(server) + strlen(db->treename) + strlen(dbext) + 2;
