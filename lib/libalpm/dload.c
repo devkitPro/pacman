@@ -415,7 +415,7 @@ static int curl_download_internal(struct dload_payload *payload,
 
 	curl_set_handle_opts(payload, curl, error_buffer);
 
-	if(payload->max_size == payload->initial_size) {
+	if(payload->max_size == payload->initial_size && payload->max_size != 0) {
 		/* .part file is complete */
 		ret = 0;
 		goto cleanup;
