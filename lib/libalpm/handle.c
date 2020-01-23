@@ -690,6 +690,7 @@ int SYMEXPORT alpm_option_set_assumeinstalled(alpm_handle_t *handle, alpm_list_t
 	if(handle->assumeinstalled) {
 		alpm_list_free_inner(handle->assumeinstalled, (alpm_list_fn_free)alpm_dep_free);
 		alpm_list_free(handle->assumeinstalled);
+		handle->assumeinstalled = NULL;
 	}
 	while(deps) {
 		if(alpm_option_add_assumeinstalled(handle, deps->data) != 0) {
