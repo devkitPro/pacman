@@ -1195,8 +1195,8 @@ unset "${known_hash_algos[@]/%/sums}"
 unset -f pkgver prepare build check package "${!package_@}"
 unset "${!makedepends_@}" "${!depends_@}" "${!source_@}" "${!checkdepends_@}"
 unset "${!optdepends_@}" "${!conflicts_@}" "${!provides_@}" "${!replaces_@}"
-unset "${!md5sums_@}" "${!sha1sums_@}" "${!sha224sums_@}" "${!sha256sums_@}"
-unset "${!sha384sums_@}" "${!sha512sums_@}" "${!b2sums_@}"
+unset "${!cksums_@}" "${!md5sums_@}" "${!sha1sums_@}" "${!sha224sums_@}"
+unset "${!sha256sums_@}" "${!sha384sums_@}" "${!sha512sums_@}" "${!b2sums_@}"
 
 BUILDFILE=${BUILDFILE:-$BUILDSCRIPT}
 if [[ ! -f $BUILDFILE ]]; then
