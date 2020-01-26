@@ -52,10 +52,6 @@ struct keyinfo_t {
        char* keyid;
 };
 
-
-/** Check for new version of pkg in sync repos
- * (only the first occurrence is considered in sync)
- */
 alpm_pkg_t SYMEXPORT *alpm_sync_get_new_version(alpm_pkg_t *pkg, alpm_list_t *dbs_sync)
 {
 	alpm_list_t *i;
@@ -200,7 +196,6 @@ static alpm_list_t *check_replacers(alpm_handle_t *handle, alpm_pkg_t *lpkg,
 	return replacers;
 }
 
-/** Search for packages to upgrade and add them to the transaction. */
 int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 {
 	alpm_list_t *i, *j;
@@ -256,13 +251,6 @@ int SYMEXPORT alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade)
 	return 0;
 }
 
-/** Find group members across a list of databases.
- * If a member exists in several databases, only the first database is used.
- * IgnorePkg is also handled.
- * @param dbs the list of alpm_db_t *
- * @param name the name of the group
- * @return the list of alpm_pkg_t * (caller is responsible for alpm_list_free)
- */
 alpm_list_t SYMEXPORT *alpm_find_group_pkgs(alpm_list_t *dbs,
 		const char *name)
 {
@@ -673,11 +661,6 @@ cleanup:
 	return ret;
 }
 
-/** Returns the size of the files that will be downloaded to install a
- * package.
- * @param newpkg the new package to upgrade to
- * @return the size of the download
- */
 off_t SYMEXPORT alpm_pkg_download_size(alpm_pkg_t *newpkg)
 {
 	if(!(newpkg->infolevel & INFRQ_DSIZE)) {

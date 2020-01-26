@@ -136,41 +136,6 @@ valid:
 	return 0;
 }
 
-/** Update a package database
- *
- * An update of the package database \a db will be attempted. Unless
- * \a force is true, the update will only be performed if the remote
- * database was modified since the last update.
- *
- * This operation requires a database lock, and will return an applicable error
- * if the lock could not be obtained.
- *
- * Example:
- * @code
- * alpm_list_t *syncs = alpm_get_syncdbs();
- * for(i = syncs; i; i = alpm_list_next(i)) {
- *     alpm_db_t *db = alpm_list_getdata(i);
- *     result = alpm_db_update(0, db);
- *
- *     if(result < 0) {
- *	       printf("Unable to update database: %s\n", alpm_strerrorlast());
- *     } else if(result == 1) {
- *         printf("Database already up to date\n");
- *     } else {
- *         printf("Database updated\n");
- *     }
- * }
- * @endcode
- *
- * @ingroup alpm_databases
- * @note After a successful update, the \link alpm_db_get_pkgcache()
- * package cache \endlink will be invalidated
- * @param force if true, then forces the update, otherwise update only in case
- * the database isn't up to date
- * @param db pointer to the package database to update
- * @return 0 on success, -1 on error (pm_errno is set accordingly), 1 if up to
- * to date
- */
 int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 {
 	char *syncpath;

@@ -34,12 +34,6 @@
 #include "handle.h"
 #include "deps.h"
 
-/** \addtogroup alpm_packages Package Functions
- * @brief Functions to manipulate libalpm packages
- * @{
- */
-
-/** Free a package. */
 int SYMEXPORT alpm_pkg_free(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return -1);
@@ -52,7 +46,6 @@ int SYMEXPORT alpm_pkg_free(alpm_pkg_t *pkg)
 	return 0;
 }
 
-/** Check the integrity (with md5) of a package from the sync cache. */
 int SYMEXPORT alpm_pkg_checkmd5sum(alpm_pkg_t *pkg)
 {
 	char *fpath;
@@ -397,7 +390,6 @@ alpm_db_t SYMEXPORT *alpm_pkg_get_db(alpm_pkg_t *pkg)
 	return pkg->origin_data.db;
 }
 
-/** Open a package changelog for reading. */
 void SYMEXPORT *alpm_pkg_changelog_open(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return NULL);
@@ -405,7 +397,6 @@ void SYMEXPORT *alpm_pkg_changelog_open(alpm_pkg_t *pkg)
 	return pkg->ops->changelog_open(pkg);
 }
 
-/** Read data from an open changelog 'file stream'. */
 size_t SYMEXPORT alpm_pkg_changelog_read(void *ptr, size_t size,
 		const alpm_pkg_t *pkg, void *fp)
 {
@@ -414,7 +405,6 @@ size_t SYMEXPORT alpm_pkg_changelog_read(void *ptr, size_t size,
 	return pkg->ops->changelog_read(ptr, size, pkg, fp);
 }
 
-/** Close a package changelog for reading. */
 int SYMEXPORT alpm_pkg_changelog_close(const alpm_pkg_t *pkg, void *fp)
 {
 	ASSERT(pkg != NULL, return -1);
@@ -422,7 +412,6 @@ int SYMEXPORT alpm_pkg_changelog_close(const alpm_pkg_t *pkg, void *fp)
 	return pkg->ops->changelog_close(pkg, fp);
 }
 
-/** Open a package mtree file for reading. */
 struct archive SYMEXPORT *alpm_pkg_mtree_open(alpm_pkg_t * pkg)
 {
 	ASSERT(pkg != NULL, return NULL);
@@ -430,7 +419,6 @@ struct archive SYMEXPORT *alpm_pkg_mtree_open(alpm_pkg_t * pkg)
 	return pkg->ops->mtree_open(pkg);
 }
 
-/** Read entry from an open mtree file. */
 int SYMEXPORT alpm_pkg_mtree_next(const alpm_pkg_t * pkg, struct archive *archive,
 	struct archive_entry **entry)
 {
@@ -439,7 +427,6 @@ int SYMEXPORT alpm_pkg_mtree_next(const alpm_pkg_t * pkg, struct archive *archiv
 	return pkg->ops->mtree_next(pkg, archive, entry);
 }
 
-/** Close a package mtree file for reading. */
 int SYMEXPORT alpm_pkg_mtree_close(const alpm_pkg_t * pkg, struct archive *archive)
 {
 	ASSERT(pkg != NULL, return -1);
@@ -510,20 +497,15 @@ static alpm_list_t *compute_requiredby(alpm_pkg_t *pkg, int optional)
 	return reqs;
 }
 
-/** Compute the packages requiring a given package. */
 alpm_list_t SYMEXPORT *alpm_pkg_compute_requiredby(alpm_pkg_t *pkg)
 {
 	return compute_requiredby(pkg, 0);
 }
 
-/** Compute the packages optionally requiring a given package. */
 alpm_list_t SYMEXPORT *alpm_pkg_compute_optionalfor(alpm_pkg_t *pkg)
 {
 	return compute_requiredby(pkg, 1);
 }
-
-
-/** @} */
 
 alpm_file_t *_alpm_file_copy(alpm_file_t *dest,
 		const alpm_file_t *src)
@@ -764,16 +746,6 @@ alpm_pkg_t SYMEXPORT *alpm_pkg_find(alpm_list_t *haystack, const char *needle)
 	return NULL;
 }
 
-/** Test if a package should be ignored.
- *
- * Checks if the package is ignored via IgnorePkg, or if the package is
- * in a group ignored via IgnoreGroup.
- *
- * @param handle the context handle
- * @param pkg the package to test
- *
- * @return 1 if the package should be ignored, 0 otherwise
- */
 int SYMEXPORT alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg)
 {
 	alpm_list_t *groups = NULL;

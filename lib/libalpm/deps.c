@@ -286,12 +286,6 @@ static int no_dep_version(alpm_handle_t *handle)
 	return (handle->trans->flags & ALPM_TRANS_FLAG_NODEPVERSION);
 }
 
-/** Find a package satisfying a specified dependency.
- * The dependency can include versions with depmod operators.
- * @param pkgs an alpm_list_t* of alpm_pkg_t where the satisfier will be searched
- * @param depstring package or provision name, versioned or not
- * @return a alpm_pkg_t* satisfying depstring
- */
 alpm_pkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring)
 {
 	alpm_depend_t *dep = alpm_dep_from_string(depstring);
@@ -303,15 +297,6 @@ alpm_pkg_t SYMEXPORT *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstri
 	return pkg;
 }
 
-/** Checks dependencies and returns missing ones in a list.
- * Dependencies can include versions with depmod operators.
- * @param handle the context handle
- * @param pkglist the list of local packages
- * @param remove an alpm_list_t* of packages to be removed
- * @param upgrade an alpm_list_t* of packages to be upgraded (remove-then-upgrade)
- * @param reversedeps handles the backward dependencies
- * @return an alpm_list_t* of alpm_depmissing_t pointers.
- */
 alpm_list_t SYMEXPORT *alpm_checkdeps(alpm_handle_t *handle,
 		alpm_list_t *pkglist, alpm_list_t *rem, alpm_list_t *upgrade,
 		int reversedeps)
@@ -763,18 +748,6 @@ static alpm_pkg_t *resolvedep(alpm_handle_t *handle, alpm_depend_t *dep,
 	return NULL;
 }
 
-/** Find a package satisfying a specified dependency.
- * First look for a literal, going through each db one by one. Then look for
- * providers. The first satisfier that belongs to an installed package is
- * returned. If no providers belong to an installed package then an
- * alpm_question_select_provider_t is created to select the provider.
- * The dependency can include versions with depmod operators.
- *
- * @param handle the context handle
- * @param dbs an alpm_list_t* of alpm_db_t where the satisfier will be searched
- * @param depstring package or provision name, versioned or not
- * @return a alpm_pkg_t* satisfying depstring
- */
 alpm_pkg_t SYMEXPORT *alpm_find_dbs_satisfier(alpm_handle_t *handle,
 		alpm_list_t *dbs, const char *depstring)
 {
@@ -889,11 +862,6 @@ int _alpm_resolvedeps(alpm_handle_t *handle, alpm_list_t *localpkgs,
 	return ret;
 }
 
-/** Reverse of splitdep; make a dep string from a alpm_depend_t struct.
- * The string must be freed!
- * @param dep the depend to turn into a string
- * @return a string-formatted dependency with operator if necessary
- */
 char SYMEXPORT *alpm_dep_compute_string(const alpm_depend_t *dep)
 {
 	const char *name, *opr, *ver, *desc_delim, *desc;

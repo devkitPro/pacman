@@ -216,20 +216,6 @@ cleanup:
 	return ret;
 }
 
-/** Compare two version strings and determine which one is 'newer'.
- * Returns a value comparable to the way strcmp works. Returns 1
- * if a is newer than b, 0 if a and b are the same version, or -1
- * if b is newer than a.
- *
- * Different epoch values for version strings will override any further
- * comparison. If no epoch is provided, 0 is assumed.
- *
- * Keep in mind that the pkgrel is only compared if it is available
- * on both versions handed to this function. For example, comparing
- * 1.5-1 and 1.5 will yield 0; comparing 1.5-1 and 1.5-2 will yield
- * -1 as expected. This is mainly for supporting versioned dependencies
- * that do not include the pkgrel.
- */
 int SYMEXPORT alpm_pkg_vercmp(const char *a, const char *b)
 {
 	char *full1, *full2;

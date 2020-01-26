@@ -30,11 +30,6 @@
 #include "util.h"
 #include "alpm.h"
 
-/** \addtogroup alpm_log Logging Functions
- * @brief Functions to log using libalpm
- * @{
- */
-
 static int _alpm_log_leader(FILE *f, const char *prefix)
 {
 	time_t t = time(NULL);
@@ -47,12 +42,6 @@ static int _alpm_log_leader(FILE *f, const char *prefix)
 	return fprintf(f, "[%s] [%s] ", timestamp, prefix);
 }
 
-/** A printf-like function for logging.
- * @param handle the context handle
- * @param prefix caller-specific prefix for the log
- * @param fmt output format
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
 int SYMEXPORT alpm_logaction(alpm_handle_t *handle, const char *prefix,
 		const char *fmt, ...)
 {
@@ -108,8 +97,6 @@ int SYMEXPORT alpm_logaction(alpm_handle_t *handle, const char *prefix,
 	va_end(args);
 	return ret;
 }
-
-/** @} */
 
 void _alpm_log(alpm_handle_t *handle, alpm_loglevel_t flag, const char *fmt, ...)
 {

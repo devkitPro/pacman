@@ -1023,11 +1023,6 @@ static char *hex_representation(unsigned char *bytes, size_t size)
 	return str;
 }
 
-/** Get the md5 sum of file.
- * @param filename name of the file
- * @return the checksum on success, NULL on error
- * @addtogroup alpm_misc
- */
 char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 {
 	unsigned char output[16];
@@ -1041,11 +1036,6 @@ char SYMEXPORT *alpm_compute_md5sum(const char *filename)
 	return hex_representation(output, 16);
 }
 
-/** Get the sha256 sum of file.
- * @param filename name of the file
- * @return the checksum on success, NULL on error
- * @addtogroup alpm_misc
- */
 char SYMEXPORT *alpm_compute_sha256sum(const char *filename)
 {
 	unsigned char output[32];

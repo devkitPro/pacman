@@ -42,12 +42,6 @@
 #include "deps.h"
 #include "hook.h"
 
-/** \addtogroup alpm_trans Transaction Functions
- * @brief Functions to manipulate libalpm transactions
- * @{
- */
-
-/** Initialize the transaction. */
 int SYMEXPORT alpm_trans_init(alpm_handle_t *handle, int flags)
 {
 	alpm_trans_t *trans;
@@ -97,7 +91,6 @@ static alpm_list_t *check_arch(alpm_handle_t *handle, alpm_list_t *pkgs)
 	return invalid;
 }
 
-/** Prepare a transaction. */
 int SYMEXPORT alpm_trans_prepare(alpm_handle_t *handle, alpm_list_t **data)
 {
 	alpm_trans_t *trans;
@@ -156,7 +149,6 @@ int SYMEXPORT alpm_trans_prepare(alpm_handle_t *handle, alpm_list_t **data)
 	return 0;
 }
 
-/** Commit a transaction. */
 int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 {
 	alpm_trans_t *trans;
@@ -233,9 +225,6 @@ int SYMEXPORT alpm_trans_commit(alpm_handle_t *handle, alpm_list_t **data)
 	return 0;
 }
 
-/** Interrupt a transaction.
- * @note Safe to call from inside signal handlers.
- */
 int SYMEXPORT alpm_trans_interrupt(alpm_handle_t *handle)
 {
 	alpm_trans_t *trans;
@@ -253,7 +242,6 @@ int SYMEXPORT alpm_trans_interrupt(alpm_handle_t *handle)
 	return 0;
 }
 
-/** Release a transaction. */
 int SYMEXPORT alpm_trans_release(alpm_handle_t *handle)
 {
 	alpm_trans_t *trans;

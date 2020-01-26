@@ -46,14 +46,6 @@
 #include "handle.h"
 #include "filelist.h"
 
-/**
- * @brief Add a package removal action to the transaction.
- *
- * @param handle the context handle
- * @param pkg the package to uninstall
- *
- * @return 0 on success, -1 on error
- */
 int SYMEXPORT alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg)
 {
 	const char *pkgname;

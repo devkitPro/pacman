@@ -37,12 +37,6 @@
 #include "package.h"
 #include "group.h"
 
-/** \addtogroup alpm_databases Database Functions
- * @brief Functions to query and manipulate the database of libalpm
- * @{
- */
-
-/** Register a sync database of packages. */
 alpm_db_t SYMEXPORT *alpm_register_syncdb(alpm_handle_t *handle,
 		const char *treename, int siglevel)
 {
@@ -81,7 +75,6 @@ void _alpm_db_unregister(alpm_db_t *db)
 	_alpm_db_free(db);
 }
 
-/** Unregister all package databases. */
 int SYMEXPORT alpm_unregister_all_syncdbs(alpm_handle_t *handle)
 {
 	alpm_list_t *i;
@@ -102,7 +95,6 @@ int SYMEXPORT alpm_unregister_all_syncdbs(alpm_handle_t *handle)
 	return 0;
 }
 
-/** Unregister a package database. */
 int SYMEXPORT alpm_db_unregister(alpm_db_t *db)
 {
 	int found = 0;
@@ -139,14 +131,12 @@ int SYMEXPORT alpm_db_unregister(alpm_db_t *db)
 	return 0;
 }
 
-/** Get the serverlist of a database. */
 alpm_list_t SYMEXPORT *alpm_db_get_servers(const alpm_db_t *db)
 {
 	ASSERT(db != NULL, return NULL);
 	return db->servers;
 }
 
-/** Set the serverlist of a database. */
 int SYMEXPORT alpm_db_set_servers(alpm_db_t *db, alpm_list_t *servers)
 {
 	ASSERT(db != NULL, return -1);
@@ -168,11 +158,6 @@ static char *sanitize_url(const char *url)
 	return newurl;
 }
 
-/** Add a download server to a database.
- * @param db database pointer
- * @param url url of the server
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
 int SYMEXPORT alpm_db_add_server(alpm_db_t *db, const char *url)
 {
 	char *newurl;
@@ -193,12 +178,6 @@ int SYMEXPORT alpm_db_add_server(alpm_db_t *db, const char *url)
 	return 0;
 }
 
-/** Remove a download server from a database.
- * @param db database pointer
- * @param url url of the server
- * @return 0 on success, 1 on server not present,
- * -1 on error (pm_errno is set accordingly)
- */
 int SYMEXPORT alpm_db_remove_server(alpm_db_t *db, const char *url)
 {
 	char *newurl, *vdata = NULL;
@@ -227,14 +206,12 @@ int SYMEXPORT alpm_db_remove_server(alpm_db_t *db, const char *url)
 	return ret;
 }
 
-/** Get the name of a package database. */
 const char SYMEXPORT *alpm_db_get_name(const alpm_db_t *db)
 {
 	ASSERT(db != NULL, return NULL);
 	return db->treename;
 }
 
-/** Get the signature verification level for a database. */
 int SYMEXPORT alpm_db_get_siglevel(alpm_db_t *db)
 {
 	ASSERT(db != NULL, return -1);
@@ -245,7 +222,6 @@ int SYMEXPORT alpm_db_get_siglevel(alpm_db_t *db)
 	}
 }
 
-/** Check the validity of a database. */
 int SYMEXPORT alpm_db_get_valid(alpm_db_t *db)
 {
 	ASSERT(db != NULL, return -1);
@@ -253,7 +229,6 @@ int SYMEXPORT alpm_db_get_valid(alpm_db_t *db)
 	return db->ops->validate(db);
 }
 
-/** Get a package entry from a package database. */
 alpm_pkg_t SYMEXPORT *alpm_db_get_pkg(alpm_db_t *db, const char *name)
 {
 	alpm_pkg_t *pkg;
@@ -269,7 +244,6 @@ alpm_pkg_t SYMEXPORT *alpm_db_get_pkg(alpm_db_t *db, const char *name)
 	return pkg;
 }
 
-/** Get the package cache of a package database. */
 alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(alpm_db_t *db)
 {
 	ASSERT(db != NULL, return NULL);
@@ -277,7 +251,6 @@ alpm_list_t SYMEXPORT *alpm_db_get_pkgcache(alpm_db_t *db)
 	return _alpm_db_get_pkgcache(db);
 }
 
-/** Get a group entry from a package database. */
 alpm_group_t SYMEXPORT *alpm_db_get_group(alpm_db_t *db, const char *name)
 {
 	ASSERT(db != NULL, return NULL);
@@ -288,7 +261,6 @@ alpm_group_t SYMEXPORT *alpm_db_get_group(alpm_db_t *db, const char *name)
 	return _alpm_db_get_groupfromcache(db, name);
 }
 
-/** Get the group cache of a package database. */
 alpm_list_t SYMEXPORT *alpm_db_get_groupcache(alpm_db_t *db)
 {
 	ASSERT(db != NULL, return NULL);
@@ -297,7 +269,6 @@ alpm_list_t SYMEXPORT *alpm_db_get_groupcache(alpm_db_t *db)
 	return _alpm_db_get_groupcache(db);
 }
 
-/** Searches a database. */
 int SYMEXPORT alpm_db_search(alpm_db_t *db, const alpm_list_t *needles,
 		alpm_list_t **ret)
 {
@@ -308,7 +279,6 @@ int SYMEXPORT alpm_db_search(alpm_db_t *db, const alpm_list_t *needles,
 	return _alpm_db_search(db, needles, ret);
 }
 
-/** Sets the usage bitmask for a repo */
 int SYMEXPORT alpm_db_set_usage(alpm_db_t *db, int usage)
 {
 	ASSERT(db != NULL, return -1);
@@ -316,7 +286,6 @@ int SYMEXPORT alpm_db_set_usage(alpm_db_t *db, int usage)
 	return 0;
 }
 
-/** Gets the usage bitmask for a repo */
 int SYMEXPORT alpm_db_get_usage(alpm_db_t *db, int *usage)
 {
 	ASSERT(db != NULL, return -1);
@@ -324,9 +293,6 @@ int SYMEXPORT alpm_db_get_usage(alpm_db_t *db, int *usage)
 	*usage = db->usage;
 	return 0;
 }
-
-
-/** @} */
 
 alpm_db_t *_alpm_db_new(const char *treename, int is_local)
 {

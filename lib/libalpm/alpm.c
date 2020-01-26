@@ -32,19 +32,6 @@
 #include "log.h"
 #include "util.h"
 
-/** \addtogroup alpm_interface Interface Functions
- * @brief Functions to initialize and release libalpm
- * @{
- */
-
-/** Initializes the library.
- * Creates handle, connects to database and creates lockfile.
- * This must be called before any other functions are called.
- * @param root the root path for all filesystem operations
- * @param dbpath the absolute path to the libalpm database
- * @param err an optional variable to hold any error return codes
- * @return a context handle on success, NULL on error, err will be set if provided
- */
 alpm_handle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
 		alpm_errno_t *err)
 {
@@ -99,14 +86,6 @@ cleanup:
 	return NULL;
 }
 
-/** Release the library.
- * Disconnects from the database, removes handle and lockfile
- * This should be the last alpm call you make.
- * After this returns, handle should be considered invalid and cannot be reused
- * in any way.
- * @param myhandle the context handle
- * @return 0 on success, -1 on error
- */
 int SYMEXPORT alpm_release(alpm_handle_t *myhandle)
 {
 	int ret = 0;
@@ -135,23 +114,11 @@ int SYMEXPORT alpm_release(alpm_handle_t *myhandle)
 	return ret;
 }
 
-/** @} */
-
-/** @defgroup alpm_misc Miscellaneous Functions
- * @brief Various libalpm functions
- */
-
-/** Get the version of library.
- * @return the library version, e.g. "6.0.4"
- * */
 const char SYMEXPORT *alpm_version(void)
 {
 	return LIB_VERSION;
 }
 
-/** Get the capabilities of the library.
- * @return a bitmask of the capabilities
- * */
 int SYMEXPORT alpm_capabilities(void)
 {
 	return 0

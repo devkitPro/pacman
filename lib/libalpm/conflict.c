@@ -63,9 +63,6 @@ error:
 	return NULL;
 }
 
-/**
- * @brief Free a conflict and its members.
- */
 void SYMEXPORT alpm_conflict_free(alpm_conflict_t *conflict)
 {
 	ASSERT(conflict != NULL, return);
@@ -243,14 +240,6 @@ alpm_list_t *_alpm_outerconflicts(alpm_db_t *db, alpm_list_t *packages)
 	return baddeps;
 }
 
-/**
- * @brief Check the package conflicts in a database
- *
- * @param handle the context handle
- * @param pkglist the list of packages to check
- *
- * @return an alpm_list_t of alpm_conflict_t
- */
 alpm_list_t SYMEXPORT *alpm_checkconflicts(alpm_handle_t *handle,
 		alpm_list_t *pkglist)
 {
@@ -300,9 +289,6 @@ error:
 	RET_ERR(handle, ALPM_ERR_MEMORY, conflicts);
 }
 
-/**
- * @brief Frees a conflict and its members.
- */
 void SYMEXPORT alpm_fileconflict_free(alpm_fileconflict_t *conflict)
 {
 	ASSERT(conflict != NULL, return);

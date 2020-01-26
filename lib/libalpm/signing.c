@@ -35,14 +35,6 @@
 #include "alpm.h"
 #include "handle.h"
 
-/**
- * Decode a loaded signature in base64 form.
- * @param base64_data the signature to attempt to decode
- * @param data the decoded data; must be freed by the caller
- * @param data_len the length of the returned data
- * @return 0 on success, -1 on failure to properly decode
- */
-
 int SYMEXPORT alpm_decode_signature(const char *base64_data,
 		unsigned char **data, size_t *data_len)
 {
@@ -999,12 +991,6 @@ int _alpm_process_siglist(alpm_handle_t *handle, const char *identifier,
 	return retry;
 }
 
-/**
- * Check the PGP signature for the given package file.
- * @param pkg the package to check
- * @param siglist a pointer to storage for signature results
- * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
- */
 int SYMEXPORT alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg,
 		alpm_siglist_t *siglist)
 {
@@ -1016,12 +1002,6 @@ int SYMEXPORT alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg,
 			pkg->base64_sig, siglist);
 }
 
-/**
- * Check the PGP signature for the given database.
- * @param db the database to check
- * @param siglist a pointer to storage for signature results
- * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
- */
 int SYMEXPORT alpm_db_check_pgp_signature(alpm_db_t *db,
 		alpm_siglist_t *siglist)
 {
@@ -1032,13 +1012,6 @@ int SYMEXPORT alpm_db_check_pgp_signature(alpm_db_t *db,
 	return _alpm_gpgme_checksig(db->handle, _alpm_db_path(db), NULL, siglist);
 }
 
-/**
- * Clean up and free a signature result list.
- * Note that this does not free the siglist object itself in case that
- * was allocated on the stack; this is the responsibility of the caller.
- * @param siglist a pointer to storage for signature results
- * @return 0 on success, -1 on error
- */
 int SYMEXPORT alpm_siglist_cleanup(alpm_siglist_t *siglist)
 {
 	ASSERT(siglist != NULL, return -1);
@@ -1119,13 +1092,6 @@ static int parse_subpacket(alpm_handle_t *handle, const char *identifier,
 		return 0;
 }
 
-/**
- * Extract the Issuer Key ID from a signature
- * @param sig PGP signature
- * @param len length of signature
- * @param keys a pointer to storage for key IDs
- * @return 0 on success, -1 on error
- */
 int SYMEXPORT alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
 		const unsigned char *sig, const size_t len, alpm_list_t **keys)
 {

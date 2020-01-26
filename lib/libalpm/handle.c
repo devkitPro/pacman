@@ -123,12 +123,6 @@ int _alpm_handle_lock(alpm_handle_t *handle)
 	return (handle->lockfd >= 0 ? 0 : -1);
 }
 
-/** Remove the database lock file
- * @param handle the context handle
- * @return 0 on success, -1 on error
- *
- * @note Safe to call from inside signal handlers.
- */
 int SYMEXPORT alpm_unlock(alpm_handle_t *handle)
 {
 	ASSERT(handle != NULL, return -1);
