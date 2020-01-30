@@ -705,16 +705,14 @@ static struct dload_payload *build_payload(alpm_handle_t *handle,
 		return payload;
 }
 
-static int find_dl_candidates(alpm_db_t *repo, alpm_list_t **files)
+static int find_dl_candidates(alpm_handle_t *handle, alpm_list_t **files)
 {
-	alpm_list_t *i;
-	alpm_handle_t *handle = repo->handle;
-
-	for(i = handle->trans->add; i; i = i->next) {
+	for(alpm_list_t *i = handle->trans->add; i; i = i->next) {
 		alpm_pkg_t *spkg = i->data;
 
-		if(spkg->origin != ALPM_PKG_FROM_FILE && repo == spkg->origin_data.db) {
+		if(spkg->origin != ALPM_PKG_FROM_FILE) {
 			char *fpath = NULL;
+			alpm_db_t *repo = spkg->origin_data.db;
 
 			if(!repo->servers) {
 				handle->pm_errno = ALPM_ERR_SERVER_NONE;
@@ -802,9 +800,7 @@ static int download_files(alpm_handle_t *handle)
 		handle->totaldlcb(total_size);
 	}
 
-	for(i = handle->dbs_sync; i; i = i->next) {
-		errors += find_dl_candidates(i->data, &files);
-	}
+	errors += find_dl_candidates(handle, &files);
 
 	if(files) {
 		/* check for necessary disk space for download */
