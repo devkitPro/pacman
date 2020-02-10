@@ -129,6 +129,10 @@ meson.add_install_script(MESON_MAKE_SYMLINK,
                          'repo-add.8',
                          join_paths(MANDIR, 'man8/repo-remove.8'))
 
+meson.add_install_script(MESON_MAKE_SYMLINK,
+                         'alpm-hooks.5',
+                         join_paths(MANDIR, 'man5/pacman-hooks.5'))
+
 doxygen = find_program('doxygen', required : get_option('doxygen'))
 if doxygen.found() and not get_option('doxygen').disabled()
   doxyconf = configuration_data()

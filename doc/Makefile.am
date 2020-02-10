@@ -47,7 +47,8 @@ EXTRA_DIST = \
 	$(DOXYGEN_MANS)
 
 # Files that should be removed, but which Automake does not know.
-MOSTLYCLEANFILES = *.xml $(MANPAGES) $(HTML_DOCS) repo-remove.8 website.tar.gz
+MOSTLYCLEANFILES = *.xml $(MANPAGES) $(HTML_DOCS) \
+	pacman-hooks.5 repo-remove.8 website.tar.gz
 
 # Ensure manpages are fresh when building a dist tarball
 dist-hook:
@@ -140,12 +141,22 @@ repo-remove.8: repo-add.8
 	$(RM) repo-remove.8
 	$(LN_S) repo-add.8 repo-remove.8
 
+pacman-hooks.5: alpm-hooks.5
+	$(RM) pacman-hooks.5
+	$(LN_S) alpm-hooks.5 pacman-hooks.5
+
 install-data-hook:
 	cd $(DESTDIR)$(mandir)/man8 && \
 		$(RM) repo-remove.8 && \
 		( $(LN_S) repo-add.8 repo-remove.8 || \
 		ln repo-add.8 repo-remove.8 || \
 		cp repo-add.8 repo-remove.8 )
+	cd $(DESTDIR)$(mandir)/man5 && \
+		$(RM) pacman-hooks.5 && \
+		( $(LN_S) alpm-hooks.5 pacman-hooks.5 || \
+		ln alpm-hooks.5 pacman-hooks.5 || \
+		cp alpm-hooks.5 pacman-hooks.5 )
 
 uninstall-hook:
 	$(RM) $(DESTDIR)$(mandir)/man8/repo-remove.8
+	$(RM) $(DESTDIR)$(mandir)/man5/pacman-hooks.5
