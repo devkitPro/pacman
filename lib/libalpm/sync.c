@@ -787,7 +787,7 @@ static int download_files(alpm_handle_t *handle)
 
 	errors += find_dl_candidates(handle, &files);
 
-	if(files) {
+	if(files && !errors) {
 		/* check for necessary disk space for download */
 		if(handle->checkspace) {
 			off_t *file_sizes;
