@@ -160,6 +160,16 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 	fflush(stdout);
 }
 
+static void flush_output_list(void) {
+	alpm_list_t *i = NULL;
+	fflush(stdout);
+	for(i = output; i; i = i->next) {
+		fputs((const char *)i->data, stderr);
+	}
+	fflush(stderr);
+	FREELIST(output);
+}
+
 static int number_length(size_t n)
 {
 	int digits = 1;
@@ -610,14 +620,8 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 	fill_progress(percent, percent, cols - infolen);
 
 	if(percent == 100) {
-		alpm_list_t *i = NULL;
+		flush_output_list();
 		on_progress = 0;
-		fflush(stdout);
-		for(i = output; i; i = i->next) {
-			fputs((const char *)i->data, stderr);
-		}
-		fflush(stderr);
-		FREELIST(output);
 	} else {
 		on_progress = 1;
 	}
