@@ -71,6 +71,11 @@ void _alpm_alloc_fail(size_t size);
 	(handle)->pm_errno = (err); \
 	return (ret); } while(0)
 
+#define GOTO_ERR(handle, err, label) do { \
+	_alpm_log(handle, ALPM_LOG_DEBUG, "got error %d at %s (%s: %d) : %s\n", err, __func__, __FILE__, __LINE__, alpm_strerror(err)); \
+	(handle)->pm_errno = (err); \
+	goto label; } while(0)
+
 #define RET_ERR_ASYNC_SAFE(handle, err, ret) do { \
 	(handle)->pm_errno = (err); \
 	return (ret); } while(0)
