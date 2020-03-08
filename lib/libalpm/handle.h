@@ -61,6 +61,7 @@ struct __alpm_handle_t {
 	/* libcurl handle */
 	CURL *curl;             /* reusable curl_easy handle */
 	unsigned short disable_dl_timeout;
+	unsigned int parallel_downloads; /* number of download streams */
 #endif
 
 #ifdef HAVE_LIBGPGME

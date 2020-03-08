@@ -114,6 +114,8 @@ config_t *config_new(void)
 		newconfig->remotefilesiglevel = ALPM_SIG_USE_DEFAULT;
 	}
 
+	/* by default use 1 download stream */
+	newconfig->parallel_downloads = 1;
 	newconfig->colstr.colon   = ":: ";
 	newconfig->colstr.title   = "";
 	newconfig->colstr.repo    = "";
@@ -405,6 +407,32 @@ int config_set_arch(const char *arch)
 }
 
 /**
+ * Parse a string into long number. The input string has to be non-empty
+ * and represent a number that fits long type.
+ * @param value the string to parse
+ * @param result pointer to long where the final result will be stored.
+ *   This result is modified if the input string parsed successfully.
+ * @return 0 in case if value parsed successfully, 1 otherwise.
+ */
+static int parse_number(char *value, long *result) {
+	char *endptr;
+	long val;
+	int invalid;
+
+	errno = 0; /* To distinguish success/failure after call */
+	val = strtol(value, &endptr, 10);
+	invalid = (errno == ERANGE && (val == LONG_MAX || val == LONG_MIN))
+		|| (*endptr != '\0')
+		|| (endptr == value);
+
+	if(!invalid) {
+		*result = val;
+	}
+
+	return invalid;
+}
+
+/**
  * Parse a signature verification level line.
  * @param values the list of parsed option values
  * @param storage location to store the derived signature level; any existing
@@ -683,6 +711,33 @@ static int _parse_options(const char *key, char *value,
 				return 1;
 			}
 			FREELIST(values);
+		} else if(strcmp(key, "ParallelDownloads") == 0) {
+			long number;
+			int err;
+
+			err = parse_number(value, &number);
+			if(err) {
+				pm_printf(ALPM_LOG_WARNING,
+						_("config file %s, line %d: invalid value for '%s' : '%s'\n"),
+						file, linenum, "ParallelDownloads", value);
+				return 1;
+			}
+
+			if(number < 1) {
+				pm_printf(ALPM_LOG_WARNING,
+						_("config file %s, line %d: value for '%s' has to be positive : '%s'\n"),
+						file, linenum, "ParallelDownloads", value);
+				return 1;
+			}
+
+			if(number > INT_MAX) {
+				pm_printf(ALPM_LOG_WARNING,
+						_("config file %s, line %d: value for '%s' is too large : '%s'\n"),
+						file, linenum, "ParallelDownloads", value);
+				return 1;
+			}
+
+			config->parallel_downloads = number;
 		} else {
 			pm_printf(ALPM_LOG_WARNING,
 					_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
@@ -851,6 +906,7 @@ static int setup_libalpm(void)
 	alpm_option_set_noextracts(handle, config->noextract);
 
 	alpm_option_set_disable_dl_timeout(handle, config->disable_dl_timeout);
+	alpm_option_set_parallel_downloads(handle, config->parallel_downloads);
 
 	for(i = config->assumeinstalled; i; i = i->next) {
 		char *entry = i->data;

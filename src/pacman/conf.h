@@ -116,6 +116,8 @@ typedef struct __config_t {
 	/* When downloading, display the amount downloaded, rate, ETA, and percent
 	 * downloaded of the total download list */
 	unsigned short totaldownload;
+	/* number of parallel download streams */
+	unsigned int parallel_downloads;
 	/* select -Sc behavior */
 	unsigned short cleanmethod;
 	alpm_list_t *holdpkg;

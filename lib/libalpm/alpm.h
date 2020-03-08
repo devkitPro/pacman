@@ -903,6 +903,15 @@ int alpm_option_set_remote_file_siglevel(alpm_handle_t *handle, int level);
 
 int alpm_option_set_disable_dl_timeout(alpm_handle_t *handle, unsigned short disable_dl_timeout);
 
+/** Sets number of parallel streams to download database and package files.
+ * If the function is not called then the default value of '1' stream
+ * (i.e. sequential download) is used.
+ * @param handle the context handle
+ * @param num_streams number of parallel download streams
+ * @return 0 on success, -1 on error
+ */
+int alpm_option_set_parallel_downloads(alpm_handle_t *handle, unsigned int num_streams);
+
 /** @} */
 
 /** @addtogroup alpm_api_databases Database Functions
