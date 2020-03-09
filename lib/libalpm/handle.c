@@ -64,11 +64,6 @@ void _alpm_handle_free(alpm_handle_t *handle)
 		closelog();
 	}
 
-#ifdef HAVE_LIBCURL
-	/* release curl handle */
-	curl_easy_cleanup(handle->curl);
-#endif
-
 #ifdef HAVE_LIBGPGME
 	FREELIST(handle->known_keys);
 #endif

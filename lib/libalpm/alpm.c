@@ -70,6 +70,11 @@ alpm_handle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
 		goto cleanup;
 	}
 
+#ifdef HAVE_LIBCURL
+	curl_global_init(CURL_GLOBAL_ALL);
+	myhandle->curlm = curl_multi_init();
+#endif
+
 #ifdef ENABLE_NLS
 	bindtextdomain("libalpm", LOCALEDIR);
 #endif
@@ -104,12 +109,13 @@ int SYMEXPORT alpm_release(alpm_handle_t *myhandle)
 		ret = -1;
 	}
 
-	_alpm_handle_unlock(myhandle);
-	_alpm_handle_free(myhandle);
-
 #ifdef HAVE_LIBCURL
+	curl_multi_cleanup(myhandle->curlm);
 	curl_global_cleanup();
 #endif
+
+	_alpm_handle_unlock(myhandle);
+	_alpm_handle_free(myhandle);
 
 	return ret;
 }

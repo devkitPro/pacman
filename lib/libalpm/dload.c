@@ -72,15 +72,6 @@ static char *get_fullpath(const char *path, const char *filename,
 	return filepath;
 }
 
-static CURL *get_libcurl_handle(alpm_handle_t *handle)
-{
-	if(!handle->curl) {
-		curl_global_init(CURL_GLOBAL_SSL);
-		handle->curl = curl_easy_init();
-	}
-	return handle->curl;
-}
-
 enum {
 	ABORT_SIGINT = 1,
 	ABORT_OVER_MAXFILESIZE
@@ -241,7 +232,7 @@ static size_t dload_parseheader_cb(void *ptr, size_t size, size_t nmemb, void *u
 		}
 	}
 
-	curl_easy_getinfo(payload->handle->curl, CURLINFO_RESPONSE_CODE, &respcode);
+	curl_easy_getinfo(payload->curl, CURLINFO_RESPONSE_CODE, &respcode);
 	if(payload->respcode != respcode) {
 		payload->respcode = respcode;
 	}
@@ -377,8 +368,9 @@ static int curl_download_internal(struct dload_payload *payload,
 	struct sigaction orig_sig_pipe, orig_sig_int;
 	/* shortcut to our handle within the payload */
 	alpm_handle_t *handle = payload->handle;
-	CURL *curl = get_libcurl_handle(handle);
+	CURL *curl = curl_easy_init();
 	handle->pm_errno = ALPM_ERR_OK;
+	payload->curl = curl;
 
 	/* make sure these are NULL */
 	FREE(payload->tempfile_name);
@@ -591,6 +583,9 @@ cleanup:
 			payload->tempfile_name) {
 		unlink(payload->tempfile_name);
 	}
+
+	curl_easy_cleanup(curl);
+	payload->curl = NULL;
 
 	/* restore the old signal handlers */
 	unmask_signal(SIGINT, &orig_sig_int);

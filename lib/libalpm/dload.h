@@ -44,6 +44,7 @@ struct dload_payload {
 	int trust_remote_name;
 	int cb_initialized;
 #ifdef HAVE_LIBCURL
+	CURL *curl;
 	CURLcode curlerr;       /* last error produced by curl */
 #endif
 };
