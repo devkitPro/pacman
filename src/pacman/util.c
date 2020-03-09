@@ -1391,6 +1391,27 @@ static int multiselect_parse(char *array, int count, char *response)
 	return 0;
 }
 
+void console_cursor_hide(void) {
+	if(isatty(fileno(stdout))) {
+		printf(CURSOR_HIDE_ANSICODE);
+	}
+}
+
+void console_cursor_show(void) {
+	if(isatty(fileno(stdout))) {
+		printf(CURSOR_SHOW_ANSICODE);
+	}
+}
+
+char *safe_fgets_stdin(char *s, int size)
+{
+	char *result;
+	console_cursor_show();
+	result = safe_fgets(s, size, stdin);
+	console_cursor_hide();
+	return result;
+}
+
 int multiselect_question(char *array, int count)
 {
 	char *response, *lastchar;
@@ -1427,7 +1448,7 @@ int multiselect_question(char *array, int count)
 
 		flush_term_input(fileno(stdin));
 
-		if(safe_fgets(response, response_len, stdin)) {
+		if(safe_fgets_stdin(response, response_len)) {
 			const size_t response_incr = 64;
 			size_t len;
 			/* handle buffer not being large enough to read full line case */
@@ -1443,8 +1464,8 @@ int multiselect_question(char *array, int count)
 				lastchar = response + response_len - 1;
 				/* sentinel byte */
 				*lastchar = 1;
-				if(safe_fgets(response + response_len - response_incr - 1,
-							response_incr + 1, stdin) == 0) {
+				if(safe_fgets_stdin(response + response_len - response_incr - 1,
+							response_incr + 1) == 0) {
 					free(response);
 					return -1;
 				}
@@ -1494,7 +1515,7 @@ int select_question(int count)
 
 		flush_term_input(fileno(stdin));
 
-		if(safe_fgets(response, sizeof(response), stdin)) {
+		if(safe_fgets_stdin(response, sizeof(response))) {
 			size_t len = strtrim(response);
 			if(len > 0) {
 				int n;
@@ -1582,7 +1603,7 @@ static int question(short preset, const char *format, va_list args)
 
 	flush_term_input(fd_in);
 
-	if(safe_fgets(response, sizeof(response), stdin)) {
+	if(safe_fgets_stdin(response, sizeof(response))) {
 		size_t len = strtrim(response);
 		if(len == 0) {
 			return preset;

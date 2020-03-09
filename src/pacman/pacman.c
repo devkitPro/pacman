@@ -300,6 +300,7 @@ static void cleanup(int ret)
 
 	/* free memory */
 	FREELIST(pm_targets);
+	console_cursor_show();
 	exit(ret);
 }
 
@@ -1084,6 +1085,7 @@ int main(int argc, char *argv[])
 	int ret = 0;
 	uid_t myuid = getuid();
 
+	console_cursor_hide();
 	install_segv_handler();
 
 	/* i18n init */

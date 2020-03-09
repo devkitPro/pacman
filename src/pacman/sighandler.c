@@ -60,6 +60,8 @@ static void soft_interrupt_handler(int signum)
 		const char msg[] = "\nHangup signal received\n";
 		xwrite(STDERR_FILENO, msg, ARRAYSIZE(msg) - 1);
 	}
+	xwrite(STDOUT_FILENO, CURSOR_SHOW_ANSICODE,
+		sizeof(CURSOR_SHOW_ANSICODE) - 1);
 	if(alpm_trans_interrupt(config->handle) == 0) {
 		/* a transaction is being interrupted, don't exit pacman yet. */
 		return;
@@ -95,6 +97,8 @@ static void segv_handler(int signum)
 	const char msg[] = "\nerror: segmentation fault\n"
 		"Please submit a full bug report with --debug if appropriate.\n";
 	xwrite(STDERR_FILENO, msg, sizeof(msg) - 1);
+	xwrite(STDOUT_FILENO, CURSOR_SHOW_ANSICODE,
+		sizeof(CURSOR_SHOW_ANSICODE) - 1);
 
 	/* restore the default handler */
 	_reset_handler(signum);

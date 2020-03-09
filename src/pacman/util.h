@@ -28,6 +28,9 @@
 
 #include "util-common.h"
 
+#define CURSOR_HIDE_ANSICODE "\x1B[?25l"
+#define CURSOR_SHOW_ANSICODE "\x1B[?25h"
+
 #ifdef ENABLE_NLS
 #include <libintl.h> /* here so it doesn't need to be included elsewhere */
 /* define _() as shortcut for gettext() */
@@ -77,6 +80,9 @@ int colon_printf(const char *format, ...) __attribute__((format(printf, 1, 2)));
 int yesno(const char *format, ...) __attribute__((format(printf, 1, 2)));
 int noyes(const char *format, ...) __attribute__((format(printf, 1, 2)));
 char *arg_to_string(int argc, char *argv[]);
+char *safe_fgets_stdin(char *s, int size);
+void console_cursor_hide(void);
+void console_cursor_show(void);
 
 int pm_printf(alpm_loglevel_t level, const char *format, ...) __attribute__((format(printf,2,3)));
 int pm_asprintf(char **string, const char *format, ...) __attribute__((format(printf,2,3)));
