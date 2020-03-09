@@ -366,6 +366,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	long timecond, remote_time = -1;
 	double remote_size, bytes_dl;
 	struct sigaction orig_sig_pipe, orig_sig_int;
+	CURLcode curlerr;
 	/* shortcut to our handle within the payload */
 	alpm_handle_t *handle = payload->handle;
 	CURL *curl = curl_easy_init();
@@ -436,9 +437,9 @@ static int curl_download_internal(struct dload_payload *payload,
 	mask_signal(SIGINT, &inthandler, &orig_sig_int);
 
 	/* perform transfer */
-	payload->curlerr = curl_easy_perform(curl);
+	curlerr = curl_easy_perform(curl);
 	_alpm_log(handle, ALPM_LOG_DEBUG, "curl returned error %d from transfer\n",
-			payload->curlerr);
+			curlerr);
 
 	/* disconnect relationships from the curl handle for things that might go out
 	 * of scope, but could still be touched on connection teardown. This really
@@ -447,7 +448,7 @@ static int curl_download_internal(struct dload_payload *payload,
 	curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, (char *)NULL);
 
 	/* was it a success? */
-	switch(payload->curlerr) {
+	switch(curlerr) {
 		case CURLE_OK:
 			/* get http/ftp response code */
 			_alpm_log(handle, ALPM_LOG_DEBUG, "response code: %ld\n", payload->respcode);
@@ -468,7 +469,7 @@ static int curl_download_internal(struct dload_payload *payload,
 		case CURLE_ABORTED_BY_CALLBACK:
 			/* handle the interrupt accordingly */
 			if(dload_interrupted == ABORT_OVER_MAXFILESIZE) {
-				payload->curlerr = CURLE_FILESIZE_EXCEEDED;
+				curlerr = CURLE_FILESIZE_EXCEEDED;
 				payload->unlink_on_fail = 1;
 				handle->pm_errno = ALPM_ERR_LIBCURL;
 				_alpm_log(handle, ALPM_LOG_ERROR,

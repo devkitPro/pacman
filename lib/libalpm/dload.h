@@ -45,7 +45,6 @@ struct dload_payload {
 	int cb_initialized;
 #ifdef HAVE_LIBCURL
 	CURL *curl;
-	CURLcode curlerr;       /* last error produced by curl */
 #endif
 };
 
