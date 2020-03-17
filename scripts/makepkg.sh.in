@@ -316,6 +316,12 @@ resolve_deps() {
 		[[ -z $deplist ]] && return $R_DEPS_SATISFIED
 	fi
 
+	msg "$(gettext "Missing dependencies:")"
+	local dep
+	for dep in ${deplist[@]}; do
+		msg2 "$dep"
+	done
+
 	return $R_DEPS_MISSING
 }
 
