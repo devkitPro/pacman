@@ -634,6 +634,16 @@ int _alpm_download(struct dload_payload *payload, const char *localpath,
 	}
 }
 
+int _alpm_multi_download(alpm_handle_t *handle,
+		alpm_list_t *payloads /* struct dload_payload */,
+		const char *localpath)
+{
+	(void)handle;
+	(void)payloads;
+	(void)localpath;
+	return 0;
+}
+
 static char *filecache_find_url(alpm_handle_t *handle, const char *url)
 {
 	const char *filebase = strrchr(url, '/');
@@ -736,6 +746,7 @@ void _alpm_dload_payload_reset(struct dload_payload *payload)
 	FREE(payload->destfile_name);
 	FREE(payload->content_disp_name);
 	FREE(payload->fileurl);
+	FREE(payload->filepath);
 	*payload = (struct dload_payload){0};
 }
 
@@ -744,6 +755,7 @@ void _alpm_dload_payload_reset_for_retry(struct dload_payload *payload)
 	ASSERT(payload, return);
 
 	FREE(payload->fileurl);
+	FREE(payload->filepath);
 	payload->initial_size += payload->prevprogress;
 	payload->prevprogress = 0;
 	payload->unlink_on_fail = 0;

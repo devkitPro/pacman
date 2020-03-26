@@ -301,6 +301,138 @@ int SYMEXPORT alpm_db_update(int force, alpm_db_t *db)
 	return ret;
 }
 
+int SYMEXPORT alpm_dbs_update(alpm_handle_t *handle, alpm_list_t *dbs, int force) {
+	char *syncpath;
+	const char *dbext = handle->dbext;
+	alpm_list_t *i;
+	int ret = -1;
+	mode_t oldmask;
+	alpm_list_t *payloads = NULL;
+
+	/* Sanity checks */
+	CHECK_HANDLE(handle, return -1);
+	ASSERT(dbs != NULL, return -1);
+	handle->pm_errno = ALPM_ERR_OK;
+
+	syncpath = get_sync_dir(handle);
+	ASSERT(syncpath != NULL, return -1);
+
+	/* make sure we have a sane umask */
+	oldmask = umask(0022);
+
+	/* attempt to grab a lock */
+	if(_alpm_handle_lock(handle)) {
+		GOTO_ERR(handle, ALPM_ERR_HANDLE_LOCK, cleanup);
+	}
+
+	for(i = dbs; i; i = i->next) {
+		alpm_db_t *db = i->data;
+		int dbforce = force;
+		struct dload_payload *payload = NULL;
+		size_t len;
+		int siglevel;
+
+		if(!(db->usage & ALPM_DB_USAGE_SYNC)) {
+			continue;
+		}
+
+		ASSERT(db != handle->db_local, GOTO_ERR(handle, ALPM_ERR_WRONG_ARGS, cleanup));
+		ASSERT(db->servers != NULL, GOTO_ERR(handle, ALPM_ERR_SERVER_NONE, cleanup));
+
+		/* force update of invalid databases to fix potential mismatched database/signature */
+		if(db->status & DB_STATUS_INVALID) {
+			dbforce = 1;
+		}
+
+		CALLOC(payload, 1, sizeof(*payload), GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+
+		/* set hard upper limit of 128 MiB */
+		payload->max_size = 128 * 1024 * 1024;
+		payload->servers = db->servers;
+
+		/* print server + filename into a buffer */
+		len = strlen(db->treename) + strlen(dbext) + 1;
+		MALLOC(payload->filepath, len,
+			FREE(payload); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+		snprintf(payload->filepath, len, "%s%s", db->treename, dbext);
+		payload->handle = handle;
+		payload->force = dbforce;
+		payload->unlink_on_fail = 1;
+
+		payloads = alpm_list_add(payloads, payload);
+
+		siglevel = alpm_db_get_siglevel(db);
+		if(siglevel & ALPM_SIG_DATABASE) {
+			struct dload_payload *sig_payload;
+			CALLOC(sig_payload, 1, sizeof(*sig_payload), GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+
+			/* print filename into a buffer (leave space for separator and .sig) */
+			len = strlen(db->treename) + strlen(dbext) + 5;
+			MALLOC(sig_payload->filepath, len,
+				FREE(sig_payload); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+			snprintf(sig_payload->filepath, len, "%s%s.sig", db->treename, dbext);
+
+			sig_payload->handle = handle;
+			sig_payload->force = dbforce;
+			sig_payload->errors_ok = (siglevel & ALPM_SIG_DATABASE_OPTIONAL);
+
+			/* set hard upper limit of 16 KiB */
+			sig_payload->max_size = 16 * 1024;
+			sig_payload->servers = db->servers;
+
+			payloads = alpm_list_add(payloads, sig_payload);
+		}
+	}
+
+	ret = _alpm_multi_download(handle, payloads, syncpath);
+	if(ret < 0) {
+		goto cleanup;
+	}
+
+	for(i = dbs; i; i = i->next) {
+		alpm_db_t *db = i->data;
+		if(!(db->usage & ALPM_DB_USAGE_SYNC)) {
+			continue;
+		}
+
+		/* Cache needs to be rebuilt */
+		_alpm_db_free_pkgcache(db);
+
+		/* clear all status flags regarding validity/existence */
+		db->status &= ~DB_STATUS_VALID;
+		db->status &= ~DB_STATUS_INVALID;
+		db->status &= ~DB_STATUS_EXISTS;
+		db->status &= ~DB_STATUS_MISSING;
+
+		/* if the download failed skip validation to preserve the download error */
+		if(sync_db_validate(db) != 0) {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "failed to validate db: %s\n",
+					db->treename);
+			/* pm_errno should be set */
+			ret = -1;
+		}
+	}
+
+cleanup:
+	_alpm_handle_unlock(handle);
+
+	if(ret == -1) {
+		/* pm_errno was set by the download code */
+		_alpm_log(handle, ALPM_LOG_DEBUG, "failed to sync dbs: %s\n",
+				alpm_strerror(handle->pm_errno));
+	} else {
+		handle->pm_errno = ALPM_ERR_OK;
+	}
+
+	if(payloads) {
+		alpm_list_free_inner(payloads, (alpm_list_fn_free)_alpm_dload_payload_reset);
+		FREELIST(payloads);
+	}
+	free(syncpath);
+	umask(oldmask);
+	return ret;
+}
+
 /* Forward decl so I don't reorganize the whole file right now */
 static int sync_db_read(alpm_db_t *db, struct archive *archive,
 		struct archive_entry *entry, alpm_pkg_t **likely_pkg);

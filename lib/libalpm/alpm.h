@@ -1049,6 +1049,35 @@ int alpm_db_remove_server(alpm_db_t *db, const char *url);
  */
 int alpm_db_update(int force, alpm_db_t *db);
 
+/** Update package databases
+ *
+ * An update of the package databases in the list \a dbs will be attempted.
+ * Unless \a force is true, the update will only be performed if the remote
+ * databases were modified since the last update.
+ *
+ * This operation requires a database lock, and will return an applicable error
+ * if the lock could not be obtained.
+ *
+ * Example:
+ * @code
+ * alpm_list_t *dbs = alpm_get_syncdbs();
+ * ret = alpm_dbs_update(config->handle, dbs, force);
+ * if(ret < 0) {
+ *     pm_printf(ALPM_LOG_ERROR, _("failed to synchronize all databases (%s)\n"),
+ *         alpm_strerror(alpm_errno(config->handle)));
+ * }
+ * @endcode
+ *
+ * @note After a successful update, the \link alpm_db_get_pkgcache()
+ * package cache \endlink will be invalidated
+ * @param handle the context handle
+ * @param dbs list of package databases to update
+ * @param force if true, then forces the update, otherwise update only in case
+ * the databases aren't up to date
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_dbs_update(alpm_handle_t *handle, alpm_list_t *dbs, int force);
+
 /** Get a package entry from a package database.
  * @param db pointer to the package database to get the package from
  * @param name of the package

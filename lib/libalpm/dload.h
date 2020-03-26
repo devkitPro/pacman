@@ -31,6 +31,7 @@ struct dload_payload {
 	char *destfile_name;
 	char *content_disp_name;
 	char *fileurl;
+	char *filepath; /* download URL path */
 	alpm_list_t *servers;
 	long respcode;
 	off_t initial_size;
@@ -52,5 +53,9 @@ void _alpm_dload_payload_reset_for_retry(struct dload_payload *payload);
 
 int _alpm_download(struct dload_payload *payload, const char *localpath,
 		char **final_file, const char **final_url);
+
+int _alpm_multi_download(alpm_handle_t *handle,
+		alpm_list_t *payloads /* struct dload_payload */,
+		const char *localpath);
 
 #endif /* ALPM_DLOAD_H */
