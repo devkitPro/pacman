@@ -348,7 +348,7 @@ static int list_directives(void)
 		} else if(strcasecmp(i->data, "NoUpgrade") == 0) {
 			show_list_str("NoUpgrade", config->noupgrade);
 		} else if(strcasecmp(i->data, "NoExtract") == 0) {
-			show_list_str("NoExtract", config->noupgrade);
+			show_list_str("NoExtract", config->noextract);
 
 
 		} else if(strcasecmp(i->data, "Architecture") == 0) {
