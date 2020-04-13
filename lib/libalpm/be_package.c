@@ -201,11 +201,15 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 			} else if(strcmp(key, "pkgdesc") == 0) {
 				STRDUP(newpkg->desc, ptr, return -1);
 			} else if(strcmp(key, "group") == 0) {
-				newpkg->groups = alpm_list_add(newpkg->groups, strdup(ptr));
+				char *tmp = NULL;
+				STRDUP(tmp, ptr, return -1);
+				newpkg->groups = alpm_list_add(newpkg->groups, tmp);
 			} else if(strcmp(key, "url") == 0) {
 				STRDUP(newpkg->url, ptr, return -1);
 			} else if(strcmp(key, "license") == 0) {
-				newpkg->licenses = alpm_list_add(newpkg->licenses, strdup(ptr));
+				char *tmp = NULL;
+				STRDUP(tmp, ptr, return -1);
+				newpkg->licenses = alpm_list_add(newpkg->licenses, tmp);
 			} else if(strcmp(key, "builddate") == 0) {
 				newpkg->builddate = _alpm_parsedate(ptr);
 			} else if(strcmp(key, "packager") == 0) {
@@ -660,7 +664,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 
 	/* internal fields for package struct */
 	newpkg->origin = ALPM_PKG_FROM_FILE;
-	newpkg->origin_data.file = strdup(pkgfile);
+	STRDUP(newpkg->origin_data.file, pkgfile, goto error);
 	newpkg->ops = get_file_pkg_ops();
 	newpkg->handle = handle;
 	newpkg->infolevel = INFRQ_BASE | INFRQ_DESC | INFRQ_SCRIPTLET;

@@ -105,7 +105,7 @@ int _alpm_handle_lock(alpm_handle_t *handle)
 	ASSERT(handle->lockfd < 0, return 0);
 
 	/* create the dir of the lockfile first */
-	dir = strdup(handle->lockfile);
+	STRDUP(dir, handle->lockfile, return -1);
 	ptr = strrchr(dir, '/');
 	if(ptr) {
 		*ptr = '\0';
