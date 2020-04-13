@@ -459,8 +459,7 @@ static int build_filelist_from_mtree(alpm_handle_t *handle, alpm_pkg_t *pkg, str
 	/* create a new archive to parse the mtree and load it from archive into memory */
 	/* TODO: split this into a function */
 	if((mtree = archive_read_new()) == NULL) {
-		handle->pm_errno = ALPM_ERR_LIBARCHIVE;
-		goto error;
+		GOTO_ERR(handle, ALPM_ERR_LIBARCHIVE, error);
 	}
 
 	_alpm_archive_read_support_filter_all(mtree);
@@ -479,8 +478,7 @@ static int build_filelist_from_mtree(alpm_handle_t *handle, alpm_pkg_t *pkg, str
 		if(size < 0) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, _("error while reading package %s: %s\n"),
 					pkg->filename, archive_error_string(archive));
-			handle->pm_errno = ALPM_ERR_LIBARCHIVE;
-			goto error;
+			GOTO_ERR(handle, ALPM_ERR_LIBARCHIVE, error);
 		}
 		if(size == 0) {
 			break;
@@ -493,8 +491,7 @@ static int build_filelist_from_mtree(alpm_handle_t *handle, alpm_pkg_t *pkg, str
 		_alpm_log(handle, ALPM_LOG_DEBUG,
 				_("error while reading mtree of package %s: %s\n"),
 				pkg->filename, archive_error_string(mtree));
-		handle->pm_errno = ALPM_ERR_LIBARCHIVE;
-		goto error;
+		GOTO_ERR(handle, ALPM_ERR_LIBARCHIVE, error);
 	}
 
 	while((ret = archive_read_next_header(mtree, &mtree_entry)) == ARCHIVE_OK) {
@@ -517,8 +514,7 @@ static int build_filelist_from_mtree(alpm_handle_t *handle, alpm_pkg_t *pkg, str
 	if(ret != ARCHIVE_EOF && ret != ARCHIVE_OK) { /* An error occurred */
 		_alpm_log(handle, ALPM_LOG_DEBUG, _("error while reading mtree of package %s: %s\n"),
 				pkg->filename, archive_error_string(mtree));
-		handle->pm_errno = ALPM_ERR_LIBARCHIVE;
-		goto error;
+		GOTO_ERR(handle, ALPM_ERR_LIBARCHIVE, error);
 	}
 
 	/* throw away any files we loaded directly from the archive */
@@ -583,11 +579,9 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 
 	newpkg = _alpm_pkg_new();
 	if(newpkg == NULL) {
-		handle->pm_errno = ALPM_ERR_MEMORY;
-		goto error;
+		GOTO_ERR(handle, ALPM_ERR_MEMORY, error);
 	}
-	STRDUP(newpkg->filename, pkgfile,
-			handle->pm_errno = ALPM_ERR_MEMORY; goto error);
+	STRDUP(newpkg->filename, pkgfile, GOTO_ERR(handle, ALPM_ERR_MEMORY, error));
 	newpkg->size = st.st_size;
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "starting package load for %s\n", pkgfile);
@@ -637,8 +631,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 		if(archive_read_data_skip(archive)) {
 			_alpm_log(handle, ALPM_LOG_ERROR, _("error while reading package %s: %s\n"),
 					pkgfile, archive_error_string(archive));
-			handle->pm_errno = ALPM_ERR_LIBARCHIVE;
-			goto error;
+			GOTO_ERR(handle, ALPM_ERR_LIBARCHIVE, error);
 		}
 
 		/* if we are not doing a full read, see if we have all we need */
@@ -650,8 +643,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 	if(ret != ARCHIVE_EOF && ret != ARCHIVE_OK) { /* An error occurred */
 		_alpm_log(handle, ALPM_LOG_ERROR, _("error while reading package %s: %s\n"),
 				pkgfile, archive_error_string(archive));
-		handle->pm_errno = ALPM_ERR_LIBARCHIVE;
-		goto error;
+		GOTO_ERR(handle, ALPM_ERR_LIBARCHIVE, error);
 	}
 
 	if(!config) {

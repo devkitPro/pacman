@@ -456,11 +456,10 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 				}
 			} else {
 				/* pm_errno was set by resolvedeps, callback may have overwrote it */
-				handle->pm_errno = ALPM_ERR_UNSATISFIED_DEPS;
 				alpm_list_free(resolved);
 				alpm_list_free(unresolvable);
 				ret = -1;
-				goto cleanup;
+				GOTO_ERR(handle, ALPM_ERR_UNSATISFIED_DEPS, cleanup);
 			}
 		}
 
@@ -820,7 +819,7 @@ static int download_files(alpm_handle_t *handle)
 			const alpm_pkg_t *pkg = i->data;
 			struct dload_payload payload = {0};
 
-			STRDUP(payload.remote_name, pkg->filename, handle->pm_errno = ALPM_ERR_MEMORY; goto finish);
+			STRDUP(payload.remote_name, pkg->filename, GOTO_ERR(handle, ALPM_ERR_MEMORY, finish));
 			payload.servers = pkg->origin_data.db->servers;
 			payload.max_size = pkg->size;
 

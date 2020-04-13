@@ -464,9 +464,8 @@ static int sync_db_populate(alpm_db_t *db)
 
 	db->pkgcache = _alpm_pkghash_create(est_count);
 	if(db->pkgcache == NULL) {
-		db->handle->pm_errno = ALPM_ERR_MEMORY;
 		ret = -1;
-		goto cleanup;
+		GOTO_ERR(db->handle, ALPM_ERR_MEMORY, cleanup);
 	}
 
 	while((archive_ret = archive_read_next_header(archive, &entry)) == ARCHIVE_OK) {
@@ -485,9 +484,8 @@ static int sync_db_populate(alpm_db_t *db)
 		_alpm_log(db->handle, ALPM_LOG_ERROR, _("could not read db '%s' (%s)\n"),
 				db->treename, archive_error_string(archive));
 		_alpm_db_free_pkgcache(db);
-		db->handle->pm_errno = ALPM_ERR_LIBARCHIVE;
 		ret = -1;
-		goto cleanup;
+		GOTO_ERR(db->handle, ALPM_ERR_LIBARCHIVE, cleanup);
 	}
 
 	count = alpm_list_count(db->pkgcache->list);

@@ -256,8 +256,7 @@ static struct archive *_cache_mtree_open(alpm_pkg_t *pkg)
 	}
 
 	if((mtree = archive_read_new()) == NULL) {
-		pkg->handle->pm_errno = ALPM_ERR_LIBARCHIVE;
-		goto error;
+		GOTO_ERR(pkg->handle, ALPM_ERR_LIBARCHIVE, error);
 	}
 
 	_alpm_archive_read_support_filter_all(mtree);
@@ -266,9 +265,8 @@ static struct archive *_cache_mtree_open(alpm_pkg_t *pkg)
 	if((r = _alpm_archive_read_open_file(mtree, mtfile, ALPM_BUFFER_SIZE))) {
 		_alpm_log(pkg->handle, ALPM_LOG_ERROR, _("error while reading file %s: %s\n"),
 					mtfile, archive_error_string(mtree));
-		pkg->handle->pm_errno = ALPM_ERR_LIBARCHIVE;
 		_alpm_archive_read_free(mtree);
-		goto error;
+		GOTO_ERR(pkg->handle, ALPM_ERR_LIBARCHIVE, error);
 	}
 
 	free(mtfile);

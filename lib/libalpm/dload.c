@@ -424,11 +424,10 @@ static int curl_download_internal(struct dload_payload *payload,
 	if(localf == NULL) {
 		localf = fopen(payload->tempfile_name, payload->tempfile_openmode);
 		if(localf == NULL) {
-			handle->pm_errno = ALPM_ERR_RETRIEVE;
 			_alpm_log(handle, ALPM_LOG_ERROR,
 					_("could not open file %s: %s\n"),
 					payload->tempfile_name, strerror(errno));
-			goto cleanup;
+			GOTO_ERR(handle, ALPM_ERR_RETRIEVE, cleanup);
 		}
 	}
 
@@ -535,10 +534,9 @@ static int curl_download_internal(struct dload_payload *payload,
 	 * as actually being transferred during curl_easy_perform() */
 	if(!DOUBLE_EQ(remote_size, -1) && !DOUBLE_EQ(bytes_dl, -1) &&
 			!DOUBLE_EQ(bytes_dl, remote_size)) {
-		handle->pm_errno = ALPM_ERR_RETRIEVE;
 		_alpm_log(handle, ALPM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
 				payload->remote_name, (intmax_t)bytes_dl, (intmax_t)remote_size);
-		goto cleanup;
+		GOTO_ERR(handle, ALPM_ERR_RETRIEVE, cleanup);
 	}
 
 	if(payload->trust_remote_name) {

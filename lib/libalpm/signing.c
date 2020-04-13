@@ -586,16 +586,14 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 				|| (sigfile = fopen(sigpath, "rb")) == NULL) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "sig path %s could not be opened\n",
 					sigpath);
-			handle->pm_errno = ALPM_ERR_SIG_MISSING;
-			goto error;
+			GOTO_ERR(handle, ALPM_ERR_SIG_MISSING, error);
 		}
 	}
 
 	/* does the file we are verifying exist? */
 	file = fopen(path, "rb");
 	if(file == NULL) {
-		handle->pm_errno = ALPM_ERR_NOT_A_FILE;
-		goto error;
+		GOTO_ERR(handle, ALPM_ERR_NOT_A_FILE, error);
 	}
 
 	if(init_gpgme(handle)) {
@@ -619,8 +617,7 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 		int decode_ret = alpm_decode_signature(base64_sig,
 				&decoded_sigdata, &data_len);
 		if(decode_ret) {
-			handle->pm_errno = ALPM_ERR_SIG_INVALID;
-			goto gpg_error;
+			GOTO_ERR(handle, ALPM_ERR_SIG_INVALID, error);
 		}
 		gpg_err = gpgme_data_new_from_mem(&sigdata,
 				(char *)decoded_sigdata, data_len, 0);
@@ -637,15 +634,14 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 	CHECK_ERR();
 	if(!verify_result || !verify_result->signatures) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "no signatures returned\n");
-		handle->pm_errno = ALPM_ERR_SIG_MISSING;
-		goto gpg_error;
+		GOTO_ERR(handle, ALPM_ERR_SIG_MISSING, gpg_error);
 	}
 	for(gpgsig = verify_result->signatures, sigcount = 0;
 			gpgsig; gpgsig = gpgsig->next, sigcount++);
 	_alpm_log(handle, ALPM_LOG_DEBUG, "%d signatures returned\n", sigcount);
 
 	CALLOC(siglist->results, sigcount, sizeof(alpm_sigresult_t),
-			handle->pm_errno = ALPM_ERR_MEMORY; goto gpg_error);
+			GOTO_ERR(handle, ALPM_ERR_MEMORY, gpg_error));
 	siglist->count = sigcount;
 
 	for(gpgsig = verify_result->signatures, sigcount = 0; gpgsig;
@@ -682,7 +678,7 @@ int _alpm_gpgme_checksig(alpm_handle_t *handle, const char *path,
 			gpg_err = GPG_ERR_NO_ERROR;
 			/* we dupe the fpr in this case since we have no key to point at */
 			STRDUP(result->key.fingerprint, gpgsig->fpr,
-					handle->pm_errno = ALPM_ERR_MEMORY; goto gpg_error);
+					GOTO_ERR(handle, ALPM_ERR_MEMORY, gpg_error));
 		} else {
 			CHECK_ERR();
 			if(key->uids) {
