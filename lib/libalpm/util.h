@@ -53,6 +53,7 @@ void _alpm_alloc_fail(size_t size);
 
 #define MALLOC(p, s, action) do { p = malloc(s); if(p == NULL) { _alpm_alloc_fail(s); action; } } while(0)
 #define CALLOC(p, l, s, action) do { p = calloc(l, s); if(p == NULL) { _alpm_alloc_fail(l * s); action; } } while(0)
+#define REALLOC(p, s, action) do { void* np = realloc(p, s); if(np == NULL) { _alpm_alloc_fail(s); action; } else { p = np; } } while(0)
 /* This strdup macro is NULL safe- copying NULL will yield NULL */
 #define STRDUP(r, s, action) do { if(s != NULL) { r = strdup(s); if(r == NULL) { _alpm_alloc_fail(strlen(s)); action; } } else { r = NULL; } } while(0)
 #define STRNDUP(r, s, l, action) do { if(s != NULL) { r = strndup(s, l); if(r == NULL) { _alpm_alloc_fail(l); action; } } else { r = NULL; } } while(0)

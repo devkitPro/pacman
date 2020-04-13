@@ -843,12 +843,7 @@ static int local_db_read(alpm_pkg_t *info, int inforeq)
 				}
 				/* attempt to hand back any memory we don't need */
 				if(files_count > 0) {
-					alpm_file_t *newfiles;
-
-					newfiles = realloc(files, sizeof(alpm_file_t) * files_count);
-					if(newfiles != NULL) {
-						files = newfiles;
-					}
+					REALLOC(files, sizeof(alpm_file_t) * files_count, (void)0);
 				} else {
 					FREE(files);
 				}

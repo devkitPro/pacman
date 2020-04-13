@@ -669,8 +669,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 	if(full) {
 		if(newpkg->files.files) {
 			/* attempt to hand back any memory we don't need */
-			newpkg->files.files = realloc(newpkg->files.files,
-					sizeof(alpm_file_t) * newpkg->files.count);
+			REALLOC(newpkg->files.files, sizeof(alpm_file_t) * newpkg->files.count, (void)0);
 			/* "checking for conflicts" requires a sorted list, ensure that here */
 			_alpm_log(handle, ALPM_LOG_DEBUG,
 					"sorting package filelist for %s\n", pkgfile);

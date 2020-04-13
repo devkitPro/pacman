@@ -1427,22 +1427,15 @@ int _alpm_fnmatch(const void *pattern, const void *string)
  */
 void *_alpm_realloc(void **data, size_t *current, const size_t required)
 {
-	char *newdata;
-
-	newdata = realloc(*data, required);
-	if(!newdata) {
-		_alpm_alloc_fail(required);
-		return NULL;
-	}
+	REALLOC(*data, required, return NULL);
 
 	if (*current < required) {
 		/* ensure all new memory is zeroed out, in both the initial
 		 * allocation and later reallocs */
-		memset(newdata + *current, 0, required - *current);
+		memset((char*)*data + *current, 0, required - *current);
 	}
 	*current = required;
-	*data = newdata;
-	return newdata;
+	return *data;
 }
 
 /** This automatically grows data based on current/required.

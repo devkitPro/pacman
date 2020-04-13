@@ -689,7 +689,7 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 				}
 				/* attempt to hand back any memory we don't need */
 				if(files_count > 0) {
-					files = realloc(files, sizeof(alpm_file_t) * files_count);
+					REALLOC(files, sizeof(alpm_file_t) * files_count, (void)0);
 				} else {
 					FREE(files);
 				}
