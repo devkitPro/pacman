@@ -45,6 +45,8 @@ struct dload_payload {
 	int cb_initialized;
 #ifdef HAVE_LIBCURL
 	CURL *curl;
+	char error_buffer[CURL_ERROR_SIZE];
+	FILE *localf; /* temp download file */
 #endif
 };
 
