@@ -598,6 +598,16 @@ cleanup:
 
 	return ret;
 }
+
+static int curl_multi_download_internal(alpm_handle_t *handle,
+		alpm_list_t *payloads /* struct dload_payload */,
+		const char *localpath)
+{
+	(void)handle;
+	(void)payloads;
+	(void)localpath;
+	return 0;
+}
 #endif
 
 /** Download a file given by a URL to a local directory.
@@ -634,10 +644,42 @@ int _alpm_multi_download(alpm_handle_t *handle,
 		alpm_list_t *payloads /* struct dload_payload */,
 		const char *localpath)
 {
-	(void)handle;
-	(void)payloads;
-	(void)localpath;
-	return 0;
+	if(handle->fetchcb == NULL) {
+#ifdef HAVE_LIBCURL
+		return curl_multi_download_internal(handle, payloads, localpath);
+#else
+		RET_ERR(handle, ALPM_ERR_EXTERNAL_DOWNLOAD, -1);
+#endif
+	} else {
+		alpm_list_t *p;
+		for(p = payloads; p; p = p->next) {
+			struct dload_payload *payload = p->data;
+			alpm_list_t *s;
+			int success = 0;
+
+			for(s = payload->servers; s; s = s->next) {
+				const char *server = s->data;
+				char *fileurl;
+				int ret;
+
+				size_t len = strlen(server) + strlen(payload->filepath) + 2;
+				MALLOC(fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+				snprintf(fileurl, len, "%s/%s", server, payload->filepath);
+
+				ret = handle->fetchcb(fileurl, localpath, payload->force);
+				free(fileurl);
+
+				if (ret != -1) {
+					success = 1;
+					break;
+				}
+			}
+			if(!success && !payload->errors_ok) {
+				RET_ERR(handle, ALPM_ERR_EXTERNAL_DOWNLOAD, -1);
+			}
+		}
+		return 0;
+	}
 }
 
 static char *filecache_find_url(alpm_handle_t *handle, const char *url)
