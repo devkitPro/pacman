@@ -31,6 +31,7 @@ typedef struct __colstr_t {
 	const char *meta;
 	const char *warn;
 	const char *err;
+	const char *faint;
 	const char *nocolor;
 } colstr_t;
 

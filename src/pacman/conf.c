@@ -62,6 +62,7 @@ config_t *config = NULL;
 #define BOLDMAGENTA   "\033[1;35m"
 #define BOLDCYAN      "\033[1;36m"
 #define BOLDWHITE     "\033[1;37m"
+#define GREY46        "\033[38;5;243m"
 
 void enable_colors(int colors)
 {
@@ -76,6 +77,7 @@ void enable_colors(int colors)
 		colstr->meta    = BOLDCYAN;
 		colstr->warn    = BOLDYELLOW;
 		colstr->err     = BOLDRED;
+		colstr->faint   = GREY46;
 		colstr->nocolor = NOCOLOR;
 	} else {
 		colstr->colon   = ":: ";
@@ -86,6 +88,7 @@ void enable_colors(int colors)
 		colstr->meta    = "";
 		colstr->warn    = "";
 		colstr->err     = "";
+		colstr->faint   = "";
 		colstr->nocolor = "";
 	}
 }
@@ -119,6 +122,7 @@ config_t *config_new(void)
 	newconfig->colstr.meta    = "";
 	newconfig->colstr.warn    = "";
 	newconfig->colstr.err     = "";
+	newconfig->colstr.faint   = "";
 	newconfig->colstr.nocolor = "";
 
 	return newconfig;

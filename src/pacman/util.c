@@ -415,12 +415,34 @@ static size_t string_length(const char *s)
 	if(!s || s[0] == '\0') {
 		return 0;
 	}
-	/* len goes from # bytes -> # chars -> # cols */
-	len = strlen(s) + 1;
-	wcstr = calloc(len, sizeof(wchar_t));
-	len = mbstowcs(wcstr, s, len);
-	len = wcswidth(wcstr, len);
-	free(wcstr);
+	if(strstr(s, "\033")) {
+		char* replaced = malloc(sizeof(char) * strlen(s));
+		int iter = 0;
+		for(; *s; s++) {
+			if(*s == '\033') {
+				while(*s != 'm') {
+					s++;
+				}
+			} else {
+				replaced[iter] = *s;
+				iter++;
+			}
+		}
+		replaced[iter] = '\0';
+		len = iter;
+		wcstr = calloc(len, sizeof(wchar_t));
+		len = mbstowcs(wcstr, replaced, len);
+		len = wcswidth(wcstr, len);
+		free(wcstr);
+		free(replaced);
+	} else {
+		/* len goes from # bytes -> # chars -> # cols */
+		len = strlen(s) + 1;
+		wcstr = calloc(len, sizeof(wchar_t));
+		len = mbstowcs(wcstr, s, len);
+		len = wcswidth(wcstr, len);
+		free(wcstr);
+	}
 
 	return len;
 }
@@ -905,14 +927,14 @@ static void _display_targets(alpm_list_t *targets, int verbose)
 		}
 
 		if(target->install) {
-			pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(target->install),
-					alpm_pkg_get_version(target->install));
+			pm_asprintf(&str, "%s%s-%s%s", alpm_pkg_get_name(target->install), config->colstr.faint,
+					alpm_pkg_get_version(target->install), config->colstr.nocolor);
 		} else if(isize == 0) {
-			pm_asprintf(&str, "%s-%s", alpm_pkg_get_name(target->remove),
-					alpm_pkg_get_version(target->remove));
+			pm_asprintf(&str, "%s%s-%s%s", alpm_pkg_get_name(target->remove), config->colstr.faint,
+					alpm_pkg_get_version(target->remove), config->colstr.nocolor);
 		} else {
-			pm_asprintf(&str, "%s-%s [%s]", alpm_pkg_get_name(target->remove),
-					alpm_pkg_get_version(target->remove), _("removal"));
+			pm_asprintf(&str, "%s%s-%s %s[%s]%s", alpm_pkg_get_name(target->remove), config->colstr.faint,
+					alpm_pkg_get_version(target->remove), config->colstr.nocolor, _("removal"), config->colstr.nocolor);
 		}
 		names = alpm_list_add(names, str);
 	}
