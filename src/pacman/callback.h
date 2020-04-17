@@ -20,6 +20,7 @@
 #ifndef PM_CALLBACK_H
 #define PM_CALLBACK_H
 
+#include <stdbool.h>
 #include <sys/types.h> /* off_t */
 
 #include <alpm.h>
@@ -43,5 +44,8 @@ void cb_download(const char *filename, alpm_download_event_type_t event,
 /* callback to handle messages/notifications from pacman library */
 __attribute__((format(printf, 2, 0)))
 void cb_log(alpm_loglevel_t level, const char *fmt, va_list args);
+
+/* specify if multibar UI should move completed bars to the top of the screen */
+void multibar_move_completed_up(bool value);
 
 #endif /* PM_CALLBACK_H */

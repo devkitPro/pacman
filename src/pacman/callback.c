@@ -18,6 +18,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <assert.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -51,6 +53,50 @@ static alpm_list_t *output = NULL;
 #if !defined(CLOCK_MONOTONIC_COARSE) && defined(CLOCK_MONOTONIC)
 #define CLOCK_MONOTONIC_COARSE CLOCK_MONOTONIC
 #endif
+
+struct pacman_progress_bar {
+	const char *filename;
+	off_t xfered;
+	off_t total_size;
+	uint64_t init_time; /* Time when this download started doing any progress */
+	uint64_t sync_time; /* Last time we updated the bar info */
+	double rate;
+	unsigned int eta; /* ETA in seconds */
+	bool completed; /* transfer is completed */
+};
+
+/* This datastruct represents the state of multiline progressbar UI */
+struct pacman_multibar_ui {
+	/* List of active downloads handled by multibar UI.
+	 * Once the first download in the list is completed it is removed
+	 * from this list and we never redraw it anymore.
+	 * If the download is in this list, then the UI can redraw the progress bar or change
+	 * the order of the bars (e.g. moving completed bars to the top of the list)
+	 */
+	alpm_list_t *active_downloads; /* List of type 'struct pacman_progress_bar' */
+
+	/* Number of active download bars that multibar UI handles. */
+	size_t active_downloads_num;
+
+	/* Specifies whether a completed progress bar need to be reordered and moved
+	 * to the top of the list.
+	 */
+	bool move_completed_up;
+
+	/* Cursor position relative to the first active progress bar,
+	 * e.g. 0 means the first active progress bar, active_downloads_num-1 means the last bar,
+	 * active_downloads_num - is the line below all progress bars.
+	 */
+	int cursor_lineno;
+};
+
+struct pacman_multibar_ui multibar_ui = {0};
+
+static void cursor_goto_end(void);
+
+void multibar_move_completed_up(bool value) {
+	multibar_ui.move_completed_up = value;
+}
 
 static int64_t get_time_ms(void)
 {
@@ -152,11 +198,7 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 		printf(" %3d%%", disp_percent);
 	}
 
-	if(bar_percent == 100) {
-		putchar('\n');
-	} else {
-		putchar('\r');
-	}
+	putchar('\r');
 	fflush(stdout);
 }
 
@@ -346,6 +388,7 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_DB_RETRIEVE_FAILED:
 		case ALPM_EVENT_PKG_RETRIEVE_DONE:
 		case ALPM_EVENT_PKG_RETRIEVE_FAILED:
+			cursor_goto_end();
 			flush_output_list();
 			on_progress = 0;
 			break;
@@ -629,6 +672,7 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 	fill_progress(percent, percent, cols - infolen);
 
 	if(percent == 100) {
+		putchar('\n');
 		flush_output_list();
 		on_progress = 0;
 	} else {
@@ -647,124 +691,65 @@ void cb_dl_total(off_t total)
 	}
 }
 
-/* callback to handle display of download progress */
-static void dload_progress_event(const char *filename, off_t file_xfered, off_t file_total)
+static int dload_progressbar_enabled(void)
 {
-	static double rate_last;
-	static off_t xfered_last;
-	static int64_t initial_time = 0;
+	return !config->noprogressbar && (getcols() != 0);
+}
+
+/* Goto the line that corresponds to num-th active download */
+static void cursor_goto_bar(int num)
+{
+	if(num > multibar_ui.cursor_lineno) {
+		console_cursor_move_down(num - multibar_ui.cursor_lineno);
+	} else if(num < multibar_ui.cursor_lineno) {
+		console_cursor_move_up(multibar_ui.cursor_lineno - num);
+	}
+	multibar_ui.cursor_lineno = num;
+}
+
+/* Goto the line *after* the last active progress bar */
+static void cursor_goto_end(void)
+{
+	cursor_goto_bar(multibar_ui.active_downloads_num);
+}
+
+/* Returns true if element with the specified name is found, false otherwise */
+static bool find_bar_for_filename(const char *filename, int *index, struct pacman_progress_bar **bar)
+{
+	int i = 0;
+	alpm_list_t *listitem = multibar_ui.active_downloads;
+	for(; listitem; listitem = listitem->next, i++) {
+		struct pacman_progress_bar *b = listitem->data;
+		if (strcmp(b->filename, filename) == 0) {
+			/* we found a progress bar with the given name */
+			*index = i;
+			*bar = b;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+static void draw_pacman_progress_bar(struct pacman_progress_bar *bar)
+{
 	int infolen;
 	int filenamelen;
 	char *fname, *p;
 	/* used for wide character width determination and printing */
 	int len, wclen, wcwid, padwid;
 	wchar_t *wcfname;
-
-	int totaldownload = 0;
-	off_t xfered, total;
-	double rate = 0.0;
-	unsigned int eta_h = 0, eta_m = 0, eta_s = 0;
+	unsigned int eta_h = 0, eta_m = 0, eta_s = bar->eta;
 	double rate_human, xfered_human;
 	const char *rate_label, *xfered_label;
-	int file_percent = 0, total_percent = 0;
+	int file_percent = 0;
 
 	const unsigned short cols = getcols();
 
-	/* Nothing has changed since last callback; stop here */
-	if(file_xfered == 0 && file_total == 0) {
-		return;
-	}
-
-	if(config->noprogressbar || cols == 0) {
-		if(file_xfered == 0 && file_total == -1) {
-			printf(_("downloading %s...\n"), filename);
-			fflush(stdout);
-		}
-		return;
-	}
-
-	infolen = cols * 6 / 10;
-	if(infolen < 50) {
-		infolen = 50;
-	}
-	/* only use TotalDownload if enabled and we have a callback value */
-	if(config->totaldownload && list_total) {
-		/* sanity check */
-		if(list_xfered + file_total <= list_total) {
-			totaldownload = 1;
-		} else {
-			/* bogus values : don't enable totaldownload and reset */
-			list_xfered = 0;
-			list_total = 0;
-		}
-	}
-
-	if(totaldownload) {
-		xfered = list_xfered + file_xfered;
-		total = list_total;
-	} else {
-		xfered = file_xfered;
-		total = file_total;
-	}
-
-	/* this is basically a switch on xfered: 0, total, and
-	 * anything else */
-	if(file_xfered == 0 && file_total == -1) {
-		/* set default starting values, ensure we only call this once
-		 * if TotalDownload is enabled */
-		if(!totaldownload || (totaldownload && list_xfered == 0)) {
-			initial_time = get_time_ms();
-			xfered_last = (off_t)0;
-			rate_last = 0.0;
-			get_update_timediff(1);
-		}
-	} else if(xfered > total || xfered < 0) {
-		/* bogus values : stop here */
-		return;
-	} else if(file_xfered == file_total) {
-		/* compute final values */
-		int64_t timediff = get_time_ms() - initial_time;
-		if(timediff > 0) {
-			rate = (double)xfered / (timediff / 1000.0);
-			/* round elapsed time (in ms) to the nearest second */
-			eta_s = (unsigned int)(timediff + 500) / 1000;
-		} else {
-			eta_s = 0;
-		}
-	} else {
-		/* compute current average values */
-		int64_t timediff = get_update_timediff(0);
-
-		if(timediff < UPDATE_SPEED_MS) {
-			/* return if the calling interval was too short */
-			return;
-		}
-		rate = (double)(xfered - xfered_last) / (timediff / 1000.0);
-		/* average rate to reduce jumpiness */
-		rate = (rate + 2 * rate_last) / 3;
-		if(rate > 0.0) {
-			eta_s = (total - xfered) / rate;
-		} else {
-			eta_s = UINT_MAX;
-		}
-		rate_last = rate;
-		xfered_last = xfered;
-	}
-
-	if(file_total) {
-		file_percent = (file_xfered * 100) / file_total;
+	if(bar->total_size) {
+		file_percent = (bar->xfered * 100) / bar->total_size;
 	} else {
 		file_percent = 100;
-	}
-
-	if(totaldownload) {
-		total_percent = ((list_xfered + file_xfered) * 100) /
-			list_total;
-
-		/* if we are at the end, add the completed file to list_xfered */
-		if(file_xfered == file_total) {
-			list_xfered += file_total;
-		}
 	}
 
 	/* fix up time for display */
@@ -773,21 +758,18 @@ static void dload_progress_event(const char *filename, off_t file_xfered, off_t 
 	eta_m = eta_s / 60;
 	eta_s -= eta_m * 60;
 
-	len = strlen(filename);
+	len = strlen(bar->filename);
 	fname = malloc(len + 1);
-	memcpy(fname, filename, len + 1);
+	memcpy(fname, bar->filename, len + 1);
 	/* strip package or DB extension for cleaner look */
 	if((p = strstr(fname, ".pkg")) || (p = strstr(fname, ".db")) || (p = strstr(fname, ".files"))) {
-		/* tack on a .sig suffix for signatures */
-		if(memcmp(&filename[len - 4], ".sig", 4) == 0) {
-			memcpy(p, ".sig", 4);
-
-			/* adjust length for later calculations */
-			len = p - fname + 4;
-		} else {
-			len = p - fname;
-		}
+		len = p - fname;
 		fname[len] = '\0';
+	}
+
+	infolen = cols * 6 / 10;
+	if(infolen < 50) {
+		infolen = 50;
 	}
 
 	/* 1 space + filenamelen + 1 space + 6 for size + 1 space + 3 for label +
@@ -824,8 +806,8 @@ static void dload_progress_event(const char *filename, off_t file_xfered, off_t 
 
 	}
 
-	rate_human = humanize_size((off_t)rate, '\0', -1, &rate_label);
-	xfered_human = humanize_size(xfered, '\0', -1, &xfered_label);
+	rate_human = humanize_size((off_t)bar->rate, '\0', -1, &rate_label);
+	xfered_human = humanize_size(bar->xfered, '\0', -1, &xfered_label);
 
 	printf(" %ls%-*s ", wcfname, padwid, "");
 	/* We will show 1.62 MiB/s, 11.6 MiB/s, but 116 KiB/s and 1116 KiB/s */
@@ -850,19 +832,166 @@ static void dload_progress_event(const char *filename, off_t file_xfered, off_t 
 	free(fname);
 	free(wcfname);
 
-	if(totaldownload) {
-		fill_progress(file_percent, total_percent, cols - infolen);
-	} else {
-		fill_progress(file_percent, file_percent, cols - infolen);
-	}
+	fill_progress(file_percent, file_percent, cols - infolen);
 	return;
 }
 
+static void dload_init_event(const char *filename, alpm_download_event_init_t *data)
+{
+	(void)data;
+
+	if(!dload_progressbar_enabled()) {
+		printf(_(" %s downloading...\n"), filename);
+		return;
+	}
+
+	struct pacman_progress_bar *bar = calloc(1, sizeof(struct pacman_progress_bar));
+	assert(bar);
+	bar->filename = filename;
+	bar->init_time = get_time_ms();
+	bar->rate = 0.0;
+	multibar_ui.active_downloads = alpm_list_add(multibar_ui.active_downloads, bar);
+
+	cursor_goto_end();
+	printf(_(" %s downloading...\n"), filename);
+	multibar_ui.cursor_lineno++;
+	multibar_ui.active_downloads_num++;
+}
+
+/* Draws download progress */
+static void dload_progress_event(const char *filename, alpm_download_event_progress_t *data)
+{
+	int index;
+	struct pacman_progress_bar *bar;
+	int64_t curr_time = get_time_ms();
+	double last_chunk_rate;
+	int64_t timediff;
+
+	if(!dload_progressbar_enabled()) {
+		return;
+	}
+
+	assert(find_bar_for_filename(filename, &index, &bar));
+
+	/* compute current average values */
+	timediff = curr_time - bar->sync_time;
+
+	if(timediff < UPDATE_SPEED_MS) {
+		/* return if the calling interval was too short */
+		return;
+	}
+	bar->sync_time = curr_time;
+
+	last_chunk_rate = (double)(data->downloaded - bar->xfered) / (timediff / 1000.0);
+	/* average rate to reduce jumpiness */
+	bar->rate = (last_chunk_rate + 2 * bar->rate) / 3;
+	if(bar->rate > 0.0) {
+		bar->eta = (data->total - data->downloaded) / bar->rate;
+	} else {
+		bar->eta = UINT_MAX;
+	}
+
+	/* Total size is received after the download starts. */
+	bar->total_size = data->total;
+	bar->xfered = data->downloaded;
+
+	cursor_goto_bar(index);
+	draw_pacman_progress_bar(bar);
+	fflush(stdout);
+}
+
+/* download completed */
+static void dload_complete_event(const char *filename, alpm_download_event_completed_t *data)
+{
+	int index;
+	struct pacman_progress_bar *bar;
+	int64_t timediff;
+
+	if(!dload_progressbar_enabled()) {
+		return;
+	}
+
+	assert(find_bar_for_filename(filename, &index, &bar));
+	bar->completed = true;
+
+	/* This may not have been initialized if the download finished before
+	 * an alpm_download_event_progress_t event happened */
+	bar->total_size = data->total;
+
+	if(data->result == 1) {
+		cursor_goto_bar(index);
+		printf(_(" %s is up to date"), bar->filename);
+		/* The line contains text from previous status. Erase these leftovers. */
+		console_erase_line();
+	} else if(data->result == 0) {
+		/* compute final values */
+		bar->xfered = bar->total_size;
+		timediff = get_time_ms() - bar->init_time;
+
+		/* if transfer was too fast, treat it as a 1ms transfer, for the sake
+		 * of the rate calculation */
+		if(timediff < 1)
+			timediff = 1;
+
+		bar->rate = (double)bar->xfered / (timediff / 1000.0);
+		/* round elapsed time (in ms) to the nearest second */
+		bar->eta = (unsigned int)(timediff + 500) / 1000;
+
+		if(multibar_ui.move_completed_up && index != 0) {
+			/* If this item completed then move it to the top.
+			 * Swap 0-th bar data with `index`-th one
+			 */
+			struct pacman_progress_bar *former_topbar = multibar_ui.active_downloads->data;
+			alpm_list_t *baritem = alpm_list_nth(multibar_ui.active_downloads, index);
+			multibar_ui.active_downloads->data = bar;
+			baritem->data = former_topbar;
+
+			cursor_goto_bar(index);
+			draw_pacman_progress_bar(former_topbar);
+
+			index = 0;
+		}
+
+		cursor_goto_bar(index);
+		draw_pacman_progress_bar(bar);
+	} else {
+		cursor_goto_bar(index);
+		printf(_(" %s failed to download"), bar->filename);
+		console_erase_line();
+	}
+	fflush(stdout);
+
+	/* If the first bar is completed then there is no reason to keep it
+	 * in the list as we are not going to redraw it anymore.
+	 */
+	while(multibar_ui.active_downloads) {
+		alpm_list_t *head = multibar_ui.active_downloads;
+		struct pacman_progress_bar *j = head->data;
+		if(j->completed) {
+			multibar_ui.cursor_lineno--;
+			multibar_ui.active_downloads_num--;
+			multibar_ui.active_downloads = alpm_list_remove_item(
+				multibar_ui.active_downloads, head);
+			free(head);
+			free(j);
+		} else {
+			break;
+		}
+	}
+}
+
+/* Callback to handle display of download progress */
 void cb_download(const char *filename, alpm_download_event_type_t event, void *data)
 {
-	if(event == ALPM_DOWNLOAD_PROGRESS) {
-		alpm_download_event_progress_t *progress = data;
-		dload_progress_event(filename, progress->downloaded, progress->total);
+	if(event == ALPM_DOWNLOAD_INIT) {
+		dload_init_event(filename, data);
+	} else if(event == ALPM_DOWNLOAD_PROGRESS) {
+		dload_progress_event(filename, data);
+	} else if(event == ALPM_DOWNLOAD_COMPLETED) {
+		dload_complete_event(filename, data);
+	} else {
+		pm_printf(ALPM_LOG_ERROR, _("unknown callback event type %d for %s\n"),
+				event, filename);
 	}
 }
 

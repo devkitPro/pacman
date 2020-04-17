@@ -366,6 +366,7 @@ int SYMEXPORT alpm_dbs_update(alpm_handle_t *handle, alpm_list_t *dbs, int force
 		if(siglevel & ALPM_SIG_DATABASE) {
 			struct dload_payload *sig_payload;
 			CALLOC(sig_payload, 1, sizeof(*sig_payload), GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+			sig_payload->signature = 1;
 
 			/* print filename into a buffer (leave space for separator and .sig) */
 			len = strlen(db->treename) + strlen(dbext) + 5;

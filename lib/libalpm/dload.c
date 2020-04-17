@@ -90,6 +90,11 @@ static int dload_progress_cb(void *file, curl_off_t dltotal, curl_off_t dlnow,
 	off_t current_size, total_size;
 	alpm_download_event_progress_t cb_data = {0};
 
+	/* do not print signature files progress bar */
+	if(payload->signature) {
+		return 0;
+	}
+
 	/* avoid displaying progress bar for redirects with a body */
 	if(payload->respcode >= 300) {
 		return 0;
@@ -98,6 +103,11 @@ static int dload_progress_cb(void *file, curl_off_t dltotal, curl_off_t dlnow,
 	/* SIGINT sent, abort by alerting curl */
 	if(dload_interrupted) {
 		return 1;
+	}
+
+	if(dlnow < 0 || dltotal <= 0 || dlnow > dltotal) {
+		/* bogus values : stop here */
+		return 0;
 	}
 
 	current_size = payload->initial_size + dlnow;
@@ -115,34 +125,15 @@ static int dload_progress_cb(void *file, curl_off_t dltotal, curl_off_t dlnow,
 
 	total_size = payload->initial_size + dltotal;
 
-	if(dltotal == 0 || payload->prevprogress == total_size) {
+	if(payload->prevprogress == total_size) {
 		return 0;
 	}
 
-	/* initialize the progress bar here to avoid displaying it when
-	 * a repo is up to date and nothing gets downloaded.
-	 * payload->handle->dlcb will receive the remote_name
-	 * and the following arguments:
-	 * 0, -1: download initialized
-	 * 0, 0: non-download event
-	 * x {x>0}, x: download complete
-	 * x {x>0, x<y}, y {y > 0}: download progress, expected total is known */
-	if(!payload->cb_initialized) {
-		cb_data.downloaded = 0;
-		cb_data.total = -1;
-		payload->cb_initialized = 1;
-	}
-	if(payload->prevprogress == current_size) {
-		cb_data.downloaded = 0;
-		cb_data.total = 0;
-	} else {
 	/* do NOT include initial_size since it wasn't part of the package's
 	 * download_size (nor included in the total download size callback) */
-		cb_data.downloaded = dlnow;
-		cb_data.total = dltotal;
-	}
+	cb_data.total = dltotal;
+	cb_data.downloaded = dlnow;
 	payload->handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_PROGRESS, &cb_data);
-
 	payload->prevprogress = current_size;
 
 	return 0;
@@ -375,6 +366,8 @@ static int curl_download_internal(struct dload_payload *payload,
 	double remote_size, bytes_dl;
 	struct sigaction orig_sig_pipe, orig_sig_int;
 	CURLcode curlerr;
+	alpm_download_event_init_t init_cb_data = {0};
+	alpm_download_event_completed_t completed_cb_data = {0};
 	/* shortcut to our handle within the payload */
 	alpm_handle_t *handle = payload->handle;
 	CURL *curl = curl_easy_init();
@@ -443,6 +436,8 @@ static int curl_download_internal(struct dload_payload *payload,
 	mask_signal(SIGPIPE, SIG_IGN, &orig_sig_pipe);
 	dload_interrupted = 0;
 	mask_signal(SIGINT, &inthandler, &orig_sig_int);
+
+	handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_INIT, &init_cb_data);
 
 	/* perform transfer */
 	curlerr = curl_easy_perform(curl);
@@ -604,6 +599,10 @@ cleanup:
 		raise(SIGINT);
 	}
 
+	completed_cb_data.total = bytes_dl;
+	completed_cb_data.result = ret;
+	handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_COMPLETED, &completed_cb_data);
+
 	return ret;
 }
 
@@ -665,7 +664,6 @@ static int curl_multi_check_finished_download(CURLM *curlm, CURLMsg *msg,
 	long remote_time = -1;
 	struct stat st;
 	char hostname[HOSTNAME_SIZE];
-	alpm_download_event_completed_t cb_data = {0};
 	int ret = -1;
 
 	curlerr = curl_easy_getinfo(curl, CURLINFO_PRIVATE, &payload);
@@ -825,9 +823,12 @@ cleanup:
 		unlink(payload->tempfile_name);
 	}
 
-	cb_data.total = bytes_dl;
-	cb_data.result = ret;
-	handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_COMPLETED, &cb_data);
+	if(!payload->signature) {
+		alpm_download_event_completed_t cb_data = {0};
+		cb_data.total = bytes_dl;
+		cb_data.result = ret;
+		handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_COMPLETED, &cb_data);
+	}
 
 	curl_multi_remove_handle(curlm, curl);
 	curl_easy_cleanup(curl);
@@ -945,9 +946,11 @@ static int curl_multi_download_internal(alpm_handle_t *handle,
 			struct dload_payload *payload = payloads->data;
 
 			if(curl_multi_add_payload(handle, curlm, payload, localpath) == 0) {
-				alpm_download_event_init_t cb_data = {.optional = payload->errors_ok};
+				if(!payload->signature) {
+					alpm_download_event_init_t cb_data = {.optional = payload->errors_ok};
+					handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_INIT, &cb_data);
+				}
 
-				handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_INIT, &cb_data);
 				payloads = payloads->next;
 				// TODO: report that download has started
 			} else {
@@ -1129,6 +1132,7 @@ char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
 
 		sig_filepath = filecache_find_url(handle, payload.fileurl);
 		if(sig_filepath == NULL) {
+			payload.signature = 1;
 			payload.handle = handle;
 			payload.trust_remote_name = 1;
 			payload.force = 1;
@@ -1184,5 +1188,4 @@ void _alpm_dload_payload_reset_for_retry(struct dload_payload *payload)
 	payload->initial_size += payload->prevprogress;
 	payload->prevprogress = 0;
 	payload->unlink_on_fail = 0;
-	payload->cb_initialized = 0;
 }

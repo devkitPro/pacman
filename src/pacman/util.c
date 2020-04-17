@@ -1837,3 +1837,21 @@ char *arg_to_string(int argc, char *argv[])
 	strcpy(p, argv[i]);
 	return cl_text;
 }
+
+/* Moves console cursor `lines` up */
+void console_cursor_move_up(unsigned int lines)
+{
+	printf("\x1B[%dF", lines);
+}
+
+/* Moves console cursor `lines` down */
+void console_cursor_move_down(unsigned int lines)
+{
+	printf("\x1B[%dE", lines);
+}
+
+/* Erases line from the current cursor position till the end of the line */
+void console_erase_line(void)
+{
+	printf("\x1B[K");
+}

@@ -42,7 +42,7 @@ struct dload_payload {
 	int errors_ok;
 	int unlink_on_fail;
 	int trust_remote_name;
-	int cb_initialized;
+	int signature; /* specifies if the payload is a signature file */
 #ifdef HAVE_LIBCURL
 	CURL *curl;
 	char error_buffer[CURL_ERROR_SIZE];

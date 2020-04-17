@@ -35,6 +35,7 @@
 #include "pacman.h"
 #include "util.h"
 #include "package.h"
+#include "callback.h"
 #include "conf.h"
 
 static int unlink_verbose(const char *pathname, int ignore_missing)
@@ -824,6 +825,7 @@ int sync_prepare_execute(void)
 		goto cleanup;
 	}
 
+	multibar_move_completed_up(true);
 	if(alpm_trans_commit(config->handle, &data) == -1) {
 		alpm_errno_t err = alpm_errno(config->handle);
 		pm_printf(ALPM_LOG_ERROR, _("failed to commit transaction (%s)\n"),

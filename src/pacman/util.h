@@ -83,6 +83,10 @@ char *arg_to_string(int argc, char *argv[]);
 char *safe_fgets_stdin(char *s, int size);
 void console_cursor_hide(void);
 void console_cursor_show(void);
+void console_cursor_move_up(unsigned int lines);
+void console_cursor_move_down(unsigned int lines);
+/* Erases line from the current cursor position till the end of the line */
+void console_erase_line(void);
 
 int pm_printf(alpm_loglevel_t level, const char *format, ...) __attribute__((format(printf,2,3)));
 int pm_asprintf(char **string, const char *format, ...) __attribute__((format(printf,2,3)));
