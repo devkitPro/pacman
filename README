@@ -664,5 +664,8 @@ API CHANGES BETWEEN 5.2 AND 6.0
 - ALPM_EVENT_PKGDOWNLOAD_START, ALPM_EVENT_PKGDOWNLOAD_DONE, ALPM_EVENT_PKGDOWNLOAD_FAILED
 
 [CHANGED]
+- alpm_db_update() changed its signature and now accepts a list of databases
+  rather than a single database. This is need to handle database downloading
+  in a multiplexed way.
 
 [ADDED]
