@@ -414,15 +414,6 @@ typedef enum _alpm_event_type_t {
 	ALPM_EVENT_PKG_RETRIEVE_DONE,
 	/** Not all package files were successfully downloaded from a repository. */
 	ALPM_EVENT_PKG_RETRIEVE_FAILED,
-	/** A file will be downloaded from a repository; See alpm_event_pkgdownload_t
-	 * for arguments */
-	ALPM_EVENT_PKGDOWNLOAD_START,
-	/** A file was downloaded from a repository; See alpm_event_pkgdownload_t
-	 * for arguments */
-	ALPM_EVENT_PKGDOWNLOAD_DONE,
-	/** A file failed to be downloaded from a repository; See
-	 * alpm_event_pkgdownload_t for arguments */
-	ALPM_EVENT_PKGDOWNLOAD_FAILED,
 	/** Disk space usage will be computed for a package. */
 	ALPM_EVENT_DISKSPACE_START,
 	/** Disk space usage was computed for a package. */

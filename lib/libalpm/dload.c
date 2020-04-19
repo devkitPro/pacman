@@ -952,7 +952,6 @@ static int curl_multi_download_internal(alpm_handle_t *handle,
 				}
 
 				payloads = payloads->next;
-				// TODO: report that download has started
 			} else {
 				// the payload failed to start, do not start any new downloads just wait until
 				// active one complete.

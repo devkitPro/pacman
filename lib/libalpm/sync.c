@@ -726,47 +726,13 @@ static int find_dl_candidates(alpm_handle_t *handle, alpm_list_t **files)
 	return 0;
 }
 
-static int download_single_file(alpm_handle_t *handle, struct dload_payload *payload,
-		const char *cachedir)
-{
-	alpm_event_pkgdownload_t event = {
-		.type = ALPM_EVENT_PKGDOWNLOAD_START,
-		.file = payload->remote_name
-	};
-	const alpm_list_t *server;
-
-	payload->handle = handle;
-	payload->allow_resume = 1;
-
-	EVENT(handle, &event);
-	for(server = payload->servers; server; server = server->next) {
-		const char *server_url = server->data;
-		size_t len;
-
-		/* print server + filename into a buffer */
-		len = strlen(server_url) + strlen(payload->remote_name) + 2;
-		MALLOC(payload->fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-		snprintf(payload->fileurl, len, "%s/%s", server_url, payload->remote_name);
-
-		if(_alpm_download(payload, cachedir, NULL, NULL) != -1) {
-			event.type = ALPM_EVENT_PKGDOWNLOAD_DONE;
-			EVENT(handle, &event);
-			return 0;
-		}
-		_alpm_dload_payload_reset_for_retry(payload);
-	}
-
-	event.type = ALPM_EVENT_PKGDOWNLOAD_FAILED;
-	EVENT(handle, &event);
-	return -1;
-}
-
 static int download_files(alpm_handle_t *handle)
 {
 	const char *cachedir;
 	alpm_list_t *i, *files = NULL;
 	int errors = 0;
 	alpm_event_t event;
+	alpm_list_t *payloads = NULL;
 
 	cachedir = _alpm_filecache_setup(handle);
 	handle->trans->state = STATE_DOWNLOADING;
@@ -814,26 +780,37 @@ static int download_files(alpm_handle_t *handle)
 
 		event.type = ALPM_EVENT_PKG_RETRIEVE_START;
 		EVENT(handle, &event);
-		event.type = ALPM_EVENT_PKG_RETRIEVE_DONE;
 		for(i = files; i; i = i->next) {
 			const alpm_pkg_t *pkg = i->data;
-			struct dload_payload payload = {0};
+			struct dload_payload *payload = NULL;
 
-			STRDUP(payload.remote_name, pkg->filename, GOTO_ERR(handle, ALPM_ERR_MEMORY, finish));
-			payload.servers = pkg->origin_data.db->servers;
-			payload.max_size = pkg->size;
+			CALLOC(payload, 1, sizeof(*payload), GOTO_ERR(handle, ALPM_ERR_MEMORY, finish));
+			STRDUP(payload->remote_name, pkg->filename, FREE(payload); GOTO_ERR(handle, ALPM_ERR_MEMORY, finish));
+			STRDUP(payload->filepath, pkg->filename,
+				FREE(payload->remote_name); FREE(payload);
+				GOTO_ERR(handle, ALPM_ERR_MEMORY, finish));
+			payload->max_size = pkg->size;
+			payload->servers = pkg->origin_data.db->servers;
+			payload->handle = handle;
+			payload->allow_resume = 1;
 
-			if(download_single_file(handle, &payload, cachedir) == -1) {
-				errors++;
-				event.type = ALPM_EVENT_PKG_RETRIEVE_FAILED;
-				_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files\n"));
-			}
-			_alpm_dload_payload_reset(&payload);
+			payloads = alpm_list_add(payloads, payload);
+		}
+		event.type = ALPM_EVENT_PKG_RETRIEVE_DONE;
+		if(_alpm_multi_download(handle, payloads, cachedir) == -1) {
+			errors++;
+			event.type = ALPM_EVENT_PKG_RETRIEVE_FAILED;
+			_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files\n"));
 		}
 		EVENT(handle, &event);
 	}
 
 finish:
+	if(payloads) {
+		alpm_list_free_inner(payloads, (alpm_list_fn_free)_alpm_dload_payload_reset);
+		FREELIST(payloads);
+	}
+
 	if(files) {
 		alpm_list_free(files);
 	}
