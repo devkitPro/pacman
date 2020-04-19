@@ -150,26 +150,17 @@ int check_syncdbs(size_t need_repos, int check_valid)
 
 int sync_syncdbs(int level, alpm_list_t *syncs)
 {
-	alpm_list_t *i;
-	unsigned int success = 1;
+	int ret;
+	int force = (level < 2 ? 0 : 1);
 
-	for(i = syncs; i; i = alpm_list_next(i)) {
-		alpm_db_t *db = i->data;
-
-		int ret = alpm_db_update((level < 2 ? 0 : 1), db);
-		if(ret < 0) {
-			pm_printf(ALPM_LOG_ERROR, _("failed to update %s (%s)\n"),
-					alpm_db_get_name(db), alpm_strerror(alpm_errno(config->handle)));
-			success = 0;
-		} else if(ret == 1) {
-			printf(_(" %s is up to date\n"), alpm_db_get_name(db));
-		}
+	multibar_move_completed_up(false);
+	ret = alpm_dbs_update(config->handle, syncs, force);
+	if(ret < 0) {
+		pm_printf(ALPM_LOG_ERROR, _("failed to synchronize all databases (%s)\n"),
+			alpm_strerror(alpm_errno(config->handle)));
 	}
 
-	if(!success) {
-		pm_printf(ALPM_LOG_ERROR, _("failed to synchronize all databases\n"));
-	}
-	return (success > 0);
+	return (ret >= 0);
 }
 
 /* discard unhandled input on the terminal's input buffer */
