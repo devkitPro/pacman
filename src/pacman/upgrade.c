@@ -30,72 +30,15 @@
 #include "conf.h"
 #include "util.h"
 
-/**
- * @brief Upgrade a specified list of packages.
- *
- * @param targets a list of packages (as strings) to upgrade
- *
- * @return 0 on success, 1 on failure
- */
-int pacman_upgrade(alpm_list_t *targets)
+/* add targets to the created transaction */
+static int load_packages(alpm_list_t *targets, int siglevel)
 {
-	int retval = 0, *file_is_remote;
 	alpm_list_t *i;
-	unsigned int n, num_targets;
+	int retval = 0;
 
-	if(targets == NULL) {
-		pm_printf(ALPM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
-		return 1;
-	}
-
-	num_targets = alpm_list_count(targets);
-
-	/* Check for URL targets and process them */
-	file_is_remote = malloc(num_targets * sizeof(int));
-	if(file_is_remote == NULL) {
-		pm_printf(ALPM_LOG_ERROR, _("memory exhausted\n"));
-		return 1;
-	}
-
-	for(i = targets, n = 0; i; i = alpm_list_next(i), n++) {
-		if(strstr(i->data, "://")) {
-			char *str = alpm_fetch_pkgurl(config->handle, i->data);
-			if(str == NULL) {
-				pm_printf(ALPM_LOG_ERROR, "'%s': %s\n",
-						(char *)i->data, alpm_strerror(alpm_errno(config->handle)));
-				retval = 1;
-			} else {
-				free(i->data);
-				i->data = str;
-				file_is_remote[n] = 1;
-			}
-		} else {
-			file_is_remote[n] = 0;
-		}
-	}
-
-	if(retval) {
-		goto fail_free;
-	}
-
-	/* Step 1: create a new transaction */
-	if(trans_init(config->flags, 1) == -1) {
-		retval = 1;
-		goto fail_free;
-	}
-
-	printf(_("loading packages...\n"));
-	/* add targets to the created transaction */
-	for(i = targets, n = 0; i; i = alpm_list_next(i), n++) {
+	for(i = targets; i; i = alpm_list_next(i)) {
 		const char *targ = i->data;
 		alpm_pkg_t *pkg;
-		int siglevel;
-
-		if(file_is_remote[n]) {
-			siglevel = alpm_option_get_remote_file_siglevel(config->handle);
-		} else {
-			siglevel = alpm_option_get_local_file_siglevel(config->handle);
-		}
 
 		if(alpm_pkg_load(config->handle, targ, 1, siglevel, &pkg) != 0) {
 			pm_printf(ALPM_LOG_ERROR, "'%s': %s\n",
@@ -112,12 +55,61 @@ int pacman_upgrade(alpm_list_t *targets)
 		}
 		config->explicit_adds = alpm_list_add(config->explicit_adds, pkg);
 	}
+	return retval;
+}
+
+/**
+ * @brief Upgrade a specified list of packages.
+ *
+ * @param targets a list of packages (as strings) to upgrade
+ *
+ * @return 0 on success, 1 on failure
+ */
+int pacman_upgrade(alpm_list_t *targets)
+{
+	int retval = 0;
+	alpm_list_t *remote_targets = NULL, *fetched_files = NULL;
+	alpm_list_t *local_targets = NULL;
+	alpm_list_t *i;
+
+	if(targets == NULL) {
+		pm_printf(ALPM_LOG_ERROR, _("no targets specified (use -h for help)\n"));
+		return 1;
+	}
+
+	/* carve out remote targets and move it into a separate list */
+	for(i = targets; i; i = alpm_list_next(i)) {
+		if(strstr(i->data, "://")) {
+			remote_targets = alpm_list_add(remote_targets, i->data);
+		} else {
+			local_targets = alpm_list_add(local_targets, i->data);
+		}
+	}
+
+	if(remote_targets) {
+		retval = alpm_fetch_pkgurl(config->handle, remote_targets, &fetched_files);
+		if(retval) {
+			goto fail_free;
+		}
+	}
+
+	/* Step 1: create a new transaction */
+	if(trans_init(config->flags, 1) == -1) {
+		retval = 1;
+		goto fail_free;
+	}
+
+	printf(_("loading packages...\n"));
+	retval |= load_packages(local_targets, alpm_option_get_local_file_siglevel(config->handle));
+	retval |= load_packages(fetched_files, alpm_option_get_remote_file_siglevel(config->handle));
 
 	if(retval) {
 		goto fail_release;
 	}
 
-	free(file_is_remote);
+	alpm_list_free(remote_targets);
+	alpm_list_free(local_targets);
+	FREELIST(fetched_files);
 
 	/* now that targets are resolved, we can hand it all off to the sync code */
 	return sync_prepare_execute();
@@ -125,7 +117,9 @@ int pacman_upgrade(alpm_list_t *targets)
 fail_release:
 	trans_release();
 fail_free:
-	free(file_is_remote);
+	alpm_list_free(remote_targets);
+	alpm_list_free(local_targets);
+	FREELIST(fetched_files);
 
 	return retval;
 }

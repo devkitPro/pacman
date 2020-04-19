@@ -613,7 +613,9 @@ static int curl_multi_retry_next_server(CURLM *curlm, CURL *curl, struct dload_p
 	size_t len;
 	alpm_handle_t *handle = payload->handle;
 
-	payload->servers = payload->servers->next;
+	if(payload->servers) {
+		payload->servers = payload->servers->next;
+	}
 	if(!payload->servers) {
 		_alpm_log(payload->handle, ALPM_LOG_DEBUG,
 				"%s: no more servers to retry\n", payload->remote_name);
@@ -622,7 +624,7 @@ static int curl_multi_retry_next_server(CURLM *curlm, CURL *curl, struct dload_p
 	server = payload->servers->data;
 
 	/* regenerate a new fileurl */
-	free(payload->fileurl);
+	FREE(payload->fileurl);
 	len = strlen(server) + strlen(payload->filepath) + 2;
 	MALLOC(payload->fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 	snprintf(payload->fileurl, len, "%s/%s", server, payload->filepath);
@@ -849,20 +851,28 @@ static int curl_multi_add_payload(alpm_handle_t *handle, CURLM *curlm,
 		struct dload_payload *payload, const char *localpath)
 {
 	size_t len;
-	const char *server;
 	CURL *curl = NULL;
 	char hostname[HOSTNAME_SIZE];
 	int ret = -1;
 
-	ASSERT(payload->servers, RET_ERR(handle, ALPM_ERR_SERVER_NONE, -1));
-	server = payload->servers->data;
-
 	curl = curl_easy_init();
 	payload->curl = curl;
 
-	len = strlen(server) + strlen(payload->filepath) + 2;
-	MALLOC(payload->fileurl, len, GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
-	snprintf(payload->fileurl, len, "%s/%s", server, payload->filepath);
+	if(payload->fileurl) {
+		ASSERT(!payload->servers, GOTO_ERR(handle, ALPM_ERR_WRONG_ARGS, cleanup));
+		ASSERT(!payload->filepath, GOTO_ERR(handle, ALPM_ERR_WRONG_ARGS, cleanup));
+	} else {
+		const char *server;
+
+		ASSERT(payload->servers, GOTO_ERR(handle, ALPM_ERR_SERVER_NONE, cleanup));
+		ASSERT(payload->filepath, GOTO_ERR(handle, ALPM_ERR_WRONG_ARGS, cleanup));
+
+		server = payload->servers->data;
+
+		len = strlen(server) + strlen(payload->filepath) + 2;
+		MALLOC(payload->fileurl, len, GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+		snprintf(payload->fileurl, len, "%s/%s", server, payload->filepath);
+	}
 
 	payload->tempfile_openmode = "wb";
 	if(!payload->remote_name) {
@@ -1046,21 +1056,28 @@ int _alpm_multi_download(alpm_handle_t *handle,
 			alpm_list_t *s;
 			int success = 0;
 
-			for(s = payload->servers; s; s = s->next) {
-				const char *server = s->data;
-				char *fileurl;
-				int ret;
-
-				size_t len = strlen(server) + strlen(payload->filepath) + 2;
-				MALLOC(fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-				snprintf(fileurl, len, "%s/%s", server, payload->filepath);
-
-				ret = handle->fetchcb(fileurl, localpath, payload->force);
-				free(fileurl);
-
-				if (ret != -1) {
+			if(payload->fileurl) {
+				if (handle->fetchcb(payload->fileurl, localpath, payload->force) != -1) {
 					success = 1;
 					break;
+				}
+			} else {
+				for(s = payload->servers; s; s = s->next) {
+					const char *server = s->data;
+					char *fileurl;
+					int ret;
+
+					size_t len = strlen(server) + strlen(payload->filepath) + 2;
+					MALLOC(fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+					snprintf(fileurl, len, "%s/%s", server, payload->filepath);
+
+					ret = handle->fetchcb(fileurl, localpath, payload->force);
+					free(fileurl);
+
+					if (ret != -1) {
+						success = 1;
+						break;
+					}
 				}
 			}
 			if(!success && !payload->errors_ok) {
@@ -1087,82 +1104,102 @@ static char *filecache_find_url(alpm_handle_t *handle, const char *url)
 	return _alpm_filecache_find(handle, filebase);
 }
 
-char SYMEXPORT *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url)
+int SYMEXPORT alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
+	  alpm_list_t **fetched)
 {
-	char *filepath;
-	const char *cachedir, *final_pkg_url = NULL;
-	char *final_file = NULL;
-	struct dload_payload payload = {0};
-	int ret = 0;
+	const char *cachedir;
+	alpm_list_t *payloads = NULL;
+	int download_sigs;
+	const alpm_list_t *i;
+	alpm_event_t event;
 
-	CHECK_HANDLE(handle, return NULL);
-	ASSERT(url, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, NULL));
+	CHECK_HANDLE(handle, return -1);
+	ASSERT(*fetched == NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
+	download_sigs = handle->siglevel & ALPM_SIG_PACKAGE;
 
 	/* find a valid cache dir to download to */
 	cachedir = _alpm_filecache_setup(handle);
 
-	/* attempt to find the file in our pkgcache */
-	filepath = filecache_find_url(handle, url);
-	if(filepath == NULL) {
-		STRDUP(payload.fileurl, url, RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
-		payload.allow_resume = 1;
-		payload.handle = handle;
-		payload.trust_remote_name = 1;
+	for(i = urls; i; i = i->next) {
+		char *url = i->data;
 
-		/* download the file */
-		ret = _alpm_download(&payload, cachedir, &final_file, &final_pkg_url);
-		_alpm_dload_payload_reset(&payload);
-		if(ret == -1) {
-			_alpm_log(handle, ALPM_LOG_WARNING, _("failed to download %s\n"), url);
-			free(final_file);
-			return NULL;
-		}
-		_alpm_log(handle, ALPM_LOG_DEBUG, "successfully downloaded %s\n", url);
-	}
+		/* attempt to find the file in our pkgcache */
+		char *filepath = filecache_find_url(handle, url);
+		if(filepath) {
+			/* the file is locally cached so add it to the output right away */
+			alpm_list_append(fetched, filepath);
+		} else {
+			struct dload_payload *payload = NULL;
 
-	/* attempt to download the signature */
-	if(ret == 0 && final_pkg_url && (handle->siglevel & ALPM_SIG_PACKAGE)) {
-		char *sig_filepath, *sig_final_file = NULL;
-		size_t len;
+			ASSERT(url, GOTO_ERR(handle, ALPM_ERR_WRONG_ARGS, err));
+			CALLOC(payload, 1, sizeof(*payload), GOTO_ERR(handle, ALPM_ERR_MEMORY, err));
+			STRDUP(payload->fileurl, url, FREE(payload); GOTO_ERR(handle, ALPM_ERR_MEMORY, err));
+			payload->allow_resume = 1;
+			payload->handle = handle;
+			payload->trust_remote_name = 1;
+			payloads = alpm_list_add(payloads, payload);
 
-		len = strlen(final_pkg_url) + 5;
-		MALLOC(payload.fileurl, len, free(final_file); RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
-		snprintf(payload.fileurl, len, "%s.sig", final_pkg_url);
-
-		sig_filepath = filecache_find_url(handle, payload.fileurl);
-		if(sig_filepath == NULL) {
-			payload.signature = 1;
-			payload.handle = handle;
-			payload.trust_remote_name = 1;
-			payload.force = 1;
-			payload.errors_ok = (handle->siglevel & ALPM_SIG_PACKAGE_OPTIONAL);
-
-			/* set hard upper limit of 16KiB */
-			payload.max_size = 16 * 1024;
-
-			ret = _alpm_download(&payload, cachedir, &sig_final_file, NULL);
-			if(ret == -1 && !payload.errors_ok) {
-				_alpm_log(handle, ALPM_LOG_WARNING,
-						_("failed to download %s\n"), payload.fileurl);
-				/* Warn now, but don't return NULL. We will fail later during package
-				 * load time. */
-			} else if(ret == 0) {
-				_alpm_log(handle, ALPM_LOG_DEBUG,
-						"successfully downloaded %s\n", payload.fileurl);
+			if(download_sigs) {
+				int len = strlen(url) + 5;
+				CALLOC(payload, 1, sizeof(*payload), GOTO_ERR(handle, ALPM_ERR_MEMORY, err));
+				payload->signature = 1;
+				MALLOC(payload->fileurl, len, FREE(payload); GOTO_ERR(handle, ALPM_ERR_MEMORY, err));
+				snprintf(payload->fileurl, len, "%s.sig", url);
+				payload->handle = handle;
+				payload->trust_remote_name = 1;
+				payload->errors_ok = (handle->siglevel & ALPM_SIG_PACKAGE_OPTIONAL);
+				/* set hard upper limit of 16KiB */
+				payload->max_size = 16 * 1024;
+				payloads = alpm_list_add(payloads, payload);
 			}
-			FREE(sig_final_file);
 		}
-		free(sig_filepath);
-		_alpm_dload_payload_reset(&payload);
 	}
 
-	/* we should be able to find the file the second time around */
-	if(filepath == NULL) {
-		filepath = _alpm_filecache_find(handle, final_file);
-	}
-	free(final_file);
+	if(payloads) {
+		event.type = ALPM_EVENT_PKG_RETRIEVE_START;
+		EVENT(handle, &event);
+		if(_alpm_multi_download(handle, payloads, cachedir) == -1) {
+			_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files\n"));
+			event.type = ALPM_EVENT_PKG_RETRIEVE_FAILED;
+			EVENT(handle, &event);
 
-	return filepath;
+			GOTO_ERR(handle, ALPM_ERR_RETRIEVE, err);
+		} else {
+			event.type = ALPM_EVENT_PKG_RETRIEVE_DONE;
+			EVENT(handle, &event);
+		}
+
+		for(i = payloads; i; i = i->next) {
+			struct dload_payload *payload = i->data;
+			const char *filename;
+			char *filepath;
+
+			if(payload->signature) {
+				continue;
+			}
+
+			filename = mbasename(payload->destfile_name);
+			filepath = _alpm_filecache_find(handle, filename);
+			if(filepath) {
+				alpm_list_append(fetched, filepath);
+			} else {
+				_alpm_log(handle, ALPM_LOG_WARNING, _("download completed successfully but no file in the cache\n"));
+				GOTO_ERR(handle, ALPM_ERR_RETRIEVE, err);
+			}
+		}
+
+		alpm_list_free_inner(payloads, (alpm_list_fn_free)_alpm_dload_payload_reset);
+		FREELIST(payloads);
+	}
+
+	return 0;
+
+err:
+	alpm_list_free_inner(payloads, (alpm_list_fn_free)_alpm_dload_payload_reset);
+	FREELIST(payloads);
+	FREELIST(*fetched);
+
+	return -1;
 }
 
 void _alpm_dload_payload_reset(struct dload_payload *payload)

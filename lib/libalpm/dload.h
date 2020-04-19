@@ -30,6 +30,11 @@ struct dload_payload {
 	char *tempfile_name;
 	char *destfile_name;
 	char *content_disp_name;
+	/* client has to provide either
+	 *  1) fileurl - full URL to the file
+	 *  2) pair of (servers, filepath), in this case ALPM iterates over the
+	 *     server list and tries to download "$server/$filepath"
+	 */
 	char *fileurl;
 	char *filepath; /* download URL path */
 	alpm_list_t *servers;

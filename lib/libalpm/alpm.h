@@ -755,12 +755,17 @@ typedef void (*alpm_cb_totaldl)(off_t total);
 typedef int (*alpm_cb_fetch)(const char *url, const char *localpath,
 		int force);
 
-/** Fetch a remote pkg.
+/** Fetch a list of remote packages.
  * @param handle the context handle
- * @param url URL of the package to download
- * @return the downloaded filepath on success, NULL on error
+ * @param urls list of package URLs to download
+ * @param fetched list of filepaths to the fetched packages, each item
+ *    corresponds to one in `urls` list. This is an output parameter,
+ *    the caller should provide a pointer to an empty list
+ *    (*fetched === NULL) and the callee fills the list with data.
+ * @return 0 on success or -1 on failure
  */
-char *alpm_fetch_pkgurl(alpm_handle_t *handle, const char *url);
+int alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
+	  alpm_list_t **fetched);
 
 /** @addtogroup alpm_api_options Options
  * Libalpm option getters and setters
