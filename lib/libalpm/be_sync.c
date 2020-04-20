@@ -223,7 +223,7 @@ int SYMEXPORT alpm_db_update(alpm_handle_t *handle, alpm_list_t *dbs, int force)
 
 	event.type = ALPM_EVENT_DB_RETRIEVE_START;
 	EVENT(handle, &event);
-	ret = _alpm_multi_download(handle, payloads, syncpath);
+	ret = _alpm_download(handle, payloads, syncpath);
 	if(ret < 0) {
 		event.type = ALPM_EVENT_DB_RETRIEVE_FAILED;
 		EVENT(handle, &event);

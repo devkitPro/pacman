@@ -56,12 +56,8 @@ struct dload_payload {
 };
 
 void _alpm_dload_payload_reset(struct dload_payload *payload);
-void _alpm_dload_payload_reset_for_retry(struct dload_payload *payload);
 
-int _alpm_download(struct dload_payload *payload, const char *localpath,
-		char **final_file, const char **final_url);
-
-int _alpm_multi_download(alpm_handle_t *handle,
+int _alpm_download(alpm_handle_t *handle,
 		alpm_list_t *payloads /* struct dload_payload */,
 		const char *localpath);
 

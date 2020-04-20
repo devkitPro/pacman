@@ -78,10 +78,6 @@ enum {
 };
 
 static int dload_interrupted;
-static void inthandler(int UNUSED signum)
-{
-	dload_interrupted = ABORT_SIGINT;
-}
 
 static int dload_progress_cb(void *file, curl_off_t dltotal, curl_off_t dlnow,
 		curl_off_t UNUSED ultotal, curl_off_t UNUSED ulnow)
@@ -236,8 +232,7 @@ static size_t dload_parseheader_cb(void *ptr, size_t size, size_t nmemb, void *u
 	return realsize;
 }
 
-static void curl_set_handle_opts(struct dload_payload *payload,
-		CURL *curl, char *error_buffer)
+static void curl_set_handle_opts(CURL *curl, struct dload_payload *payload)
 {
 	alpm_handle_t *handle = payload->handle;
 	const char *useragent = getenv("HTTP_USER_AGENT");
@@ -247,7 +242,7 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	 * to reset the handle's parameters for each time it's used. */
 	curl_easy_reset(curl);
 	curl_easy_setopt(curl, CURLOPT_URL, payload->fileurl);
-	curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, error_buffer);
+	curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, payload->error_buffer);
 	curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 10L);
 	curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 10L);
 	curl_easy_setopt(curl, CURLOPT_FILETIME, 1L);
@@ -301,24 +296,6 @@ static void curl_set_handle_opts(struct dload_payload *payload,
 	}
 }
 
-static void mask_signal(int signum, void (*handler)(int),
-		struct sigaction *origaction)
-{
-	struct sigaction newaction;
-
-	newaction.sa_handler = handler;
-	sigemptyset(&newaction.sa_mask);
-	newaction.sa_flags = 0;
-
-	sigaction(signum, NULL, origaction);
-	sigaction(signum, &newaction, NULL);
-}
-
-static void unmask_signal(int signum, struct sigaction *sa)
-{
-	sigaction(signum, sa, NULL);
-}
-
 static FILE *create_tempfile(struct dload_payload *payload, const char *localpath)
 {
 	int fd;
@@ -353,261 +330,8 @@ static FILE *create_tempfile(struct dload_payload *payload, const char *localpat
 /* RFC1123 states applications should support this length */
 #define HOSTNAME_SIZE 256
 
-static int curl_download_internal(struct dload_payload *payload,
-		const char *localpath, char **final_file, const char **final_url)
-{
-	int ret = -1;
-	FILE *localf = NULL;
-	char *effective_url;
-	char hostname[HOSTNAME_SIZE];
-	char error_buffer[CURL_ERROR_SIZE] = {0};
-	struct stat st;
-	long timecond, remote_time = -1;
-	double remote_size, bytes_dl;
-	struct sigaction orig_sig_pipe, orig_sig_int;
-	CURLcode curlerr;
-	alpm_download_event_init_t init_cb_data = {0};
-	alpm_download_event_completed_t completed_cb_data = {0};
-	/* shortcut to our handle within the payload */
-	alpm_handle_t *handle = payload->handle;
-	CURL *curl = curl_easy_init();
-	handle->pm_errno = ALPM_ERR_OK;
-	payload->curl = curl;
-
-	/* make sure these are NULL */
-	FREE(payload->tempfile_name);
-	FREE(payload->destfile_name);
-	FREE(payload->content_disp_name);
-
-	payload->tempfile_openmode = "wb";
-	if(!payload->remote_name) {
-		STRDUP(payload->remote_name, get_filename(payload->fileurl),
-				RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-	}
-	if(curl_gethost(payload->fileurl, hostname, sizeof(hostname)) != 0) {
-		_alpm_log(handle, ALPM_LOG_ERROR, _("url '%s' is invalid\n"), payload->fileurl);
-		RET_ERR(handle, ALPM_ERR_SERVER_BAD_URL, -1);
-	}
-
-	if(payload->remote_name && strlen(payload->remote_name) > 0 &&
-			strcmp(payload->remote_name, ".sig") != 0) {
-		payload->destfile_name = get_fullpath(localpath, payload->remote_name, "");
-		payload->tempfile_name = get_fullpath(localpath, payload->remote_name, ".part");
-		if(!payload->destfile_name || !payload->tempfile_name) {
-			goto cleanup;
-		}
-	} else {
-		/* URL doesn't contain a filename, so make a tempfile. We can't support
-		 * resuming this kind of download; partial transfers will be destroyed */
-		payload->unlink_on_fail = 1;
-
-		localf = create_tempfile(payload, localpath);
-		if(localf == NULL) {
-			goto cleanup;
-		}
-	}
-
-	curl_set_handle_opts(payload, curl, error_buffer);
-
-	if(payload->max_size == payload->initial_size && payload->max_size != 0) {
-		/* .part file is complete */
-		ret = 0;
-		goto cleanup;
-	}
-
-	if(localf == NULL) {
-		localf = fopen(payload->tempfile_name, payload->tempfile_openmode);
-		if(localf == NULL) {
-			_alpm_log(handle, ALPM_LOG_ERROR,
-					_("could not open file %s: %s\n"),
-					payload->tempfile_name, strerror(errno));
-			GOTO_ERR(handle, ALPM_ERR_RETRIEVE, cleanup);
-		}
-	}
-
-	_alpm_log(handle, ALPM_LOG_DEBUG,
-			"opened tempfile for download: %s (%s)\n", payload->tempfile_name,
-			payload->tempfile_openmode);
-
-	curl_easy_setopt(curl, CURLOPT_WRITEDATA, localf);
-
-	/* Ignore any SIGPIPE signals. With libcurl, these shouldn't be happening,
-	 * but better safe than sorry. Store the old signal handler first. */
-	mask_signal(SIGPIPE, SIG_IGN, &orig_sig_pipe);
-	dload_interrupted = 0;
-	mask_signal(SIGINT, &inthandler, &orig_sig_int);
-
-	handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_INIT, &init_cb_data);
-
-	/* perform transfer */
-	curlerr = curl_easy_perform(curl);
-	_alpm_log(handle, ALPM_LOG_DEBUG, "curl returned error %d from transfer\n",
-			curlerr);
-
-	/* disconnect relationships from the curl handle for things that might go out
-	 * of scope, but could still be touched on connection teardown. This really
-	 * only applies to FTP transfers. */
-	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
-	curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, (char *)NULL);
-
-	/* was it a success? */
-	switch(curlerr) {
-		case CURLE_OK:
-			/* get http/ftp response code */
-			_alpm_log(handle, ALPM_LOG_DEBUG, "response code: %ld\n", payload->respcode);
-			if(payload->respcode >= 400) {
-				payload->unlink_on_fail = 1;
-				if(!payload->errors_ok) {
-					handle->pm_errno = ALPM_ERR_RETRIEVE;
-					/* non-translated message is same as libcurl */
-					snprintf(error_buffer, sizeof(error_buffer),
-							"The requested URL returned error: %ld", payload->respcode);
-					_alpm_log(handle, ALPM_LOG_ERROR,
-							_("failed retrieving file '%s' from %s : %s\n"),
-							payload->remote_name, hostname, error_buffer);
-				}
-				goto cleanup;
-			}
-			break;
-		case CURLE_ABORTED_BY_CALLBACK:
-			/* handle the interrupt accordingly */
-			if(dload_interrupted == ABORT_OVER_MAXFILESIZE) {
-				curlerr = CURLE_FILESIZE_EXCEEDED;
-				payload->unlink_on_fail = 1;
-				handle->pm_errno = ALPM_ERR_LIBCURL;
-				_alpm_log(handle, ALPM_LOG_ERROR,
-						_("failed retrieving file '%s' from %s : expected download size exceeded\n"),
-						payload->remote_name, hostname);
-			}
-			goto cleanup;
-		case CURLE_COULDNT_RESOLVE_HOST:
-			payload->unlink_on_fail = 1;
-			handle->pm_errno = ALPM_ERR_SERVER_BAD_URL;
-			_alpm_log(handle, ALPM_LOG_ERROR,
-					_("failed retrieving file '%s' from %s : %s\n"),
-					payload->remote_name, hostname, error_buffer);
-			goto cleanup;
-		default:
-			/* delete zero length downloads */
-			if(fstat(fileno(localf), &st) == 0 && st.st_size == 0) {
-				payload->unlink_on_fail = 1;
-			}
-			if(!payload->errors_ok) {
-				handle->pm_errno = ALPM_ERR_LIBCURL;
-				_alpm_log(handle, ALPM_LOG_ERROR,
-						_("failed retrieving file '%s' from %s : %s\n"),
-						payload->remote_name, hostname, error_buffer);
-			} else {
-				_alpm_log(handle, ALPM_LOG_DEBUG,
-						"failed retrieving file '%s' from %s : %s\n",
-						payload->remote_name, hostname, error_buffer);
-			}
-			goto cleanup;
-	}
-
-	/* retrieve info about the state of the transfer */
-	curl_easy_getinfo(curl, CURLINFO_FILETIME, &remote_time);
-	curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &remote_size);
-	curl_easy_getinfo(curl, CURLINFO_SIZE_DOWNLOAD, &bytes_dl);
-	curl_easy_getinfo(curl, CURLINFO_CONDITION_UNMET, &timecond);
-	curl_easy_getinfo(curl, CURLINFO_EFFECTIVE_URL, &effective_url);
-
-	if(final_url != NULL) {
-		*final_url = effective_url;
-	}
-
-	/* time condition was met and we didn't download anything. we need to
-	 * clean up the 0 byte .part file that's left behind. */
-	if(timecond == 1 && DOUBLE_EQ(bytes_dl, 0)) {
-		_alpm_log(handle, ALPM_LOG_DEBUG, "file met time condition\n");
-		ret = 1;
-		unlink(payload->tempfile_name);
-		goto cleanup;
-	}
-
-	/* remote_size isn't necessarily the full size of the file, just what the
-	 * server reported as remaining to download. compare it to what curl reported
-	 * as actually being transferred during curl_easy_perform() */
-	if(!DOUBLE_EQ(remote_size, -1) && !DOUBLE_EQ(bytes_dl, -1) &&
-			!DOUBLE_EQ(bytes_dl, remote_size)) {
-		_alpm_log(handle, ALPM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
-				payload->remote_name, (intmax_t)bytes_dl, (intmax_t)remote_size);
-		GOTO_ERR(handle, ALPM_ERR_RETRIEVE, cleanup);
-	}
-
-	if(payload->trust_remote_name) {
-		if(payload->content_disp_name) {
-			/* content-disposition header has a better name for our file */
-			free(payload->destfile_name);
-			payload->destfile_name = get_fullpath(localpath,
-				get_filename(payload->content_disp_name), "");
-		} else {
-			const char *effective_filename = strrchr(effective_url, '/');
-			if(effective_filename && strlen(effective_filename) > 2) {
-				effective_filename++;
-
-				/* if destfile was never set, we wrote to a tempfile. even if destfile is
-				 * set, we may have followed some redirects and the effective url may
-				 * have a better suggestion as to what to name our file. in either case,
-				 * refactor destfile to this newly derived name. */
-				if(!payload->destfile_name || strcmp(effective_filename,
-							strrchr(payload->destfile_name, '/') + 1) != 0) {
-					free(payload->destfile_name);
-					payload->destfile_name = get_fullpath(localpath, effective_filename, "");
-				}
-			}
-		}
-	}
-
-	ret = 0;
-
-cleanup:
-	if(localf != NULL) {
-		fclose(localf);
-		utimes_long(payload->tempfile_name, remote_time);
-	}
-
-	if(ret == 0) {
-		const char *realname = payload->tempfile_name;
-		if(payload->destfile_name) {
-			realname = payload->destfile_name;
-			if(rename(payload->tempfile_name, payload->destfile_name)) {
-				_alpm_log(handle, ALPM_LOG_ERROR, _("could not rename %s to %s (%s)\n"),
-						payload->tempfile_name, payload->destfile_name, strerror(errno));
-				ret = -1;
-			}
-		}
-		if(ret != -1 && final_file) {
-			STRDUP(*final_file, strrchr(realname, '/') + 1,
-					RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-		}
-	}
-
-	if((ret == -1 || dload_interrupted) && payload->unlink_on_fail &&
-			payload->tempfile_name) {
-		unlink(payload->tempfile_name);
-	}
-
-	curl_easy_cleanup(curl);
-	payload->curl = NULL;
-
-	/* restore the old signal handlers */
-	unmask_signal(SIGINT, &orig_sig_int);
-	unmask_signal(SIGPIPE, &orig_sig_pipe);
-	/* if we were interrupted, trip the old handler */
-	if(dload_interrupted == ABORT_SIGINT) {
-		raise(SIGINT);
-	}
-
-	completed_cb_data.total = bytes_dl;
-	completed_cb_data.result = ret;
-	handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_COMPLETED, &completed_cb_data);
-
-	return ret;
-}
-
 /* Return 0 if retry was successful, -1 otherwise */
-static int curl_multi_retry_next_server(CURLM *curlm, CURL *curl, struct dload_payload *payload)
+static int curl_retry_next_server(CURLM *curlm, CURL *curl, struct dload_payload *payload)
 {
 	const char *server;
 	size_t len;
@@ -653,7 +377,7 @@ static int curl_multi_retry_next_server(CURLM *curlm, CURL *curl, struct dload_p
  * Returns -1 if an error happened for a required file
  * Returns -2 if an error happened for an optional file
  */
-static int curl_multi_check_finished_download(CURLM *curlm, CURLMsg *msg,
+static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 		const char *localpath)
 {
 	alpm_handle_t *handle = NULL;
@@ -694,7 +418,7 @@ static int curl_multi_check_finished_download(CURLM *curlm, CURLMsg *msg,
 							_("failed retrieving file '%s' from %s : %s\n"),
 							payload->remote_name, hostname, payload->error_buffer);
 				}
-				if(curl_multi_retry_next_server(curlm, curl, payload) == 0) {
+				if(curl_retry_next_server(curlm, curl, payload) == 0) {
 					return 2;
 				} else {
 					goto cleanup;
@@ -718,7 +442,7 @@ static int curl_multi_check_finished_download(CURLM *curlm, CURLMsg *msg,
 			_alpm_log(handle, ALPM_LOG_ERROR,
 					_("failed retrieving file '%s' from %s : %s\n"),
 					payload->remote_name, hostname, payload->error_buffer);
-			if(curl_multi_retry_next_server(curlm, curl, payload) == 0) {
+			if(curl_retry_next_server(curlm, curl, payload) == 0) {
 				return 2;
 			} else {
 				goto cleanup;
@@ -738,7 +462,7 @@ static int curl_multi_check_finished_download(CURLM *curlm, CURLMsg *msg,
 						"failed retrieving file '%s' from %s : %s\n",
 						payload->remote_name, hostname, payload->error_buffer);
 			}
-			if(curl_multi_retry_next_server(curlm, curl, payload) == 0) {
+			if(curl_retry_next_server(curlm, curl, payload) == 0) {
 				return 2;
 			} else {
 				goto cleanup;
@@ -847,7 +571,7 @@ cleanup:
 /* Returns 0 in case if a new download transaction has been successfully started
  * Returns -1 if am error happened while starting a new download
  */
-static int curl_multi_add_payload(alpm_handle_t *handle, CURLM *curlm,
+static int curl_add_payload(alpm_handle_t *handle, CURLM *curlm,
 		struct dload_payload *payload, const char *localpath)
 {
 	size_t len;
@@ -901,7 +625,7 @@ static int curl_multi_add_payload(alpm_handle_t *handle, CURLM *curlm,
 		}
 	}
 
-	curl_set_handle_opts(payload, curl, payload->error_buffer);
+	curl_set_handle_opts(curl, payload);
 
 	if(payload->max_size == payload->initial_size && payload->max_size != 0) {
 		/* .part file is complete */
@@ -938,7 +662,7 @@ cleanup:
 	return ret;
 }
 
-static int curl_multi_download_internal(alpm_handle_t *handle,
+static int curl_download_internal(alpm_handle_t *handle,
 		alpm_list_t *payloads /* struct dload_payload */,
 		const char *localpath)
 {
@@ -955,7 +679,7 @@ static int curl_multi_download_internal(alpm_handle_t *handle,
 		for(; still_running < parallel_downloads && payloads; still_running++) {
 			struct dload_payload *payload = payloads->data;
 
-			if(curl_multi_add_payload(handle, curlm, payload, localpath) == 0) {
+			if(curl_add_payload(handle, curlm, payload, localpath) == 0) {
 				if(!payload->signature) {
 					alpm_download_event_init_t cb_data = {.optional = payload->errors_ok};
 					handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_INIT, &cb_data);
@@ -981,7 +705,7 @@ static int curl_multi_download_internal(alpm_handle_t *handle,
 
 		while((msg = curl_multi_info_read(curlm, &msgs_left))) {
 			if(msg->msg == CURLMSG_DONE) {
-				int ret = curl_multi_check_finished_download(curlm, msg, localpath);
+				int ret = curl_check_finished_download(curlm, msg, localpath);
 				if(ret == -1) {
 					/* if current payload failed to download then stop adding new payloads but wait for the
 					 * current ones
@@ -1003,49 +727,19 @@ static int curl_multi_download_internal(alpm_handle_t *handle,
 		}
 	}
 
-	_alpm_log(handle, ALPM_LOG_DEBUG, "curl_multi_download_internal return code is %d\n", err);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "curl_download_internal return code is %d\n", err);
 	return err;
 }
 
 #endif
 
-/** Download a file given by a URL to a local directory.
- * Does not overwrite an existing file if the download fails.
- * @param payload the payload context
- * @param localpath the directory to save the file in
- * @param final_file the real name of the downloaded file (may be NULL)
- * @return 0 on success, -1 on error (pm_errno is set accordingly if errors_ok == 0)
- */
-int _alpm_download(struct dload_payload *payload, const char *localpath,
-		char **final_file, const char **final_url)
-{
-	alpm_handle_t *handle = payload->handle;
-
-	if(handle->fetchcb == NULL) {
-#ifdef HAVE_LIBCURL
-		return curl_download_internal(payload, localpath, final_file, final_url);
-#else
-		/* work around unused warnings when building without libcurl */
-		(void)final_file;
-		(void)final_url;
-		RET_ERR(handle, ALPM_ERR_EXTERNAL_DOWNLOAD, -1);
-#endif
-	} else {
-		int ret = handle->fetchcb(payload->fileurl, localpath, payload->force);
-		if(ret == -1 && !payload->errors_ok) {
-			RET_ERR(handle, ALPM_ERR_EXTERNAL_DOWNLOAD, -1);
-		}
-		return ret;
-	}
-}
-
-int _alpm_multi_download(alpm_handle_t *handle,
+int _alpm_download(alpm_handle_t *handle,
 		alpm_list_t *payloads /* struct dload_payload */,
 		const char *localpath)
 {
 	if(handle->fetchcb == NULL) {
 #ifdef HAVE_LIBCURL
-		return curl_multi_download_internal(handle, payloads, localpath);
+		return curl_download_internal(handle, payloads, localpath);
 #else
 		RET_ERR(handle, ALPM_ERR_EXTERNAL_DOWNLOAD, -1);
 #endif
@@ -1158,7 +852,7 @@ int SYMEXPORT alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
 	if(payloads) {
 		event.type = ALPM_EVENT_PKG_RETRIEVE_START;
 		EVENT(handle, &event);
-		if(_alpm_multi_download(handle, payloads, cachedir) == -1) {
+		if(_alpm_download(handle, payloads, cachedir) == -1) {
 			_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files\n"));
 			event.type = ALPM_EVENT_PKG_RETRIEVE_FAILED;
 			EVENT(handle, &event);
@@ -1213,15 +907,4 @@ void _alpm_dload_payload_reset(struct dload_payload *payload)
 	FREE(payload->fileurl);
 	FREE(payload->filepath);
 	*payload = (struct dload_payload){0};
-}
-
-void _alpm_dload_payload_reset_for_retry(struct dload_payload *payload)
-{
-	ASSERT(payload, return);
-
-	FREE(payload->fileurl);
-	FREE(payload->filepath);
-	payload->initial_size += payload->prevprogress;
-	payload->prevprogress = 0;
-	payload->unlink_on_fail = 0;
 }
