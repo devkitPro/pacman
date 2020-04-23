@@ -259,6 +259,7 @@ static void dump_config(void)
 	show_bool("VerbosePkgLists", config->verbosepkglists);
 	show_bool("DisableDownloadTimeout", config->disable_dl_timeout);
 	show_bool("ILoveCandy", config->chomp);
+	show_bool("NoProgressBar", config->noprogressbar);
 
 	show_cleanmethod("CleanMethod", config->cleanmethod);
 
@@ -368,6 +369,8 @@ static int list_directives(void)
 			show_bool("VerbosePkgLists", config->verbosepkglists);
 		} else if(strcasecmp(i->data, "DisableDownloadTimeout") == 0) {
 			show_bool("DisableDownloadTimeout", config->disable_dl_timeout);
+		} else if(strcasecmp(i->data, "NoProgressBar") == 0) {
+			show_bool("NoProgressBar", config->noprogressbar);
 
 		} else if(strcasecmp(i->data, "CleanMethod") == 0) {
 			show_cleanmethod("CleanMethod", config->cleanmethod);

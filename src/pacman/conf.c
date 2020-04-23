@@ -583,6 +583,8 @@ static int _parse_options(const char *key, char *value,
 				config->color = isatty(fileno(stdout)) ? PM_COLOR_ON : PM_COLOR_OFF;
 				enable_colors(config->color);
 			}
+		} else if(strcmp(key, "NoProgressBar") == 0) {
+			config->noprogressbar = 1;
 		} else if(strcmp(key, "DisableDownloadTimeout") == 0) {
 			config->disable_dl_timeout = 1;
 		} else {
