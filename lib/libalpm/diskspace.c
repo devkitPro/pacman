@@ -359,7 +359,7 @@ static int check_mountpoint(alpm_handle_t *handle, alpm_mountpoint_t *mp)
 }
 
 int _alpm_check_downloadspace(alpm_handle_t *handle, const char *cachedir,
-		size_t num_files, off_t *file_sizes)
+		size_t num_files, const off_t *file_sizes)
 {
 	alpm_list_t *mount_points;
 	alpm_mountpoint_t *cachedir_mp;

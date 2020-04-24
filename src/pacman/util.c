@@ -515,7 +515,7 @@ void string_display(const char *title, const char *string, unsigned short cols)
 }
 
 static void table_print_line(const alpm_list_t *line, short col_padding,
-		size_t colcount, size_t *widths, int *has_data)
+		size_t colcount, const size_t *widths, const int *has_data)
 {
 	size_t i;
 	int need_padding = 0;

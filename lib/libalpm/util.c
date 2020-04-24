@@ -1006,7 +1006,7 @@ static int sha256_file(const char *path, unsigned char output[32])
  * @return a NULL terminated string with the hexadecimal representation of
  * bytes or NULL on error. This string must be freed.
  */
-static char *hex_representation(unsigned char *bytes, size_t size)
+static char *hex_representation(const unsigned char *bytes, size_t size)
 {
 	static const char *hex_digits = "0123456789abcdef";
 	char *str;
