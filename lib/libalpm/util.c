@@ -834,6 +834,20 @@ char *_alpm_filecache_find(alpm_handle_t *handle, const char *filename)
 	return NULL;
 }
 
+/** Check whether a filename exists in a registered alpm cachedir.
+ * @param handle the context handle
+ * @param filename name of file to find
+ * @return 0 if the filename was not found, 1 otherwise
+ */
+int _alpm_filecache_exists(alpm_handle_t *handle, const char *filename)
+{
+	int res;
+	char *fpath = _alpm_filecache_find(handle, filename);
+	res = (fpath != NULL);
+	FREE(fpath);
+	return res;
+}
+
 /** Check the alpm cachedirs for existence and find a writable one.
  * If no valid cache directory can be found, use /tmp.
  * @param handle the context handle

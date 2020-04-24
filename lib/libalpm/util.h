@@ -136,6 +136,8 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 int _alpm_ldconfig(alpm_handle_t *handle);
 int _alpm_str_cmp(const void *s1, const void *s2);
 char *_alpm_filecache_find(alpm_handle_t *handle, const char *filename);
+/* Checks whether a file exists in cache */
+int _alpm_filecache_exists(alpm_handle_t *handle, const char *filename);
 const char *_alpm_filecache_setup(alpm_handle_t *handle);
 /* Unlike many uses of alpm_pkgvalidation_t, _alpm_test_checksum expects
  * an enum value rather than a bitfield. */
