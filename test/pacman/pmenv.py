@@ -70,5 +70,10 @@ class pmenv(object):
                 t.run(self.pacman)
 
                 tap.diag("==> Checking rules")
-                tap.todo = t.expectfailure
+                # When running under meson, we don't emit 'todo' in the plan and instead
+                # handle expected failures in the test() objects. This really should be
+                # fixed in meson:
+                # https://github.com/mesonbuild/meson/issues/2923#issuecomment-614647076
+                tap.todo = (t.expectfailure and
+                        not 'RUNNING_UNDER_MESON' in os.environ)
                 tap.subtest(lambda: t.check(), t.description)
