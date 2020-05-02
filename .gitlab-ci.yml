@@ -1,0 +1,128 @@
+variables:
+  MAKEFLAGS: "-j10"
+  VERBOSE: 1
+
+.arch-test:
+  image: archlinux/base
+  before_script:
+    - >
+      pacman -Syu --needed --noconfirm
+      base-devel git
+      gpgme libarchive curl
+      python
+      fakeroot fakechroot
+      meson
+
+arch:
+  extends: .arch-test
+  script:
+    - meson build
+    - ninja -C build
+    - fakechroot meson test -C build
+
+arch-debug:
+  extends: .arch-test
+  script:
+    - meson --buildtype=debug build
+    - ninja -C build
+    - fakechroot meson test -C build
+
+arch-docs:
+  extends: .arch-test
+  script:
+    - pacman -Syu --needed --noconfirm asciidoc
+    - meson -Ddoc=enabled build
+    - ninja -C build
+
+arch-autoconf:
+  extends: .arch-test
+  script:
+    - pacman -Syu --needed --noconfirm autoconf-archive
+    - autoreconf -i
+    - ./configure --enable-warningflags --disable-doc
+    - make
+    - fakechroot make check
+
+arch-distcheck:
+  extends: .arch-test
+  script:
+    - pacman -Syu --needed --noconfirm autoconf-archive asciidoc
+    - autoreconf -i
+    - ./configure --enable-warningflags
+    - fakechroot make distcheck
+
+arch-clang:
+  extends: .arch-test
+  script:
+    - pacman -Syu --needed --noconfirm clang
+    - CC=clang meson build
+    - ninja -C build
+    - fakechroot meson test -C build
+
+arch-valgrind:
+  extends: .arch-test
+  script:
+    - pacman -Syu --needed --noconfirm autoconf-archive valgrind
+    - autoreconf -i
+    - ./configure --enable-warningflags --disable-doc
+    - make
+    - fakechroot make PY_LOG_FLAGS=--valgrind check
+
+arch-nettle:
+  extends: .arch-test
+  script:
+    - meson -Dcrypto=nettle --buildtype=debug build
+    - ninja -C build
+    - fakechroot meson test -C build
+
+arch-no-gpg:
+  extends: .arch-test
+  script:
+    - meson -Dgpgme=disabled --buildtype=debug build
+    - ninja -C build
+    - fakechroot meson test -C build
+
+arch-no-curl:
+  extends: .arch-test
+  script:
+    - meson -Dcurl=disabled --buildtype=debug build
+    - ninja -C build
+    - fakechroot meson test -C build
+
+arch-no-nls:
+  extends: .arch-test
+  script:
+    - meson -Di18n=false --buildtype=debug build
+    - ninja -C build
+    - fakechroot meson test -C build
+
+debian:
+  image: debian:bullseye
+  before_script:
+    - apt update
+    - >
+      apt -y install --no-install-recommends
+      git pkg-config meson gcc libtool
+      libgpgme-dev libarchive-dev libcurl4-openssl-dev libssl-dev curl
+      gettext python3 python3-setuptools dash gawk ca-certificates
+      fakeroot fakechroot
+  script:
+    - meson --buildtype=debug build
+    - ninja -C build
+    - fakechroot meson test -C build
+
+fedora:
+  image: fedora
+  before_script:
+    - >
+      dnf -y install
+      git findutils patch sed
+      meson gcc libtool
+      gpgme-devel libarchive-devel libcurl-devel openssl-devel gettext-devel
+      asciidoc python3 dash gawk
+      fakeroot fakechroot
+      perl-Module-Load-Conditional
+  script:
+    - meson --buildtype=debug build
+    - ninja -C build
+    - fakechroot meson test -C build
