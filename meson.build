@@ -177,7 +177,7 @@ elif conf.has('HAVE_STRUCT_STATFS_F_FLAGS')
   conf.set('FSSTATSTYPE', 'struct statfs')
 endif
 
-if get_option('buildtype').startswith('debug')
+if get_option('debug')
   extra_cflags = [
     '-Wcast-align',
     '-Wclobbered',
