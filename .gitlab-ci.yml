@@ -62,11 +62,10 @@ arch-clang:
 arch-valgrind:
   extends: .arch-test
   script:
-    - pacman -Syu --needed --noconfirm autoconf-archive valgrind
-    - autoreconf -i
-    - ./configure --enable-warningflags --disable-doc
-    - make
-    - fakechroot make PY_LOG_FLAGS=--valgrind check
+    - pacman -Syu --needed --noconfirm valgrind
+    - meson build
+    - ninja -C build
+    - PACTEST_VALGRIND=1 fakechroot meson test -C build
 
 arch-nettle:
   extends: .arch-test
