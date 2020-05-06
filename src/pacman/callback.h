@@ -37,7 +37,8 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 /* callback to handle receipt of total download value */
 void cb_dl_total(off_t total);
 /* callback to handle display of download progress */
-void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total);
+void cb_download(const char *filename, alpm_download_event_type_t event,
+		void *data);
 
 /* callback to handle messages/notifications from pacman library */
 __attribute__((format(printf, 2, 0)))

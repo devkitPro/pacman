@@ -715,13 +715,42 @@ typedef void (*alpm_cb_progress)(alpm_progress_t, const char *, int, size_t, siz
  * Downloading
  */
 
+/* File download events.
+ * These events are reported by ALPM via download callback.
+ */
+typedef enum {
+	ALPM_DOWNLOAD_INIT, /* alpm initializes file download logic */
+	ALPM_DOWNLOAD_PROGRESS, /* download progress reported */
+	ALPM_DOWNLOAD_COMPLETED /* alpm is about to release data related to the file */
+} alpm_download_event_type_t;
+
+typedef struct {
+	int optional; /* whether this file is optional and thus the errors could be ignored */
+} alpm_download_event_init_t;
+
+typedef struct {
+	off_t downloaded; /* amount of data downloaded */
+	off_t total; /* total amount need to be downloaded */
+} alpm_download_event_progress_t;
+
+typedef struct {
+	/* total bytes in file */
+	off_t total;
+	/* download result code:
+	 *   0 - download completed successfully
+	 *   1 - the file is up-to-date
+	 *   negative - error code
+	 */
+	int result;
+} alpm_download_event_completed_t;
+
 /** Type of download progress callbacks.
  * @param filename the name of the file being downloaded
- * @param xfered the number of transferred bytes
- * @param total the total number of bytes to transfer
+ * @param event the event type
+ * @param data the event data of type alpm_download_event_*_t
  */
 typedef void (*alpm_cb_download)(const char *filename,
-		off_t xfered, off_t total);
+		alpm_download_event_type_t event, void *data);
 
 typedef void (*alpm_cb_totaldl)(off_t total);
 

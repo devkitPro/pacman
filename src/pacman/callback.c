@@ -648,7 +648,7 @@ void cb_dl_total(off_t total)
 }
 
 /* callback to handle display of download progress */
-void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
+static void dload_progress_event(const char *filename, off_t file_xfered, off_t file_total)
 {
 	static double rate_last;
 	static off_t xfered_last;
@@ -856,6 +856,14 @@ void cb_dl_progress(const char *filename, off_t file_xfered, off_t file_total)
 		fill_progress(file_percent, file_percent, cols - infolen);
 	}
 	return;
+}
+
+void cb_download(const char *filename, alpm_download_event_type_t event, void *data)
+{
+	if(event == ALPM_DOWNLOAD_PROGRESS) {
+		alpm_download_event_progress_t *progress = data;
+		dload_progress_event(filename, progress->downloaded, progress->total);
+	}
 }
 
 /* Callback to handle notifications from the library */

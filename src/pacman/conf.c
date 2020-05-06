@@ -837,7 +837,7 @@ static int setup_libalpm(void)
 	config->handle = handle;
 
 	alpm_option_set_logcb(handle, cb_log);
-	alpm_option_set_dlcb(handle, cb_dl_progress);
+	alpm_option_set_dlcb(handle, cb_download);
 	alpm_option_set_eventcb(handle, cb_event);
 	alpm_option_set_questioncb(handle, cb_question);
 	alpm_option_set_progresscb(handle, cb_progress);

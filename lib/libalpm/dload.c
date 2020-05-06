@@ -88,6 +88,7 @@ static int dload_progress_cb(void *file, curl_off_t dltotal, curl_off_t dlnow,
 {
 	struct dload_payload *payload = (struct dload_payload *)file;
 	off_t current_size, total_size;
+	alpm_download_event_progress_t cb_data = {0};
 
 	/* avoid displaying progress bar for redirects with a body */
 	if(payload->respcode >= 300) {
@@ -127,16 +128,20 @@ static int dload_progress_cb(void *file, curl_off_t dltotal, curl_off_t dlnow,
 	 * x {x>0}, x: download complete
 	 * x {x>0, x<y}, y {y > 0}: download progress, expected total is known */
 	if(!payload->cb_initialized) {
-		payload->handle->dlcb(payload->remote_name, 0, -1);
+		cb_data.downloaded = 0;
+		cb_data.total = -1;
 		payload->cb_initialized = 1;
 	}
 	if(payload->prevprogress == current_size) {
-		payload->handle->dlcb(payload->remote_name, 0, 0);
+		cb_data.downloaded = 0;
+		cb_data.total = 0;
 	} else {
 	/* do NOT include initial_size since it wasn't part of the package's
 	 * download_size (nor included in the total download size callback) */
-		payload->handle->dlcb(payload->remote_name, dlnow, dltotal);
+		cb_data.downloaded = dlnow;
+		cb_data.total = dltotal;
 	}
+	payload->handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_PROGRESS, &cb_data);
 
 	payload->prevprogress = current_size;
 
@@ -660,6 +665,7 @@ static int curl_multi_check_finished_download(CURLM *curlm, CURLMsg *msg,
 	long remote_time = -1;
 	struct stat st;
 	char hostname[HOSTNAME_SIZE];
+	alpm_download_event_completed_t cb_data = {0};
 	int ret = -1;
 
 	curlerr = curl_easy_getinfo(curl, CURLINFO_PRIVATE, &payload);
@@ -819,7 +825,9 @@ cleanup:
 		unlink(payload->tempfile_name);
 	}
 
-	// TODO: report that the download has been completed
+	cb_data.total = bytes_dl;
+	cb_data.result = ret;
+	handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_COMPLETED, &cb_data);
 
 	curl_multi_remove_handle(curlm, curl);
 	curl_easy_cleanup(curl);
@@ -937,6 +945,9 @@ static int curl_multi_download_internal(alpm_handle_t *handle,
 			struct dload_payload *payload = payloads->data;
 
 			if(curl_multi_add_payload(handle, curlm, payload, localpath) == 0) {
+				alpm_download_event_init_t cb_data = {.optional = payload->errors_ok};
+
+				handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_INIT, &cb_data);
 				payloads = payloads->next;
 				// TODO: report that download has started
 			} else {
