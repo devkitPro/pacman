@@ -402,12 +402,18 @@ typedef enum _alpm_event_type_t {
 	/** Scriptlet has printed information; See alpm_event_scriptlet_info_t for
 	 * arguments. */
 	ALPM_EVENT_SCRIPTLET_INFO,
-	/** Files will be downloaded from a repository. */
-	ALPM_EVENT_RETRIEVE_START,
-	/** Files were downloaded from a repository. */
-	ALPM_EVENT_RETRIEVE_DONE,
-	/** Not all files were successfully downloaded from a repository. */
-	ALPM_EVENT_RETRIEVE_FAILED,
+	/** Database files will be downloaded from a repository. */
+	ALPM_EVENT_DB_RETRIEVE_START,
+	/** Database files were downloaded from a repository. */
+	ALPM_EVENT_DB_RETRIEVE_DONE,
+	/** Not all database files were successfully downloaded from a repository. */
+	ALPM_EVENT_DB_RETRIEVE_FAILED,
+	/** Package files will be downloaded from a repository. */
+	ALPM_EVENT_PKG_RETRIEVE_START,
+	/** Package files were downloaded from a repository. */
+	ALPM_EVENT_PKG_RETRIEVE_DONE,
+	/** Not all package files were successfully downloaded from a repository. */
+	ALPM_EVENT_PKG_RETRIEVE_FAILED,
 	/** A file will be downloaded from a repository; See alpm_event_pkgdownload_t
 	 * for arguments */
 	ALPM_EVENT_PKGDOWNLOAD_START,

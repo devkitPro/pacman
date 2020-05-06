@@ -308,6 +308,7 @@ int SYMEXPORT alpm_dbs_update(alpm_handle_t *handle, alpm_list_t *dbs, int force
 	int ret = -1;
 	mode_t oldmask;
 	alpm_list_t *payloads = NULL;
+	alpm_event_t event;
 
 	/* Sanity checks */
 	CHECK_HANDLE(handle, return -1);
@@ -384,10 +385,16 @@ int SYMEXPORT alpm_dbs_update(alpm_handle_t *handle, alpm_list_t *dbs, int force
 		}
 	}
 
+	event.type = ALPM_EVENT_DB_RETRIEVE_START;
+	EVENT(handle, &event);
 	ret = _alpm_multi_download(handle, payloads, syncpath);
 	if(ret < 0) {
+		event.type = ALPM_EVENT_DB_RETRIEVE_FAILED;
+		EVENT(handle, &event);
 		goto cleanup;
 	}
+	event.type = ALPM_EVENT_DB_RETRIEVE_DONE;
+	EVENT(handle, &event);
 
 	for(i = dbs; i; i = i->next) {
 		alpm_db_t *db = i->data;

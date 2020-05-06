@@ -812,9 +812,9 @@ static int download_files(alpm_handle_t *handle)
 			}
 		}
 
-		event.type = ALPM_EVENT_RETRIEVE_START;
+		event.type = ALPM_EVENT_PKG_RETRIEVE_START;
 		EVENT(handle, &event);
-		event.type = ALPM_EVENT_RETRIEVE_DONE;
+		event.type = ALPM_EVENT_PKG_RETRIEVE_DONE;
 		for(i = files; i; i = i->next) {
 			const alpm_pkg_t *pkg = i->data;
 			struct dload_payload payload = {0};
@@ -825,7 +825,7 @@ static int download_files(alpm_handle_t *handle)
 
 			if(download_single_file(handle, &payload, cachedir) == -1) {
 				errors++;
-				event.type = ALPM_EVENT_RETRIEVE_FAILED;
+				event.type = ALPM_EVENT_PKG_RETRIEVE_FAILED;
 				_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files\n"));
 			}
 			_alpm_dload_payload_reset(&payload);

@@ -280,8 +280,12 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_SCRIPTLET_INFO:
 			fputs(event->scriptlet_info.line, stdout);
 			break;
-		case ALPM_EVENT_RETRIEVE_START:
+		case ALPM_EVENT_DB_RETRIEVE_START:
+			on_progress = 1;
+			break;
+		case ALPM_EVENT_PKG_RETRIEVE_START:
 			colon_printf(_("Retrieving packages...\n"));
+			on_progress = 1;
 			break;
 		case ALPM_EVENT_DISKSPACE_START:
 			if(config->noprogressbar) {
@@ -338,6 +342,13 @@ void cb_event(alpm_event_t *event)
 				}
 			}
 			break;
+		case ALPM_EVENT_DB_RETRIEVE_DONE:
+		case ALPM_EVENT_DB_RETRIEVE_FAILED:
+		case ALPM_EVENT_PKG_RETRIEVE_DONE:
+		case ALPM_EVENT_PKG_RETRIEVE_FAILED:
+			flush_output_list();
+			on_progress = 0;
+			break;
 		/* all the simple done events, with fallthrough for each */
 		case ALPM_EVENT_FILECONFLICTS_DONE:
 		case ALPM_EVENT_CHECKDEPS_DONE:
@@ -349,8 +360,6 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_KEY_DOWNLOAD_DONE:
 		case ALPM_EVENT_LOAD_DONE:
 		case ALPM_EVENT_DISKSPACE_DONE:
-		case ALPM_EVENT_RETRIEVE_DONE:
-		case ALPM_EVENT_RETRIEVE_FAILED:
 		case ALPM_EVENT_HOOK_DONE:
 		case ALPM_EVENT_HOOK_RUN_DONE:
 		/* we can safely ignore those as well */
