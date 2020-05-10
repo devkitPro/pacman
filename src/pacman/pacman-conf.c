@@ -368,6 +368,8 @@ static int list_directives(void)
 			show_bool("VerbosePkgLists", config->verbosepkglists);
 		} else if(strcasecmp(i->data, "DisableDownloadTimeout") == 0) {
 			show_bool("DisableDownloadTimeout", config->disable_dl_timeout);
+		} else if(strcasecmp(i->data, "ILoveCandy") == 0) {
+			show_bool("ILoveCandy", config->chomp);
 
 		} else if(strcasecmp(i->data, "CleanMethod") == 0) {
 			show_cleanmethod("CleanMethod", config->cleanmethod);
