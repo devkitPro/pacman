@@ -142,6 +142,14 @@ static void show_str(const char *directive, const char *val)
 	printf("%s%c", val, sep);
 }
 
+static void show_int(const char *directive, unsigned int val)
+{
+	if (verbose) {
+		printf("%s = ", directive);
+	}
+	printf("%u%c", val, sep);
+}
+
 static void show_list_str(const char *directive, alpm_list_t *list)
 {
 	alpm_list_t *i;
@@ -261,6 +269,8 @@ static void dump_config(void)
 	show_bool("ILoveCandy", config->chomp);
 	show_bool("NoProgressBar", config->noprogressbar);
 
+	show_int("ParallelDownloads", config->parallel_downloads);
+
 	show_cleanmethod("CleanMethod", config->cleanmethod);
 
 	show_siglevel("SigLevel", config->siglevel, 0);
@@ -371,6 +381,9 @@ static int list_directives(void)
 			show_bool("DisableDownloadTimeout", config->disable_dl_timeout);
 		} else if(strcasecmp(i->data, "NoProgressBar") == 0) {
 			show_bool("NoProgressBar", config->noprogressbar);
+
+		} else if(strcasecmp(i->data, "ParallelDownloads") == 0) {
+			show_int("ParallelDownloads", config->parallel_downloads);
 
 		} else if(strcasecmp(i->data, "CleanMethod") == 0) {
 			show_cleanmethod("CleanMethod", config->cleanmethod);
