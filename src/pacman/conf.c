@@ -631,7 +631,7 @@ static int _parse_options(const char *key, char *value,
 		} else if(strcmp(key, "XferCommand") == 0) {
 			char **c;
 			if((config->xfercommand_argv = wordsplit(value)) == NULL) {
-				pm_printf(ALPM_LOG_WARNING,
+				pm_printf(ALPM_LOG_ERROR,
 						_("config file %s, line %d: invalid value for '%s' : '%s'\n"),
 						file, linenum, "XferCommand", value);
 				return 1;
