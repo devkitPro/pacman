@@ -34,23 +34,6 @@ arch-docs:
     - meson -Ddoc=enabled build
     - ninja -C build
 
-arch-autoconf:
-  extends: .arch-test
-  script:
-    - pacman -Syu --needed --noconfirm autoconf-archive
-    - autoreconf -i
-    - ./configure --enable-warningflags --disable-doc
-    - make
-    - fakechroot make check
-
-arch-distcheck:
-  extends: .arch-test
-  script:
-    - pacman -Syu --needed --noconfirm autoconf-archive asciidoc
-    - autoreconf -i
-    - ./configure --enable-warningflags
-    - fakechroot make distcheck
-
 arch-clang:
   extends: .arch-test
   script:

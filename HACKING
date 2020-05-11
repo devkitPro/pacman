@@ -176,16 +176,3 @@ For pacman:
 -------------------------------------------
 
 Never directly include config.h. This will always be added via Makefiles.
-
-GDB and Valgrind Usage
-~~~~~~~~~~~~~~~~~~~~~~
-
-When using GDB or valgrind on pacman, you will want to run it on the actual
-binary rather than the shell script wrapper produced by libtool. The actual
-binary lives at `src/pacman/.libs/lt-pacman`, and will exist after running
-`./src/pacman/pacman` at least once.
-
-For example, to run valgrind:
-
-    ./src/pacman/pacman
-    valgrind --leak-check=full -- src/pacman/.libs/lt-pacman -Syu

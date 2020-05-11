@@ -193,11 +193,11 @@ link:https://sources.archlinux.org/other/pacman/[]. To install, download the new
 available source tarball, unpack it in a directory, and run the three magic
 commands:
 
-	$ ./configure
-	$ make
-	# make install
+	$ meson build
+	$ ninja -C build
+	# ninja -C build install
 
-You may wish to read the options presented by `./configure --help` in order to
+You may wish to read the options presented by `meson` in order to
 set appropriate paths and build options that are correct for your system.
 
 Development
