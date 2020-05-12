@@ -180,12 +180,10 @@ int SYMEXPORT alpm_db_update(alpm_handle_t *handle, alpm_list_t *dbs, int force)
 			dbforce = 1;
 		}
 
+		siglevel = alpm_db_get_siglevel(db);
+
 		CALLOC(payload, 1, sizeof(*payload), GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
-
-		/* set hard upper limit of 128 MiB */
-		payload->max_size = 128 * 1024 * 1024;
 		payload->servers = db->servers;
-
 		/* print server + filename into a buffer */
 		len = strlen(db->treename) + strlen(dbext) + 1;
 		MALLOC(payload->filepath, len,
@@ -194,31 +192,11 @@ int SYMEXPORT alpm_db_update(alpm_handle_t *handle, alpm_list_t *dbs, int force)
 		payload->handle = handle;
 		payload->force = dbforce;
 		payload->unlink_on_fail = 1;
-
+		payload->download_signature = (siglevel & ALPM_SIG_DATABASE);
+		payload->signature_optional = (siglevel & ALPM_SIG_DATABASE_OPTIONAL);
+		/* set hard upper limit of 128 MiB */
+		payload->max_size = 128 * 1024 * 1024;
 		payloads = alpm_list_add(payloads, payload);
-
-		siglevel = alpm_db_get_siglevel(db);
-		if(siglevel & ALPM_SIG_DATABASE) {
-			struct dload_payload *sig_payload;
-			CALLOC(sig_payload, 1, sizeof(*sig_payload), GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
-			sig_payload->signature = 1;
-
-			/* print filename into a buffer (leave space for separator and .sig) */
-			len = strlen(db->treename) + strlen(dbext) + 5;
-			MALLOC(sig_payload->filepath, len,
-				FREE(sig_payload); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
-			snprintf(sig_payload->filepath, len, "%s%s.sig", db->treename, dbext);
-
-			sig_payload->handle = handle;
-			sig_payload->force = dbforce;
-			sig_payload->errors_ok = (siglevel & ALPM_SIG_DATABASE_OPTIONAL);
-
-			/* set hard upper limit of 16 KiB */
-			sig_payload->max_size = 16 * 1024;
-			sig_payload->servers = db->servers;
-
-			payloads = alpm_list_add(payloads, sig_payload);
-		}
 	}
 
 	event.type = ALPM_EVENT_DB_RETRIEVE_START;

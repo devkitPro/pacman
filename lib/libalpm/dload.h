@@ -47,11 +47,13 @@ struct dload_payload {
 	int errors_ok;
 	int unlink_on_fail;
 	int trust_remote_name;
-	int signature; /* specifies if the payload is a signature file */
+	int download_signature; /* specifies if an accompanion *.sig file need to be downloaded*/
+	int signature_optional; /* *.sig file is optional */
 #ifdef HAVE_LIBCURL
 	CURL *curl;
 	char error_buffer[CURL_ERROR_SIZE];
 	FILE *localf; /* temp download file */
+	int signature; /* specifies if this payload is for a signature file */
 #endif
 };
 

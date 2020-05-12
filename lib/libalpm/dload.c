@@ -18,6 +18,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
@@ -49,6 +50,10 @@
 #include "handle.h"
 
 #ifdef HAVE_LIBCURL
+
+static int curl_add_payload(alpm_handle_t *handle, CURLM *curlm,
+	struct dload_payload *payload, const char *localpath);
+
 static const char *get_filename(const char *url)
 {
 	char *filename = strrchr(url, '/');
@@ -476,6 +481,25 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 	curl_easy_getinfo(curl, CURLINFO_CONDITION_UNMET, &timecond);
 	curl_easy_getinfo(curl, CURLINFO_EFFECTIVE_URL, &effective_url);
 
+	/* Let's check if client requested downloading accompanion *.sig file */
+	if(!payload->signature && payload->download_signature && curlerr == CURLE_OK && payload->respcode < 400) {
+		struct dload_payload *sig = NULL;
+
+		int len = strlen(effective_url) + 5;
+		CALLOC(sig, 1, sizeof(*sig), GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+		MALLOC(sig->fileurl, len, FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+		snprintf(sig->fileurl, len, "%s.sig", effective_url);
+		sig->signature = 1;
+		sig->handle = handle;
+		sig->force = payload->force;
+		sig->unlink_on_fail = payload->unlink_on_fail;
+		sig->errors_ok = payload->signature_optional;
+		/* set hard upper limit of 16KiB */
+		sig->max_size = 16 * 1024;
+
+		curl_add_payload(handle, curlm, sig, localpath);
+	}
+
 	/* time condition was met and we didn't download anything. we need to
 	 * clean up the 0 byte .part file that's left behind. */
 	if(timecond == 1 && DOUBLE_EQ(bytes_dl, 0)) {
@@ -565,6 +589,13 @@ cleanup:
 	if(ret == -1 && payload->errors_ok) {
 		ret = -2;
 	}
+
+	if(payload->signature) {
+		/* free signature payload memory that was allocated earlier in dload.c */
+		_alpm_dload_payload_reset(payload);
+		FREE(payload);
+	}
+
 	return ret;
 }
 
@@ -666,17 +697,16 @@ static int curl_download_internal(alpm_handle_t *handle,
 		alpm_list_t *payloads /* struct dload_payload */,
 		const char *localpath)
 {
-	int still_running = 0;
+	int active_downloads_num = 0;
+	bool recheck_downloads = false;
 	int err = 0;
-	int parallel_downloads = handle->parallel_downloads;
-
+	int max_streams = handle->parallel_downloads;
 	CURLM *curlm = handle->curlm;
-	CURLMsg *msg;
 
-	while(still_running || payloads) {
-		int msgs_left = -1;
+	while(active_downloads_num > 0 || payloads || recheck_downloads) {
+		CURLMcode mc;
 
-		for(; still_running < parallel_downloads && payloads; still_running++) {
+		for(; active_downloads_num < max_streams && payloads; active_downloads_num++) {
 			struct dload_payload *payload = payloads->data;
 
 			if(curl_add_payload(handle, curlm, payload, localpath) == 0) {
@@ -687,15 +717,19 @@ static int curl_download_internal(alpm_handle_t *handle,
 
 				payloads = payloads->next;
 			} else {
-				// the payload failed to start, do not start any new downloads just wait until
-				// active one complete.
+				/* The payload failed to start. Do not start any new downloads.
+				 * Wait until all active downloads complete.
+				 */
 				_alpm_log(handle, ALPM_LOG_ERROR, _("failed to setup a download payload for %s\n"), payload->remote_name);
 				payloads = NULL;
 				err = -1;
 			}
 		}
 
-		CURLMcode mc = curl_multi_perform(curlm, &still_running);
+		mc = curl_multi_perform(curlm, &active_downloads_num);
+		if(mc == CURLM_OK) {
+			mc = curl_multi_wait(curlm, NULL, 0, 1000, NULL);
+		}
 
 		if(mc != CURLM_OK) {
 			_alpm_log(handle, ALPM_LOG_ERROR, _("curl returned error %d from transfer\n"), mc);
@@ -703,7 +737,13 @@ static int curl_download_internal(alpm_handle_t *handle,
 			err = -1;
 		}
 
-		while((msg = curl_multi_info_read(curlm, &msgs_left))) {
+		recheck_downloads = false;
+		while(true) {
+			int msgs_left = 0;
+			CURLMsg *msg = curl_multi_info_read(curlm, &msgs_left);
+			if(!msg) {
+				break;
+			}
 			if(msg->msg == CURLMSG_DONE) {
 				int ret = curl_check_finished_download(curlm, msg, localpath);
 				if(ret == -1) {
@@ -712,18 +752,15 @@ static int curl_download_internal(alpm_handle_t *handle,
 					 */
 					payloads = NULL;
 					err = -1;
-				} else if(ret == 2) {
-					/* in case of a retry increase the counter of active requests
-					 * to avoid exiting the loop early
-					 */
-					still_running++;
 				}
+				/* curl_multi_check_finished_download() might add more payloads e.g. in case of a retry
+				 * from the next mirror. We need to execute curl_multi_perform() at least one more time
+				 * to make sure new payload requests are processed.
+				 */
+				recheck_downloads = true;
 			} else {
 				_alpm_log(handle, ALPM_LOG_ERROR, _("curl transfer error: %d\n"), msg->msg);
 			}
-		}
-		if(still_running) {
-			curl_multi_wait(curlm, NULL, 0, 1000, NULL);
 		}
 	}
 
@@ -803,13 +840,11 @@ int SYMEXPORT alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
 {
 	const char *cachedir;
 	alpm_list_t *payloads = NULL;
-	int download_sigs;
 	const alpm_list_t *i;
 	alpm_event_t event;
 
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(*fetched == NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
-	download_sigs = handle->siglevel & ALPM_SIG_PACKAGE;
 
 	/* find a valid cache dir to download to */
 	cachedir = _alpm_filecache_setup(handle);
@@ -831,21 +866,9 @@ int SYMEXPORT alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
 			payload->allow_resume = 1;
 			payload->handle = handle;
 			payload->trust_remote_name = 1;
+			payload->download_signature = (handle->siglevel & ALPM_SIG_PACKAGE);
+			payload->signature_optional = (handle->siglevel & ALPM_SIG_PACKAGE_OPTIONAL);
 			payloads = alpm_list_add(payloads, payload);
-
-			if(download_sigs) {
-				int len = strlen(url) + 5;
-				CALLOC(payload, 1, sizeof(*payload), GOTO_ERR(handle, ALPM_ERR_MEMORY, err));
-				payload->signature = 1;
-				MALLOC(payload->fileurl, len, FREE(payload); GOTO_ERR(handle, ALPM_ERR_MEMORY, err));
-				snprintf(payload->fileurl, len, "%s.sig", url);
-				payload->handle = handle;
-				payload->trust_remote_name = 1;
-				payload->errors_ok = (handle->siglevel & ALPM_SIG_PACKAGE_OPTIONAL);
-				/* set hard upper limit of 16KiB */
-				payload->max_size = 16 * 1024;
-				payloads = alpm_list_add(payloads, payload);
-			}
 		}
 	}
 
