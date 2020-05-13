@@ -862,12 +862,14 @@ static void dload_progress_event(const char *filename, alpm_download_event_progr
 	int64_t curr_time = get_time_ms();
 	double last_chunk_rate;
 	int64_t timediff;
+	bool ok;
 
 	if(!dload_progressbar_enabled()) {
 		return;
 	}
 
-	assert(find_bar_for_filename(filename, &index, &bar));
+	ok = find_bar_for_filename(filename, &index, &bar);
+	assert(ok);
 
 	/* compute current average values */
 	timediff = curr_time - bar->sync_time;
@@ -902,12 +904,14 @@ static void dload_complete_event(const char *filename, alpm_download_event_compl
 	int index;
 	struct pacman_progress_bar *bar;
 	int64_t timediff;
+	bool ok;
 
 	if(!dload_progressbar_enabled()) {
 		return;
 	}
 
-	assert(find_bar_for_filename(filename, &index, &bar));
+	ok = find_bar_for_filename(filename, &index, &bar);
+	assert(ok);
 	bar->completed = true;
 
 	/* This may not have been initialized if the download finished before
