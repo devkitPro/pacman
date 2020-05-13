@@ -115,7 +115,7 @@ static int perform_extraction(alpm_handle_t *handle, struct archive *archive,
 {
 	int ret;
 	struct archive *archive_writer;
-	const int archive_flags = /*ARCHIVE_EXTRACT_OWNER |*/\
+	const int archive_flags = ARCHIVE_EXTRACT_OWNER |
 	                          ARCHIVE_EXTRACT_PERM |
 	                          ARCHIVE_EXTRACT_TIME |
 	                          ARCHIVE_EXTRACT_UNLINK |
