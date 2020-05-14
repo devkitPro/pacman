@@ -522,9 +522,10 @@ find_libdepends() {
 
 
 find_libprovides() {
-	local p libprovides missing
+	local p versioned_provides libprovides missing
 	for p in "${provides[@]}"; do
 		missing=0
+		versioned_provides=()
 		case "$p" in
 			*.so)
 				mapfile -t filename < <(find "$pkgdir" -type f -name $p\* | LC_ALL=C sort)
@@ -537,7 +538,6 @@ find_libprovides() {
 							local sofile=$(LC_ALL=C readelf -d "$fn" 2>/dev/null | sed -n 's/.*Library soname: \[\(.*\)\].*/\1/p')
 							if [[ -z "$sofile" ]]; then
 								warning "$(gettext "Library listed in %s is not versioned: %s")" "'provides'" "$p"
-								libprovides+=("$p")
 								continue
 							fi
 
@@ -547,24 +547,24 @@ find_libprovides() {
 							# extract the library major version
 							local soversion="${sofile##*\.so\.}"
 
-							libprovides+=("${p}=${soversion}-${soarch}")
+							versioned_provides+=("${p}=${soversion}-${soarch}")
 						else
 							warning "$(gettext "Library listed in %s is not a shared object: %s")" "'provides'" "$p"
-							libprovides+=("$p")
 						fi
 					done
 				else
-					libprovides+=("$p")
 					missing=1
 				fi
-				;;
-			*)
-				libprovides+=("$p")
 				;;
 		esac
 
 		if (( missing )); then
 			warning "$(gettext "Cannot find library listed in %s: %s")" "'provides'" "$p"
+		fi
+		if (( ${#versioned_provides[@]} > 0 )); then
+			libprovides+=("${versioned_provides[@]}")
+		else
+			libprovides+=("$p")
 		fi
 	done
 
