@@ -77,9 +77,13 @@ conf.set_quoted('CACHEDIR', join_paths(LOCALSTATEDIR, 'cache/pacman/pkg/'))
 conf.set_quoted('HOOKDIR', join_paths(SYSCONFDIR, 'pacman.d/hooks/'))
 conf.set_quoted('ROOTDIR', ROOTDIR)
 
+libintl = dependency('', required: false)
 if get_option('i18n')
   if not cc.has_function('ngettext')
-    error('ngettext not found but NLS support requested')
+    libintl = cc.find_library('intl', required : false, static: get_option('buildstatic'))
+    if not libintl.found()
+      error('ngettext not found but NLS support requested')
+    endif
   endif
   conf.set('ENABLE_NLS', 1)
 endif
@@ -301,7 +305,7 @@ libcommon = static_library(
   include_directories : includes,
   install : false)
 
-alpm_deps = [crypto_provider, libarchive, libcurl, gpgme]
+alpm_deps = [crypto_provider, libarchive, libcurl, libintl, gpgme]
 
 libalpm_a = static_library(
   'alpm_objlib',
