@@ -282,7 +282,7 @@ static void curl_set_handle_opts(CURL *curl, struct dload_payload *payload)
 		curl_easy_setopt(curl, CURLOPT_USERAGENT, useragent);
 	}
 
-	if(!payload->allow_resume && !payload->force && payload->destfile_name &&
+	if(!payload->force && payload->destfile_name &&
 			stat(payload->destfile_name, &st) == 0) {
 		/* start from scratch, but only download if our local is out of date. */
 		curl_easy_setopt(curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);

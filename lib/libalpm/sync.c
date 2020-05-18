@@ -22,6 +22,7 @@
  */
 
 #include <sys/types.h> /* off_t */
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -698,8 +699,9 @@ static int find_dl_candidates(alpm_handle_t *handle, alpm_list_t **files)
 		alpm_pkg_t *spkg = i->data;
 
 		if(spkg->origin != ALPM_PKG_FROM_FILE) {
-			char *fpath = NULL;
 			alpm_db_t *repo = spkg->origin_data.db;
+			bool need_download;
+			int siglevel = alpm_db_get_siglevel(alpm_pkg_get_db(spkg));
 
 			if(!repo->servers) {
 				handle->pm_errno = ALPM_ERR_SERVER_NONE;
@@ -710,16 +712,26 @@ static int find_dl_candidates(alpm_handle_t *handle, alpm_list_t **files)
 
 			ASSERT(spkg->filename != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
 
-			if(spkg->download_size == 0) {
-				/* check for file in cache - allows us to handle complete .part files */
-				fpath = _alpm_filecache_find(handle, spkg->filename);
+			need_download = spkg->download_size != 0 || !_alpm_filecache_exists(handle, spkg->filename);
+			/* even if the package file in the cache we need to check for
+			 * accompanion *.sig file as well.
+			 * If *.sig is not cached then force download the package + its signature file.
+			 */
+			if(!need_download && (siglevel & ALPM_SIG_PACKAGE)) {
+				char *sig_filename = NULL;
+				int len = strlen(spkg->filename) + 5;
+
+				MALLOC(sig_filename, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+				snprintf(sig_filename, len, "%s.sig", spkg->filename);
+
+				need_download = !_alpm_filecache_exists(handle, sig_filename);
+
+				FREE(sig_filename);
 			}
 
-			if(spkg->download_size != 0 || !fpath) {
+			if(need_download) {
 				*files = alpm_list_add(*files, spkg);
 			}
-
-			FREE(fpath);
 		}
 	}
 
@@ -782,7 +794,8 @@ static int download_files(alpm_handle_t *handle)
 		event.type = ALPM_EVENT_PKG_RETRIEVE_START;
 		EVENT(handle, &event);
 		for(i = files; i; i = i->next) {
-			const alpm_pkg_t *pkg = i->data;
+			alpm_pkg_t *pkg = i->data;
+			int siglevel = alpm_db_get_siglevel(alpm_pkg_get_db(pkg));
 			struct dload_payload *payload = NULL;
 
 			CALLOC(payload, 1, sizeof(*payload), GOTO_ERR(handle, ALPM_ERR_MEMORY, finish));
@@ -794,6 +807,8 @@ static int download_files(alpm_handle_t *handle)
 			payload->servers = pkg->origin_data.db->servers;
 			payload->handle = handle;
 			payload->allow_resume = 1;
+			payload->download_signature = (siglevel & ALPM_SIG_PACKAGE);
+			payload->signature_optional = (siglevel & ALPM_SIG_PACKAGE_OPTIONAL);
 
 			payloads = alpm_list_add(payloads, payload);
 		}
