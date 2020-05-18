@@ -730,7 +730,7 @@ static int download_files(alpm_handle_t *handle)
 {
 	const char *cachedir;
 	alpm_list_t *i, *files = NULL;
-	int errors = 0;
+	int ret = 0;
 	alpm_event_t event;
 	alpm_list_t *payloads = NULL;
 
@@ -750,14 +750,16 @@ static int download_files(alpm_handle_t *handle)
 		handle->totaldlcb(total_size);
 	}
 
-	errors += find_dl_candidates(handle, &files);
+	ret = find_dl_candidates(handle, &files);
+	if(ret) {
+		goto finish;
+	}
 
-	if(files && !errors) {
+	if(files) {
 		/* check for necessary disk space for download */
 		if(handle->checkspace) {
 			off_t *file_sizes;
 			size_t idx, num_files;
-			int ret;
 
 			_alpm_log(handle, ALPM_LOG_DEBUG, "checking available disk space for download\n");
 
@@ -773,7 +775,6 @@ static int download_files(alpm_handle_t *handle)
 			free(file_sizes);
 
 			if(ret != 0) {
-				errors++;
 				goto finish;
 			}
 		}
@@ -796,12 +797,13 @@ static int download_files(alpm_handle_t *handle)
 
 			payloads = alpm_list_add(payloads, payload);
 		}
-		event.type = ALPM_EVENT_PKG_RETRIEVE_DONE;
 		if(_alpm_download(handle, payloads, cachedir) == -1) {
-			errors++;
 			event.type = ALPM_EVENT_PKG_RETRIEVE_FAILED;
+			EVENT(handle, &event);
 			_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files\n"));
+			goto finish;
 		}
+		event.type = ALPM_EVENT_PKG_RETRIEVE_DONE;
 		EVENT(handle, &event);
 	}
 
@@ -826,7 +828,7 @@ finish:
 		handle->totaldlcb(0);
 	}
 
-	return errors;
+	return ret;
 }
 
 #ifdef HAVE_LIBGPGME
