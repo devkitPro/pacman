@@ -1098,7 +1098,7 @@ static int parse_subpacket(alpm_handle_t *handle, const char *identifier,
 				if(length_check(len, spos, 2, handle, identifier) != 0){
 					return -1;
 				}
-				slen = (sig[spos] << 8) | sig[spos + 1];
+				slen = ((sig[spos] - 192) << 8) + sig[spos + 1] + 192;
 				spos = spos + 2;
 			} else {
 				if(length_check(len, spos, 5, handle, identifier) != 0) {
