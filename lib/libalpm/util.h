@@ -155,6 +155,7 @@ int _alpm_fnmatch_patterns(alpm_list_t *patterns, const char *string);
 int _alpm_fnmatch(const void *pattern, const void *string);
 void *_alpm_realloc(void **data, size_t *current, const size_t required);
 void *_alpm_greedy_grow(void **data, size_t *current, const size_t required);
+alpm_errno_t _alpm_read_file(const char *filepath, unsigned char **data, size_t *data_len);
 
 #ifndef HAVE_STRSEP
 char *strsep(char **, const char *);

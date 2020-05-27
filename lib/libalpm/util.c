@@ -1489,3 +1489,40 @@ void _alpm_alloc_fail(size_t size)
 {
 	fprintf(stderr, "alloc failure: could not allocate %zu bytes\n", size);
 }
+
+/** This functions reads file content.
+ *
+ * Memory buffer is allocated by the callee function. It is responsibility
+ * of the caller to free the buffer.
+ *
+ * @param filepath filepath to read
+ * @param data pointer to output buffer
+ * @param data_len size of the output buffer
+ * @return error code for the operation
+ */
+alpm_errno_t _alpm_read_file(const char *filepath, unsigned char **data, size_t *data_len)
+{
+	struct stat st;
+	FILE *fp;
+
+	if((fp = fopen(filepath, "rb")) == NULL) {
+		return ALPM_ERR_NOT_A_FILE;
+	}
+
+	if(fstat(fileno(fp), &st) != 0) {
+		fclose(fp);
+		return ALPM_ERR_NOT_A_FILE;
+	}
+	*data_len = st.st_size;
+
+	MALLOC(*data, *data_len, fclose(fp); return ALPM_ERR_MEMORY);
+
+	if(fread(*data, *data_len, 1, fp) != 1) {
+		FREE(*data);
+		fclose(fp);
+		return ALPM_ERR_SYSTEM;
+	}
+
+	fclose(fp);
+	return ALPM_ERR_OK;
+}

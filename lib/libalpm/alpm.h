@@ -1405,6 +1405,17 @@ alpm_db_t *alpm_pkg_get_db(alpm_pkg_t *pkg);
  */
 const char *alpm_pkg_get_base64_sig(alpm_pkg_t *pkg);
 
+/** Extracts package signature either from embedded package signature
+ * or if it is absent then reads data from detached signature file.
+ * @param pkg a pointer to package.
+ * @param sig output parameter for signature data. Callee function allocates
+ * a buffer needed for the signature data. Caller is responsible for
+ * freeing this buffer.
+ * @param sig_len output parameter for the signature data length.
+ * @return 0 on success, negative number on error.
+ */
+int alpm_pkg_get_sig(alpm_pkg_t *pkg, unsigned char **sig, size_t *sig_len);
+
 /** Returns the method used to validate a package during install.
  * @param pkg a pointer to package
  * @return an enum member giving the validation method

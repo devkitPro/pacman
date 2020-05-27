@@ -268,6 +268,46 @@ const char SYMEXPORT *alpm_pkg_get_base64_sig(alpm_pkg_t *pkg)
 	return pkg->base64_sig;
 }
 
+int SYMEXPORT alpm_pkg_get_sig(alpm_pkg_t *pkg, unsigned char **sig, size_t *sig_len)
+{
+	if(pkg != NULL) {
+		RET_ERR(pkg->handle, ALPM_ERR_WRONG_ARGS, -1);
+	}
+
+	if(pkg->base64_sig) {
+		int ret = alpm_decode_signature(pkg->base64_sig, sig, sig_len);
+		if(ret != 0) {
+			RET_ERR(pkg->handle, ALPM_ERR_SIG_INVALID, -1);
+		}
+		return 0;
+	} else {
+		char *pkgpath = NULL, *sigpath = NULL;
+		alpm_errno_t err;
+		int ret = -1;
+
+		pkgpath = _alpm_filecache_find(pkg->handle, pkg->filename);
+		if(!pkgpath) {
+			GOTO_ERR(pkg->handle, ALPM_ERR_PKG_NOT_FOUND, cleanup);
+		}
+		sigpath = _alpm_sigpath(pkg->handle, pkgpath);
+		if(!sigpath || _alpm_access(pkg->handle, NULL, sigpath, R_OK)) {
+			GOTO_ERR(pkg->handle, ALPM_ERR_SIG_MISSING, cleanup);
+		}
+		err = _alpm_read_file(sigpath, sig, sig_len);
+		if(err == ALPM_ERR_OK) {
+			_alpm_log(pkg->handle, ALPM_LOG_DEBUG, "found detached signature %s with size %ld\n",
+				sigpath, *sig_len);
+		} else {
+			GOTO_ERR(pkg->handle, err, cleanup);
+		}
+		ret = 0;
+cleanup:
+		FREE(pkgpath);
+		FREE(sigpath);
+		return ret;
+	}
+}
+
 const char SYMEXPORT *alpm_pkg_get_arch(alpm_pkg_t *pkg)
 {
 	ASSERT(pkg != NULL, return NULL);

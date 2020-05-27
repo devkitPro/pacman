@@ -880,18 +880,18 @@ static int check_keyring(alpm_handle_t *handle)
 		}
 
 		level = alpm_db_get_siglevel(alpm_pkg_get_db(pkg));
-		if((level & ALPM_SIG_PACKAGE) && pkg->base64_sig) {
-			unsigned char *decoded_sigdata = NULL;
-			size_t data_len;
-			int decode_ret = alpm_decode_signature(pkg->base64_sig,
-					&decoded_sigdata, &data_len);
-			if(decode_ret == 0) {
+		if((level & ALPM_SIG_PACKAGE)) {
+			unsigned char *sig = NULL;
+			size_t sig_len;
+			int ret = alpm_pkg_get_sig(pkg, &sig, &sig_len);
+			if(ret == 0) {
 				alpm_list_t *keys = NULL;
-				if(alpm_extract_keyid(handle, pkg->name, decoded_sigdata,
-							data_len, &keys) == 0) {
+				if(alpm_extract_keyid(handle, pkg->name, sig,
+							sig_len, &keys) == 0) {
 					alpm_list_t *k;
 					for(k = keys; k; k = k->next) {
 						char *key = k->data;
+						_alpm_log(handle, ALPM_LOG_DEBUG, "found signature key: %s\n", key);
 						if(!alpm_list_find(errors, key, key_cmp) &&
 								_alpm_key_in_keychain(handle, key) == 0) {
 							keyinfo = malloc(sizeof(struct keyinfo_t));
@@ -905,8 +905,8 @@ static int check_keyring(alpm_handle_t *handle)
 					}
 					FREELIST(keys);
 				}
-				free(decoded_sigdata);
 			}
+			free(sig);
 		}
 	}
 
