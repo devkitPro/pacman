@@ -112,7 +112,7 @@ check_pgpsigs() {
 
 	if (( warnings )); then
 		warning "$(gettext "Warnings have occurred while verifying the signatures.")"
-		plain "$(gettext "Please make sure you really trust them.")"
+		plainerr "$(gettext "Please make sure you really trust them.")"
 	fi
 }
 

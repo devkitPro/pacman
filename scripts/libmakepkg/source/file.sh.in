@@ -72,7 +72,7 @@ download_file() {
 	if ! command -- "${cmdline[@]}" >&2; then
 		[[ ! -s $dlfile ]] && rm -f -- "$dlfile"
 		error "$(gettext "Failure while downloading %s")" "$url"
-		plain "$(gettext "Aborting...")"
+		plainerr "$(gettext "Aborting...")"
 		exit 1
 	fi
 
@@ -137,7 +137,7 @@ extract_file() {
 	fi
 	if (( ret )); then
 		error "$(gettext "Failed to extract %s")" "$file"
-		plain "$(gettext "Aborting...")"
+		plainerr "$(gettext "Aborting...")"
 		exit 1
 	fi
 
