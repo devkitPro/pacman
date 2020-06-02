@@ -42,7 +42,7 @@ download_file() {
 	# find the client we should use for this URL
 	local -a cmdline
 	IFS=' ' read -a cmdline < <(get_downloadclient "$proto")
-	(( ${#cmdline[@]} )) || exit
+	wait $! || exit
 
 	local filename=$(get_filename "$netfile")
 	local url=$(get_url "$netfile")
