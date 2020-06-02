@@ -39,7 +39,7 @@ source_makepkg_config() {
 		source_safe "$MAKEPKG_CONF"
 	else
 		error "$(gettext "%s not found.")" "$MAKEPKG_CONF"
-		plain "$(gettext "Aborting...")"
+		plainerr "$(gettext "Aborting...")"
 		exit $E_CONFIG_ERROR
 	fi
 

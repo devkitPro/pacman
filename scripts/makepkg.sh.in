@@ -219,7 +219,7 @@ update_pkgver() {
 # Print 'source not found' error message and exit makepkg
 missing_source_file() {
 	error "$(gettext "Unable to find source file %s.")" "$(get_filename "$1")"
-	plain "$(gettext "Aborting...")"
+	plainerr "$(gettext "Aborting...")"
 	exit $E_MISSING_FILE
 }
 
@@ -354,7 +354,7 @@ error_function() {
 	# first exit all subshells, then print the error
 	if (( ! BASH_SUBSHELL )); then
 		error "$(gettext "A failure occurred in %s().")" "$1"
-		plain "$(gettext "Aborting...")"
+		plainerr "$(gettext "Aborting...")"
 	fi
 	exit $E_USER_FUNCTION_FAILED
 }
@@ -672,7 +672,7 @@ create_package() {
 
 	if [[ ! -d $pkgdir ]]; then
 		error "$(gettext "Missing %s directory.")" "\$pkgdir/"
-		plain "$(gettext "Aborting...")"
+		plainerr "$(gettext "Aborting...")"
 		exit $E_MISSING_PKGDIR
 	fi
 
@@ -1145,23 +1145,23 @@ lint_config || exit $E_CONFIG_ERROR
 
 # check that all settings directories are user-writable
 if ! ensure_writable_dir "BUILDDIR" "$BUILDDIR"; then
-	plain "$(gettext "Aborting...")"
+	plainerr "$(gettext "Aborting...")"
 	exit $E_FS_PERMISSIONS
 fi
 
 if (( ! (NOBUILD || GENINTEG) )) && ! ensure_writable_dir "PKGDEST" "$PKGDEST"; then
-	plain "$(gettext "Aborting...")"
+	plainerr "$(gettext "Aborting...")"
 	exit $E_FS_PERMISSIONS
 fi
 
 if ! ensure_writable_dir "SRCDEST" "$SRCDEST" ; then
-	plain "$(gettext "Aborting...")"
+	plainerr "$(gettext "Aborting...")"
 	exit $E_FS_PERMISSIONS
 fi
 
 if (( SOURCEONLY )); then
 	if ! ensure_writable_dir "SRCPKGDEST" "$SRCPKGDEST"; then
-		plain "$(gettext "Aborting...")"
+		plainerr "$(gettext "Aborting...")"
 		exit $E_FS_PERMISSIONS
 	fi
 
@@ -1171,7 +1171,7 @@ if (( SOURCEONLY )); then
 fi
 
 if (( LOGGING )) && ! ensure_writable_dir "LOGDEST" "$LOGDEST"; then
-	plain "$(gettext "Aborting...")"
+	plainerr "$(gettext "Aborting...")"
 	exit $E_FS_PERMISSIONS
 fi
 

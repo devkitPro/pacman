@@ -43,7 +43,7 @@ get_vcsclient() {
 	# if we didn't find an client, return an error
 	if [[ -z $client ]]; then
 		error "$(gettext "Unknown download protocol: %s")" "$proto"
-		plain "$(gettext "Aborting...")"
+		plainerr "$(gettext "Aborting...")"
 		exit $E_CONFIG_ERROR
 	fi
 

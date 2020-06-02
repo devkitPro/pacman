@@ -60,7 +60,7 @@ download_svn() {
 				;;
 			*)
 				error "$(gettext "Unrecognized reference: %s")" "${fragment}"
-				plain "$(gettext "Aborting...")"
+				plainerr "$(gettext "Aborting...")"
 				exit 1
 		esac
 	fi
@@ -70,7 +70,7 @@ download_svn() {
 		mkdir -p "$dir/.makepkg"
 		if ! svn checkout -r ${ref} --config-dir "$dir/.makepkg" "$url" "$dir"; then
 			error "$(gettext "Failure while downloading %s %s repo")" "${repo}" "svn"
-			plain "$(gettext "Aborting...")"
+			plainerr "$(gettext "Aborting...")"
 			exit 1
 		fi
 	elif (( ! HOLDVER )); then
