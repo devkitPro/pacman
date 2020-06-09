@@ -137,7 +137,7 @@ check_gpg() {
 	fi
 
 	if (( ! VERIFY )); then
-		if ! gpg --list-key ${GPGKEY:+"$GPGKEY"} &>/dev/null; then
+		if ! gpg --list-secret-key ${GPGKEY:+"$GPGKEY"} &>/dev/null; then
 			if [[ ! -z $GPGKEY ]]; then
 				error "$(gettext "The key ${GPGKEY} does not exist in your keyring.")"
 			elif (( ! KEY )); then
