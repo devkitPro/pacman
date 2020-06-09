@@ -138,7 +138,7 @@ check_gpg() {
 	fi
 
 	if (( ! VERIFY )); then
-		if ! gpg --list-key ${GPGKEY} &>/dev/null; then
+		if ! gpg --list-key ${GPGKEY:+"$GPGKEY"} &>/dev/null; then
 			if [[ ! -z $GPGKEY ]]; then
 				error "$(gettext "The key ${GPGKEY} does not exist in your keyring.")"
 			elif (( ! KEY )); then
@@ -156,11 +156,11 @@ create_signature() {
 	local ret=0
 	msg "$(gettext "Signing database '%s'...")" "${dbfile##*/.tmp.}"
 
-	local SIGNWITHKEY=""
+	local SIGNWITHKEY=()
 	if [[ -n $GPGKEY ]]; then
-		SIGNWITHKEY="-u ${GPGKEY}"
+		SIGNWITHKEY=(-u "${GPGKEY}")
 	fi
-	gpg --detach-sign --use-agent --no-armor ${SIGNWITHKEY} "$dbfile" &>/dev/null || ret=$?
+	gpg --detach-sign --use-agent --no-armor "${SIGNWITHKEY[@]}" "$dbfile" &>/dev/null || ret=$?
 
 	if (( ! ret )); then
 		msg2 "$(gettext "Created signature file '%s'")" "${dbfile##*/.tmp.}.sig"
