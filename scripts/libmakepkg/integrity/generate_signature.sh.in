@@ -29,12 +29,12 @@ create_signature() {
 	local ret=0
 	local filename="$1"
 
-	local SIGNWITHKEY=""
+	local SIGNWITHKEY=()
 	if [[ -n $GPGKEY ]]; then
-		SIGNWITHKEY="-u ${GPGKEY}"
+		SIGNWITHKEY=(-u "${GPGKEY}")
 	fi
 
-	gpg --detach-sign --use-agent ${SIGNWITHKEY} --no-armor "$filename" &>/dev/null || ret=$?
+	gpg --detach-sign --use-agent "${SIGNWITHKEY[@]}" --no-armor "$filename" &>/dev/null || ret=$?
 
 
 	if (( ! ret )); then

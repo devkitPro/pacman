@@ -1286,7 +1286,7 @@ fi
 # check if gpg signature is to be created and if signing key is valid
 if { [[ -z $SIGNPKG ]] && check_buildenv "sign" "y"; } || [[ $SIGNPKG == 'y' ]]; then
 	SIGNPKG='y'
-	if ! gpg --list-key ${GPGKEY} &>/dev/null; then
+	if ! gpg --list-key ${GPGKEY:+"$GPGKEY"} &>/dev/null; then
 		if [[ ! -z $GPGKEY ]]; then
 			error "$(gettext "The key %s does not exist in your keyring.")" "${GPGKEY}"
 		else
