@@ -148,7 +148,7 @@ generate_master_key() {
 	"${GPG_PACMAN[@]}" --gen-key --batch <<EOF
 %echo Generating pacman keyring master key...
 Key-Type: RSA
-Key-Length: 2048
+Key-Length: 4096
 Key-Usage: sign
 Name-Real: Pacman Keyring Master Key
 Name-Email: pacman@localhost
