@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-21 17:23+1000\n"
+"POT-Creation-Date: 2020-06-19 09:48+1000\n"
 "PO-Revision-Date: 2019-10-07 14:57+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/toofishes/archlinux-pacman/"
@@ -57,7 +57,7 @@ msgstr "avís en extreure %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "no s'ha pogut extreure %s (%s).\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:574 lib/libalpm/remove.c:542
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:580 lib/libalpm/remove.c:542
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "no s'ha pogut canviar el nom %s a %s (%s).\n"
@@ -170,7 +170,7 @@ msgstr "entrada de la base de dades corrupta \"%s'\".\n"
 
 #: lib/libalpm/be_local.c:713 lib/libalpm/be_local.c:809
 #: lib/libalpm/be_local.c:954 lib/libalpm/be_local.c:1051
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:422 lib/libalpm/util.c:253
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:428 lib/libalpm/util.c:253
 #: lib/libalpm/util.c:269
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -235,7 +235,7 @@ msgstr "manquen les metadades del paquet a %s.\n"
 msgid "failed to read signature file: %s\n"
 msgstr "ha fallat llegir el fitxer de signatures: %s.\n"
 
-#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:953
+#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:971
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "la clau requerida manca al clauer.\n"
@@ -372,24 +372,24 @@ msgstr "ha fallat crear un fitxer temporal per a la baixada.\n"
 msgid "url '%s' is invalid\n"
 msgstr "l'url \"%s\" no és vàlid.\n"
 
-#: lib/libalpm/dload.c:464 lib/libalpm/dload.c:485 lib/libalpm/dload.c:496
+#: lib/libalpm/dload.c:470 lib/libalpm/dload.c:491 lib/libalpm/dload.c:502
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "ha fallat la recuperació del fitxer \"%s\" des de %s: %s\n"
 
-#: lib/libalpm/dload.c:477
+#: lib/libalpm/dload.c:483
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "ha fallat recuperar el fitxer \"%s\" des de %s: mida de la baixada superior "
 "a l'esperada.\n"
 
-#: lib/libalpm/dload.c:532
+#: lib/libalpm/dload.c:538
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s sembla que està truncat: %jd/%jd bytes.\n"
 
-#: lib/libalpm/dload.c:677 lib/libalpm/dload.c:706
+#: lib/libalpm/dload.c:683 lib/libalpm/dload.c:712
 #, c-format
 msgid "failed to download %s\n"
 msgstr "ha fallat baixar %s.\n"
@@ -845,7 +845,7 @@ msgstr "la clau \"%s\" no s'ha pogut importar.\n"
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "la clau \"%s\" no s'ha pogut cercar remotament.\n"
 
-#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1040
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: manca la signatura requerida.\n"
@@ -939,27 +939,27 @@ msgstr ""
 "Se suprimeix \"%s\" de la llista d'objectius perquè té conflictes amb \"%s"
 "\".\n"
 
-#: lib/libalpm/sync.c:849
+#: lib/libalpm/sync.c:859
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "ha fallat la recuperació d'alguns fitxers.\n"
 
-#: lib/libalpm/sync.c:1036
+#: lib/libalpm/sync.c:1054
 #, c-format
 msgid "failed to read file %s: %s\n"
 msgstr "ha fallat llegir el fitxer %s: %s\n"
 
-#: lib/libalpm/sync.c:1223
+#: lib/libalpm/sync.c:1241
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "no hi ha prou espai de disc lliure.\n"
 
-#: lib/libalpm/sync.c:1245
+#: lib/libalpm/sync.c:1263
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "no s'ha pogut fer la transacció de supressió.\n"
 
-#: lib/libalpm/sync.c:1253
+#: lib/libalpm/sync.c:1271
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "no s'ha pogut fer la transacció.\n"

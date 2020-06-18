@@ -5,10 +5,10 @@
 # Translators:
 # Angel Velasquez <angvp@archlinux.org>, 2011
 # Dan McGee <dpmcgee@gmail.com>, 2011
-# ice <ice.modding@gmail.com>, 2016
+# ice, 2016
 # Juan Antonio Cánovas Pérez <traumness@gmail.com>, 2011
 # juantascon <juantascon@gmail.com>, 2011
-# ice <ice.modding@gmail.com>, 2016
+# ice, 2016
 # Leonel <leonelmalon@gmail.com>, 2013
 # neiko <neikokz+tsfx@gmail.com>, 2011
 # prflr88 <prflr88@gmail.com>, 2015,2017
@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-21 17:23+1000\n"
+"POT-Creation-Date: 2020-06-19 09:48+1000\n"
 "PO-Revision-Date: 2019-10-07 08:12+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Spanish (Latin America) (http://www.transifex.com/toofishes/"
@@ -60,7 +60,7 @@ msgstr "alerta producida mientras se extraía %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "no se pudo extraer %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:574 lib/libalpm/remove.c:542
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:580 lib/libalpm/remove.c:542
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "no se pudo renombrar %s a %s (%s)\n"
@@ -173,7 +173,7 @@ msgstr "la entrada «%s» de la base de datos está dañada\n"
 
 #: lib/libalpm/be_local.c:713 lib/libalpm/be_local.c:809
 #: lib/libalpm/be_local.c:954 lib/libalpm/be_local.c:1051
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:422 lib/libalpm/util.c:253
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:428 lib/libalpm/util.c:253
 #: lib/libalpm/util.c:269
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -239,7 +239,7 @@ msgstr "faltan los metadatos del paquete en %s\n"
 msgid "failed to read signature file: %s\n"
 msgstr "no se pudo leer correctamente el archivo de firma: %s\n"
 
-#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:953
+#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:971
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "la clave requerida no está presente en el llavero\n"
@@ -381,24 +381,24 @@ msgstr "no se pudo crear el archivo temporal para la descarga\n"
 msgid "url '%s' is invalid\n"
 msgstr "la dirección «%s» no es válida\n"
 
-#: lib/libalpm/dload.c:464 lib/libalpm/dload.c:485 lib/libalpm/dload.c:496
+#: lib/libalpm/dload.c:470 lib/libalpm/dload.c:491 lib/libalpm/dload.c:502
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "no se pudo obtener el archivo «%s» desde %s: %s\n"
 
-#: lib/libalpm/dload.c:477
+#: lib/libalpm/dload.c:483
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "no se pudo obtener el archivo «%s» desde %s : tamaño de la descarga superior "
 "del esperado\n"
 
-#: lib/libalpm/dload.c:532
+#: lib/libalpm/dload.c:538
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s parece estar incompleto: %jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:677 lib/libalpm/dload.c:706
+#: lib/libalpm/dload.c:683 lib/libalpm/dload.c:712
 #, c-format
 msgid "failed to download %s\n"
 msgstr "no se pudo descargar %s\n"
@@ -852,7 +852,7 @@ msgstr ""
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1040
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: falta la firma exigida\n"
@@ -946,27 +946,27 @@ msgstr ""
 "quitando «%s» de la lista de objetivos debido a que tiene conflictos con "
 "«%s»\n"
 
-#: lib/libalpm/sync.c:849
+#: lib/libalpm/sync.c:859
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "no se pudieron recibir algunos archivos\n"
 
-#: lib/libalpm/sync.c:1036
+#: lib/libalpm/sync.c:1054
 #, c-format
 msgid "failed to read file %s: %s\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:1223
+#: lib/libalpm/sync.c:1241
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "no hay suficiente espacio libre en el disco\n"
 
-#: lib/libalpm/sync.c:1245
+#: lib/libalpm/sync.c:1263
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "no se pudo realizar la operación de eliminación\n"
 
-#: lib/libalpm/sync.c:1253
+#: lib/libalpm/sync.c:1271
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "no se pudo realizar la operación\n"

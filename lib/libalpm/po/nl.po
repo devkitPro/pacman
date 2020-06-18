@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-21 17:23+1000\n"
+"POT-Creation-Date: 2020-06-19 09:48+1000\n"
 "PO-Revision-Date: 2019-10-07 09:17+0000\n"
 "Last-Translator: Ruben Van Boxem <vanboxem.ruben@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/toofishes/archlinux-pacman/"
@@ -58,7 +58,7 @@ msgstr "waarschuwing tijdens uitpakken van %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "kon %s (%s) niet uitpakken\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:574 lib/libalpm/remove.c:542
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:580 lib/libalpm/remove.c:542
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "kan %s niet hernoemen als %s (%s)\n"
@@ -171,7 +171,7 @@ msgstr "database record '%s' corrupt\n"
 
 #: lib/libalpm/be_local.c:713 lib/libalpm/be_local.c:809
 #: lib/libalpm/be_local.c:954 lib/libalpm/be_local.c:1051
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:422 lib/libalpm/util.c:253
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:428 lib/libalpm/util.c:253
 #: lib/libalpm/util.c:269
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -235,7 +235,7 @@ msgstr "metagegevens van pakket ontbreken in %s\n"
 msgid "failed to read signature file: %s\n"
 msgstr "fout tijdens lezen van handtekeningsbestand: %s\n"
 
-#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:953
+#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:971
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "vereiste sleutel ontbreekt in sleutelhanger\n"
@@ -365,24 +365,24 @@ msgstr "aanmaken van tijdelijk bestand voor download mislukt\n"
 msgid "url '%s' is invalid\n"
 msgstr "url '%s' is niet geldig\n"
 
-#: lib/libalpm/dload.c:464 lib/libalpm/dload.c:485 lib/libalpm/dload.c:496
+#: lib/libalpm/dload.c:470 lib/libalpm/dload.c:491 lib/libalpm/dload.c:502
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "kan het bestand '%s' niet ophalen van %s : %s\n"
 
-#: lib/libalpm/dload.c:477
+#: lib/libalpm/dload.c:483
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "kon het bestand '%s' niet ophalen van %s : verwachte download grootte "
 "overschreden\n"
 
-#: lib/libalpm/dload.c:532
+#: lib/libalpm/dload.c:538
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s werd onderbroken: %jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:677 lib/libalpm/dload.c:706
+#: lib/libalpm/dload.c:683 lib/libalpm/dload.c:712
 #, c-format
 msgid "failed to download %s\n"
 msgstr "downloaden van %s mislukt\n"
@@ -834,7 +834,7 @@ msgstr "sleutel \"%s\" kon niet geïmporteerd worden\n"
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "sleutel \"%s\" kon niet gevonden worden\n"
 
-#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1040
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: ontbrekende PGP handtekening\n"
@@ -927,27 +927,27 @@ msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr ""
 "'%s' wordt verwijderd van de doellijst omdat het conflicteert met '%s'\n"
 
-#: lib/libalpm/sync.c:849
+#: lib/libalpm/sync.c:859
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "Niet alle bestanden konden worden opgehaald\n"
 
-#: lib/libalpm/sync.c:1036
+#: lib/libalpm/sync.c:1054
 #, c-format
 msgid "failed to read file %s: %s\n"
 msgstr "fout bij het lezen van bestand '%s': %s\n"
 
-#: lib/libalpm/sync.c:1223
+#: lib/libalpm/sync.c:1241
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "Onvoldoende vrije schijfruimte\n"
 
-#: lib/libalpm/sync.c:1245
+#: lib/libalpm/sync.c:1263
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "kan de verwijdertransactie niet voltooien\n"
 
-#: lib/libalpm/sync.c:1253
+#: lib/libalpm/sync.c:1271
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "kan transactie niet voltooien\n"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-21 17:23+1000\n"
+"POT-Creation-Date: 2020-06-19 09:48+1000\n"
 "PO-Revision-Date: 2019-10-07 10:29+0000\n"
 "Last-Translator: Alexander F Rødseth <rodseth@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/toofishes/"
@@ -53,7 +53,7 @@ msgstr "fikk en advarsel ved utpakking av %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "kan ikke pakke ut %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:574 lib/libalpm/remove.c:542
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:580 lib/libalpm/remove.c:542
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "kunne ikke omdøpe %s til %s (%s)\n"
@@ -164,7 +164,7 @@ msgstr "korrupt databaseoppføring '%s'\n"
 
 #: lib/libalpm/be_local.c:713 lib/libalpm/be_local.c:809
 #: lib/libalpm/be_local.c:954 lib/libalpm/be_local.c:1051
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:422 lib/libalpm/util.c:253
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:428 lib/libalpm/util.c:253
 #: lib/libalpm/util.c:269
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -226,7 +226,7 @@ msgstr "mangler metadata i %s\n"
 msgid "failed to read signature file: %s\n"
 msgstr "kan ikke lese signaturfil: %s\n"
 
-#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:953
+#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:971
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "den nødvendige nøkkelen finnes ikke på nøkkelringen\n"
@@ -356,22 +356,22 @@ msgstr "kunne ikke opprette midlertidig fil i sammengeng med nedlasting\n"
 msgid "url '%s' is invalid\n"
 msgstr "url '%s' er ugyldig\n"
 
-#: lib/libalpm/dload.c:464 lib/libalpm/dload.c:485 lib/libalpm/dload.c:496
+#: lib/libalpm/dload.c:470 lib/libalpm/dload.c:491 lib/libalpm/dload.c:502
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "kunne ikke hente filen '%s' fra %s : %s\n"
 
-#: lib/libalpm/dload.c:477
+#: lib/libalpm/dload.c:483
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr "kunne ikke hente filen '%s' fra %s : filen er større enn forventet\n"
 
-#: lib/libalpm/dload.c:532
+#: lib/libalpm/dload.c:538
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s ser ut til å være avkortet: %jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:677 lib/libalpm/dload.c:706
+#: lib/libalpm/dload.c:683 lib/libalpm/dload.c:712
 #, c-format
 msgid "failed to download %s\n"
 msgstr "kunne ikke laste ned %s\n"
@@ -823,7 +823,7 @@ msgstr "kan ikke importere nøkkel \"%s\"\n"
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "kunne ikke finne nøkkel \"%s\" på avstand\n"
 
-#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1040
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: mangler påkrevd signatur\n"
@@ -915,27 +915,27 @@ msgstr "uløselige pakkekollisjoner oppdaget\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "fjerner '%s' fra listen over mål fordi den kolliderer med '%s'\n"
 
-#: lib/libalpm/sync.c:849
+#: lib/libalpm/sync.c:859
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "noen filer kunne ikke hentes\n"
 
-#: lib/libalpm/sync.c:1036
+#: lib/libalpm/sync.c:1054
 #, c-format
 msgid "failed to read file %s: %s\n"
 msgstr "kunne ikke lese fil %s: %s\n"
 
-#: lib/libalpm/sync.c:1223
+#: lib/libalpm/sync.c:1241
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "ikke nok ledig diskplass\n"
 
-#: lib/libalpm/sync.c:1245
+#: lib/libalpm/sync.c:1263
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "kunne ikke utføre transaksjon (fjerning)\n"
 
-#: lib/libalpm/sync.c:1253
+#: lib/libalpm/sync.c:1271
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "kunne ikke utføre transaksjon\n"

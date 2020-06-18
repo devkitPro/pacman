@@ -6,18 +6,18 @@
 # Allan McRae <allan@archlinux.org>, 2014
 # Blask <blaskyy@gmail.com>, 2013
 # Blask <blaskyy@gmail.com>, 2013
-# leonfeng <chaofeng111@qq.com>, 2018-2019
+# Feng Chao <chaofeng111@qq.com>, 2018-2019
 # Felix Yan <felixonmars@gmail.com>, 2015
-# Jiachen YANG <farseerfc@gmail.com>, 2018-2019
-# leonfeng <chaofeng111@qq.com>, 2011,2013
-# leonfeng <chaofeng111@qq.com>, 2011,2013,2018
-# leonfeng <chaofeng111@qq.com>, 2011,2013
+# Jiachen YANG <farseerfc@gmail.com>, 2018-2020
+# Feng Chao <chaofeng111@qq.com>, 2011,2013
+# Feng Chao <chaofeng111@qq.com>, 2011,2013,2018
+# Feng Chao <chaofeng111@qq.com>, 2011,2013
 # shuyu liu <liushuyu011@gmail.com>, 2018
 # mytbk <mytbk920423@gmail.com>, 2013-2018
 # mytbk <mytbk920423@gmail.com>, 2013
 # Nicholas Wang <wck963@gmail.com>, 2018-2019
-# leonfeng <chaofeng111@qq.com>, 2013
-# leonfeng <chaofeng111@qq.com>, 2011
+# Feng Chao <chaofeng111@qq.com>, 2013
+# Feng Chao <chaofeng111@qq.com>, 2011
 # shuyu liu <liushuyu011@gmail.com>, 2018
 # Tian Yunhao <t123yh@outlook.com>, 2018
 # ykelvis <ykelvis@users.noreply.github.com>, 2014
@@ -30,9 +30,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-14 09:42+1000\n"
-"PO-Revision-Date: 2019-10-13 23:47+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2020-06-19 09:48+1000\n"
+"PO-Revision-Date: 2020-06-03 06:35+0000\n"
+"Last-Translator: Jiachen YANG <farseerfc@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -198,12 +198,12 @@ msgstr ""
 #: src/pacman/callback.c:461
 #, c-format
 msgid "Import PGP key %s?"
-msgstr ""
+msgstr "是否导入 PGP 公钥 %s ？"
 
 #: src/pacman/callback.c:464
 #, c-format
 msgid "Import PGP key %s, \"%s\"?"
-msgstr ""
+msgstr "是否导入 PGP 公钥 %s ，\"%s\"？"
 
 #: src/pacman/callback.c:523
 #, c-format
@@ -378,7 +378,7 @@ msgstr "无法恢复工作目录 (%s)\n"
 #: src/pacman/conf.c:481 src/pacman/conf.c:530 src/pacman/conf.c:635
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
-msgstr "配置文件 %s，第 %d 行：无有效值 '%s'：'%s'\n"
+msgstr "配置文件 %s，第 %d 行：无效值 '%s'：'%s'\n"
 
 #: src/pacman/conf.c:495
 #, c-format
@@ -389,7 +389,7 @@ msgstr "配置文件 %s，第 %d 行：'%s' 选项无效，无签名支持\n"
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
-msgstr "配置文件 %s，第 %d 行：指令 '%s'(位于章节 '%s' 中) 无法识别。\n"
+msgstr "配置文件 %s，第 %d 行：指示符 '%s' 在 '%s' 章节中无法识别。\n"
 
 #: src/pacman/conf.c:694
 #, c-format
@@ -1631,7 +1631,7 @@ msgstr "软件包"
 #: src/pacman/util.c:942
 #, c-format
 msgid "Total Download Size:"
-msgstr "下载大小:"
+msgstr "下载大小："
 
 #: src/pacman/util.c:946
 #, c-format
@@ -1786,37 +1786,37 @@ msgstr "  -h, --help           显示此帮助信息\n"
 #: src/pacman/pacman-conf.c:51
 #, c-format
 msgid "  -V, --version        display version information\n"
-msgstr ""
+msgstr " -V, --version display       显示版本信息\n"
 
 #: src/pacman/pacman-conf.c:80
 #, c-format
 msgid "error setting rootdir '%s': out of memory\n"
-msgstr ""
+msgstr "设置根目录 '%s' 时报错：内存不足\n"
 
 #: src/pacman/pacman-conf.c:110
 #, c-format
 msgid "error parsing '%s'\n"
-msgstr ""
+msgstr "解析 '%s' 时遇到错误\n"
 
 #: src/pacman/pacman-conf.c:290
 #, c-format
 msgid "error: repo '%s' not configured\n"
-msgstr ""
+msgstr "错误：未找到软件源 '%s' 的配置\n"
 
-#: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:383
+#: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:385
 #, c-format
 msgid "warning: '%s' directives cannot be queried\n"
-msgstr ""
+msgstr "警告：不能查询 '%s' 指示符\n"
 
-#: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:386
+#: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:388
 #, c-format
 msgid "warning: unknown directive '%s'\n"
-msgstr ""
+msgstr "警告：未知的指示符 '%s'\n"
 
-#: src/pacman/pacman-conf.c:423
+#: src/pacman/pacman-conf.c:425
 #, c-format
 msgid "error: directives may not be specified with %s\n"
-msgstr ""
+msgstr "错误：指示符不能同时用 %s \n"
 
 #: src/util/testpkg.c:55
 #, c-format
@@ -1824,43 +1824,45 @@ msgid ""
 "Test a pacman package for validity.\n"
 "\n"
 msgstr ""
+"测试 pacman 软件包的有效性。\n"
+"\n"
 
 #: src/util/testpkg.c:56
 #, c-format
 msgid "Usage: testpkg <package file>\n"
-msgstr ""
+msgstr "用法：testpkg <package file>\n"
 
 #: src/util/testpkg.c:62
 #, c-format
 msgid "cannot initialize alpm: %s\n"
-msgstr ""
+msgstr "无法初始化 alpm：%s\n"
 
 #: src/util/testpkg.c:77
 #, c-format
 msgid "Cannot find the given file.\n"
-msgstr ""
+msgstr "找不到指定的文件。\n"
 
 #: src/util/testpkg.c:80
 #, c-format
 msgid "Cannot open the given file.\n"
-msgstr ""
+msgstr "无法打开指定的文件。\n"
 
 #: src/util/testpkg.c:84
 #, c-format
 msgid "Package is invalid.\n"
-msgstr ""
+msgstr "软件包无效。\n"
 
 #: src/util/testpkg.c:87
 #, c-format
 msgid "libalpm error: %s\n"
-msgstr ""
+msgstr "libalpm 报错：%s\n"
 
 #: src/util/testpkg.c:93
 #, c-format
 msgid "Package is valid.\n"
-msgstr ""
+msgstr "软件包有效。\n"
 
 #: src/util/testpkg.c:98
 #, c-format
 msgid "error releasing alpm\n"
-msgstr ""
+msgstr "释放 alpm 时报错\n"

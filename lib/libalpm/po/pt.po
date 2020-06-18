@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-21 17:23+1000\n"
+"POT-Creation-Date: 2020-06-19 09:48+1000\n"
 "PO-Revision-Date: 2019-10-07 08:12+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Portuguese (http://www.transifex.com/toofishes/archlinux-"
@@ -54,7 +54,7 @@ msgstr "aviso apresentado ao extrair %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "não foi possível extrair %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:574 lib/libalpm/remove.c:542
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:580 lib/libalpm/remove.c:542
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "não foi possível renomear %s para %s (%s)\n"
@@ -167,7 +167,7 @@ msgstr "entrada da base de dados corrompida '%s'\n"
 
 #: lib/libalpm/be_local.c:713 lib/libalpm/be_local.c:809
 #: lib/libalpm/be_local.c:954 lib/libalpm/be_local.c:1051
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:422 lib/libalpm/util.c:253
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:428 lib/libalpm/util.c:253
 #: lib/libalpm/util.c:269
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -230,7 +230,7 @@ msgstr "em falta metadados do pacote em %s\n"
 msgid "failed to read signature file: %s\n"
 msgstr "falha ao ler o ficheiro de assinatura: %s\n"
 
-#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:953
+#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:971
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "chave necessária em falta no chaveiro\n"
@@ -368,24 +368,24 @@ msgstr "erro ao criar ficheiro temporário para download\n"
 msgid "url '%s' is invalid\n"
 msgstr "url '%s' é inválida\n"
 
-#: lib/libalpm/dload.c:464 lib/libalpm/dload.c:485 lib/libalpm/dload.c:496
+#: lib/libalpm/dload.c:470 lib/libalpm/dload.c:491 lib/libalpm/dload.c:502
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "falha ao obter ficheiro '%s' de %s : %s\n"
 
-#: lib/libalpm/dload.c:477
+#: lib/libalpm/dload.c:483
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "falhou a obtenção do ficheiro '%s' de %s : o tamanho esperado da "
 "transferência foi excedido\n"
 
-#: lib/libalpm/dload.c:532
+#: lib/libalpm/dload.c:538
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s parece estar quebrado: %jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:677 lib/libalpm/dload.c:706
+#: lib/libalpm/dload.c:683 lib/libalpm/dload.c:712
 #, c-format
 msgid "failed to download %s\n"
 msgstr "falha ao fazer a descarga de %s\n"
@@ -838,7 +838,7 @@ msgstr ""
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1040
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: não tem a assinatura requerida\n"
@@ -930,27 +930,27 @@ msgstr "detetado conflito entre pacotes sem solução\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "a remover '%s' da lista de pacotes porque entra em conflito com '%s'\n"
 
-#: lib/libalpm/sync.c:849
+#: lib/libalpm/sync.c:859
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "falha ao obter alguns ficheiros\n"
 
-#: lib/libalpm/sync.c:1036
+#: lib/libalpm/sync.c:1054
 #, c-format
 msgid "failed to read file %s: %s\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:1223
+#: lib/libalpm/sync.c:1241
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "não há espaço livre suficiente no disco\n"
 
-#: lib/libalpm/sync.c:1245
+#: lib/libalpm/sync.c:1263
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "não foi possível efetuar a operação de remoção\n"
 
-#: lib/libalpm/sync.c:1253
+#: lib/libalpm/sync.c:1271
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "não foi possível efetuar a operação\n"

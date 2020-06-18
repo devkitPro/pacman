@@ -11,14 +11,15 @@
 # Kim Svensson <ks@linux.com>, 2015
 # Ludvig Holtze <ludvig.holtze@protonmail.com>, 2018
 # Ludvig Holtze <ludvig.holtze@protonmail.com>, 2018
+# Luna Jernberg <bittin@cafe8bitar.se>, 2020
 #   <pojk3n@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-14 09:42+1000\n"
-"PO-Revision-Date: 2019-10-13 23:47+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2020-06-19 09:48+1000\n"
+"PO-Revision-Date: 2020-03-21 15:22+0000\n"
+"Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/sv/)\n"
 "Language: sv\n"
@@ -189,12 +190,12 @@ msgstr ""
 #: src/pacman/callback.c:461
 #, c-format
 msgid "Import PGP key %s?"
-msgstr ""
+msgstr "Importera PGP-nyckel %s?"
 
 #: src/pacman/callback.c:464
 #, c-format
 msgid "Import PGP key %s, \"%s\"?"
-msgstr ""
+msgstr "Importera PGP-nyckel %s, \"%s\"?"
 
 #: src/pacman/callback.c:523
 #, c-format
@@ -1327,7 +1328,7 @@ msgstr "Kunde inte förbereda transaktionen (%s)\n"
 #: src/pacman/remove.c:119 src/pacman/sync.c:737
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr ""
+msgstr "Att ta bort %sförstör beroendet '%s' som krävs av%s\n"
 
 #: src/pacman/remove.c:138
 #, c-format
@@ -1464,12 +1465,12 @@ msgstr "Påbörjar fullständig uppgradering...\n"
 #: src/pacman/sync.c:729
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
-msgstr ""
+msgstr "kunde inte tillfredsställa beroende '%s' som krävs av %s\n"
 
 #: src/pacman/sync.c:733
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
-msgstr ""
+msgstr "installera %s (%s) förstör beroendet '%s' som krävs av %s\n"
 
 #: src/pacman/sync.c:757
 #, c-format
@@ -1504,7 +1505,7 @@ msgstr "%s finns i både \"%s\" och \"%s\"\n"
 #: src/pacman/sync.c:834
 #, c-format
 msgid "%s: %s exists in filesystem (owned by %s)\n"
-msgstr ""
+msgstr "%s: %s finns redan i filsystemet (ägs av %s)\n"
 
 #: src/pacman/sync.c:837
 #, c-format
@@ -1713,7 +1714,7 @@ msgstr "%s har valfria beroenden\n"
 #: src/pacman/util.c:1285
 #, c-format
 msgid "Repository %s%s\n"
-msgstr ""
+msgstr "Centralkatalog %s%s\n"
 
 #: src/pacman/util.c:1326
 #, c-format
@@ -1798,7 +1799,7 @@ msgstr ""
 #: src/pacman/pacman-conf.c:44
 #, c-format
 msgid "options:\n"
-msgstr ""
+msgstr "alternativ:\n"
 
 #: src/pacman/pacman-conf.c:45
 #, c-format
@@ -1843,24 +1844,24 @@ msgstr ""
 #: src/pacman/pacman-conf.c:110
 #, c-format
 msgid "error parsing '%s'\n"
-msgstr ""
+msgstr "fel parsning '%s'\n"
 
 #: src/pacman/pacman-conf.c:290
 #, c-format
 msgid "error: repo '%s' not configured\n"
 msgstr ""
 
-#: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:383
+#: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:385
 #, c-format
 msgid "warning: '%s' directives cannot be queried\n"
 msgstr ""
 
-#: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:386
+#: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:388
 #, c-format
 msgid "warning: unknown directive '%s'\n"
-msgstr ""
+msgstr "varning: ogiltigt direktiv '%s'\n"
 
-#: src/pacman/pacman-conf.c:423
+#: src/pacman/pacman-conf.c:425
 #, c-format
 msgid "error: directives may not be specified with %s\n"
 msgstr ""
@@ -1875,37 +1876,37 @@ msgstr ""
 #: src/util/testpkg.c:56
 #, c-format
 msgid "Usage: testpkg <package file>\n"
-msgstr ""
+msgstr "Syntax: testpkg <package file>\n"
 
 #: src/util/testpkg.c:62
 #, c-format
 msgid "cannot initialize alpm: %s\n"
-msgstr ""
+msgstr "misslyckades att initialisera alpm: %s\n"
 
 #: src/util/testpkg.c:77
 #, c-format
 msgid "Cannot find the given file.\n"
-msgstr ""
+msgstr "Kan inte hitta den angivna filen.\n"
 
 #: src/util/testpkg.c:80
 #, c-format
 msgid "Cannot open the given file.\n"
-msgstr ""
+msgstr "Kan inte öppna den angivna filen.\n"
 
 #: src/util/testpkg.c:84
 #, c-format
 msgid "Package is invalid.\n"
-msgstr ""
+msgstr "Paketet är ogiltig.\n"
 
 #: src/util/testpkg.c:87
 #, c-format
 msgid "libalpm error: %s\n"
-msgstr ""
+msgstr "libalpm fel %s\n"
 
 #: src/util/testpkg.c:93
 #, c-format
 msgid "Package is valid.\n"
-msgstr ""
+msgstr "Paketet är giltigt.\n"
 
 #: src/util/testpkg.c:98
 #, c-format

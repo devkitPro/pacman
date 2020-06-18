@@ -6,6 +6,7 @@
 # Joop Kiefte <ikojba@gmail.com>, 2014
 # Joop Kiefte <ikojba@gmail.com>, 2014
 # Joop Kiefte <ikojba@gmail.com>, 2014
+# Kinsey Favre <kinseytamsin@tutanota.com>, 2020
 # Marcus Hatt <marcushatt@marcusntx.fastmail.net>, 2015
 # Michael Moroni <michaelmoroni@disroot.org>, 2013
 # Michael Moroni <michaelmoroni@disroot.org>, 2013
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-14 09:42+1000\n"
-"PO-Revision-Date: 2019-10-13 23:47+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2020-06-19 09:48+1000\n"
+"PO-Revision-Date: 2020-02-10 19:50+0000\n"
+"Last-Translator: Kinsey Favre <kinseytamsin@tutanota.com>\n"
 "Language-Team: Esperanto (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/eo/)\n"
 "Language: eo\n"
@@ -318,7 +319,7 @@ msgstr[1] "%s: %jd dosiero entute, "
 msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
 msgstr[0] "%jd dosiero mankata\n"
-msgstr[1] "%jd dosieroj mankataj\n"
+msgstr[1] "%jd mankantaj dosieroj\n"
 
 #: src/pacman/check.c:275
 #, c-format
@@ -498,7 +499,7 @@ msgstr "ne eblis agordi instalan kialon por pakaĵo %s (%s)\n"
 #: src/pacman/database.c:79
 #, c-format
 msgid "%s: install reason has been set to 'installed as dependency'\n"
-msgstr "%s: la instala kialo estis agordita al 'instalita kiel dependenco'\n"
+msgstr "%s: instalo-kialo agordiĝis al 'instaliĝis kiel dependaĵo'\n"
 
 #: src/pacman/database.c:81
 #, c-format
@@ -781,7 +782,8 @@ msgstr ""
 msgid ""
 "  -c, --cascade        remove packages and all packages that depend on them\n"
 msgstr ""
-"  -c, --cascade        forigi pakaĵon kaj ĉiujn dependantajn pakaĵojn\n"
+"  -c, --cascade        forigi pakaĵojn kaj ĉiujn pakaĵojn, kiuj dependas de "
+"ili\n"
 
 #: src/pacman/pacman.c:126
 #, c-format
@@ -921,8 +923,8 @@ msgid ""
 "  -c, --clean          remove old packages from cache directory (-cc for "
 "all)\n"
 msgstr ""
-"  -c, --clean          forviŝi malnovajn pakaĵojn de la kaŝmemora dosierujo "
-"(-cc por ĉiuj)\n"
+"  -c, --clean          forigi malnovajn pakaĵojn el la kaŝmemora dosierujo (-"
+"cc por ĉiuj)\n"
 
 #: src/pacman/pacman.c:157
 #, c-format
@@ -1061,8 +1063,8 @@ msgid ""
 "  -d, --nodeps         skip dependency version checks (-dd to skip all "
 "checks)\n"
 msgstr ""
-"  -d, --nodeps         preterpasi kontrolojn de versio de dependenco (-dd "
-"por preterpasi ĉiujn kontrolojn)\n"
+"  -d, --nodeps         preterpasi dependaĵajn versiajn kontrolojn (-dd por "
+"preterpasi ĉiujn kontrolojn)\n"
 
 #: src/pacman/pacman.c:200
 #, c-format
@@ -1085,7 +1087,7 @@ msgstr ""
 msgid ""
 "      --noprogressbar  do not show a progress bar when downloading files\n"
 msgstr ""
-"      --noprogressbar  ne montri progresbreton kiam elŝutante dosierojn\n"
+"      --noprogressbar  ne montru progresbreton dum elŝuto de dosieroj\n"
 
 #: src/pacman/pacman.c:204
 #, c-format
@@ -1327,7 +1329,7 @@ msgstr "pretado de transakcio malsukcesis (%s)\n"
 #: src/pacman/remove.c:119 src/pacman/sync.c:737
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr ""
+msgstr "forigo de %s malplenumas dependaĵon '%s' postulita de %s\n"
 
 #: src/pacman/remove.c:138
 #, c-format
@@ -1347,7 +1349,7 @@ msgstr "ne eblas fari ion\n"
 #: src/pacman/remove.c:163
 #, c-format
 msgid "Do you want to remove these packages?"
-msgstr "Ĉu vi volas forviŝi ĉi tiujn pakaĵojn?"
+msgstr "Ĉu vi volas forigi ĉi tiujn pakaĵojn?"
 
 #: src/pacman/remove.c:169 src/pacman/sync.c:821
 #, c-format
@@ -1372,7 +1374,7 @@ msgstr "Dosierujo de datumbazo: %s\n"
 #: src/pacman/sync.c:138
 #, c-format
 msgid "Do you want to remove unused repositories?"
-msgstr "Ĉu vi volas forviŝi neuzatajn deponejojn?"
+msgstr "Ĉu vi volas forigi neuzatajn deponejojn?"
 
 #: src/pacman/sync.c:141
 #, c-format
@@ -1412,7 +1414,7 @@ msgstr "forviŝado de malnovaj pakaĵoj de la kaŝmemoro...\n"
 #: src/pacman/sync.c:191
 #, c-format
 msgid "Do you want to remove ALL files from cache?"
-msgstr "Ĉu vi volas forviŝi ĈIUJN dosierojn de la kaŝmemoro?"
+msgstr "Ĉu vi volas forigi ĈIUJN dosierojn el la kaŝmemoro?"
 
 #: src/pacman/sync.c:195
 #, c-format
@@ -1464,12 +1466,12 @@ msgstr "Komencado de kompleta promociado de sistemo...\n"
 #: src/pacman/sync.c:729
 #, c-format
 msgid "unable to satisfy dependency '%s' required by %s\n"
-msgstr ""
+msgstr "ne povas plenumi dependaĵon '%s' postulita de %s\n"
 
 #: src/pacman/sync.c:733
 #, c-format
 msgid "installing %s (%s) breaks dependency '%s' required by %s\n"
-msgstr ""
+msgstr "instalo de %s (%s) malplenumas dependaĵon '%s' postulita de %s\n"
 
 #: src/pacman/sync.c:757
 #, c-format
@@ -1850,17 +1852,17 @@ msgstr ""
 msgid "error: repo '%s' not configured\n"
 msgstr ""
 
-#: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:383
+#: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:385
 #, c-format
 msgid "warning: '%s' directives cannot be queried\n"
 msgstr ""
 
-#: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:386
+#: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:388
 #, c-format
 msgid "warning: unknown directive '%s'\n"
 msgstr ""
 
-#: src/pacman/pacman-conf.c:423
+#: src/pacman/pacman-conf.c:425
 #, c-format
 msgid "error: directives may not be specified with %s\n"
 msgstr ""

@@ -6,8 +6,8 @@
 # Arthur Țițeică <arthur.titeica@gmail.com>, 2013
 # Arthur Titeica <arthur@psw.ro>, 2013
 # Arthur Țițeică <arthur.titeica@gmail.com>, 2013-2015
-# cantabile <inactive+cantabile@transifex.com>, 2011
-# cantabile <inactive+cantabile@transifex.com>, 2011
+# 202609b54ed34ff097613de9ccdb5e5a_959331d <9d860af7345e5089300e50121cee92df_6113>, 2011
+# 202609b54ed34ff097613de9ccdb5e5a_959331d <9d860af7345e5089300e50121cee92df_6113>, 2011
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # Ionut Biru <ibiru@archlinux.org>, 2011
 # Mihai Coman <mihai@m1x.ro>, 2011,2013
@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-21 17:23+1000\n"
+"POT-Creation-Date: 2020-06-19 09:48+1000\n"
 "PO-Revision-Date: 2019-10-07 08:12+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Romanian (http://www.transifex.com/toofishes/archlinux-pacman/"
@@ -61,7 +61,7 @@ msgstr "s-a primit o avertizare la extragerea %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "nu s-a putut extrage %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:574 lib/libalpm/remove.c:542
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:580 lib/libalpm/remove.c:542
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "nu s-a putut redenumi %s în %s (%s)\n"
@@ -174,7 +174,7 @@ msgstr "intrare coruptă în baza de date '%s'\n"
 
 #: lib/libalpm/be_local.c:713 lib/libalpm/be_local.c:809
 #: lib/libalpm/be_local.c:954 lib/libalpm/be_local.c:1051
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:422 lib/libalpm/util.c:253
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:428 lib/libalpm/util.c:253
 #: lib/libalpm/util.c:269
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -238,7 +238,7 @@ msgstr "lipsă metadate pentru pachet în %s\n"
 msgid "failed to read signature file: %s\n"
 msgstr "eșec la citirea fișierului de semnătură: %s\n"
 
-#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:953
+#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:971
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "cheia necesară lipsește din lanțul de chei\n"
@@ -375,24 +375,24 @@ msgstr "eșec la crearea fișierului temporar pentru descărcare\n"
 msgid "url '%s' is invalid\n"
 msgstr "Adresa url '%s' este nevalidă\n"
 
-#: lib/libalpm/dload.c:464 lib/libalpm/dload.c:485 lib/libalpm/dload.c:496
+#: lib/libalpm/dload.c:470 lib/libalpm/dload.c:491 lib/libalpm/dload.c:502
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "eșec la obținerea fișierului '%s' din %s : %s\n"
 
-#: lib/libalpm/dload.c:477
+#: lib/libalpm/dload.c:483
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "eșec la obținerea fișierului '%s' din %s : dimensiunea de descărcare "
 "așteptată a fost depășită\n"
 
-#: lib/libalpm/dload.c:532
+#: lib/libalpm/dload.c:538
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s pare a fi trunchiat: %jd/%jd octeți\n"
 
-#: lib/libalpm/dload.c:677 lib/libalpm/dload.c:706
+#: lib/libalpm/dload.c:683 lib/libalpm/dload.c:712
 #, c-format
 msgid "failed to download %s\n"
 msgstr "eșec la descărcarea %s\n"
@@ -844,7 +844,7 @@ msgstr ""
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1040
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: lipsește semnătura necesară\n"
@@ -936,27 +936,27 @@ msgstr "s-au detectat conflicte nerezolvabile în pachet\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "se elimină '%s' din lista țintă deoarece este în conflict cu '%s'\n"
 
-#: lib/libalpm/sync.c:849
+#: lib/libalpm/sync.c:859
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "eșec la obținerea unor fișiere\n"
 
-#: lib/libalpm/sync.c:1036
+#: lib/libalpm/sync.c:1054
 #, c-format
 msgid "failed to read file %s: %s\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:1223
+#: lib/libalpm/sync.c:1241
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "nu există destul spațiu liber pe disc\n"
 
-#: lib/libalpm/sync.c:1245
+#: lib/libalpm/sync.c:1263
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "nu s-a putut efectua tranzacția de eliminare\n"
 
-#: lib/libalpm/sync.c:1253
+#: lib/libalpm/sync.c:1271
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "nu s-a putut efectua tranzacția\n"

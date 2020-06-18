@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Alexander F Rødseth <rodseth@gmail.com>, 2014-2019
+# Alexander F Rødseth <rodseth@gmail.com>, 2014-2020
 # Alexander F Rødseth <rodseth@gmail.com>, 2011-2014
 # Harald H. <haarektrans@gmail.com>, 2015
 # Harald H. <haarektrans@gmail.com>, 2015
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-14 09:42+1000\n"
-"PO-Revision-Date: 2019-10-16 08:49+0000\n"
+"POT-Creation-Date: 2020-06-19 09:48+1000\n"
+"PO-Revision-Date: 2020-04-30 08:18+0000\n"
 "Last-Translator: Alexander F Rødseth <rodseth@gmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/nb/)\n"
@@ -32,7 +32,7 @@ msgstr "Utfører innledende kommandoer...\n"
 #: src/pacman/callback.c:184
 #, c-format
 msgid "Running post-transaction hooks...\n"
-msgstr "Utfører sluttførende kommandoer...\n"
+msgstr "Avsluttningsvise kommandoer...\n"
 
 #: src/pacman/callback.c:197
 #, c-format
@@ -42,7 +42,7 @@ msgstr "kontrollerer avhengigheter...\n"
 #: src/pacman/callback.c:201
 #, c-format
 msgid "checking for file conflicts...\n"
-msgstr "finner filkollisjoner...\n"
+msgstr "ser etter filkollisjoner...\n"
 
 #: src/pacman/callback.c:205
 #, c-format
@@ -52,7 +52,7 @@ msgstr "Nøster opp avhengigheter...\n"
 #: src/pacman/callback.c:208
 #, c-format
 msgid "looking for conflicting packages...\n"
-msgstr "Finner pakkekollisjoner...\n"
+msgstr "Ser etter pakkekollisjoner...\n"
 
 #: src/pacman/callback.c:211
 #, c-format
@@ -112,7 +112,7 @@ msgstr "Henter frem pakker...\n"
 #: src/pacman/callback.c:278
 #, c-format
 msgid "checking available disk space...\n"
-msgstr "ser om det er ledig plass på disken...\n"
+msgstr "ser etter ledig diskplass...\n"
 
 #: src/pacman/callback.c:285
 #, c-format
@@ -165,8 +165,8 @@ msgstr[1] ""
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
-msgstr[0] "Vil du hoppe over den overnevnte pakken for denne oppgraderingen?"
-msgstr[1] "Vil du hoppe over pakkene ovenfor, for nå?"
+msgstr[0] "Vil du hoppe over denne pakken, for denne oppgraderingen?"
+msgstr[1] "Vil du hoppe over disse pakkene, for denne oppgraderingen?"
 
 #: src/pacman/callback.c:439
 #, c-format
@@ -181,8 +181,8 @@ msgid ""
 "File %s is corrupted (%s).\n"
 "Do you want to delete it?"
 msgstr ""
-"Filen %s er korrupt (%s).\n"
-"Slette?"
+"Filen %s er ødelagt (%s).\n"
+"Vil du slette den?"
 
 #: src/pacman/callback.c:461
 #, c-format
@@ -212,7 +212,7 @@ msgstr "nedgraderer"
 #: src/pacman/callback.c:532
 #, c-format
 msgid "reinstalling"
-msgstr "reinstallerer"
+msgstr "ominstallerer"
 
 #: src/pacman/callback.c:535
 #, c-format
@@ -227,7 +227,7 @@ msgstr "finner filkollisjoner"
 #: src/pacman/callback.c:541
 #, c-format
 msgid "checking available disk space"
-msgstr "ser om det er ledig plass på disken"
+msgstr "kontrollerer diskplass"
 
 #: src/pacman/callback.c:544
 #, c-format
@@ -1105,7 +1105,7 @@ msgstr "  -b, --dbpath <fil>   bruk en annen databaseplassering\n"
 #: src/pacman/pacman.c:212
 #, c-format
 msgid "  -r, --root <path>    set an alternate installation root\n"
-msgstr "  -r, --root <mappe>   bruk en annen bunnmappe for installasjonen\n"
+msgstr "  -r, --root <mappe>   bruk en annen hovedmappe for installasjonen\n"
 
 #: src/pacman/pacman.c:213
 #, c-format
@@ -1449,7 +1449,7 @@ msgstr "'%s' er en fil, mente du %s istedenfor %s?\n"
 #: src/pacman/sync.c:708
 #, c-format
 msgid "Starting full system upgrade...\n"
-msgstr "Starter full systemoppgradering...\n"
+msgstr "Oppgraderer systemet...\n"
 
 #: src/pacman/sync.c:729
 #, c-format
@@ -1674,7 +1674,7 @@ msgstr "Total nedlastingsstørrelse: "
 #: src/pacman/util.c:946
 #, c-format
 msgid "Total Installed Size:"
-msgstr "Total installert størrelse: "
+msgstr "Total installasjonsstørrelse:"
 
 #: src/pacman/util.c:949
 #, c-format
@@ -1684,7 +1684,7 @@ msgstr "Total fjernet:"
 #: src/pacman/util.c:953
 #, c-format
 msgid "Net Upgrade Size:"
-msgstr "Netto oppgraderingsstørrelse:"
+msgstr "Differanse i plassbruk:"
 
 #: src/pacman/util.c:1225
 #, c-format
@@ -1841,17 +1841,17 @@ msgstr "feil ved tolking '%s'\n"
 msgid "error: repo '%s' not configured\n"
 msgstr "feil: pakkebrønnen '%s' er ikke konfigurert\n"
 
-#: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:383
+#: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:385
 #, c-format
 msgid "warning: '%s' directives cannot be queried\n"
 msgstr "advarsel: kan ikke gjøre forespørsler mot direktiver: '%s'\n"
 
-#: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:386
+#: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:388
 #, c-format
 msgid "warning: unknown directive '%s'\n"
 msgstr "advarsel: ukjent direktiv '%s'\n"
 
-#: src/pacman/pacman-conf.c:423
+#: src/pacman/pacman-conf.c:425
 #, c-format
 msgid "error: directives may not be specified with %s\n"
 msgstr "feil: direktiver kan ikke spesifiseres med %s\n"

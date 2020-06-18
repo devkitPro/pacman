@@ -4,12 +4,13 @@
 #
 # Translators:
 # Alimspender Dong <akillcool@outlook.com>, 2019
-# leonfeng <chaofeng111@qq.com>, 2018
+# Feng Chao <chaofeng111@qq.com>, 2018
 # Dan McGee <dpmcgee@gmail.com>, 2011
+# Feng Chao <chaofeng111@qq.com>, 2020
 # Jiachen YANG <farseerfc@gmail.com>, 2019
-# leonfeng <chaofeng111@qq.com>, 2011
-# leonfeng <chaofeng111@qq.com>, 2011,2018
-# leonfeng <chaofeng111@qq.com>, 2011
+# Feng Chao <chaofeng111@qq.com>, 2011
+# Feng Chao <chaofeng111@qq.com>, 2011,2018
+# Feng Chao <chaofeng111@qq.com>, 2011
 # mytbk <mytbk920423@gmail.com>, 2013,2015,2017
 # mytbk <mytbk920423@gmail.com>, 2013,2015,2017
 # ykelvis <ykelvis@users.noreply.github.com>, 2014
@@ -20,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-21 17:23+1000\n"
-"PO-Revision-Date: 2019-10-07 08:12+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2020-06-19 09:48+1000\n"
+"PO-Revision-Date: 2020-04-26 08:52+0000\n"
+"Last-Translator: Feng Chao <chaofeng111@qq.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -61,7 +62,7 @@ msgstr "解压 %s 时出现警告 (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "无法解压缩 %1$s (%2$s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:574 lib/libalpm/remove.c:542
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:580 lib/libalpm/remove.c:542
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "无法将 %1$s 重命名为 %2$s (%3$s)\n"
@@ -172,7 +173,7 @@ msgstr "损坏的数据库记录 '%s'\n"
 
 #: lib/libalpm/be_local.c:713 lib/libalpm/be_local.c:809
 #: lib/libalpm/be_local.c:954 lib/libalpm/be_local.c:1051
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:422 lib/libalpm/util.c:253
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:428 lib/libalpm/util.c:253
 #: lib/libalpm/util.c:269
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -234,7 +235,7 @@ msgstr "%s 中缺少软件包元数据\n"
 msgid "failed to read signature file: %s\n"
 msgstr "读取签名文件失败：%s\n"
 
-#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:953
+#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:971
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "所需的密钥不在密钥环中\n"
@@ -368,22 +369,22 @@ msgstr "无法创建下载用的临时文件\n"
 msgid "url '%s' is invalid\n"
 msgstr "url '%s' 无效\n"
 
-#: lib/libalpm/dload.c:464 lib/libalpm/dload.c:485 lib/libalpm/dload.c:496
+#: lib/libalpm/dload.c:470 lib/libalpm/dload.c:491 lib/libalpm/dload.c:502
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "无法从 %2$s : %3$s 获取文件 '%1$s'\n"
 
-#: lib/libalpm/dload.c:477
+#: lib/libalpm/dload.c:483
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr "获取文件 '%s' 失败，来自 %s : 下载大小超出期望值\n"
 
-#: lib/libalpm/dload.c:532
+#: lib/libalpm/dload.c:538
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s 可缩小：%jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:677 lib/libalpm/dload.c:706
+#: lib/libalpm/dload.c:683 lib/libalpm/dload.c:712
 #, c-format
 msgid "failed to download %s\n"
 msgstr "下载 %s 失败\n"
@@ -808,12 +809,12 @@ msgstr "GPGME 错误：%s\n"
 #: lib/libalpm/signing.c:284
 #, c-format
 msgid "looking up key %s using WKD\n"
-msgstr ""
+msgstr "用 WKD 查询密钥 %s\n"
 
 #: lib/libalpm/signing.c:293
 #, c-format
 msgid "gpg error: %s\n"
-msgstr ""
+msgstr "gpg 错误: %s\n"
 
 #: lib/libalpm/signing.c:441 lib/libalpm/signing.c:515
 #, c-format
@@ -823,7 +824,7 @@ msgstr "密钥环不可写\n"
 #: lib/libalpm/signing.c:539
 #, c-format
 msgid "key \"%s\" on keyserver\n"
-msgstr ""
+msgstr "密钥服务器上的密钥 \"%s\"\n"
 
 #: lib/libalpm/signing.c:544
 #, c-format
@@ -835,7 +836,7 @@ msgstr "密钥 \"%s\" 无法导入\n"
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "无法远程查找到密钥 \"%s\"\n"
 
-#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1040
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s：缺失签名\n"
@@ -927,27 +928,27 @@ msgstr "检测到未解决的软件包冲突\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "正在从目标清单中删除 '%1$s' ，因为它和 '%2$s' 冲突\n"
 
-#: lib/libalpm/sync.c:849
+#: lib/libalpm/sync.c:859
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "无法获取某些文件\n"
 
-#: lib/libalpm/sync.c:1036
+#: lib/libalpm/sync.c:1054
 #, c-format
 msgid "failed to read file %s: %s\n"
 msgstr "无法读取文件 %s：%s\n"
 
-#: lib/libalpm/sync.c:1223
+#: lib/libalpm/sync.c:1241
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "剩余空间不够\n"
 
-#: lib/libalpm/sync.c:1245
+#: lib/libalpm/sync.c:1263
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "无法提交删除事务\n"
 
-#: lib/libalpm/sync.c:1253
+#: lib/libalpm/sync.c:1271
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "无法提交事务\n"

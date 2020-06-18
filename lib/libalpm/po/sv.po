@@ -9,13 +9,14 @@
 # Daniel Sandman <revoltism@gmail.com>, 2013,2015
 # Johan R. <jreinhed@protonmail.com>, 2019
 # Kim Svensson <ks@linux.com>, 2015
+# Luna Jernberg <bittin@cafe8bitar.se>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-21 17:23+1000\n"
-"PO-Revision-Date: 2019-10-07 08:12+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2020-06-19 09:48+1000\n"
+"PO-Revision-Date: 2020-03-21 15:23+0000\n"
+"Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/sv/)\n"
 "Language: sv\n"
@@ -54,7 +55,7 @@ msgstr "varning given vid extrahering av %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "kunde inte extrahera %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:574 lib/libalpm/remove.c:542
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:580 lib/libalpm/remove.c:542
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "kunde inte döpa om %s till %s (%s)\n"
@@ -165,7 +166,7 @@ msgstr "korrupt databasinlägg '%s'\n"
 
 #: lib/libalpm/be_local.c:713 lib/libalpm/be_local.c:809
 #: lib/libalpm/be_local.c:954 lib/libalpm/be_local.c:1051
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:422 lib/libalpm/util.c:253
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:428 lib/libalpm/util.c:253
 #: lib/libalpm/util.c:269
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -227,7 +228,7 @@ msgstr "saknar metadata för paketet i %s\n"
 msgid "failed to read signature file: %s\n"
 msgstr "misslyckades att läsa signaturfil: %s⏎\n"
 
-#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:953
+#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:971
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "nödvändig nyckel saknas från nyckelring\n"
@@ -245,7 +246,7 @@ msgstr "Kunde ej finna paketbeskrivningsfilen '%s' från databasen '%s'\n"
 #: lib/libalpm/be_sync.c:522
 #, c-format
 msgid "could not read db '%s' (%s)\n"
-msgstr ""
+msgstr "kunde inte läsa db '%s'(%s)\n"
 
 #: lib/libalpm/be_sync.c:556 lib/libalpm/be_sync.c:561
 #, c-format
@@ -363,12 +364,12 @@ msgstr "kunde ej skapa temporär fil för nedladdning\n"
 msgid "url '%s' is invalid\n"
 msgstr "url '%s' är ogiltigt\n"
 
-#: lib/libalpm/dload.c:464 lib/libalpm/dload.c:485 lib/libalpm/dload.c:496
+#: lib/libalpm/dload.c:470 lib/libalpm/dload.c:491 lib/libalpm/dload.c:502
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "misslyckades hämta filen '%s' från %s : %s\n"
 
-#: lib/libalpm/dload.c:477
+#: lib/libalpm/dload.c:483
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
@@ -376,12 +377,12 @@ msgstr ""
 "överskreds\n"
 "\n"
 
-#: lib/libalpm/dload.c:532
+#: lib/libalpm/dload.c:538
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s verkar vara trunkerad: %jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:677 lib/libalpm/dload.c:706
+#: lib/libalpm/dload.c:683 lib/libalpm/dload.c:712
 #, c-format
 msgid "failed to download %s\n"
 msgstr "misslyckades ladda ner %s\n"
@@ -649,7 +650,7 @@ msgstr "fel vid anrop av extern nerladdare"
 #: lib/libalpm/error.c:159
 #, c-format
 msgid "compiled without signature support"
-msgstr ""
+msgstr "kompilerad utan signatur stöd"
 
 #: lib/libalpm/error.c:162
 #, c-format
@@ -815,7 +816,7 @@ msgstr ""
 #: lib/libalpm/signing.c:293
 #, c-format
 msgid "gpg error: %s\n"
-msgstr ""
+msgstr "gpg fel: %s\n"
 
 #: lib/libalpm/signing.c:441 lib/libalpm/signing.c:515
 #, c-format
@@ -825,19 +826,19 @@ msgstr ""
 #: lib/libalpm/signing.c:539
 #, c-format
 msgid "key \"%s\" on keyserver\n"
-msgstr ""
+msgstr "nyckel \"%s\" på nyckelserver\n"
 
 #: lib/libalpm/signing.c:544
 #, c-format
 msgid "key \"%s\" could not be imported\n"
-msgstr ""
+msgstr "nyckel \"%s\" kunde ej importeras\n"
 
 #: lib/libalpm/signing.c:548
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1040
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: saknar nödvändig signatur\n"
@@ -860,12 +861,12 @@ msgstr ""
 #: lib/libalpm/signing.c:985
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
-msgstr ""
+msgstr "%s: nyckel \"%s\" är okänd\n"
 
 #: lib/libalpm/signing.c:994
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
-msgstr ""
+msgstr "%s: nyckel \"%s\" är inaktiverad\n"
 
 #: lib/libalpm/signing.c:998
 #, c-format
@@ -875,19 +876,19 @@ msgstr ""
 #: lib/libalpm/signing.c:1002
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
-msgstr ""
+msgstr "%s: signatur från \"%s\" är ogiltig\n"
 
 #: lib/libalpm/signing.c:1079 lib/libalpm/signing.c:1147
 #: lib/libalpm/signing.c:1226
 #, c-format
 msgid "%s: signature format error\n"
-msgstr ""
+msgstr "%s: signatur format fel\n"
 
 #: lib/libalpm/signing.c:1179 lib/libalpm/signing.c:1212
 #: lib/libalpm/signing.c:1220
 #, c-format
 msgid "%s: unsupported signature format\n"
-msgstr ""
+msgstr "%s: ogiltigt signatur format\n"
 
 #: lib/libalpm/sync.c:99
 #, c-format
@@ -929,27 +930,27 @@ msgstr "olösliga paketkonflikter upptäckta\n"
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "tar bort '%s' från mållistan då den står i konflikt med '%s'\n"
 
-#: lib/libalpm/sync.c:849
+#: lib/libalpm/sync.c:859
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "misslyckades att hämta några filer⏎\n"
 
-#: lib/libalpm/sync.c:1036
+#: lib/libalpm/sync.c:1054
 #, c-format
 msgid "failed to read file %s: %s\n"
-msgstr ""
+msgstr "misslyckades att läsa fil %s: %s\n"
 
-#: lib/libalpm/sync.c:1223
+#: lib/libalpm/sync.c:1241
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "saknas tillräckligt med fritt diskutrymme⏎\n"
 
-#: lib/libalpm/sync.c:1245
+#: lib/libalpm/sync.c:1263
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "kunde inte skicka överföring för borttagning\n"
 
-#: lib/libalpm/sync.c:1253
+#: lib/libalpm/sync.c:1271
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "kunde inte skicka överföring\n"

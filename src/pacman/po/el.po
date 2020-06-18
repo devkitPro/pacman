@@ -9,13 +9,14 @@
 # Achilleas Pipinellis, 2013
 # Axilleas P <markeleas@gmail.com>, 2011
 # Achilleas Pipinellis, 2013
-# Christos Nouskas <nous@archlinux.us>, 2011-2014,2016-2017,2019
-# Christos Nouskas <nous@archlinux.us>, 2013
+# Christos Nouskas <nous@artixlinux.org>, 2011-2014,2016-2017,2019-2020
+# Christos Nouskas <nous@artixlinux.org>, 2013
 # flamelab <panosfilip@gmail.com>, 2011
 # ifaigios <ifaigios@gmail.com>, 2013,2015-2016
 # ifaigios <ifaigios@gmail.com>, 2013,2015
-# Christos Nouskas <nous@archlinux.us>, 2011
+# Christos Nouskas <nous@artixlinux.org>, 2011
 # flamelab <panosfilip@gmail.com>, 2011
+# Paschalis Sposito <linuxer@artixlinux.org>, 2020
 # rtnpro_test <rtnpro@gmail.com>, 2011
 # rtnpro_test <rtnpro@gmail.com>, 2011
 # Thanos Nikolaou <nikolaoutns@protonmail.com>, 2019
@@ -24,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-14 09:42+1000\n"
-"PO-Revision-Date: 2019-10-18 05:43+0000\n"
-"Last-Translator: Thanos Nikolaou <nikolaoutns@protonmail.com>\n"
+"POT-Creation-Date: 2020-06-19 09:48+1000\n"
+"PO-Revision-Date: 2020-04-03 19:48+0000\n"
+"Last-Translator: Christos Nouskas <nous@artixlinux.org>\n"
 "Language-Team: Greek (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/el/)\n"
 "Language: el\n"
@@ -197,12 +198,12 @@ msgstr ""
 #: src/pacman/callback.c:461
 #, c-format
 msgid "Import PGP key %s?"
-msgstr ""
+msgstr "Εισαγωγή κλειδιού PGP %s;"
 
 #: src/pacman/callback.c:464
 #, c-format
 msgid "Import PGP key %s, \"%s\"?"
-msgstr ""
+msgstr "Εισαγωγή κλειδιού PGP%s, \"%s\"?"
 
 #: src/pacman/callback.c:523
 #, c-format
@@ -1788,87 +1789,87 @@ msgstr "προσοχή: "
 #: src/pacman/pacman-conf.c:41
 #, c-format
 msgid "pacman-conf - query pacman's configuration file\n"
-msgstr ""
+msgstr "pacman-conf - εξέταση το αρχείου ρυθμίσεων του pacman\n"
 
 #: src/pacman/pacman-conf.c:42
 #, c-format
 msgid "usage:  pacman-conf [options] [<directive>...]\n"
-msgstr ""
+msgstr "χρήση:  pacman-conf [options] [<directive>...]\n"
 
 #: src/pacman/pacman-conf.c:43
 #, c-format
 msgid "        pacman-conf (--repo-list|--help|--version)\n"
-msgstr ""
+msgstr "        pacman-conf (--repo-list|--help|--version)\n"
 
 #: src/pacman/pacman-conf.c:44
 #, c-format
 msgid "options:\n"
-msgstr ""
+msgstr "επιλογές:\n"
 
 #: src/pacman/pacman-conf.c:45
 #, c-format
 msgid "  -c, --config=<path>  set an alternate configuration file\n"
-msgstr ""
+msgstr "  -c, --config=<path>  όρισμός εναλλακτικού αρχείου ρυθμίσεων\n"
 
 #: src/pacman/pacman-conf.c:46
 #, c-format
 msgid "  -R, --rootdir=<path> set an alternate installation root\n"
-msgstr ""
+msgstr "  -R, --rootdir=<path> ορισμός εναλλακτικού ριζικού καταλόγου\n"
 
 #: src/pacman/pacman-conf.c:47
 #, c-format
 msgid "  -r, --repo=<remote>  query options for a specific repo\n"
-msgstr ""
+msgstr "  -r, --repo=<remote>  επιλογές εξέτασης αποθετηρίου\n"
 
 #: src/pacman/pacman-conf.c:48
 #, c-format
 msgid "  -v, --verbose        always show directive names\n"
-msgstr ""
+msgstr "  -v, --verbose        προβολή ονομάτων εντολών\n"
 
 #: src/pacman/pacman-conf.c:49
 #, c-format
 msgid "  -l, --repo-list      list configured repositories\n"
-msgstr ""
+msgstr "  -l, --repo-list      παράθεση ρυθμισμένων αποθετηρίων\n"
 
 #: src/pacman/pacman-conf.c:50
 #, c-format
 msgid "  -h, --help           display this help information\n"
-msgstr ""
+msgstr "  -h, --help           προβολή αυτής της βοήθειας\n"
 
 #: src/pacman/pacman-conf.c:51
 #, c-format
 msgid "  -V, --version        display version information\n"
-msgstr ""
+msgstr "  -V, --version        προβολή πληροφοριών έκδοσης\n"
 
 #: src/pacman/pacman-conf.c:80
 #, c-format
 msgid "error setting rootdir '%s': out of memory\n"
-msgstr ""
+msgstr "σφάλμα ορισμού ριζικού καταλόγου '%s': ανεπαρκής μνήμη\n"
 
 #: src/pacman/pacman-conf.c:110
 #, c-format
 msgid "error parsing '%s'\n"
-msgstr ""
+msgstr "σφάλμα ανάλυσης '%s'\n"
 
 #: src/pacman/pacman-conf.c:290
 #, c-format
 msgid "error: repo '%s' not configured\n"
-msgstr ""
+msgstr "σφάλμα: αρύθμιστο αποθετήριο '%s'\n"
 
-#: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:383
+#: src/pacman/pacman-conf.c:307 src/pacman/pacman-conf.c:385
 #, c-format
 msgid "warning: '%s' directives cannot be queried\n"
-msgstr ""
+msgstr "προσοχή: αδυναμία εξέτασης εντολών'%s'\n"
 
-#: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:386
+#: src/pacman/pacman-conf.c:310 src/pacman/pacman-conf.c:388
 #, c-format
 msgid "warning: unknown directive '%s'\n"
-msgstr ""
+msgstr "προσοχή: άγνωστη εντολή '%s'\n"
 
-#: src/pacman/pacman-conf.c:423
+#: src/pacman/pacman-conf.c:425
 #, c-format
 msgid "error: directives may not be specified with %s\n"
-msgstr ""
+msgstr "σφάλμα: οι εντολές δεν επιτρέπεται να καθορίζονται με %s\n"
 
 #: src/util/testpkg.c:55
 #, c-format
@@ -1876,43 +1877,45 @@ msgid ""
 "Test a pacman package for validity.\n"
 "\n"
 msgstr ""
+"Έλεγχος πακέτου για εγκυρότητα.\n"
+"\n"
 
 #: src/util/testpkg.c:56
 #, c-format
 msgid "Usage: testpkg <package file>\n"
-msgstr ""
+msgstr "Χρήση: testpkg <package file>\n"
 
 #: src/util/testpkg.c:62
 #, c-format
 msgid "cannot initialize alpm: %s\n"
-msgstr ""
+msgstr "αδυναμία προετοιμασίας alpm: %s\n"
 
 #: src/util/testpkg.c:77
 #, c-format
 msgid "Cannot find the given file.\n"
-msgstr ""
+msgstr "Αδυναμία εύρεσης δοθέντος αρχείου.\n"
 
 #: src/util/testpkg.c:80
 #, c-format
 msgid "Cannot open the given file.\n"
-msgstr ""
+msgstr "Αδυναμία ανοίγματος δοθέντος αρχείου.\n"
 
 #: src/util/testpkg.c:84
 #, c-format
 msgid "Package is invalid.\n"
-msgstr ""
+msgstr "Άκυρο πακέτο.\n"
 
 #: src/util/testpkg.c:87
 #, c-format
 msgid "libalpm error: %s\n"
-msgstr ""
+msgstr "σφάλμα libalpm: %s\n"
 
 #: src/util/testpkg.c:93
 #, c-format
 msgid "Package is valid.\n"
-msgstr ""
+msgstr "Έγκυρο πακέτο.\n"
 
 #: src/util/testpkg.c:98
 #, c-format
 msgid "error releasing alpm\n"
-msgstr ""
+msgstr "σφάλμα αποδέσμευσης alpm\n"
