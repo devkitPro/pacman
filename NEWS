@@ -1,5 +1,35 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+5.2.2         - fix pacman test suite under python 3.8
+              - only prompt to import new keys once in a transaction
+              - fix handling of fully downloaded .part files
+              - increase maximum database size (FS#65197)
+              - fix segfault in alpm_option_set_assumeinstalled
+              - change config parsing warnings to errors to match actual
+                behavior
+              - fix key extraction for signatures with two-octet sub-packet
+                headers
+              - fix documentation typos (FS#67000)
+              - change master signing key to RSA4096
+              - improve error message when building without autoconf-archive
+              - pacman-conf:
+                - allow querying ILoveCandy individually
+                - fix querying NoExtract individually
+              - makepkg:
+                - fix seccmp-related error while stripping binaries (FS#65100)
+                - fix extraction of file:// sources (FS#64648)
+                - allow $pkgname in install and changelog file names (FS#64932)
+                - sort libprovides for reproducibility
+                - strip: don't re-add the same debug source multiple times
+                - error on empty refspecs in git sources
+                - correctly handle missing download clients
+                - fix splitting multi-line error messages across stdout and
+                  stderr
+                - handle GPGKEY with spaces (FS#66949)
+                - do not accept public-only keys for signing
+              - repo-add:
+                - handle GPGKEY with spaces (FS#66949)
+                - do not accept public-only keys for signing
 5.2.1         - fix segfault on importing PGP keys for -U operations
               - fix distribution of meson files
               - fix inode command for darwin/bsd
