@@ -698,10 +698,6 @@ static int curl_add_payload(alpm_handle_t *handle, CURLM *curlm,
 	return 0;
 
 cleanup:
-	FREE(payload->fileurl);
-	FREE(payload->tempfile_name);
-	FREE(payload->destfile_name);
-	FREE(payload->content_disp_name);
 	curl_easy_cleanup(curl);
 	return ret;
 }
