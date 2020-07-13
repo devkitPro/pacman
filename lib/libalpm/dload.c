@@ -481,6 +481,31 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 	curl_easy_getinfo(curl, CURLINFO_CONDITION_UNMET, &timecond);
 	curl_easy_getinfo(curl, CURLINFO_EFFECTIVE_URL, &effective_url);
 
+	if(payload->trust_remote_name) {
+		if(payload->content_disp_name) {
+			/* content-disposition header has a better name for our file */
+			free(payload->destfile_name);
+			payload->destfile_name = get_fullpath(localpath,
+				get_filename(payload->content_disp_name), "");
+		} else {
+			const char *effective_filename = strrchr(effective_url, '/');
+
+			if(effective_filename && strlen(effective_filename) > 2) {
+				effective_filename++;
+
+				/* if destfile was never set, we wrote to a tempfile. even if destfile is
+				 * set, we may have followed some redirects and the effective url may
+				 * have a better suggestion as to what to name our file. in either case,
+				 * refactor destfile to this newly derived name. */
+				if(!payload->destfile_name || strcmp(effective_filename,
+							strrchr(payload->destfile_name, '/') + 1) != 0) {
+					free(payload->destfile_name);
+					payload->destfile_name = get_fullpath(localpath, effective_filename, "");
+				}
+			}
+		}
+	}
+
 	/* Let's check if client requested downloading accompanion *.sig file */
 	if(!payload->signature && payload->download_signature && curlerr == CURLE_OK && payload->respcode < 400) {
 		struct dload_payload *sig = NULL;
@@ -489,6 +514,18 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 		CALLOC(sig, 1, sizeof(*sig), GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
 		MALLOC(sig->fileurl, len, FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
 		snprintf(sig->fileurl, len, "%s.sig", effective_url);
+
+		if(payload->trust_remote_name) {
+			/* In this case server might provide a new name for the main payload.
+			 * Choose *.sig filename based on this new name.
+			 */
+			const char* realname = payload->destfile_name ? payload->destfile_name : payload->tempfile_name;
+			const char *final_file = get_filename(realname);
+			int remote_name_len = strlen(final_file) + 5;
+			MALLOC(sig->remote_name, remote_name_len, FREE(sig->fileurl); FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+			snprintf(sig->remote_name, remote_name_len, "%s.sig", final_file);
+		}
+
 		sig->signature = 1;
 		sig->handle = handle;
 		sig->force = payload->force;
@@ -518,30 +555,6 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 		_alpm_log(handle, ALPM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
 				payload->remote_name, (intmax_t)bytes_dl, (intmax_t)remote_size);
 		GOTO_ERR(handle, ALPM_ERR_RETRIEVE, cleanup);
-	}
-
-	if(payload->trust_remote_name) {
-		if(payload->content_disp_name) {
-			/* content-disposition header has a better name for our file */
-			free(payload->destfile_name);
-			payload->destfile_name = get_fullpath(localpath,
-				get_filename(payload->content_disp_name), "");
-		} else {
-			const char *effective_filename = strrchr(effective_url, '/');
-			if(effective_filename && strlen(effective_filename) > 2) {
-				effective_filename++;
-
-				/* if destfile was never set, we wrote to a tempfile. even if destfile is
-				 * set, we may have followed some redirects and the effective url may
-				 * have a better suggestion as to what to name our file. in either case,
-				 * refactor destfile to this newly derived name. */
-				if(!payload->destfile_name || strcmp(effective_filename,
-							strrchr(payload->destfile_name, '/') + 1) != 0) {
-					free(payload->destfile_name);
-					payload->destfile_name = get_fullpath(localpath, effective_filename, "");
-				}
-			}
-		}
 	}
 
 	ret = 0;
