@@ -897,15 +897,18 @@ int SYMEXPORT alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
 
 		for(i = payloads; i; i = i->next) {
 			struct dload_payload *payload = i->data;
-			const char *filename;
 			char *filepath;
 
 			if(payload->signature) {
 				continue;
 			}
 
-			filename = mbasename(payload->destfile_name);
-			filepath = _alpm_filecache_find(handle, filename);
+			if(payload->destfile_name) {
+				const char *filename = mbasename(payload->destfile_name);
+				filepath = _alpm_filecache_find(handle, filename);
+			} else {
+				STRDUP(filepath, payload->tempfile_name, GOTO_ERR(handle, ALPM_ERR_MEMORY, err));
+			}
 			if(filepath) {
 				alpm_list_append(fetched, filepath);
 			} else {
