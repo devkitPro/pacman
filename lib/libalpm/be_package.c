@@ -311,7 +311,7 @@ int _alpm_pkg_validate_internal(alpm_handle_t *handle,
 		}
 	}
 
-	if(syncpkg && !has_sig) {
+	if(syncpkg && (!has_sig || !syncpkg->base64_sig)) {
 		if(syncpkg->md5sum && !syncpkg->sha256sum) {
 			_alpm_log(handle, ALPM_LOG_DEBUG, "md5sum: %s\n", syncpkg->md5sum);
 			_alpm_log(handle, ALPM_LOG_DEBUG, "checking md5sum for %s\n", pkgfile);
