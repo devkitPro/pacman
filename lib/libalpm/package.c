@@ -270,9 +270,7 @@ const char SYMEXPORT *alpm_pkg_get_base64_sig(alpm_pkg_t *pkg)
 
 int SYMEXPORT alpm_pkg_get_sig(alpm_pkg_t *pkg, unsigned char **sig, size_t *sig_len)
 {
-	if(pkg != NULL) {
-		RET_ERR(pkg->handle, ALPM_ERR_WRONG_ARGS, -1);
-	}
+	ASSERT(pkg != NULL, return -1);
 
 	if(pkg->base64_sig) {
 		int ret = alpm_decode_signature(pkg->base64_sig, sig, sig_len);
