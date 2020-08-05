@@ -44,6 +44,7 @@ USE_COLOR='y'
 PREVENT_DOWNGRADE=0
 
 # Import libmakepkg
+source "$LIBRARY"/util/compress.sh
 source "$LIBRARY"/util/message.sh
 
 # ensure we have a sane umask set
@@ -189,21 +190,13 @@ verify_signature() {
 }
 
 verify_repo_extension() {
-	local repofile=$1
+	local junk=()
+	if [[ $1 = *.db.tar* ]] && get_compression_command "$1" junk; then
+		return 0
+	fi
 
-	case $repofile in
-		*.db.tar.gz)  TAR_OPT="-z" ;;
-		*.db.tar.bz2) TAR_OPT="-j" ;;
-		*.db.tar.xz)  TAR_OPT="-J" ;;
-		*.db.tar.zst) TAR_OPT="--zstd" ;;
-		*.db.tar.Z)   TAR_OPT="-Z" ;;
-		*.db.tar)     TAR_OPT="" ;;
-		*) error "$(gettext "'%s' does not have a valid database archive extension.")" \
-				"$repofile"
-			exit 1 ;;
-	esac
-
-	printf '%s' "$TAR_OPT"
+	error "$(gettext "'%s' does not have a valid database archive extension.")" "$1"
+	exit 1
 }
 
 # write an entry to the pacman database
@@ -522,7 +515,6 @@ rotate_db() {
 }
 
 create_db() {
-	TAR_OPT=$(verify_repo_extension "$REPO_DB_FILE")
 	# $LOCKFILE is already guaranteed to be absolute so this is safe
 	dirname=${LOCKFILE%/*}
 
@@ -532,13 +524,13 @@ create_db() {
 		tempname=$dirname/.tmp.$filename
 
 		pushd "$tmpdir/$repo" >/dev/null
-		if ( shopt -s nullglob; files=(*); (( ${#files[*]} )) ); then
-			bsdtar -c ${TAR_OPT} -f "$tempname" *
-		else
+		local files=(*)
+		if [[ ${files[*]} = '*' ]]; then
 			# we have no packages remaining? zip up some emptyness
 			warning "$(gettext "No packages remain, creating empty database.")"
-			bsdtar -c ${TAR_OPT} -f "$tempname" -T /dev/null
+			files=(-T /dev/null)
 		fi
+		bsdtar -cf - "${files[@]}" | compress_as "$filename" > "$tempname"
 		popd >/dev/null
 
 		create_signature "$tempname"
@@ -656,7 +648,7 @@ else
 	LOCKFILE=$PWD/$REPO_DB_FILE.lck
 fi
 
-verify_repo_extension "$REPO_DB_FILE" >/dev/null
+verify_repo_extension "$REPO_DB_FILE"
 
 REPO_DB_PREFIX=${REPO_DB_FILE##*/}
 REPO_DB_PREFIX=${REPO_DB_PREFIX%.db.*}
