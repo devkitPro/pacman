@@ -42,6 +42,7 @@ LOCKFILE=
 CLEAN_LOCK=0
 USE_COLOR='y'
 PREVENT_DOWNGRADE=0
+INCLUDE_SIGS=0
 
 # Import libmakepkg
 source "$LIBRARY"/util/compress.sh
@@ -260,7 +261,7 @@ db_write_entry() {
 	fi
 
 	# compute base64'd PGP signature
-	if [[ -f "$pkgfile.sig" ]]; then
+	if (( INCLUDE_SIGS )) && [[ -f "$pkgfile.sig" ]]; then
 		if grep -q 'BEGIN PGP SIGNATURE' "$pkgfile.sig"; then
 			error "$(gettext "Cannot use armored signatures for packages: %s")" "$pkgfile.sig"
 			return 1
@@ -621,6 +622,9 @@ while (( $# )); do
 			;;
 		-p|--prevent-downgrade)
 			PREVENT_DOWNGRADE=1
+			;;
+		--include-sigs)
+			INCLUDE_SIGS=1
 			;;
 		*)
 			args+=("$1")
