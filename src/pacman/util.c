@@ -522,7 +522,9 @@ static void table_print_line(const alpm_list_t *line, short col_padding,
 			continue;
 		}
 
-		cell_width = (cell->mode & CELL_RIGHT_ALIGN ? (int)widths[i] : -(int)widths[i]);
+		/* calculate cell width, adjusting for multi-byte character strings */
+		cell_width = (int)widths[i] - string_length(str) + strlen(str);
+		cell_width = cell->mode & CELL_RIGHT_ALIGN ? cell_width : -cell_width;
 
 		if(need_padding) {
 			printf("%*s", col_padding, "");
