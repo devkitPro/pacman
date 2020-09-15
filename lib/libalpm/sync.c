@@ -688,7 +688,13 @@ static int prompt_to_delete(alpm_handle_t *handle, const char *filepath,
 	};
 	QUESTION(handle, &question);
 	if(question.remove) {
+		char *sig_filepath;
+
 		unlink(filepath);
+
+		sig_filepath = _alpm_sigpath(handle, filepath);
+		unlink(sig_filepath);
+		FREE(sig_filepath);
 	}
 	return question.remove;
 }
