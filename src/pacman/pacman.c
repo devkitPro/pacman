@@ -1187,12 +1187,6 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if(config->sysroot && (chroot(config->sysroot) != 0 || chdir("/") != 0)) {
-		pm_printf(ALPM_LOG_ERROR,
-				_("chroot to '%s' failed: (%s)\n"), config->sysroot, strerror(errno));
-		cleanup(EXIT_FAILURE);
-	}
-
 	pm_printf(ALPM_LOG_DEBUG, "pacman v%s - libalpm v%s\n", PACKAGE_VERSION, alpm_version());
 
 	/* parse the config file */

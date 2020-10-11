@@ -195,11 +195,10 @@ Options
 	Disable defaults for low speed limit and timeout on downloads. Use this
 	if you have issues downloading files with proxy and/or security gateway.
 
-*\--sysroot* <dir>::
-	Specify an alternative system root.  Pacman will chroot and chdir into the
-	system root prior to running. This allows mounted guest systems to be
-	properly operated on. Any other paths given will be interpreted as relative
-	to the system root. Requires root privileges.
+*\--sysroot* <dir>:: Specify an alternative system root.  This path will be
+	prepended to all other configuration directories and any repository servers
+	beginning with `file://`.  Any paths or URLs passed as targets will not be
+	modified.  This allows mounted guest systems to be properly operated on.
 
 
 Transaction Options (apply to '-S', '-R' and '-U')

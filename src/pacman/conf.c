@@ -108,6 +108,7 @@ config_t *config_new(void)
 	newconfig->op = PM_OP_MAIN;
 	newconfig->logmask = ALPM_LOG_ERROR | ALPM_LOG_WARNING;
 	newconfig->configfile = strdup(CONFFILE);
+	newconfig->sysroot = strdup("/");
 	if(alpm_capabilities() & ALPM_CAPABILITY_SIGNATURES) {
 		newconfig->siglevel = ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL |
 			ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
@@ -151,6 +152,7 @@ int config_free(config_t *oldconfig)
 	FREELIST(oldconfig->noextract);
 	FREELIST(oldconfig->overwrite_files);
 	free(oldconfig->configfile);
+	free(oldconfig->sysroot);
 	free(oldconfig->rootdir);
 	free(oldconfig->dbpath);
 	free(oldconfig->logfile);
@@ -1047,6 +1049,100 @@ static int _parse_repo(const char *key, char *value, const char *file,
 static int _parse_directive(const char *file, int linenum, const char *name,
 		char *key, char *value, void *data);
 
+static char *escape_chars(const char *pattern, const char *escape)
+{
+	size_t escape_len, len, pattern_chars;
+	const char *c;
+	char *escaped, *e;
+
+	if(pattern == NULL || escape == NULL) {
+		return NULL;
+	}
+
+	len = strlen(pattern);
+	escape_len = strlen(escape);
+	pattern_chars = 0;
+	for(c = pattern; *c; c++) {
+		if(memchr(escape, *c, escape_len)) {
+			pattern_chars++;
+		}
+	}
+
+	if(pattern_chars == 0) {
+		return strdup(pattern);
+	}
+
+	/* allocate new string with overflow check */
+	if(SIZE_MAX - len < pattern_chars
+			|| !(escaped = malloc(len + pattern_chars))) {
+		errno = ENOMEM;
+		return NULL;
+	}
+
+	for(c = pattern, e = escaped; *c; c++, e++) {
+		if(memchr(escape, *c, escape_len)) {
+			*e = '\\';
+			e++;
+		}
+		*e = *c;
+	}
+	*e = '\0';
+
+	return escaped;
+}
+
+static char *escape_glob_pattern(const char *pattern)
+{
+	return escape_chars(pattern, "\\*?[");
+}
+
+static char *prepend_dir(const char *dir, const char *path)
+{
+	char *newpath;
+	size_t dlen = strlen(dir);
+	const char *sep = dlen && dir[dlen - 1] == '/' ? "" : "/";
+	while(path[0] == '/') { path++; }
+	return pm_asprintf(&newpath, "%s%s%s", dir, sep, path) == -1 ? NULL : newpath;
+}
+
+static int globdir(const char *dir, const char *pattern, int flags,
+		int (*errfunc) (const char *epath, int eerrno), glob_t *globbuf)
+{
+	int gret;
+	char *fullpattern = NULL, *escaped_dir = NULL;
+
+	if((escaped_dir = escape_glob_pattern(dir)) == NULL) {
+		goto nospace;
+	}
+
+	if(flags & GLOB_NOESCAPE) {
+		/* "disable" backslash escaping by escaping any backlashes */
+		char *escaped_pattern = escape_chars(pattern, "\\");
+		if(escaped_pattern == NULL) {
+			goto nospace;
+		}
+		fullpattern = prepend_dir(escaped_dir, escaped_pattern);
+		free(escaped_pattern);
+		flags &= ~GLOB_NOESCAPE;
+	} else {
+		fullpattern = prepend_dir(escaped_dir, pattern);
+	}
+
+	if(fullpattern == NULL) {
+		goto nospace;
+	}
+
+	gret = glob(fullpattern, flags, errfunc, globbuf);
+	free(escaped_dir);
+	free(fullpattern);
+	return gret;
+
+nospace:
+	free(escaped_dir);
+	free(fullpattern);
+	return GLOB_NOSPACE;
+}
+
 static int process_include(const char *value, void *data,
 		const char *file, int linenum)
 {
@@ -1072,7 +1168,7 @@ static int process_include(const char *value, void *data,
 	section->depth++;
 
 	/* Ignore include failures... assume non-critical */
-	globret = glob(value, GLOB_NOCHECK, NULL, &globbuf);
+	globret = globdir(config->sysroot, value, GLOB_NOCHECK, NULL, &globbuf);
 	switch(globret) {
 		case GLOB_NOSPACE:
 			pm_printf(ALPM_LOG_DEBUG,
@@ -1149,6 +1245,58 @@ static int _parse_directive(const char *file, int linenum, const char *name,
 	}
 }
 
+static int prepend_sysroot(config_t *c)
+{
+	alpm_list_t *i;
+
+	if(c->sysroot == NULL || c->sysroot[0] == '\0'
+			|| strcmp(c->sysroot, "/") == 0) {
+		return 0;
+	}
+
+#define SETSYSROOT(opt) \
+  if(opt) { \
+    char *n = prepend_dir(c->sysroot, opt);\
+    if(n == NULL) { return -1; } \
+    else { free(opt); opt = n; } \
+  }
+
+	SETSYSROOT(c->rootdir);
+	SETSYSROOT(c->dbpath);
+	SETSYSROOT(c->logfile);
+	SETSYSROOT(c->gpgdir);
+	for(i = c->cachedirs; i; i = i->next) {
+		SETSYSROOT(i->data);
+	}
+	for(i = c->hookdirs; i; i = i->next) {
+		SETSYSROOT(i->data);
+	}
+
+	for(i = c->repos; i; i = i->next) {
+		config_repo_t *r = i->data;
+		alpm_list_t *j;
+		for(j = r->servers; j; j = j->next) {
+			if(strncmp("file://", j->data, 7) == 0) {
+				char *newdir = NULL, *newurl = NULL, *oldurl = j->data;
+				const char *olddir = oldurl + 7;
+				if((newdir = prepend_dir(c->sysroot, olddir)) == NULL
+						|| (pm_asprintf(&newurl, "file://%s", newdir)) == -1) {
+					free(newdir);
+					free(newurl);
+					return -1;
+				}
+				free(newdir);
+				free(j->data);
+				j->data = newurl;
+			}
+		}
+	}
+
+#undef SETSYSROOT
+
+	return 0;
+}
+
 int setdefaults(config_t *c)
 {
 	alpm_list_t *i;
@@ -1212,14 +1360,22 @@ int setdefaults(config_t *c)
 
 #undef SETDEFAULT
 
+	prepend_sysroot(c);
+
 	return 0;
 }
 
 int parseconfigfile(const char *file)
 {
 	struct section_t section = {0};
-	pm_printf(ALPM_LOG_DEBUG, "config: attempting to read file %s\n", file);
-	return parse_ini(file, _parse_directive, &section);
+	char *realfile;
+	if((realfile = prepend_dir(config->sysroot, file)) == NULL) {
+		return -1;
+	}
+	pm_printf(ALPM_LOG_DEBUG, "config: attempting to read file %s\n", realfile);
+	free(config->configfile);
+	config->configfile = realfile;
+	return parse_ini(realfile, _parse_directive, &section);
 }
 
 /** Parse a configuration file.
