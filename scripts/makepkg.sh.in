@@ -862,6 +862,7 @@ install_package() {
 }
 
 check_build_status() {
+	local fullver pkgarch allpkgbuilt somepkgbuilt
 	if (( ! SPLITPKG )); then
 		fullver=$(get_full_version)
 		pkgarch=$(get_pkg_arch)
@@ -904,7 +905,6 @@ check_build_status() {
 				exit $E_ALREADY_BUILT
 			fi
 		fi
-		unset allpkgbuilt somepkgbuilt
 	fi
 }
 
