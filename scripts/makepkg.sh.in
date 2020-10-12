@@ -1360,7 +1360,7 @@ if (( SOURCEONLY )); then
 
 	if [[ $SIGNPKG = 'y' ]]; then
 		msg "$(gettext "Signing package...")"
-		create_signature "$SRCPKGDEST/${pkgbase}-${fullver}${SRCEXT}"
+		create_signature "$SRCPKGDEST/${pkgbase}-$(get_full_version)${SRCEXT}"
 	fi
 
 	msg "$(gettext "Source package created: %s")" "$pkgbase ($(date +%c))"
