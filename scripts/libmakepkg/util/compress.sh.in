@@ -65,6 +65,9 @@ get_compression_command() {
 	esac
 
 	ext=${ext#*.tar.}
+	# empty the variable for plain tar archives so we fallback to cat
+	ext=${ext#*.tar}
+
 	if [[ -n $ext ]]; then
 		extarray="COMPRESS${ext^^}[@]"
 		resolvecmd=("${!extarray}")
