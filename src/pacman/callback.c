@@ -226,6 +226,7 @@ static int number_length(size_t n)
 void cb_event(alpm_event_t *event)
 {
 	if(config->print) {
+		cursor_goto_end();
 		return;
 	}
 	switch(event->type) {
