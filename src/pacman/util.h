@@ -85,6 +85,7 @@ void console_cursor_hide(void);
 void console_cursor_show(void);
 void console_cursor_move_up(unsigned int lines);
 void console_cursor_move_down(unsigned int lines);
+void console_cursor_move_end(void);
 /* Erases line from the current cursor position till the end of the line */
 void console_erase_line(void);
 

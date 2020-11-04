@@ -92,8 +92,6 @@ struct pacman_multibar_ui {
 
 struct pacman_multibar_ui multibar_ui = {0};
 
-static void cursor_goto_end(void);
-
 void multibar_move_completed_up(bool value) {
 	multibar_ui.move_completed_up = value;
 }
@@ -226,7 +224,7 @@ static int number_length(size_t n)
 void cb_event(alpm_event_t *event)
 {
 	if(config->print) {
-		cursor_goto_end();
+		console_cursor_move_end();
 		return;
 	}
 	switch(event->type) {
@@ -389,7 +387,7 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_DB_RETRIEVE_FAILED:
 		case ALPM_EVENT_PKG_RETRIEVE_DONE:
 		case ALPM_EVENT_PKG_RETRIEVE_FAILED:
-			cursor_goto_end();
+			console_cursor_move_end();
 			flush_output_list();
 			on_progress = 0;
 			break;
@@ -694,7 +692,7 @@ static int dload_progressbar_enabled(void)
 }
 
 /* Goto the line that corresponds to num-th active download */
-static void cursor_goto_bar(int num)
+static void console_cursor_goto_bar(int num)
 {
 	if(num > multibar_ui.cursor_lineno) {
 		console_cursor_move_down(num - multibar_ui.cursor_lineno);
@@ -705,9 +703,9 @@ static void cursor_goto_bar(int num)
 }
 
 /* Goto the line *after* the last active progress bar */
-static void cursor_goto_end(void)
+void console_cursor_move_end(void)
 {
-	cursor_goto_bar(multibar_ui.active_downloads_num);
+	console_cursor_goto_bar(multibar_ui.active_downloads_num);
 }
 
 /* Returns true if element with the specified name is found, false otherwise */
@@ -849,7 +847,7 @@ static void dload_init_event(const char *filename, alpm_download_event_init_t *d
 	bar->rate = 0.0;
 	multibar_ui.active_downloads = alpm_list_add(multibar_ui.active_downloads, bar);
 
-	cursor_goto_end();
+	console_cursor_move_end();
 	printf(_(" %s downloading...\n"), filename);
 	multibar_ui.cursor_lineno++;
 	multibar_ui.active_downloads_num++;
@@ -894,7 +892,7 @@ static void dload_progress_event(const char *filename, alpm_download_event_progr
 	bar->total_size = data->total;
 	bar->xfered = data->downloaded;
 
-	cursor_goto_bar(index);
+	console_cursor_goto_bar(index);
 	draw_pacman_progress_bar(bar);
 	fflush(stdout);
 }
@@ -920,7 +918,7 @@ static void dload_complete_event(const char *filename, alpm_download_event_compl
 	bar->total_size = data->total;
 
 	if(data->result == 1) {
-		cursor_goto_bar(index);
+		console_cursor_goto_bar(index);
 		printf(_(" %s is up to date"), bar->filename);
 		/* The line contains text from previous status. Erase these leftovers. */
 		console_erase_line();
@@ -947,16 +945,16 @@ static void dload_complete_event(const char *filename, alpm_download_event_compl
 			multibar_ui.active_downloads->data = bar;
 			baritem->data = former_topbar;
 
-			cursor_goto_bar(index);
+			console_cursor_goto_bar(index);
 			draw_pacman_progress_bar(former_topbar);
 
 			index = 0;
 		}
 
-		cursor_goto_bar(index);
+		console_cursor_goto_bar(index);
 		draw_pacman_progress_bar(bar);
 	} else {
-		cursor_goto_bar(index);
+		console_cursor_goto_bar(index);
 		printf(_(" %s failed to download"), bar->filename);
 		console_erase_line();
 	}

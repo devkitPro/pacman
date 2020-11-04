@@ -53,6 +53,8 @@ static void _reset_handler(int signum)
  */
 static void soft_interrupt_handler(int signum)
 {
+	console_cursor_move_end();
+
 	if(signum == SIGINT) {
 		const char msg[] = "\nInterrupt signal received\n";
 		xwrite(STDERR_FILENO, msg, ARRAYSIZE(msg) - 1);
@@ -96,6 +98,7 @@ static void segv_handler(int signum)
 	sigset_t segvset;
 	const char msg[] = "\nerror: segmentation fault\n"
 		"Please submit a full bug report with --debug if appropriate.\n";
+	console_cursor_move_end();
 	xwrite(STDERR_FILENO, msg, sizeof(msg) - 1);
 	xwrite(STDOUT_FILENO, CURSOR_SHOW_ANSICODE,
 		sizeof(CURSOR_SHOW_ANSICODE) - 1);
