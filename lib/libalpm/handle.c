@@ -300,6 +300,16 @@ const char SYMEXPORT *alpm_option_get_dbext(alpm_handle_t *handle)
 	return handle->dbext;
 }
 
+int SYMEXPORT alpm_option_get_parallel_downloads(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return -1);
+#ifdef HAVE_LIBCURL
+	return handle->parallel_downloads;
+#else
+	return 1;
+#endif
+}
+
 int SYMEXPORT alpm_option_set_logcb(alpm_handle_t *handle, alpm_cb_log cb)
 {
 	CHECK_HANDLE(handle, return -1);
