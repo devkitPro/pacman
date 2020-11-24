@@ -75,6 +75,8 @@ alpm_handle_t SYMEXPORT *alpm_initialize(const char *root, const char *dbpath,
 	myhandle->curlm = curl_multi_init();
 #endif
 
+	myhandle->parallel_downloads = 1;
+
 #ifdef ENABLE_NLS
 	bindtextdomain("libalpm", LOCALEDIR);
 #endif
