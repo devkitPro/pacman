@@ -857,9 +857,7 @@ int SYMEXPORT alpm_option_set_parallel_downloads(alpm_handle_t *handle,
 {
 	CHECK_HANDLE(handle, return -1);
 #ifdef HAVE_LIBCURL
-	if(num_streams < 1) {
-		return -1;
-	}
+	ASSERT(num_streams >= 1, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
 	handle->parallel_downloads = num_streams;
 #else
 	(void)num_streams; /* silence unused variable warnings */
