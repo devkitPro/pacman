@@ -728,9 +728,9 @@ typedef struct {
 	/* total bytes in file */
 	off_t total;
 	/* download result code:
-	 *   0 - download completed successfully
-	 *   1 - the file is up-to-date
-	 *   negative - error code
+	 *    0 - download completed successfully
+	 *    1 - the file is up-to-date
+	 *   -1 - error
 	 */
 	int result;
 } alpm_download_event_completed_t;
