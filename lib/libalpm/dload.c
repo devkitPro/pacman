@@ -586,7 +586,7 @@ cleanup:
 		unlink(payload->tempfile_name);
 	}
 
-	if(!payload->signature) {
+	if(handle->dlcb && !payload->signature) {
 		alpm_download_event_completed_t cb_data = {0};
 		cb_data.total = bytes_dl;
 		cb_data.result = ret;
@@ -719,7 +719,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 			struct dload_payload *payload = payloads->data;
 
 			if(curl_add_payload(handle, curlm, payload, localpath) == 0) {
-				if(!payload->signature) {
+				if(handle->dlcb && !payload->signature) {
 					alpm_download_event_init_t cb_data = {.optional = payload->errors_ok};
 					handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_INIT, &cb_data);
 				}
