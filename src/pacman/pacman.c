@@ -176,6 +176,8 @@ static void usage(int op, const char * const myname)
 			printf("%s:  %s {-T --deptest} [%s] [%s]\n", str_usg, myname, str_opt, str_pkg);
 			printf("%s:\n", str_opt);
 		} else if(op == PM_OP_FILES) {
+			printf("%s:  %s {-F --files} [%s] [%s]\n", str_usg, myname, str_opt, str_file);
+			printf("%s:\n", str_opt);
 			addlist(_("  -l, --list           list the files owned by the queried package\n"));
 			addlist(_("  -q, --quiet          show less information for query and search\n"));
 			addlist(_("  -x, --regex          enable searching using regular expressions\n"));
