@@ -65,13 +65,16 @@ get_filename() {
 	local proto=$(get_protocol "$netfile")
 
 	case $proto in
-		bzr|git|hg|svn)
+		bzr|fossil|git|hg|svn)
 			filename=${netfile%%#*}
 			filename=${filename%%\?*}
 			filename=${filename%/}
 			filename=${filename##*/}
 			if [[ $proto = bzr ]]; then
 				filename=${filename#*lp:}
+			fi
+			if [[ $proto = fossil ]]; then
+				filename=$filename.fossil
 			fi
 			if [[ $proto = git ]]; then
 				filename=${filename%%.git*}

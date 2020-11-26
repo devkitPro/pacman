@@ -3,6 +3,7 @@ libmakepkg_module = 'source'
 sources = [
   'bzr.sh.in',
   'file.sh.in',
+  'fossil.sh.in',
   'git.sh.in',
   'hg.sh.in',
   'local.sh.in',
