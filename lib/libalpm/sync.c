@@ -769,7 +769,7 @@ static int download_files(alpm_handle_t *handle)
 	}
 
 	ret = find_dl_candidates(handle, &files);
-	if(ret) {
+	if(ret != 0) {
 		goto finish;
 	}
 
@@ -818,7 +818,9 @@ static int download_files(alpm_handle_t *handle)
 
 			payloads = alpm_list_add(payloads, payload);
 		}
-		if(_alpm_download(handle, payloads, cachedir) == -1) {
+
+		ret = _alpm_download(handle, payloads, cachedir);
+		if(ret != 0) {
 			event.type = ALPM_EVENT_PKG_RETRIEVE_FAILED;
 			EVENT(handle, &event);
 			_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files\n"));
