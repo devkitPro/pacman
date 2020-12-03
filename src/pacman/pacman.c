@@ -110,7 +110,7 @@ static void usage(int op, const char * const myname)
 		printf("    %s {-h --help}\n", myname);
 		printf("    %s {-V --version}\n", myname);
 		printf("    %s {-D --database} <%s> <%s>\n", myname, str_opt, str_pkg);
-		printf("    %s {-F --files}    [%s] [%s]\n", myname, str_opt, str_pkg);
+		printf("    %s {-F --files}    [%s] [%s]\n", myname, str_opt, str_file);
 		printf("    %s {-Q --query}    [%s] [%s]\n", myname, str_opt, str_pkg);
 		printf("    %s {-R --remove}   [%s] <%s>\n", myname, str_opt, str_pkg);
 		printf("    %s {-S --sync}     [%s] [%s]\n", myname, str_opt, str_pkg);
