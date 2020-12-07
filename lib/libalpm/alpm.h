@@ -1411,13 +1411,27 @@ typedef enum _alpm_pkgvalidation_t {
 
 /** Logging Levels */
 typedef enum _alpm_loglevel_t {
-	ALPM_LOG_ERROR    = 1,
-	ALPM_LOG_WARNING  = (1 << 1),
-	ALPM_LOG_DEBUG    = (1 << 2),
-	ALPM_LOG_FUNCTION = (1 << 3)
+       /** Error */
+       ALPM_LOG_ERROR    = 1,
+       /** Warning */
+       ALPM_LOG_WARNING  = (1 << 1),
+       /** Debug */
+       ALPM_LOG_DEBUG    = (1 << 2),
+       /** Function */
+       ALPM_LOG_FUNCTION = (1 << 3)
 } alpm_loglevel_t;
 
-typedef void (*alpm_cb_log)(alpm_loglevel_t, const char *, va_list);
+
+/** The callback type for logging.
+ *
+ * libalpm will call this function whenever something is to be logged.
+ * many libalpm will produce log output. Additionally any calls to \link alpm_logaction
+ * \endlink will also call this callback.
+ * @param level the currently set loglevel
+ * @param fmt the printf like format string
+ * @param args printf like arguments
+ */
+typedef void (*alpm_cb_log)(alpm_loglevel_t level, const char *fmt, va_list args);
 
 /** A printf-like function for logging.
  * @param handle the context handle
@@ -1428,6 +1442,7 @@ typedef void (*alpm_cb_log)(alpm_loglevel_t, const char *, va_list);
 int alpm_logaction(alpm_handle_t *handle, const char *prefix,
 		const char *fmt, ...) __attribute__((format(printf, 3, 4)));
 
+/* End of alpm_log */
 /** @} */
 
 /** Fetch a list of remote packages.
