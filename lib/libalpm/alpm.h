@@ -20,6 +20,18 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @file alpm.h
+ * @author Pacman Development Team
+ * @brief Arch Linux Package Manager Library
+ */
+
+/** @mainpage alpm
+ *
+ * libalpm is a package management library, primarily used by pacman.
+ */
+
 #ifndef ALPM_H
 #define ALPM_H
 
