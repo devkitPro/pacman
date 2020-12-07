@@ -93,8 +93,59 @@ typedef struct __alpm_pkg_t alpm_pkg_t;
 /** Transaction structure used internally by libalpm */
 typedef struct __alpm_trans_t alpm_trans_t;
 
-/*
- * Structures
+/** @addtogroup alpm_api ALPM
+ * @brief The libalpm Public API
+ * @{
+ */
+
+/** @addtogroup alpm_files Files
+ * @brief Functions for package files
+ * @{
+ */
+
+/** File in a package */
+typedef struct _alpm_file_t {
+       /** Name of the file */
+       char *name;
+       /** Size of the file */
+       off_t size;
+       /** The file's permissions */
+       mode_t mode;
+} alpm_file_t;
+
+/** Package filelist container */
+typedef struct _alpm_filelist_t {
+       /** Amount of files in the array */
+       size_t count;
+       /** An array of files */
+       alpm_file_t *files;
+} alpm_filelist_t;
+
+/** Local package or package file backup entry */
+typedef struct _alpm_backup_t {
+       /** Name of the file (without .pacsave extension) */
+       char *name;
+       /** Hash of the filename (used internally) */
+       char *hash;
+} alpm_backup_t;
+
+/** Determines whether a package filelist contains a given path.
+ * The provided path should be relative to the install root with no leading
+ * slashes, e.g. "etc/localtime". When searching for directories, the path must
+ * have a trailing slash.
+ * @param filelist a pointer to a package filelist
+ * @param path the path to search for in the package
+ * @return a pointer to the matching file or NULL if not found
+ */
+alpm_file_t *alpm_filelist_contains(alpm_filelist_t *filelist, const char *path);
+
+/* End of alpm_files */
+/** @} */
+
+
+/** @addtogroup alpm_groups Groups
+ * @brief Functions for package groups
+ * @{
  */
 
 /** Package group */
@@ -105,31 +156,18 @@ typedef struct _alpm_group_t {
 	alpm_list_t *packages;
 } alpm_group_t;
 
-/** File in a package */
-typedef struct _alpm_file_t {
-	char *name;
-	off_t size;
-	mode_t mode;
-} alpm_file_t;
-
-/** Package filelist container */
-typedef struct _alpm_filelist_t {
-	size_t count;
-	alpm_file_t *files;
-} alpm_filelist_t;
-
-/** Local package or package file backup entry */
-typedef struct _alpm_backup_t {
-	char *name;
-	char *hash;
-} alpm_backup_t;
-
-
-
-/** @addtogroup alpm_api ALPM
- * @brief The libalpm Public API
- * @{
+/** Find group members across a list of databases.
+ * If a member exists in several databases, only the first database is used.
+ * IgnorePkg is also handled.
+ * @param dbs the list of alpm_db_t *
+ * @param name the name of the group
+ * @return the list of alpm_pkg_t * (caller is responsible for alpm_list_free)
  */
+alpm_list_t *alpm_find_group_pkgs(alpm_list_t *dbs, const char *name);
+
+/* End of alpm_groups */
+/** @} */
+
 
 /** @addtogroup alpm_errors Error Codes
  * Error codes returned by libalpm.
@@ -2029,34 +2067,6 @@ int alpm_pkg_mtree_close(const alpm_pkg_t *pkg, struct archive *archive);
 /* End of alpm_packages */
 /** @} */
 
-
-/*
- * Filelists
- */
-
-/** Determines whether a package filelist contains a given path.
- * The provided path should be relative to the install root with no leading
- * slashes, e.g. "etc/localtime". When searching for directories, the path must
- * have a trailing slash.
- * @param filelist a pointer to a package filelist
- * @param path the path to search for in the package
- * @return a pointer to the matching file or NULL if not found
- */
-alpm_file_t *alpm_filelist_contains(alpm_filelist_t *filelist, const char *path);
-
-
-/*
- * Groups
- */
-
-/** Find group members across a list of databases.
- * If a member exists in several databases, only the first database is used.
- * IgnorePkg is also handled.
- * @param dbs the list of alpm_db_t *
- * @param name the name of the group
- * @return the list of alpm_pkg_t * (caller is responsible for alpm_list_free)
- */
-alpm_list_t *alpm_find_group_pkgs(alpm_list_t *dbs, const char *name);
 
 /*
  * Sync
