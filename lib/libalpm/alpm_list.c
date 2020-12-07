@@ -32,23 +32,8 @@
 #define SYMEXPORT __attribute__((visibility("default")))
 #define SYMHIDDEN __attribute__((visibility("internal")))
 
-/**
- * @addtogroup alpm_list List Functions
- * @brief Functions to manipulate alpm_list_t lists.
- *
- * These functions are designed to create, destroy, and modify lists of
- * type alpm_list_t. This is an internal list type used by libalpm that is
- * publicly exposed for use by frontends if desired.
- *
- * @{ */
-
 /* Allocation */
 
-/**
- * @brief Free a list, but not the contained data.
- *
- * @param list the list to free
- */
 void SYMEXPORT alpm_list_free(alpm_list_t *list)
 {
 	alpm_list_t *it = list;
@@ -60,12 +45,6 @@ void SYMEXPORT alpm_list_free(alpm_list_t *list)
 	}
 }
 
-/**
- * @brief Free the internal data of a list structure.
- *
- * @param list the list to free
- * @param fn   a free function for the internal data
- */
 void SYMEXPORT alpm_list_free_inner(alpm_list_t *list, alpm_list_fn_free fn)
 {
 	alpm_list_t *it = list;
@@ -83,28 +62,12 @@ void SYMEXPORT alpm_list_free_inner(alpm_list_t *list, alpm_list_fn_free fn)
 
 /* Mutators */
 
-/**
- * @brief Add a new item to the end of the list.
- *
- * @param list the list to add to
- * @param data the new item to be added to the list
- *
- * @return the resultant list
- */
 alpm_list_t SYMEXPORT *alpm_list_add(alpm_list_t *list, void *data)
 {
 	alpm_list_append(&list, data);
 	return list;
 }
 
-/**
- * @brief Add a new item to the end of the list.
- *
- * @param list the list to add to
- * @param data the new item to be added to the list
- *
- * @return the newly added item
- */
 alpm_list_t SYMEXPORT *alpm_list_append(alpm_list_t **list, void *data)
 {
 	alpm_list_t *ptr;
@@ -131,14 +94,6 @@ alpm_list_t SYMEXPORT *alpm_list_append(alpm_list_t **list, void *data)
 	return ptr;
 }
 
-/**
- * @brief Duplicate and append a string to a list.
- *
- * @param list the list to append to
- * @param data the string to duplicate and append
- *
- * @return the newly added item
- */
 alpm_list_t SYMEXPORT *alpm_list_append_strdup(alpm_list_t **list, const char *data)
 {
 	alpm_list_t *ret;
@@ -151,15 +106,6 @@ alpm_list_t SYMEXPORT *alpm_list_append_strdup(alpm_list_t **list, const char *d
 	}
 }
 
-/**
- * @brief Add items to a list in sorted order.
- *
- * @param list the list to add to
- * @param data the new item to be added to the list
- * @param fn   the comparison function to use to determine order
- *
- * @return the resultant list
- */
 alpm_list_t SYMEXPORT *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_list_fn_cmp fn)
 {
 	if(!fn || !list) {
@@ -202,17 +148,6 @@ alpm_list_t SYMEXPORT *alpm_list_add_sorted(alpm_list_t *list, void *data, alpm_
 	}
 }
 
-/**
- * @brief Join two lists.
- * The two lists must be independent. Do not free the original lists after
- * calling this function, as this is not a copy operation. The list pointers
- * passed in should be considered invalid after calling this function.
- *
- * @param first  the first list
- * @param second the second list
- *
- * @return the resultant joined list
- */
 alpm_list_t SYMEXPORT *alpm_list_join(alpm_list_t *first, alpm_list_t *second)
 {
 	alpm_list_t *tmp;
@@ -235,15 +170,6 @@ alpm_list_t SYMEXPORT *alpm_list_join(alpm_list_t *first, alpm_list_t *second)
 	return first;
 }
 
-/**
- * @brief Merge the two sorted sublists into one sorted list.
- *
- * @param left  the first list
- * @param right the second list
- * @param fn    comparison function for determining merge order
- *
- * @return the resultant list
- */
 alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right,
 		alpm_list_fn_cmp fn)
 {
@@ -305,15 +231,6 @@ alpm_list_t SYMEXPORT *alpm_list_mmerge(alpm_list_t *left, alpm_list_t *right,
 	return newlist;
 }
 
-/**
- * @brief Sort a list of size `n` using mergesort algorithm.
- *
- * @param list the list to sort
- * @param n    the size of the list
- * @param fn   the comparison function for determining order
- *
- * @return the resultant list
- */
 alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, size_t n,
 		alpm_list_fn_cmp fn)
 {
@@ -339,15 +256,6 @@ alpm_list_t SYMEXPORT *alpm_list_msort(alpm_list_t *list, size_t n,
 	return list;
 }
 
-/**
- * @brief Remove an item from the list.
- * item is not freed; this is the responsibility of the caller.
- *
- * @param haystack the list to remove the item from
- * @param item the item to remove from the list
- *
- * @return the resultant list
- */
 alpm_list_t SYMEXPORT *alpm_list_remove_item(alpm_list_t *haystack,
 		alpm_list_t *item)
 {
@@ -385,17 +293,6 @@ alpm_list_t SYMEXPORT *alpm_list_remove_item(alpm_list_t *haystack,
 	return haystack;
 }
 
-
-/**
- * @brief Remove an item from the list.
- *
- * @param haystack the list to remove the item from
- * @param needle   the data member of the item we're removing
- * @param fn       the comparison function for searching
- * @param data     output parameter containing data of the removed item
- *
- * @return the resultant list
- */
 alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack,
 		const void *needle, alpm_list_fn_cmp fn, void **data)
 {
@@ -430,15 +327,6 @@ alpm_list_t SYMEXPORT *alpm_list_remove(alpm_list_t *haystack,
 	return haystack;
 }
 
-/**
- * @brief Remove a string from a list.
- *
- * @param haystack the list to remove the item from
- * @param needle   the data member of the item we're removing
- * @param data     output parameter containing data of the removed item
- *
- * @return the resultant list
- */
 alpm_list_t SYMEXPORT *alpm_list_remove_str(alpm_list_t *haystack,
 		const char *needle, char **data)
 {
@@ -446,15 +334,6 @@ alpm_list_t SYMEXPORT *alpm_list_remove_str(alpm_list_t *haystack,
 			(alpm_list_fn_cmp)strcmp, (void **)data);
 }
 
-/**
- * @brief Create a new list without any duplicates.
- *
- * This does NOT copy data members.
- *
- * @param list the list to copy
- *
- * @return a new list containing non-duplicate items
- */
 alpm_list_t SYMEXPORT *alpm_list_remove_dupes(const alpm_list_t *list)
 {
 	const alpm_list_t *lp = list;
@@ -471,13 +350,6 @@ alpm_list_t SYMEXPORT *alpm_list_remove_dupes(const alpm_list_t *list)
 	return newlist;
 }
 
-/**
- * @brief Copy a string list, including data.
- *
- * @param list the list to copy
- *
- * @return a copy of the original list
- */
 alpm_list_t SYMEXPORT *alpm_list_strdup(const alpm_list_t *list)
 {
 	const alpm_list_t *lp = list;
@@ -492,13 +364,6 @@ alpm_list_t SYMEXPORT *alpm_list_strdup(const alpm_list_t *list)
 	return newlist;
 }
 
-/**
- * @brief Copy a list, without copying data.
- *
- * @param list the list to copy
- *
- * @return a copy of the original list
- */
 alpm_list_t SYMEXPORT *alpm_list_copy(const alpm_list_t *list)
 {
 	const alpm_list_t *lp = list;
@@ -513,16 +378,6 @@ alpm_list_t SYMEXPORT *alpm_list_copy(const alpm_list_t *list)
 	return newlist;
 }
 
-/**
- * @brief Copy a list and copy the data.
- * Note that the data elements to be copied should not contain pointers
- * and should also be of constant size.
- *
- * @param list the list to copy
- * @param size the size of each data element
- *
- * @return a copy of the original list, data copied as well
- */
 alpm_list_t SYMEXPORT *alpm_list_copy_data(const alpm_list_t *list,
 		size_t size)
 {
@@ -546,13 +401,6 @@ alpm_list_t SYMEXPORT *alpm_list_copy_data(const alpm_list_t *list,
 	return newlist;
 }
 
-/**
- * @brief Create a new list in reverse order.
- *
- * @param list the list to copy
- *
- * @return a new list in reverse order
- */
 alpm_list_t SYMEXPORT *alpm_list_reverse(alpm_list_t *list)
 {
 	const alpm_list_t *lp;
@@ -580,14 +428,6 @@ alpm_list_t SYMEXPORT *alpm_list_reverse(alpm_list_t *list)
 
 /* Accessors */
 
-/**
- * @brief Return nth element from list (starting from 0).
- *
- * @param list the list
- * @param n    the index of the item to find (n < alpm_list_count(list) IS needed)
- *
- * @return an alpm_list_t node for index `n`
- */
 alpm_list_t SYMEXPORT *alpm_list_nth(const alpm_list_t *list, size_t n)
 {
 	const alpm_list_t *i = list;
@@ -597,13 +437,6 @@ alpm_list_t SYMEXPORT *alpm_list_nth(const alpm_list_t *list, size_t n)
 	return (alpm_list_t *)i;
 }
 
-/**
- * @brief Get the next element of a list.
- *
- * @param node the list node
- *
- * @return the next element, or NULL when no more elements exist
- */
 inline alpm_list_t SYMEXPORT *alpm_list_next(const alpm_list_t *node)
 {
 	if(node) {
@@ -613,13 +446,6 @@ inline alpm_list_t SYMEXPORT *alpm_list_next(const alpm_list_t *node)
 	}
 }
 
-/**
- * @brief Get the previous element of a list.
- *
- * @param list the list head
- *
- * @return the previous element, or NULL when no previous element exist
- */
 inline alpm_list_t SYMEXPORT *alpm_list_previous(const alpm_list_t *list)
 {
 	if(list && list->prev->next) {
@@ -629,13 +455,6 @@ inline alpm_list_t SYMEXPORT *alpm_list_previous(const alpm_list_t *list)
 	}
 }
 
-/**
- * @brief Get the last item in the list.
- *
- * @param list the list
- *
- * @return the last element in the list
- */
 alpm_list_t SYMEXPORT *alpm_list_last(const alpm_list_t *list)
 {
 	if(list) {
@@ -647,13 +466,6 @@ alpm_list_t SYMEXPORT *alpm_list_last(const alpm_list_t *list)
 
 /* Misc */
 
-/**
- * @brief Get the number of items in a list.
- *
- * @param list the list
- *
- * @return the number of list items
- */
 size_t SYMEXPORT alpm_list_count(const alpm_list_t *list)
 {
 	size_t i = 0;
@@ -665,15 +477,6 @@ size_t SYMEXPORT alpm_list_count(const alpm_list_t *list)
 	return i;
 }
 
-/**
- * @brief Find an item in a list.
- *
- * @param needle   the item to search
- * @param haystack the list
- * @param fn       the comparison function for searching (!= NULL)
- *
- * @return `needle` if found, NULL otherwise
- */
 void SYMEXPORT *alpm_list_find(const alpm_list_t *haystack, const void *needle,
 		alpm_list_fn_cmp fn)
 {
@@ -693,30 +496,12 @@ static int ptr_cmp(const void *p, const void *q)
 	return (p != q);
 }
 
-/**
- * @brief Find an item in a list.
- *
- * Search for the item whose data matches that of the `needle`.
- *
- * @param needle   the data to search for (== comparison)
- * @param haystack the list
- *
- * @return `needle` if found, NULL otherwise
- */
 void SYMEXPORT *alpm_list_find_ptr(const alpm_list_t *haystack,
 		const void *needle)
 {
 	return alpm_list_find(haystack, needle, ptr_cmp);
 }
 
-/**
- * @brief Find a string in a list.
- *
- * @param needle   the string to search for
- * @param haystack the list
- *
- * @return `needle` if found, NULL otherwise
- */
 char SYMEXPORT *alpm_list_find_str(const alpm_list_t *haystack,
 		const char *needle)
 {
@@ -724,20 +509,6 @@ char SYMEXPORT *alpm_list_find_str(const alpm_list_t *haystack,
 			(alpm_list_fn_cmp)strcmp);
 }
 
-/**
- * @brief Find the differences between list `left` and list `right`
- *
- * The two lists must be sorted. Items only in list `left` are added to the
- * `onlyleft` list. Items only in list `right` are added to the `onlyright`
- * list.
- *
- * @param left      the first list
- * @param right     the second list
- * @param fn        the comparison function
- * @param onlyleft  pointer to the first result list
- * @param onlyright pointer to the second result list
- *
- */
 void SYMEXPORT alpm_list_diff_sorted(const alpm_list_t *left,
 		const alpm_list_t *right, alpm_list_fn_cmp fn,
 		alpm_list_t **onlyleft, alpm_list_t **onlyright)
@@ -782,15 +553,6 @@ void SYMEXPORT alpm_list_diff_sorted(const alpm_list_t *left,
 }
 
 
-/**
- * @brief Find the items in list `lhs` that are not present in list `rhs`.
- *
- * @param lhs the first list
- * @param rhs the second list
- * @param fn  the comparison function
- *
- * @return a list containing all items in `lhs` not present in `rhs`
- */
 alpm_list_t SYMEXPORT *alpm_list_diff(const alpm_list_t *lhs,
 		const alpm_list_t *rhs, alpm_list_fn_cmp fn)
 {
@@ -809,17 +571,6 @@ alpm_list_t SYMEXPORT *alpm_list_diff(const alpm_list_t *lhs,
 	return ret;
 }
 
-/**
- * @brief Copy a list and data into a standard C array of fixed length.
- * Note that the data elements are shallow copied so any contained pointers
- * will point to the original data.
- *
- * @param list the list to copy
- * @param n    the size of the list
- * @param size the size of each data element
- *
- * @return an array version of the original list, data copied as well
- */
 void SYMEXPORT *alpm_list_to_array(const alpm_list_t *list, size_t n,
 		size_t size)
 {
@@ -840,5 +591,3 @@ void SYMEXPORT *alpm_list_to_array(const alpm_list_t *list, size_t n,
 	}
 	return array;
 }
-
-/** @} */
