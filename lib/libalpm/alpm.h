@@ -242,6 +242,36 @@ const char *alpm_strerror(alpm_errno_t err);
 /* End of alpm_errors */
 /** @} */
 
+
+/** \addtogroup alpm_handle Handle
+ * @brief Functions to initialize and release libalpm
+ * @{
+ */
+
+/** Initializes the library.
+ * Creates handle, connects to database and creates lockfile.
+ * This must be called before any other functions are called.
+ * @param root the root path for all filesystem operations
+ * @param dbpath the absolute path to the libalpm database
+ * @param err an optional variable to hold any error return codes
+ * @return a context handle on success, NULL on error, err will be set if provided
+ */
+alpm_handle_t *alpm_initialize(const char *root, const char *dbpath,
+		alpm_errno_t *err);
+
+/** Release the library.
+ * Disconnects from the database, removes handle and lockfile
+ * This should be the last alpm call you make.
+ * After this returns, handle should be considered invalid and cannot be reused
+ * in any way.
+ * @param myhandle the context handle
+ * @return 0 on success, -1 on error
+ */
+int alpm_release(alpm_handle_t *handle);
+
+/* End of alpm_handle */
+/** @} */
+
 typedef int64_t alpm_time_t;
 
 /*
@@ -1911,34 +1941,6 @@ char *alpm_compute_md5sum(const char *filename);
  * @return the checksum on success, NULL on error
  */
 char *alpm_compute_sha256sum(const char *filename);
-
-/** @} */
-
-/** \addtogroup alpm_interface Interface Functions
- * @brief Functions to initialize and release libalpm
- * @{
- */
-
-/** Initializes the library.
- * Creates handle, connects to database and creates lockfile.
- * This must be called before any other functions are called.
- * @param root the root path for all filesystem operations
- * @param dbpath the absolute path to the libalpm database
- * @param err an optional variable to hold any error return codes
- * @return a context handle on success, NULL on error, err will be set if provided
- */
-alpm_handle_t *alpm_initialize(const char *root, const char *dbpath,
-		alpm_errno_t *err);
-
-/** Release the library.
- * Disconnects from the database, removes handle and lockfile
- * This should be the last alpm call you make.
- * After this returns, handle should be considered invalid and cannot be reused
- * in any way.
- * @param myhandle the context handle
- * @return 0 on success, -1 on error
- */
-int alpm_release(alpm_handle_t *handle);
 
 /** @} */
 
