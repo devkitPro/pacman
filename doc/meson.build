@@ -9,7 +9,6 @@ manpages = [
   { 'name': 'PKGBUILD.5', 'extra_depends' : [ 'PKGBUILD-example.txt' ] },
   { 'name': 'makepkg.conf.5' },
   { 'name': 'pacman.conf.5' },
-  { 'name': 'libalpm.3' },
   { 'name': 'BUILDINFO.5' },
   { 'name': 'pacman-conf.8' },
 ]
