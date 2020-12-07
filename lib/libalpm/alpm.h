@@ -1452,104 +1452,387 @@ int alpm_logaction(alpm_handle_t *handle, const char *prefix,
 /** @} */
 
 
-/** @addtogroup alpm_api_options Options
+/** @addtogroup alpm_options Options
  * Libalpm option getters and setters
  * @{
  */
 
-/** Returns the callback used for logging. */
+/** @name Accessors for callbacks
+ * @{
+ */
+
+/** Returns the callback used for logging.
+ * @param handle the context handle
+ * @return the currently set log callback
+ */
 alpm_cb_log alpm_option_get_logcb(alpm_handle_t *handle);
-/** Sets the callback used for logging. */
+
+/** Sets the callback used for logging.
+ * @param handle the context handle
+ * @param cb the cb to use
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_logcb(alpm_handle_t *handle, alpm_cb_log cb);
 
-/** Returns the callback used to report download progress. */
+/** Returns the callback used to report download progress.
+ * @param handle the context handle
+ * @return the currently set download callback
+ */
 alpm_cb_download alpm_option_get_dlcb(alpm_handle_t *handle);
-/** Sets the callback used to report download progress. */
+
+/** Sets the callback used to report download progress.
+ * @param handle the context handle
+ * @param cb the cb to use
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_dlcb(alpm_handle_t *handle, alpm_cb_download cb);
 
-/** Returns the downloading callback. */
+/** Returns the downloading callback.
+ * @param handle the context handle
+ * @return the currently set fetch callback
+ */
 alpm_cb_fetch alpm_option_get_fetchcb(alpm_handle_t *handle);
-/** Sets the downloading callback. */
+
+/** Sets the downloading callback.
+ * @param handle the context handle
+ * @param cb the cb to use
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_fetchcb(alpm_handle_t *handle, alpm_cb_fetch cb);
 
-/** Returns the callback used to report total download size. */
+/** Returns the callback used to report total download size.
+ * @param handle the context handle
+ * @return the currently set total download callback
+ */
 alpm_cb_totaldl alpm_option_get_totaldlcb(alpm_handle_t *handle);
-/** Sets the callback used to report total download size. */
+
+/** Sets the callback used to report total download size.
+ * @param handle the context handle
+ * @param cb the cb to use
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_totaldlcb(alpm_handle_t *handle, alpm_cb_totaldl cb);
 
-/** Returns the callback used for events. */
+
+/** Returns the callback used for events.
+ * @param handle the context handle
+ * @return the currently set event callback
+ */
 alpm_cb_event alpm_option_get_eventcb(alpm_handle_t *handle);
-/** Sets the callback used for events. */
+
+/** Sets the callback used for events.
+ * @param handle the context handle
+ * @param cb the cb to use
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_eventcb(alpm_handle_t *handle, alpm_cb_event cb);
 
-/** Returns the callback used for questions. */
+/** Returns the callback used for questions.
+ * @param handle the context handle
+ * @return the currently set question callback
+ */
 alpm_cb_question alpm_option_get_questioncb(alpm_handle_t *handle);
-/** Sets the callback used for questions. */
+
+/** Sets the callback used for questions.
+ * @param handle the context handle
+ * @param cb the cb to use
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_questioncb(alpm_handle_t *handle, alpm_cb_question cb);
 
-/** Returns the callback used for operation progress. */
+
+/**Returns the callback used for operation progress.
+ * @param handle the context handle
+ * @return the currently set progress callback
+ */
 alpm_cb_progress alpm_option_get_progresscb(alpm_handle_t *handle);
-/** Sets the callback used for operation progress. */
+
+/** Sets the callback used for operation progress.
+ * @param handle the context handle
+ * @param cb the cb to use
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_progresscb(alpm_handle_t *handle, alpm_cb_progress cb);
+/* End of callback accessors */
+/** @} */
 
-/** Returns the root of the destination filesystem. Read-only. */
+
+/** @name Accessors to the root directory
+ *
+ * The root directory is the prefix to which libalpm installs packages to.
+ * Hooks and scriptlets will also be run in a chroot to ensure they behave correctly
+ * in alternative roots.
+ * @{
+ */
+
+/** Returns the root path. Read-only.
+ * @param handle the context handle
+ */
 const char *alpm_option_get_root(alpm_handle_t *handle);
+/* End of root accessors */
+/** @} */
 
-/** Returns the path to the database directory. Read-only. */
+
+/** @name Accessors to the database path
+ *
+ * The dbpath is where libalpm stores the local db and
+ * downloads sync databases.
+ * @{
+ */
+
+/** Returns the path to the database directory. Read-only.
+ * @param handle the context handle
+ */
 const char *alpm_option_get_dbpath(alpm_handle_t *handle);
+/* End of dbpath accessors */
+/** @} */
 
-/** Get the name of the database lock file. Read-only. */
+
+/** @name Accessors to the lockfile
+ *
+ * The lockfile is used to ensure two instances of libalpm can not write
+ * to the database at the same time. The lock file is created when
+ * committing a transaction and released when the transaction completes.
+ * Or when calling \link alpm_unlock \endlink.
+ * @{
+ */
+
+/** Get the name of the database lock file. Read-only.
+ * This is the name that the lockfile would have. It does not
+ * matter if the lockfile actually exists on disk.
+ * @param handle the context handle
+ */
 const char *alpm_option_get_lockfile(alpm_handle_t *handle);
+/* End of lockfile accessors */
+/** @} */
 
 /** @name Accessors to the list of package cache directories.
+ *
+ * This is where libalpm will store downloaded packages.
  * @{
+ */
+
+/** Gets the currently configured cachedirs,
+ * @param handle the context handle
+ * @return a char* list of cache directories
  */
 alpm_list_t *alpm_option_get_cachedirs(alpm_handle_t *handle);
+
+/** Sets the cachedirs.
+ * @param handle the context handle
+ * @param cachedirs a char* list of cachdirs. The list will be duped and
+ * the original will still need to be freed by the caller.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_cachedirs(alpm_handle_t *handle, alpm_list_t *cachedirs);
+
+/** Append a cachedir to the configured cachedirs.
+ * @param handle the context handle
+ * @param cachedir the cachedir to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_add_cachedir(alpm_handle_t *handle, const char *cachedir);
+
+/** Remove a cachedir from the configured cachedirs.
+ * @param handle the context handle
+ * @param cachedir the cachedir to remove
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_remove_cachedir(alpm_handle_t *handle, const char *cachedir);
+/* End of cachedir accessors */
 /** @} */
+
 
 /** @name Accessors to the list of package hook directories.
+ *
+ * libalpm will search these directories for hooks to run. A hook in
+ * a later directory will override previous hooks if they have the same name.
  * @{
  */
+
+/** Gets the currently configured hookdirs,
+ * @param handle the context handle
+ * @return a char* list of hook directories
+ */
 alpm_list_t *alpm_option_get_hookdirs(alpm_handle_t *handle);
+
+/** Sets the hookdirs.
+ * @param handle the context handle
+ * @param hookdirs a char* list of hookdirs. The list will be duped and
+ * the original will still need to be freed by the caller.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_hookdirs(alpm_handle_t *handle, alpm_list_t *hookdirs);
+
+/** Append a hookdir to the configured hookdirs.
+ * @param handle the context handle
+ * @param hookdir the hookdir to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_add_hookdir(alpm_handle_t *handle, const char *hookdir);
+
+/** Remove a hookdir from the configured hookdirs.
+ * @param handle the context handle
+ * @param hookdir the hookdir to remove
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_remove_hookdir(alpm_handle_t *handle, const char *hookdir);
+/* End of hookdir accessors */
 /** @} */
 
+
+/** @name Accessors to the list of overwritable files.
+ *
+ * Normally libalpm will refuse to install a package that owns files that
+ * are already on disk and not owned by that package.
+ *
+ * If a conflicting file matches a glob in the overwrite_files list, then no
+ * conflict will be raised and libalpm will simply overwrite the file.
+ * @{
+ */
+
+/** Gets the currently configured overwritable files,
+ * @param handle the context handle
+ * @return a char* list of overwritable file globs
+ */
 alpm_list_t *alpm_option_get_overwrite_files(alpm_handle_t *handle);
+
+/** Sets the overwritable files.
+ * @param handle the context handle
+ * @param globs a char* list of overwritable file globs. The list will be duped and
+ * the original will still need to be freed by the caller.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_overwrite_files(alpm_handle_t *handle, alpm_list_t *globs);
+
+/** Append an overwritable file to the configured overwritable files.
+ * @param handle the context handle
+ * @param glob the file glob to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_add_overwrite_file(alpm_handle_t *handle, const char *glob);
+
+/** Remove a file glob from the configured overwritable files globs.
+ * @note The overwritable file list contains a list of globs. The glob to
+ * remove must exactly match the entry to remove. There is no glob expansion.
+ * @param handle the context handle
+ * @param glob the file glob to remove
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_remove_overwrite_file(alpm_handle_t *handle, const char *glob);
+/* End of overwrite accessors */
+/** @} */
 
-/** Returns the logfile name. */
+
+/** @name Accessors to the log file
+ *
+ * This controls where libalpm will save log output to.
+ * @{
+ */
+
+/** Gets the filepath to the currently set logfile.
+ * @param handle the context handle
+ * @return the path to the logfile
+ */
 const char *alpm_option_get_logfile(alpm_handle_t *handle);
-/** Sets the logfile name. */
+
+/** Sets the logfile path.
+ * @param handle the context handle
+ * @param logfile path to the new location of the logfile
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_logfile(alpm_handle_t *handle, const char *logfile);
+/* End of logfile accessors */
+/** @} */
 
-/** Returns the path to libalpm's GnuPG home directory. */
+
+/** @name Accessors to the GPG directory
+ *
+ * This controls where libalpm will store GnuPG's files.
+ * @{
+ */
+
+/** Returns the path to libalpm's GnuPG home directory.
+ * @param handle the context handle
+ * @return the path to libalpms's GnuPG home directory
+ */
 const char *alpm_option_get_gpgdir(alpm_handle_t *handle);
-/** Sets the path to libalpm's GnuPG home directory. */
-int alpm_option_set_gpgdir(alpm_handle_t *handle, const char *gpgdir);
 
-/** Returns whether to use syslog (0 is FALSE, TRUE otherwise). */
+/** Sets the path to libalpm's GnuPG home directory.
+ * @param handle the context handle
+ * @param gpgdir the gpgdir to set
+ */
+int alpm_option_set_gpgdir(alpm_handle_t *handle, const char *gpgdir);
+/* End of gpdir accessors */
+/** @} */
+
+
+/** @name Accessors for use syslog
+ *
+ * This controls whether libalpm will also use the syslog. Even if this option
+ * is enabled, libalpm will still try to log to its log file.
+ * @{
+ */
+
+/** Returns whether to use syslog (0 is FALSE, TRUE otherwise).
+ * @param handle the context handle
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_get_usesyslog(alpm_handle_t *handle);
-/** Sets whether to use syslog (0 is FALSE, TRUE otherwise). */
+
+/** Sets whether to use syslog (0 is FALSE, TRUE otherwise).
+ * @param handle the context handle
+ * @param usesyslog whether to use the syslog (0 is FALSE, TRUE otherwise)
+ */
 int alpm_option_set_usesyslog(alpm_handle_t *handle, int usesyslog);
+/* End of usesyslog accessors */
+/** @} */
+
 
 /** @name Accessors to the list of no-upgrade files.
  * These functions modify the list of files which should
  * not be updated by package installation.
  * @{
  */
+
+/** Get the list of no-upgrade files
+ * @param handle the context handle
+ * @return the char* list of no-upgrade files
+ */
 alpm_list_t *alpm_option_get_noupgrades(alpm_handle_t *handle);
+
+/** Add a file to the no-upgrade list
+ * @param handle the context handle
+ * @param path the path to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_add_noupgrade(alpm_handle_t *handle, const char *path);
+
+/** Sets the list of no-upgrade files
+ * @param handle the context handle
+ * @param noupgrade a char* list of file to not upgrade.
+ * The list will be duped and the original will still need to be freed by the caller.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_noupgrades(alpm_handle_t *handle, alpm_list_t *noupgrade);
+
+/** Remove an entry from the no-upgrade list
+ * @param handle the context handle
+ * @param path the path to remove
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_remove_noupgrade(alpm_handle_t *handle, const char *path);
+
+/** Test if a path matches any of the globs in the no-upgrade list
+ * @param handle the context handle
+ * @param path the path to test
+ * @return 0 is the path matches a glob, negative if there is no match and
+ * positive is the  match was inverted
+ */
 int alpm_option_match_noupgrade(alpm_handle_t *handle, const char *path);
+/* End of noupgrade accessors */
 /** @} */
+
 
 /** @name Accessors to the list of no-extract files.
  * These functions modify the list of filenames which should
@@ -1557,80 +1840,333 @@ int alpm_option_match_noupgrade(alpm_handle_t *handle, const char *path);
  * not be upgraded by a sysupgrade operation.
  * @{
  */
+
+/** Get the list of no-extract files
+ * @param handle the context handle
+ * @return the char* list of no-extract files
+ */
 alpm_list_t *alpm_option_get_noextracts(alpm_handle_t *handle);
+
+/** Add a file to the no-extract list
+ * @param handle the context handle
+ * @param path the path to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_add_noextract(alpm_handle_t *handle, const char *path);
+
+/** Sets the list of no-extract files
+ * @param handle the context handle
+ * @param noextract a char* list of file to not extract.
+ * The list will be duped and the original will still need to be freed by the caller.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_noextracts(alpm_handle_t *handle, alpm_list_t *noextract);
+
+/** Remove an entry from the no-extract list
+ * @param handle the context handle
+ * @param path the path to remove
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_remove_noextract(alpm_handle_t *handle, const char *path);
+
+/** Test if a path matches any of the globs in the no-extract list
+ * @param handle the context handle
+ * @param path the path to test
+ * @return 0 is the path matches a glob, negative if there is no match and
+ * positive is the  match was inverted
+ */
 int alpm_option_match_noextract(alpm_handle_t *handle, const char *path);
+/* End of noextract accessors */
 /** @} */
+
 
 /** @name Accessors to the list of ignored packages.
  * These functions modify the list of packages that
  * should be ignored by a sysupgrade.
+ *
+ * Entries in this list may be globs and only match the package's
+ * name. Providers are not taken into account.
  * @{
  */
+
+/** Get the list of ignored packages
+ * @param handle the context handle
+ * @return the char* list of ignored packages
+ */
 alpm_list_t *alpm_option_get_ignorepkgs(alpm_handle_t *handle);
+
+/** Add a file to the ignored package list
+ * @param handle the context handle
+ * @param pkg the package to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_add_ignorepkg(alpm_handle_t *handle, const char *pkg);
+
+/** Sets the list of packages to ignore
+ * @param handle the context handle
+ * @param ignorepkgs a char* list of packages to ignore
+ * The list will be duped and the original will still need to be freed by the caller.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_ignorepkgs(alpm_handle_t *handle, alpm_list_t *ignorepkgs);
+
+/** Remove an entry from the ignorepkg list
+ * @param handle the context handle
+ * @param pkg the package to remove
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_remove_ignorepkg(alpm_handle_t *handle, const char *pkg);
+/* End of ignorepkg accessors */
 /** @} */
+
 
 /** @name Accessors to the list of ignored groups.
  * These functions modify the list of groups whose packages
  * should be ignored by a sysupgrade.
+ *
+ * Entries in this list may be globs.
  * @{
  */
+
+/** Get the list of ignored groups
+ * @param handle the context handle
+ * @return the char* list of ignored groups
+ */
 alpm_list_t *alpm_option_get_ignoregroups(alpm_handle_t *handle);
+
+/** Add a file to the ignored group list
+ * @param handle the context handle
+ * @param grp the group to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_add_ignoregroup(alpm_handle_t *handle, const char *grp);
+
+/** Sets the list of groups to ignore
+ * @param handle the context handle
+ * @param ignoregrps a char* list of groups to ignore
+ * The list will be duped and the original will still need to be freed by the caller.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_ignoregroups(alpm_handle_t *handle, alpm_list_t *ignoregrps);
+
+/** Remove an entry from the ignoregroup list
+ * @param handle the context handle
+ * @param grp the group to remove
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_remove_ignoregroup(alpm_handle_t *handle, const char *grp);
+/* End of ignoregroup accessors */
 /** @} */
+
 
 /** @name Accessors to the list of ignored dependencies.
  * These functions modify the list of dependencies that
  * should be ignored by a sysupgrade.
+ *
+ * This is effectivley a list of virtual providers that
+ * packages can use to satisfy their dependencies.
  * @{
  */
+
+/** Gets the list of dependencies that are assumed to be met
+ * @param handle the context handle
+ * @return a list of alpm_depend_t*
+ */
 alpm_list_t *alpm_option_get_assumeinstalled(alpm_handle_t *handle);
+
+/** Add a depend to the assumed installed list
+ * @param handle the context handle
+ * @param dep the dependency to add
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_add_assumeinstalled(alpm_handle_t *handle, const alpm_depend_t *dep);
+
+/** Sets the list of dependnecies that are assumed to be met
+ * @param handle the context handle
+ * @param deps a list of *alpm_depend_t
+ * The list will be duped and the original will still need to be freed by the caller.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_assumeinstalled(alpm_handle_t *handle, alpm_list_t *deps);
+
+/** Remove an entry from the assume installed list
+ * @param handle the context handle
+ * @param dep the dep to remove
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_remove_assumeinstalled(alpm_handle_t *handle, const alpm_depend_t *dep);
+/* End of assunmeinstalled accessors */
 /** @} */
 
-/** Returns the targeted architecture. */
+
+/** @name Accessors for the configured architecture
+ *
+ * libalpm will only install packages that match the configured architecture.
+ * The architecture does not need to match the physical architecture.
+ * It can just be treated as a label.
+ * @{
+ */
+
+/** Returns the allowed package architecture.
+ * @param handle the context handle
+ * @return the configured package architecture
+ */
 const char *alpm_option_get_arch(alpm_handle_t *handle);
-/** Sets the targeted architecture. */
+
+/** Sets the allowed package architecture.
+ * @param handle the context handle
+ * @param arch the architecture to set
+ */
 int alpm_option_set_arch(alpm_handle_t *handle, const char *arch);
+/* End of arch accessors */
+/** @} */
 
+
+/** @name Accessors for check space.
+ *
+ * This controls whether libalpm will check if there is sufficient before
+ * installing packages.
+ * @{
+ */
+
+/** Get whether or not checking for free space before installing packages is enabled.
+ * @param handle the context handle
+ * @return 0 if disabled, 1 if enabled
+ */
 int alpm_option_get_checkspace(alpm_handle_t *handle);
+
+/** Enable/disable checking free space before installing packages.
+ * @param handle the context handle
+ * @param checkspace 0 for disabled, 1 for enabled
+ */
 int alpm_option_set_checkspace(alpm_handle_t *handle, int checkspace);
+/* End of checkspace accessors */
+/** @} */
 
+
+/** @name Accessors for the database extension
+ *
+ * This controls the extension used for sync databases. libalpm will use this
+ * extension to both lookup remote databses and as the name used when opening
+ * reading them.
+ *
+ * This is useful for file databases. Seems as files can increase the size of
+ * a database by quite a lot, a server could hold a database without files under
+ * one extension, and another with files under another extension.
+ *
+ * Which one is downloaded and used then depends on this setting.
+ * @{
+ */
+
+/** Gets the configured database extension.
+ * @param handle the context handle
+ * @return the configured database extension
+ */
 const char *alpm_option_get_dbext(alpm_handle_t *handle);
-int alpm_option_set_dbext(alpm_handle_t *handle, const char *dbext);
 
+/** Sets the database extension.
+ * @param handle the context handle
+ * @param dbext the database extension to use
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_option_set_dbext(alpm_handle_t *handle, const char *dbext);
+/* End of dbext accessors */
+/** @} */
+
+
+/** @name Accessors for the signature levels
+ * @{
+ */
+
+/** Get the default siglevel.
+ * @param handle the context handle
+ * @return a \link alpm_siglevel_t \endlink bitfield of the siglevel
+ */
 int alpm_option_get_default_siglevel(alpm_handle_t *handle);
+
+/** Set the default siglevel.
+ * @param handle the context handle
+ * @param level a \link alpm_siglevel_t \endlink bitfield of the level to set
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_default_siglevel(alpm_handle_t *handle, int level);
 
+/** Get the configured local file siglevel.
+ * @param handle the context handle
+ * @return a \link alpm_siglevel_t \endlink bitfield of the siglevel
+ */
 int alpm_option_get_local_file_siglevel(alpm_handle_t *handle);
+
+/** Set the local file siglevel.
+ * @param handle the context handle
+ * @param level a \link alpm_siglevel_t \endlink bitfield of the level to set
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_local_file_siglevel(alpm_handle_t *handle, int level);
 
+/** Get the configured remote file siglevel.
+ * @param handle the context handle
+ * @return a \link alpm_siglevel_t \endlink bitfield of the siglevel
+ */
 int alpm_option_get_remote_file_siglevel(alpm_handle_t *handle);
+
+/** Set the remote file siglevel.
+ * @param handle the context handle
+ * @param level a \link alpm_siglevel_t \endlink bitfield of the level to set
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_remote_file_siglevel(alpm_handle_t *handle, int level);
+/* End of signature accessors */
+/** @} */
 
+
+/** @name Accessors for download timeout
+ *
+ * By default, libalpm will timeout if a download has been transferring
+ * less than 1 byte for 10 seconds.
+ * @{
+ */
+
+/** Enables/disables the download timeout.
+ * @param handle the context handle
+ * @param disable_dl_timeout 0 for enabled, 1 for disabled
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
 int alpm_option_set_disable_dl_timeout(alpm_handle_t *handle, unsigned short disable_dl_timeout);
+/* End of disable_dl_timeout accessors */
+/** @} */
 
+
+/** @name Accessors for parallel downloads
+ * \link alpm_db_update \endlink, \link alpm_fetch_pkgurl \endlink and
+ * \link alpm_trans_commit \endlink can all download packages in parallel.
+ * This setting configures how many packages can be downloaded in parallel,
+ *
+ * By default this value is set to 1, meaning packages are downloading
+ * sequentially.
+ *
+ * @{
+ */
+
+/** Gets the number of parallel streams to download database and package files.
+ * @param handle the context handle
+ * @return the number of parallel streams to download database and package files
+ */
 int alpm_option_get_parallel_downloads(alpm_handle_t *handle);
 
 /** Sets number of parallel streams to download database and package files.
- * If the function is not called then the default value of '1' stream
- * (i.e. sequential download) is used.
  * @param handle the context handle
  * @param num_streams number of parallel download streams
  * @return 0 on success, -1 on error
  */
 int alpm_option_set_parallel_downloads(alpm_handle_t *handle, unsigned int num_streams);
-
+/* End of parallel_downloads accessors */
 /** @} */
+
+
+/* End of alpm_options */
+/** @} */
+
 
 /** @addtogroup alpm_packages Package Functions
  * Functions to manipulate libalpm packages
