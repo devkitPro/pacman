@@ -23,6 +23,14 @@
  * @file alpm_list.h
  * @author Pacman Development Team
  * @brief A doubly linked list for use with libalpm
+ *
+ * @section see_also See Also
+ * \b alpm(3),
+ * \b alpm-hooks(5),
+ * \b makepkg(8),
+ * \b pacman(8),
+ * \b pacman.conf(5)
+ * @{
  */
 
 #ifndef ALPM_LIST_H

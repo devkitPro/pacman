@@ -49,8 +49,14 @@ extern "C" {
 
 #include <alpm_list.h>
 
-/** @addtogroup alpm alpm
- * @brief The libalpm Public API
+/** @addtogroup alpm The libalpm Public API
+ *
+ * @section see_also See Also
+ * \b alpm_list(3),
+ * \b alpm-hooks(5),
+ * \b makepkg(8),
+ * \b pacman(8),
+ * \b pacman.conf(5)
  * @{
  */
 
