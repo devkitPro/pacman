@@ -50,101 +50,197 @@ extern "C" {
 #include <alpm_list.h>
 
 /*
- * Arch Linux Package Management library
- */
-
-/*
  * Opaque Structures
  */
+
+/** The libalpm context handle.
+ *
+ * This struct represents an instance of libalpm.
+ */
 typedef struct __alpm_handle_t alpm_handle_t;
+
+/** A database.
+ *
+ * A database is a container that stores metadata about packages.
+ *
+ * A database can be located on the local filesystem or on a remote server.
+ *
+ * To use a database, it must first be registered via \link alpm_register_syncdb \endlink.
+ * If the database is already preasant in dbpath then it will be usable. Otherwise,
+ * the database needs to be downloaded using \link alpm_db_update \endlink. Even if the
+ * source of the database is the local filesystem.
+ *
+ * After this, the database can be used to query packages and groups. Any packages or groups
+ * from the database will continue to be owned by the database and do not need to be freed by
+ * the user. They will be freed when the database is unregistered.
+ *
+ * Databases are automatically unregistered when the \link alpm_handle_t \endlink is released.
+ */
 typedef struct __alpm_db_t alpm_db_t;
+
+
+/** A package.
+ *
+ * A package can be loaded from disk via \link alpm_pkg_load \endlink or retrieved from a database.
+ * Packages from databases are automatically freed when the database is unregistered. Packages loaded
+ * from a file must be freed manually.
+ *
+ * Packages can then be queried for metadata or added to a \link alpm_trans_t transaction \endlink
+ * to be added or removed from the system.
+ */
 typedef struct __alpm_pkg_t alpm_pkg_t;
+
+/** Transaction structure used internally by libalpm */
 typedef struct __alpm_trans_t alpm_trans_t;
 
-/** @addtogroup alpm_api_errors Error Codes
+
+/** @addtogroup alpm_api ALPM
+ * @brief The libalpm Public API
  * @{
  */
+
+/** @addtogroup alpm_errors Error Codes
+ * Error codes returned by libalpm.
+ * @{
+ */
+
+/** libalpm's error type */
 typedef enum _alpm_errno_t {
+	/** No error */
 	ALPM_ERR_OK = 0,
+	/** Failed to allocate memory */
 	ALPM_ERR_MEMORY,
+	/** A system error occurred */
 	ALPM_ERR_SYSTEM,
+	/** Permmision denied */
 	ALPM_ERR_BADPERMS,
+	/** Should be a file */
 	ALPM_ERR_NOT_A_FILE,
+	/** Should be a directory */
 	ALPM_ERR_NOT_A_DIR,
+	/** Function was called with invalid arguments */
 	ALPM_ERR_WRONG_ARGS,
+	/** Insufficient disk space */
 	ALPM_ERR_DISK_SPACE,
 	/* Interface */
+	/** Handle should be null */
 	ALPM_ERR_HANDLE_NULL,
+	/** Handle should not be null */
 	ALPM_ERR_HANDLE_NOT_NULL,
+	/** Failed to acquire lock */
 	ALPM_ERR_HANDLE_LOCK,
 	/* Databases */
+	/** Failed to open database */
 	ALPM_ERR_DB_OPEN,
+	/** Failed to create database */
 	ALPM_ERR_DB_CREATE,
+	/** Database should not be null */
 	ALPM_ERR_DB_NULL,
+	/** Database should be null */
 	ALPM_ERR_DB_NOT_NULL,
+	/** The database could not be found */
 	ALPM_ERR_DB_NOT_FOUND,
+	/** Database is invalid */
 	ALPM_ERR_DB_INVALID,
+	/** Database has an invalid signature */
 	ALPM_ERR_DB_INVALID_SIG,
+	/** The localdb is in a newer/older format than libalpm expects */
 	ALPM_ERR_DB_VERSION,
+	/** Failed to write to the database */
 	ALPM_ERR_DB_WRITE,
+	/** Failed to remove entry from database */
 	ALPM_ERR_DB_REMOVE,
 	/* Servers */
+	/** Server URL is in an invalid format */
 	ALPM_ERR_SERVER_BAD_URL,
+	/** The database has no configured servers */
 	ALPM_ERR_SERVER_NONE,
 	/* Transactions */
+	/** A transaction is already initialized */
 	ALPM_ERR_TRANS_NOT_NULL,
+	/** A transaction has not been initialized */
 	ALPM_ERR_TRANS_NULL,
+	/** Duplicate target in transaction */
 	ALPM_ERR_TRANS_DUP_TARGET,
+	/** A transaction has not been initialized */
 	ALPM_ERR_TRANS_NOT_INITIALIZED,
+	/** Transaction has not been prepared */
 	ALPM_ERR_TRANS_NOT_PREPARED,
+	/** Transaction was aborted */
 	ALPM_ERR_TRANS_ABORT,
+	/** Failed to interrupt transaction */
 	ALPM_ERR_TRANS_TYPE,
+	/** Tried to commit transaction without locking the database */
 	ALPM_ERR_TRANS_NOT_LOCKED,
+	/** A hook failed to run */
 	ALPM_ERR_TRANS_HOOK_FAILED,
 	/* Packages */
+	/** Package not found */
 	ALPM_ERR_PKG_NOT_FOUND,
+	/** Package is in ignorepkg */
 	ALPM_ERR_PKG_IGNORED,
+	/** Package is invalid */
 	ALPM_ERR_PKG_INVALID,
+	/** Package has an invalid checksum */
 	ALPM_ERR_PKG_INVALID_CHECKSUM,
+	/** Package has an invalid signature */
 	ALPM_ERR_PKG_INVALID_SIG,
+	/** Package does not have a signature */
 	ALPM_ERR_PKG_MISSING_SIG,
+	/** Cannot open the package file */
 	ALPM_ERR_PKG_OPEN,
+	/** Failed to remove package files */
 	ALPM_ERR_PKG_CANT_REMOVE,
+	/** Package has an invalid name */
 	ALPM_ERR_PKG_INVALID_NAME,
+	/** Package has an invalid architecture */
 	ALPM_ERR_PKG_INVALID_ARCH,
+	/** Unused */
 	ALPM_ERR_PKG_REPO_NOT_FOUND,
 	/* Signatures */
+	/** Signatures are missing */
 	ALPM_ERR_SIG_MISSING,
+	/** Signatures are invalid */
 	ALPM_ERR_SIG_INVALID,
 	/* Dependencies */
+	/** Dependencies could not be satisfied */
 	ALPM_ERR_UNSATISFIED_DEPS,
+	/** Conflicting dependencies */
 	ALPM_ERR_CONFLICTING_DEPS,
+	/** Files conflict */
 	ALPM_ERR_FILE_CONFLICTS,
 	/* Misc */
+	/** Download failed */
 	ALPM_ERR_RETRIEVE,
+	/** Invalid Regex */
 	ALPM_ERR_INVALID_REGEX,
 	/* External library errors */
+	/** Error in libarchive */
 	ALPM_ERR_LIBARCHIVE,
+	/** Error in libcurl */
 	ALPM_ERR_LIBCURL,
+	/** Error in external download program */
 	ALPM_ERR_EXTERNAL_DOWNLOAD,
+	/** Error in gpgme */
 	ALPM_ERR_GPGME,
-	/* Missing compile-time features */
+	/** Missing compile-time features */
 	ALPM_ERR_MISSING_CAPABILITY_SIGNATURES
 } alpm_errno_t;
 
-/** Returns the current error code from the handle. */
+/** Returns the current error code from the handle.
+ * @param handle the context handle
+ * @return the current error code of the handle
+ */
 alpm_errno_t alpm_errno(alpm_handle_t *handle);
 
-/** Returns the string corresponding to an error number. */
+/** Returns the string corresponding to an error number.
+ * @param err the error code to get the string for
+ * @return the string relating to the given error code
+ */
 const char *alpm_strerror(alpm_errno_t err);
 
-/* End of alpm_api_errors */
+/* End of alpm_errors */
 /** @} */
-
-/** @addtogroup alpm_api Public API
- * The libalpm Public API
- * @{
- */
 
 typedef int64_t alpm_time_t;
 
