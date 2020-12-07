@@ -266,8 +266,6 @@ int SYMEXPORT alpm_trans_release(alpm_handle_t *handle)
 	return 0;
 }
 
-/** @} */
-
 void _alpm_trans_free(alpm_trans_t *trans)
 {
 	if(trans == NULL) {
