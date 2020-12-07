@@ -93,6 +93,38 @@ typedef struct __alpm_pkg_t alpm_pkg_t;
 /** Transaction structure used internally by libalpm */
 typedef struct __alpm_trans_t alpm_trans_t;
 
+/*
+ * Structures
+ */
+
+/** Package group */
+typedef struct _alpm_group_t {
+	/** group name */
+	char *name;
+	/** list of alpm_pkg_t packages */
+	alpm_list_t *packages;
+} alpm_group_t;
+
+/** File in a package */
+typedef struct _alpm_file_t {
+	char *name;
+	off_t size;
+	mode_t mode;
+} alpm_file_t;
+
+/** Package filelist container */
+typedef struct _alpm_filelist_t {
+	size_t count;
+	alpm_file_t *files;
+} alpm_filelist_t;
+
+/** Local package or package file backup entry */
+typedef struct _alpm_backup_t {
+	char *name;
+	char *hash;
+} alpm_backup_t;
+
+
 
 /** @addtogroup alpm_api ALPM
  * @brief The libalpm Public API
@@ -1122,6 +1154,223 @@ typedef int (*alpm_cb_fetch)(const char *url, const char *localpath,
 /** @} */
 
 
+/** @addtogroup alpm_databases Database
+ * @brief Functions to query and manipulate the database of libalpm.
+ * @{
+ */
+
+/** Get the database of locally installed packages.
+ * The returned pointer points to an internal structure
+ * of libalpm which should only be manipulated through
+ * libalpm functions.
+ * @return a reference to the local database
+ */
+alpm_db_t *alpm_get_localdb(alpm_handle_t *handle);
+
+/** Get the list of sync databases.
+ * Returns a list of alpm_db_t structures, one for each registered
+ * sync database.
+ *
+ * @param handle the context handle
+ * @return a reference to an internal list of alpm_db_t structures
+ */
+alpm_list_t *alpm_get_syncdbs(alpm_handle_t *handle);
+
+/** Register a sync database of packages.
+ * Databases can not be registered when there is an active transaction.
+ *
+ * @param handle the context handle
+ * @param treename the name of the sync repository
+ * @param level what level of signature checking to perform on the
+ * database; note that this must be a '.sig' file type verification
+ * @return an alpm_db_t* on success (the value), NULL on error
+ */
+alpm_db_t *alpm_register_syncdb(alpm_handle_t *handle, const char *treename,
+		int level);
+
+/** Unregister all package databases.
+ * Databases can not be unregistered while there is an active transaction.
+ *
+ * @param handle the context handle
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_unregister_all_syncdbs(alpm_handle_t *handle);
+
+/** Unregister a package database.
+ * Databases can not be unregistered when there is an active transaction.
+ *
+ * @param db pointer to the package database to unregister
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_db_unregister(alpm_db_t *db);
+
+/** Get the name of a package database.
+ * @param db pointer to the package database
+ * @return the name of the package database, NULL on error
+ */
+const char *alpm_db_get_name(const alpm_db_t *db);
+
+/** Get the signature verification level for a database.
+ * Will return the default verification level if this database is set up
+ * with ALPM_SIG_USE_DEFAULT.
+ * @param db pointer to the package database
+ * @return the signature verification level
+ */
+int alpm_db_get_siglevel(alpm_db_t *db);
+
+/** Check the validity of a database.
+ * This is most useful for sync databases and verifying signature status.
+ * If invalid, the handle error code will be set accordingly.
+ * @param db pointer to the package database
+ * @return 0 if valid, -1 if invalid (pm_errno is set accordingly)
+ */
+int alpm_db_get_valid(alpm_db_t *db);
+
+/** @name Server accessors
+ * @{
+ */
+
+/** Get the list of servers assigned to this db.
+ * @param db pointer to the database to get the servers from
+ * @return a char* list of servers
+ */
+alpm_list_t *alpm_db_get_servers(const alpm_db_t *db);
+
+/** Sets the list of servers for the database to use.
+ * @param db the database to set the servers
+ * @param servers a char* list of servers. Note: the database will
+ * take ownership of the list and it should no longer be
+ * freed by the caller
+ */
+int alpm_db_set_servers(alpm_db_t *db, alpm_list_t *servers);
+
+/** Add a download server to a database.
+ * @param db database pointer
+ * @param url url of the server
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_db_add_server(alpm_db_t *db, const char *url);
+
+/** Remove a download server from a database.
+ * @param db database pointer
+ * @param url url of the server
+ * @return 0 on success, 1 on server not present,
+ * -1 on error (pm_errno is set accordingly)
+ */
+int alpm_db_remove_server(alpm_db_t *db, const char *url);
+
+/* End of server accessors */
+/** @} */
+
+/** Update package databases.
+ *
+ * An update of the package databases in the list \a dbs will be attempted.
+ * Unless \a force is true, the update will only be performed if the remote
+ * databases were modified since the last update.
+ *
+ * This operation requires a database lock, and will return an applicable error
+ * if the lock could not be obtained.
+ *
+ * Example:
+ * @code
+ * alpm_list_t *dbs = alpm_get_syncdbs(config->handle);
+ * ret = alpm_db_update(config->handle, dbs, force);
+ * if(ret < 0) {
+ *     pm_printf(ALPM_LOG_ERROR, _("failed to synchronize all databases (%s)\n"),
+ *         alpm_strerror(alpm_errno(config->handle)));
+ * }
+ * @endcode
+ *
+ * @note After a successful update, the \link alpm_db_get_pkgcache()
+ * package cache \endlink will be invalidated
+ * @param handle the context handle
+ * @param dbs list of package databases to update
+ * @param force if true, then forces the update, otherwise update only in case
+ * the databases aren't up to date
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_db_update(alpm_handle_t *handle, alpm_list_t *dbs, int force);
+
+/** Get a package entry from a package database.
+ * Looking up a package is O(1) and will be significantly faster than
+ * iterating over the pkgcahe.
+ * @param db pointer to the package database to get the package from
+ * @param name of the package
+ * @return the package entry on success, NULL on error
+ */
+alpm_pkg_t *alpm_db_get_pkg(alpm_db_t *db, const char *name);
+
+/** Get the package cache of a package database.
+ * This is a list of all packages the db contains.
+ * @param db pointer to the package database to get the package from
+ * @return the list of packages on success, NULL on error
+ */
+alpm_list_t *alpm_db_get_pkgcache(alpm_db_t *db);
+
+/** Get a group entry from a package database.
+ * Looking up a group is O(1) and will be significantly faster than
+ * iterating over the groupcahe.
+ * @param db pointer to the package database to get the group from
+ * @param name of the group
+ * @return the groups entry on success, NULL on error
+ */
+alpm_group_t *alpm_db_get_group(alpm_db_t *db, const char *name);
+
+/** Get the group cache of a package database.
+ * @param db pointer to the package database to get the group from
+ * @return the list of groups on success, NULL on error
+ */
+alpm_list_t *alpm_db_get_groupcache(alpm_db_t *db);
+
+/** Searches a database with regular expressions.
+ * @param db pointer to the package database to search in
+ * @param needles a list of regular expressions to search for
+ * @param ret pointer to list for storing packages matching all
+ * regular expressions - must point to an empty (NULL) alpm_list_t *.
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_db_search(alpm_db_t *db, const alpm_list_t *needles,
+		alpm_list_t **ret);
+
+/** The usage level of a database. */
+typedef enum _alpm_db_usage_t {
+       /** Enable refreshes for this database */
+       ALPM_DB_USAGE_SYNC = 1,
+       /** Enable search for this database */
+       ALPM_DB_USAGE_SEARCH = (1 << 1),
+       /** Enable installing packages from this database */
+       ALPM_DB_USAGE_INSTALL = (1 << 2),
+       /** Enable sysupgrades with this database */
+       ALPM_DB_USAGE_UPGRADE = (1 << 3),
+       /** Enable all usage levels */
+       ALPM_DB_USAGE_ALL = (1 << 4) - 1,
+} alpm_db_usage_t;
+
+/** @name Usage accessors
+ * @{
+ */
+
+/** Sets the usage of a database.
+ * @param db pointer to the package database to set the status for
+ * @param usage a bitmask of alpm_db_usage_t values
+ * @return 0 on success, or -1 on error
+ */
+int alpm_db_set_usage(alpm_db_t *db, int usage);
+
+/** Gets the usage of a database.
+ * @param db pointer to the package database to get the status of
+ * @param usage pointer to an alpm_db_usage_t to store db's status
+ * @return 0 on success, or -1 on error
+ */
+int alpm_db_get_usage(alpm_db_t *db, int *usage);
+
+/* End of usage accessors */
+/** @} */
+
+/* End of alpm_databases */
+/** @} */
+
+
 /*
  * Enumerations
  * These ones are used in multiple contexts, so are forward-declared.
@@ -1150,37 +1399,6 @@ typedef enum _alpm_pkgvalidation_t {
 	ALPM_PKG_VALIDATION_SHA256SUM = (1 << 2),
 	ALPM_PKG_VALIDATION_SIGNATURE = (1 << 3)
 } alpm_pkgvalidation_t;
-
-/*
- * Structures
- */
-
-/** Package group */
-typedef struct _alpm_group_t {
-	/** group name */
-	char *name;
-	/** list of alpm_pkg_t packages */
-	alpm_list_t *packages;
-} alpm_group_t;
-
-/** File in a package */
-typedef struct _alpm_file_t {
-	char *name;
-	off_t size;
-	mode_t mode;
-} alpm_file_t;
-
-/** Package filelist container */
-typedef struct _alpm_filelist_t {
-	size_t count;
-	alpm_file_t *files;
-} alpm_filelist_t;
-
-/** Local package or package file backup entry */
-typedef struct _alpm_backup_t {
-	char *name;
-	char *hash;
-} alpm_backup_t;
 
 /*
  * Logging facilities
@@ -1401,194 +1619,6 @@ int alpm_option_get_parallel_downloads(alpm_handle_t *handle);
  * @return 0 on success, -1 on error
  */
 int alpm_option_set_parallel_downloads(alpm_handle_t *handle, unsigned int num_streams);
-
-/** @} */
-
-/** @addtogroup alpm_api_databases Database Functions
- * Functions to query and manipulate the database of libalpm.
- * @{
- */
-
-/** Get the database of locally installed packages.
- * The returned pointer points to an internal structure
- * of libalpm which should only be manipulated through
- * libalpm functions.
- * @return a reference to the local database
- */
-alpm_db_t *alpm_get_localdb(alpm_handle_t *handle);
-
-/** Get the list of sync databases.
- * Returns a list of alpm_db_t structures, one for each registered
- * sync database.
- * @param handle the context handle
- * @return a reference to an internal list of alpm_db_t structures
- */
-alpm_list_t *alpm_get_syncdbs(alpm_handle_t *handle);
-
-/** Register a sync database of packages.
- * @param handle the context handle
- * @param treename the name of the sync repository
- * @param level what level of signature checking to perform on the
- * database; note that this must be a '.sig' file type verification
- * @return an alpm_db_t* on success (the value), NULL on error
- */
-alpm_db_t *alpm_register_syncdb(alpm_handle_t *handle, const char *treename,
-		int level);
-
-/** Unregister all package databases.
- * @param handle the context handle
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int alpm_unregister_all_syncdbs(alpm_handle_t *handle);
-
-/** Unregister a package database.
- * @param db pointer to the package database to unregister
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int alpm_db_unregister(alpm_db_t *db);
-
-/** Get the name of a package database.
- * @param db pointer to the package database
- * @return the name of the package database, NULL on error
- */
-const char *alpm_db_get_name(const alpm_db_t *db);
-
-/** Get the signature verification level for a database.
- * Will return the default verification level if this database is set up
- * with ALPM_SIG_USE_DEFAULT.
- * @param db pointer to the package database
- * @return the signature verification level
- */
-int alpm_db_get_siglevel(alpm_db_t *db);
-
-/** Check the validity of a database.
- * This is most useful for sync databases and verifying signature status.
- * If invalid, the handle error code will be set accordingly.
- * @param db pointer to the package database
- * @return 0 if valid, -1 if invalid (pm_errno is set accordingly)
- */
-int alpm_db_get_valid(alpm_db_t *db);
-
-/** @name Accessors to the list of servers for a database.
- * @{
- */
-
-/** Get the list of servers assigned to this db.
- * @param db pointer to the database to get the servers from
- * @return a char* list of servers
- */
-alpm_list_t *alpm_db_get_servers(const alpm_db_t *db);
-
-/** Sets the list of servers for the database to use.
- * @param db the database to set the servers
- * @param a char* list of servers. Note: the database will
- * take ownership of the list and it should no longer be
- * freed by the caller
- */
-int alpm_db_set_servers(alpm_db_t *db, alpm_list_t *servers);
-
-/** Add a download server to a database.
- * @param db database pointer
- * @param url url of the server
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int alpm_db_add_server(alpm_db_t *db, const char *url);
-
-/** Remove a download server from a database.
- * @param db database pointer
- * @param url url of the server
- * @return 0 on success, 1 on server not present,
- * -1 on error (pm_errno is set accordingly)
- */
-int alpm_db_remove_server(alpm_db_t *db, const char *url);
-/** @} */
-
-/** Update package databases
- *
- * An update of the package databases in the list \a dbs will be attempted.
- * Unless \a force is true, the update will only be performed if the remote
- * databases were modified since the last update.
- *
- * This operation requires a database lock, and will return an applicable error
- * if the lock could not be obtained.
- *
- * Example:
- * @code
- * alpm_list_t *dbs = alpm_get_syncdbs();
- * ret = alpm_db_update(config->handle, dbs, force);
- * if(ret < 0) {
- *     pm_printf(ALPM_LOG_ERROR, _("failed to synchronize all databases (%s)\n"),
- *         alpm_strerror(alpm_errno(config->handle)));
- * }
- * @endcode
- *
- * @note After a successful update, the \link alpm_db_get_pkgcache()
- * package cache \endlink will be invalidated
- * @param handle the context handle
- * @param dbs list of package databases to update
- * @param force if true, then forces the update, otherwise update only in case
- * the databases aren't up to date
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int alpm_db_update(alpm_handle_t *handle, alpm_list_t *dbs, int force);
-
-/** Get a package entry from a package database.
- * @param db pointer to the package database to get the package from
- * @param name of the package
- * @return the package entry on success, NULL on error
- */
-alpm_pkg_t *alpm_db_get_pkg(alpm_db_t *db, const char *name);
-
-/** Get the package cache of a package database.
- * @param db pointer to the package database to get the package from
- * @return the list of packages on success, NULL on error
- */
-alpm_list_t *alpm_db_get_pkgcache(alpm_db_t *db);
-
-/** Get a group entry from a package database.
- * @param db pointer to the package database to get the group from
- * @param name of the group
- * @return the groups entry on success, NULL on error
- */
-alpm_group_t *alpm_db_get_group(alpm_db_t *db, const char *name);
-
-/** Get the group cache of a package database.
- * @param db pointer to the package database to get the group from
- * @return the list of groups on success, NULL on error
- */
-alpm_list_t *alpm_db_get_groupcache(alpm_db_t *db);
-
-/** Searches a database with regular expressions.
- * @param db pointer to the package database to search in
- * @param needles a list of regular expressions to search for
- * @param ret pointer to list for storing packages matching all
- * regular expressions - must point to an empty (NULL) alpm_list_t *.
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int alpm_db_search(alpm_db_t *db, const alpm_list_t *needles,
-		alpm_list_t **ret);
-
-typedef enum _alpm_db_usage_t {
-	ALPM_DB_USAGE_SYNC = 1,
-	ALPM_DB_USAGE_SEARCH = (1 << 1),
-	ALPM_DB_USAGE_INSTALL = (1 << 2),
-	ALPM_DB_USAGE_UPGRADE = (1 << 3),
-	ALPM_DB_USAGE_ALL = (1 << 4) - 1,
-} alpm_db_usage_t;
-
-/** Sets the usage of a database.
- * @param db pointer to the package database to set the status for
- * @param usage a bitmask of alpm_db_usage_t values
- * @return 0 on success, or -1 on error
- */
-int alpm_db_set_usage(alpm_db_t *db, int usage);
-
-/** Gets the usage of a database.
- * @param db pointer to the package database to get the status of
- * @param usage pointer to an alpm_db_usage_t to store db's status
- * @return 0 on success, or -1 on error
- */
-int alpm_db_get_usage(alpm_db_t *db, int *usage);
 
 /** @} */
 
