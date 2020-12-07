@@ -61,6 +61,7 @@ extern "C" {
 /** The libalpm context handle.
  *
  * This struct represents an instance of libalpm.
+ * @ingroup alpm_handle
  */
 typedef struct __alpm_handle_t alpm_handle_t;
 
@@ -80,6 +81,7 @@ typedef struct __alpm_handle_t alpm_handle_t;
  * the user. They will be freed when the database is unregistered.
  *
  * Databases are automatically unregistered when the \link alpm_handle_t \endlink is released.
+ * @ingroup alpm_databases
  */
 typedef struct __alpm_db_t alpm_db_t;
 
@@ -92,11 +94,19 @@ typedef struct __alpm_db_t alpm_db_t;
  *
  * Packages can then be queried for metadata or added to a \link alpm_trans_t transaction \endlink
  * to be added or removed from the system.
+ * @ingroup alpm_packages
  */
 typedef struct __alpm_pkg_t alpm_pkg_t;
 
-/** Transaction structure used internally by libalpm */
+/** Transaction structure used internally by libalpm
+ * @ingroup alpm_trans
+ * */
 typedef struct __alpm_trans_t alpm_trans_t;
+
+
+/** The time type used by libalpm. Represents a unix time stamp
+ * @ingroup alpm_misc */
+typedef int64_t alpm_time_t;
 
 /** @addtogroup alpm_files Files
  * @brief Functions for package files
@@ -342,7 +352,6 @@ int alpm_release(alpm_handle_t *handle);
 /* End of alpm_handle */
 /** @} */
 
-typedef int64_t alpm_time_t;
 
 /** @addtogroup alpm_sig Signature checking
  * @brief Functions to check signatures
