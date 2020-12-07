@@ -440,6 +440,182 @@ int alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
 /** @} */
 
 
+/** @addtogroup alpm_depends Dependency
+ * @brief Functions dealing with libalpm's dependency and conflict
+ * information.
+ * @{
+ */
+
+/** Types of version constraints in dependency specs. */
+typedef enum _alpm_depmod_t {
+        /** No version constraint */
+        ALPM_DEP_MOD_ANY = 1,
+        /** Test version equality (package=x.y.z) */
+        ALPM_DEP_MOD_EQ,
+        /** Test for at least a version (package>=x.y.z) */
+        ALPM_DEP_MOD_GE,
+        /** Test for at most a version (package<=x.y.z) */
+        ALPM_DEP_MOD_LE,
+        /** Test for greater than some version (package>x.y.z) */
+        ALPM_DEP_MOD_GT,
+        /** Test for less than some version (package<x.y.z) */
+        ALPM_DEP_MOD_LT
+} alpm_depmod_t;
+
+/**
+ * File conflict type.
+ * Whether the conflict results from a file existing on the filesystem, or with
+ * another target in the transaction.
+ */
+typedef enum _alpm_fileconflicttype_t {
+	/** The conflict results with a another target in the transaction */
+	ALPM_FILECONFLICT_TARGET = 1,
+	/** The conflict results from a file existing on the filesystem */
+	ALPM_FILECONFLICT_FILESYSTEM
+} alpm_fileconflicttype_t;
+
+/** The basic dependency type.
+ *
+ * This type is used throughout libalpm, not just for dependencies
+ * but also conflicts and providers. */
+typedef struct _alpm_depend_t {
+	/**  Name of the provider to satisfy this dependency */
+	char *name;
+	/**  Version of the provider to match against (optional) */
+	char *version;
+	/** A description of why this dependency is needed (optional) */
+	char *desc;
+	/** A hash of name (used internally to speed up conflict checks) */
+	unsigned long name_hash;
+	/** How the version should match against the provider */
+	alpm_depmod_t mod;
+} alpm_depend_t;
+
+/** Missing dependency. */
+typedef struct _alpm_depmissing_t {
+	/** Name of the package that has the dependency */
+	char *target;
+	/** The dependency that was wanted */
+	alpm_depend_t *depend;
+	/** If the depmissing was caused by a conflict, the name of the package
+	 * that would be installed, causing the satisfying package to be removed */
+	char *causingpkg;
+} alpm_depmissing_t;
+
+/** A conflict that has occurred between two packages. */
+typedef struct _alpm_conflict_t {
+	/** Hash of the first package name
+	 * (used internally to speed up conflict checks) */
+	unsigned long package1_hash;
+	/** Hash of the second package name
+	 * (used internally to speed up conflict checks) */
+	unsigned long package2_hash;
+	/** Name of the first package */
+	char *package1;
+	/** Name of the second package */
+	char *package2;
+	/** The conflict */
+	alpm_depend_t *reason;
+} alpm_conflict_t;
+
+/** File conflict.
+ *
+ * A conflict that has happened due to a two packages containing the same file,
+ * or a package contains a file that is already on the filesystem and not owned
+ * by that package. */
+typedef struct _alpm_fileconflict_t {
+	/** The name of the package that caused the conflict */
+	char *target;
+	/** The type of conflict */
+	alpm_fileconflicttype_t type;
+	/** The name of the file that the package conflicts with */
+	char *file;
+	/** The name of the package that also owns the file if there is one*/
+	char *ctarget;
+} alpm_fileconflict_t;
+
+/** Checks dependencies and returns missing ones in a list.
+ * Dependencies can include versions with depmod operators.
+ * @param handle the context handle
+ * @param pkglist the list of local packages
+ * @param remove an alpm_list_t* of packages to be removed
+ * @param upgrade an alpm_list_t* of packages to be upgraded (remove-then-upgrade)
+ * @param reversedeps handles the backward dependencies
+ * @return an alpm_list_t* of alpm_depmissing_t pointers.
+ */
+alpm_list_t *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglist,
+		alpm_list_t *remove, alpm_list_t *upgrade, int reversedeps);
+
+/** Find a package satisfying a specified dependency.
+ * The dependency can include versions with depmod operators.
+ * @param pkgs an alpm_list_t* of alpm_pkg_t where the satisfier will be searched
+ * @param depstring package or provision name, versioned or not
+ * @return a alpm_pkg_t* satisfying depstring
+ */
+alpm_pkg_t *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring);
+
+/** Find a package satisfying a specified dependency.
+ * First look for a literal, going through each db one by one. Then look for
+ * providers. The first satisfier that belongs to an installed package is
+ * returned. If no providers belong to an installed package then an
+ * alpm_question_select_provider_t is created to select the provider.
+ * The dependency can include versions with depmod operators.
+ *
+ * @param handle the context handle
+ * @param dbs an alpm_list_t* of alpm_db_t where the satisfier will be searched
+ * @param depstring package or provision name, versioned or not
+ * @return a alpm_pkg_t* satisfying depstring
+ */
+alpm_pkg_t *alpm_find_dbs_satisfier(alpm_handle_t *handle,
+		alpm_list_t *dbs, const char *depstring);
+
+/** Check the package conflicts in a database
+ *
+ * @param handle the context handle
+ * @param pkglist the list of packages to check
+ *
+ * @return an alpm_list_t of alpm_conflict_t
+ */
+alpm_list_t *alpm_checkconflicts(alpm_handle_t *handle, alpm_list_t *pkglist);
+
+/** Returns a newly allocated string representing the dependency information.
+ * @param dep a dependency info structure
+ * @return a formatted string, e.g. "glibc>=2.12"
+ */
+char *alpm_dep_compute_string(const alpm_depend_t *dep);
+
+/** Return a newly allocated dependency information parsed from a string
+ *\link alpm_dep_free should be used to free the dependency \endlink
+ * @param depstring a formatted string, e.g. "glibc=2.12"
+ * @return a dependency info structure
+ */
+alpm_depend_t *alpm_dep_from_string(const char *depstring);
+
+/** Free a dependency info structure
+ * @param dep struct to free
+ */
+void alpm_dep_free(alpm_depend_t *dep);
+
+/** Free a fileconflict and its members.
+ * @param conflict the fileconflict to free
+ */
+void alpm_fileconflict_free(alpm_fileconflict_t *conflict);
+
+/** Free a depmissing and its members
+ * @param miss the depmissing to free
+ * */
+void alpm_depmissing_free(alpm_depmissing_t *miss);
+
+/**
+ * Free a conflict and its members.
+ * @param conflict the conflict to free
+ */
+void alpm_conflict_free(alpm_conflict_t *conflict);
+
+
+/* End of alpm_depends */
+/** @} */
+
 /*
  * Enumerations
  * These ones are used in multiple contexts, so are forward-declared.
@@ -469,69 +645,9 @@ typedef enum _alpm_pkgvalidation_t {
 	ALPM_PKG_VALIDATION_SIGNATURE = (1 << 3)
 } alpm_pkgvalidation_t;
 
-/** Types of version constraints in dependency specs. */
-typedef enum _alpm_depmod_t {
-	/** No version constraint */
-	ALPM_DEP_MOD_ANY = 1,
-	/** Test version equality (package=x.y.z) */
-	ALPM_DEP_MOD_EQ,
-	/** Test for at least a version (package>=x.y.z) */
-	ALPM_DEP_MOD_GE,
-	/** Test for at most a version (package<=x.y.z) */
-	ALPM_DEP_MOD_LE,
-	/** Test for greater than some version (package>x.y.z) */
-	ALPM_DEP_MOD_GT,
-	/** Test for less than some version (package<x.y.z) */
-	ALPM_DEP_MOD_LT
-} alpm_depmod_t;
-
-/**
- * File conflict type.
- * Whether the conflict results from a file existing on the filesystem, or with
- * another target in the transaction.
- */
-typedef enum _alpm_fileconflicttype_t {
-	ALPM_FILECONFLICT_TARGET = 1,
-	ALPM_FILECONFLICT_FILESYSTEM
-} alpm_fileconflicttype_t;
-
 /*
  * Structures
  */
-
-/** Dependency */
-typedef struct _alpm_depend_t {
-	char *name;
-	char *version;
-	char *desc;
-	unsigned long name_hash;
-	alpm_depmod_t mod;
-} alpm_depend_t;
-
-/** Missing dependency */
-typedef struct _alpm_depmissing_t {
-	char *target;
-	alpm_depend_t *depend;
-	/* this is used only in the case of a remove dependency error */
-	char *causingpkg;
-} alpm_depmissing_t;
-
-/** Conflict */
-typedef struct _alpm_conflict_t {
-	unsigned long package1_hash;
-	unsigned long package2_hash;
-	char *package1;
-	char *package2;
-	alpm_depend_t *reason;
-} alpm_conflict_t;
-
-/** File conflict */
-typedef struct _alpm_fileconflict_t {
-	char *target;
-	alpm_fileconflicttype_t type;
-	char *file;
-	char *ctarget;
-} alpm_fileconflict_t;
 
 /** Package group */
 typedef struct _alpm_group_t {
@@ -1899,76 +2015,6 @@ int alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg);
 
 /** @} */
 
-/** @addtogroup alpm_api_depends Dependency Functions
- * Functions dealing with libalpm representation of dependency
- * information.
- * @{
- */
-
-/** Checks dependencies and returns missing ones in a list.
- * Dependencies can include versions with depmod operators.
- * @param handle the context handle
- * @param pkglist the list of local packages
- * @param remove an alpm_list_t* of packages to be removed
- * @param upgrade an alpm_list_t* of packages to be upgraded (remove-then-upgrade)
- * @param reversedeps handles the backward dependencies
- * @return an alpm_list_t* of alpm_depmissing_t pointers.
- */
-alpm_list_t *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglist,
-		alpm_list_t *remove, alpm_list_t *upgrade, int reversedeps);
-
-/** Find a package satisfying a specified dependency.
- * The dependency can include versions with depmod operators.
- * @param pkgs an alpm_list_t* of alpm_pkg_t where the satisfier will be searched
- * @param depstring package or provision name, versioned or not
- * @return a alpm_pkg_t* satisfying depstring
- */
-alpm_pkg_t *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring);
-
-/** Find a package satisfying a specified dependency.
- * First look for a literal, going through each db one by one. Then look for
- * providers. The first satisfier that belongs to an installed package is
- * returned. If no providers belong to an installed package then an
- * alpm_question_select_provider_t is created to select the provider.
- * The dependency can include versions with depmod operators.
- *
- * @param handle the context handle
- * @param dbs an alpm_list_t* of alpm_db_t where the satisfier will be searched
- * @param depstring package or provision name, versioned or not
- * @return a alpm_pkg_t* satisfying depstring
- */
-alpm_pkg_t *alpm_find_dbs_satisfier(alpm_handle_t *handle,
-		alpm_list_t *dbs, const char *depstring);
-
-/**
- * @brief Check the package conflicts in a database
- *
- * @param handle the context handle
- * @param pkglist the list of packages to check
- *
- * @return an alpm_list_t of alpm_conflict_t
- */
-alpm_list_t *alpm_checkconflicts(alpm_handle_t *handle, alpm_list_t *pkglist);
-
-/** Returns a newly allocated string representing the dependency information.
- * @param dep a dependency info structure
- * @return a formatted string, e.g. "glibc>=2.12"
- */
-char *alpm_dep_compute_string(const alpm_depend_t *dep);
-
-/** Return a newly allocated dependency information parsed from a string
- * @param depstring a formatted string, e.g. "glibc=2.12"
- * @return a dependency info structure
- */
-alpm_depend_t *alpm_dep_from_string(const char *depstring);
-
-/** Free a dependency info structure
- * @param dep struct to free
- */
-void alpm_dep_free(alpm_depend_t *dep);
-
-/** @} */
-
 /** @} */
 
 /*
@@ -2019,19 +2065,6 @@ const char *alpm_version(void);
  * @return a bitmask of the capabilities
  * */
 int alpm_capabilities(void);
-
-/**
- * Free a fileconflict and its members.
- * @param conflict the fileconflict to free
- */
-void alpm_fileconflict_free(alpm_fileconflict_t *conflict);
-void alpm_depmissing_free(alpm_depmissing_t *miss);
-
-/**
- * Free a conflict and its members.
- * @param conflict the conflict to free
- */
-void alpm_conflict_free(alpm_conflict_t *conflict);
 
 /* End of alpm_api */
 /** @} */
