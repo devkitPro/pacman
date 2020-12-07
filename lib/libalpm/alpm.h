@@ -49,6 +49,11 @@ extern "C" {
 
 #include <alpm_list.h>
 
+/** @addtogroup alpm_api ALPM
+ * @brief The libalpm Public API
+ * @{
+ */
+
 /*
  * Opaque Structures
  */
@@ -92,11 +97,6 @@ typedef struct __alpm_pkg_t alpm_pkg_t;
 
 /** Transaction structure used internally by libalpm */
 typedef struct __alpm_trans_t alpm_trans_t;
-
-/** @addtogroup alpm_api ALPM
- * @brief The libalpm Public API
- * @{
- */
 
 /** @addtogroup alpm_files Files
  * @brief Functions for package files
