@@ -2067,11 +2067,6 @@ int alpm_pkg_mtree_close(const alpm_pkg_t *pkg, struct archive *archive);
 /* End of alpm_packages */
 /** @} */
 
-/** Check for new version of pkg in sync repos
- * (only the first occurrence is considered in sync)
- */
-alpm_pkg_t *alpm_sync_get_new_version(alpm_pkg_t *pkg, alpm_list_t *dbs_sync);
-
 /** @addtogroup alpm_trans Transaction
  * @brief Functions to manipulate libalpm transactions
  *
@@ -2211,19 +2206,24 @@ int alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg);
 /* End of add/remove packages */
 /** @} */
 
+
 /* End of alpm_trans */
 /** @} */
 
-/*
- * Helpers
- */
-
-/* checksums */
 
 /** \addtogroup alpm_misc Miscellaneous Functions
  * @brief Various libalpm functions
  * @{
  */
+
+/** Check for new version of pkg in syncdbs.
+ *
+ * If the same package appears multiple dbs only the first will be checked
+ *
+ * This only checks the syncdb for a newer version. It does not access the network at all.
+ * See \link alpm_db_update \endlink to update a database.
+ */
+alpm_pkg_t *alpm_sync_get_new_version(alpm_pkg_t *pkg, alpm_list_t *dbs_sync);
 
 /** Get the md5 sum of file.
  * @param filename name of the file
@@ -2237,8 +2237,6 @@ char *alpm_compute_md5sum(const char *filename);
  */
 char *alpm_compute_sha256sum(const char *filename);
 
-/** @} */
-
 /** Remove the database lock file
  * @param handle the context handle
  * @return 0 on success, -1 on error
@@ -2247,10 +2245,14 @@ char *alpm_compute_sha256sum(const char *filename);
  */
 int alpm_unlock(alpm_handle_t *handle);
 
+/** Enum of possible compile time features */
 enum alpm_caps {
-	ALPM_CAPABILITY_NLS = (1 << 0),
-	ALPM_CAPABILITY_DOWNLOADER = (1 << 1),
-	ALPM_CAPABILITY_SIGNATURES = (1 << 2)
+        /** localization */
+        ALPM_CAPABILITY_NLS = (1 << 0),
+        /** Ability to download */
+        ALPM_CAPABILITY_DOWNLOADER = (1 << 1),
+        /** Signature checking */
+        ALPM_CAPABILITY_SIGNATURES = (1 << 2)
 };
 
 /** Get the version of library.
@@ -2262,6 +2264,9 @@ const char *alpm_version(void);
  * @return a bitmask of the capabilities
  * */
 int alpm_capabilities(void);
+
+/* End of alpm_misc */
+/** @} */
 
 /* End of alpm_api */
 /** @} */
