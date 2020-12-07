@@ -49,7 +49,7 @@ extern "C" {
 
 #include <alpm_list.h>
 
-/** @addtogroup alpm_api ALPM
+/** @addtogroup alpm alpm
  * @brief The libalpm Public API
  * @{
  */
