@@ -264,7 +264,7 @@ alpm_handle_t *alpm_initialize(const char *root, const char *dbpath,
  * This should be the last alpm call you make.
  * After this returns, handle should be considered invalid and cannot be reused
  * in any way.
- * @param myhandle the context handle
+ * @param handle the context handle
  * @return 0 on success, -1 on error
  */
 int alpm_release(alpm_handle_t *handle);
@@ -273,6 +273,172 @@ int alpm_release(alpm_handle_t *handle);
 /** @} */
 
 typedef int64_t alpm_time_t;
+
+/** @addtogroup alpm_sig Signature checking
+ * @brief Functions to check signatures
+ * @{
+ */
+
+/** PGP signature verification options */
+typedef enum _alpm_siglevel_t {
+	/** Packages require a signature */
+	ALPM_SIG_PACKAGE = (1 << 0),
+	/** Packages do not require a signature,
+	 * but check packages that do have signatures */
+	ALPM_SIG_PACKAGE_OPTIONAL = (1 << 1),
+	/* Allow packages with signatures that are marginal trust */
+	ALPM_SIG_PACKAGE_MARGINAL_OK = (1 << 2),
+	/** Allow packages with signatues that are unknown trust */
+	ALPM_SIG_PACKAGE_UNKNOWN_OK = (1 << 3),
+
+	/** Databases require a signature */
+	ALPM_SIG_DATABASE = (1 << 10),
+	/** Databases do not require a signature,
+	 * but check databases that do have signatures */
+	ALPM_SIG_DATABASE_OPTIONAL = (1 << 11),
+	/** Allow databases with signatures that are marginal trust */
+	ALPM_SIG_DATABASE_MARGINAL_OK = (1 << 12),
+	/** Allow databases with signatues that are unknown trust */
+	ALPM_SIG_DATABASE_UNKNOWN_OK = (1 << 13),
+
+	/** The Default siglevel */
+	ALPM_SIG_USE_DEFAULT = (1 << 30)
+} alpm_siglevel_t;
+
+/** PGP signature verification status return codes */
+typedef enum _alpm_sigstatus_t {
+	/** Signature is valid */
+	ALPM_SIGSTATUS_VALID,
+	/** The key has expired */
+	ALPM_SIGSTATUS_KEY_EXPIRED,
+	/** The signature has expired */
+	ALPM_SIGSTATUS_SIG_EXPIRED,
+	/** The key is not in the keyring */
+	ALPM_SIGSTATUS_KEY_UNKNOWN,
+	/** The key has been disabled */
+	ALPM_SIGSTATUS_KEY_DISABLED,
+	/** The signature is invalid */
+	ALPM_SIGSTATUS_INVALID
+} alpm_sigstatus_t;
+
+
+/** The trust level of a PGP key */
+typedef enum _alpm_sigvalidity_t {
+	/** The signature is fully trusted */
+	ALPM_SIGVALIDITY_FULL,
+	/** The signature is marginally trusted */
+	ALPM_SIGVALIDITY_MARGINAL,
+	/** The signature is never trusted */
+	ALPM_SIGVALIDITY_NEVER,
+	/** The signature has unknown trust */
+	ALPM_SIGVALIDITY_UNKNOWN
+} alpm_sigvalidity_t;
+
+/** A PGP key */
+typedef struct _alpm_pgpkey_t {
+	/** The actual key data */
+	void *data;
+	/** The key's fingerprint */
+	char *fingerprint;
+	/** UID of the key */
+	char *uid;
+	/** Name of the key's owner */
+	char *name;
+	/** Email of the key's owner */
+	char *email;
+	/** When the key was created */
+	alpm_time_t created;
+	/** When the key expires */
+	alpm_time_t expires;
+	/** The length of the key */
+	unsigned int length;
+	/** has the key been revoked */
+	unsigned int revoked;
+	/** A character representing the  encryption algorithm used by the public key
+	 *
+	 * ? = unknown
+	 * R = RSA
+	 * D = DSA
+	 * E = EDDSA
+	 */
+	char pubkey_algo;
+} alpm_pgpkey_t;
+
+/**
+ * Signature result. Contains the key, status, and validity of a given
+ * signature.
+ */
+typedef struct _alpm_sigresult_t {
+	/** The key of the signature */
+	alpm_pgpkey_t key;
+	/** The status of the signature */
+	alpm_sigstatus_t status;
+	/** The validity of the signature */
+	alpm_sigvalidity_t validity;
+} alpm_sigresult_t;
+
+/**
+ * Signature list. Contains the number of signatures found and a pointer to an
+ * array of results. The array is of size count.
+ */
+typedef struct _alpm_siglist_t {
+	/** The amount of results in the array */
+	size_t count;
+	/** An array of sigresults */
+	alpm_sigresult_t *results;
+} alpm_siglist_t;
+
+/**
+ * Check the PGP signature for the given package file.
+ * @param pkg the package to check
+ * @param siglist a pointer to storage for signature results
+ * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
+ */
+int alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg, alpm_siglist_t *siglist);
+
+/**
+ * Check the PGP signature for the given database.
+ * @param db the database to check
+ * @param siglist a pointer to storage for signature results
+ * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
+ */
+int alpm_db_check_pgp_signature(alpm_db_t *db, alpm_siglist_t *siglist);
+
+/**
+ * Clean up and free a signature result list.
+ * Note that this does not free the siglist object itself in case that
+ * was allocated on the stack; this is the responsibility of the caller.
+ * @param siglist a pointer to storage for signature results
+ * @return 0 on success, -1 on error
+ */
+int alpm_siglist_cleanup(alpm_siglist_t *siglist);
+
+/**
+ * Decode a loaded signature in base64 form.
+ * @param base64_data the signature to attempt to decode
+ * @param data the decoded data; must be freed by the caller
+ * @param data_len the length of the returned data
+ * @return 0 on success, -1 on failure to properly decode
+ */
+int alpm_decode_signature(const char *base64_data,
+		unsigned char **data, size_t *data_len);
+
+/**
+ * Extract the Issuer Key ID from a signature
+ * @param handle the context handle
+ * @param identifier the identifier of the key.
+ * This may be the name of the package or the path to the package.
+ * @param sig PGP signature
+ * @param len length of signature
+ * @param keys a pointer to storage for key IDs
+ * @return 0 on success, -1 on error
+ */
+int alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
+		const unsigned char *sig, const size_t len, alpm_list_t **keys);
+
+/* End of alpm_sig */
+/** @} */
+
 
 /*
  * Enumerations
@@ -328,39 +494,6 @@ typedef enum _alpm_fileconflicttype_t {
 	ALPM_FILECONFLICT_TARGET = 1,
 	ALPM_FILECONFLICT_FILESYSTEM
 } alpm_fileconflicttype_t;
-
-/** PGP signature verification options */
-typedef enum _alpm_siglevel_t {
-	ALPM_SIG_PACKAGE = (1 << 0),
-	ALPM_SIG_PACKAGE_OPTIONAL = (1 << 1),
-	ALPM_SIG_PACKAGE_MARGINAL_OK = (1 << 2),
-	ALPM_SIG_PACKAGE_UNKNOWN_OK = (1 << 3),
-
-	ALPM_SIG_DATABASE = (1 << 10),
-	ALPM_SIG_DATABASE_OPTIONAL = (1 << 11),
-	ALPM_SIG_DATABASE_MARGINAL_OK = (1 << 12),
-	ALPM_SIG_DATABASE_UNKNOWN_OK = (1 << 13),
-
-	ALPM_SIG_USE_DEFAULT = (1 << 30)
-} alpm_siglevel_t;
-
-/** PGP signature verification status return codes */
-typedef enum _alpm_sigstatus_t {
-	ALPM_SIGSTATUS_VALID,
-	ALPM_SIGSTATUS_KEY_EXPIRED,
-	ALPM_SIGSTATUS_SIG_EXPIRED,
-	ALPM_SIGSTATUS_KEY_UNKNOWN,
-	ALPM_SIGSTATUS_KEY_DISABLED,
-	ALPM_SIGSTATUS_INVALID
-} alpm_sigstatus_t;
-
-/** PGP signature verification status return codes */
-typedef enum _alpm_sigvalidity_t {
-	ALPM_SIGVALIDITY_FULL,
-	ALPM_SIGVALIDITY_MARGINAL,
-	ALPM_SIGVALIDITY_NEVER,
-	ALPM_SIGVALIDITY_UNKNOWN
-} alpm_sigvalidity_t;
 
 /*
  * Structures
@@ -426,39 +559,6 @@ typedef struct _alpm_backup_t {
 	char *name;
 	char *hash;
 } alpm_backup_t;
-
-typedef struct _alpm_pgpkey_t {
-	void *data;
-	char *fingerprint;
-	char *uid;
-	char *name;
-	char *email;
-	alpm_time_t created;
-	alpm_time_t expires;
-	unsigned int length;
-	unsigned int revoked;
-	char pubkey_algo;
-} alpm_pgpkey_t;
-
-/**
- * Signature result. Contains the key, status, and validity of a given
- * signature.
- */
-typedef struct _alpm_sigresult_t {
-	alpm_pgpkey_t key;
-	alpm_sigstatus_t status;
-	alpm_sigvalidity_t validity;
-} alpm_sigresult_t;
-
-/**
- * Signature list. Contains the number of signatures found and a pointer to an
- * array of results. The array is of size count.
- */
-typedef struct _alpm_siglist_t {
-	size_t count;
-	alpm_sigresult_t *results;
-} alpm_siglist_t;
-
 
 /*
  * Hooks
@@ -1652,54 +1752,6 @@ int alpm_pkg_set_reason(alpm_pkg_t *pkg, alpm_pkgreason_t reason);
  */
 alpm_file_t *alpm_filelist_contains(alpm_filelist_t *filelist, const char *path);
 
-/*
- * Signatures
- */
-
-/**
- * Check the PGP signature for the given package file.
- * @param pkg the package to check
- * @param siglist a pointer to storage for signature results
- * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
- */
-int alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg, alpm_siglist_t *siglist);
-
-/**
- * Check the PGP signature for the given database.
- * @param db the database to check
- * @param siglist a pointer to storage for signature results
- * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
- */
-int alpm_db_check_pgp_signature(alpm_db_t *db, alpm_siglist_t *siglist);
-
-/**
- * Clean up and free a signature result list.
- * Note that this does not free the siglist object itself in case that
- * was allocated on the stack; this is the responsibility of the caller.
- * @param siglist a pointer to storage for signature results
- * @return 0 on success, -1 on error
- */
-int alpm_siglist_cleanup(alpm_siglist_t *siglist);
-
-/**
- * Decode a loaded signature in base64 form.
- * @param base64_data the signature to attempt to decode
- * @param data the decoded data; must be freed by the caller
- * @param data_len the length of the returned data
- * @return 0 on success, -1 on failure to properly decode
- */
-int alpm_decode_signature(const char *base64_data,
-		unsigned char **data, size_t *data_len);
-
-/**
- * Extract the Issuer Key ID from a signature
- * @param sig PGP signature
- * @param len length of signature
- * @param keys a pointer to storage for key IDs
- * @return 0 on success, -1 on error
- */
-int alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
-		const unsigned char *sig, const size_t len, alpm_list_t **keys);
 
 /*
  * Groups
