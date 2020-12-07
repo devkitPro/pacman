@@ -1367,42 +1367,10 @@ int alpm_db_get_usage(alpm_db_t *db, int *usage);
 /* End of usage accessors */
 /** @} */
 
+
 /* End of alpm_databases */
 /** @} */
 
-
-/*
- * Enumerations
- * These ones are used in multiple contexts, so are forward-declared.
- */
-
-/** Package install reasons. */
-typedef enum _alpm_pkgreason_t {
-	/** Explicitly requested by the user. */
-	ALPM_PKG_REASON_EXPLICIT = 0,
-	/** Installed as a dependency for another package. */
-	ALPM_PKG_REASON_DEPEND = 1
-} alpm_pkgreason_t;
-
-/** Location a package object was loaded from. */
-typedef enum _alpm_pkgfrom_t {
-	ALPM_PKG_FROM_FILE = 1,
-	ALPM_PKG_FROM_LOCALDB,
-	ALPM_PKG_FROM_SYNCDB
-} alpm_pkgfrom_t;
-
-/** Method used to validate a package. */
-typedef enum _alpm_pkgvalidation_t {
-	ALPM_PKG_VALIDATION_UNKNOWN = 0,
-	ALPM_PKG_VALIDATION_NONE = (1 << 0),
-	ALPM_PKG_VALIDATION_MD5SUM = (1 << 1),
-	ALPM_PKG_VALIDATION_SHA256SUM = (1 << 2),
-	ALPM_PKG_VALIDATION_SIGNATURE = (1 << 3)
-} alpm_pkgvalidation_t;
-
-/*
- * Logging facilities
- */
 
 /** \addtogroup alpm_log Logging Functions
  * @brief Functions to log using libalpm
@@ -1445,17 +1413,6 @@ int alpm_logaction(alpm_handle_t *handle, const char *prefix,
 /* End of alpm_log */
 /** @} */
 
-/** Fetch a list of remote packages.
- * @param handle the context handle
- * @param urls list of package URLs to download
- * @param fetched list of filepaths to the fetched packages, each item
- *    corresponds to one in `urls` list. This is an output parameter,
- *    the caller should provide a pointer to an empty list
- *    (*fetched === NULL) and the callee fills the list with data.
- * @return 0 on success or -1 on failure
- */
-int alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
-	  alpm_list_t **fetched);
 
 /** @addtogroup alpm_api_options Options
  * Libalpm option getters and setters
@@ -1637,10 +1594,43 @@ int alpm_option_set_parallel_downloads(alpm_handle_t *handle, unsigned int num_s
 
 /** @} */
 
-/** @addtogroup alpm_api_packages Package Functions
+/** @addtogroup alpm_packages Package Functions
  * Functions to manipulate libalpm packages
  * @{
  */
+
+/** Package install reasons. */
+typedef enum _alpm_pkgreason_t {
+	/** Explicitly requested by the user. */
+	ALPM_PKG_REASON_EXPLICIT = 0,
+	/** Installed as a dependency for another package. */
+	ALPM_PKG_REASON_DEPEND = 1
+} alpm_pkgreason_t;
+
+/** Location a package object was loaded from. */
+typedef enum _alpm_pkgfrom_t {
+	/** Loaded from a file via \link alpm_pkg_load \endlink */
+	ALPM_PKG_FROM_FILE = 1,
+	/** From the local database */
+	ALPM_PKG_FROM_LOCALDB,
+	/** From a sync database */
+	ALPM_PKG_FROM_SYNCDB
+} alpm_pkgfrom_t;
+
+
+/** Method used to validate a package. */
+typedef enum _alpm_pkgvalidation_t {
+	/** The package's validation type is unknown */
+	ALPM_PKG_VALIDATION_UNKNOWN = 0,
+	/** The package does not have any validation */
+	ALPM_PKG_VALIDATION_NONE = (1 << 0),
+	/** The package is validated with md5 */
+	ALPM_PKG_VALIDATION_MD5SUM = (1 << 1),
+	/** The package is validated with sha256 */
+	ALPM_PKG_VALIDATION_SHA256SUM = (1 << 2),
+	/** The package is validated with a PGP signature */
+	ALPM_PKG_VALIDATION_SIGNATURE = (1 << 3)
+} alpm_pkgvalidation_t;
 
 /** Create a package from a file.
  * If full is false, the archive is read only until all necessary
@@ -1659,6 +1649,18 @@ int alpm_option_set_parallel_downloads(alpm_handle_t *handle, unsigned int num_s
 int alpm_pkg_load(alpm_handle_t *handle, const char *filename, int full,
 		int level, alpm_pkg_t **pkg);
 
+/** Fetch a list of remote packages.
+ * @param handle the context handle
+ * @param urls list of package URLs to download
+ * @param fetched list of filepaths to the fetched packages, each item
+ *    corresponds to one in `urls` list. This is an output parameter,
+ *    the caller should provide a pointer to an empty list
+ *    (*fetched === NULL) and the callee fills the list with data.
+ * @return 0 on success or -1 on failure
+ */
+int alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
+	  alpm_list_t **fetched);
+
 /** Find a package in a list by name.
  * @param haystack a list of alpm_pkg_t
  * @param needle the package name
@@ -1667,6 +1669,8 @@ int alpm_pkg_load(alpm_handle_t *handle, const char *filename, int full,
 alpm_pkg_t *alpm_pkg_find(alpm_list_t *haystack, const char *needle);
 
 /** Free a package.
+ * Only packages loaded with \link alpm_pkg_load \endlink can be freed.
+ * Packages from databases will be freed by libalpm when they are unregistered.
  * @param pkg package pointer to free
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
@@ -1723,6 +1727,9 @@ int alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg);
  * Any pointer returned by these functions points to internal structures
  * allocated by libalpm. They should not be freed nor modified in any
  * way.
+ *
+ * For loaded packages, they will be freed when \link alpm_pkg_free \endlink is called.
+ * For database packages, they will be freed when the database is unregistered.
  * @{
  */
 
@@ -1926,8 +1933,36 @@ int alpm_pkg_get_sig(alpm_pkg_t *pkg, unsigned char **sig, size_t *sig_len);
  */
 int alpm_pkg_get_validation(alpm_pkg_t *pkg);
 
+/** Returns whether the package has an install scriptlet.
+ * @return 0 if FALSE, TRUE otherwise
+ */
+int alpm_pkg_has_scriptlet(alpm_pkg_t *pkg);
+
+/** Returns the size of the files that will be downloaded to install a
+ * package.
+ * @param newpkg the new package to upgrade to
+ * @return the size of the download
+ */
+off_t alpm_pkg_download_size(alpm_pkg_t *newpkg);
+
+/** Set install reason for a package in the local database.
+ * The provided package object must be from the local database or this method
+ * will fail. The write to the local database is performed immediately.
+ * @param pkg the package to update
+ * @param reason the new install reason
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_pkg_set_reason(alpm_pkg_t *pkg, alpm_pkgreason_t reason);
+
+
 /* End of alpm_pkg_t accessors */
-/* @} */
+/** @} */
+
+
+/** @name Changelog functions
+ *  Functions for reading the changelog
+ * @{
+ */
 
 /** Open a package changelog for reading.
  * Similar to fopen in functionality, except that the returned 'file
@@ -1952,9 +1987,19 @@ size_t alpm_pkg_changelog_read(void *ptr, size_t size,
 
 /** Close a package changelog for reading.
  * @param pkg the package to close the changelog of (either file or db)
+ * @param fp the 'file stream' to the package changelog to close
  * @return 0 on success, -1 on error
  */
 int alpm_pkg_changelog_close(const alpm_pkg_t *pkg, void *fp);
+
+/* End of changelog accessors */
+/** @} */
+
+
+/** @name Mtree functions
+ *  Functions for reading the mtree
+ * @{
+ */
 
 /** Open a package mtree file for reading.
  * @param pkg the local package to read the mtree of
@@ -1973,34 +2018,17 @@ int alpm_pkg_mtree_next(const alpm_pkg_t *pkg, struct archive *archive,
 
 /** Close a package mtree file.
  * @param pkg the local package to close the mtree of
- * @param the archive to close
+ * @param archive the archive to close
  */
 int alpm_pkg_mtree_close(const alpm_pkg_t *pkg, struct archive *archive);
 
-/** Returns whether the package has an install scriptlet.
- * @return 0 if FALSE, TRUE otherwise
- */
-int alpm_pkg_has_scriptlet(alpm_pkg_t *pkg);
-
-/** Returns the size of the files that will be downloaded to install a
- * package.
- * @param newpkg the new package to upgrade to
- * @return the size of the download
- */
-off_t alpm_pkg_download_size(alpm_pkg_t *newpkg);
-
-/** Set install reason for a package in the local database.
- * The provided package object must be from the local database or this method
- * will fail. The write to the local database is performed immediately.
- * @param pkg the package to update
- * @param reason the new install reason
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int alpm_pkg_set_reason(alpm_pkg_t *pkg, alpm_pkgreason_t reason);
-
-
-/* End of alpm_pkg */
+/* End of mtree accessors */
 /** @} */
+
+
+/* End of alpm_packages */
+/** @} */
+
 
 /*
  * Filelists
