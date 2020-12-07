@@ -2067,18 +2067,26 @@ int alpm_pkg_mtree_close(const alpm_pkg_t *pkg, struct archive *archive);
 /* End of alpm_packages */
 /** @} */
 
-
-/*
- * Sync
- */
-
 /** Check for new version of pkg in sync repos
  * (only the first occurrence is considered in sync)
  */
 alpm_pkg_t *alpm_sync_get_new_version(alpm_pkg_t *pkg, alpm_list_t *dbs_sync);
 
-/** @addtogroup alpm_api_trans Transaction Functions
- * Functions to manipulate libalpm transactions
+/** @addtogroup alpm_trans Transaction
+ * @brief Functions to manipulate libalpm transactions
+ *
+ * Transactions are the way to add/remove packages to/from the system.
+ * Only one transaction can exist at a time.
+ *
+ * The basic workflow of a transaction is to:
+ *
+ * - Initialize with \link alpm_trans_init \endlink
+ * - Choose which packages to add with \link alpm_add_pkg \endlink and \link alpm_remove_pkg \endlink
+ * - Prepare the transaction with \link alpm_trans_prepare \endlink
+ * - Commit the transaction with \link alpm_trans_commit \endlink
+ * - Release the transaction with \link alpm_trans_release \endlink
+ *
+ * A transaction can be released at any time. A transaction does not have to be committed.
  * @{
  */
 
@@ -2171,10 +2179,11 @@ int alpm_trans_interrupt(alpm_handle_t *handle);
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int alpm_trans_release(alpm_handle_t *handle);
-/** @} */
 
-/** @name Common Transactions */
-/** @{ */
+/** @name Add/Remove packages
+ * These functions remove/add packages to the transactions
+ * @{
+ * */
 
 /** Search for packages to upgrade and add them to the transaction.
  * @param handle the context handle
@@ -2185,22 +2194,24 @@ int alpm_sync_sysupgrade(alpm_handle_t *handle, int enable_downgrade);
 
 /** Add a package to the transaction.
  * If the package was loaded by alpm_pkg_load(), it will be freed upon
- * alpm_trans_release() invocation.
+ * \link alpm_trans_release \endlink invocation.
  * @param handle the context handle
  * @param pkg the package to add
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int alpm_add_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg);
 
-/** Add a package removal action to the transaction.
+/** Add a package removal to the transaction.
  * @param handle the context handle
  * @param pkg the package to uninstall
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg);
 
+/* End of add/remove packages */
 /** @} */
 
+/* End of alpm_trans */
 /** @} */
 
 /*
