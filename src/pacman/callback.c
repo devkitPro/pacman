@@ -40,8 +40,9 @@
 #include "conf.h"
 
 /* download progress bar */
-static off_t list_xfered = 0.0;
+static int total_enabled = 0;
 static off_t list_total = 0.0;
+static struct pacman_progress_bar *totalbar;
 
 /* delayed output during progress bar */
 static int on_progress = 0;
@@ -56,10 +57,12 @@ static alpm_list_t *output = NULL;
 
 struct pacman_progress_bar {
 	const char *filename;
-	off_t xfered;
+	off_t xfered; /* Current amount of transferred data */
 	off_t total_size;
 	uint64_t init_time; /* Time when this download started doing any progress */
 	uint64_t sync_time; /* Last time we updated the bar info */
+	off_t sync_xfered; /* Amount of transferred data at the `sync_time` timestamp. It can be
+	                      smaller than `xfered` if we did not update bar UI for a while. */
 	double rate;
 	unsigned int eta; /* ETA in seconds */
 	bool completed; /* transfer is completed */
@@ -91,6 +94,11 @@ struct pacman_multibar_ui {
 };
 
 struct pacman_multibar_ui multibar_ui = {0};
+
+static int dload_progressbar_enabled(void);
+static void init_total_progressbar(void);
+static void update_bar_finalstats(struct pacman_progress_bar *bar);
+static void draw_pacman_progress_bar(struct pacman_progress_bar *bar);
 
 void multibar_move_completed_up(bool value) {
 	multibar_ui.move_completed_up = value;
@@ -327,6 +335,10 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_PKG_RETRIEVE_START:
 			colon_printf(_("Retrieving packages...\n"));
 			on_progress = 1;
+			total_enabled = config->totaldownload && list_total;
+			if(total_enabled) {
+				init_total_progressbar();
+			}
 			break;
 		case ALPM_EVENT_DISKSPACE_START:
 			if(config->noprogressbar) {
@@ -388,6 +400,12 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_PKG_RETRIEVE_DONE:
 		case ALPM_EVENT_PKG_RETRIEVE_FAILED:
 			console_cursor_move_end();
+			if(total_enabled && dload_progressbar_enabled()) {
+				update_bar_finalstats(totalbar);
+				draw_pacman_progress_bar(totalbar);
+				printf("\n");
+			}
+			total_enabled = 0;
 			flush_output_list();
 			on_progress = 0;
 			break;
@@ -679,11 +697,6 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 void cb_dl_total(off_t total)
 {
 	list_total = total;
-	/* if we get a 0 value, it means this list has finished downloading,
-	 * so clear out our list_xfered as well */
-	if(total == 0) {
-		list_xfered = 0;
-	}
 }
 
 static int dload_progressbar_enabled(void)
@@ -726,6 +739,16 @@ static bool find_bar_for_filename(const char *filename, int *index, struct pacma
 	return false;
 }
 
+static void init_total_progressbar(void)
+{
+	totalbar = calloc(1, sizeof(struct pacman_progress_bar));
+	assert(totalbar);
+	totalbar->filename = _("Total:");
+	totalbar->init_time = get_time_ms();
+	totalbar->total_size = list_total;
+	totalbar->rate = 0.0;
+}
+
 static void draw_pacman_progress_bar(struct pacman_progress_bar *bar)
 {
 	int infolen;
@@ -742,7 +765,7 @@ static void draw_pacman_progress_bar(struct pacman_progress_bar *bar)
 	const unsigned short cols = getcols();
 
 	if(bar->total_size) {
-		file_percent = (bar->xfered * 100) / bar->total_size;
+		file_percent = (bar->sync_xfered * 100) / bar->total_size;
 	} else {
 		file_percent = 100;
 	}
@@ -802,7 +825,7 @@ static void draw_pacman_progress_bar(struct pacman_progress_bar *bar)
 	}
 
 	rate_human = humanize_size((off_t)bar->rate, '\0', -1, &rate_label);
-	xfered_human = humanize_size(bar->xfered, '\0', -1, &xfered_label);
+	xfered_human = humanize_size(bar->sync_xfered, '\0', -1, &xfered_label);
 
 	printf(" %ls%-*s ", wcfname, padwid, "");
 	/* We will show 1.62 MiB/s, 11.6 MiB/s, but 116 KiB/s and 1116 KiB/s */
@@ -851,17 +874,74 @@ static void dload_init_event(const char *filename, alpm_download_event_init_t *d
 	printf(_(" %s downloading...\n"), filename);
 	multibar_ui.cursor_lineno++;
 	multibar_ui.active_downloads_num++;
+
+	if(total_enabled) {
+		/* redraw the total download progress bar */
+		draw_pacman_progress_bar(totalbar);
+		printf("\n");
+		multibar_ui.cursor_lineno++;
+	}
 }
 
-/* Draws download progress */
+/* Update progress bar rate/eta stats.
+ * Returns true if the bar redraw is required, false otherwise
+ */
+static bool update_bar_stats(struct pacman_progress_bar *bar)
+{
+	int64_t timediff;
+	off_t last_chunk_amount;
+	double last_chunk_rate;
+	int64_t curr_time = get_time_ms();
+
+	/* compute current average values */
+	timediff = curr_time - bar->sync_time;
+
+	if(timediff < UPDATE_SPEED_MS) {
+		/* return if the calling interval was too short */
+		return false;
+	}
+	last_chunk_amount = bar->xfered - bar->sync_xfered;
+	bar->sync_xfered = bar->xfered;
+	bar->sync_time = curr_time;
+
+	last_chunk_rate = (double)last_chunk_amount * 1000 / timediff;
+	/* average rate to reduce jumpiness */
+	bar->rate = (last_chunk_rate + 2 * bar->rate) / 3;
+	if(bar->rate > 0.0) {
+		bar->eta = (bar->total_size - bar->sync_xfered) / bar->rate;
+	} else {
+		bar->eta = UINT_MAX;
+	}
+
+	return true;
+}
+
+static void update_bar_finalstats(struct pacman_progress_bar *bar)
+{
+	int64_t timediff;
+
+	/* compute final values */
+	bar->xfered = bar->total_size;
+	bar->sync_xfered = bar->total_size;
+	timediff = get_time_ms() - bar->init_time;
+
+	/* if transfer was too fast, treat it as a 1ms transfer, for the sake
+	* of the rate calculation */
+	if(timediff < 1)
+		timediff = 1;
+
+	bar->rate = (double)bar->total_size * 1000 / timediff;
+	/* round elapsed time (in ms) to the nearest second */
+	bar->eta = (unsigned int)(timediff + 500) / 1000;
+}
+
+/* Handles download progress event */
 static void dload_progress_event(const char *filename, alpm_download_event_progress_t *data)
 {
 	int index;
 	struct pacman_progress_bar *bar;
-	int64_t curr_time = get_time_ms();
-	double last_chunk_rate;
-	int64_t timediff;
 	bool ok;
+	off_t last_chunk_amount;
 
 	if(!dload_progressbar_enabled()) {
 		return;
@@ -870,30 +950,24 @@ static void dload_progress_event(const char *filename, alpm_download_event_progr
 	ok = find_bar_for_filename(filename, &index, &bar);
 	assert(ok);
 
-	/* compute current average values */
-	timediff = curr_time - bar->sync_time;
-
-	if(timediff < UPDATE_SPEED_MS) {
-		/* return if the calling interval was too short */
-		return;
-	}
-	bar->sync_time = curr_time;
-
-	last_chunk_rate = (double)(data->downloaded - bar->xfered) / (timediff / 1000.0);
-	/* average rate to reduce jumpiness */
-	bar->rate = (last_chunk_rate + 2 * bar->rate) / 3;
-	if(bar->rate > 0.0) {
-		bar->eta = (data->total - data->downloaded) / bar->rate;
-	} else {
-		bar->eta = UINT_MAX;
-	}
-
 	/* Total size is received after the download starts. */
-	bar->total_size = data->total;
+	last_chunk_amount = data->downloaded - bar->xfered;
 	bar->xfered = data->downloaded;
+	bar->total_size = data->total;
 
-	console_cursor_goto_bar(index);
-	draw_pacman_progress_bar(bar);
+	if(update_bar_stats(bar)) {
+		console_cursor_goto_bar(index);
+		draw_pacman_progress_bar(bar);
+	}
+
+	if(total_enabled) {
+		totalbar->xfered += last_chunk_amount;
+		if(update_bar_stats(totalbar)) {
+			console_cursor_move_end();
+			draw_pacman_progress_bar(totalbar);
+		}
+	}
+
 	fflush(stdout);
 }
 
@@ -902,7 +976,6 @@ static void dload_complete_event(const char *filename, alpm_download_event_compl
 {
 	int index;
 	struct pacman_progress_bar *bar;
-	int64_t timediff;
 	bool ok;
 
 	if(!dload_progressbar_enabled()) {
@@ -923,18 +996,7 @@ static void dload_complete_event(const char *filename, alpm_download_event_compl
 		/* The line contains text from previous status. Erase these leftovers. */
 		console_erase_line();
 	} else if(data->result == 0) {
-		/* compute final values */
-		bar->xfered = bar->total_size;
-		timediff = get_time_ms() - bar->init_time;
-
-		/* if transfer was too fast, treat it as a 1ms transfer, for the sake
-		 * of the rate calculation */
-		if(timediff < 1)
-			timediff = 1;
-
-		bar->rate = (double)bar->xfered / (timediff / 1000.0);
-		/* round elapsed time (in ms) to the nearest second */
-		bar->eta = (unsigned int)(timediff + 500) / 1000;
+		update_bar_finalstats(bar);
 
 		if(multibar_ui.move_completed_up && index != 0) {
 			/* If this item completed then move it to the top.

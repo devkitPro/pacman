@@ -846,11 +846,6 @@ finish:
 		pkg->download_size = 0;
 	}
 
-	/* clear out value to let callback know we are done */
-	if(handle->totaldlcb) {
-		handle->totaldlcb(0);
-	}
-
 	return ret;
 }
 
