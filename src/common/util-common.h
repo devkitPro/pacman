@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <sys/stat.h> /* struct stat */
 
+char *hex_representation(const unsigned char *bytes, size_t size);
 const char *mbasename(const char *path);
 char *mdirname(const char *path);
 

@@ -25,6 +25,32 @@
 #include "util-common.h"
 
 
+/** Create a string representing bytes in hexadecimal.
+ * @param bytes the bytes to represent in hexadecimal
+ * @param size number of bytes to consider
+ * @return a NULL terminated string with the hexadecimal representation of
+ * bytes or NULL on error. This string must be freed.
+ */
+char *hex_representation(const unsigned char *bytes, size_t size)
+{
+	static const char *hex_digits = "0123456789abcdef";
+	char *str = malloc(2 * size + 1);
+	size_t i;
+
+	if(!str) {
+		return NULL;
+	}
+
+	for(i = 0; i < size; i++) {
+		str[2 * i] = hex_digits[bytes[i] >> 4];
+		str[2 * i + 1] = hex_digits[bytes[i] & 0x0f];
+	}
+
+	str[2 * size] = '\0';
+
+	return str;
+}
+
 /** Parse the basename of a program from a path.
 * @param path path to parse basename from
 *
