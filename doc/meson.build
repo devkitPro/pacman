@@ -135,6 +135,7 @@ meson.add_install_script(MESON_MAKE_SYMLINK,
 doxygen = find_program('doxygen', required : get_option('doxygen'))
 if doxygen.found() and not get_option('doxygen').disabled()
   doxyconf = configuration_data()
+  doxyconf.set('INPUT_DIRECTORY', meson.current_source_dir())
   doxyconf.set('OUTPUT_DIRECTORY', meson.current_build_dir())
   doxyfile = configure_file(
     input : 'Doxyfile.in',
