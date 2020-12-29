@@ -78,7 +78,7 @@ typedef struct __alpm_handle_t alpm_handle_t;
  * A database can be located on the local filesystem or on a remote server.
  *
  * To use a database, it must first be registered via \link alpm_register_syncdb \endlink.
- * If the database is already preasant in dbpath then it will be usable. Otherwise,
+ * If the database is already present in dbpath then it will be usable. Otherwise,
  * the database needs to be downloaded using \link alpm_db_update \endlink. Even if the
  * source of the database is the local filesystem.
  *
@@ -373,7 +373,7 @@ typedef enum _alpm_siglevel_t {
 	ALPM_SIG_PACKAGE_OPTIONAL = (1 << 1),
 	/* Allow packages with signatures that are marginal trust */
 	ALPM_SIG_PACKAGE_MARGINAL_OK = (1 << 2),
-	/** Allow packages with signatues that are unknown trust */
+	/** Allow packages with signatures that are unknown trust */
 	ALPM_SIG_PACKAGE_UNKNOWN_OK = (1 << 3),
 
 	/** Databases require a signature */
@@ -383,7 +383,7 @@ typedef enum _alpm_siglevel_t {
 	ALPM_SIG_DATABASE_OPTIONAL = (1 << 11),
 	/** Allow databases with signatures that are marginal trust */
 	ALPM_SIG_DATABASE_MARGINAL_OK = (1 << 12),
-	/** Allow databases with signatues that are unknown trust */
+	/** Allow databases with signatures that are unknown trust */
 	ALPM_SIG_DATABASE_UNKNOWN_OK = (1 << 13),
 
 	/** The Default siglevel */
@@ -633,7 +633,7 @@ alpm_list_t *alpm_checkdeps(alpm_handle_t *handle, alpm_list_t *pkglist,
 
 /** Find a package satisfying a specified dependency.
  * The dependency can include versions with depmod operators.
- * @param pkgs an alpm_list_t* of alpm_pkg_t where the satisfier will be searched
+ * @param pkgs an alpm_list_t* of alpm_pkg_t where the satisfyer will be searched
  * @param depstring package or provision name, versioned or not
  * @return a alpm_pkg_t* satisfying depstring
  */
@@ -641,13 +641,13 @@ alpm_pkg_t *alpm_find_satisfier(alpm_list_t *pkgs, const char *depstring);
 
 /** Find a package satisfying a specified dependency.
  * First look for a literal, going through each db one by one. Then look for
- * providers. The first satisfier that belongs to an installed package is
+ * providers. The first satisfyer that belongs to an installed package is
  * returned. If no providers belong to an installed package then an
  * alpm_question_select_provider_t is created to select the provider.
  * The dependency can include versions with depmod operators.
  *
  * @param handle the context handle
- * @param dbs an alpm_list_t* of alpm_db_t where the satisfier will be searched
+ * @param dbs an alpm_list_t* of alpm_db_t where the satisfyer will be searched
  * @param depstring package or provision name, versioned or not
  * @return a alpm_pkg_t* satisfying depstring
  */
@@ -793,7 +793,7 @@ typedef enum _alpm_event_type_t {
 	ALPM_EVENT_HOOK_RUN_DONE
 } alpm_event_type_t;
 
-/** An event that may reprisent any event. */
+/** An event that may represent any event. */
 typedef struct _alpm_event_any_t {
 	/** Type of event */
 	alpm_event_type_t type;
@@ -1978,7 +1978,7 @@ int alpm_option_remove_ignoregroup(alpm_handle_t *handle, const char *grp);
  * These functions modify the list of dependencies that
  * should be ignored by a sysupgrade.
  *
- * This is effectivley a list of virtual providers that
+ * This is effectively a list of virtual providers that
  * packages can use to satisfy their dependencies.
  * @{
  */
@@ -1996,7 +1996,7 @@ alpm_list_t *alpm_option_get_assumeinstalled(alpm_handle_t *handle);
  */
 int alpm_option_add_assumeinstalled(alpm_handle_t *handle, const alpm_depend_t *dep);
 
-/** Sets the list of dependnecies that are assumed to be met
+/** Sets the list of dependencies that are assumed to be met
  * @param handle the context handle
  * @param deps a list of *alpm_depend_t
  * The list will be duped and the original will still need to be freed by the caller.
