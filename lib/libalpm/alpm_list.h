@@ -19,20 +19,6 @@
  */
 
 
-/**
- * @file alpm_list.h
- * @author Pacman Development Team
- * @brief A doubly linked list for use with libalpm
- *
- * @section see_also See Also
- * \b alpm(3),
- * \b alpm-hooks(5),
- * \b makepkg(8),
- * \b pacman(8),
- * \b pacman.conf(5)
- * @{
- */
-
 #ifndef ALPM_LIST_H
 #define ALPM_LIST_H
 
@@ -47,7 +33,8 @@ extern "C" {
 #endif
 
 /**
- * @addtogroup alpm_list List Functions
+ * @ingroup libalpm
+ * @addtogroup libalpm-list libalpm-list(3)
  * @brief Functions to manipulate alpm_list_t lists.
  *
  * These functions are designed to create, destroy, and modify lists of

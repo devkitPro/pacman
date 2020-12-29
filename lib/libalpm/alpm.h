@@ -21,11 +21,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * @file alpm.h
- * @author Pacman Development Team
- * @brief Arch Linux Package Manager Library
- */
 
 /** @mainpage alpm
  *
@@ -49,10 +44,15 @@ extern "C" {
 
 #include <alpm_list.h>
 
-/** @addtogroup alpm The libalpm Public API
+/** @addtogroup libalpm The libalpm Public API
+ *
+ *
+ *
+ * libalpm is a package management library, primaraly used by
+ * For ease of access, the libalpm manual has been split up into several sections.
  *
  * @section see_also See Also
- * \b alpm_list(3),
+ * \b libalpm_list(3),
  * \b alpm-hooks(5),
  * \b makepkg(8),
  * \b pacman(8),
@@ -67,7 +67,7 @@ extern "C" {
 /** The libalpm context handle.
  *
  * This struct represents an instance of libalpm.
- * @ingroup alpm_handle
+ * @ingroup libalpm_handle
  */
 typedef struct __alpm_handle_t alpm_handle_t;
 
@@ -87,7 +87,7 @@ typedef struct __alpm_handle_t alpm_handle_t;
  * the user. They will be freed when the database is unregistered.
  *
  * Databases are automatically unregistered when the \link alpm_handle_t \endlink is released.
- * @ingroup alpm_databases
+ * @ingroup libalpm_databases
  */
 typedef struct __alpm_db_t alpm_db_t;
 
@@ -100,21 +100,21 @@ typedef struct __alpm_db_t alpm_db_t;
  *
  * Packages can then be queried for metadata or added to a \link alpm_trans_t transaction \endlink
  * to be added or removed from the system.
- * @ingroup alpm_packages
+ * @ingroup libalpm_packages
  */
 typedef struct __alpm_pkg_t alpm_pkg_t;
 
 /** Transaction structure used internally by libalpm
- * @ingroup alpm_trans
+ * @ingroup libalpm_trans
  * */
 typedef struct __alpm_trans_t alpm_trans_t;
 
 
 /** The time type used by libalpm. Represents a unix time stamp
- * @ingroup alpm_misc */
+ * @ingroup libalpm_misc */
 typedef int64_t alpm_time_t;
 
-/** @addtogroup alpm_files Files
+/** @addtogroup libalpm_files Files
  * @brief Functions for package files
  * @{
  */
@@ -159,7 +159,7 @@ alpm_file_t *alpm_filelist_contains(alpm_filelist_t *filelist, const char *path)
 /** @} */
 
 
-/** @addtogroup alpm_groups Groups
+/** @addtogroup libalpm_groups Groups
  * @brief Functions for package groups
  * @{
  */
@@ -185,7 +185,7 @@ alpm_list_t *alpm_find_group_pkgs(alpm_list_t *dbs, const char *name);
 /** @} */
 
 
-/** @addtogroup alpm_errors Error Codes
+/** @addtogroup libalpm_errors Error Codes
  * Error codes returned by libalpm.
  * @{
  */
@@ -359,7 +359,7 @@ int alpm_release(alpm_handle_t *handle);
 /** @} */
 
 
-/** @addtogroup alpm_sig Signature checking
+/** @addtogroup libalpm_sig Signature checking
  * @brief Functions to check signatures
  * @{
  */
@@ -525,7 +525,7 @@ int alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
 /** @} */
 
 
-/** @addtogroup alpm_depends Dependency
+/** @addtogroup libalpm_depends Dependency
  * @brief Functions dealing with libalpm's dependency and conflict
  * information.
  * @{
@@ -1208,7 +1208,7 @@ typedef int (*alpm_cb_fetch)(const char *url, const char *localpath,
 /** @} */
 
 
-/** @addtogroup alpm_databases Database
+/** @addtogroup libalpm_databases Database
  * @brief Functions to query and manipulate the database of libalpm.
  * @{
  */
@@ -1468,7 +1468,7 @@ int alpm_logaction(alpm_handle_t *handle, const char *prefix,
 /** @} */
 
 
-/** @addtogroup alpm_options Options
+/** @addtogroup libalpm_options Options
  * Libalpm option getters and setters
  * @{
  */
@@ -2184,7 +2184,7 @@ int alpm_option_set_parallel_downloads(alpm_handle_t *handle, unsigned int num_s
 /** @} */
 
 
-/** @addtogroup alpm_packages Package Functions
+/** @addtogroup libalpm_packages Package Functions
  * Functions to manipulate libalpm packages
  * @{
  */
@@ -2619,7 +2619,7 @@ int alpm_pkg_mtree_close(const alpm_pkg_t *pkg, struct archive *archive);
 /* End of alpm_packages */
 /** @} */
 
-/** @addtogroup alpm_trans Transaction
+/** @addtogroup libalpm_trans Transaction
  * @brief Functions to manipulate libalpm transactions
  *
  * Transactions are the way to add/remove packages to/from the system.
