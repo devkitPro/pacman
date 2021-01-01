@@ -749,18 +749,34 @@ static void init_total_progressbar(void)
 	totalbar->rate = 0.0;
 }
 
+static char *clean_filename(const char *filename)
+{
+	int len = strlen(filename);
+	char *p;
+	char *fname = malloc(len + 1);
+	memcpy(fname, filename, len + 1);
+	/* strip package or DB extension for cleaner look */
+	if((p = strstr(fname, ".pkg")) || (p = strstr(fname, ".db")) || (p = strstr(fname, ".files"))) {
+		len = p - fname;
+		fname[len] = '\0';
+	}
+
+	return fname;
+}
+
 static void draw_pacman_progress_bar(struct pacman_progress_bar *bar)
 {
 	int infolen;
 	int filenamelen;
-	char *fname, *p;
+	char *fname;
 	/* used for wide character width determination and printing */
-	int len, wclen, wcwid, padwid;
+	int wclen, wcwid, padwid;
 	wchar_t *wcfname;
 	unsigned int eta_h = 0, eta_m = 0, eta_s = bar->eta;
 	double rate_human, xfered_human;
 	const char *rate_label, *xfered_label;
 	int file_percent = 0;
+	int len = strlen(bar->filename);
 
 	const unsigned short cols = getcols();
 
@@ -776,14 +792,8 @@ static void draw_pacman_progress_bar(struct pacman_progress_bar *bar)
 	eta_m = eta_s / 60;
 	eta_s -= eta_m * 60;
 
-	len = strlen(bar->filename);
-	fname = malloc(len + 1);
-	memcpy(fname, bar->filename, len + 1);
-	/* strip package or DB extension for cleaner look */
-	if((p = strstr(fname, ".pkg")) || (p = strstr(fname, ".db")) || (p = strstr(fname, ".files"))) {
-		len = p - fname;
-		fname[len] = '\0';
-	}
+	fname = clean_filename(bar->filename);
+
 
 	infolen = cols * 6 / 10;
 	if(infolen < 50) {
@@ -859,7 +869,9 @@ static void dload_init_event(const char *filename, alpm_download_event_init_t *d
 	(void)data;
 
 	if(!dload_progressbar_enabled()) {
-		printf(_(" %s downloading...\n"), filename);
+		char *cleaned_filename = clean_filename(filename);
+		printf(_(" %s downloading...\n"), cleaned_filename);
+		free(cleaned_filename);
 		return;
 	}
 
@@ -992,7 +1004,9 @@ static void dload_complete_event(const char *filename, alpm_download_event_compl
 
 	if(data->result == 1) {
 		console_cursor_goto_bar(index);
-		printf(_(" %s is up to date"), bar->filename);
+		char *cleaned_filename = clean_filename(filename);
+		printf(_(" %s is up to date"), cleaned_filename);
+		free(cleaned_filename);
 		/* The line contains text from previous status. Erase these leftovers. */
 		console_erase_line();
 	} else if(data->result == 0) {
