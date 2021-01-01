@@ -899,10 +899,6 @@ int SYMEXPORT alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
 			struct dload_payload *payload = i->data;
 			char *filepath;
 
-			if(payload->signature) {
-				continue;
-			}
-
 			if(payload->destfile_name) {
 				const char *filename = mbasename(payload->destfile_name);
 				filepath = _alpm_filecache_find(handle, filename);
