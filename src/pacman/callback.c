@@ -42,6 +42,7 @@
 /* download progress bar */
 static int total_enabled = 0;
 static off_t list_total = 0.0;
+static size_t list_total_pkgs = 0;
 static struct pacman_progress_bar *totalbar;
 
 /* delayed output during progress bar */
@@ -59,6 +60,8 @@ struct pacman_progress_bar {
 	const char *filename;
 	off_t xfered; /* Current amount of transferred data */
 	off_t total_size;
+	size_t downloaded;
+	size_t howmany;
 	uint64_t init_time; /* Time when this download started doing any progress */
 	uint64_t sync_time; /* Last time we updated the bar info */
 	off_t sync_xfered; /* Amount of transferred data at the `sync_time` timestamp. It can be
@@ -696,7 +699,7 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 /* callback to handle receipt of total download value */
 void cb_dl_total(size_t howmany, off_t total)
 {
-	(void)howmany;
+	list_total_pkgs = howmany;
 	list_total = total;
 }
 
@@ -744,9 +747,10 @@ static void init_total_progressbar(void)
 {
 	totalbar = calloc(1, sizeof(struct pacman_progress_bar));
 	assert(totalbar);
-	totalbar->filename = _("Total:");
+	totalbar->filename = _("Total");
 	totalbar->init_time = get_time_ms();
 	totalbar->total_size = list_total;
+	totalbar->howmany = list_total_pkgs;
 	totalbar->rate = 0.0;
 }
 
@@ -767,7 +771,7 @@ static char *clean_filename(const char *filename)
 
 static void draw_pacman_progress_bar(struct pacman_progress_bar *bar)
 {
-	int infolen;
+	int infolen, len;
 	int filenamelen;
 	char *fname;
 	/* used for wide character width determination and printing */
@@ -777,7 +781,6 @@ static void draw_pacman_progress_bar(struct pacman_progress_bar *bar)
 	double rate_human, xfered_human;
 	const char *rate_label, *xfered_label;
 	int file_percent = 0;
-	int len = strlen(bar->filename);
 
 	const unsigned short cols = getcols();
 
@@ -795,7 +798,17 @@ static void draw_pacman_progress_bar(struct pacman_progress_bar *bar)
 
 	fname = clean_filename(bar->filename);
 
+	if(bar->howmany > 0) {
+		short digits = number_length(bar->howmany);
+		// fname + digits +  ( /) + \0
+		size_t needed = strlen(fname) + (digits * 2) + 4 + 1;
+		char *name = malloc(needed);
+		sprintf(name, "%s (%*zu/%*zu)", fname, digits, bar->downloaded, digits, bar->howmany);
+		free(fname);
+		fname = name;
+	}
 
+	len = strlen(fname);
 	infolen = cols * 6 / 10;
 	if(infolen < 50) {
 		infolen = 50;
@@ -993,6 +1006,10 @@ static void dload_complete_event(const char *filename, alpm_download_event_compl
 
 	if(!dload_progressbar_enabled()) {
 		return;
+	}
+
+	if(total_enabled) {
+		totalbar->downloaded++;
 	}
 
 	ok = find_bar_for_filename(filename, &index, &bar);
