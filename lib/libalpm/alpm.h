@@ -1189,9 +1189,10 @@ typedef void (*alpm_cb_download)(const char *filename,
 
 
 /** Total Download callback.
+ * @param howmany the number of packages that will be downloaded during \link alpm_trans_commit \endlink.
  * @param total amount that will be downloaded during \link alpm_trans_commit \endlink.
  */
-typedef void (*alpm_cb_totaldl)(off_t total);
+typedef void (*alpm_cb_totaldl)(size_t howmany, off_t total);
 
 /** A callback for downloading files
  * @param url the URL of the file to be downloaded

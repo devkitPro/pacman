@@ -760,12 +760,16 @@ static int download_files(alpm_handle_t *handle)
 	 * frontend to compute incremental progress. */
 	if(handle->totaldlcb) {
 		off_t total_size = (off_t)0;
+		size_t howmany = 0;
 		/* sum up the download size for each package and store total */
 		for(i = handle->trans->add; i; i = i->next) {
 			alpm_pkg_t *spkg = i->data;
 			total_size += spkg->download_size;
+			if(spkg->download_size > 0) {
+				howmany++;
+			}
 		}
-		handle->totaldlcb(total_size);
+		handle->totaldlcb(howmany, total_size);
 	}
 
 	ret = find_dl_candidates(handle, &files);

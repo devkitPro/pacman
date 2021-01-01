@@ -694,8 +694,9 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 }
 
 /* callback to handle receipt of total download value */
-void cb_dl_total(off_t total)
+void cb_dl_total(size_t howmany, off_t total)
 {
+	(void)howmany;
 	list_total = total;
 }
 
