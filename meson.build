@@ -94,7 +94,7 @@ libarchive = dependency('libarchive',
                         static : get_option('buildstatic'))
 
 libcurl = dependency('libcurl',
-                     version : '>=7.32.0',
+                     version : '>=7.55.0',
                      required : get_option('curl'),
                      static : get_option('buildstatic'))
 conf.set('HAVE_LIBCURL', libcurl.found())

@@ -391,7 +391,8 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 	CURLcode curlerr;
 	char *effective_url;
 	long timecond;
-	double remote_size, bytes_dl = 0;
+	curl_off_t remote_size;
+	curl_off_t bytes_dl = 0;
 	long remote_time = -1;
 	struct stat st;
 	char hostname[HOSTNAME_SIZE];
@@ -476,8 +477,8 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 
 	/* retrieve info about the state of the transfer */
 	curl_easy_getinfo(curl, CURLINFO_FILETIME, &remote_time);
-	curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &remote_size);
-	curl_easy_getinfo(curl, CURLINFO_SIZE_DOWNLOAD, &bytes_dl);
+	curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &remote_size);
+	curl_easy_getinfo(curl, CURLINFO_SIZE_DOWNLOAD_T, &bytes_dl);
 	curl_easy_getinfo(curl, CURLINFO_CONDITION_UNMET, &timecond);
 	curl_easy_getinfo(curl, CURLINFO_EFFECTIVE_URL, &effective_url);
 
@@ -539,7 +540,7 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 
 	/* time condition was met and we didn't download anything. we need to
 	 * clean up the 0 byte .part file that's left behind. */
-	if(timecond == 1 && DOUBLE_EQ(bytes_dl, 0)) {
+	if(timecond == 1 && bytes_dl == 0) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "%s: file met time condition\n",
 			payload->remote_name);
 		ret = 1;
@@ -550,8 +551,8 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 	/* remote_size isn't necessarily the full size of the file, just what the
 	 * server reported as remaining to download. compare it to what curl reported
 	 * as actually being transferred during curl_easy_perform() */
-	if(!DOUBLE_EQ(remote_size, -1) && !DOUBLE_EQ(bytes_dl, -1) &&
-			!DOUBLE_EQ(bytes_dl, remote_size)) {
+	if(remote_size != -1 && bytes_dl != -1 &&
+			bytes_dl != remote_size) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("%s appears to be truncated: %jd/%jd bytes\n"),
 				payload->remote_name, (intmax_t)bytes_dl, (intmax_t)remote_size);
 		GOTO_ERR(handle, ALPM_ERR_RETRIEVE, cleanup);
