@@ -1158,7 +1158,7 @@ int SYMEXPORT alpm_pkg_set_reason(alpm_pkg_t *pkg, alpm_pkgreason_t reason)
 	return 0;
 }
 
-struct db_operations local_db_ops = {
+static const struct db_operations local_db_ops = {
 	.validate         = local_db_validate,
 	.populate         = local_db_populate,
 	.unregister       = _alpm_db_unregister,

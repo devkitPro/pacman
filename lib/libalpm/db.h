@@ -70,7 +70,7 @@ struct __alpm_db_t {
 	alpm_pkghash_t *pkgcache;
 	alpm_list_t *grpcache;
 	alpm_list_t *servers;
-	struct db_operations *ops;
+	const struct db_operations *ops;
 
 	/* bitfields for validity, local, loaded caches, etc. */
 	/* From _alpm_dbstatus_t */
