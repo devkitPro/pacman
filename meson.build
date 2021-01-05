@@ -347,7 +347,7 @@ executable(
   'pacman-conf',
   pacman_conf_sources,
   include_directories : includes,
-  link_with : [libalpm],
+  link_with : [libalpm, libcommon],
   dependencies : [libarchive],
   install : true,
 )
