@@ -285,7 +285,7 @@ static int _sync_get_validation(alpm_pkg_t *pkg)
  * because we want to reuse the majority of the default_pkg_ops struct and
  * add only a few operations of our own on top.
  */
-static struct pkg_operations *get_sync_pkg_ops(void)
+static const struct pkg_operations *get_sync_pkg_ops(void)
 {
 	static struct pkg_operations sync_pkg_ops;
 	static int sync_pkg_ops_initalized = 0;

@@ -137,7 +137,7 @@ static int _package_changelog_close(const alpm_pkg_t UNUSED *pkg, void *fp)
  * because we want to reuse the majority of the default_pkg_ops struct and
  * add only a few operations of our own on top.
  */
-static struct pkg_operations *get_file_pkg_ops(void)
+static const struct pkg_operations *get_file_pkg_ops(void)
 {
 	static struct pkg_operations file_pkg_ops;
 	static int file_pkg_ops_initialized = 0;

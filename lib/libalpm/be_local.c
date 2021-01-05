@@ -326,7 +326,7 @@ static int _cache_force_load(alpm_pkg_t *pkg)
  * lazy accessor methods that handle any backend loading and caching
  * logic.
  */
-static struct pkg_operations local_pkg_ops = {
+static const struct pkg_operations local_pkg_ops = {
 	.get_base = _cache_get_base,
 	.get_desc = _cache_get_desc,
 	.get_url = _cache_get_url,

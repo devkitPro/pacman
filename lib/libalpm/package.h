@@ -83,7 +83,7 @@ struct pkg_operations {
  * The actual definition is in package.c so it can have access to the
  * default accessor functions which are defined there.
  */
-extern struct pkg_operations default_pkg_ops;
+extern const struct pkg_operations default_pkg_ops;
 
 struct __alpm_pkg_t {
 	unsigned long name_hash;
@@ -121,7 +121,7 @@ struct __alpm_pkg_t {
 	alpm_list_t *removes; /* in transaction targets only */
 	alpm_pkg_t *oldpkg; /* in transaction targets only */
 
-	struct pkg_operations *ops;
+	const struct pkg_operations *ops;
 
 	alpm_filelist_t files;
 
