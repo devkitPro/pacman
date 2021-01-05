@@ -281,6 +281,22 @@ static int _sync_get_validation(alpm_pkg_t *pkg)
 	return pkg->validation;
 }
 
+/** Package sync operations struct accessor. We implement this as a method
+ * because we want to reuse the majority of the default_pkg_ops struct and
+ * add only a few operations of our own on top.
+ */
+static struct pkg_operations *get_sync_pkg_ops(void)
+{
+	static struct pkg_operations sync_pkg_ops;
+	static int sync_pkg_ops_initalized = 0;
+	if(!sync_pkg_ops_initalized) {
+		sync_pkg_ops = default_pkg_ops;
+		sync_pkg_ops.get_validation = _sync_get_validation;
+		sync_pkg_ops_initalized = 1;
+	}
+	return &sync_pkg_ops;
+}
+
 static alpm_pkg_t *load_pkg_for_entry(alpm_db_t *db, const char *entryname,
 		const char **entry_filename, alpm_pkg_t *likely_pkg)
 {
@@ -321,8 +337,7 @@ static alpm_pkg_t *load_pkg_for_entry(alpm_db_t *db, const char *entryname,
 
 		pkg->origin = ALPM_PKG_FROM_SYNCDB;
 		pkg->origin_data.db = db;
-		pkg->ops = &default_pkg_ops;
-		pkg->ops->get_validation = _sync_get_validation;
+		pkg->ops = get_sync_pkg_ops();
 		pkg->handle = db->handle;
 
 		/* add to the collection */
