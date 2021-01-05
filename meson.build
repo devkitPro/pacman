@@ -303,6 +303,7 @@ libcommon = static_library(
   'common',
   libcommon_sources,
   include_directories : includes,
+  gnu_symbol_visibility : 'hidden',
   install : false)
 
 alpm_deps = [crypto_provider, libarchive, libcurl, libintl, gpgme]
@@ -313,6 +314,7 @@ libalpm_a = static_library(
   # https://github.com/mesonbuild/meson/issues/3937
   objects : libcommon.extract_all_objects(),
   include_directories : includes,
+  gnu_symbol_visibility : 'hidden',
   dependencies : alpm_deps)
 
 libalpm = library(
