@@ -161,7 +161,6 @@ char *strsep(char **, const char *);
 
 /* check exported library symbols with: nm -C -D <lib> */
 #define SYMEXPORT __attribute__((visibility("default")))
-#define SYMHIDDEN __attribute__((visibility("internal")))
 
 #define UNUSED __attribute__((unused))
 
