@@ -134,9 +134,8 @@ static int _package_changelog_close(const alpm_pkg_t UNUSED *pkg, void *fp)
 }
 
 /** Package file operations struct accessor. We implement this as a method
- * rather than a static struct as in be_files because we want to reuse the
- * majority of the default_pkg_ops struct and add only a few operations of
- * our own on top.
+ * because we want to reuse the majority of the default_pkg_ops struct and
+ * add only a few operations of our own on top.
  */
 static struct pkg_operations *get_file_pkg_ops(void)
 {
