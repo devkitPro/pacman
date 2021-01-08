@@ -34,7 +34,7 @@ extern "C" {
 
 /**
  * @ingroup libalpm
- * @addtogroup libalpm-list libalpm-list(3)
+ * @addtogroup libalpm_list libalpm_list(3)
  * @brief Functions to manipulate alpm_list_t lists.
  *
  * These functions are designed to create, destroy, and modify lists of
