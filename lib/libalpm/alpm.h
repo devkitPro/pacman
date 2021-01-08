@@ -48,15 +48,20 @@ extern "C" {
  *
  *
  *
- * libalpm is a package management library, primaraly used by
+ * libalpm is a package management library, primarily used by pacman.
  * For ease of access, the libalpm manual has been split up into several sections.
  *
  * @section see_also See Also
  * \b libalpm_list(3),
- * \b alpm-hooks(5),
- * \b makepkg(8),
- * \b pacman(8),
- * \b pacman.conf(5)
+ * \b libalpm_databases(3),
+ * \b libalpm_depends(3),
+ * \b libalpm_errors(3),
+ * \b libalpm_files(3),
+ * \b libalpm_groups(3),
+ * \b libalpm_options(3),
+ * \b libalpm_packages(3),
+ * \b libalpm_sig(3),
+ * \b libalpm_trans(3)
  * @{
  */
 
