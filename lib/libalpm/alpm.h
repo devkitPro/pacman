@@ -53,11 +53,15 @@ extern "C" {
  *
  * @section see_also See Also
  * \b libalpm_list(3),
+ * \b libalpm_cb(3),
  * \b libalpm_databases(3),
  * \b libalpm_depends(3),
  * \b libalpm_errors(3),
  * \b libalpm_files(3),
  * \b libalpm_groups(3),
+ * \b libalpm_handle(3),
+ * \b libalpm_log(3),
+ * \b libalpm_misc(3),
  * \b libalpm_options(3),
  * \b libalpm_packages(3),
  * \b libalpm_sig(3),
@@ -160,7 +164,7 @@ typedef struct _alpm_backup_t {
  */
 alpm_file_t *alpm_filelist_contains(alpm_filelist_t *filelist, const char *path);
 
-/* End of alpm_files */
+/* End of libalpm_files */
 /** @} */
 
 
@@ -186,7 +190,7 @@ typedef struct _alpm_group_t {
  */
 alpm_list_t *alpm_find_group_pkgs(alpm_list_t *dbs, const char *name);
 
-/* End of alpm_groups */
+/* End of libalpm_groups */
 /** @} */
 
 
@@ -330,11 +334,11 @@ alpm_errno_t alpm_errno(alpm_handle_t *handle);
  */
 const char *alpm_strerror(alpm_errno_t err);
 
-/* End of alpm_errors */
+/* End of libalpm_errors */
 /** @} */
 
 
-/** \addtogroup alpm_handle Handle
+/** \addtogroup libalpm_handle Handle
  * @brief Functions to initialize and release libalpm
  * @{
  */
@@ -360,7 +364,7 @@ alpm_handle_t *alpm_initialize(const char *root, const char *dbpath,
  */
 int alpm_release(alpm_handle_t *handle);
 
-/* End of alpm_handle */
+/* End of libalpm_handle */
 /** @} */
 
 
@@ -526,7 +530,7 @@ int alpm_decode_signature(const char *base64_data,
 int alpm_extract_keyid(alpm_handle_t *handle, const char *identifier,
 		const unsigned char *sig, const size_t len, alpm_list_t **keys);
 
-/* End of alpm_sig */
+/* End of libalpm_sig */
 /** @} */
 
 
@@ -703,11 +707,11 @@ void alpm_depmissing_free(alpm_depmissing_t *miss);
 void alpm_conflict_free(alpm_conflict_t *conflict);
 
 
-/* End of alpm_depends */
+/* End of libalpm_depends */
 /** @} */
 
 
-/** \addtogroup alpm_cb Callbacks
+/** \addtogroup libalpm_cb Callbacks
  * @brief Functions and structures for libalpm's callbacks
  * @{
  */
@@ -1209,7 +1213,7 @@ typedef void (*alpm_cb_totaldl)(size_t howmany, off_t total);
 typedef int (*alpm_cb_fetch)(const char *url, const char *localpath,
 		int force);
 
-/* End of alpm_cb */
+/* End of libalpm_cb */
 /** @} */
 
 
@@ -1427,11 +1431,11 @@ int alpm_db_get_usage(alpm_db_t *db, int *usage);
 /** @} */
 
 
-/* End of alpm_databases */
+/* End of libalpm_databases */
 /** @} */
 
 
-/** \addtogroup alpm_log Logging Functions
+/** \addtogroup libalpm_log Logging Functions
  * @brief Functions to log using libalpm
  * @{
  */
@@ -1469,7 +1473,7 @@ typedef void (*alpm_cb_log)(alpm_loglevel_t level, const char *fmt, va_list args
 int alpm_logaction(alpm_handle_t *handle, const char *prefix,
 		const char *fmt, ...) __attribute__((format(printf, 3, 4)));
 
-/* End of alpm_log */
+/* End of libalpm_log */
 /** @} */
 
 
@@ -2185,7 +2189,7 @@ int alpm_option_set_parallel_downloads(alpm_handle_t *handle, unsigned int num_s
 /** @} */
 
 
-/* End of alpm_options */
+/* End of libalpm_options */
 /** @} */
 
 
@@ -2550,7 +2554,7 @@ off_t alpm_pkg_download_size(alpm_pkg_t *newpkg);
 int alpm_pkg_set_reason(alpm_pkg_t *pkg, alpm_pkgreason_t reason);
 
 
-/* End of alpm_pkg_t accessors */
+/* End of libalpm_pkg_t accessors */
 /** @} */
 
 
@@ -2621,7 +2625,7 @@ int alpm_pkg_mtree_close(const alpm_pkg_t *pkg, struct archive *archive);
 /** @} */
 
 
-/* End of alpm_packages */
+/* End of libalpm_packages */
 /** @} */
 
 /** @addtogroup libalpm_trans Transaction
@@ -2764,11 +2768,11 @@ int alpm_remove_pkg(alpm_handle_t *handle, alpm_pkg_t *pkg);
 /** @} */
 
 
-/* End of alpm_trans */
+/* End of libalpm_trans */
 /** @} */
 
 
-/** \addtogroup alpm_misc Miscellaneous Functions
+/** \addtogroup libalpm_misc Miscellaneous Functions
  * @brief Various libalpm functions
  * @{
  */
@@ -2822,10 +2826,10 @@ const char *alpm_version(void);
  * */
 int alpm_capabilities(void);
 
-/* End of alpm_misc */
+/* End of libalpm_misc */
 /** @} */
 
-/* End of alpm_api */
+/* End of libalpm_api */
 /** @} */
 
 #ifdef __cplusplus
