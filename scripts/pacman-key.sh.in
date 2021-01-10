@@ -145,7 +145,7 @@ key_lookup_from_name() {
 
 generate_master_key() {
 	# Generate the master key, which will be in both pubring and secring
-	msg "$(gettext "Generating pacman master key. This may take some time.")
+	msg "$(gettext "Generating pacman master key. This may take some time.")"
 
 	"${GPG_PACMAN[@]}" --gen-key --batch <<EOF
 %echo Generating pacman keyring master key...
