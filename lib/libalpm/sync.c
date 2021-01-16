@@ -934,8 +934,9 @@ static int check_keyring(alpm_handle_t *handle)
 			}
 			free(keyinfo->uid);
 			free(keyinfo->keyid);
-
+			free(keyinfo);
 		}
+		alpm_list_free(errors);
 		event.type = ALPM_EVENT_KEY_DOWNLOAD_DONE;
 		EVENT(handle, &event);
 		if(fail) {
