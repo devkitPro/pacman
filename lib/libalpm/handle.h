@@ -60,9 +60,10 @@ struct __alpm_handle_t {
 #ifdef HAVE_LIBCURL
 	/* libcurl handle */
 	CURLM *curlm;
+#endif
+
 	unsigned short disable_dl_timeout;
 	unsigned int parallel_downloads; /* number of download streams */
-#endif
 
 #ifdef HAVE_LIBGPGME
 	alpm_list_t *known_keys;  /* keys verified to be in our keychain */
