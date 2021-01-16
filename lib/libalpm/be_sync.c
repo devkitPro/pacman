@@ -198,6 +198,10 @@ int SYMEXPORT alpm_db_update(alpm_handle_t *handle, alpm_list_t *dbs, int force)
 		payload->max_size = 128 * 1024 * 1024;
 		payloads = alpm_list_add(payloads, payload);
 	}
+	if(payloads == NULL) {
+		ret = 0;
+		goto cleanup;
+	}
 
 	event.type = ALPM_EVENT_DB_RETRIEVE_START;
 	EVENT(handle, &event);
