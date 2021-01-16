@@ -755,6 +755,11 @@ static int download_files(alpm_handle_t *handle)
 	cachedir = _alpm_filecache_setup(handle);
 	handle->trans->state = STATE_DOWNLOADING;
 
+	ret = find_dl_candidates(handle, &files);
+	if(ret != 0) {
+		goto finish;
+	}
+
 	/* Total progress - figure out the total download size if required to
 	 * pass to the callback. This function is called once, and it is up to the
 	 * frontend to compute incremental progress. */
@@ -762,19 +767,12 @@ static int download_files(alpm_handle_t *handle)
 		off_t total_size = (off_t)0;
 		size_t howmany = 0;
 		/* sum up the download size for each package and store total */
-		for(i = handle->trans->add; i; i = i->next) {
+		for(i = files; i; i = i->next) {
 			alpm_pkg_t *spkg = i->data;
 			total_size += spkg->download_size;
-			if(spkg->download_size > 0) {
-				howmany++;
-			}
+			howmany++;
 		}
 		handle->totaldlcb(howmany, total_size);
-	}
-
-	ret = find_dl_candidates(handle, &files);
-	if(ret != 0) {
-		goto finish;
 	}
 
 	if(files) {
