@@ -505,7 +505,7 @@ int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr)
 	}
 
 	STRDUP(fetch_key.uid, uid, return -1);
-	STRDUP(fetch_key.fingerprint, fpr, return -1);
+	STRDUP(fetch_key.fingerprint, fpr, free(fetch_key.uid); return -1);
 
 	alpm_question_import_key_t question = {
 				.type = ALPM_QUESTION_IMPORT_KEY,
@@ -517,6 +517,7 @@ int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr)
 		/* Try to import the key from a WKD first */
 		if(email_from_uid(uid, &email) == 0) {
 			ret = key_import_wkd(handle, email);
+			free(email);
 		}
 
 		/* If importing from the WKD fails, fall back to keyserver lookup */
@@ -537,6 +538,8 @@ int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr)
 		}
 	}
 	gpgme_key_unref(fetch_key.data);
+	free(fetch_key.uid);
+	free(fetch_key.fingerprint);
 
 	return ret;
 }
