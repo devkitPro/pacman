@@ -189,7 +189,7 @@ static void usage(int op, const char * const myname)
 		switch(op) {
 			case PM_OP_SYNC:
 			case PM_OP_UPGRADE:
-				addlist(_("      --overwrite <path>\n"
+				addlist(_("      --overwrite <glob>\n"
 				          "                       overwrite conflicting files (can be used more than once)\n"));
 				addlist(_("      --asdeps         install packages as non-explicitly installed\n"));
 				addlist(_("      --asexplicit     install packages as explicitly installed\n"));
