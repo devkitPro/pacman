@@ -106,6 +106,7 @@ static void segv_handler(int signum)
 	/* restore the default handler */
 	_reset_handler(signum);
 	/* unblock SIGSEGV */
+	sigemptyset(&segvset);
 	sigaddset(&segvset, signum);
 	sigprocmask(SIG_UNBLOCK, &segvset, NULL);
 	/* re-raise to trigger a core dump */

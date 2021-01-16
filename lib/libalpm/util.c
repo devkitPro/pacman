@@ -562,7 +562,9 @@ static void _alpm_reset_signals(void)
 		0
 	};
 	struct sigaction def;
+	def.sa_flags = 0;
 	def.sa_handler = SIG_DFL;
+	sigemptyset(&def.sa_mask);
 	for(i = signals; *i; i++) {
 		sigaction(*i, &def, NULL);
 	}
