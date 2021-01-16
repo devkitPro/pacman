@@ -76,6 +76,7 @@ static void parse_opts(int argc, char **argv)
 				config_file = optarg;
 				break;
 			case 'R':
+				free(config->rootdir);
 				if ((config->rootdir = strdup(optarg)) == NULL) {
 					fprintf(stderr, _("error setting rootdir '%s': out of memory\n"), optarg);
 					cleanup();
