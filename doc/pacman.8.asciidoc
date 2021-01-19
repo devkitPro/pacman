@@ -241,6 +241,9 @@ Transaction Options (apply to '-S', '-R' and '-U')
 
 Upgrade Options (apply to '-S' and '-U')[[UO]]
 ----------------------------------------------
+*-w, \--downloadonly*::
+	Retrieve all packages from the server, but do not install/upgrade anything.
+
 *\--asdeps*::
 	Install packages non-explicitly; in other words, fake their install reason
 	to be installed as a dependency. This is useful for makepkg and other
@@ -444,9 +447,6 @@ can be useful when the user switches from a testing repository to a stable one.
 +
 Additional targets can also be specified manually, so that '-Su foo' will do a
 system upgrade and install/upgrade the "foo" package in the same operation.
-
-*-w, \--downloadonly*::
-	Retrieve all packages from the server, but do not install/upgrade anything.
 
 *-y, \--refresh*::
 	Download a fresh copy of the master package database from the server(s)

@@ -161,7 +161,6 @@ static void usage(int op, const char * const myname)
 			addlist(_("  -q, --quiet          show less information for query and search\n"));
 			addlist(_("  -s, --search <regex> search remote repositories for matching strings\n"));
 			addlist(_("  -u, --sysupgrade     upgrade installed packages (-uu enables downgrades)\n"));
-			addlist(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
 			addlist(_("  -y, --refresh        download fresh package databases from the server\n"
 			          "                       (-yy to force a refresh even if up to date)\n"));
 			addlist(_("      --needed         do not reinstall up to date packages\n"));
@@ -189,6 +188,7 @@ static void usage(int op, const char * const myname)
 		switch(op) {
 			case PM_OP_SYNC:
 			case PM_OP_UPGRADE:
+				addlist(_("  -w, --downloadonly   download packages but do not install/upgrade anything\n"));
 				addlist(_("      --overwrite <glob>\n"
 				          "                       overwrite conflicting files (can be used more than once)\n"));
 				addlist(_("      --asdeps         install packages as non-explicitly installed\n"));
@@ -735,6 +735,12 @@ static int parsearg_upgrade(int opt)
 		case OP_IGNOREGROUP:
 			parsearg_util_addlist(&(config->ignoregrp));
 			break;
+		case OP_DOWNLOADONLY:
+		case 'w':
+			config->op_s_downloadonly = 1;
+			config->flags |= ALPM_TRANS_FLAG_DOWNLOADONLY;
+			config->flags |= ALPM_TRANS_FLAG_NOCONFLICTS;
+			break;
 		default: return 1;
 	}
 	return 0;
@@ -819,12 +825,6 @@ static int parsearg_sync(int opt)
 		case OP_SYSUPGRADE:
 		case 'u':
 			(config->op_s_upgrade)++;
-			break;
-		case OP_DOWNLOADONLY:
-		case 'w':
-			config->op_s_downloadonly = 1;
-			config->flags |= ALPM_TRANS_FLAG_DOWNLOADONLY;
-			config->flags |= ALPM_TRANS_FLAG_NOCONFLICTS;
 			break;
 		case OP_REFRESH:
 		case 'y':
