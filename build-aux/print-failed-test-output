@@ -1,0 +1,17 @@
+#!/usr/bin/python
+
+import json
+import sys
+
+def print_result(result):
+    print('==================================================================')
+    print(result['name'])
+    print(' '.join(result['command']))
+    print('==================================================================')
+    print(result['stdout'])
+
+with open(sys.argv[1], 'r') as f:
+    for line in f:
+        result = json.loads(line)
+        if result['result'] == 'FAIL':
+            print_result(result)

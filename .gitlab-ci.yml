@@ -2,12 +2,17 @@ variables:
   MAKEFLAGS: "-j10"
   VERBOSE: 1
   PACMAN_OPTS: --needed --noconfirm --cachedir .pkg-cache
+  PACTEST_OPTS: --review --editor=../build-aux/cat-test-file
 
 cache:
   key: pkgs-v1
   paths:
     # For some reason Gitlab CI only supports storing cache/artifacts in a path relative to the build directory
     - .pkg-cache
+
+default:
+  after_script:
+    - build-aux/print-failed-test-output build/meson-logs/testlog.json
 
 .arch-test:
   image: archlinux/base
