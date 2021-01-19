@@ -181,6 +181,16 @@ class pmrule(object):
                 if not pkg or not os.path.isfile(
                         os.path.join(cachedir, pkg.filename())):
                     success = 0
+            elif case == "FEXISTS":
+                if not os.path.isfile(os.path.join(cachedir, key)):
+                    success = 0
+            elif case == "FCONTENTS":
+                filename = os.path.join(cachedir, key)
+                try:
+                    with open(filename, 'r') as f:
+                        success = f.read() == value
+                except:
+                    success = 0
         else:
             tap.diag("Rule kind '%s' not found" % kind)
             success = -1
