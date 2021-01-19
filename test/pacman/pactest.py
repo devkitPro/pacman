@@ -125,7 +125,8 @@ if __name__ == "__main__":
 
     # parse options
     opt_parser = create_parser()
-    (opts, args) = opt_parser.parse_args()
+    (opts, args) = opt_parser.parse_args(args=os.getenv('PACTEST_OPTS', '').split())
+    (opts, args) = opt_parser.parse_args(values=opts)
 
     if args is None or len(args) == 0:
         tap.bail("no tests defined, nothing to do")
