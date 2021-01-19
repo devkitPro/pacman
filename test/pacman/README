@@ -317,3 +317,26 @@ Example:
 
 pactest will ensure the file /etc/test.conf exists in the filesystem.
 
+Serving Files
+=============
+
+Tests can run a simple http server using the `add_simple_http_server` method,
+which takes a dict with request paths for keys and their responses as values
+and returns a url for the server.  Responses may either be a simple string or
+a dict with the following keys: `code`, `headers`, and `body`.  If a value is
+provided for the empty path it will be used as a fallback response for any
+requests that do not match a path.
+
+  url = self.add_simple_http_server({
+    "/": "simple response",
+    "/custom": {
+        "headers": { "Content-Disposition": "attachment; filename=foo" },
+        "body": ("Custom response.  Code and any necessary headers "
+                 "will by automatically set if not provided"),
+    }
+    "": {
+        "code": 404,
+        "headers": { "Content-Length": "14" },
+        "body": "Page Not Found",
+    }
+  })
