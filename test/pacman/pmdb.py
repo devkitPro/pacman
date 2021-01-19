@@ -54,6 +54,7 @@ class pmdb(object):
         self.root = root
         self.pkgs = []
         self.option = {}
+        self.syncdir = True
         if self.treename == "local":
             self.dbdir = os.path.join(root, util.PM_DBPATH, treename)
             self.dbfile = None

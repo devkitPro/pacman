@@ -167,10 +167,11 @@ class pmtest(object):
                 vprint("\t%s" % os.path.join(util.PM_CACHEDIR, pkg.filename()))
                 if self.cachepkgs:
                     pkg.makepkg(cachedir)
-                else:
+                elif value.syncdir:
                     pkg.makepkg(os.path.join(syncdir, value.treename))
-                pkg.md5sum = util.getmd5sum(pkg.path)
-                pkg.csize = os.stat(pkg.path)[stat.ST_SIZE]
+                if pkg.path:
+                    pkg.md5sum = util.getmd5sum(pkg.path)
+                    pkg.csize = os.stat(pkg.path)[stat.ST_SIZE]
 
         # Creating sync database archives
         vprint("    Creating databases")
