@@ -1,14 +1,6 @@
 variables:
   MAKEFLAGS: "-j10"
   VERBOSE: 1
-  PACMAN_OPTS: --needed --noconfirm --cachedir .pkg-cache
-  PACTEST_OPTS: --review --editor=../build-aux/cat-test-file
-
-cache:
-  key: pkgs-v1
-  paths:
-    # For some reason Gitlab CI only supports storing cache/artifacts in a path relative to the build directory
-    - .pkg-cache
 
 default:
   after_script:
@@ -18,7 +10,7 @@ default:
   image: archlinux:base-devel
   before_script:
     - >
-      pacman -Syu $PACMAN_OPTS
+      pacman -Syu --needed --noconfirm
       git
       gpgme libarchive curl
       python
@@ -42,14 +34,14 @@ arch-debug:
 arch-docs:
   extends: .arch-test
   script:
-    - pacman -Syu $PACMAN_OPTS asciidoc
+    - pacman -Syu --needed --noconfirm asciidoc
     - meson -Ddoc=enabled build
     - ninja -C build
 
 arch-clang:
   extends: .arch-test
   script:
-    - pacman -Syu $PACMAN_OPTS clang
+    - pacman -Syu --needed --noconfirm clang
     - CC=clang meson build
     - ninja -C build
     - fakechroot meson test -C build
@@ -92,7 +84,6 @@ arch-no-nls:
 
 debian:
   image: debian:bullseye
-  cache: {}
   before_script:
     - apt update
     - >
@@ -108,7 +99,6 @@ debian:
 
 fedora:
   image: fedora
-  cache: {}
   before_script:
     - >
       dnf -y install
