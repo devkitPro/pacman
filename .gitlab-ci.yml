@@ -15,11 +15,11 @@ default:
     - build-aux/print-failed-test-output build/meson-logs/testlog.json
 
 .arch-test:
-  image: archlinux/base
+  image: archlinux:base-devel
   before_script:
     - >
       pacman -Syu $PACMAN_OPTS
-      base-devel git
+      git
       gpgme libarchive curl
       python
       fakeroot fakechroot
