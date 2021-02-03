@@ -61,7 +61,7 @@ typedef struct __alpm_list_t {
 #define FREELIST(p) do { alpm_list_free_inner(p, free); alpm_list_free(p); p = NULL; } while(0)
 
 /** item deallocation callback.
- * @param the item to free
+ * @param item the item to free
  */
 typedef void (*alpm_list_fn_free)(void * item);
 
