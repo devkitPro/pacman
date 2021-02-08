@@ -69,7 +69,10 @@ strip_file() {
 		# copy debug symbols to debug directory
 		mkdir -p "$dbgdir/${binary%/*}"
 		objcopy --only-keep-debug "$binary" "$dbgdir/$binary.debug"
-		objcopy --add-gnu-debuglink="$dbgdir/${binary#/}.debug" "$binary"
+		local tempfile=$(mktemp "$binary.XXXXXX")
+		objcopy --add-gnu-debuglink="$dbgdir/${binary#/}.debug" "$binary" "$tempfile"
+		cat "$tempfile" > "$binary"
+		rm "$tempfile"
 
 		# create any needed hardlinks
 		while IFS= read -rd '' file ; do
@@ -93,7 +96,11 @@ strip_file() {
 		fi
 	fi
 
-	strip $@ "$binary"
+	local tempfile=$(mktemp "$binary.XXXXXX")
+	if strip "$@" "$binary" -o "$tempfile"; then
+		cat "$tempfile" > "$binary"
+	fi
+	rm -f "$tempfile"
 }
 
 
