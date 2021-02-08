@@ -119,6 +119,7 @@ static int perform_extraction(alpm_handle_t *handle, struct archive *archive,
 	                          ARCHIVE_EXTRACT_PERM |
 	                          ARCHIVE_EXTRACT_TIME |
 	                          ARCHIVE_EXTRACT_UNLINK |
+	                          ARCHIVE_EXTRACT_XATTR |
 	                          ARCHIVE_EXTRACT_SECURE_SYMLINKS;
 
 	archive_entry_set_pathname(entry, filename);
