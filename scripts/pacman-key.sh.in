@@ -540,11 +540,36 @@ receive_keys() {
 }
 
 refresh_keys() {
+	local ret=0 ids masterkey emails
+
 	check_keyids_exist "$@"
-	if ! "${GPG_PACMAN[@]}" --refresh-keys "$@" ; then
-		error "$(gettext "A specified local key could not be updated from a keyserver.")"
-		exit 1
-	fi
+
+	# don't try to refresh the user's local masterkey
+	masterkey="$("${GPG_PACMAN[@]}" --list-keys --with-colons pacman@localhost |
+		awk -F: '$1 == "pub" { print $5 }')"
+
+	mapfile -t ids < \
+		<("${GPG_PACMAN[@]}" --list-keys --with-colons "$@" |
+			awk -F: '$1 == "pub" { print $5 }' | grep -vx "$masterkey")
+
+	for id in "${ids[@]}"; do
+		mapfile -t emails < \
+			<("${GPG_PACMAN[@]}" --list-keys --list-options show-only-fpr-mbox "$id" |
+				awk '{print $2 }')
+
+		# first try looking up the key in a WKD (only works by email address)
+		for email in "${emails[@]}"; do
+			"${GPG_PACMAN[@]}" --locate-external-keys "$email" && break
+		done
+
+		# if no key was found, fall back to using the keyservers (with the key fingerprint instead)
+		if (( $? )) &&  ! "${GPG_PACMAN[@]}" --refresh-keys "$id"; then
+			error "$(gettext "Could not update key: %s") "$id"
+			ret=1
+		fi
+	done
+
+	exit $ret
 }
 
 verify_sig() {
