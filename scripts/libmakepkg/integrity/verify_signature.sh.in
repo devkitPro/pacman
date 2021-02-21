@@ -134,7 +134,7 @@ verify_file_signature() {
 	fi
 
 	found=0
-	for ext in "" gz bz2 xz lrz lzo Z; do
+	for ext in "" gz bz2 xz lrz lzo Z zst; do
 		if sourcefile="$(get_filepath "${file%.*}${ext:+.$ext}")"; then
 			found=1
 			break
@@ -152,6 +152,7 @@ verify_file_signature() {
 		xz)  decompress="xz -c -d" ;;
 		lrz) decompress="lrzip -q -d" ;;
 		lzo) decompress="lzop -c -d -q" ;;
+		zst) decompress="zstd -d -q -f" ;;
 		Z)   decompress="uncompress -c -f" ;;
 		"")  decompress="cat" ;;
 	esac

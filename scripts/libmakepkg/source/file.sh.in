@@ -118,6 +118,11 @@ extract_file() {
 				xz) cmd="xz" ;;
 				*) return;;
 			esac ;;
+		*application/zstd*)
+			case "$ext" in
+				zst) cmd="zstd" ;;
+				*) return;;
+			esac ;;
 		*)
 			# See if bsdtar can recognize the file
 			if bsdtar -tf "$file" -q '*' &>/dev/null; then
