@@ -4,6 +4,7 @@ sources = [
   'buildflags.sh.in',
   'compiler.sh.in',
   'debugflags.sh.in',
+  'lto.sh.in',
   'makeflags.sh.in',
 ]
 

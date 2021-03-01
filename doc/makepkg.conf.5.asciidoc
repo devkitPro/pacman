@@ -189,6 +189,10 @@ Options
 		DEBUG_CXXFLAGS to their counterpart buildflags. Creates a separate
 		package containing the debug symbols when used with `strip'.
 
+	*lto*;;
+		Enable building packages using link time optimization. Adds '-flto'
+		to both CFLAGS and CXXFLAGS.
+
 **INTEGRITY_CHECK=(**check1 ...**)**::
 	File integrity checks to use. Multiple checks may be specified; this
 	affects both generation and checking. The current valid options are:

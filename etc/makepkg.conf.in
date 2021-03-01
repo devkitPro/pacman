@@ -76,7 +76,7 @@ BUILDENV=(!distcc color !ccache check !sign)
 #   These are default values for the options=() settings
 #########################################################################
 #
-# Makepkg defaults: OPTIONS=(!strip docs libtool staticlibs emptydirs !zipman !purge !debug)
+# Makepkg defaults: OPTIONS=(!strip docs libtool staticlibs emptydirs !zipman !purge !debug !lto)
 #  A negated option will do the opposite of the comments below.
 #
 #-- strip:      Strip symbols from binaries/libraries
@@ -87,8 +87,9 @@ BUILDENV=(!distcc color !ccache check !sign)
 #-- zipman:     Compress manual (man and info) pages in MAN_DIRS with gzip
 #-- purge:      Remove files specified by PURGE_TARGETS
 #-- debug:      Add debugging flags as specified in DEBUG_* variables
+#-- lto:        Add compile flags for building with link time optimization
 #
-OPTIONS=(strip docs libtool staticlibs emptydirs zipman purge !debug)
+OPTIONS=(strip docs libtool staticlibs emptydirs zipman purge !debug !lto)
 
 #-- File integrity checks to use. Valid: ck, md5, sha1, sha224, sha256, sha384, sha512, b2
 INTEGRITY_CHECK=(ck)
