@@ -564,7 +564,7 @@ refresh_keys() {
 
 		# if no key was found, fall back to using the keyservers (with the key fingerprint instead)
 		if (( $? )) &&  ! "${GPG_PACMAN[@]}" --refresh-keys "$id"; then
-			error "$(gettext "Could not update key: %s") "$id"
+			error "$(gettext "Could not update key: %s")" "$id"
 			ret=1
 		fi
 	done
