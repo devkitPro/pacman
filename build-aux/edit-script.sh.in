@@ -4,7 +4,7 @@ input=$1
 output=$2
 mode=$3
 
-"@SED@" \
+sed \
   -e "s|@rootdir[@]|@ROOTDIR@|g" \
   -e "s|@localedir[@]|@LOCALEDIR@|g" \
   -e "s|@sysconfdir[@]|@sysconfdir@|g" \

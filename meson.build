@@ -28,7 +28,6 @@ LIBMAKEPKGDIR = join_paths(PREFIX, DATAROOTDIR, 'makepkg')
 PKGDATADIR = join_paths(PREFIX, DATAROOTDIR, meson.project_name())
 
 PYTHON = import('python').find_installation('python3')
-SED = find_program('sed')
 DU = find_program('du')
 LDCONFIG = get_option('ldconfig')
 MESON_MAKE_SYMLINK = join_paths(meson.source_root(), 'build-aux/meson-make-symlink.sh')
@@ -251,7 +250,6 @@ carch = chost.split('-')[0]
 # annoyingly, we have to maintain two sets of configuration_data which is
 # largely identical, but which distinguishes between quoting needs.
 substs = configuration_data()
-substs.set('SED', SED.path())
 substs.set('CARCH', carch)
 substs.set('CHOST', chost)
 substs.set('PKGEXT', get_option('pkg-ext'))
