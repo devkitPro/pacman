@@ -926,6 +926,16 @@ typedef struct _alpm_event_hook_run_t {
 	size_t total;
 } alpm_event_hook_run_t;
 
+/** Packages downloading about to start. */
+typedef struct _alpm_event_pkg_retrieve_t {
+	/** Type of event */
+	alpm_event_type_t type;
+	/** Number of packages to download */
+	size_t num;
+	/** Total size of packages to download */
+	off_t total_size;
+} alpm_event_pkg_retrieve_t;
+
 /** Events.
  * This is a union passed to the callback that allows the frontend to know
  * which type of event was triggered (via type). It is then possible to
@@ -954,6 +964,8 @@ typedef union _alpm_event_t {
 	alpm_event_hook_t hook;
 	/** A hook was ran */
 	alpm_event_hook_run_t hook_run;
+	/** Download packages */
+	alpm_event_pkg_retrieve_t pkg_retrieve;
 } alpm_event_t;
 
 /** Event callback.
@@ -1196,12 +1208,6 @@ typedef struct _alpm_download_event_completed_t {
 typedef void (*alpm_cb_download)(const char *filename,
 		alpm_download_event_type_t event, void *data);
 
-
-/** Total Download callback.
- * @param howmany the number of packages that will be downloaded during \link alpm_trans_commit \endlink.
- * @param total amount that will be downloaded during \link alpm_trans_commit \endlink.
- */
-typedef void (*alpm_cb_totaldl)(size_t howmany, off_t total);
 
 /** A callback for downloading files
  * @param url the URL of the file to be downloaded
@@ -1524,20 +1530,6 @@ alpm_cb_fetch alpm_option_get_fetchcb(alpm_handle_t *handle);
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
 int alpm_option_set_fetchcb(alpm_handle_t *handle, alpm_cb_fetch cb);
-
-/** Returns the callback used to report total download size.
- * @param handle the context handle
- * @return the currently set total download callback
- */
-alpm_cb_totaldl alpm_option_get_totaldlcb(alpm_handle_t *handle);
-
-/** Sets the callback used to report total download size.
- * @param handle the context handle
- * @param cb the cb to use
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
- */
-int alpm_option_set_totaldlcb(alpm_handle_t *handle, alpm_cb_totaldl cb);
-
 
 /** Returns the callback used for events.
  * @param handle the context handle

@@ -72,7 +72,6 @@ struct __alpm_handle_t {
 	/* callback functions */
 	alpm_cb_log logcb;          /* Log callback function */
 	alpm_cb_download dlcb;      /* Download callback function */
-	alpm_cb_totaldl totaldlcb;  /* Total download callback function */
 	alpm_cb_fetch fetchcb;      /* Download file callback function */
 	alpm_cb_event eventcb;
 	alpm_cb_question questioncb;

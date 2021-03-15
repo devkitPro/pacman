@@ -892,10 +892,6 @@ static int setup_libalpm(void)
 		pm_printf(ALPM_LOG_WARNING, _("no '%s' configured\n"), "XferCommand");
 	}
 
-	if(config->totaldownload) {
-		alpm_option_set_totaldlcb(handle, cb_dl_total);
-	}
-
 	alpm_option_set_arch(handle, config->arch);
 	alpm_option_set_checkspace(handle, config->checkspace);
 	alpm_option_set_usesyslog(handle, config->usesyslog);

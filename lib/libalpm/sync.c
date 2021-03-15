@@ -749,7 +749,7 @@ static int download_files(alpm_handle_t *handle)
 	const char *cachedir;
 	alpm_list_t *i, *files = NULL;
 	int ret = 0;
-	alpm_event_t event;
+	alpm_event_t event = {0};
 	alpm_list_t *payloads = NULL;
 
 	cachedir = _alpm_filecache_setup(handle);
@@ -758,21 +758,6 @@ static int download_files(alpm_handle_t *handle)
 	ret = find_dl_candidates(handle, &files);
 	if(ret != 0) {
 		goto finish;
-	}
-
-	/* Total progress - figure out the total download size if required to
-	 * pass to the callback. This function is called once, and it is up to the
-	 * frontend to compute incremental progress. */
-	if(handle->totaldlcb) {
-		off_t total_size = (off_t)0;
-		size_t howmany = 0;
-		/* sum up the download size for each package and store total */
-		for(i = files; i; i = i->next) {
-			alpm_pkg_t *spkg = i->data;
-			total_size += spkg->download_size;
-			howmany++;
-		}
-		handle->totaldlcb(howmany, total_size);
 	}
 
 	if(files) {
@@ -800,6 +785,14 @@ static int download_files(alpm_handle_t *handle)
 		}
 
 		event.type = ALPM_EVENT_PKG_RETRIEVE_START;
+
+		/* sum up the number of packages to download and its total size */
+		for(i = files; i; i = i->next) {
+			alpm_pkg_t *spkg = i->data;
+			event.pkg_retrieve.total_size += spkg->download_size;
+			event.pkg_retrieve.num++;
+		}
+
 		EVENT(handle, &event);
 		for(i = files; i; i = i->next) {
 			alpm_pkg_t *pkg = i->data;

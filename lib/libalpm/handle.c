@@ -174,12 +174,6 @@ alpm_cb_fetch SYMEXPORT alpm_option_get_fetchcb(alpm_handle_t *handle)
 	return handle->fetchcb;
 }
 
-alpm_cb_totaldl SYMEXPORT alpm_option_get_totaldlcb(alpm_handle_t *handle)
-{
-	CHECK_HANDLE(handle, return NULL);
-	return handle->totaldlcb;
-}
-
 alpm_cb_event SYMEXPORT alpm_option_get_eventcb(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
@@ -324,13 +318,6 @@ int SYMEXPORT alpm_option_set_fetchcb(alpm_handle_t *handle, alpm_cb_fetch cb)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->fetchcb = cb;
-	return 0;
-}
-
-int SYMEXPORT alpm_option_set_totaldlcb(alpm_handle_t *handle, alpm_cb_totaldl cb)
-{
-	CHECK_HANDLE(handle, return -1);
-	handle->totaldlcb = cb;
 	return 0;
 }
 

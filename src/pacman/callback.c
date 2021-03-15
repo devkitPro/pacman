@@ -338,6 +338,8 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_PKG_RETRIEVE_START:
 			colon_printf(_("Retrieving packages...\n"));
 			on_progress = 1;
+			list_total_pkgs = event->pkg_retrieve.num;
+			list_total = event->pkg_retrieve.total_size;
 			total_enabled = config->totaldownload && list_total;
 			if(total_enabled) {
 				init_total_progressbar();
@@ -694,13 +696,6 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 	} else {
 		on_progress = 1;
 	}
-}
-
-/* callback to handle receipt of total download value */
-void cb_dl_total(size_t howmany, off_t total)
-{
-	list_total_pkgs = howmany;
-	list_total = total;
 }
 
 static int dload_progressbar_enabled(void)

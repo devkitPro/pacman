@@ -851,7 +851,7 @@ int SYMEXPORT alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
 	const char *cachedir;
 	alpm_list_t *payloads = NULL;
 	const alpm_list_t *i;
-	alpm_event_t event;
+	alpm_event_t event = {0};
 
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(*fetched == NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
@@ -884,6 +884,7 @@ int SYMEXPORT alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
 
 	if(payloads) {
 		event.type = ALPM_EVENT_PKG_RETRIEVE_START;
+		event.pkg_retrieve.num = alpm_list_count(payloads);
 		EVENT(handle, &event);
 		if(_alpm_download(handle, payloads, cachedir) == -1) {
 			_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files\n"));

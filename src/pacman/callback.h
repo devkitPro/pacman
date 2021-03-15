@@ -35,8 +35,6 @@ void cb_question(alpm_question_t *question);
 void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
                    size_t howmany, size_t remain);
 
-/* callback to handle receipt of total download value */
-void cb_dl_total(size_t howmany, off_t total);
 /* callback to handle display of download progress */
 void cb_download(const char *filename, alpm_download_event_type_t event,
 		void *data);
