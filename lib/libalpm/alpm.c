@@ -114,6 +114,7 @@ int SYMEXPORT alpm_release(alpm_handle_t *myhandle)
 #ifdef HAVE_LIBCURL
 	curl_multi_cleanup(myhandle->curlm);
 	curl_global_cleanup();
+	FREELIST(myhandle->server_errors);
 #endif
 
 	_alpm_handle_unlock(myhandle);

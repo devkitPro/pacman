@@ -60,6 +60,7 @@ struct __alpm_handle_t {
 #ifdef HAVE_LIBCURL
 	/* libcurl handle */
 	CURLM *curlm;
+	alpm_list_t *server_errors;
 #endif
 
 	unsigned short disable_dl_timeout;

@@ -51,8 +51,83 @@
 
 #ifdef HAVE_LIBCURL
 
+/* RFC1123 states applications should support this length */
+#define HOSTNAME_SIZE 256
+
 static int curl_add_payload(alpm_handle_t *handle, CURLM *curlm,
 	struct dload_payload *payload, const char *localpath);
+static int curl_gethost(const char *url, char *buffer, size_t buf_len);
+
+/* number of "soft" errors required to blacklist a server, set to 0 to disable
+ * server blacklisting */
+const unsigned int server_error_limit = 3;
+
+struct server_error_count {
+	char server[HOSTNAME_SIZE];
+	unsigned int errors;
+};
+
+static struct server_error_count *find_server_errors(alpm_handle_t *handle, const char *server)
+{
+	alpm_list_t *i;
+	struct server_error_count *h;
+	char hostname[HOSTNAME_SIZE];
+	/* key off the hostname because a host may serve multiple repos under
+	 * different url's and errors are likely to be host-wide */
+	if(curl_gethost(server, hostname, sizeof(hostname)) != 0) {
+		return NULL;
+	}
+	for(i = handle->server_errors; i; i = i->next) {
+		h = i->data;
+		if(strcmp(hostname, h->server) == 0) {
+			return h;
+		}
+	}
+	if((h = calloc(sizeof(struct server_error_count), 1))
+			&& alpm_list_append(&handle->server_errors, h)) {
+		strcpy(h->server, hostname);
+		h->errors = 0;
+		return h;
+	} else {
+		free(h);
+		return NULL;
+	}
+}
+
+static int should_skip_server(alpm_handle_t *handle, const char *server)
+{
+	struct server_error_count *h;
+	if(server_error_limit && (h = find_server_errors(handle, server)) ) {
+		return h->errors >= server_error_limit;
+	}
+	return 0;
+}
+
+static void server_increment_error(alpm_handle_t *handle, const char *server, int count)
+{
+	struct server_error_count *h;
+	if(server_error_limit
+			&& (h = find_server_errors(handle, server))
+			&& !should_skip_server(handle, server) ) {
+		h->errors += count;
+
+		if(should_skip_server(handle, server)) {
+			_alpm_log(handle, ALPM_LOG_WARNING,
+					_("too many errors from %s, skipping for the remainder of this transaction\n"),
+					h->server);
+		}
+	}
+}
+
+static void server_soft_error(alpm_handle_t *handle, const char *server)
+{
+	server_increment_error(handle, server, 1);
+}
+
+static void server_hard_error(alpm_handle_t *handle, const char *server)
+{
+	server_increment_error(handle, server, server_error_limit);
+}
 
 static const char *get_filename(const char *url)
 {
@@ -332,9 +407,6 @@ static FILE *create_tempfile(struct dload_payload *payload, const char *localpat
 	return fp;
 }
 
-/* RFC1123 states applications should support this length */
-#define HOSTNAME_SIZE 256
-
 /* Return 0 if retry was successful, -1 otherwise */
 static int curl_retry_next_server(CURLM *curlm, CURL *curl, struct dload_payload *payload)
 {
@@ -342,7 +414,7 @@ static int curl_retry_next_server(CURLM *curlm, CURL *curl, struct dload_payload
 	size_t len;
 	alpm_handle_t *handle = payload->handle;
 
-	if(payload->servers) {
+	while(payload->servers && should_skip_server(handle, payload->servers->data)) {
 		payload->servers = payload->servers->next;
 	}
 	if(!payload->servers) {
@@ -351,6 +423,7 @@ static int curl_retry_next_server(CURLM *curlm, CURL *curl, struct dload_payload
 		return -1;
 	}
 	server = payload->servers->data;
+	payload->servers = payload->servers->next;
 
 	/* regenerate a new fileurl */
 	FREE(payload->fileurl);
@@ -423,6 +496,7 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 					_alpm_log(handle, ALPM_LOG_ERROR,
 							_("failed retrieving file '%s' from %s : %s\n"),
 							payload->remote_name, hostname, payload->error_buffer);
+					server_soft_error(handle, payload->fileurl);
 				}
 				if(curl_retry_next_server(curlm, curl, payload) == 0) {
 					return 2;
@@ -440,6 +514,7 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 				_alpm_log(handle, ALPM_LOG_ERROR,
 						_("failed retrieving file '%s' from %s : expected download size exceeded\n"),
 						payload->remote_name, hostname);
+				server_soft_error(handle, payload->fileurl);
 			}
 			goto cleanup;
 		case CURLE_COULDNT_RESOLVE_HOST:
@@ -448,6 +523,7 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 			_alpm_log(handle, ALPM_LOG_ERROR,
 					_("failed retrieving file '%s' from %s : %s\n"),
 					payload->remote_name, hostname, payload->error_buffer);
+			server_hard_error(handle, payload->fileurl);
 			if(curl_retry_next_server(curlm, curl, payload) == 0) {
 				return 2;
 			} else {
@@ -463,6 +539,7 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 				_alpm_log(handle, ALPM_LOG_ERROR,
 						_("failed retrieving file '%s' from %s : %s\n"),
 						payload->remote_name, hostname, payload->error_buffer);
+				server_soft_error(handle, payload->fileurl);
 			} else {
 				_alpm_log(handle, ALPM_LOG_DEBUG,
 						"failed retrieving file '%s' from %s : %s\n",
@@ -632,11 +709,15 @@ static int curl_add_payload(alpm_handle_t *handle, CURLM *curlm,
 		ASSERT(!payload->filepath, GOTO_ERR(handle, ALPM_ERR_WRONG_ARGS, cleanup));
 	} else {
 		const char *server;
+		while(payload->servers && should_skip_server(handle, payload->servers->data)) {
+			payload->servers = payload->servers->next;
+		}
 
 		ASSERT(payload->servers, GOTO_ERR(handle, ALPM_ERR_SERVER_NONE, cleanup));
 		ASSERT(payload->filepath, GOTO_ERR(handle, ALPM_ERR_WRONG_ARGS, cleanup));
 
 		server = payload->servers->data;
+		payload->servers = payload->servers->next;
 
 		len = strlen(server) + strlen(payload->filepath) + 2;
 		MALLOC(payload->fileurl, len, GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
