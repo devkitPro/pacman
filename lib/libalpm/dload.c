@@ -456,7 +456,7 @@ static int curl_retry_next_server(CURLM *curlm, CURL *curl, struct dload_payload
  * Returns -2 if an error happened for an optional file
  */
 static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
-		const char *localpath)
+		const char *localpath, int *active_downloads_num)
 {
 	alpm_handle_t *handle = NULL;
 	struct dload_payload *payload = NULL;
@@ -499,6 +499,7 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 					server_soft_error(handle, payload->fileurl);
 				}
 				if(curl_retry_next_server(curlm, curl, payload) == 0) {
+					(*active_downloads_num)++;
 					return 2;
 				} else {
 					goto cleanup;
@@ -525,6 +526,7 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 					payload->remote_name, hostname, payload->error_buffer);
 			server_hard_error(handle, payload->fileurl);
 			if(curl_retry_next_server(curlm, curl, payload) == 0) {
+				(*active_downloads_num)++;
 				return 2;
 			} else {
 				goto cleanup;
@@ -546,6 +548,7 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 						payload->remote_name, hostname, payload->error_buffer);
 			}
 			if(curl_retry_next_server(curlm, curl, payload) == 0) {
+				(*active_downloads_num)++;
 				return 2;
 			} else {
 				goto cleanup;
@@ -613,6 +616,7 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 		sig->max_size = 16 * 1024;
 
 		curl_add_payload(handle, curlm, sig, localpath);
+		(*active_downloads_num)++;
 	}
 
 	/* time condition was met and we didn't download anything. we need to
@@ -789,12 +793,11 @@ static int curl_download_internal(alpm_handle_t *handle,
 		const char *localpath)
 {
 	int active_downloads_num = 0;
-	bool recheck_downloads = false;
 	int err = 0;
 	int max_streams = handle->parallel_downloads;
 	CURLM *curlm = handle->curlm;
 
-	while(active_downloads_num > 0 || payloads || recheck_downloads) {
+	while(active_downloads_num > 0 || payloads) {
 		CURLMcode mc;
 
 		for(; active_downloads_num < max_streams && payloads; active_downloads_num++) {
@@ -828,7 +831,6 @@ static int curl_download_internal(alpm_handle_t *handle,
 			err = -1;
 		}
 
-		recheck_downloads = false;
 		while(true) {
 			int msgs_left = 0;
 			CURLMsg *msg = curl_multi_info_read(curlm, &msgs_left);
@@ -836,7 +838,8 @@ static int curl_download_internal(alpm_handle_t *handle,
 				break;
 			}
 			if(msg->msg == CURLMSG_DONE) {
-				int ret = curl_check_finished_download(curlm, msg, localpath);
+				int ret = curl_check_finished_download(curlm, msg,
+						localpath, &active_downloads_num);
 				if(ret == -1) {
 					/* if current payload failed to download then stop adding new payloads but wait for the
 					 * current ones
@@ -844,11 +847,6 @@ static int curl_download_internal(alpm_handle_t *handle,
 					payloads = NULL;
 					err = -1;
 				}
-				/* curl_multi_check_finished_download() might add more payloads e.g. in case of a retry
-				 * from the next mirror. We need to execute curl_multi_perform() at least one more time
-				 * to make sure new payload requests are processed.
-				 */
-				recheck_downloads = true;
 			} else {
 				_alpm_log(handle, ALPM_LOG_ERROR, _("curl transfer error: %d\n"), msg->msg);
 			}
