@@ -58,7 +58,7 @@ get_filename() {
 
 	# if a filename is specified, use it
 	if [[ $netfile = *::* ]]; then
-		printf "%s\n" ${netfile%%::*}
+		printf "%s\n" "${netfile%%::*}"
 		return
 	fi
 
