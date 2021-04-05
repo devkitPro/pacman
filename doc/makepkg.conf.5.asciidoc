@@ -278,6 +278,14 @@ Options
 	`.tar.lzo`, `.tar.lrz`, `.tar.lz4`, `.tar.lz` and `.tar.Z`, or
 	simply `.tar` to disable compression entirely.
 
+**PACMAN_AUTH=()**::
+	Specify a command prefix for running pacman as root. If unset, makepkg will
+	check for the presence of sudo(8) and su(1) in turn, and try the first one
+	it finds.
+	+
+	If present, `%c` will be replaced with the shell-quoted form of the command
+	to run. Otherwise, the command to run is appended to the auth command.
+
 
 
 See Also

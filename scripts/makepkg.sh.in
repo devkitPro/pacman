@@ -225,15 +225,22 @@ missing_source_file() {
 }
 
 run_pacman() {
-	local cmd
+	local cmd cmdescape
 	if [[ $1 = -@(T|Q)*([[:alpha:]]) ]]; then
 		cmd=("$PACMAN_PATH" "$@")
 	else
 		cmd=("$PACMAN_PATH" "${PACMAN_OPTS[@]}" "$@")
-		if type -p sudo >/dev/null; then
+		cmdescape="$(printf '%q ' "${cmd[@]}")"
+		if (( ${#PACMAN_AUTH[@]} )); then
+			if in_array '%c' "${PACMAN_AUTH[@]}"; then
+				cmd=("${PACMAN_AUTH[@]/\%c/$cmdescape}")
+			else
+				cmd=("${PACMAN_AUTH[@]}" "${cmd[@]}")
+			fi
+		elif type -p sudo >/dev/null; then
 			cmd=(sudo "${cmd[@]}")
 		else
-			cmd=(su root -c "$(printf '%q ' "${cmd[@]}")")
+			cmd=(su root -c "$cmdescape")
 		fi
 		local lockfile="$(pacman-conf DBPath)/db.lck"
 		while [[ -f $lockfile ]]; do
