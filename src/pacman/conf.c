@@ -31,6 +31,7 @@
 #include <sys/utsname.h> /* uname */
 #include <sys/wait.h>
 #include <unistd.h>
+#include <signal.h>
 
 /* pacman */
 #include "conf.h"

@@ -33,6 +33,7 @@
 #include <sys/socket.h>
 #include <fnmatch.h>
 #include <poll.h>
+#include <signal.h>
 
 /* libarchive */
 #include <archive.h>
