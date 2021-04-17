@@ -146,7 +146,9 @@ foreach sym : [
     'tcflush',
   ]
   have = cc.has_function(sym, args : '-D_GNU_SOURCE')
-  conf.set10('HAVE_' + sym.to_upper(), have)
+  if have
+    conf.set10('HAVE_' + sym.to_upper(), have)
+  endif
 endforeach
 
 foreach member : [
