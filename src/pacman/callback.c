@@ -340,7 +340,8 @@ void cb_event(alpm_event_t *event)
 			on_progress = 1;
 			list_total_pkgs = event->pkg_retrieve.num;
 			list_total = event->pkg_retrieve.total_size;
-			total_enabled = config->totaldownload && list_total && dload_progressbar_enabled();
+			total_enabled = list_total && dload_progressbar_enabled();
+
 			if(total_enabled) {
 				init_total_progressbar();
 			}

@@ -605,9 +605,6 @@ static int _parse_options(const char *key, char *value,
 		} else if(strcmp(key, "VerbosePkgLists") == 0) {
 			config->verbosepkglists = 1;
 			pm_printf(ALPM_LOG_DEBUG, "config: verbosepkglists\n");
-		} else if(strcmp(key, "TotalDownload") == 0) {
-			config->totaldownload = 1;
-			pm_printf(ALPM_LOG_DEBUG, "config: totaldownload\n");
 		} else if(strcmp(key, "CheckSpace") == 0) {
 			config->checkspace = 1;
 		} else if(strcmp(key, "Color") == 0) {

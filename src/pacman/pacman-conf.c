@@ -263,7 +263,6 @@ static void dump_config(void)
 
 	show_bool("UseSyslog", config->usesyslog);
 	show_bool("Color", config->color);
-	show_bool("TotalDownload", config->totaldownload);
 	show_bool("CheckSpace", config->checkspace);
 	show_bool("VerbosePkgLists", config->verbosepkglists);
 	show_bool("DisableDownloadTimeout", config->disable_dl_timeout);
@@ -372,8 +371,6 @@ static int list_directives(void)
 			show_bool("UseSyslog", config->usesyslog);
 		} else if(strcasecmp(i->data, "Color") == 0) {
 			show_bool("Color", config->color);
-		} else if(strcasecmp(i->data, "TotalDownload") == 0) {
-			show_bool("TotalDownload", config->totaldownload);
 		} else if(strcasecmp(i->data, "CheckSpace") == 0) {
 			show_bool("CheckSpace", config->checkspace);
 		} else if(strcasecmp(i->data, "VerbosePkgLists") == 0) {

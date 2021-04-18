@@ -113,9 +113,6 @@ typedef struct __config_t {
 	unsigned short chomp;
 	/* format target pkg lists as table */
 	unsigned short verbosepkglists;
-	/* When downloading, display the amount downloaded, rate, ETA, and percent
-	 * downloaded of the total download list */
-	unsigned short totaldownload;
 	/* number of parallel download streams */
 	unsigned int parallel_downloads;
 	/* select -Sc behavior */
