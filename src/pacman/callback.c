@@ -878,9 +878,9 @@ static void draw_pacman_progress_bar(struct pacman_progress_bar *bar)
 static void dload_init_event(const char *filename, alpm_download_event_init_t *data)
 {
 	(void)data;
+	char *cleaned_filename = clean_filename(filename);
 
 	if(!dload_progressbar_enabled()) {
-		char *cleaned_filename = clean_filename(filename);
 		printf(_(" %s downloading...\n"), cleaned_filename);
 		free(cleaned_filename);
 		return;
@@ -894,7 +894,7 @@ static void dload_init_event(const char *filename, alpm_download_event_init_t *d
 	multibar_ui.active_downloads = alpm_list_add(multibar_ui.active_downloads, bar);
 
 	console_cursor_move_end();
-	printf(_(" %s downloading...\n"), filename);
+	printf(" %s\n", cleaned_filename);
 	multibar_ui.cursor_lineno++;
 	multibar_ui.active_downloads_num++;
 
