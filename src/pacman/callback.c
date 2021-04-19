@@ -811,12 +811,8 @@ static void draw_pacman_progress_bar(struct pacman_progress_bar *bar)
 
 	/* 1 space + filenamelen + 1 space + 6 for size + 1 space + 3 for label +
 	 * + 2 spaces + 4 for rate + 1 space + 3 for label + 2 for /s + 1 space +
-	 * 8 for eta, gives us the magic 33 */
-	filenamelen = infolen - 33;
-	/* see printf() code, we omit 'HH:' in these conditions */
-	if(eta_h == 0 || eta_h >= 100) {
-		filenamelen += 3;
-	}
+	 * 5 for eta, gives us the magic 30 */
+	filenamelen = infolen - 30;
 
 	/* In order to deal with characters from all locales, we have to worry
 	 * about wide characters and their column widths. A lot of stuff is
@@ -860,8 +856,8 @@ static void draw_pacman_progress_bar(struct pacman_progress_bar *bar)
 	}
 	if(eta_h == 0) {
 		printf("%02u:%02u", eta_m, eta_s);
-	} else if(eta_h < 100) {
-		printf("%02u:%02u:%02u", eta_h, eta_m, eta_s);
+	} else if(eta_h == 1 && eta_m < 40) {
+		printf("%02u:%02u", eta_m + 60, eta_s);
 	} else {
 		fputs("--:--", stdout);
 	}
