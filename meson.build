@@ -321,6 +321,7 @@ libalpm = library(
   'alpm',
   version : libalpm_version,
   objects: libalpm_a.extract_all_objects(recursive: true),
+  include_directories : includes,
   dependencies : alpm_deps,
   install : true)
 
