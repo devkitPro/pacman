@@ -340,7 +340,7 @@ void cb_event(alpm_event_t *event)
 			on_progress = 1;
 			list_total_pkgs = event->pkg_retrieve.num;
 			list_total = event->pkg_retrieve.total_size;
-			total_enabled = config->totaldownload && list_total;
+			total_enabled = config->totaldownload && list_total && dload_progressbar_enabled();
 			if(total_enabled) {
 				init_total_progressbar();
 			}
@@ -405,9 +405,10 @@ void cb_event(alpm_event_t *event)
 		case ALPM_EVENT_PKG_RETRIEVE_DONE:
 		case ALPM_EVENT_PKG_RETRIEVE_FAILED:
 			console_cursor_move_end();
-			if(total_enabled && dload_progressbar_enabled()) {
+			if(total_enabled) {
 				update_bar_finalstats(totalbar);
 				draw_pacman_progress_bar(totalbar);
+				free(totalbar);
 				printf("\n");
 			}
 			total_enabled = 0;
