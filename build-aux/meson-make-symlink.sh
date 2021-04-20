@@ -5,8 +5,6 @@ set -eu
 # and we need to create the target directory...
 
 mkdir -vp "$(dirname "${DESTDIR:-}$2")"
-if [ "$(dirname $1)" = . ]; then
-        ln -vfs -T "$1" "${DESTDIR:-}$2"
-else
-        ln -vfs -T --relative "${DESTDIR:-}$1" "${DESTDIR:-}$2"
-fi
+
+rm -f "${DESTDIR:-}$2"
+ln -vs "$1" "${DESTDIR:-}$2"
