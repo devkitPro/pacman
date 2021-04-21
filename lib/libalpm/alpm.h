@@ -2016,25 +2016,37 @@ int alpm_option_remove_assumeinstalled(alpm_handle_t *handle, const alpm_depend_
 /** @} */
 
 
-/** @name Accessors for the configured architecture
- *
- * libalpm will only install packages that match the configured architecture.
- * The architecture does not need to match the physical architecture.
- * It can just be treated as a label.
+/** @name Accessors to the list of allowed architectures.
+ * libalpm will only install packages that match one of the configured
+ * architectures. The architectures do not need to match the physical
+   architecture. They can just be treated as a label.
  * @{
  */
 
 /** Returns the allowed package architecture.
  * @param handle the context handle
- * @return the configured package architecture
+ * @return the configured package architectures
  */
-const char *alpm_option_get_arch(alpm_handle_t *handle);
+alpm_list_t *alpm_option_get_architectures(alpm_handle_t *handle);
 
-/** Sets the allowed package architecture.
+/** Adds an allowed package architecture.
  * @param handle the context handle
  * @param arch the architecture to set
  */
-int alpm_option_set_arch(alpm_handle_t *handle, const char *arch);
+int alpm_option_add_architecture(alpm_handle_t *handle, const char *arch);
+
+/** Sets the allowed package architecture.
+ * @param handle the context handle
+ * @param arches the architecture to set
+ */
+int alpm_option_set_architectures(alpm_handle_t *handle, alpm_list_t *arches);
+
+/** Removes an allowed package architecture.
+ * @param handle the context handle
+ * @param arch the architecture to remove
+ */
+int alpm_option_remove_architecture(alpm_handle_t *handle, const char *arch);
+
 /* End of arch accessors */
 /** @} */
 

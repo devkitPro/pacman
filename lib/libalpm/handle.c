@@ -77,7 +77,7 @@ void _alpm_handle_free(alpm_handle_t *handle)
 	FREELIST(handle->hookdirs);
 	FREE(handle->logfile);
 	FREE(handle->lockfile);
-	FREE(handle->arch);
+	FREELIST(handle->architectures);
 	FREE(handle->gpgdir);
 	FREELIST(handle->noupgrade);
 	FREELIST(handle->noextract);
@@ -276,10 +276,10 @@ alpm_list_t SYMEXPORT *alpm_option_get_assumeinstalled(alpm_handle_t *handle)
 	return handle->assumeinstalled;
 }
 
-const char SYMEXPORT *alpm_option_get_arch(alpm_handle_t *handle)
+alpm_list_t SYMEXPORT *alpm_option_get_architectures(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
-	return handle->arch;
+	return handle->architectures;
 }
 
 int SYMEXPORT alpm_option_get_checkspace(alpm_handle_t *handle)
@@ -720,11 +720,29 @@ int SYMEXPORT alpm_option_remove_assumeinstalled(alpm_handle_t *handle, const al
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_arch(alpm_handle_t *handle, const char *arch)
+int SYMEXPORT alpm_option_add_architecture(alpm_handle_t *handle, const char *arch)
+{
+	handle->architectures = alpm_list_add(handle->architectures, strdup(arch));
+	return 0;
+}
+
+int SYMEXPORT alpm_option_set_architectures(alpm_handle_t *handle, alpm_list_t *arches)
 {
 	CHECK_HANDLE(handle, return -1);
-	if(handle->arch) FREE(handle->arch);
-	STRDUP(handle->arch, arch, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+	if(handle->architectures) FREELIST(handle->architectures);
+	handle->architectures = alpm_list_strdup(arches);
+	return 0;
+}
+
+int SYMEXPORT alpm_option_remove_architecture(alpm_handle_t *handle, const char *arch)
+{
+	char *vdata = NULL;
+	CHECK_HANDLE(handle, return -1);
+	handle->architectures = alpm_list_remove_str(handle->architectures, arch, &vdata);
+	if(vdata != NULL) {
+		FREE(vdata);
+		return 1;
+	}
 	return 0;
 }
 

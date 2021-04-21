@@ -96,7 +96,7 @@ struct __alpm_handle_t {
 	alpm_list_t *assumeinstalled;   /* List of virtual packages used to satisfy dependencies */
 
 	/* options */
-	char *arch;              /* Architecture of packages we should allow */
+	alpm_list_t *architectures; /* Architectures of packages we should allow */
 	int usesyslog;           /* Use syslog instead of logfile? */ /* TODO move to frontend */
 	int checkspace;          /* Check disk space before installing */
 	char *dbext;             /* Sync DB extension */

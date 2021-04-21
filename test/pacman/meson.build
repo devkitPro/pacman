@@ -85,6 +85,8 @@ pacman_tests = [
   'tests/mode001.py',
   'tests/mode002.py',
   'tests/mode003.py',
+  'tests/multiple-architectures01.py',
+  'tests/multiple-architectures02.py',
   'tests/noupgrade-inverted.py',
   'tests/overwrite-files-match-negated.py',
   'tests/overwrite-files-match.py',

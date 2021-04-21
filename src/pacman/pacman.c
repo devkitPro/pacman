@@ -377,7 +377,7 @@ static int parsearg_global(int opt)
 {
 	switch(opt) {
 		case OP_ARCH:
-			config_set_arch(optarg);
+			config_add_architecture(strdup(optarg));
 			break;
 		case OP_ASK:
 			config->noask = 1;

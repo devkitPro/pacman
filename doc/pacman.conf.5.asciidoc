@@ -113,9 +113,9 @@ Options
 	general configuration options. Wildcards in the specified paths will get
 	expanded based on linkman:glob[7] rules.
 
-*Architecture =* auto | i686 | x86_64 | ...::
-	If set, pacman will only allow installation of packages of the given
-	architecture (e.g. 'i686', 'x86_64', etc). The special value 'auto' will
+*Architecture =* auto &| i686 &| x86_64 | ...::
+	If set, pacman will only allow installation of packages with the given
+	architectures (e.g. 'i686', 'x86_64', etc). The special value 'auto' will
 	use the system architecture, provided via ``uname -m''. If unset, no
 	architecture checks are made. *NOTE*: Packages with the special
 	architecture 'any' can always be installed, as they are meant to be
@@ -252,8 +252,8 @@ number.
 During parsing, pacman will define the `$repo` variable to the name of the
 current section. This is often utilized in files specified using the 'Include'
 directive so all repositories can use the same mirrorfile. pacman also defines
-the `$arch` variable to the value of `Architecture`, so the same mirrorfile can
-even be used for different architectures.
+the `$arch` variable to the first (or only) value of the `Architecture` option,
+so the same mirrorfile can even be used for different architectures.
 
 *SigLevel =* ...::
 	Set the signature verification level for this repository. For more

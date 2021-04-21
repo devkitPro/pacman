@@ -71,14 +71,29 @@ static alpm_list_t *check_arch(alpm_handle_t *handle, alpm_list_t *pkgs)
 	alpm_list_t *i;
 	alpm_list_t *invalid = NULL;
 
-	const char *arch = handle->arch;
-	if(!arch) {
+	if(!handle->architectures) {
+		_alpm_log(handle, ALPM_LOG_DEBUG, "skipping architecture checks\n");
 		return NULL;
 	}
 	for(i = pkgs; i; i = i->next) {
 		alpm_pkg_t *pkg = i->data;
+		alpm_list_t *j;
+		int found = 0;
 		const char *pkgarch = alpm_pkg_get_arch(pkg);
-		if(pkgarch && strcmp(pkgarch, arch) && strcmp(pkgarch, "any")) {
+
+		/* always allow non-architecture packages and those marked "any" */
+		if(!pkgarch || strcmp(pkgarch, "any") == 0) {
+			continue;
+		}
+
+		for(j = handle->architectures; j; j = j->next) {
+			if(strcmp(pkgarch, j->data) == 0) {
+				found = 1;
+				break;
+			}
+		}
+
+		if(!found) {
 			char *string;
 			const char *pkgname = pkg->name;
 			const char *pkgver = pkg->version;

@@ -57,7 +57,6 @@ typedef struct __config_t {
 	unsigned short usesyslog;
 	unsigned short color;
 	unsigned short disable_dl_timeout;
-	char *arch;
 	char *print_format;
 	/* unfortunately, we have to keep track of paths both here and in the library
 	 * because they can come from both the command line or config file, and we
@@ -70,6 +69,7 @@ typedef struct __config_t {
 	char *sysroot;
 	alpm_list_t *hookdirs;
 	alpm_list_t *cachedirs;
+	alpm_list_t *architectures;
 
 	unsigned short op_q_isfile;
 	unsigned short op_q_info;
@@ -244,7 +244,7 @@ int config_free(config_t *oldconfig);
 
 void config_repo_free(config_repo_t *repo);
 
-int config_set_arch(const char *arch);
+int config_add_architecture(char *arch);
 int parseconfig(const char *file);
 int parseconfigfile(const char *file);
 int setdefaults(config_t *c);

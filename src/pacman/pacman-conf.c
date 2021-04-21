@@ -258,7 +258,7 @@ static void dump_config(void)
 	show_list_str("NoUpgrade", config->noupgrade);
 	show_list_str("NoExtract", config->noextract);
 
-	show_str("Architecture", config->arch);
+	show_list_str("Architecture", config->architectures);
 	show_str("XferCommand", config->xfercommand);
 
 	show_bool("UseSyslog", config->usesyslog);
@@ -364,7 +364,7 @@ static int list_directives(void)
 
 
 		} else if(strcasecmp(i->data, "Architecture") == 0) {
-			show_str("Architecture", config->arch);
+			show_list_str("Architecture", config->architectures);
 		} else if(strcasecmp(i->data, "XferCommand") == 0) {
 			show_str("XferCommand", config->xfercommand);
 

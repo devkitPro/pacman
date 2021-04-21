@@ -159,7 +159,7 @@ int config_free(config_t *oldconfig)
 	FREELIST(oldconfig->cachedirs);
 	free(oldconfig->xfercommand);
 	free(oldconfig->print_format);
-	free(oldconfig->arch);
+	FREELIST(oldconfig->architectures);
 	wordsplit_free(oldconfig->xfercommand_argv);
 	free(oldconfig);
 
@@ -394,16 +394,19 @@ cleanup:
 }
 
 
-int config_set_arch(const char *arch)
+int config_add_architecture(char *arch)
 {
 	if(strcmp(arch, "auto") == 0) {
 		struct utsname un;
+		char *newarch;
 		uname(&un);
-		config->arch = strdup(un.machine);
-	} else {
-		config->arch = strdup(arch);
+		newarch = strdup(un.machine);
+		free(arch);
+		arch = newarch;
 	}
-	pm_printf(ALPM_LOG_DEBUG, "config: arch: %s\n", config->arch);
+
+	pm_printf(ALPM_LOG_DEBUG, "config: arch: %s\n", arch);
+	config->architectures = alpm_list_add(config->architectures, arch);
 	return 0;
 }
 
@@ -638,9 +641,12 @@ static int _parse_options(const char *key, char *value,
 		} else if(strcmp(key, "HookDir") == 0) {
 			setrepeatingoption(value, "HookDir", &(config->hookdirs));
 		} else if(strcmp(key, "Architecture") == 0) {
-			if(!config->arch) {
-				config_set_arch(value);
+			alpm_list_t *i, *arches = NULL;
+			setrepeatingoption(value, "Architecture", &arches);
+			for(i = arches; i; i = alpm_list_next(i)) {
+				config_add_architecture(i->data);
 			}
+			alpm_list_free(arches);
 		} else if(strcmp(key, "DBPath") == 0) {
 			/* don't overwrite a path specified on the command line */
 			if(!config->dbpath) {
@@ -751,17 +757,20 @@ static int _parse_options(const char *key, char *value,
 
 static char *replace_server_vars(config_t *c, config_repo_t *r, const char *s)
 {
-	if(c->arch == NULL && strstr(s, "$arch")) {
+	if(c->architectures == NULL && strstr(s, "$arch")) {
 		pm_printf(ALPM_LOG_ERROR,
 				_("mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"),
 				s, "$arch", "Architecture");
 		return NULL;
 	}
 
-	if(c->arch) {
+	/* use first specified architecture */
+	if(c->architectures) {
 		char *temp, *replaced;
+		alpm_list_t *i = config->architectures;
+		const char *arch = i->data;
 
-		replaced = strreplace(s, "$arch", c->arch);
+		replaced = strreplace(s, "$arch", arch);
 
 		temp = replaced;
 		replaced = strreplace(temp, "$repo", r->name);
@@ -893,7 +902,7 @@ static int setup_libalpm(void)
 		pm_printf(ALPM_LOG_WARNING, _("no '%s' configured\n"), "XferCommand");
 	}
 
-	alpm_option_set_arch(handle, config->arch);
+	alpm_option_set_architectures(handle, config->architectures);
 	alpm_option_set_checkspace(handle, config->checkspace);
 	alpm_option_set_usesyslog(handle, config->usesyslog);
 
