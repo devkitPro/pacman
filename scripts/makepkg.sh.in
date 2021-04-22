@@ -651,6 +651,8 @@ write_buildinfo() {
 	write_kv_pair "builddate" "${SOURCE_DATE_EPOCH}"
 	write_kv_pair "builddir"  "${BUILDDIR}"
 	write_kv_pair "startdir"  "${startdir}"
+	write_kv_pair "buildtool" "${BUILDTOOL:-makepkg}"
+	write_kv_pair "buildtoolver" "${BUILDTOOLVER:-$makepkg_version}"
 	write_kv_pair "buildenv" "${BUILDENV[@]}"
 	write_kv_pair "options" "${OPTIONS[@]}"
 
