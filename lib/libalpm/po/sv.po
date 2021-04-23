@@ -5,17 +5,18 @@
 # Translators:
 # , 2011
 # 0x9fff00 ​, 2019
-# 0x9fff00 ​, 2019
+# 0x9fff00, 2019
 # Daniel Sandman <revoltism@gmail.com>, 2013,2015
 # Johan R. <jreinhed@protonmail.com>, 2019
 # Kim Svensson <ks@linux.com>, 2015
+# Luna Jernberg <bittin@cafe8bitar.se>, 2020
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2019-10-21 17:23+1000\n"
-"PO-Revision-Date: 2019-10-07 08:12+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2021-04-23 10:36+1000\n"
+"PO-Revision-Date: 2020-10-09 08:25+0000\n"
+"Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/sv/)\n"
 "Language: sv\n"
@@ -24,17 +25,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/libalpm/add.c:91 lib/libalpm/sync.c:290
+#: lib/libalpm/add.c:90 lib/libalpm/sync.c:279
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
 msgstr "%s-%s är senaste versionen -- hoppar över\n"
 
-#: lib/libalpm/add.c:95
+#: lib/libalpm/add.c:94
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
 msgstr "%s-%s är senaste versionen -- återinstallerar\n"
 
-#: lib/libalpm/add.c:100
+#: lib/libalpm/add.c:99
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
 msgstr "nedgraderar paketet %s (%s => %s)\n"
@@ -44,17 +45,17 @@ msgstr "nedgraderar paketet %s (%s => %s)\n"
 msgid "cannot allocate disk archive object"
 msgstr "kan inte allokera diskarkivobjekt"
 
-#: lib/libalpm/add.c:143 lib/libalpm/util.c:382
+#: lib/libalpm/add.c:143 lib/libalpm/util.c:384
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
 msgstr "varning given vid extrahering av %s (%s)\n"
 
-#: lib/libalpm/add.c:146 lib/libalpm/util.c:385
+#: lib/libalpm/add.c:146 lib/libalpm/util.c:387
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "kunde inte extrahera %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:574 lib/libalpm/remove.c:542
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:659 lib/libalpm/remove.c:534
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "kunde inte döpa om %s till %s (%s)\n"
@@ -97,137 +98,137 @@ msgstr "extrahera: ersätter ej katalog med fil %s\n"
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "kunde inte extrahera %s.pacnew: sökvägen är för lång"
 
-#: lib/libalpm/add.c:513 lib/libalpm/util.c:334 lib/libalpm/util.c:592
+#: lib/libalpm/add.c:510 lib/libalpm/util.c:335 lib/libalpm/util.c:600
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "kunde inte hitta nuvarande sökväg\n"
 
-#: lib/libalpm/add.c:518 lib/libalpm/util.c:339 lib/libalpm/util.c:597
-#: lib/libalpm/util.c:650
+#: lib/libalpm/add.c:515 lib/libalpm/util.c:340 lib/libalpm/util.c:605
+#: lib/libalpm/util.c:658
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "kunde inte byta katalog till %s (%s)\n"
 
-#: lib/libalpm/add.c:575 lib/libalpm/util.c:403 lib/libalpm/util.c:766
+#: lib/libalpm/add.c:571 lib/libalpm/util.c:405 lib/libalpm/util.c:774
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "kunde ej återställa arbetskatalogen (%s)\n"
 
-#: lib/libalpm/add.c:583
+#: lib/libalpm/add.c:579
 #, c-format
 msgid "problem occurred while upgrading %s\n"
 msgstr "problem uppstod under uppgradering av %s\n"
 
-#: lib/libalpm/add.c:589
+#: lib/libalpm/add.c:585
 #, c-format
 msgid "problem occurred while installing %s\n"
 msgstr "problem uppstod under installation av %s\n"
 
-#: lib/libalpm/add.c:604
+#: lib/libalpm/add.c:600
 #, c-format
 msgid "could not update database entry %s-%s\n"
 msgstr "kunde inte uppdatera databasinlägget %s-%s\n"
 
-#: lib/libalpm/add.c:615
+#: lib/libalpm/add.c:610
 #, c-format
 msgid "could not add entry '%s' in cache\n"
 msgstr "kunde inte lägga till '%s' i cachen\n"
 
-#: lib/libalpm/be_local.c:267
+#: lib/libalpm/be_local.c:266
 #, c-format
 msgid "error while reading file %s: %s\n"
 msgstr "fel vid läsning av fil %s: %s⏎\n"
 
-#: lib/libalpm/be_local.c:364
+#: lib/libalpm/be_local.c:376
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "tar bort ogiltig databas: %s\n"
 
-#: lib/libalpm/be_local.c:415 lib/libalpm/be_local.c:905
+#: lib/libalpm/be_local.c:427 lib/libalpm/be_local.c:909
 #, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "kunde inte skapa katalogen %s: %s\n"
 
-#: lib/libalpm/be_local.c:590 lib/libalpm/be_sync.c:386
+#: lib/libalpm/be_local.c:602 lib/libalpm/be_sync.c:322
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "ogiltigt namn för databasinlägget '%s'\n"
 
-#: lib/libalpm/be_local.c:598
+#: lib/libalpm/be_local.c:610
 #, c-format
 msgid "duplicated database entry '%s'\n"
 msgstr "duplicerat databasinlägg '%s'\n"
 
-#: lib/libalpm/be_local.c:610
+#: lib/libalpm/be_local.c:622
 #, c-format
 msgid "corrupted database entry '%s'\n"
 msgstr "korrupt databasinlägg '%s'\n"
 
-#: lib/libalpm/be_local.c:713 lib/libalpm/be_local.c:809
-#: lib/libalpm/be_local.c:954 lib/libalpm/be_local.c:1051
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:422 lib/libalpm/util.c:253
-#: lib/libalpm/util.c:269
+#: lib/libalpm/be_local.c:722 lib/libalpm/be_local.c:818
+#: lib/libalpm/be_local.c:958 lib/libalpm/be_local.c:1055
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:770 lib/libalpm/util.c:254
+#: lib/libalpm/util.c:270
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "kunde inte öppna filen %s: %s\n"
 
-#: lib/libalpm/be_local.c:729 lib/libalpm/be_sync.c:650
+#: lib/libalpm/be_local.c:738 lib/libalpm/be_sync.c:582
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
 msgstr "%s databasen är inkonsekvent: ej matchande namn på paketet %s\n"
 
-#: lib/libalpm/be_local.c:735 lib/libalpm/be_sync.c:656
+#: lib/libalpm/be_local.c:744 lib/libalpm/be_sync.c:588
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "%s databasen är inkonsekvent: ej matchande version på paketet %s\n"
 
-#: lib/libalpm/be_local.c:776
+#: lib/libalpm/be_local.c:785
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
 msgstr "Okänd valideringstyp för packet %s: %s⏎\n"
 
-#: lib/libalpm/be_package.c:479 lib/libalpm/be_package.c:637
-#: lib/libalpm/be_package.c:650
+#: lib/libalpm/be_package.c:478 lib/libalpm/be_package.c:631
+#: lib/libalpm/be_package.c:643
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "fel vid läsning av paketet %s: %s\n"
 
-#: lib/libalpm/be_package.c:493 lib/libalpm/be_package.c:517
+#: lib/libalpm/be_package.c:491 lib/libalpm/be_package.c:514
 #, c-format
 msgid "error while reading mtree of package %s: %s\n"
 msgstr "fel vid läsning av mtree för paket %s: %s\n"
 
-#: lib/libalpm/be_package.c:603
+#: lib/libalpm/be_package.c:597
 #, c-format
 msgid "could not parse package description file in %s\n"
 msgstr "kunde inte analysera paketbeskrivningen i %s\n"
 
-#: lib/libalpm/be_package.c:608
+#: lib/libalpm/be_package.c:602
 #, c-format
 msgid "missing package name in %s\n"
 msgstr "saknar paketnamnet för %s\n"
 
-#: lib/libalpm/be_package.c:612
+#: lib/libalpm/be_package.c:606
 #, c-format
 msgid "missing package version in %s\n"
 msgstr "saknar paketversionen för %s\n"
 
-#: lib/libalpm/be_package.c:616
+#: lib/libalpm/be_package.c:610
 #, c-format
 msgid "invalid package version in %s\n"
 msgstr "ogiltig paketversion i %s\n"
 
-#: lib/libalpm/be_package.c:657
+#: lib/libalpm/be_package.c:649
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "saknar metadata för paketet i %s\n"
 
-#: lib/libalpm/be_package.c:750
+#: lib/libalpm/be_package.c:741
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "misslyckades att läsa signaturfil: %s⏎\n"
 
-#: lib/libalpm/be_package.c:779 lib/libalpm/sync.c:953
+#: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:934
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "nödvändig nyckel saknas från nyckelring\n"
@@ -237,34 +238,34 @@ msgstr "nödvändig nyckel saknas från nyckelring\n"
 msgid "removing invalid file: %s\n"
 msgstr "Tar bort ogiltig fil: %s\n"
 
-#: lib/libalpm/be_sync.c:515
+#: lib/libalpm/be_sync.c:449
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "Kunde ej finna paketbeskrivningsfilen '%s' från databasen '%s'\n"
 
-#: lib/libalpm/be_sync.c:522
+#: lib/libalpm/be_sync.c:456
 #, c-format
 msgid "could not read db '%s' (%s)\n"
-msgstr ""
+msgstr "kunde inte läsa db '%s'(%s)\n"
 
-#: lib/libalpm/be_sync.c:556 lib/libalpm/be_sync.c:561
+#: lib/libalpm/be_sync.c:489 lib/libalpm/be_sync.c:494
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
 msgstr ""
 "%s databasen är inkonsekvent: namn på paketet %s är ogiltig⏎\n"
 "\n"
 
-#: lib/libalpm/be_sync.c:566
+#: lib/libalpm/be_sync.c:499
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "%s databasen är inkonsekvent: namn på paketet %s är för långt⏎\n"
 
-#: lib/libalpm/be_sync.c:632
+#: lib/libalpm/be_sync.c:564
 #, c-format
 msgid "unknown database file: %s\n"
 msgstr "okänd databasfil: %s\n"
 
-#: lib/libalpm/db.c:370
+#: lib/libalpm/db.c:338
 #, c-format
 msgid "database path is undefined\n"
 msgstr "sökväg till databasen är odefinierad\n"
@@ -284,12 +285,12 @@ msgstr "%s kommer att tas bort efter dess %s beroende\n"
 msgid "%s will be installed before its %s dependency\n"
 msgstr "%s kommer installeras före dess %s beroende\n"
 
-#: lib/libalpm/deps.c:681 lib/libalpm/deps.c:712
+#: lib/libalpm/deps.c:666 lib/libalpm/deps.c:697
 #, c-format
 msgid "ignoring package %s-%s\n"
 msgstr "ignorerar paketet %s-%s\n"
 
-#: lib/libalpm/deps.c:869
+#: lib/libalpm/deps.c:842
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
 msgstr "kan inte lösa \"%s\", beroende till \"%s\", \n"
@@ -348,27 +349,28 @@ msgstr "kunde ej bestämma rootmonteringspunkt %s\n"
 msgid "Partition %s is mounted read only\n"
 msgstr "Partition %s är monterad utan skrivrättigheter\n"
 
-#: lib/libalpm/dload.c:161
+#: lib/libalpm/dload.c:116
+#, c-format
+msgid ""
+"too many errors from %s, skipping for the remainder of this transaction\n"
+msgstr ""
+
+#: lib/libalpm/dload.c:224
 #, c-format
 msgid "disk"
 msgstr "disk"
 
-#: lib/libalpm/dload.c:348
+#: lib/libalpm/dload.c:396
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "kunde ej skapa temporär fil för nedladdning\n"
 
-#: lib/libalpm/dload.c:393
-#, c-format
-msgid "url '%s' is invalid\n"
-msgstr "url '%s' är ogiltigt\n"
-
-#: lib/libalpm/dload.c:464 lib/libalpm/dload.c:485 lib/libalpm/dload.c:496
+#: lib/libalpm/dload.c:497 lib/libalpm/dload.c:525 lib/libalpm/dload.c:542
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "misslyckades hämta filen '%s' från %s : %s\n"
 
-#: lib/libalpm/dload.c:477
+#: lib/libalpm/dload.c:516
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
@@ -376,15 +378,40 @@ msgstr ""
 "överskreds\n"
 "\n"
 
-#: lib/libalpm/dload.c:532
+#: lib/libalpm/dload.c:637
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s verkar vara trunkerad: %jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:677 lib/libalpm/dload.c:706
+#: lib/libalpm/dload.c:737
 #, c-format
-msgid "failed to download %s\n"
+msgid "url '%s' is invalid\n"
+msgstr "url '%s' är ogiltigt\n"
+
+#: lib/libalpm/dload.c:817
+#, fuzzy, c-format
+msgid "failed to setup a download payload for %s\n"
 msgstr "misslyckades ladda ner %s\n"
+
+#: lib/libalpm/dload.c:829
+#, c-format
+msgid "curl returned error %d from transfer\n"
+msgstr ""
+
+#: lib/libalpm/dload.c:851
+#, c-format
+msgid "curl transfer error: %d\n"
+msgstr ""
+
+#: lib/libalpm/dload.c:969 lib/libalpm/sync.c:821
+#, c-format
+msgid "failed to retrieve some files\n"
+msgstr "misslyckades att hämta några filer⏎\n"
+
+#: lib/libalpm/dload.c:992
+#, c-format
+msgid "download completed successfully but no file in the cache\n"
+msgstr ""
 
 #: lib/libalpm/error.c:40
 #, c-format
@@ -649,19 +676,19 @@ msgstr "fel vid anrop av extern nerladdare"
 #: lib/libalpm/error.c:159
 #, c-format
 msgid "compiled without signature support"
-msgstr ""
+msgstr "kompilerad utan signatur stöd"
 
 #: lib/libalpm/error.c:162
 #, c-format
 msgid "unexpected error"
 msgstr "oväntat fel"
 
-#: lib/libalpm/handle.c:153
+#: lib/libalpm/handle.c:142
 #, c-format
 msgid "lock file missing %s\n"
 msgstr "låsfil saknar %s\n"
 
-#: lib/libalpm/handle.c:159
+#: lib/libalpm/handle.c:148
 #, c-format
 msgid "could not remove lock file %s\n"
 msgstr "kunde inte ta bort låsningsfil %s\n"
@@ -669,71 +696,71 @@ msgstr "kunde inte ta bort låsningsfil %s\n"
 #: lib/libalpm/hook.c:95
 #, c-format
 msgid "Missing trigger targets in hook: %s\n"
-msgstr ""
+msgstr "Saknar trigger mål i krok: %s\n"
 
 #: lib/libalpm/hook.c:101
 #, c-format
 msgid "Missing trigger type in hook: %s\n"
-msgstr ""
+msgstr "Saknar trigger typ i krok: %s\n"
 
 #: lib/libalpm/hook.c:107
 #, c-format
 msgid "Missing trigger operation in hook: %s\n"
-msgstr ""
+msgstr "Saknar trigger operation i krok: %s\n"
 
 #: lib/libalpm/hook.c:134
 #, c-format
 msgid "Missing Exec option in hook: %s\n"
-msgstr ""
+msgstr "Saknar Exec alternativ i krok: %s\n"
 
 #: lib/libalpm/hook.c:140
 #, c-format
 msgid "Missing When option in hook: %s\n"
-msgstr ""
+msgstr "Saknar När alternativet i krok: %s\n"
 
 #: lib/libalpm/hook.c:143
 #, c-format
 msgid "AbortOnFail set for PostTransaction hook: %s\n"
-msgstr ""
+msgstr "AbortOnFail inställt för PostTransaction-krok: %s\n"
 
 #: lib/libalpm/hook.c:160
 #, c-format
 msgid "error while reading hook %s: %s\n"
-msgstr ""
+msgstr "fel vid läsning av krok %s:%s\n"
 
 #: lib/libalpm/hook.c:162 lib/libalpm/hook.c:206 lib/libalpm/hook.c:248
 #, c-format
 msgid "hook %s line %d: invalid option %s\n"
-msgstr ""
+msgstr "krok %s rad %d: ogiltigt alternativ%s\n"
 
 #: lib/libalpm/hook.c:172
 #, c-format
 msgid "hook %s line %d: invalid section %s\n"
-msgstr ""
+msgstr "krok %srad %d: ogiltig sektion %s\n"
 
 #: lib/libalpm/hook.c:184 lib/libalpm/hook.c:199 lib/libalpm/hook.c:218
 #: lib/libalpm/hook.c:241
 #, c-format
 msgid "hook %s line %d: invalid value %s\n"
-msgstr ""
+msgstr "krok %s rad %d: ogiltigt värde %s\n"
 
 #: lib/libalpm/hook.c:188 lib/libalpm/hook.c:211 lib/libalpm/hook.c:222
 #: lib/libalpm/hook.c:236
 #, c-format
 msgid "hook %s line %d: overwriting previous definition of %s\n"
-msgstr ""
+msgstr "krok %s rad %d: skriv över tidigare definition av%s\n"
 
 #: lib/libalpm/hook.c:243
 #, c-format
 msgid "hook %s line %d: unable to set option (%s)\n"
-msgstr ""
+msgstr "krok %s rad %d: kunde inte ställa in alternativ (%s)\n"
 
 #: lib/libalpm/hook.c:513
 #, c-format
 msgid "unable to run hook %s: %s\n"
-msgstr ""
+msgstr "kunde inte köra krok %s:%s\n"
 
-#: lib/libalpm/hook.c:547 lib/libalpm/hook.c:559 lib/libalpm/remove.c:386
+#: lib/libalpm/hook.c:547 lib/libalpm/hook.c:559 lib/libalpm/remove.c:378
 #, c-format
 msgid "could not open directory: %s: %s\n"
 msgstr ""
@@ -745,7 +772,7 @@ msgstr ""
 msgid "could not open file: %s%s: %s\n"
 msgstr "kunde inte öppna fil: %s%s: %s\n"
 
-#: lib/libalpm/hook.c:595 lib/libalpm/util.c:259
+#: lib/libalpm/hook.c:595 lib/libalpm/util.c:260
 #, c-format
 msgid "could not stat file %s: %s\n"
 msgstr ""
@@ -757,279 +784,274 @@ msgstr ""
 msgid "could not read directory: %s: %s\n"
 msgstr "kunde inte läsa katalog: %s: %s\n"
 
-#: lib/libalpm/package.c:578
+#: lib/libalpm/package.c:598
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
 msgstr "kunde ej ladda metadata för paket %s-%s fullständigt\n"
 
-#: lib/libalpm/remove.c:119
+#: lib/libalpm/remove.c:111
 #, c-format
 msgid "could not find %s in database -- skipping\n"
 msgstr "kunde inte hitta %s i databasen -- hoppar över\n"
 
-#: lib/libalpm/remove.c:154
+#: lib/libalpm/remove.c:146
 #, c-format
 msgid "removing %s from target list\n"
 msgstr "tar bort %s från mållistan\n"
 
-#: lib/libalpm/remove.c:346
+#: lib/libalpm/remove.c:338
 #, c-format
 msgid "cannot remove file '%s': %s\n"
 msgstr "kan inte ta bort '%s': %s\n"
 
-#: lib/libalpm/remove.c:411 lib/libalpm/remove.c:420
+#: lib/libalpm/remove.c:403 lib/libalpm/remove.c:412
 #, c-format
 msgid "could not backup %s due to PATH_MAX overflow\n"
-msgstr ""
+msgstr "kunde inte säkerhetskopiera %s på grund av PATH_MAX överflöd\n"
 
-#: lib/libalpm/remove.c:562
+#: lib/libalpm/remove.c:554
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "kunde ej ta bort %s (%s)\n"
 
-#: lib/libalpm/remove.c:735
+#: lib/libalpm/remove.c:727
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "kunde inte ta bort databasinlägget %s-%s\n"
 
-#: lib/libalpm/remove.c:740
+#: lib/libalpm/remove.c:732
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "kunde inte ta bort '%s' från cachen\n"
 
-#: lib/libalpm/signing.c:171
+#: lib/libalpm/signing.c:163
 #, c-format
 msgid "Public keyring not found; have you run '%s'?\n"
-msgstr ""
+msgstr "Publik nyckelring hittades inte; har du kört '%s'?\n"
 
-#: lib/libalpm/signing.c:207 lib/libalpm/signing.c:784
+#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:766
 #, c-format
 msgid "GPGME error: %s\n"
 msgstr "GPGME-fel: %s\n"
 
-#: lib/libalpm/signing.c:284
+#: lib/libalpm/signing.c:274
 #, c-format
 msgid "looking up key %s using WKD\n"
-msgstr ""
+msgstr "letar upp nyckeln %s med WKD\n"
 
-#: lib/libalpm/signing.c:293
+#: lib/libalpm/signing.c:283
 #, c-format
 msgid "gpg error: %s\n"
-msgstr ""
+msgstr "gpg fel: %s\n"
 
-#: lib/libalpm/signing.c:441 lib/libalpm/signing.c:515
+#: lib/libalpm/signing.c:430 lib/libalpm/signing.c:503
 #, c-format
 msgid "keyring is not writable\n"
-msgstr ""
+msgstr "nyckelring är inte skrivbar\n"
 
-#: lib/libalpm/signing.c:539
+#: lib/libalpm/signing.c:527
 #, c-format
 msgid "key \"%s\" on keyserver\n"
-msgstr ""
+msgstr "nyckel \"%s\" på nyckelserver\n"
 
-#: lib/libalpm/signing.c:544
+#: lib/libalpm/signing.c:532
 #, c-format
 msgid "key \"%s\" could not be imported\n"
-msgstr ""
+msgstr "nyckel \"%s\" kunde ej importeras\n"
 
-#: lib/libalpm/signing.c:548
+#: lib/libalpm/signing.c:536
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
-msgstr ""
+msgstr "nyckel \"%s\" kunde inte slås upp på distans\n"
 
-#: lib/libalpm/signing.c:943 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1003
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: saknar nödvändig signatur\n"
 
-#: lib/libalpm/signing.c:958
+#: lib/libalpm/signing.c:940
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
-msgstr ""
+msgstr "%s:signatur från \"%s\" har marginellt förtroende\n"
 
-#: lib/libalpm/signing.c:966
+#: lib/libalpm/signing.c:948
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
-msgstr ""
+msgstr "%s: signatur från \"%s\" har okänt förtroende\n"
 
-#: lib/libalpm/signing.c:973
+#: lib/libalpm/signing.c:955
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
-msgstr ""
+msgstr "%s: signatur från \"%s\" ska aldrig litas på\n"
 
-#: lib/libalpm/signing.c:985
+#: lib/libalpm/signing.c:967
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
-msgstr ""
+msgstr "%s: nyckel \"%s\" är okänd\n"
 
-#: lib/libalpm/signing.c:994
+#: lib/libalpm/signing.c:976
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
-msgstr ""
+msgstr "%s: nyckel \"%s\" är inaktiverad\n"
 
-#: lib/libalpm/signing.c:998
+#: lib/libalpm/signing.c:980
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
-msgstr ""
+msgstr "%s: signatur från \"%s\" har upphört\n"
 
-#: lib/libalpm/signing.c:1002
+#: lib/libalpm/signing.c:984
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
-msgstr ""
+msgstr "%s: signatur från \"%s\" är ogiltig\n"
 
-#: lib/libalpm/signing.c:1079 lib/libalpm/signing.c:1147
-#: lib/libalpm/signing.c:1226
+#: lib/libalpm/signing.c:1042 lib/libalpm/signing.c:1103
+#: lib/libalpm/signing.c:1182
 #, c-format
 msgid "%s: signature format error\n"
-msgstr ""
+msgstr "%s: signatur format fel\n"
 
-#: lib/libalpm/signing.c:1179 lib/libalpm/signing.c:1212
-#: lib/libalpm/signing.c:1220
+#: lib/libalpm/signing.c:1135 lib/libalpm/signing.c:1168
+#: lib/libalpm/signing.c:1176
 #, c-format
 msgid "%s: unsupported signature format\n"
-msgstr ""
+msgstr "%s: ogiltigt signatur format\n"
 
-#: lib/libalpm/sync.c:99
+#: lib/libalpm/sync.c:96
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
 msgstr "%s ignorerar uppgradering av paket (%s => %s)\n"
 
-#: lib/libalpm/sync.c:111
+#: lib/libalpm/sync.c:108
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
 msgstr "%s: ignorerar nedgradering av paket (%s => %s)\n"
 
-#: lib/libalpm/sync.c:114
+#: lib/libalpm/sync.c:111
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
 msgstr "%s: nedgraderar från version %s till version %s\n"
 
-#: lib/libalpm/sync.c:120
+#: lib/libalpm/sync.c:117
 #, c-format
 msgid "%s: local (%s) is newer than %s (%s)\n"
 msgstr "%s: lokala (%s) är nyare än %s (%s)\n"
 
-#: lib/libalpm/sync.c:161
+#: lib/libalpm/sync.c:158
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
 msgstr "ignorerar ersättning av paket (%s-%s => %s-%s)\n"
 
-#: lib/libalpm/sync.c:177
+#: lib/libalpm/sync.c:174
 #, c-format
 msgid "cannot replace %s by %s\n"
 msgstr "kan inte ersätta %s med %s\n"
 
-#: lib/libalpm/sync.c:535 lib/libalpm/sync.c:605
+#: lib/libalpm/sync.c:523 lib/libalpm/sync.c:593
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "olösliga paketkonflikter upptäckta\n"
 
-#: lib/libalpm/sync.c:555
+#: lib/libalpm/sync.c:543
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "tar bort '%s' från mållistan då den står i konflikt med '%s'\n"
 
-#: lib/libalpm/sync.c:849
-#, c-format
-msgid "failed to retrieve some files\n"
-msgstr "misslyckades att hämta några filer⏎\n"
-
-#: lib/libalpm/sync.c:1036
+#: lib/libalpm/sync.c:1017
 #, c-format
 msgid "failed to read file %s: %s\n"
-msgstr ""
+msgstr "misslyckades att läsa fil %s: %s\n"
 
-#: lib/libalpm/sync.c:1223
+#: lib/libalpm/sync.c:1204
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "saknas tillräckligt med fritt diskutrymme⏎\n"
 
-#: lib/libalpm/sync.c:1245
+#: lib/libalpm/sync.c:1226
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "kunde inte skicka överföring för borttagning\n"
 
-#: lib/libalpm/sync.c:1253
+#: lib/libalpm/sync.c:1234
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "kunde inte skicka överföring\n"
 
-#: lib/libalpm/trans.c:364
+#: lib/libalpm/trans.c:365
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "kunde inte skapa temporär katalog\n"
 
-#: lib/libalpm/trans.c:379
+#: lib/libalpm/trans.c:380
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "kunde inte kopiera temporär fil till %s (%s)\n"
 
-#: lib/libalpm/trans.c:410
+#: lib/libalpm/trans.c:411
 #, c-format
 msgid "could not remove %s\n"
 msgstr "kunde ej ta bort %s\n"
 
-#: lib/libalpm/trans.c:414
+#: lib/libalpm/trans.c:415
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "kunde inte ta bort tmpdir %s\n"
 
-#: lib/libalpm/util.c:486
+#: lib/libalpm/util.c:488
 #, c-format
 msgid "unable to write to pipe (%s)\n"
 msgstr "kunde inte skriva till rör (%s)\n"
 
-#: lib/libalpm/util.c:545
+#: lib/libalpm/util.c:547
 #, c-format
 msgid "unable to read from pipe (%s)\n"
 msgstr "kunde inte läsa från rör (%s)\n"
 
-#: lib/libalpm/util.c:609 lib/libalpm/util.c:615
+#: lib/libalpm/util.c:617 lib/libalpm/util.c:623
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "kunde ej skapa pipe (%s)\n"
 
-#: lib/libalpm/util.c:623
+#: lib/libalpm/util.c:631
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "kunde inte förgrena en ny process (%s)\n"
 
-#: lib/libalpm/util.c:646
+#: lib/libalpm/util.c:654
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "kunde inte byta rootkatalogen (%s)\n"
 
-#: lib/libalpm/util.c:658
+#: lib/libalpm/util.c:666
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "anrop till execv misslyckades (%s)\n"
 
-#: lib/libalpm/util.c:737
+#: lib/libalpm/util.c:745
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "anrop till waitpid misslyckades (%s)\n"
 
-#: lib/libalpm/util.c:747
+#: lib/libalpm/util.c:755
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "kommando misslyckades att exekveras korrekt\n"
 
-#: lib/libalpm/util.c:754
+#: lib/libalpm/util.c:762
 #, c-format
 msgid "Unknown signal"
 msgstr "Okänd signal"
 
-#: lib/libalpm/util.c:756
+#: lib/libalpm/util.c:764
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "kommando avslutades av signal %d: %s\n"
 
-#: lib/libalpm/util.c:853
+#: lib/libalpm/util.c:875
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "ingen %s cache existerar, skapar...\n"
 
-#: lib/libalpm/util.c:884
+#: lib/libalpm/util.c:906
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "kunde ej hitta eller skapa paketcache, använder %s istället\n"
