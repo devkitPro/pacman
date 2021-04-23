@@ -279,6 +279,14 @@ Environment Variables
 **SOURCE_DATE_EPOCH=**"<date>"::
 	Used for link:https://reproducible-builds.org/docs/[Reproducible Builds].
 
+**BUILDTOOL=**"<name>"::
+	The name of a tool ecosystem used to set up the build environment. Used for
+	defining a spec for reproducible builds, e.g. the linkman:makepkg.conf[5]
+	used.
+
+**BUILDTOOLVER=**"<version>"::
+	The version of the '$BUILDTOOL' used.
+
 Configuration
 -------------
 See linkman:makepkg.conf[5] for more details on configuring makepkg using the
