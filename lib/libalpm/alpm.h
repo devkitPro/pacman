@@ -971,8 +971,9 @@ typedef union _alpm_event_t {
 /** Event callback.
  *
  * Called when an event occurs
+ * @param ctx user-provided context
  * @param event the event that occurred */
-typedef void (*alpm_cb_event)(alpm_event_t *);
+typedef void (*alpm_cb_event)(void *ctx, alpm_event_t *);
 
 /**
  * Type of question.
@@ -1114,9 +1115,10 @@ typedef union _alpm_question_t {
 /** Question callback.
  *
  * This callback allows user to give input and decide what to do during certain events
+ * @param ctx user-provided context
  * @param question the question being asked.
  */
-typedef void (*alpm_cb_question)(alpm_question_t *);
+typedef void (*alpm_cb_question)(void *ctx, alpm_question_t *);
 
 /** An enum over different kinds of progress alerts. */
 typedef enum _alpm_progress_t {
@@ -1147,6 +1149,7 @@ typedef enum _alpm_progress_t {
  * Alert the front end about the progress of certain events.
  * Allows the implementation of loading bars for events that
  * make take a while to complete.
+ * @param ctx user-provided context
  * @param progress the kind of event that is progressing
  * @param pkg for package operations, the name of the package being operated on
  * @param percent the percent completion of the action
@@ -1154,7 +1157,7 @@ typedef enum _alpm_progress_t {
  * @param current the current amount of items completed
  */
 /** Progress callback */
-typedef void (*alpm_cb_progress)(alpm_progress_t progress, const char *pkg,
+typedef void (*alpm_cb_progress)(void *ctx, alpm_progress_t progress, const char *pkg,
 		int percent, size_t howmany, size_t current);
 
 /*
@@ -1201,22 +1204,24 @@ typedef struct _alpm_download_event_completed_t {
 } alpm_download_event_completed_t;
 
 /** Type of download progress callbacks.
+ * @param ctx user-provided context
  * @param filename the name of the file being downloaded
  * @param event the event type
  * @param data the event data of type alpm_download_event_*_t
  */
-typedef void (*alpm_cb_download)(const char *filename,
+typedef void (*alpm_cb_download)(void *ctx, const char *filename,
 		alpm_download_event_type_t event, void *data);
 
 
 /** A callback for downloading files
+ * @param ctx user-provided context
  * @param url the URL of the file to be downloaded
  * @param localpath the directory to which the file should be downloaded
  * @param force whether to force an update, even if the file is the same
  * @return 0 on success, 1 if the file exists and is identical, -1 on
  * error.
  */
-typedef int (*alpm_cb_fetch)(const char *url, const char *localpath,
+typedef int (*alpm_cb_fetch)(void *ctx, const char *url, const char *localpath,
 		int force);
 
 /* End of libalpm_cb */
@@ -1464,11 +1469,12 @@ typedef enum _alpm_loglevel_t {
  * libalpm will call this function whenever something is to be logged.
  * many libalpm will produce log output. Additionally any calls to \link alpm_logaction
  * \endlink will also call this callback.
+ * @param ctx user-provided context
  * @param level the currently set loglevel
  * @param fmt the printf like format string
  * @param args printf like arguments
  */
-typedef void (*alpm_cb_log)(alpm_loglevel_t level, const char *fmt, va_list args);
+typedef void (*alpm_cb_log)(void *ctx, alpm_loglevel_t level, const char *fmt, va_list args);
 
 /** A printf-like function for logging.
  * @param handle the context handle
@@ -1498,12 +1504,19 @@ int alpm_logaction(alpm_handle_t *handle, const char *prefix,
  */
 alpm_cb_log alpm_option_get_logcb(alpm_handle_t *handle);
 
+/** Returns the callback used for logging.
+ * @param handle the context handle
+ * @return the currently set log callback context
+ */
+void *alpm_option_get_logcb_ctx(alpm_handle_t *handle);
+
 /** Sets the callback used for logging.
  * @param handle the context handle
  * @param cb the cb to use
+ * @param ctx user-provided context to pass to cb
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_option_set_logcb(alpm_handle_t *handle, alpm_cb_log cb);
+int alpm_option_set_logcb(alpm_handle_t *handle, alpm_cb_log cb, void *ctx);
 
 /** Returns the callback used to report download progress.
  * @param handle the context handle
@@ -1511,12 +1524,19 @@ int alpm_option_set_logcb(alpm_handle_t *handle, alpm_cb_log cb);
  */
 alpm_cb_download alpm_option_get_dlcb(alpm_handle_t *handle);
 
+/** Returns the callback used to report download progress.
+ * @param handle the context handle
+ * @return the currently set download callback context
+ */
+void *alpm_option_get_dlcb_ctx(alpm_handle_t *handle);
+
 /** Sets the callback used to report download progress.
  * @param handle the context handle
  * @param cb the cb to use
+ * @param ctx user-provided context to pass to cb
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_option_set_dlcb(alpm_handle_t *handle, alpm_cb_download cb);
+int alpm_option_set_dlcb(alpm_handle_t *handle, alpm_cb_download cb, void *ctx);
 
 /** Returns the downloading callback.
  * @param handle the context handle
@@ -1524,12 +1544,19 @@ int alpm_option_set_dlcb(alpm_handle_t *handle, alpm_cb_download cb);
  */
 alpm_cb_fetch alpm_option_get_fetchcb(alpm_handle_t *handle);
 
+/** Returns the downloading callback.
+ * @param handle the context handle
+ * @return the currently set fetch callback context
+ */
+void *alpm_option_get_fetchcb_ctx(alpm_handle_t *handle);
+
 /** Sets the downloading callback.
  * @param handle the context handle
  * @param cb the cb to use
+ * @param ctx user-provided context to pass to cb
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_option_set_fetchcb(alpm_handle_t *handle, alpm_cb_fetch cb);
+int alpm_option_set_fetchcb(alpm_handle_t *handle, alpm_cb_fetch cb, void *ctx);
 
 /** Returns the callback used for events.
  * @param handle the context handle
@@ -1537,12 +1564,19 @@ int alpm_option_set_fetchcb(alpm_handle_t *handle, alpm_cb_fetch cb);
  */
 alpm_cb_event alpm_option_get_eventcb(alpm_handle_t *handle);
 
+/** Returns the callback used for events.
+ * @param handle the context handle
+ * @return the currently set event callback context
+ */
+void *alpm_option_get_eventcb_ctx(alpm_handle_t *handle);
+
 /** Sets the callback used for events.
  * @param handle the context handle
  * @param cb the cb to use
+ * @param ctx user-provided context to pass to cb
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_option_set_eventcb(alpm_handle_t *handle, alpm_cb_event cb);
+int alpm_option_set_eventcb(alpm_handle_t *handle, alpm_cb_event cb, void *ctx);
 
 /** Returns the callback used for questions.
  * @param handle the context handle
@@ -1550,13 +1584,19 @@ int alpm_option_set_eventcb(alpm_handle_t *handle, alpm_cb_event cb);
  */
 alpm_cb_question alpm_option_get_questioncb(alpm_handle_t *handle);
 
+/** Returns the callback used for questions.
+ * @param handle the context handle
+ * @return the currently set question callback context
+ */
+void *alpm_option_get_questioncb_ctx(alpm_handle_t *handle);
+
 /** Sets the callback used for questions.
  * @param handle the context handle
  * @param cb the cb to use
+ * @param ctx user-provided context to pass to cb
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_option_set_questioncb(alpm_handle_t *handle, alpm_cb_question cb);
-
+int alpm_option_set_questioncb(alpm_handle_t *handle, alpm_cb_question cb, void *ctx);
 
 /**Returns the callback used for operation progress.
  * @param handle the context handle
@@ -1564,12 +1604,19 @@ int alpm_option_set_questioncb(alpm_handle_t *handle, alpm_cb_question cb);
  */
 alpm_cb_progress alpm_option_get_progresscb(alpm_handle_t *handle);
 
+/**Returns the callback used for operation progress.
+ * @param handle the context handle
+ * @return the currently set progress callback context
+ */
+void *alpm_option_get_progresscb_ctx(alpm_handle_t *handle);
+
 /** Sets the callback used for operation progress.
  * @param handle the context handle
  * @param cb the cb to use
+ * @param ctx user-provided context to pass to cb
  * @return 0 on success, -1 on error (pm_errno is set accordingly)
  */
-int alpm_option_set_progresscb(alpm_handle_t *handle, alpm_cb_progress cb);
+int alpm_option_set_progresscb(alpm_handle_t *handle, alpm_cb_progress cb, void *ctx);
 /* End of callback accessors */
 /** @} */
 

@@ -107,6 +107,6 @@ void _alpm_log(alpm_handle_t *handle, alpm_loglevel_t flag, const char *fmt, ...
 	}
 
 	va_start(args, fmt);
-	handle->logcb(flag, fmt, args);
+	handle->logcb(handle->logcb_ctx, flag, fmt, args);
 	va_end(args);
 }

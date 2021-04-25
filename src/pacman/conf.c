@@ -278,8 +278,8 @@ static int systemvp(const char *file, char *const argv[])
 }
 
 /** External fetch callback */
-static int download_with_xfercommand(const char *url, const char *localpath,
-		int force)
+static int download_with_xfercommand(void *ctx, const char *url,
+		const char *localpath, int force)
 {
 	int ret = 0, retval;
 	int usepart = 0;
@@ -288,6 +288,8 @@ static int download_with_xfercommand(const char *url, const char *localpath,
 	char *destfile, *tempfile, *filename;
 	const char **argv;
 	size_t i;
+
+	(void)ctx;
 
 	if(!config->xfercommand_argv) {
 		return -1;
@@ -843,11 +845,11 @@ static int setup_libalpm(void)
 	}
 	config->handle = handle;
 
-	alpm_option_set_logcb(handle, cb_log);
-	alpm_option_set_dlcb(handle, cb_download);
-	alpm_option_set_eventcb(handle, cb_event);
-	alpm_option_set_questioncb(handle, cb_question);
-	alpm_option_set_progresscb(handle, cb_progress);
+	alpm_option_set_logcb(handle, cb_log, NULL);
+	alpm_option_set_dlcb(handle, cb_download, NULL);
+	alpm_option_set_eventcb(handle, cb_event, NULL);
+	alpm_option_set_questioncb(handle, cb_question, NULL);
+	alpm_option_set_progresscb(handle, cb_progress, NULL);
 
 	if(config->op == PM_OP_FILES) {
 		alpm_option_set_dbext(handle, ".files");
@@ -894,7 +896,7 @@ static int setup_libalpm(void)
 	}
 
 	if(config->xfercommand) {
-		alpm_option_set_fetchcb(handle, download_with_xfercommand);
+		alpm_option_set_fetchcb(handle, download_with_xfercommand, NULL);
 	} else if(!(alpm_capabilities() & ALPM_CAPABILITY_DOWNLOADER)) {
 		pm_printf(ALPM_LOG_WARNING, _("no '%s' configured\n"), "XferCommand");
 	}

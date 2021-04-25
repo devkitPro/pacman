@@ -34,19 +34,19 @@
 #define EVENT(h, e) \
 do { \
 	if((h)->eventcb) { \
-		(h)->eventcb((alpm_event_t *) (e)); \
+		(h)->eventcb((h)->eventcb_ctx, (alpm_event_t *) (e)); \
 	} \
 } while(0)
 #define QUESTION(h, q) \
 do { \
 	if((h)->questioncb) { \
-		(h)->questioncb((alpm_question_t *) (q)); \
+		(h)->questioncb((h)->questioncb_ctx, (alpm_question_t *) (q)); \
 	} \
 } while(0)
 #define PROGRESS(h, e, p, per, n, r) \
 do { \
 	if((h)->progresscb) { \
-		(h)->progresscb(e, p, per, n, r); \
+		(h)->progresscb((h)->progresscb_ctx, e, p, per, n, r); \
 	} \
 } while(0)
 
@@ -72,11 +72,17 @@ struct __alpm_handle_t {
 
 	/* callback functions */
 	alpm_cb_log logcb;          /* Log callback function */
+	void *logcb_ctx;
 	alpm_cb_download dlcb;      /* Download callback function */
+	void *dlcb_ctx;
 	alpm_cb_fetch fetchcb;      /* Download file callback function */
+	void *fetchcb_ctx;
 	alpm_cb_event eventcb;
+	void *eventcb_ctx;
 	alpm_cb_question questioncb;
+	void *questioncb_ctx;
 	alpm_cb_progress progresscb;
+	void *progresscb_ctx;
 
 	/* filesystem paths */
 	char *root;              /* Root path, default '/' */

@@ -232,8 +232,9 @@ static int number_length(size_t n)
 }
 
 /* callback to handle messages/notifications from libalpm transactions */
-void cb_event(alpm_event_t *event)
+void cb_event(void *ctx, alpm_event_t *event)
 {
+	(void)ctx;
 	if(config->print) {
 		console_cursor_move_end();
 		return;
@@ -436,8 +437,9 @@ void cb_event(alpm_event_t *event)
 }
 
 /* callback to handle questions from libalpm transactions (yes/no) */
-void cb_question(alpm_question_t *question)
+void cb_question(void *ctx, alpm_question_t *question)
 {
+	(void)ctx;
 	if(config->print) {
 		switch(question->type) {
 			case ALPM_QUESTION_INSTALL_IGNOREPKG:
@@ -558,8 +560,8 @@ void cb_question(alpm_question_t *question)
 }
 
 /* callback to handle display of transaction progress */
-void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
-                       size_t howmany, size_t current)
+void cb_progress(void *ctx, alpm_progress_t event, const char *pkgname,
+		int percent, size_t howmany, size_t current)
 {
 	static int prevpercent;
 	static size_t prevcurrent;
@@ -572,6 +574,8 @@ void cb_progress(alpm_progress_t event, const char *pkgname, int percent,
 	wchar_t *wcstr;
 
 	const unsigned short cols = getcols();
+
+	(void)ctx;
 
 	if(config->noprogressbar || cols == 0) {
 		return;
@@ -1067,8 +1071,9 @@ static void dload_complete_event(const char *filename, alpm_download_event_compl
 }
 
 /* Callback to handle display of download progress */
-void cb_download(const char *filename, alpm_download_event_type_t event, void *data)
+void cb_download(void *ctx, const char *filename, alpm_download_event_type_t event, void *data)
 {
+	(void)ctx;
 	if(event == ALPM_DOWNLOAD_INIT) {
 		dload_init_event(filename, data);
 	} else if(event == ALPM_DOWNLOAD_PROGRESS) {
@@ -1082,8 +1087,9 @@ void cb_download(const char *filename, alpm_download_event_type_t event, void *d
 }
 
 /* Callback to handle notifications from the library */
-void cb_log(alpm_loglevel_t level, const char *fmt, va_list args)
+void cb_log(void *ctx, alpm_loglevel_t level, const char *fmt, va_list args)
 {
+	(void)ctx;
 	if(!fmt || strlen(fmt) == 0) {
 		return;
 	}

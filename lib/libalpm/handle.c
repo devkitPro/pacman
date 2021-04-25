@@ -162,10 +162,22 @@ alpm_cb_log SYMEXPORT alpm_option_get_logcb(alpm_handle_t *handle)
 	return handle->logcb;
 }
 
+void SYMEXPORT *alpm_option_get_logcb_ctx(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->logcb_ctx;
+}
+
 alpm_cb_download SYMEXPORT alpm_option_get_dlcb(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->dlcb;
+}
+
+void SYMEXPORT *alpm_option_get_dlcb_ctx(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->dlcb_ctx;
 }
 
 alpm_cb_fetch SYMEXPORT alpm_option_get_fetchcb(alpm_handle_t *handle)
@@ -174,10 +186,22 @@ alpm_cb_fetch SYMEXPORT alpm_option_get_fetchcb(alpm_handle_t *handle)
 	return handle->fetchcb;
 }
 
+void SYMEXPORT *alpm_option_get_fetchcb_ctx(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->fetchcb_ctx;
+}
+
 alpm_cb_event SYMEXPORT alpm_option_get_eventcb(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->eventcb;
+}
+
+void SYMEXPORT *alpm_option_get_eventcb_ctx(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->eventcb_ctx;
 }
 
 alpm_cb_question SYMEXPORT alpm_option_get_questioncb(alpm_handle_t *handle)
@@ -186,10 +210,22 @@ alpm_cb_question SYMEXPORT alpm_option_get_questioncb(alpm_handle_t *handle)
 	return handle->questioncb;
 }
 
+void SYMEXPORT *alpm_option_get_questioncb_ctx(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->questioncb_ctx;
+}
+
 alpm_cb_progress SYMEXPORT alpm_option_get_progresscb(alpm_handle_t *handle)
 {
 	CHECK_HANDLE(handle, return NULL);
 	return handle->progresscb;
+}
+
+void SYMEXPORT *alpm_option_get_progresscb_ctx(alpm_handle_t *handle)
+{
+	CHECK_HANDLE(handle, return NULL);
+	return handle->progresscb_ctx;
 }
 
 const char SYMEXPORT *alpm_option_get_root(alpm_handle_t *handle)
@@ -300,45 +336,51 @@ int SYMEXPORT alpm_option_get_parallel_downloads(alpm_handle_t *handle)
 	return handle->parallel_downloads;
 }
 
-int SYMEXPORT alpm_option_set_logcb(alpm_handle_t *handle, alpm_cb_log cb)
+int SYMEXPORT alpm_option_set_logcb(alpm_handle_t *handle, alpm_cb_log cb, void *ctx)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->logcb = cb;
+	handle->logcb_ctx = ctx;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_dlcb(alpm_handle_t *handle, alpm_cb_download cb)
+int SYMEXPORT alpm_option_set_dlcb(alpm_handle_t *handle, alpm_cb_download cb, void *ctx)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->dlcb = cb;
+	handle->dlcb_ctx = ctx;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_fetchcb(alpm_handle_t *handle, alpm_cb_fetch cb)
+int SYMEXPORT alpm_option_set_fetchcb(alpm_handle_t *handle, alpm_cb_fetch cb, void *ctx)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->fetchcb = cb;
+	handle->fetchcb_ctx = ctx;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_eventcb(alpm_handle_t *handle, alpm_cb_event cb)
+int SYMEXPORT alpm_option_set_eventcb(alpm_handle_t *handle, alpm_cb_event cb, void *ctx)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->eventcb = cb;
+	handle->eventcb_ctx = ctx;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_questioncb(alpm_handle_t *handle, alpm_cb_question cb)
+int SYMEXPORT alpm_option_set_questioncb(alpm_handle_t *handle, alpm_cb_question cb, void *ctx)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->questioncb = cb;
+	handle->questioncb_ctx = ctx;
 	return 0;
 }
 
-int SYMEXPORT alpm_option_set_progresscb(alpm_handle_t *handle, alpm_cb_progress cb)
+int SYMEXPORT alpm_option_set_progresscb(alpm_handle_t *handle, alpm_cb_progress cb, void *ctx)
 {
 	CHECK_HANDLE(handle, return -1);
 	handle->progresscb = cb;
+	handle->progresscb_ctx = ctx;
 	return 0;
 }
 

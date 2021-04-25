@@ -209,7 +209,8 @@ static int dload_progress_cb(void *file, curl_off_t dltotal, curl_off_t dlnow,
 	 * download_size (nor included in the total download size callback) */
 	cb_data.total = dltotal;
 	cb_data.downloaded = dlnow;
-	payload->handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_PROGRESS, &cb_data);
+	payload->handle->dlcb(payload->handle->dlcb_ctx,
+			payload->remote_name, ALPM_DOWNLOAD_PROGRESS, &cb_data);
 	payload->prevprogress = current_size;
 
 	return 0;
@@ -672,7 +673,7 @@ cleanup:
 		alpm_download_event_completed_t cb_data = {0};
 		cb_data.total = bytes_dl;
 		cb_data.result = ret;
-		handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_COMPLETED, &cb_data);
+		handle->dlcb(handle->dlcb_ctx, payload->remote_name, ALPM_DOWNLOAD_COMPLETED, &cb_data);
 	}
 
 	curl_multi_remove_handle(curlm, curl);
@@ -806,7 +807,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 			if(curl_add_payload(handle, curlm, payload, localpath) == 0) {
 				if(handle->dlcb && !payload->signature) {
 					alpm_download_event_init_t cb_data = {.optional = payload->errors_ok};
-					handle->dlcb(payload->remote_name, ALPM_DOWNLOAD_INIT, &cb_data);
+					handle->dlcb(handle->dlcb_ctx, payload->remote_name, ALPM_DOWNLOAD_INIT, &cb_data);
 				}
 
 				payloads = payloads->next;
@@ -877,7 +878,7 @@ int _alpm_download(alpm_handle_t *handle,
 			int success = 0;
 
 			if(payload->fileurl) {
-				if (handle->fetchcb(payload->fileurl, localpath, payload->force) != -1) {
+				if (handle->fetchcb(handle->fetchcb_ctx, payload->fileurl, localpath, payload->force) != -1) {
 					success = 1;
 					break;
 				}
@@ -891,7 +892,7 @@ int _alpm_download(alpm_handle_t *handle,
 					MALLOC(fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 					snprintf(fileurl, len, "%s/%s", server, payload->filepath);
 
-					ret = handle->fetchcb(fileurl, localpath, payload->force);
+					ret = handle->fetchcb(handle->fetchcb_ctx, fileurl, localpath, payload->force);
 					free(fileurl);
 
 					if (ret != -1) {
