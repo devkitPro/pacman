@@ -78,6 +78,8 @@ class pmStringHTTPRequestHandler(pmHTTPRequestHandler):
                         response.get('body', ''),
                         headers=response.get('headers', {}),
                         code=response.get('code', 200))
+            elif isinstance(response, bytes):
+                self.respond_bytes(response)
             else:
                 self.respond_string(response)
         else:
