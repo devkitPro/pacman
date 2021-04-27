@@ -815,7 +815,7 @@ static int download_files(alpm_handle_t *handle)
 		}
 
 		ret = _alpm_download(handle, payloads, cachedir);
-		if(ret != 0) {
+		if(ret == -1) {
 			event.type = ALPM_EVENT_PKG_RETRIEVE_FAILED;
 			EVENT(handle, &event);
 			_alpm_log(handle, ALPM_LOG_WARNING, _("failed to retrieve some files\n"));

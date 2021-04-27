@@ -1361,7 +1361,8 @@ int alpm_db_remove_server(alpm_db_t *db, const char *url);
  * @param dbs list of package databases to update
  * @param force if true, then forces the update, otherwise update only in case
  * the databases aren't up to date
- * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ * @return 0 on success, -1 on error (pm_errno is set accordingly),
+ * 1 if all databases are up to to date
  */
 int alpm_db_update(alpm_handle_t *handle, alpm_list_t *dbs, int force);
 

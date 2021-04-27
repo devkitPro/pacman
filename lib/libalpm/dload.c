@@ -789,6 +789,10 @@ cleanup:
 	return ret;
 }
 
+/* Returns -1 if an error happened for a required file
+ * Returns 0 if a payload was actually downloaded
+ * Returns 1 if no files were downloaded and all errors were non-fatal
+ */
 static int curl_download_internal(alpm_handle_t *handle,
 		alpm_list_t *payloads /* struct dload_payload */,
 		const char *localpath)
@@ -796,6 +800,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 	int active_downloads_num = 0;
 	int err = 0;
 	int max_streams = handle->parallel_downloads;
+	int updated = 0; /* was a file actually updated */
 	CURLM *curlm = handle->curlm;
 
 	while(active_downloads_num > 0 || payloads) {
@@ -847,6 +852,8 @@ static int curl_download_internal(alpm_handle_t *handle,
 					 */
 					payloads = NULL;
 					err = -1;
+				} else if(ret == 0) {
+					updated = 1;
 				}
 			} else {
 				_alpm_log(handle, ALPM_LOG_ERROR, _("curl transfer error: %d\n"), msg->msg);
@@ -855,11 +862,15 @@ static int curl_download_internal(alpm_handle_t *handle,
 	}
 
 	_alpm_log(handle, ALPM_LOG_DEBUG, "curl_download_internal return code is %d\n", err);
-	return err;
+	return err ? -1 : updated ? 0 : 1;
 }
 
 #endif
 
+/* Returns -1 if an error happened for a required file
+ * Returns 0 if a payload was actually downloaded
+ * Returns 1 if no files were downloaded and all errors were non-fatal
+ */
 int _alpm_download(alpm_handle_t *handle,
 		alpm_list_t *payloads /* struct dload_payload */,
 		const char *localpath)
@@ -872,20 +883,18 @@ int _alpm_download(alpm_handle_t *handle,
 #endif
 	} else {
 		alpm_list_t *p;
+		int updated = 0;
 		for(p = payloads; p; p = p->next) {
 			struct dload_payload *payload = p->data;
 			alpm_list_t *s;
-			int success = 0;
+			int ret = -1;
 
 			if(payload->fileurl) {
-				if (handle->fetchcb(handle->fetchcb_ctx, payload->fileurl, localpath, payload->force) != -1) {
-					success = 1;
-				}
+				ret = handle->fetchcb(handle->fetchcb_ctx, payload->fileurl, localpath, payload->force);
 			} else {
-				for(s = payload->servers; s; s = s->next) {
+				for(s = payload->servers; s && ret == -1; s = s->next) {
 					const char *server = s->data;
 					char *fileurl;
-					int ret;
 
 					size_t len = strlen(server) + strlen(payload->filepath) + 2;
 					MALLOC(fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
@@ -893,18 +902,16 @@ int _alpm_download(alpm_handle_t *handle,
 
 					ret = handle->fetchcb(handle->fetchcb_ctx, fileurl, localpath, payload->force);
 					free(fileurl);
-
-					if (ret != -1) {
-						success = 1;
-						break;
-					}
 				}
 			}
-			if(!success && !payload->errors_ok) {
+
+			if(ret == -1 && !payload->errors_ok) {
 				RET_ERR(handle, ALPM_ERR_EXTERNAL_DOWNLOAD, -1);
+			} else if(ret == 0) {
+				updated = 1;
 			}
 		}
-		return 0;
+		return updated ? 0 : 1;
 	}
 }
 
