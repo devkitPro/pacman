@@ -333,6 +333,7 @@ pacman_tests = [
   'tests/upgrade-download-404.py',
   'tests/upgrade-download-pkg-and-sig-with-filename.py',
   'tests/upgrade-download-pkg-and-sig-without-filename.py',
+  'tests/upgrade-download-with-xfercommand.py',
 ]
 
 xfail_tests = {
@@ -344,6 +345,7 @@ xfail_tests = {
   'tests/sync403.py': true,
   'tests/sync406.py': true,
   'tests/upgrade078.py': true,
+  'tests/upgrade-download-with-xfercommand.py': true,
 }
 
 foreach input : pacman_tests
