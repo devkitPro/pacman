@@ -1070,10 +1070,22 @@ static void dload_complete_event(const char *filename, alpm_download_event_compl
 	}
 }
 
+static int strendswith(const char *haystack, const char *needle)
+{
+	size_t hlen = strlen(haystack), nlen = strlen(needle);
+	return hlen >= nlen && strcmp(haystack + hlen - nlen, needle) == 0;
+}
+
 /* Callback to handle display of download progress */
 void cb_download(void *ctx, const char *filename, alpm_download_event_type_t event, void *data)
 {
 	(void)ctx;
+
+	/* do not print signature files progress bar */
+	if(strendswith(filename, ".sig")) {
+		return;
+	}
+
 	if(event == ALPM_DOWNLOAD_INIT) {
 		dload_init_event(filename, data);
 	} else if(event == ALPM_DOWNLOAD_PROGRESS) {

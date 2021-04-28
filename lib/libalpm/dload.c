@@ -166,11 +166,6 @@ static int dload_progress_cb(void *file, curl_off_t dltotal, curl_off_t dlnow,
 	off_t current_size, total_size;
 	alpm_download_event_progress_t cb_data = {0};
 
-	/* do not print signature files progress bar */
-	if(payload->signature) {
-		return 0;
-	}
-
 	/* avoid displaying progress bar for redirects with a body */
 	if(payload->respcode >= 300) {
 		return 0;
@@ -669,7 +664,7 @@ cleanup:
 		unlink(payload->tempfile_name);
 	}
 
-	if(handle->dlcb && !payload->signature) {
+	if(handle->dlcb) {
 		alpm_download_event_completed_t cb_data = {0};
 		cb_data.total = bytes_dl;
 		cb_data.result = ret;
@@ -782,6 +777,12 @@ static int curl_add_payload(alpm_handle_t *handle, CURLM *curlm,
 
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, payload->localf);
 	curl_multi_add_handle(curlm, curl);
+
+	if(handle->dlcb) {
+		alpm_download_event_init_t cb_data = {.optional = payload->errors_ok};
+		handle->dlcb(handle->dlcb_ctx, payload->remote_name, ALPM_DOWNLOAD_INIT, &cb_data);
+	}
+
 	return 0;
 
 cleanup:
@@ -810,11 +811,6 @@ static int curl_download_internal(alpm_handle_t *handle,
 			struct dload_payload *payload = payloads->data;
 
 			if(curl_add_payload(handle, curlm, payload, localpath) == 0) {
-				if(handle->dlcb && !payload->signature) {
-					alpm_download_event_init_t cb_data = {.optional = payload->errors_ok};
-					handle->dlcb(handle->dlcb_ctx, payload->remote_name, ALPM_DOWNLOAD_INIT, &cb_data);
-				}
-
 				payloads = payloads->next;
 			} else {
 				/* The payload failed to start. Do not start any new downloads.
