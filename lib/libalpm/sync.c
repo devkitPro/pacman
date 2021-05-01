@@ -1128,7 +1128,7 @@ int _alpm_sync_load(alpm_handle_t *handle, alpm_list_t **data)
 	uint64_t total_bytes = 0;
 	alpm_trans_t *trans = handle->trans;
 
-	if(download_files(handle)) {
+	if(download_files(handle) == -1) {
 		return -1;
 	}
 
