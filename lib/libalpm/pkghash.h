@@ -32,7 +32,7 @@
  * A combination of a hash table and a list, allowing for fast look-up
  * by package name but also iteration over the packages.
  */
-struct __alpm_pkghash_t {
+struct _alpm_pkghash_t {
 	/** data held by the hash table */
 	alpm_list_t **hash_table;
 	/** head node of the hash table data in normal list format */
@@ -45,7 +45,7 @@ struct __alpm_pkghash_t {
 	unsigned int limit;
 };
 
-typedef struct __alpm_pkghash_t alpm_pkghash_t;
+typedef struct _alpm_pkghash_t alpm_pkghash_t;
 
 alpm_pkghash_t *_alpm_pkghash_create(unsigned int size);
 

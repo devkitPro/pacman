@@ -78,7 +78,7 @@ extern "C" {
  * This struct represents an instance of libalpm.
  * @ingroup libalpm_handle
  */
-typedef struct __alpm_handle_t alpm_handle_t;
+typedef struct _alpm_handle_t alpm_handle_t;
 
 /** A database.
  *
@@ -98,7 +98,7 @@ typedef struct __alpm_handle_t alpm_handle_t;
  * Databases are automatically unregistered when the \link alpm_handle_t \endlink is released.
  * @ingroup libalpm_databases
  */
-typedef struct __alpm_db_t alpm_db_t;
+typedef struct _alpm_db_t alpm_db_t;
 
 
 /** A package.
@@ -111,7 +111,7 @@ typedef struct __alpm_db_t alpm_db_t;
  * to be added or removed from the system.
  * @ingroup libalpm_packages
  */
-typedef struct __alpm_pkg_t alpm_pkg_t;
+typedef struct _alpm_pkg_t alpm_pkg_t;
 
 /** The time type used by libalpm. Represents a unix time stamp
  * @ingroup libalpm_misc */

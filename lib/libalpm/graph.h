@@ -23,19 +23,19 @@
 
 #include "alpm_list.h"
 
-enum __alpm_graph_vertex_state {
+enum _alpm_graph_vertex_state {
 	ALPM_GRAPH_STATE_UNPROCESSED,
 	ALPM_GRAPH_STATE_PROCESSING,
 	ALPM_GRAPH_STATE_PROCESSED
 };
 
-typedef struct __alpm_graph_t {
+typedef struct _alpm_graph_t {
 	void *data;
-	struct __alpm_graph_t *parent; /* where did we come from? */
+	struct _alpm_graph_t *parent; /* where did we come from? */
 	alpm_list_t *children;
 	alpm_list_t *iterator; /* used for DFS without recursion */
 	off_t weight; /* weight of the node */
-	enum __alpm_graph_vertex_state state;
+	enum _alpm_graph_vertex_state state;
 } alpm_graph_t;
 
 alpm_graph_t *_alpm_graph_new(void);

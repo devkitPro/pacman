@@ -62,7 +62,7 @@ struct db_operations {
 };
 
 /* Database */
-struct __alpm_db_t {
+struct _alpm_db_t {
 	alpm_handle_t *handle;
 	char *treename;
 	/* do not access directly, use _alpm_db_path(db) for lazy access */

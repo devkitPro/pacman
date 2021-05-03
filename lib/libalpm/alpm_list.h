@@ -48,13 +48,13 @@ extern "C" {
  */
 
 /** A doubly linked list */
-typedef struct __alpm_list_t {
+typedef struct _alpm_list_t {
 	/** data held by the list node */
 	void *data;
 	/** pointer to the previous node */
-	struct __alpm_list_t *prev;
+	struct _alpm_list_t *prev;
 	/** pointer to the next node */
-	struct __alpm_list_t *next;
+	struct _alpm_list_t *next;
 } alpm_list_t;
 
 /** Frees a list and its contents */

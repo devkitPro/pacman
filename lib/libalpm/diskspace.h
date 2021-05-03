@@ -43,7 +43,7 @@ enum mount_fsinfo {
 	MOUNT_FSINFO_FAIL,
 };
 
-typedef struct __alpm_mountpoint_t {
+typedef struct _alpm_mountpoint_t {
 	/* mount point information */
 	char *mount_dir;
 	size_t mount_dir_len;
