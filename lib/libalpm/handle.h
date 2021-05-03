@@ -26,6 +26,7 @@
 
 #include "alpm_list.h"
 #include "alpm.h"
+#include "trans.h"
 
 #ifdef HAVE_LIBCURL
 #include <curl/curl.h>

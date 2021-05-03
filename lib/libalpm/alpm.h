@@ -113,12 +113,6 @@ typedef struct __alpm_db_t alpm_db_t;
  */
 typedef struct __alpm_pkg_t alpm_pkg_t;
 
-/** Transaction structure used internally by libalpm
- * @ingroup libalpm_trans
- * */
-typedef struct __alpm_trans_t alpm_trans_t;
-
-
 /** The time type used by libalpm. Represents a unix time stamp
  * @ingroup libalpm_misc */
 typedef int64_t alpm_time_t;
