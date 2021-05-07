@@ -28,7 +28,6 @@ LIBMAKEPKGDIR = join_paths(PREFIX, DATAROOTDIR, 'makepkg')
 PKGDATADIR = join_paths(PREFIX, DATAROOTDIR, meson.project_name())
 
 PYTHON = import('python').find_installation('python3')
-DU = find_program('du')
 LDCONFIG = get_option('ldconfig')
 MESON_MAKE_SYMLINK = join_paths(meson.source_root(), 'build-aux/meson-make-symlink.sh')
 
