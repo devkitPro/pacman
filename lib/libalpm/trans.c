@@ -137,7 +137,7 @@ int SYMEXPORT alpm_trans_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			/* pm_errno is set by _alpm_remove_prepare() */
 			return -1;
 		}
-	}	else {
+	} else {
 		if(_alpm_sync_prepare(handle, data) == -1) {
 			/* pm_errno is set by _alpm_sync_prepare() */
 			return -1;
