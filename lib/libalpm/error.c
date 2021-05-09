@@ -90,6 +90,8 @@ const char SYMEXPORT *alpm_strerror(alpm_errno_t err)
 			return _("transaction not initialized");
 		case ALPM_ERR_TRANS_DUP_TARGET:
 			return _("duplicate target");
+		case ALPM_ERR_TRANS_DUP_FILENAME:
+			return _("duplicate filename");
 		case ALPM_ERR_TRANS_NOT_INITIALIZED:
 			return _("transaction not initialized");
 		case ALPM_ERR_TRANS_NOT_PREPARED:

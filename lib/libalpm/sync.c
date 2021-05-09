@@ -464,6 +464,25 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			}
 		}
 
+		/* Ensure two packages don't have the same filename */
+		for(i = resolved; i; i = i->next) {
+			alpm_pkg_t *pkg1 = i->data;
+			for(j = i->next; j; j = j->next) {
+				alpm_pkg_t *pkg2 = j->data;
+				if(strcmp(pkg1->filename, pkg2->filename) == 0) {
+					alpm_list_free(resolved);
+					ret = -1;
+					handle->pm_errno = ALPM_ERR_TRANS_DUP_FILENAME;
+					_alpm_log(handle, ALPM_LOG_ERROR, _("packages %s and %s have the same filename: %s\n"),
+						pkg1->name, pkg2->name, pkg1->filename);
+				}
+			}
+		}
+
+		if(ret != 0) {
+			goto cleanup;
+		}
+
 		/* Set DEPEND reason for pulled packages */
 		for(i = resolved; i; i = i->next) {
 			alpm_pkg_t *pkg = i->data;

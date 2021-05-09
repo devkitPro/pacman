@@ -257,6 +257,8 @@ typedef enum _alpm_errno_t {
 	ALPM_ERR_TRANS_NULL,
 	/** Duplicate target in transaction */
 	ALPM_ERR_TRANS_DUP_TARGET,
+	/** Duplicate filename in transaction */
+	ALPM_ERR_TRANS_DUP_FILENAME,
 	/** A transaction has not been initialized */
 	ALPM_ERR_TRANS_NOT_INITIALIZED,
 	/** Transaction has not been prepared */
