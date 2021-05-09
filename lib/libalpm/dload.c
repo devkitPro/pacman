@@ -408,6 +408,7 @@ static int curl_retry_next_server(CURLM *curlm, CURL *curl, struct dload_payload
 {
 	const char *server;
 	size_t len;
+	struct stat st;
 	alpm_handle_t *handle = payload->handle;
 
 	while(payload->servers && should_skip_server(handle, payload->servers->data)) {
@@ -427,13 +428,29 @@ static int curl_retry_next_server(CURLM *curlm, CURL *curl, struct dload_payload
 	MALLOC(payload->fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 	snprintf(payload->fileurl, len, "%s/%s", server, payload->filepath);
 
-	if(payload->unlink_on_fail) {
+
+	fflush(payload->localf);
+
+	if(payload->allow_resume && stat(payload->tempfile_name, &st) == 0) {
+		/* a previous partial download exists, resume from end of file. */
+		payload->tempfile_openmode = "ab";
+		curl_easy_setopt(curl, CURLOPT_RESUME_FROM_LARGE, (curl_off_t)st.st_size);
+		_alpm_log(handle, ALPM_LOG_DEBUG,
+				"%s: tempfile found, attempting continuation from %jd bytes\n",
+				payload->remote_name, (intmax_t)st.st_size);
+		payload->initial_size = st.st_size;
+	} else {
 		/* we keep the file for a new retry but remove its data if any */
-		fflush(payload->localf);
 		if(ftruncate(fileno(payload->localf), 0)) {
 			RET_ERR(handle, ALPM_ERR_SYSTEM, -1);
 		}
 		fseek(payload->localf, 0, SEEK_SET);
+	}
+
+	if(handle->dlcb && !payload->signature) {
+		alpm_download_event_retry_t cb_data;
+		cb_data.resume = payload->allow_resume;
+		handle->dlcb(handle->dlcb_ctx, payload->remote_name, ALPM_DOWNLOAD_RETRY, &cb_data);
 	}
 
 	/* Set curl with the new URL */
@@ -483,7 +500,6 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 			_alpm_log(handle, ALPM_LOG_DEBUG, "%s: response code %ld\n",
 					payload->remote_name, payload->respcode);
 			if(payload->respcode >= 400) {
-				payload->unlink_on_fail = 1;
 				if(!payload->errors_ok) {
 					handle->pm_errno = ALPM_ERR_RETRIEVE;
 					/* non-translated message is same as libcurl */
@@ -498,6 +514,7 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 					(*active_downloads_num)++;
 					return 2;
 				} else {
+					payload->unlink_on_fail = 1;
 					goto cleanup;
 				}
 			}
@@ -515,7 +532,6 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 			}
 			goto cleanup;
 		case CURLE_COULDNT_RESOLVE_HOST:
-			payload->unlink_on_fail = 1;
 			handle->pm_errno = ALPM_ERR_SERVER_BAD_URL;
 			_alpm_log(handle, ALPM_LOG_ERROR,
 					_("failed retrieving file '%s' from %s : %s\n"),
@@ -525,13 +541,10 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 				(*active_downloads_num)++;
 				return 2;
 			} else {
+				payload->unlink_on_fail = 1;
 				goto cleanup;
 			}
 		default:
-			/* delete zero length downloads */
-			if(fstat(fileno(payload->localf), &st) == 0 && st.st_size == 0) {
-				payload->unlink_on_fail = 1;
-			}
 			if(!payload->errors_ok) {
 				handle->pm_errno = ALPM_ERR_LIBCURL;
 				_alpm_log(handle, ALPM_LOG_ERROR,
@@ -547,6 +560,10 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 				(*active_downloads_num)++;
 				return 2;
 			} else {
+				/* delete zero length downloads */
+				if(fstat(fileno(payload->localf), &st) == 0 && st.st_size == 0) {
+					payload->unlink_on_fail = 1;
+				}
 				goto cleanup;
 			}
 	}

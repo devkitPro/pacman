@@ -1172,6 +1172,8 @@ typedef enum _alpm_download_event_type_t {
 	ALPM_DOWNLOAD_INIT,
 	/** A download made progress */
 	ALPM_DOWNLOAD_PROGRESS,
+	/** Download will be retried */
+	ALPM_DOWNLOAD_RETRY,
 	/** A download completed */
 	ALPM_DOWNLOAD_COMPLETED
 } alpm_download_event_type_t;
@@ -1190,6 +1192,11 @@ typedef struct _alpm_download_event_progress_t {
 	off_t total;
 } alpm_download_event_progress_t;
 
+/** Context struct for when a download retries. */
+typedef struct _alpm_download_event_retry_t {
+	/** If the download will resume or start over */
+	int resume;
+} alpm_download_event_retry_t;
 
 /** Context struct for when a download completes. */
 typedef struct _alpm_download_event_completed_t {

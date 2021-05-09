@@ -994,6 +994,34 @@ static void dload_progress_event(const char *filename, alpm_download_event_progr
 	fflush(stdout);
 }
 
+/* download retried */
+static void dload_retry_event(const char *filename, alpm_download_event_retry_t *data) {
+	if(!dload_progressbar_enabled()) {
+		return;
+	}
+
+	int index;
+	struct pacman_progress_bar *bar;
+	bool ok = find_bar_for_filename(filename, &index, &bar);
+	assert(ok);
+
+	if(!data->resume) {
+		if(total_enabled) {
+			/* note total download does not reflect partial downloads that are restarted */
+			totalbar->xfered -= bar->xfered;
+		}
+	}
+
+	bar->xfered = 0;
+	bar->total_size = 0;
+	bar->init_time = get_time_ms();
+	bar->sync_time = 0;
+	bar->sync_xfered = 0;
+	bar->rate = 0.0;
+	bar->eta = 0.0;
+}
+
+
 /* download completed */
 static void dload_complete_event(const char *filename, alpm_download_event_completed_t *data)
 {
@@ -1090,6 +1118,8 @@ void cb_download(void *ctx, const char *filename, alpm_download_event_type_t eve
 		dload_init_event(filename, data);
 	} else if(event == ALPM_DOWNLOAD_PROGRESS) {
 		dload_progress_event(filename, data);
+	} else if(event == ALPM_DOWNLOAD_RETRY) {
+		dload_retry_event(filename, data);
 	} else if(event == ALPM_DOWNLOAD_COMPLETED) {
 		dload_complete_event(filename, data);
 	} else {
