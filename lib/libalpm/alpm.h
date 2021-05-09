@@ -1311,10 +1311,9 @@ int alpm_db_get_valid(alpm_db_t *db);
 alpm_list_t *alpm_db_get_servers(const alpm_db_t *db);
 
 /** Sets the list of servers for the database to use.
- * @param db the database to set the servers
- * @param servers a char* list of servers. Note: the database will
- * take ownership of the list and it should no longer be
- * freed by the caller
+ * @param db the database to set the servers. The list will be duped and
+ * the original will still need to be freed by the caller.
+ * @param servers a char* list of servers.
  */
 int alpm_db_set_servers(alpm_db_t *db, alpm_list_t *servers);
 
