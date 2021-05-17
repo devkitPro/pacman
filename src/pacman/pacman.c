@@ -196,7 +196,7 @@ static void usage(int op, const char * const myname)
 				addlist(_("      --ignore <pkg>   ignore a package upgrade (can be used more than once)\n"));
 				addlist(_("      --ignoregroup <grp>\n"
 				          "                       ignore a group upgrade (can be used more than once)\n"));
-				/* fall through */
+				__attribute__((fallthrough));
 			case PM_OP_REMOVE:
 				addlist(_("  -d, --nodeps         skip dependency version checks (-dd to skip all checks)\n"));
 				addlist(_("      --assume-installed <package=version>\n"
@@ -412,7 +412,8 @@ static int parsearg_global(int opt)
 				unsigned short debug = (unsigned short)atoi(optarg);
 				switch(debug) {
 					case 2:
-						config->logmask |= ALPM_LOG_FUNCTION; /* fall through */
+						config->logmask |= ALPM_LOG_FUNCTION;
+						__attribute__((fallthrough));
 					case 1:
 						config->logmask |= ALPM_LOG_DEBUG;
 						break;

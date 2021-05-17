@@ -1069,6 +1069,7 @@ static char *pkg_get_location(alpm_pkg_t *pkg)
 			}
 
 			/* fallthrough - for theoretical serverless repos */
+			__attribute__((fallthrough));
 
 		case ALPM_PKG_FROM_FILE:
 			return strdup(alpm_pkg_get_filename(pkg));

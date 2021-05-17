@@ -1026,7 +1026,7 @@ static int check_validity(alpm_handle_t *handle,
 							v->siglevel & ALPM_SIG_PACKAGE_OPTIONAL,
 							v->siglevel & ALPM_SIG_PACKAGE_MARGINAL_OK,
 							v->siglevel & ALPM_SIG_PACKAGE_UNKNOWN_OK);
-					/* fallthrough */
+					__attribute__((fallthrough));
 				case ALPM_ERR_PKG_INVALID_CHECKSUM:
 					prompt_to_delete(handle, v->path, v->error);
 					break;
