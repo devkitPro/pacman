@@ -292,8 +292,6 @@ typedef enum _alpm_errno_t {
 	ALPM_ERR_PKG_INVALID_NAME,
 	/** Package has an invalid architecture */
 	ALPM_ERR_PKG_INVALID_ARCH,
-	/** Unused */
-	ALPM_ERR_PKG_REPO_NOT_FOUND,
 	/* Signatures */
 	/** Signatures are missing */
 	ALPM_ERR_SIG_MISSING,

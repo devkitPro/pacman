@@ -125,8 +125,6 @@ const char SYMEXPORT *alpm_strerror(alpm_errno_t err)
 			return _("package filename is not valid");
 		case ALPM_ERR_PKG_INVALID_ARCH:
 			return _("package architecture is not valid");
-		case ALPM_ERR_PKG_REPO_NOT_FOUND:
-			return _("could not find repository for target");
 		/* Signatures */
 		case ALPM_ERR_SIG_MISSING:
 			return _("missing PGP signature");
