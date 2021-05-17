@@ -677,7 +677,7 @@ void cb_progress(void *ctx, alpm_progress_t event, const char *pkgname,
 		int i = textlen - 3;
 		wchar_t *p = wcstr;
 		/* grab the max number of char columns we can fill */
-		while(i - wcwidth(*p) > 0) {
+		while(i > wcwidth(*p)) {
 			i -= wcwidth(*p);
 			p++;
 		}
