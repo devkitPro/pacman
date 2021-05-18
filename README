@@ -661,10 +661,38 @@ API CHANGES BETWEEN 5.2 AND 6.0
 
 [REMOVED]
 - ALPM_EVENT_PKGDOWNLOAD_START, ALPM_EVENT_PKGDOWNLOAD_DONE, ALPM_EVENT_PKGDOWNLOAD_FAILED
+- old TotalDownload implementation
+ - alpm_cb_totaldl
+ - alpm_option_get_totaldlcb()
+ - alpm_option_set_totaldlcb()
 
 [CHANGED]
-- alpm_db_update() changed its signature and now accepts a list of databases
-  rather than a single database. This is need to handle database downloading
-  in a multiplexed way.
+- alpm_db_update() now accepts a list of databases rather than a single database.
+- alpm_fetch_pkgurl() accepts a list of packages to download.
+- alpm_db_search() now has an additional parameter and returns success status
+- ALPM_EVENT_RETRIEVE_* -> ALPM_EVENT_DB_RETRIEVE_* and ALPM_EVENT_PKG_RETRIEVE_*
+- alpm_cb_download pass event and data
+- multi architecture support
+ - alpm_option_get_arch() -> alpm_option_get_architectures()
+ - alpm_option_set_arch() -> alpm_option_set_architectures()
+- alpm_db_get_servers() copies parameter data
 
 [ADDED]
+- parallel download support
+ - alpm_option_set_parallel_downloads()
+ - alpm_option_get_parallel_downloads()
+- file download events
+ - alpm_download_event_type_t
+ - alpm_download_event_init_t
+ - alpm_download_event_progress_t
+ - alpm_download_event_completed_t
+- download misc
+ - ALPM_DOWNLOAD_RETRY
+ - alpm_download_event_retry_t
+ - alpm_event_pkg_retrieve_t
+- multiarchitecture support
+ - alpm_option_add_architecture()
+ - alpm_option_remove_architecture()
+- misc
+ - alpm_pkg_get_sig()
+- callbacks add front-end provided context
