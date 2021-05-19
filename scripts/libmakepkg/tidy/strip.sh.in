@@ -36,7 +36,7 @@ build_id() {
 }
 
 source_files() {
-	LANG=C readelf "$1" --debug-dump | \
+	LANG=C readelf "$1" --debug-dump 2>/dev/null | \
 		awk '/DW_AT_name +:/{name=$NF}/DW_AT_comp_dir +:/{{if (name == "<artificial>") next}{if (name !~ /^[<\/]/) {printf "%s/", $NF}}{print name}}'
 }
 
