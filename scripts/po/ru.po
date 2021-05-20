@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the pacman-scripts package.
 #
 # Translators:
 # AlexanderR <alexander.r@gmx.com>, 2012
@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2019-10-13 23:51+0000\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-04-23 00:41+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Russian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ru/)\n"
@@ -689,9 +689,8 @@ msgstr ""
 "ключей"
 
 #: scripts/pacman-key.sh.in:80
-#, fuzzy
 msgid "  --verbose                 Show extra information"
-msgstr "      --version             Показать версию и выйти\n"
+msgstr ""
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
@@ -794,9 +793,8 @@ msgid "Disabling key %s..."
 msgstr "Блокирование ключа '%s'..."
 
 #: scripts/pacman-key.sh.in:376
-#, fuzzy
 msgid "Disabled %s keys."
-msgstr "Блокирование ключа '%s'..."
+msgstr ""
 
 #: scripts/pacman-key.sh.in:383
 msgid "A specified keyfile could not be added to the keyring."
@@ -843,9 +841,8 @@ msgid "%s could not be locally signed."
 msgstr "Не удалось локально подписать ключ '%s'."
 
 #: scripts/pacman-key.sh.in:507
-#, fuzzy
 msgid "Locally signed %s keys."
-msgstr "Локальное подписывание ключа '%s'..."
+msgstr ""
 
 #: scripts/pacman-key.sh.in:530
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -1577,83 +1574,3 @@ msgstr "У вас нет прав на запись в каталог $%s (%s)."
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
 msgstr "Не удалось включить '%s'"
-
-#, perl-format
-#~ msgid "can't create '%s': %s"
-#~ msgstr "ошибка при создании '%s': %s"
-
-#~ msgid "invalid key/value pair\n"
-#~ msgstr "неверная пара 'ключ-значение'\n"
-
-#~ msgid "invalid template line: can't find template name\n"
-#~ msgstr "неверная строка: не могу найти имя шаблона\n"
-
-#, perl-format
-#~ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-#~ msgstr "неверные символы в имени: '%s'; допустимы: [:alnum:]+_.@-\n"
-
-#, perl-format
-#~ msgid "Couldn't detect version for template '%s'\n"
-#~ msgstr "Не удалось определить версию для шаблона '%s'\n"
-
-#, perl-format
-#~ msgid "Failed to find template file matching '%s'\n"
-#~ msgstr "Не удалось найти шаблон соответствующий '%s'\n"
-
-#, perl-format
-#~ msgid "failed to open '%s': %s\n"
-#~ msgstr "не удалось открыть '%s': %s\n"
-
-#, perl-format
-#~ msgid "Unknown template marker '%s'\n"
-#~ msgstr "Неизвестный маркер шаблона '%s'\n"
-
-#~ msgid "makepkg-template [options]\n"
-#~ msgstr "makepkg-template [параметры]\n"
-
-#~ msgid "Options:\n"
-#~ msgstr "Параметры:\n"
-
-#, perl-format
-#~ msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-#~ msgstr ""
-#~ "  -p, --input <файл>        сценарий для сборки (по-умолчанию: %s)\n"
-
-#~ msgid "  --output, -o <file>   file to output to (default: input file)\n"
-#~ msgstr ""
-#~ "  -o, --output <файл>       файл для вывода (по-умолчанию: входной файл)\n"
-
-#~ msgid "  --newest, -n          update templates to newest version\n"
-#~ msgstr "  -n, --newest              обновить шаблоны\n"
-
-#~ msgid ""
-#~ "                        (default: use version specified in the template "
-#~ "markers)\n"
-#~ msgstr ""
-#~ "                            (по-умолчанию: использовать версию, указанную "
-#~ "в шаблоне)\n"
-
-#~ msgid "  --template-dir <dir>  directory to search for templates\n"
-#~ msgstr "      --template-dir <дир>  директория с шаблонами\n"
-
-#, perl-format
-#~ msgid "                        (default: %s)\n"
-#~ msgstr "                            (по-умолчанию: %s)\n"
-
-#~ msgid "  --help, -h            This help message\n"
-#~ msgstr "  -h, --help                Показать справку и выйти\n"
-
-#~ msgid ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "This is free software; see the source for copying conditions.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "Это свободное программное обеспечение; условия копирования — в исходном "
-#~ "коде.\n"
-#~ "НИКАКИХ ГАРАНТИЙ в соответствии с законодательством.\n"
-
-#~ msgid "A specified local key could not be updated from a keyserver."
-#~ msgstr "Не удалось обновить указанный локальный ключ с сервера ключей."

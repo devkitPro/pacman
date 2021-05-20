@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the pacman-scripts package.
 #
 # Translators:
 # Seong-ho Cho <darkcircle.0426@gmail.com>, 2013
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2019-10-14 18:16+0000\n"
-"Last-Translator: 배태길 <esrevinu@gmail.com>\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-04-23 00:41+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Korean (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
 "Language: ko\n"
@@ -672,9 +672,8 @@ msgstr ""
 "  --refresh-keys            키 서버에서 지정한 또는 모든 키를 업데이트합니다"
 
 #: scripts/pacman-key.sh.in:80
-#, fuzzy
 msgid "  --verbose                 Show extra information"
-msgstr "  --version             버전 정보 표시\n"
+msgstr ""
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
@@ -776,9 +775,8 @@ msgid "Disabling key %s..."
 msgstr "키 %s 비활성화하는 중..."
 
 #: scripts/pacman-key.sh.in:376
-#, fuzzy
 msgid "Disabled %s keys."
-msgstr "키 %s 비활성화하는 중..."
+msgstr ""
 
 #: scripts/pacman-key.sh.in:383
 msgid "A specified keyfile could not be added to the keyring."
@@ -825,9 +823,8 @@ msgid "%s could not be locally signed."
 msgstr "%s를 자체적으로 서명할 수 없습니다."
 
 #: scripts/pacman-key.sh.in:507
-#, fuzzy
 msgid "Locally signed %s keys."
-msgstr "키 %s로 로컬 서명중..."
+msgstr ""
 
 #: scripts/pacman-key.sh.in:530
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -1557,82 +1554,3 @@ msgstr "당신은 디렉토리 $%s (%s)에 쓰기 권한이 없습니다."
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
 msgstr "%s 원본 지정에 실패했습니다"
-
-#, perl-format
-#~ msgid "can't create '%s': %s"
-#~ msgstr "'%s'를 생성할 수 없습니다: %s"
-
-#~ msgid "invalid key/value pair\n"
-#~ msgstr "잘못된 키/값 쌍\n"
-
-#~ msgid "invalid template line: can't find template name\n"
-#~ msgstr "유효하지 않은 템플릿 줄: 템플릿 이름을 찾을 수 없습니다.\n"
-
-#, perl-format
-#~ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-#~ msgstr ""
-#~ "이름 '%s'에 유효하지 않은 글자가 사용되었습니다. 허용글자: [:alnum:]+_."
-#~ "@-\n"
-
-#, perl-format
-#~ msgid "Couldn't detect version for template '%s'\n"
-#~ msgstr "템플릿 '%s'의 버전을 발견할 수 없습니다\n"
-
-#, perl-format
-#~ msgid "Failed to find template file matching '%s'\n"
-#~ msgstr "'%s'와 일치하는 템플릿 파일을 찾는 데 실패했습니다\n"
-
-#, perl-format
-#~ msgid "failed to open '%s': %s\n"
-#~ msgstr "'%s'를 여는 데 실패했습니다: %s\n"
-
-#, perl-format
-#~ msgid "Unknown template marker '%s'\n"
-#~ msgstr "알 수 없는 템플릿 표시자 '%s'\n"
-
-#~ msgid "makepkg-template [options]\n"
-#~ msgstr "makepkg-template [옵션]\n"
-
-#~ msgid "Options:\n"
-#~ msgstr "옵션:\n"
-
-#, perl-format
-#~ msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-#~ msgstr "  --input, -p <file>    읽을 빌드 스크립트 (기본값: %s)\n"
-
-#~ msgid "  --output, -o <file>   file to output to (default: input file)\n"
-#~ msgstr "  --output, -o <file>   출력할 파일 (기본값: 입력파일)\n"
-
-#~ msgid "  --newest, -n          update templates to newest version\n"
-#~ msgstr "  --newest, -n          최신 버전으로 템플릿을 갱신합니다\n"
-
-#~ msgid ""
-#~ "                        (default: use version specified in the template "
-#~ "markers)\n"
-#~ msgstr ""
-#~ "                        (기본값: 템플릿 표시자 안에 명기된 버전 사용)\n"
-
-#~ msgid "  --template-dir <dir>  directory to search for templates\n"
-#~ msgstr "  --template-dir <dir>  템플릿을 찾을 디렉터리\n"
-
-#, perl-format
-#~ msgid "                        (default: %s)\n"
-#~ msgstr "                        (기본값: %s)\n"
-
-#~ msgid "  --help, -h            This help message\n"
-#~ msgstr "  --help, -h            이 도움말 메시지 표시\n"
-
-#~ msgid ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "This is free software; see the source for copying conditions.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "이것은 자유소프트웨어입니다. 복제 조건에 대해서는 소스코드를 참조하십시"
-#~ "오.\n"
-#~ "법이 허용하는 한에서 어떤 보증도 하지 않습니다.\n"
-
-#~ msgid "A specified local key could not be updated from a keyserver."
-#~ msgstr "지정한 로컬 키를 키 서버에서 가져와 업데이트할 수 없습니다."

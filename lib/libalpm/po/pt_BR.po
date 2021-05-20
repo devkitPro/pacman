@@ -1,13 +1,13 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the libalpm package.
 #
 # Translators:
 # ambaratti <ambaratti.listas@gmail.com>, 2011
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # Rafael Fontenelle <rffontenelle@gmail.com>, 2011-2014
 # Rafael Fontenelle <rafaelff@gnome.org>, 2018
-# Rafael Fontenelle <rffontenelle@gmail.com>, 2011,2015,2017-2019
+# Rafael Fontenelle <rffontenelle@gmail.com>, 2011,2015,2017-2019,2021
 # Rafael Fontenelle <rffontenelle@gmail.com>, 2011
 # Sandro <sandrossv@hotmail.com>, 2011
 # Sandro <sandrossv@hotmail.com>, 2011
@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2019-10-07 10:01+0000\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-04-23 07:48+0000\n"
 "Last-Translator: Rafael Fontenelle <rffontenelle@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/pt_BR/)\n"
@@ -56,7 +56,7 @@ msgstr "recebido aviso ao extrair %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "não foi possível extrair %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:659 lib/libalpm/remove.c:534
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:672 lib/libalpm/remove.c:534
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "não foi possível renomear %s para %s (%s)\n"
@@ -169,7 +169,7 @@ msgstr "registro corrompido na base de dados \"%s\"\n"
 
 #: lib/libalpm/be_local.c:722 lib/libalpm/be_local.c:818
 #: lib/libalpm/be_local.c:958 lib/libalpm/be_local.c:1055
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:770 lib/libalpm/util.c:254
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:783 lib/libalpm/util.c:254
 #: lib/libalpm/util.c:270
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -233,7 +233,7 @@ msgstr "faltando metadados do pacote em %s\n"
 msgid "failed to read signature file: %s\n"
 msgstr "falha ao ler o arquivo de assinatura: %s\n"
 
-#: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:934
+#: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:953
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "faltando chave necessária no chaveiro\n"
@@ -274,7 +274,7 @@ msgstr ""
 msgid "unknown database file: %s\n"
 msgstr "arquivo de base de dados inválido: %s\n"
 
-#: lib/libalpm/db.c:338
+#: lib/libalpm/db.c:344
 #, c-format
 msgid "database path is undefined\n"
 msgstr "caminho da base de dados não definido\n"
@@ -360,63 +360,63 @@ msgstr "Partição %s está montada somente para leitura\n"
 #, c-format
 msgid ""
 "too many errors from %s, skipping for the remainder of this transaction\n"
-msgstr ""
+msgstr "muitos erros de %s, ignorando o restante desta transação\n"
 
-#: lib/libalpm/dload.c:224
+#: lib/libalpm/dload.c:220
 #, c-format
 msgid "disk"
 msgstr "disco"
 
-#: lib/libalpm/dload.c:396
+#: lib/libalpm/dload.c:392
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "falha em criar arquivo temporário para download\n"
 
-#: lib/libalpm/dload.c:497 lib/libalpm/dload.c:525 lib/libalpm/dload.c:542
+#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:537 lib/libalpm/dload.c:551
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "falha ao obter o arquivo \"%s\" de %s : %s\n"
 
-#: lib/libalpm/dload.c:516
+#: lib/libalpm/dload.c:529
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "falha ao obter arquivo \"%s\" de %s: esperava tamanho de download excedido\n"
 
-#: lib/libalpm/dload.c:637
+#: lib/libalpm/dload.c:650
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s parece estar truncado: %jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:737
+#: lib/libalpm/dload.c:750
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "a url \"%s\" é inválida\n"
 
-#: lib/libalpm/dload.c:817
-#, fuzzy, c-format
+#: lib/libalpm/dload.c:836
+#, c-format
 msgid "failed to setup a download payload for %s\n"
-msgstr "falha ao fazer o download de %s\n"
+msgstr "falha ao configurar um conteúdo de download para %s\n"
 
-#: lib/libalpm/dload.c:829
+#: lib/libalpm/dload.c:848
 #, c-format
 msgid "curl returned error %d from transfer\n"
-msgstr ""
+msgstr "curl retornou erro %d da transferência\n"
 
-#: lib/libalpm/dload.c:851
+#: lib/libalpm/dload.c:872
 #, c-format
 msgid "curl transfer error: %d\n"
-msgstr ""
+msgstr "erro de transferência do curl: %d\n"
 
-#: lib/libalpm/dload.c:969 lib/libalpm/sync.c:821
+#: lib/libalpm/dload.c:989 lib/libalpm/sync.c:840
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "falha ao obter alguns arquivos\n"
 
-#: lib/libalpm/dload.c:992
+#: lib/libalpm/dload.c:1012
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
-msgstr ""
+msgstr "download concluído com sucesso, mas nenhum arquivo no cache\n"
 
 #: lib/libalpm/error.c:40
 #, c-format
@@ -533,7 +533,7 @@ msgstr "nenhum servidor configurado para o repositório"
 msgid "transaction already initialized"
 msgstr "transação já inicializada"
 
-#: lib/libalpm/error.c:90 lib/libalpm/error.c:94
+#: lib/libalpm/error.c:90 lib/libalpm/error.c:96
 #, c-format
 msgid "transaction not initialized"
 msgstr "transação não inicializada"
@@ -543,85 +543,85 @@ msgstr "transação não inicializada"
 msgid "duplicate target"
 msgstr "pacote duplicado"
 
-#: lib/libalpm/error.c:96
+#: lib/libalpm/error.c:94
+#, fuzzy, c-format
+msgid "duplicate filename"
+msgstr "pacote duplicado"
+
+#: lib/libalpm/error.c:98
 #, c-format
 msgid "transaction not prepared"
 msgstr "transação não preparada"
 
-#: lib/libalpm/error.c:98
+#: lib/libalpm/error.c:100
 #, c-format
 msgid "transaction aborted"
 msgstr "transação abortada"
 
-#: lib/libalpm/error.c:100
+#: lib/libalpm/error.c:102
 #, c-format
 msgid "operation not compatible with the transaction type"
 msgstr "operação não compatível com o tipo da transação"
 
-#: lib/libalpm/error.c:102
+#: lib/libalpm/error.c:104
 #, c-format
 msgid "transaction commit attempt when database is not locked"
 msgstr "tentativa de confirmação de transação com a base de dados não travada"
 
-#: lib/libalpm/error.c:104
+#: lib/libalpm/error.c:106
 #, c-format
 msgid "failed to run transaction hooks"
 msgstr "falha ao executar hooks de transição"
 
-#: lib/libalpm/error.c:107
+#: lib/libalpm/error.c:109
 #, c-format
 msgid "could not find or read package"
 msgstr "não foi possível ler ou escrever o pacote"
 
-#: lib/libalpm/error.c:109
+#: lib/libalpm/error.c:111
 #, c-format
 msgid "operation cancelled due to ignorepkg"
 msgstr "operação cancelada devido a ignorepkg"
 
-#: lib/libalpm/error.c:111
+#: lib/libalpm/error.c:113
 #, c-format
 msgid "invalid or corrupted package"
 msgstr "pacote inválido ou corrompido"
 
-#: lib/libalpm/error.c:113
+#: lib/libalpm/error.c:115
 #, c-format
 msgid "invalid or corrupted package (checksum)"
 msgstr "pacote inválido ou corrompido (soma de verificação)"
 
-#: lib/libalpm/error.c:115
+#: lib/libalpm/error.c:117
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
 msgstr "pacote inválido ou corrompido (assinatura PGP)"
 
-#: lib/libalpm/error.c:117
+#: lib/libalpm/error.c:119
 #, c-format
 msgid "package missing required signature"
 msgstr "pacote sem a assinatura exigida"
 
-#: lib/libalpm/error.c:119
+#: lib/libalpm/error.c:121
 #, c-format
 msgid "cannot open package file"
 msgstr "não foi possível abrir o arquivo do pacote"
 
-#: lib/libalpm/error.c:121
+#: lib/libalpm/error.c:123
 #, c-format
 msgid "cannot remove all files for package"
 msgstr "não foi possível remover todos os arquivos do pacote"
 
-#: lib/libalpm/error.c:123
+#: lib/libalpm/error.c:125
 #, c-format
 msgid "package filename is not valid"
 msgstr "o nome de arquivo do pacote não é valido"
 
-#: lib/libalpm/error.c:125
+#: lib/libalpm/error.c:127
 #, c-format
 msgid "package architecture is not valid"
 msgstr "a arquitetura do pacote não é valida"
-
-#: lib/libalpm/error.c:127
-#, c-format
-msgid "could not find repository for target"
-msgstr "não foi possível encontrar o repositório para o pacote"
 
 #: lib/libalpm/error.c:130
 #, c-format
@@ -865,7 +865,7 @@ msgstr "a chave \"%s\" não pôde ser importada\n"
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "a chave \"%s\" não pôde ser procurada remotamente\n"
 
-#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1003
+#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: faltando assinatura exigida\n"
@@ -947,32 +947,37 @@ msgstr "ignorando substituição de pacote (%s-%s => %s-%s)\n"
 msgid "cannot replace %s by %s\n"
 msgstr "não foi possível substituir %s por %s\n"
 
-#: lib/libalpm/sync.c:523 lib/libalpm/sync.c:593
+#: lib/libalpm/sync.c:476
+#, c-format
+msgid "packages %s and %s have the same filename: %s\n"
+msgstr ""
+
+#: lib/libalpm/sync.c:542 lib/libalpm/sync.c:612
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "conflito de pacotes não solucionável detectado\n"
 
-#: lib/libalpm/sync.c:543
+#: lib/libalpm/sync.c:562
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "removendo \"%s\" da lista de pacotes porque ele conflita com \"%s\"\n"
 
-#: lib/libalpm/sync.c:1017
+#: lib/libalpm/sync.c:1036
 #, c-format
 msgid "failed to read file %s: %s\n"
 msgstr "falha ao ler o arquivo %s: %s\n"
 
-#: lib/libalpm/sync.c:1204
+#: lib/libalpm/sync.c:1223
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "espaço livre em disco insuficiente\n"
 
-#: lib/libalpm/sync.c:1226
+#: lib/libalpm/sync.c:1245
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "não foi possível efetuar a transação de remoção\n"
 
-#: lib/libalpm/sync.c:1234
+#: lib/libalpm/sync.c:1253
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "não foi possível efetuar a transação\n"
@@ -1057,3 +1062,7 @@ msgstr "cache %s não existe, criando...\n"
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "falha em encontrar ou criar cache do pacote, usando %s em substituição\n"
+
+#, c-format
+#~ msgid "could not find repository for target"
+#~ msgstr "não foi possível encontrar o repositório para o pacote"

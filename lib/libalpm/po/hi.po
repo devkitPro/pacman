@@ -1,15 +1,15 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the libalpm package.
 #
 # Translators:
-# Panwar108 <caspian7pena@gmail.com>, 2018,2020
+# Panwar108 <caspian7pena@gmail.com>, 2018,2020-2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2020-07-28 17:29+0000\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-05-09 11:23+0000\n"
 "Last-Translator: Panwar108 <caspian7pena@gmail.com>\n"
 "Language-Team: Hindi (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/hi/)\n"
@@ -49,7 +49,7 @@ msgstr "%s (%s) अनपैक करते समय चेतावनी द
 msgid "could not extract %s (%s)\n"
 msgstr " %s (%s) अनपैक करना विफल\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:659 lib/libalpm/remove.c:534
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:672 lib/libalpm/remove.c:534
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "%s का नाम बदलकर %s करना विफल (%s)\n"
@@ -160,7 +160,7 @@ msgstr "विकृत डेटाबेस प्रविष्टि '%s'\n
 
 #: lib/libalpm/be_local.c:722 lib/libalpm/be_local.c:818
 #: lib/libalpm/be_local.c:958 lib/libalpm/be_local.c:1055
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:770 lib/libalpm/util.c:254
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:783 lib/libalpm/util.c:254
 #: lib/libalpm/util.c:270
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -222,7 +222,7 @@ msgstr "%s में पैकेज मेटाडेटा अमान्य
 msgid "failed to read signature file: %s\n"
 msgstr "हस्ताक्षर फाइल रीड करना विफल : %s\n"
 
-#: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:934
+#: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:953
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "कुंजी-संग्रह से आवश्यक कुंजी अनुपस्थित\n"
@@ -257,7 +257,7 @@ msgstr "%s डेटाबेस विसंगति : %s पैकेज क�
 msgid "unknown database file: %s\n"
 msgstr "अज्ञात डेटाबेस फाइल : %s\n"
 
-#: lib/libalpm/db.c:338
+#: lib/libalpm/db.c:344
 #, c-format
 msgid "database path is undefined\n"
 msgstr "अपरिभाषित डेटाबेस पथ\n"
@@ -341,62 +341,62 @@ msgstr "माउंट विभाजन %s केवल रीड योग�
 #, c-format
 msgid ""
 "too many errors from %s, skipping for the remainder of this transaction\n"
-msgstr ""
+msgstr "%s हेतु अत्यधिक त्रुटियाँ हुई, यह शेष संचालन के दौरान निरस्त रहेगा\n"
 
-#: lib/libalpm/dload.c:224
+#: lib/libalpm/dload.c:220
 #, c-format
 msgid "disk"
 msgstr "डिस्क"
 
-#: lib/libalpm/dload.c:396
+#: lib/libalpm/dload.c:392
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "डाउनलोड हेतु अस्थायी फाइल बनाना विफल\n"
 
-#: lib/libalpm/dload.c:497 lib/libalpm/dload.c:525 lib/libalpm/dload.c:542
+#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:537 lib/libalpm/dload.c:551
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "%s से फाइल '%s' प्राप्त करना विफल : %s\n"
 
-#: lib/libalpm/dload.c:516
+#: lib/libalpm/dload.c:529
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr "%s से फाइल '%s' प्राप्त करना विफल : डाउनलोड आकर अपेक्षा से अधिक\n"
 
-#: lib/libalpm/dload.c:637
+#: lib/libalpm/dload.c:650
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s खंडित प्रतीत होता है : %jd/%jd बाइट\n"
 
-#: lib/libalpm/dload.c:737
+#: lib/libalpm/dload.c:750
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "यूआरएल '%s' अमान्य है\n"
 
-#: lib/libalpm/dload.c:817
-#, fuzzy, c-format
+#: lib/libalpm/dload.c:836
+#, c-format
 msgid "failed to setup a download payload for %s\n"
-msgstr "%s डाउनलोड करना विफल\n"
+msgstr "%s हेतु डाउनलोड अवस्था सेट करना विफल\n"
 
-#: lib/libalpm/dload.c:829
+#: lib/libalpm/dload.c:848
 #, c-format
 msgid "curl returned error %d from transfer\n"
-msgstr ""
+msgstr "अंतरण हेतु curl से प्राप्त त्रुटि %d\n"
 
-#: lib/libalpm/dload.c:851
+#: lib/libalpm/dload.c:872
 #, c-format
 msgid "curl transfer error: %d\n"
-msgstr ""
+msgstr "curl अंतरण त्रुटि : %d\n"
 
-#: lib/libalpm/dload.c:969 lib/libalpm/sync.c:821
+#: lib/libalpm/dload.c:989 lib/libalpm/sync.c:840
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "कुछ फ़ाइलें प्राप्त करने में विफल\n"
 
-#: lib/libalpm/dload.c:992
+#: lib/libalpm/dload.c:1012
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
-msgstr ""
+msgstr "डाउनलोड करना सफल परन्तु कैश में फाइल मौजूद नहीं है\n"
 
 #: lib/libalpm/error.c:40
 #, c-format
@@ -513,7 +513,7 @@ msgstr "पैकेज-संग्रह हेतु कोई सर्व�
 msgid "transaction already initialized"
 msgstr "संचालन पहले से आरंभित"
 
-#: lib/libalpm/error.c:90 lib/libalpm/error.c:94
+#: lib/libalpm/error.c:90 lib/libalpm/error.c:96
 #, c-format
 msgid "transaction not initialized"
 msgstr "संचालन आरंभित नहीं है"
@@ -523,85 +523,85 @@ msgstr "संचालन आरंभित नहीं है"
 msgid "duplicate target"
 msgstr "प्रतिरूपित लक्ष्य"
 
-#: lib/libalpm/error.c:96
+#: lib/libalpm/error.c:94
+#, fuzzy, c-format
+msgid "duplicate filename"
+msgstr "प्रतिरूपित लक्ष्य"
+
+#: lib/libalpm/error.c:98
 #, c-format
 msgid "transaction not prepared"
 msgstr "संचालन तैयार नहीं है"
 
-#: lib/libalpm/error.c:98
+#: lib/libalpm/error.c:100
 #, c-format
 msgid "transaction aborted"
 msgstr "संचालन रद्द"
 
-#: lib/libalpm/error.c:100
+#: lib/libalpm/error.c:102
 #, c-format
 msgid "operation not compatible with the transaction type"
 msgstr "कार्य संचालन प्रकार हेतु संगत नहीं है"
 
-#: lib/libalpm/error.c:102
+#: lib/libalpm/error.c:104
 #, c-format
 msgid "transaction commit attempt when database is not locked"
 msgstr "डेटाबेस लॉक न होने पर संचालन संचय हेतु प्रयास"
 
-#: lib/libalpm/error.c:104
+#: lib/libalpm/error.c:106
 #, c-format
 msgid "failed to run transaction hooks"
 msgstr "संचालन संपादन स्थान निष्पादन विफल"
 
-#: lib/libalpm/error.c:107
+#: lib/libalpm/error.c:109
 #, c-format
 msgid "could not find or read package"
 msgstr "पैकेज खोज या रीड करना विफल"
 
-#: lib/libalpm/error.c:109
+#: lib/libalpm/error.c:111
 #, c-format
 msgid "operation cancelled due to ignorepkg"
 msgstr "IgnorePkg द्वारा कार्य निरस्त"
 
-#: lib/libalpm/error.c:111
+#: lib/libalpm/error.c:113
 #, c-format
 msgid "invalid or corrupted package"
 msgstr "अमान्य या विकृत पैकेज"
 
-#: lib/libalpm/error.c:113
+#: lib/libalpm/error.c:115
 #, c-format
 msgid "invalid or corrupted package (checksum)"
 msgstr "अमान्य या विकृत पैकेज (चेकसम)"
 
-#: lib/libalpm/error.c:115
+#: lib/libalpm/error.c:117
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
 msgstr "अमान्य या विकृत पैकेज (पीजीपी हस्ताक्षर)"
 
-#: lib/libalpm/error.c:117
+#: lib/libalpm/error.c:119
 #, c-format
 msgid "package missing required signature"
 msgstr "पैकेज हेतु आवश्यक हस्ताक्षर अनुपस्थित"
 
-#: lib/libalpm/error.c:119
+#: lib/libalpm/error.c:121
 #, c-format
 msgid "cannot open package file"
 msgstr "पैकेज फाइल खोलना विफल"
 
-#: lib/libalpm/error.c:121
+#: lib/libalpm/error.c:123
 #, c-format
 msgid "cannot remove all files for package"
 msgstr "पैकेज की सभी फाइलें हटाना विफल"
 
-#: lib/libalpm/error.c:123
+#: lib/libalpm/error.c:125
 #, c-format
 msgid "package filename is not valid"
 msgstr "अमान्य पैकेज फाइल नाम"
 
-#: lib/libalpm/error.c:125
+#: lib/libalpm/error.c:127
 #, c-format
 msgid "package architecture is not valid"
 msgstr "अमान्य पैकेज संरचना"
-
-#: lib/libalpm/error.c:127
-#, c-format
-msgid "could not find repository for target"
-msgstr "लक्ष्य हेतु पैकेज-संग्रह नहीं मिला"
 
 #: lib/libalpm/error.c:130
 #, c-format
@@ -845,7 +845,7 @@ msgstr "कुंजी \"%s\" आयात विफल\n"
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "कुंजी \"%s\" हेतु दूरस्थ खोज विफल\n"
 
-#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1003
+#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s : आवश्यक हस्ताक्षर अनुपस्थित\n"
@@ -927,32 +927,37 @@ msgstr "पैकेज विनिमय अनदेखा किया ग�
 msgid "cannot replace %s by %s\n"
 msgstr "%s को %s से बदलना विफल\n"
 
-#: lib/libalpm/sync.c:523 lib/libalpm/sync.c:593
+#: lib/libalpm/sync.c:476
+#, c-format
+msgid "packages %s and %s have the same filename: %s\n"
+msgstr ""
+
+#: lib/libalpm/sync.c:542 lib/libalpm/sync.c:612
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "असमन्वयित विरुद्ध पैकेज पहचाने गए\n"
 
-#: lib/libalpm/sync.c:543
+#: lib/libalpm/sync.c:562
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "'%s' के विरुद्ध होने के कारण '%s' लक्षित सूची से हटेगा\n"
 
-#: lib/libalpm/sync.c:1017
+#: lib/libalpm/sync.c:1036
 #, c-format
 msgid "failed to read file %s: %s\n"
 msgstr "%s फ़ाइल रीड करने में विफल : %s\n"
 
-#: lib/libalpm/sync.c:1204
+#: lib/libalpm/sync.c:1223
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "अपर्याप्त डिस्क स्पेस\n"
 
-#: lib/libalpm/sync.c:1226
+#: lib/libalpm/sync.c:1245
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "हटाने हेतु संचालन संचित करना विफल\n"
 
-#: lib/libalpm/sync.c:1234
+#: lib/libalpm/sync.c:1253
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "संचालन संचित करना विफल\n"
@@ -1036,3 +1041,7 @@ msgstr "कोई %s कैश मौजूद नहीं है, बनाई
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "पैकेज कैश खोज या बनाना विफल, अतः %s उपयोग होगा\n"
+
+#, c-format
+#~ msgid "could not find repository for target"
+#~ msgstr "लक्ष्य हेतु पैकेज-संग्रह नहीं मिला"

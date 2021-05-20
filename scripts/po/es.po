@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the pacman-scripts package.
 #
 # Translators:
 # Jennifer o Jenni <jcmm986@gmail.com>, 2012
@@ -19,14 +19,14 @@
 # picodotdev <pico.dev@gmail.com>, 2015-2016,2019
 # prflr88 <prflr88@gmail.com>, 2013,2016
 # Pedro Román <roizheim@gmail.com>, 2013
-# Swyter <Swyterzone@gmail.com>, 2015,2017-2018
+# Swyter <Swyterzone@gmail.com>, 2015,2017-2018,2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2019-10-14 08:12+0000\n"
-"Last-Translator: picodotdev <pico.dev@gmail.com>\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-05-04 16:25+0000\n"
+"Last-Translator: Pedro Román <roizheim@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/es/)\n"
 "Language: es\n"
@@ -162,7 +162,7 @@ msgstr "Añadiendo el archivo %s..."
 
 #: scripts/makepkg.sh.in:706
 msgid "Failed to add %s file to package."
-msgstr "No se pudo agregar el archivo %s al paquete"
+msgstr "No se pudo agregar el archivo %s al paquete."
 
 #: scripts/makepkg.sh.in:724
 msgid "Generating .MTREE file..."
@@ -293,14 +293,14 @@ msgstr "  -o, --nobuild    Únicamente descarga y extrae los archivos"
 #: scripts/makepkg.sh.in:981
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr ""
-"  -p <archivo>     Usa un guion de compilación alternativo (en lugar de «%s»)"
+"  -p <archivo>     Usa un script de compilación alternativo (en lugar de "
+"«%s»)"
 
 #: scripts/makepkg.sh.in:982
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
-"  -r, --rmdeps Quita las dependencias instaladas tras una compilación "
-"exitosa."
+"  -r, --rmdeps Quita las dependencias instaladas tras una compilación exitosa"
 
 #: scripts/makepkg.sh.in:983
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
@@ -316,7 +316,7 @@ msgstr "  -s, --syncdeps   Instala las dependencias que faltan para %s"
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
-"  -S, --source     Genera un archivo comprimido «tar» sólo de fuentes,\n"
+"  -S, --source     Genera un archivo comprimido «tar» solo de fuentes,\n"
 "                   excluyendo las fuentes descargadas"
 
 #: scripts/makepkg.sh.in:986
@@ -458,7 +458,7 @@ msgstr ""
 
 #: scripts/makepkg.sh.in:1197
 msgid "Do not use the %s option. This option is only for internal use by %s."
-msgstr "No use la opción %s. Sólo la puede usar %s."
+msgstr "No use la opción %s. Solo la puede usar %s."
 
 #: scripts/makepkg.sh.in:1212
 msgid "%s does not exist."
@@ -547,7 +547,7 @@ msgstr "opciones:"
 #: scripts/pacman-db-upgrade.sh.in:44
 msgid "  -d, --dbpath <path>  set an alternate database location"
 msgstr ""
-"-d, --dbpath <ruta> establece una ubicación de base de datos alternativa"
+"  -d, --dbpath <ruta> establece una ubicación de base de datos alternativa"
 
 #: scripts/pacman-db-upgrade.sh.in:45
 msgid "  -h, --help           show this help message and exit"
@@ -555,7 +555,7 @@ msgstr "  -h, --help          muestra este mensaje de ayuda y sale"
 
 #: scripts/pacman-db-upgrade.sh.in:46
 msgid "  -r, --root <path>    set an alternate installation root"
-msgstr "  -r, --root <ruta>    establece una raíz de instalación alternativa "
+msgstr "  -r, --root <ruta>    establece una raíz de instalación alternativa"
 
 #: scripts/pacman-db-upgrade.sh.in:47
 msgid "  -V, --version        show version information and exit"
@@ -626,7 +626,8 @@ msgstr ""
 
 #: scripts/pacman-key.sh.in:64
 msgid "  -d, --delete              Remove the specified keyids"
-msgstr "  -d, --delete Quita los identificadores de claves especificados"
+msgstr ""
+"  -d, --delete              Quita los identificadores de claves especificados"
 
 #: scripts/pacman-key.sh.in:65
 msgid "  -e, --export              Export the specified or all keyids"
@@ -682,13 +683,13 @@ msgid ""
 "  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
 "dir(s)"
 msgstr ""
-"  --import-trustdb           Importa los valores de los propietarios de "
-"confianza desde trustdb.gpg al directorio(s)"
+"  --import-trustdb           Importa los valores de confianza de los "
+"propietarios desde trustdb.gpg al directorio(s)"
 
 #: scripts/pacman-key.sh.in:74
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
-"  --init                     Asegurar que el depósito de claves esté "
+"  --init                     Garantiza que el depósito de claves esté "
 "correctamente inicializado"
 
 #: scripts/pacman-key.sh.in:75
@@ -707,7 +708,7 @@ msgid ""
 "\\n                            in '%s'"
 msgstr ""
 "  --populate                 Recarga las claves por omisión de los depósitos "
-"(seleccionados)\\n en «%s»"
+"(seleccionados)\\n                            en «%s»"
 
 #: scripts/pacman-key.sh.in:79
 msgid ""
@@ -717,30 +718,29 @@ msgstr ""
 "especificadas) desde un servidor de claves"
 
 #: scripts/pacman-key.sh.in:80
-#, fuzzy
 msgid "  --verbose                 Show extra information"
-msgstr "  --version             Información de la versión\n"
+msgstr "  --verbose             Muestra información adicional"
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
 "  --config <file>           Use an alternate config file (instead of"
 "\\n                            '%s')"
 msgstr ""
-"  --config <archivo>         Usa un archivo de configuración alternativo\n"
-"                             (en lugar de «%s»)"
+"  --config <archivo>         Usa un archivo de configuración alternativo (en "
+"lugar de\\n                             «%s»)"
 
 #: scripts/pacman-key.sh.in:85
 msgid ""
 "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
 "\\n                            of '%s')"
 msgstr ""
-"  --gpgdir <directorio>      Configura un directorio alternativo para GnuPG\n"
-"                             (en lugar de «%s»)"
+"  --gpgdir <directorio>      Configura un directorio alternativo para GnuPG "
+"(en lugar\\n                            de «%s»)"
 
 #: scripts/pacman-key.sh.in:87
 msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
 msgstr ""
-"  --keyserver <dirección>    Especifica un servidor de claves para utilizar "
+"  --keyserver <dirección>  Especifica un servidor de claves para utilizar "
 "cuando sea necesario"
 
 #: scripts/pacman-key.sh.in:89
@@ -761,7 +761,7 @@ msgstr "El nombre de la clave es ambiguo:"
 
 #: scripts/pacman-key.sh.in:148
 msgid "Generating pacman master key. This may take some time."
-msgstr ""
+msgstr "Se está generando la clave principal de pacman, puede tardar un poco."
 
 #: scripts/pacman-key.sh.in:185
 msgid "The key identified by %s could not be found locally."
@@ -770,11 +770,11 @@ msgstr "La clave identificada por %s no se pudo encontrar localmente."
 #: scripts/pacman-key.sh.in:196 scripts/pacman-key.sh.in:208
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:204
 msgid "_"
-msgstr ""
+msgstr "_"
 
 #: scripts/pacman-key.sh.in:208
 msgid "flags"
-msgstr ""
+msgstr "indicadores"
 
 #: scripts/pacman-key.sh.in:263
 msgid "You do not have sufficient permissions to read the %s keyring."
@@ -814,7 +814,7 @@ msgstr "Firmando localmente las claves de confianza en el depósito..."
 
 #: scripts/pacman-key.sh.in:345
 msgid "Importing owner trust values..."
-msgstr "Importando los valores de los propietarios de confianza..."
+msgstr "Importando los valores de confianza del propietario..."
 
 #: scripts/pacman-key.sh.in:364
 msgid "Disabling revoked keys in keyring..."
@@ -825,9 +825,8 @@ msgid "Disabling key %s..."
 msgstr "Desactivando la clave %s..."
 
 #: scripts/pacman-key.sh.in:376
-#, fuzzy
 msgid "Disabled %s keys."
-msgstr "Desactivando la clave %s..."
+msgstr "Se han desactivado %s claves."
 
 #: scripts/pacman-key.sh.in:383
 msgid "A specified keyfile could not be added to the keyring."
@@ -874,13 +873,14 @@ msgid "%s could not be locally signed."
 msgstr "No se ha podido firmar %s localmente."
 
 #: scripts/pacman-key.sh.in:507
-#, fuzzy
 msgid "Locally signed %s keys."
-msgstr "Firmando localmente la clave %s..."
+msgstr "Se han firmado localmente %s claves."
 
 #: scripts/pacman-key.sh.in:530
 msgid "Remote key not fetched correctly from WKD or keyserver."
-msgstr "La clave remota no se recuperó correctamente desde WKD o keyserver."
+msgstr ""
+"La clave remota no se recuperó correctamente desde el servidor de claves o "
+"WKD."
 
 #: scripts/pacman-key.sh.in:535
 msgid "Remote key not fetched correctly from keyserver."
@@ -889,7 +889,7 @@ msgstr ""
 
 #: scripts/pacman-key.sh.in:567
 msgid "Could not update key: %s"
-msgstr ""
+msgstr "No se pudo actualizar la clave: %s"
 
 #: scripts/pacman-key.sh.in:588 scripts/repo-add.sh.in:265
 msgid "Cannot use armored signatures for packages: %s"
@@ -939,7 +939,7 @@ msgstr "No se especificaron objetivos"
 
 #: scripts/repo-add.sh.in:58
 msgid "Usage: repo-add [options] <path-to-db> <package> ...\\n"
-msgstr "Uso: repo-add [opciones] <path-to-db> <package> ...\\n"
+msgstr "Uso: repo-add [opciones] <ruta-a-basedatos> <paquete> ...\\n"
 
 #: scripts/repo-add.sh.in:60
 msgid ""
@@ -956,15 +956,15 @@ msgstr "Opciones:\\n"
 #: scripts/repo-add.sh.in:65
 msgid ""
 "  -n, --new         only add packages that are not already in the database\\n"
-msgstr "  -n, --new         sólo añade paquetes nuevos a la base de datos\\n"
+msgstr "  -n, --new         solo añade paquetes nuevos a la base de datos\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid ""
 "  -R, --remove      remove old package file from disk after updating database"
 "\\n"
 msgstr ""
-"-R, --remove quita el paquete obsoleto del disco tras actualizar la base de "
-"datos\\n"
+"  -R, --remove quita el paquete obsoleto del disco tras actualizar la base "
+"de datos\\n"
 
 #: scripts/repo-add.sh.in:67
 msgid ""
@@ -976,7 +976,7 @@ msgstr ""
 
 #: scripts/repo-add.sh.in:69
 msgid "Usage: repo-remove [options] <path-to-db> <packagename> ...\\n"
-msgstr "Uso: repo-remove [opciones] <path-to-db> <packagename> ...\\n"
+msgstr "Uso: repo-remove [opciones] <ruta-a-basedatos> <nombrepaquete> ...\\n"
 
 #: scripts/repo-add.sh.in:71
 msgid ""
@@ -1029,12 +1029,11 @@ msgstr ""
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
-"Ejemplo:  repo-add /ruta/hasta/repo.db.tar.gz pacman-3.5.0-1-i686.pkg.tar.gz"
-"\\n"
+"Ejemplo:  repo-add /ruta/a/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 
 #: scripts/repo-add.sh.in:92
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"
-msgstr "Ejemplo:  repo-remove /ruta/hasta/repo.db.tar.gz kernel26\\n"
+msgstr "Ejemplo:  repo-remove /ruta/a/repo.db.tar.gz kernel26\\n"
 
 #: scripts/repo-add.sh.in:136
 msgid "Cannot find the gpg binary! Is GnuPG installed?"
@@ -1078,7 +1077,7 @@ msgstr "El archivo del paquete «%s» no es válido."
 
 #: scripts/repo-add.sh.in:240
 msgid "An entry for '%s' already existed"
-msgstr "Ya existía una entrada para «%s» "
+msgstr "Ya existía una entrada para «%s»"
 
 #: scripts/repo-add.sh.in:250
 msgid "A newer version for '%s' is already present in database"
@@ -1159,7 +1158,7 @@ msgstr "No quedan paquetes, creando base de datos vacía."
 
 #: scripts/repo-add.sh.in:584
 msgid "Invalid command name '%s' specified."
-msgstr "El nombre de la orden «%s» especificado no es válido"
+msgstr "El nombre de la orden «%s» especificado no es válido."
 
 #: scripts/repo-add.sh.in:589
 msgid "Cannot create temp directory for database building."
@@ -1242,7 +1241,7 @@ msgstr "¡Uno o más archivos no superaron el control de validación!"
 msgid "Integrity checks (%s) differ in size from the source array."
 msgstr ""
 "Los controles de integridad (%s) difieren en tamaño de los especificados en "
-"la fuente («source»)."
+"la matriz de la fuente."
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:33
 msgid "Verifying source file signatures with %s..."
@@ -1254,11 +1253,11 @@ msgstr "clave pública desconocida"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:72
 msgid "public key %s has been revoked"
-msgstr "La clave pública %s ha sido revocada."
+msgstr "la clave pública %s ha sido revocada"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:75
 msgid "bad signature from public key"
-msgstr "Firma viciada en relación con la clave pública"
+msgstr "firma viciada en relación con la clave pública"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:78
 msgid "error during signature verification"
@@ -1319,13 +1318,13 @@ msgstr "%s contiene caracteres que no son válidos: «%s»"
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:72
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:82
 msgid "%s should be an array"
-msgstr "%s debería de ser un «array»"
+msgstr "%s debería de ser una matriz («array»)"
 
 #: scripts/libmakepkg/lint_config/variable.sh.in:57
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:62
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:90
 msgid "%s should not be an array"
-msgstr "%s no debería de ser un «array»"
+msgstr "%s no debería de ser una matriz («array»)"
 
 #: scripts/libmakepkg/lint_config/variable.sh.in:66
 msgid "PACKAGER should have the format 'Example Name <email@address.invalid>'"
@@ -1344,7 +1343,7 @@ msgstr "El paquete contiene referencias a %s"
 msgid "Dotfile found in package root '%s'"
 msgstr ""
 "Se ha encontrado un archivo oculto (que empieza por punto) en la carpeta "
-"raíz del paquete  «%s»"
+"raíz del paquete «%s»"
 
 #: scripts/libmakepkg/lint_package/file_names.sh.in:36
 msgid "Package contains paths with newlines"
@@ -1373,7 +1372,7 @@ msgstr "%s debe ser un número entero, no %s."
 
 #: scripts/libmakepkg/lint_pkgbuild/options.sh.in:52
 msgid "%s array contains unknown option '%s'"
-msgstr "El «array» %s contiene una opción desconocida: «%s»"
+msgstr "La «matriz» %s contiene una opción desconocida: «%s»"
 
 #: scripts/libmakepkg/lint_pkgbuild/package_function.sh.in:38
 msgid "Conflicting %s and %s functions in %s"
@@ -1426,7 +1425,7 @@ msgstr "%s no puede contener dos puntos, barras, guiones o espacios en blanco."
 
 #: scripts/libmakepkg/lint_pkgbuild/provides.sh.in:46
 msgid "%s array cannot contain comparison (< or >) operators."
-msgstr "El «array» %s no puede contener operadores de comparación (< o >)."
+msgstr "La «matriz» %s no puede contener operadores de comparación (< o >)."
 
 #: scripts/libmakepkg/lint_pkgbuild/source.sh.in:36
 msgid "Sparse arrays are not allowed for source"
@@ -1494,7 +1493,7 @@ msgstr ""
 #: scripts/libmakepkg/source/file.sh.in:36
 #: scripts/libmakepkg/source/local.sh.in:36
 msgid "Found %s"
-msgstr "%s ha sido encontrado "
+msgstr "%s ha sido encontrado"
 
 #: scripts/libmakepkg/source/file.sh.in:55
 msgid "Downloading %s..."
@@ -1538,7 +1537,7 @@ msgstr "Hubo fallos durante la actualización de %s del repositorio %s"
 
 #: scripts/libmakepkg/source/git.sh.in:121
 msgid "Failure while checking out version %s, the git tag has been forged"
-msgstr "No se pudo obtener la versión %s, la etiqueta («tag») git no existe"
+msgstr "No se pudo obtener la versión %s, la etiqueta «git» no existe"
 
 #: scripts/libmakepkg/source/local.sh.in:39
 msgid "%s was not found in the build directory and is not a URL."
@@ -1631,95 +1630,3 @@ msgstr "No tiene permisos de escritura en la carpeta $%s (%s)."
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
 msgstr "Hubo fallos al obtener la fuente %s"
-
-#, perl-format
-#~ msgid "can't create '%s': %s"
-#~ msgstr "no se pudo crear «%s»: %s"
-
-#~ msgid "invalid key/value pair\n"
-#~ msgstr "emparejamiento clave/valor no válido\n"
-
-#~ msgid "invalid template line: can't find template name\n"
-#~ msgstr ""
-#~ "la línea «template» no es válida: no se pudo encontrar el nombre de la "
-#~ "plantilla\n"
-
-#, perl-format
-#~ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-#~ msgstr ""
-#~ "se han utilizado caracteres no válidos en el nombre «%s». Permitido: [:"
-#~ "alnum:]+_.@-\n"
-
-#, perl-format
-#~ msgid "Couldn't detect version for template '%s'\n"
-#~ msgstr "No se pudo detectar la versión de la plantilla «%s»\n"
-
-#, perl-format
-#~ msgid "Failed to find template file matching '%s'\n"
-#~ msgstr ""
-#~ "no se pudo encontrar el archivo de plantilla que coincidan con «%s»\n"
-
-#, perl-format
-#~ msgid "failed to open '%s': %s\n"
-#~ msgstr "error al abrir «%s»: %s\n"
-
-#, perl-format
-#~ msgid "Unknown template marker '%s'\n"
-#~ msgstr "Marcador de plantilla «%s» desconocido\n"
-
-#~ msgid "makepkg-template [options]\n"
-#~ msgstr "makepkg-template [opciones]\n"
-
-#~ msgid "Options:\n"
-#~ msgstr "Opciones:\n"
-
-#, perl-format
-#~ msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-#~ msgstr "  --input, -p <archivo>    Guion de compilación (por omisión: %s)\n"
-
-#~ msgid "  --output, -o <file>   file to output to (default: input file)\n"
-#~ msgstr ""
-#~ "  --output, -o <archivo>   archivo de salida (por omisión: archivo de "
-#~ "entrada)\n"
-
-#~ msgid "  --newest, -n          update templates to newest version\n"
-#~ msgstr ""
-#~ "  --newest, -n          actualiza las plantillas a la versión más "
-#~ "reciente\n"
-
-#~ msgid ""
-#~ "                        (default: use version specified in the template "
-#~ "markers)\n"
-#~ msgstr ""
-#~ "                        (por omisión: utiliza la versión especificada en "
-#~ "las etiquetas de las plantillas)\n"
-
-#~ msgid "  --template-dir <dir>  directory to search for templates\n"
-#~ msgstr ""
-#~ "  --template-dir <directorio>  directorio en el que buscar las "
-#~ "plantillas\n"
-
-#, perl-format
-#~ msgid "                        (default: %s)\n"
-#~ msgstr "                        (por omisión:: %s)\n"
-
-#~ msgid "  --help, -h            This help message\n"
-#~ msgstr "  --help, -h            Este mensaje de ayuda\n"
-
-#~ msgid ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "This is free software; see the source for copying conditions.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "Copyright  (c) 2013-2018 El equipo de desarrollo de pacman <pacman-"
-#~ "dev@archlinux.org>.\n"
-#~ "Esto es software libre; véase el código fuente para las condiciones de "
-#~ "copia.\n"
-#~ "Este programa no ofrece NINGUNA GARANTÍA más allá de la aplicable por "
-#~ "ley.\n"
-
-#~ msgid "A specified local key could not be updated from a keyserver."
-#~ msgstr ""
-#~ "La clave local especificada no se pudo actualizar desde un servidor de "
-#~ "claves."

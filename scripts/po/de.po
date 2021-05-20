@@ -1,9 +1,12 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the pacman-scripts package.
 #
 # Translators:
+# 21db53640bd6018c4a99700a4cf2ee28_f478df7 <98034cbca98620f1cf39d6ebdfa44311_785827>, 2019
 # 34406f1e9686aef60a96a5a15782edfd, 2012
+# 65138391f015e4001c6ef9d675c96796_707a378 <99e420e9f3ea1b91cb2cbbb4cbc7cd27_2862>, 2013
+# 9d91e189c22376bb4ee81489bc27fc28, 2014
 # 9d91e189c22376bb4ee81489bc27fc28, 2014
 # 21db53640bd6018c4a99700a4cf2ee28_f478df7 <98034cbca98620f1cf39d6ebdfa44311_785827>, 2019
 # Frank, 2014,2016
@@ -40,9 +43,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2020-11-06 17:29+0000\n"
-"Last-Translator: Roman Volak <romanvolak@web.de>\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-04-23 00:41+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: German (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/de/)\n"
 "Language: de\n"
@@ -739,9 +742,8 @@ msgstr ""
 "von einem Schlüssel-Server"
 
 #: scripts/pacman-key.sh.in:80
-#, fuzzy
 msgid "  --verbose                 Show extra information"
-msgstr "  --version             Versionshinweise\n"
+msgstr ""
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
@@ -851,9 +853,8 @@ msgid "Disabling key %s..."
 msgstr "Mache Schlüssel %s unbrauchbar..."
 
 #: scripts/pacman-key.sh.in:376
-#, fuzzy
 msgid "Disabled %s keys."
-msgstr "Mache Schlüssel %s unbrauchbar..."
+msgstr ""
 
 #: scripts/pacman-key.sh.in:383
 msgid "A specified keyfile could not be added to the keyring."
@@ -907,9 +908,8 @@ msgid "%s could not be locally signed."
 msgstr "%s konnte nicht lokal signiert werden."
 
 #: scripts/pacman-key.sh.in:507
-#, fuzzy
 msgid "Locally signed %s keys."
-msgstr "Signiere Schlüssel %s lokal..."
+msgstr ""
 
 #: scripts/pacman-key.sh.in:530
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -1655,85 +1655,3 @@ msgstr "Sie haben keine Schreib-Berechtigung für das Verzeichnis  $%s (%s)."
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
 msgstr "Konnte die Quelle von %s nicht bestimmen"
-
-#, perl-format
-#~ msgid "can't create '%s': %s"
-#~ msgstr "Kann '%s' nicht erstellen: %s"
-
-#~ msgid "invalid key/value pair\n"
-#~ msgstr "ungültiges Schlüssel/Wert-Paar\n"
-
-#~ msgid "invalid template line: can't find template name\n"
-#~ msgstr "Ungültige Zeile in Vorlage: Kann Vorlagenname nicht finden\n"
-
-#, perl-format
-#~ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-#~ msgstr "Ungültige Zeichen im Namen '%s'. Zulässig: [:alnum:]+_.@-\n"
-
-#, perl-format
-#~ msgid "Couldn't detect version for template '%s'\n"
-#~ msgstr "Konnte Version für für Vorlage '%s' nicht ermitteln\n"
-
-#, perl-format
-#~ msgid "Failed to find template file matching '%s'\n"
-#~ msgstr "Konnte keine '%s' entsprechende Vorlage finden\n"
-
-#, perl-format
-#~ msgid "failed to open '%s': %s\n"
-#~ msgstr "konnte '%s' nicht öffnen: %s\n"
-
-#, perl-format
-#~ msgid "Unknown template marker '%s'\n"
-#~ msgstr "Unbekannte Vorlagenmarkierung '%s'\n"
-
-#~ msgid "makepkg-template [options]\n"
-#~ msgstr "makepkg-Vorlage [Optionen]\n"
-
-#~ msgid "Options:\n"
-#~ msgstr "Optionen:\n"
-
-#, perl-format
-#~ msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-#~ msgstr "  --input, -p <Datei>    Zu lesendes Buildskript (Standard: %s)\n"
-
-#~ msgid "  --output, -o <file>   file to output to (default: input file)\n"
-#~ msgstr "  --output, -o <Datei>   Ausgabedatei (Standard: Eingabedatei)\n"
-
-#~ msgid "  --newest, -n          update templates to newest version\n"
-#~ msgstr ""
-#~ "  --newest, -n          Vorlagen auf neueste Version aktualisieren\n"
-
-#~ msgid ""
-#~ "                        (default: use version specified in the template "
-#~ "markers)\n"
-#~ msgstr ""
-#~ "                        (Standard: verwende die in der Vorlagenmarkierung "
-#~ "spezifizierte Version)\n"
-
-#~ msgid "  --template-dir <dir>  directory to search for templates\n"
-#~ msgstr ""
-#~ "  --template-dir <Verz>  Verzeichnis, das nach Vorlagen durchsucht wird\n"
-
-#, perl-format
-#~ msgid "                        (default: %s)\n"
-#~ msgstr "                        (Standard: %s)\n"
-
-#~ msgid "  --help, -h            This help message\n"
-#~ msgstr "  --help, -h            Zeige diese Hilfe\n"
-
-#~ msgid ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "This is free software; see the source for copying conditions.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "Dies ist freie Software; siehe den Quellcode für "
-#~ "Urheberrechtsbestimmungen.\n"
-#~ "Es besteht KEINE GARANTIE, soweit es die gültige Rechtsgebung zulässt.\n"
-
-#~ msgid "A specified local key could not be updated from a keyserver."
-#~ msgstr ""
-#~ "Ein spezifizierter lokaler Schlüssel konnte nicht vom Schlüssel-Server "
-#~ "aktualisiert werden."

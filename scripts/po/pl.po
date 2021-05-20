@@ -1,12 +1,15 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the pacman-scripts package.
 #
 # Translators:
+# 8f109d0108020ab645eeb99d9e707e29_098f6ba <e5f6893f5bbcbbf65b20d413eb7d999b_102166>, 2013
 # ad8386e4668824bfde39a31f653520b0_068c4b1 <b0c50d0241167fe7259f729b2a589501_38645>, 2012
 # ad8386e4668824bfde39a31f653520b0_068c4b1 <b0c50d0241167fe7259f729b2a589501_38645>, 2012
 # ad8386e4668824bfde39a31f653520b0_068c4b1 <b0c50d0241167fe7259f729b2a589501_38645>, 2012
 # ad8386e4668824bfde39a31f653520b0_068c4b1 <b0c50d0241167fe7259f729b2a589501_38645>, 2012
+# ad8386e4668824bfde39a31f653520b0_068c4b1 <b0c50d0241167fe7259f729b2a589501_38645>, 2012
+# Artur Juraszek <artur@juraszek.xyz>, 2020
 # Artur Juraszek <artur@juraszek.xyz>, 2020
 # Bartłomiej Piotrowski <spam@bpiotrowski.pl>, 2016
 # Chris Warrick, 2011
@@ -32,9 +35,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2020-01-08 13:05+0000\n"
-"Last-Translator: Artur Juraszek <artur@juraszek.xyz>\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-04-23 00:41+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Polish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/pl/)\n"
 "Language: pl\n"
@@ -693,9 +696,8 @@ msgid ""
 msgstr " --refresh-keys Zaktualizuj wybrane lub wszystkie klucze z serwera"
 
 #: scripts/pacman-key.sh.in:80
-#, fuzzy
 msgid "  --verbose                 Show extra information"
-msgstr "--version Informacja o wersji\n"
+msgstr ""
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
@@ -799,9 +801,8 @@ msgid "Disabling key %s..."
 msgstr "Wyłączanie klucza %s..."
 
 #: scripts/pacman-key.sh.in:376
-#, fuzzy
 msgid "Disabled %s keys."
-msgstr "Wyłączanie klucza %s..."
+msgstr ""
 
 #: scripts/pacman-key.sh.in:383
 msgid "A specified keyfile could not be added to the keyring."
@@ -848,9 +849,8 @@ msgid "%s could not be locally signed."
 msgstr "%s nie może być podpisane lokalnie."
 
 #: scripts/pacman-key.sh.in:507
-#, fuzzy
 msgid "Locally signed %s keys."
-msgstr "Lokalne podpisywanie klucza %s..."
+msgstr ""
 
 #: scripts/pacman-key.sh.in:530
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -1586,81 +1586,3 @@ msgstr "Nie posiadasz uprawnień do zapisu w katalogu $%s (%s)."
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
 msgstr "Nie udało się ustalić źródła %s"
-
-#, perl-format
-#~ msgid "can't create '%s': %s"
-#~ msgstr "nie można stworzyć '%s': %s"
-
-#~ msgid "invalid key/value pair\n"
-#~ msgstr "nieprawidłowa para kluczy / wartości\n"
-
-#~ msgid "invalid template line: can't find template name\n"
-#~ msgstr "nieważna linia szablonu: nie można znaleźć nazwy szablonu\n"
-
-#, perl-format
-#~ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-#~ msgstr ""
-#~ "nieprawidłowe znaki użyte w nazwie '%s'. dozwolone: [:alnum:]+_.@-\n"
-
-#, perl-format
-#~ msgid "Couldn't detect version for template '%s'\n"
-#~ msgstr "Nie udało się wykryć wersji dla szablonu '%s'\n"
-
-#, perl-format
-#~ msgid "Failed to find template file matching '%s'\n"
-#~ msgstr "Nie udało się znaleźć wersji dla szablonu '%s'\n"
-
-#, perl-format
-#~ msgid "failed to open '%s': %s\n"
-#~ msgstr "Nie udało się otworzyć '%s': %s\n"
-
-#, perl-format
-#~ msgid "Unknown template marker '%s'\n"
-#~ msgstr "Nieznany znacznik szablonu '%s'\n"
-
-#~ msgid "makepkg-template [options]\n"
-#~ msgstr "szablon makepkg [opcje]\n"
-
-#~ msgid "Options:\n"
-#~ msgstr "Opcje:\n"
-
-#, perl-format
-#~ msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-#~ msgstr "--input, -p <plik> Skrypt budowania do odczytu (domyślny: %s)\n"
-
-#~ msgid "  --output, -o <file>   file to output to (default: input file)\n"
-#~ msgstr "--output, -o <plik> plik wyjściowy do (domyślny: plik wejściowy)\n"
-
-#~ msgid "  --newest, -n          update templates to newest version\n"
-#~ msgstr "--newest, -n aktualizacja szablonów do najnowszej wersji\n"
-
-#~ msgid ""
-#~ "                        (default: use version specified in the template "
-#~ "markers)\n"
-#~ msgstr "(domyślnie: używa wersji określonej w znacznikach szablonu)\n"
-
-#~ msgid "  --template-dir <dir>  directory to search for templates\n"
-#~ msgstr "--template-dir <katalog> katalog do szukania szablonów\n"
-
-#, perl-format
-#~ msgid "                        (default: %s)\n"
-#~ msgstr "(domyślny: %s)\n"
-
-#~ msgid "  --help, -h            This help message\n"
-#~ msgstr "--help, -h Ta wiadomość pomocy\n"
-
-#~ msgid ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "This is free software; see the source for copying conditions.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "Prawa autorskie (c) 2013-2018 Zespół programistów Pacman <pacman-"
-#~ "dev@archlinux.org>.\n"
-#~ "Niniejszy program jest wolnym oprogramowaniem; sprawdź w źródłach warunki "
-#~ "rozpowszechniania.\n"
-#~ "W zakresie dozwolonym przez prawo, program NIE JEST OBJĘTY GWARANCJĄ.\n"
-
-#~ msgid "A specified local key could not be updated from a keyserver."
-#~ msgstr ""
-#~ "Określony klucz lokalny nie może zostać zaktualizowany z serwera kluczy."

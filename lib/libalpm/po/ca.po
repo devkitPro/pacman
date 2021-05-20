@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the libalpm package.
 #
 # Translators:
 # Alberto Sánchez Molero <alsamolero@gmail.com>, 2013
@@ -10,14 +10,14 @@
 # Josep <jpreales@gmail.com>, 2011,2013
 # Josep <jpreales@gmail.com>, 2011,2013
 # Josep <jpreales@gmail.com>, 2011
-# Davidmp <medipas@gmail.com>, 2015-2019
+# Davidmp <medipas@gmail.com>, 2015-2019,2021
 # Ramon Buldó <rbuldo@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2019-10-07 14:57+0000\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-05-02 11:27+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ca/)\n"
@@ -57,7 +57,7 @@ msgstr "avís en extreure %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "no s'ha pogut extreure %s (%s).\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:659 lib/libalpm/remove.c:534
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:672 lib/libalpm/remove.c:534
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "no s'ha pogut canviar el nom %s a %s (%s).\n"
@@ -170,7 +170,7 @@ msgstr "entrada de la base de dades corrupta \"%s'\".\n"
 
 #: lib/libalpm/be_local.c:722 lib/libalpm/be_local.c:818
 #: lib/libalpm/be_local.c:958 lib/libalpm/be_local.c:1055
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:770 lib/libalpm/util.c:254
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:783 lib/libalpm/util.c:254
 #: lib/libalpm/util.c:270
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -235,7 +235,7 @@ msgstr "manquen les metadades del paquet a %s.\n"
 msgid "failed to read signature file: %s\n"
 msgstr "ha fallat llegir el fitxer de signatures: %s.\n"
 
-#: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:934
+#: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:953
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "la clau requerida manca al clauer.\n"
@@ -273,7 +273,7 @@ msgstr ""
 msgid "unknown database file: %s\n"
 msgstr "fitxer de base de dades desconegut: %s.\n"
 
-#: lib/libalpm/db.c:338
+#: lib/libalpm/db.c:344
 #, c-format
 msgid "database path is undefined\n"
 msgstr "no s'ha definit el camí de la base de dades.\n"
@@ -362,63 +362,65 @@ msgstr "La partició %s està muntada només en mode de lectura.\n"
 msgid ""
 "too many errors from %s, skipping for the remainder of this transaction\n"
 msgstr ""
+"hi ha massa errors de %s, s'ometen per a la resta d'aquesta transacció\n"
 
-#: lib/libalpm/dload.c:224
+#: lib/libalpm/dload.c:220
 #, c-format
 msgid "disk"
 msgstr "disc"
 
-#: lib/libalpm/dload.c:396
+#: lib/libalpm/dload.c:392
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "ha fallat crear un fitxer temporal per a la baixada.\n"
 
-#: lib/libalpm/dload.c:497 lib/libalpm/dload.c:525 lib/libalpm/dload.c:542
+#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:537 lib/libalpm/dload.c:551
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "ha fallat la recuperació del fitxer \"%s\" des de %s: %s\n"
 
-#: lib/libalpm/dload.c:516
+#: lib/libalpm/dload.c:529
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "ha fallat recuperar el fitxer \"%s\" des de %s: mida de la baixada superior "
 "a l'esperada.\n"
 
-#: lib/libalpm/dload.c:637
+#: lib/libalpm/dload.c:650
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s sembla que està truncat: %jd/%jd bytes.\n"
 
-#: lib/libalpm/dload.c:737
+#: lib/libalpm/dload.c:750
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "l'url \"%s\" no és vàlid.\n"
 
-#: lib/libalpm/dload.c:817
-#, fuzzy, c-format
+#: lib/libalpm/dload.c:836
+#, c-format
 msgid "failed to setup a download payload for %s\n"
-msgstr "ha fallat baixar %s.\n"
+msgstr "ha fallat configurar una càrrega de baixada per a %s\n"
 
-#: lib/libalpm/dload.c:829
+#: lib/libalpm/dload.c:848
 #, c-format
 msgid "curl returned error %d from transfer\n"
-msgstr ""
+msgstr "curl ha retornat l'error %d de la transferència\n"
 
-#: lib/libalpm/dload.c:851
+#: lib/libalpm/dload.c:872
 #, c-format
 msgid "curl transfer error: %d\n"
-msgstr ""
+msgstr "error de transferència de curl: %d\n"
 
-#: lib/libalpm/dload.c:969 lib/libalpm/sync.c:821
+#: lib/libalpm/dload.c:989 lib/libalpm/sync.c:840
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "ha fallat la recuperació d'alguns fitxers.\n"
 
-#: lib/libalpm/dload.c:992
+#: lib/libalpm/dload.c:1012
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
 msgstr ""
+"la baixada s'ha completat correctament però no hi ha cap fitxer a la cau\n"
 
 #: lib/libalpm/error.c:40
 #, c-format
@@ -535,7 +537,7 @@ msgstr "no s'ha configurat cap servidor per al repositori."
 msgid "transaction already initialized"
 msgstr "ja s'ha iniciat la transacció."
 
-#: lib/libalpm/error.c:90 lib/libalpm/error.c:94
+#: lib/libalpm/error.c:90 lib/libalpm/error.c:96
 #, c-format
 msgid "transaction not initialized"
 msgstr "no s'ha iniciat la transacció."
@@ -545,86 +547,86 @@ msgstr "no s'ha iniciat la transacció."
 msgid "duplicate target"
 msgstr "objectiu duplicat."
 
-#: lib/libalpm/error.c:96
+#: lib/libalpm/error.c:94
+#, fuzzy, c-format
+msgid "duplicate filename"
+msgstr "objectiu duplicat."
+
+#: lib/libalpm/error.c:98
 #, c-format
 msgid "transaction not prepared"
 msgstr "transacció no preparada."
 
-#: lib/libalpm/error.c:98
+#: lib/libalpm/error.c:100
 #, c-format
 msgid "transaction aborted"
 msgstr "transacció cancel·lada."
 
-#: lib/libalpm/error.c:100
+#: lib/libalpm/error.c:102
 #, c-format
 msgid "operation not compatible with the transaction type"
 msgstr "l'operació no és compatible amb el tipus de transacció."
 
-#: lib/libalpm/error.c:102
+#: lib/libalpm/error.c:104
 #, c-format
 msgid "transaction commit attempt when database is not locked"
 msgstr ""
 "intent de publicació de la transacció amb la base de dades no bloquejada."
 
-#: lib/libalpm/error.c:104
+#: lib/libalpm/error.c:106
 #, c-format
 msgid "failed to run transaction hooks"
 msgstr "ha fallat l'execució dels ganxos de la transacció."
 
-#: lib/libalpm/error.c:107
+#: lib/libalpm/error.c:109
 #, c-format
 msgid "could not find or read package"
 msgstr "no s'ha pogut trobar o llegir el paquet."
 
-#: lib/libalpm/error.c:109
+#: lib/libalpm/error.c:111
 #, c-format
 msgid "operation cancelled due to ignorepkg"
 msgstr "operació cancel·lada a causa d'ignorepkg."
 
-#: lib/libalpm/error.c:111
+#: lib/libalpm/error.c:113
 #, c-format
 msgid "invalid or corrupted package"
 msgstr "paquet no vàlid o corrupte"
 
-#: lib/libalpm/error.c:113
+#: lib/libalpm/error.c:115
 #, c-format
 msgid "invalid or corrupted package (checksum)"
 msgstr "paquet no vàlid o corrupte (suma de comprovació)."
 
-#: lib/libalpm/error.c:115
+#: lib/libalpm/error.c:117
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
 msgstr "paquet no vàlid o corrupte (signatura PGP)"
 
-#: lib/libalpm/error.c:117
+#: lib/libalpm/error.c:119
 #, c-format
 msgid "package missing required signature"
 msgstr "la signatura requerida manca al paquet."
 
-#: lib/libalpm/error.c:119
+#: lib/libalpm/error.c:121
 #, c-format
 msgid "cannot open package file"
 msgstr "no s'ha pogut obrir el fitxer del paquet."
 
-#: lib/libalpm/error.c:121
+#: lib/libalpm/error.c:123
 #, c-format
 msgid "cannot remove all files for package"
 msgstr "no s'han pogut suprimir tots els fitxers del paquet."
 
-#: lib/libalpm/error.c:123
+#: lib/libalpm/error.c:125
 #, c-format
 msgid "package filename is not valid"
 msgstr "el nom de fitxer del paquet no és vàlid."
 
-#: lib/libalpm/error.c:125
+#: lib/libalpm/error.c:127
 #, c-format
 msgid "package architecture is not valid"
 msgstr "l'arquitectura del paquet no és vàlida."
-
-#: lib/libalpm/error.c:127
-#, c-format
-msgid "could not find repository for target"
-msgstr "no s'ha pogut trobar el repositori per a l'objectiu."
 
 #: lib/libalpm/error.c:130
 #, c-format
@@ -871,7 +873,7 @@ msgstr "la clau \"%s\" no s'ha pogut importar.\n"
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "la clau \"%s\" no s'ha pogut cercar remotament.\n"
 
-#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1003
+#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: manca la signatura requerida.\n"
@@ -953,34 +955,39 @@ msgstr "S'ignora el reemplaçament del paquet (%s-%s => %s-%s).\n"
 msgid "cannot replace %s by %s\n"
 msgstr "no es pot reemplaçar %s per %s.\n"
 
-#: lib/libalpm/sync.c:523 lib/libalpm/sync.c:593
+#: lib/libalpm/sync.c:476
+#, c-format
+msgid "packages %s and %s have the same filename: %s\n"
+msgstr ""
+
+#: lib/libalpm/sync.c:542 lib/libalpm/sync.c:612
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "s'han detectat conflictes de paquets impossibles de resoldre.\n"
 
-#: lib/libalpm/sync.c:543
+#: lib/libalpm/sync.c:562
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr ""
 "Se suprimeix \"%s\" de la llista d'objectius perquè té conflictes amb \"%s"
 "\".\n"
 
-#: lib/libalpm/sync.c:1017
+#: lib/libalpm/sync.c:1036
 #, c-format
 msgid "failed to read file %s: %s\n"
 msgstr "ha fallat llegir el fitxer %s: %s\n"
 
-#: lib/libalpm/sync.c:1204
+#: lib/libalpm/sync.c:1223
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "no hi ha prou espai de disc lliure.\n"
 
-#: lib/libalpm/sync.c:1226
+#: lib/libalpm/sync.c:1245
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "no s'ha pogut fer la transacció de supressió.\n"
 
-#: lib/libalpm/sync.c:1234
+#: lib/libalpm/sync.c:1253
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "no s'ha pogut fer la transacció.\n"
@@ -1066,3 +1073,7 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "No s'ha pogut trobar o crear el paquet de memòria cau; en lloc d'això, s'usa"
 "%s.\n"
+
+#, c-format
+#~ msgid "could not find repository for target"
+#~ msgstr "no s'ha pogut trobar el repositori per a l'objectiu."

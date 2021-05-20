@@ -1,19 +1,19 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the pacman-scripts package.
 #
 # Translators:
 # kusakata, 2015
 # kusakata, 2015
-# kusakata, 2015-2019
+# kusakata, 2015-2019,2021
 # Takuro Onoue <kusanaginoturugi@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2021-01-07 08:18+0000\n"
-"Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-04-25 14:44+0000\n"
+"Last-Translator: kusakata\n"
 "Language-Team: Japanese (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ja/)\n"
 "Language: ja\n"
@@ -681,9 +681,8 @@ msgstr ""
 "新"
 
 #: scripts/pacman-key.sh.in:80
-#, fuzzy
 msgid "  --verbose                 Show extra information"
-msgstr "  --version             バージョン情報\n"
+msgstr "  --verbose                 追加情報を表示"
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
@@ -723,7 +722,7 @@ msgstr "キーの名前があいまいです:"
 
 #: scripts/pacman-key.sh.in:148
 msgid "Generating pacman master key. This may take some time."
-msgstr ""
+msgstr "pacman のマスターキーを生成しています。しばらくお待ちください。"
 
 #: scripts/pacman-key.sh.in:185
 msgid "The key identified by %s could not be found locally."
@@ -732,11 +731,11 @@ msgstr "%s によって確認されたキーを見つけられませんでした
 #: scripts/pacman-key.sh.in:196 scripts/pacman-key.sh.in:208
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:204
 msgid "_"
-msgstr ""
+msgstr "_"
 
 #: scripts/pacman-key.sh.in:208
 msgid "flags"
-msgstr ""
+msgstr "フラグ"
 
 #: scripts/pacman-key.sh.in:263
 msgid "You do not have sufficient permissions to read the %s keyring."
@@ -787,9 +786,8 @@ msgid "Disabling key %s..."
 msgstr "キー %s を無効化..."
 
 #: scripts/pacman-key.sh.in:376
-#, fuzzy
 msgid "Disabled %s keys."
-msgstr "キー %s を無効化..."
+msgstr "%s キーを無効化しました。"
 
 #: scripts/pacman-key.sh.in:383
 msgid "A specified keyfile could not be added to the keyring."
@@ -836,9 +834,8 @@ msgid "%s could not be locally signed."
 msgstr "%s に署名できませんでした。"
 
 #: scripts/pacman-key.sh.in:507
-#, fuzzy
 msgid "Locally signed %s keys."
-msgstr "キーに署名 %s..."
+msgstr "%s キーにローカルで署名しました。"
 
 #: scripts/pacman-key.sh.in:530
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -850,7 +847,7 @@ msgstr "キーサーバから正しくキーを取得できませんでした。
 
 #: scripts/pacman-key.sh.in:567
 msgid "Could not update key: %s"
-msgstr ""
+msgstr "キーを更新できませんでした: %s"
 
 #: scripts/pacman-key.sh.in:588 scripts/repo-add.sh.in:265
 msgid "Cannot use armored signatures for packages: %s"
@@ -1568,82 +1565,3 @@ msgstr "$%s ディレクトリに書き込みを行う権限がありません (
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
 msgstr "source に失敗 %s"
-
-#, perl-format
-#~ msgid "can't create '%s': %s"
-#~ msgstr "'%s' を作成できません: %s"
-
-#~ msgid "invalid key/value pair\n"
-#~ msgstr "無効な key/value ペア\n"
-
-#~ msgid "invalid template line: can't find template name\n"
-#~ msgstr "無効な template 行: テンプレートの名前が見つかりません\n"
-
-#, perl-format
-#~ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-#~ msgstr ""
-#~ "名前 '%s' に不正な文字が使用されています。使用可能文字: [:alnum:]+_.@-\n"
-
-#, perl-format
-#~ msgid "Couldn't detect version for template '%s'\n"
-#~ msgstr "テンプレート '%s' のバージョンが検出できませんでした\n"
-
-#, perl-format
-#~ msgid "Failed to find template file matching '%s'\n"
-#~ msgstr "'%s' に一致するテンプレートファイルが見つけられませんでした\n"
-
-#, perl-format
-#~ msgid "failed to open '%s': %s\n"
-#~ msgstr "'%s' を開けませんでした: %s\n"
-
-#, perl-format
-#~ msgid "Unknown template marker '%s'\n"
-#~ msgstr "未知のテンプレートメーカー '%s'\n"
-
-#~ msgid "makepkg-template [options]\n"
-#~ msgstr "makepkg-template [オプション]\n"
-
-#~ msgid "Options:\n"
-#~ msgstr "オプション:\n"
-
-#, perl-format
-#~ msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-#~ msgstr "  --input, -p <file>    読み込むビルドスクリプト (デフォルト: %s)\n"
-
-#~ msgid "  --output, -o <file>   file to output to (default: input file)\n"
-#~ msgstr ""
-#~ "  --output, -o <file>   出力先のファイル (デフォルト: 入力ファイル)\n"
-
-#~ msgid "  --newest, -n          update templates to newest version\n"
-#~ msgstr "  --newest, -n          テンプレートを最新のバージョンに更新\n"
-
-#~ msgid ""
-#~ "                        (default: use version specified in the template "
-#~ "markers)\n"
-#~ msgstr ""
-#~ "                        (デフォルト: テンプレートメーカーで指定されたバー"
-#~ "ジョンを使用)\n"
-
-#~ msgid "  --template-dir <dir>  directory to search for templates\n"
-#~ msgstr "  --template-dir <dir>  テンプレートを検索するディレクトリ\n"
-
-#, perl-format
-#~ msgid "                        (default: %s)\n"
-#~ msgstr "                        (デフォルト: %s)\n"
-
-#~ msgid "  --help, -h            This help message\n"
-#~ msgstr "  --help, -h            このヘルプメッセージ\n"
-
-#~ msgid ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "This is free software; see the source for copying conditions.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "This is free software; see the source for copying conditions.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-
-#~ msgid "A specified local key could not be updated from a keyserver."
-#~ msgstr "キーサーバから特定のキーを更新できませんでした。"

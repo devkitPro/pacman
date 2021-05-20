@@ -1,22 +1,23 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the pacman-scripts package.
 #
 # Translators:
 # 0x9fff00 ​, 2019
 # 0x9fff00, 2019-2020
+# 5295d3138ea8e00b2d2de31bd11919f3_81fe320 <1c0cea16b463ff899b2572870c868ca5_659576>, 2018
 # Daniel Sandman <revoltism@gmail.com>, 2013,2015
 # Johannes Löthberg <johannes@kyriasis.com>, 2015
 # Kim Svensson <ks6g10@soton.ac.uk>, 2012
 # 5295d3138ea8e00b2d2de31bd11919f3_81fe320 <1c0cea16b463ff899b2572870c868ca5_659576>, 2018
 # 5295d3138ea8e00b2d2de31bd11919f3_81fe320 <1c0cea16b463ff899b2572870c868ca5_659576>, 2018
-# Luna Jernberg <bittin@cafe8bitar.se>, 2020
+# Luna Jernberg <bittin@cafe8bitar.se>, 2020-2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2020-10-09 08:17+0000\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-04-23 02:59+0000\n"
 "Last-Translator: Luna Jernberg <bittin@cafe8bitar.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/sv/)\n"
@@ -679,9 +680,8 @@ msgstr ""
 "--refresh-keys Uppdatera angiven eller alla nycklar från en nyckelserver"
 
 #: scripts/pacman-key.sh.in:80
-#, fuzzy
 msgid "  --verbose                 Show extra information"
-msgstr "--version Versionsinformation\n"
+msgstr " --verbose Visa extra information"
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
@@ -720,7 +720,7 @@ msgstr "Nyckelnamn är mångtydigt:"
 
 #: scripts/pacman-key.sh.in:148
 msgid "Generating pacman master key. This may take some time."
-msgstr ""
+msgstr "Skapar Pacman-huvudnyckel. Det kan ta lite tid."
 
 #: scripts/pacman-key.sh.in:185
 msgid "The key identified by %s could not be found locally."
@@ -729,11 +729,11 @@ msgstr "Nyckeln identifierad av %s kunde inte hittas lokalt."
 #: scripts/pacman-key.sh.in:196 scripts/pacman-key.sh.in:208
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:204
 msgid "_"
-msgstr ""
+msgstr "_"
 
 #: scripts/pacman-key.sh.in:208
 msgid "flags"
-msgstr ""
+msgstr "flaggor"
 
 #: scripts/pacman-key.sh.in:263
 msgid "You do not have sufficient permissions to read the %s keyring."
@@ -784,9 +784,8 @@ msgid "Disabling key %s..."
 msgstr "Avaktiverar nyckel %s..."
 
 #: scripts/pacman-key.sh.in:376
-#, fuzzy
 msgid "Disabled %s keys."
-msgstr "Avaktiverar nyckel %s..."
+msgstr "Avaktiverar %s nycklar"
 
 #: scripts/pacman-key.sh.in:383
 msgid "A specified keyfile could not be added to the keyring."
@@ -833,9 +832,8 @@ msgid "%s could not be locally signed."
 msgstr "%s kunde inte signeras lokalt"
 
 #: scripts/pacman-key.sh.in:507
-#, fuzzy
 msgid "Locally signed %s keys."
-msgstr "Signerar nyckel %s lokalt..."
+msgstr "Lokalt signerade %s nycklar."
 
 #: scripts/pacman-key.sh.in:530
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -847,7 +845,7 @@ msgstr "Fjärrnyckel hämtades inte korrekt från nyckelserver."
 
 #: scripts/pacman-key.sh.in:567
 msgid "Could not update key: %s"
-msgstr ""
+msgstr "Kunde inte uppdatera nyckel: %s"
 
 #: scripts/pacman-key.sh.in:588 scripts/repo-add.sh.in:265
 msgid "Cannot use armored signatures for packages: %s"
@@ -1566,80 +1564,3 @@ msgstr "Du har inte skrivrättigheter för mappen $%s (%s)."
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
 msgstr "Misslyckades att källkoda %s"
-
-#, perl-format
-#~ msgid "can't create '%s': %s"
-#~ msgstr "kan inte skapa '%s': %s"
-
-#~ msgid "invalid key/value pair\n"
-#~ msgstr "ogiltigt nyckel/värde par\n"
-
-#~ msgid "invalid template line: can't find template name\n"
-#~ msgstr "ogiltig mallrad: kan inte hitta mallnamn\n"
-
-#, perl-format
-#~ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-#~ msgstr "ogiltiga tecken använt i namnet '%s'. tillåtna är: [:alnum:]+_.@-\n"
-
-#, perl-format
-#~ msgid "Couldn't detect version for template '%s'\n"
-#~ msgstr "Kunde inte upptäcka version för mall '%s'\n"
-
-#, perl-format
-#~ msgid "Failed to find template file matching '%s'\n"
-#~ msgstr "Kunde inte hitta mallfil som matchar '%s'\n"
-
-#, perl-format
-#~ msgid "failed to open '%s': %s\n"
-#~ msgstr "kunde inte öppna '%s': %s\n"
-
-#, perl-format
-#~ msgid "Unknown template marker '%s'\n"
-#~ msgstr "Okänd mallmarkör '%s'\n"
-
-#~ msgid "makepkg-template [options]\n"
-#~ msgstr "makepkg-template [alternativ]\n"
-
-#~ msgid "Options:\n"
-#~ msgstr "Alternativ:\n"
-
-#, perl-format
-#~ msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-#~ msgstr "--inout, -p <fil> Byggskript att läsa (standard: %s)\n"
-
-#~ msgid "  --output, -o <file>   file to output to (default: input file)\n"
-#~ msgstr ""
-#~ "--output, -o <fil> fil att sända utdata till (standard: indatafil)\n"
-
-#~ msgid "  --newest, -n          update templates to newest version\n"
-#~ msgstr "--newest, -n uppdatera mallar till nyaste version\n"
-
-#~ msgid ""
-#~ "                        (default: use version specified in the template "
-#~ "markers)\n"
-#~ msgstr "(standard: använd version specificerad i mallmarkörerna)\n"
-
-#~ msgid "  --template-dir <dir>  directory to search for templates\n"
-#~ msgstr "--template-dir <katalog> katalog för att söka efter mallar\n"
-
-#, perl-format
-#~ msgid "                        (default: %s)\n"
-#~ msgstr "(standard: %s)\n"
-
-#~ msgid "  --help, -h            This help message\n"
-#~ msgstr "--help, -h Detta hjälpmeddelande\n"
-
-#~ msgid ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "This is free software; see the source for copying conditions.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "Detta är fri mjukvara; Se källkoden för under vilka förhållanden "
-#~ "kopiering kan göras.\n"
-#~ "Det finns INGEN GARANTI, i den utsträckning lagen tillåter.\n"
-
-#~ msgid "A specified local key could not be updated from a keyserver."
-#~ msgstr "En angiven lokal nyckel kunde inte uppdateras från nyckelserver."

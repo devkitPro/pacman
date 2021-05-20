@@ -1,11 +1,12 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the pacman-scripts package.
 #
 # Translators:
 # Alimspender Dong <akillcool@outlook.com>, 2019
 # Feng Chao <chaofeng111@qq.com>, 2019
 # Felix Yan <felixonmars@gmail.com>, 2015-2016
+# Feng Chao <chaofeng111@qq.com>, 2011,2019
 # Isaac Ge <acgtyrant@gmail.com>, 2014
 # Jiachen YANG <farseerfc@gmail.com>, 2020
 # Feng Chao <chaofeng111@qq.com>, 2011
@@ -17,15 +18,15 @@
 # Yangtse Su <yangtsesu@gmail.com>, 2012-2013
 # ykelvis <ykelvis@users.noreply.github.com>, 2014
 # 张海, 2015,2018
-# 张海, 2015,2018-2019
+# 张海, 2015,2018-2019,2021
 # 甘 露 <rhythm.gan@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2020-06-03 08:27+0000\n"
-"Last-Translator: Jiachen YANG <farseerfc@gmail.com>\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-04-23 10:02+0000\n"
+"Last-Translator: 张海\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -658,9 +659,8 @@ msgid ""
 msgstr "  --refresh-keys            从密匙服务器中更新指定的或所有的密匙"
 
 #: scripts/pacman-key.sh.in:80
-#, fuzzy
 msgid "  --verbose                 Show extra information"
-msgstr "--version 显示版本信息\n"
+msgstr "  --verbose                 显示额外信息"
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
@@ -698,7 +698,7 @@ msgstr "关键字有歧义："
 
 #: scripts/pacman-key.sh.in:148
 msgid "Generating pacman master key. This may take some time."
-msgstr ""
+msgstr "正在生成 pacman 主密钥。这可能需要一段时间。"
 
 #: scripts/pacman-key.sh.in:185
 msgid "The key identified by %s could not be found locally."
@@ -707,7 +707,7 @@ msgstr "本地没有找到由 %s 认定的密匙。"
 #: scripts/pacman-key.sh.in:196 scripts/pacman-key.sh.in:208
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:204
 msgid "_"
-msgstr ""
+msgstr "_"
 
 #: scripts/pacman-key.sh.in:208
 msgid "flags"
@@ -762,9 +762,8 @@ msgid "Disabling key %s..."
 msgstr "正在禁用密匙 %s..."
 
 #: scripts/pacman-key.sh.in:376
-#, fuzzy
 msgid "Disabled %s keys."
-msgstr "正在禁用密匙 %s..."
+msgstr "已禁用 %s 把密钥。"
 
 #: scripts/pacman-key.sh.in:383
 msgid "A specified keyfile could not be added to the keyring."
@@ -811,9 +810,8 @@ msgid "%s could not be locally signed."
 msgstr "%s无法在本地签署。"
 
 #: scripts/pacman-key.sh.in:507
-#, fuzzy
 msgid "Locally signed %s keys."
-msgstr "正在本地签名密匙 %s..."
+msgstr "已本地签名 %s 把密钥。"
 
 #: scripts/pacman-key.sh.in:530
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -825,7 +823,7 @@ msgstr "无法从密匙服务器中正确取回远端密匙。"
 
 #: scripts/pacman-key.sh.in:567
 msgid "Could not update key: %s"
-msgstr ""
+msgstr "无法更新密钥：%s"
 
 #: scripts/pacman-key.sh.in:588 scripts/repo-add.sh.in:265
 msgid "Cannot use armored signatures for packages: %s"
@@ -1537,77 +1535,3 @@ msgstr "你没有目录 $%s 的写权限 (%s)."
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
 msgstr "载入 %s 失败"
-
-#, perl-format
-#~ msgid "can't create '%s': %s"
-#~ msgstr "无法创建 '%s'：%s"
-
-#~ msgid "invalid key/value pair\n"
-#~ msgstr "无效的键值对\n"
-
-#~ msgid "invalid template line: can't find template name\n"
-#~ msgstr "无效的模板行： 找不到模板名\n"
-
-#, perl-format
-#~ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-#~ msgstr "名字 '%s' 中使用了无效的字符。有效字符： [:alnum:]+_.@-\n"
-
-#, perl-format
-#~ msgid "Couldn't detect version for template '%s'\n"
-#~ msgstr "无法检测模板 '%s' 的版本\n"
-
-#, perl-format
-#~ msgid "Failed to find template file matching '%s'\n"
-#~ msgstr "查找匹配 '%s' 的模板文件失败\n"
-
-#, perl-format
-#~ msgid "failed to open '%s': %s\n"
-#~ msgstr "打开 '%s': %s 失败\n"
-
-#, perl-format
-#~ msgid "Unknown template marker '%s'\n"
-#~ msgstr "不明模板标识 '%s'\n"
-
-#~ msgid "makepkg-template [options]\n"
-#~ msgstr "makepkg-template [选项]\n"
-
-#~ msgid "Options:\n"
-#~ msgstr "选项：\n"
-
-#, perl-format
-#~ msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-#~ msgstr "--input, -p <file> 创建脚本以读取 (默认：%s)\n"
-
-#~ msgid "  --output, -o <file>   file to output to (default: input file)\n"
-#~ msgstr "--output, -o <file> 输出到某文件 (默认：input file)\n"
-
-#~ msgid "  --newest, -n          update templates to newest version\n"
-#~ msgstr "--newest, -n 更新模板到最新版本\n"
-
-#~ msgid ""
-#~ "                        (default: use version specified in the template "
-#~ "markers)\n"
-#~ msgstr "（默认：使用模板标识中指定的版本）\n"
-
-#~ msgid "  --template-dir <dir>  directory to search for templates\n"
-#~ msgstr "--template-dir <目录> 在指定目录中搜索模板\n"
-
-#, perl-format
-#~ msgid "                        (default: %s)\n"
-#~ msgstr "(默认：%s)\n"
-
-#~ msgid "  --help, -h            This help message\n"
-#~ msgstr "-h, --help 显示帮助信息\n"
-
-#~ msgid ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "This is free software; see the source for copying conditions.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "Copyright (c) 2013-2018 Pacman 开发小组 <pacman-dev@archlinux.org>.\n"
-#~ "这是自由软件; 请查看源码以获得版权条款。\n"
-#~ "在法律允许的范围内没有担保。\n"
-
-#~ msgid "A specified local key could not be updated from a keyserver."
-#~ msgstr "指定的本地密匙无法从密匙服务器中更新。"

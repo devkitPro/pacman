@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the libalpm package.
 #
 # Translators:
 # Kinsey Favre <kinseytamsin@tutanota.com>, 2020
@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2020-02-17 19:07+0000\n"
-"Last-Translator: Kinsey Favre <kinseytamsin@tutanota.com>\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-04-23 00:37+0000\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Esperanto (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/eo/)\n"
 "Language: eo\n"
@@ -53,7 +53,7 @@ msgstr "averto donita dum eltiri %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "ne eblis eltiri %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:659 lib/libalpm/remove.c:534
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:672 lib/libalpm/remove.c:534
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "ne eblis renomi %s al %s (%s)\n"
@@ -166,7 +166,7 @@ msgstr "difektita datumbaz-enigo '%s'\n"
 
 #: lib/libalpm/be_local.c:722 lib/libalpm/be_local.c:818
 #: lib/libalpm/be_local.c:958 lib/libalpm/be_local.c:1055
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:770 lib/libalpm/util.c:254
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:783 lib/libalpm/util.c:254
 #: lib/libalpm/util.c:270
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -228,7 +228,7 @@ msgstr "mankantaj pakaĵaj metadatumoj en %s\n"
 msgid "failed to read signature file: %s\n"
 msgstr "malsukcesis legi subskriban dosieron: %s\n"
 
-#: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:934
+#: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:953
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "bezonata ŝlosilo mankas de ŝlosilingo\n"
@@ -264,7 +264,7 @@ msgstr "datumbazo %s estas nekohera: dosiernomo de pakaĵo %s estas tro longa\n"
 msgid "unknown database file: %s\n"
 msgstr "nekonata datumbaza dosiero: %s\n"
 
-#: lib/libalpm/db.c:338
+#: lib/libalpm/db.c:344
 #, c-format
 msgid "database path is undefined\n"
 msgstr "datumbaza dosierindiko estas senvalora\n"
@@ -350,59 +350,59 @@ msgid ""
 "too many errors from %s, skipping for the remainder of this transaction\n"
 msgstr ""
 
-#: lib/libalpm/dload.c:224
+#: lib/libalpm/dload.c:220
 #, c-format
 msgid "disk"
 msgstr "disko"
 
-#: lib/libalpm/dload.c:396
+#: lib/libalpm/dload.c:392
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "malsukcesis krei provizoran dosieron por elŝuto\n"
 
-#: lib/libalpm/dload.c:497 lib/libalpm/dload.c:525 lib/libalpm/dload.c:542
+#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:537 lib/libalpm/dload.c:551
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "malsukcesis ekstrakti dosieron '%s' de %s: %s\n"
 
-#: lib/libalpm/dload.c:516
+#: lib/libalpm/dload.c:529
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "malsukcesis ekstrakti dosieron '%s' de %s : atendita elŝuta grando "
 "transpaŝita\n"
 
-#: lib/libalpm/dload.c:637
+#: lib/libalpm/dload.c:650
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s aspektas trunkite: %jd/%jd bitokoj\n"
 
-#: lib/libalpm/dload.c:737
+#: lib/libalpm/dload.c:750
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "url '%s' estas nevalida\n"
 
-#: lib/libalpm/dload.c:817
-#, fuzzy, c-format
+#: lib/libalpm/dload.c:836
+#, c-format
 msgid "failed to setup a download payload for %s\n"
-msgstr "malsukcesis elŝuti %s\n"
+msgstr ""
 
-#: lib/libalpm/dload.c:829
+#: lib/libalpm/dload.c:848
 #, c-format
 msgid "curl returned error %d from transfer\n"
 msgstr ""
 
-#: lib/libalpm/dload.c:851
+#: lib/libalpm/dload.c:872
 #, c-format
 msgid "curl transfer error: %d\n"
 msgstr ""
 
-#: lib/libalpm/dload.c:969 lib/libalpm/sync.c:821
+#: lib/libalpm/dload.c:989 lib/libalpm/sync.c:840
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "malsukcesis ricevi kelkajn dosierojn\n"
 
-#: lib/libalpm/dload.c:992
+#: lib/libalpm/dload.c:1012
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
 msgstr ""
@@ -522,7 +522,7 @@ msgstr "neniu servilo agordita por ĉi tiu deponejo"
 msgid "transaction already initialized"
 msgstr "transakcio jam ekita"
 
-#: lib/libalpm/error.c:90 lib/libalpm/error.c:94
+#: lib/libalpm/error.c:90 lib/libalpm/error.c:96
 #, c-format
 msgid "transaction not initialized"
 msgstr "transakcio ne ekita"
@@ -532,85 +532,85 @@ msgstr "transakcio ne ekita"
 msgid "duplicate target"
 msgstr "duobla celo"
 
-#: lib/libalpm/error.c:96
+#: lib/libalpm/error.c:94
+#, fuzzy, c-format
+msgid "duplicate filename"
+msgstr "duobla celo"
+
+#: lib/libalpm/error.c:98
 #, c-format
 msgid "transaction not prepared"
 msgstr "transakcio ne pretita"
 
-#: lib/libalpm/error.c:98
+#: lib/libalpm/error.c:100
 #, c-format
 msgid "transaction aborted"
 msgstr "transakcio ĉesigita"
 
-#: lib/libalpm/error.c:100
+#: lib/libalpm/error.c:102
 #, c-format
 msgid "operation not compatible with the transaction type"
 msgstr "operacio ne kongrua kun transakcia tipo"
 
-#: lib/libalpm/error.c:102
+#: lib/libalpm/error.c:104
 #, c-format
 msgid "transaction commit attempt when database is not locked"
 msgstr "klopodo de enmeto de transakcio kiam na datumbazo ne estas ŝlosata"
 
-#: lib/libalpm/error.c:104
+#: lib/libalpm/error.c:106
 #, c-format
 msgid "failed to run transaction hooks"
 msgstr "malsukcesis ruli transakciajn hokojn"
 
-#: lib/libalpm/error.c:107
+#: lib/libalpm/error.c:109
 #, c-format
 msgid "could not find or read package"
 msgstr "ne eblis trovi aŭ legi pakaĵon"
 
-#: lib/libalpm/error.c:109
+#: lib/libalpm/error.c:111
 #, c-format
 msgid "operation cancelled due to ignorepkg"
 msgstr "operacio nuligita pro ignorepkg"
 
-#: lib/libalpm/error.c:111
+#: lib/libalpm/error.c:113
 #, c-format
 msgid "invalid or corrupted package"
 msgstr "nevalida aŭ difektita pakaĵo"
 
-#: lib/libalpm/error.c:113
+#: lib/libalpm/error.c:115
 #, c-format
 msgid "invalid or corrupted package (checksum)"
 msgstr "nevalida aŭ difektita pakaĵo (kontrolsumo)"
 
-#: lib/libalpm/error.c:115
+#: lib/libalpm/error.c:117
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
 msgstr "nevalida aŭ difektita pakaĵo (PGP-subskribo)"
 
-#: lib/libalpm/error.c:117
+#: lib/libalpm/error.c:119
 #, c-format
 msgid "package missing required signature"
 msgstr "mankas al pakaĵo bezonata subskribo"
 
-#: lib/libalpm/error.c:119
+#: lib/libalpm/error.c:121
 #, c-format
 msgid "cannot open package file"
 msgstr "ne eblas malfermi pakaĵan dosieron"
 
-#: lib/libalpm/error.c:121
+#: lib/libalpm/error.c:123
 #, c-format
 msgid "cannot remove all files for package"
 msgstr "ne povas forigi ĉiujn dosierojn por pakaĵo"
 
-#: lib/libalpm/error.c:123
+#: lib/libalpm/error.c:125
 #, c-format
 msgid "package filename is not valid"
 msgstr "pakaĵa dosiernomo nevalidas"
 
-#: lib/libalpm/error.c:125
+#: lib/libalpm/error.c:127
 #, c-format
 msgid "package architecture is not valid"
 msgstr "pakaĵa arkitekturo nevalidas"
-
-#: lib/libalpm/error.c:127
-#, c-format
-msgid "could not find repository for target"
-msgstr "ne eblis trovi deponejon por celo"
 
 #: lib/libalpm/error.c:130
 #, c-format
@@ -854,7 +854,7 @@ msgstr "la ŝlosilon \"%s\" ne povis importi\n"
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "la ŝlosilon \"%s\" ne povis elserĉi fore\n"
 
-#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1003
+#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: mankanta bezonata subskribo\n"
@@ -936,34 +936,39 @@ msgstr "ignorado de pakaĵa anstataŭo (%s-%s => %s-%s)\n"
 msgid "cannot replace %s by %s\n"
 msgstr "ne eblas anstataŭi %s por %s\n"
 
-#: lib/libalpm/sync.c:523 lib/libalpm/sync.c:593
+#: lib/libalpm/sync.c:476
+#, c-format
+msgid "packages %s and %s have the same filename: %s\n"
+msgstr ""
+
+#: lib/libalpm/sync.c:542 lib/libalpm/sync.c:612
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "nesolveblaj pakaĵaj konfliktoj detektitaj\n"
 
-#: lib/libalpm/sync.c:543
+#: lib/libalpm/sync.c:562
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "forigado de '%s' el celolisto ĉar ĝi konfliktas kun '%s'\n"
 
-#: lib/libalpm/sync.c:1017
+#: lib/libalpm/sync.c:1036
 #, c-format
 msgid "failed to read file %s: %s\n"
 msgstr "malsukcesis legi la dosieron %s: %s\n"
 
-#: lib/libalpm/sync.c:1204
+#: lib/libalpm/sync.c:1223
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "ne estas sufiĉe granda malokupata diskspaco\n"
 
-#: lib/libalpm/sync.c:1226
+#: lib/libalpm/sync.c:1245
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr ""
 "malsukcesis enmeti forigan transakcion\n"
 "\n"
 
-#: lib/libalpm/sync.c:1234
+#: lib/libalpm/sync.c:1253
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "ne eblis enmeti transakcion\n"
@@ -1047,3 +1052,7 @@ msgstr "nenia kaŝmemoro de %s ekzistas, kreado...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "ne eblis trovi aŭ krei pakaĵan kaŝmemoron, uzante %s anstataŭ\n"
+
+#, c-format
+#~ msgid "could not find repository for target"
+#~ msgstr "ne eblis trovi deponejon por celo"

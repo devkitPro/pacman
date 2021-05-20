@@ -1,21 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the pacman-scripts package.
 #
 # Translators:
 # Davidmp <medipas@gmail.com>, 2015
 # Hector Mtz-Seara <hseara@gmail.com>, 2011-2013
 # Josep <jpreales@gmail.com>, 2013
 # Josep <jpreales@gmail.com>, 2013
-# Davidmp <medipas@gmail.com>, 2015-2019
+# Davidmp <medipas@gmail.com>, 2015-2019,2021
 # Ramon Buldó <rbuldo@gmail.com>, 2014-2015
 # xanb <xancorreu@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2019-10-14 13:19+0000\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-05-02 11:39+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ca/)\n"
@@ -719,11 +719,8 @@ msgstr ""
 "d'un servidor de claus."
 
 #: scripts/pacman-key.sh.in:80
-#, fuzzy
 msgid "  --verbose                 Show extra information"
-msgstr ""
-"  --version             Informació de la versió.\n"
-"\n"
+msgstr "  --verbose                 Mostra informació complementària."
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
@@ -763,7 +760,7 @@ msgstr "El nom de la clau és ambigu:"
 
 #: scripts/pacman-key.sh.in:148
 msgid "Generating pacman master key. This may take some time."
-msgstr ""
+msgstr "Es genera la clau mestra de Pacman. Això pot trigar una mica."
 
 #: scripts/pacman-key.sh.in:185
 msgid "The key identified by %s could not be found locally."
@@ -772,11 +769,11 @@ msgstr "No s'ha pogut trobar localment la clau identificada per %s ."
 #: scripts/pacman-key.sh.in:196 scripts/pacman-key.sh.in:208
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:204
 msgid "_"
-msgstr ""
+msgstr "_"
 
 #: scripts/pacman-key.sh.in:208
 msgid "flags"
-msgstr ""
+msgstr "banderes"
 
 #: scripts/pacman-key.sh.in:263
 msgid "You do not have sufficient permissions to read the %s keyring."
@@ -827,9 +824,8 @@ msgid "Disabling key %s..."
 msgstr "S'inhabilita la clau %s..."
 
 #: scripts/pacman-key.sh.in:376
-#, fuzzy
 msgid "Disabled %s keys."
-msgstr "S'inhabilita la clau %s..."
+msgstr "Claus inhabilitades: %s"
 
 #: scripts/pacman-key.sh.in:383
 msgid "A specified keyfile could not be added to the keyring."
@@ -876,9 +872,8 @@ msgid "%s could not be locally signed."
 msgstr "%s no s'ha pogut signar localment."
 
 #: scripts/pacman-key.sh.in:507
-#, fuzzy
 msgid "Locally signed %s keys."
-msgstr "Se signa localment la clau %s..."
+msgstr "Claus signades localment: %s"
 
 #: scripts/pacman-key.sh.in:530
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -892,7 +887,7 @@ msgstr "Clau remota no recollida correctament del servidor de claus."
 
 #: scripts/pacman-key.sh.in:567
 msgid "Could not update key: %s"
-msgstr ""
+msgstr "No s'ha pogut actualitzar la clau: %s"
 
 #: scripts/pacman-key.sh.in:588 scripts/repo-add.sh.in:265
 msgid "Cannot use armored signatures for packages: %s"
@@ -1631,94 +1626,3 @@ msgstr "No teniu permís d'escriptura per al directori $ %s (%s)."
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
 msgstr "Fallada al codi %s"
-
-#, perl-format
-#~ msgid "can't create '%s': %s"
-#~ msgstr "no es pot crear \"%s\": %s"
-
-#~ msgid "invalid key/value pair\n"
-#~ msgstr "parella de clau / valor no vàlida.\n"
-
-#~ msgid "invalid template line: can't find template name\n"
-#~ msgstr ""
-#~ "la línia de plantilla no és vàlida: no s'ha pogut trobar el nom de la "
-#~ "plantilla.\n"
-
-#, perl-format
-#~ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-#~ msgstr ""
-#~ "s'han usat caràcters no vàlids al nom \"%s\". Permès: [:alnum:]+_.@-\n"
-
-#, perl-format
-#~ msgid "Couldn't detect version for template '%s'\n"
-#~ msgstr "No s'ha pogut detectar la versió per a la plantilla \"%s\".\n"
-
-#, perl-format
-#~ msgid "Failed to find template file matching '%s'\n"
-#~ msgstr ""
-#~ "Ha fallat trobar un fitxer de plantilla que coincideixi amb \"%s\".\n"
-
-#, perl-format
-#~ msgid "failed to open '%s': %s\n"
-#~ msgstr "ha fallat obrir \"%s\": %s\n"
-
-#, perl-format
-#~ msgid "Unknown template marker '%s'\n"
-#~ msgstr "Marcador de plantilla desconegut \"%s\"\n"
-
-#~ msgid "makepkg-template [options]\n"
-#~ msgstr "makepkg-template [opcions]\n"
-
-#~ msgid "Options:\n"
-#~ msgstr "Opcions:\n"
-
-#, perl-format
-#~ msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-#~ msgstr ""
-#~ "  --input, -p <fitxer>    Script de construcció per llegir (per defecte: "
-#~ "%s).\n"
-
-#~ msgid "  --output, -o <file>   file to output to (default: input file)\n"
-#~ msgstr ""
-#~ "  --output, -o <fitxer>   Fitxer de sortida (per defecte: fitxer "
-#~ "d'entrada).\n"
-
-#~ msgid "  --newest, -n          update templates to newest version\n"
-#~ msgstr ""
-#~ "  --newest, -n          Actualitza les plantilles a la versió més nova.\n"
-
-#~ msgid ""
-#~ "                        (default: use version specified in the template "
-#~ "markers)\n"
-#~ msgstr ""
-#~ "                        (Per defecte: usa la versió especificada als "
-#~ "indicadors de les plantilles.)\n"
-
-#~ msgid "  --template-dir <dir>  directory to search for templates\n"
-#~ msgstr "  --template-dir <dir>  Directori on cercar plantilles.\n"
-
-#, perl-format
-#~ msgid "                        (default: %s)\n"
-#~ msgstr "                        (Per defecte: %s)\n"
-
-#~ msgid "  --help, -h            This help message\n"
-#~ msgstr ""
-#~ "  --help, -h            Aquest missatge d'ajuda.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "This is free software; see the source for copying conditions.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "Això és programari lliure. Consulteu-ne el codi font per a les condicions "
-#~ "de còpia.\n"
-#~ "NO hi ha CAP GARANTIA, en la mesura permesa per la llei.\n"
-
-#~ msgid "A specified local key could not be updated from a keyserver."
-#~ msgstr ""
-#~ "No s'ha pogut actualitzar una clau local espcificada des d'un servidor de "
-#~ "claus."

@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the pacman-scripts package.
 #
 # Translators:
 # Algimantas Margevičius <algimantas@margevicius.lt>, 2013
@@ -11,7 +11,7 @@
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # FULL NAME <EMAIL@ADDRESS>, 2011
 # Kiprianas Spiridonovas <k.spiridonovas@gmail.com>, 2013
-# Moo, 2015-2019
+# Moo, 2015-2019,2021
 # Tautvydas Ž., 2019
 # Tautvydas Ž., 2019
 # Dan McGee <dpmcgee@gmail.com>, 2011
@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2019-10-26 10:53+0000\n"
-"Last-Translator: Tautvydas Ž.\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-04-24 13:32+0000\n"
+"Last-Translator: Moo\n"
 "Language-Team: Lithuanian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/lt/)\n"
 "Language: lt\n"
@@ -688,9 +688,8 @@ msgstr ""
 "serverio"
 
 #: scripts/pacman-key.sh.in:80
-#, fuzzy
 msgid "  --verbose                 Show extra information"
-msgstr "  --version             Versijos informacija\n"
+msgstr "  --verbose                 Rodyti papildomą informaciją"
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
@@ -730,7 +729,7 @@ msgstr "Rakto vardas yra dviprasmis:"
 
 #: scripts/pacman-key.sh.in:148
 msgid "Generating pacman master key. This may take some time."
-msgstr ""
+msgstr "Generuojamas pagrindinis pacman raktas. Tai gali šiek tiek užtrukti."
 
 #: scripts/pacman-key.sh.in:185
 msgid "The key identified by %s could not be found locally."
@@ -739,11 +738,11 @@ msgstr "Atpažintas %s, nerastas lokaliai."
 #: scripts/pacman-key.sh.in:196 scripts/pacman-key.sh.in:208
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:204
 msgid "_"
-msgstr ""
+msgstr "_"
 
 #: scripts/pacman-key.sh.in:208
 msgid "flags"
-msgstr ""
+msgstr "vėliavėlės"
 
 #: scripts/pacman-key.sh.in:263
 msgid "You do not have sufficient permissions to read the %s keyring."
@@ -794,9 +793,8 @@ msgid "Disabling key %s..."
 msgstr "Uždraudžiamas raktas %s..."
 
 #: scripts/pacman-key.sh.in:376
-#, fuzzy
 msgid "Disabled %s keys."
-msgstr "Uždraudžiamas raktas %s..."
+msgstr "Išjungtų raktų: %s."
 
 #: scripts/pacman-key.sh.in:383
 msgid "A specified keyfile could not be added to the keyring."
@@ -843,9 +841,8 @@ msgid "%s could not be locally signed."
 msgstr "Pasirašyti %s lokaliai, nepavyko."
 
 #: scripts/pacman-key.sh.in:507
-#, fuzzy
 msgid "Locally signed %s keys."
-msgstr "Lokaliai pasirašomas raktas %s..."
+msgstr "Lokaliai pasirašytų raktų: %s."
 
 #: scripts/pacman-key.sh.in:530
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -857,7 +854,7 @@ msgstr "Gauti nutolusio rakto iš raktų serverio nepavyko."
 
 #: scripts/pacman-key.sh.in:567
 msgid "Could not update key: %s"
-msgstr ""
+msgstr "Nepavyko atnaujinti rakto: %s"
 
 #: scripts/pacman-key.sh.in:588 scripts/repo-add.sh.in:265
 msgid "Cannot use armored signatures for packages: %s"
@@ -1581,90 +1578,3 @@ msgstr "Jūs neturite rašymo leidimų, reikalingų katalogui $%s (%s)."
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
 msgstr "Nepavyko įkelti šaltinio %s"
-
-#, perl-format
-#~ msgid "can't create '%s': %s"
-#~ msgstr "nepavyksta sukurti \"%s\": %s"
-
-#~ msgid "invalid key/value pair\n"
-#~ msgstr "neteisinga rakto/reikšmės pora\n"
-
-#~ msgid "invalid template line: can't find template name\n"
-#~ msgstr "neteisinga šablono eilutė: nepavyksta rasti šablono pavadinimo\n"
-
-#, perl-format
-#~ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-#~ msgstr ""
-#~ "pavadinime panaudoti neteisingi simboliai \"%s\". leidžiami: [:alnum:]+_."
-#~ "@-\n"
-
-#, perl-format
-#~ msgid "Couldn't detect version for template '%s'\n"
-#~ msgstr ""
-#~ "Nepavyko aptikti versijos \"%s\" šablonui\n"
-#~ "\n"
-
-#, perl-format
-#~ msgid "Failed to find template file matching '%s'\n"
-#~ msgstr "Nepavyko rasti šablono failą, kuris atitiktų \"%s\"\n"
-
-#, perl-format
-#~ msgid "failed to open '%s': %s\n"
-#~ msgstr "nepavyko atverti \"%s\": %s\n"
-
-#, perl-format
-#~ msgid "Unknown template marker '%s'\n"
-#~ msgstr "Nežinoma šablono žymė \"%s\"\n"
-
-#~ msgid "makepkg-template [options]\n"
-#~ msgstr "makepkg-template [pasirinktys]\n"
-
-#~ msgid "Options:\n"
-#~ msgstr "Pasirinktys:\n"
-
-#, perl-format
-#~ msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-#~ msgstr ""
-#~ "  --input, -p <failas>    Kūrimo scenarijus, kurį skaityti (numatytasis: "
-#~ "%s)\n"
-
-#~ msgid "  --output, -o <file>   file to output to (default: input file)\n"
-#~ msgstr ""
-#~ "  --output, -o <failas>   failas, į kurį išvesti informaciją "
-#~ "(numatytasis: įvesties failas)\n"
-
-#~ msgid "  --newest, -n          update templates to newest version\n"
-#~ msgstr "  --newest, -n          atnaujinti šablonus į naujausią versiją\n"
-
-#~ msgid ""
-#~ "                        (default: use version specified in the template "
-#~ "markers)\n"
-#~ msgstr ""
-#~ "                        (pagal numatymą: naudoti versiją, nurodytą "
-#~ "šablono žymėse)\n"
-
-#~ msgid "  --template-dir <dir>  directory to search for templates\n"
-#~ msgstr "  --template-dir <katalogas>  katalogas, kuriame ieškoti šablonų\n"
-
-#, perl-format
-#~ msgid "                        (default: %s)\n"
-#~ msgstr "                        (pagal numatymą: %s)\n"
-
-#~ msgid "  --help, -h            This help message\n"
-#~ msgstr "  --help, -h            Šis pagalbos pranešimas\n"
-
-#~ msgid ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "This is free software; see the source for copying conditions.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "Autorinės teisės (c) 2013-2018 Pacman kūrimo komanda <pacman-"
-#~ "dev@archlinux.org>.\n"
-#~ "Tai yra laisva programinė įranga; norėdami sužinoti apie kopijavimo "
-#~ "sąlygas, žiūrėkite pirminį kodą.\n"
-#~ "Nėra JOKIOS GARANTIJOS, tiek, kiek tai leidžiama pagal įstatymus.\n"
-
-#~ msgid "A specified local key could not be updated from a keyserver."
-#~ msgstr ""
-#~ "Nurodytas vietinis raktas negalėjo būti atnaujintas iš raktų serverio."

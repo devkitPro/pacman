@@ -1,17 +1,17 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the pacman-scripts package.
 #
 # Translators:
 # Allan McRae <allan@archlinux.org>, 2013
-# Allan McRae <allan@archlinux.org>, 2013-2019
+# Allan McRae <allan@archlinux.org>, 2013-2019,2021
 # Dan McGee <dpmcgee@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2019-10-14 00:05+0000\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-04-23 00:46+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/en_GB/)\n"
@@ -666,9 +666,8 @@ msgstr ""
 "  --refresh-keys            Update specified or all keys from a keyserver"
 
 #: scripts/pacman-key.sh.in:80
-#, fuzzy
 msgid "  --verbose                 Show extra information"
-msgstr "  --version             Version information\n"
+msgstr "  --verbose                 Show extra information"
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
@@ -708,7 +707,7 @@ msgstr "Key name is ambiguous:"
 
 #: scripts/pacman-key.sh.in:148
 msgid "Generating pacman master key. This may take some time."
-msgstr ""
+msgstr "Generating pacman master key. This may take some time."
 
 #: scripts/pacman-key.sh.in:185
 msgid "The key identified by %s could not be found locally."
@@ -772,9 +771,8 @@ msgid "Disabling key %s..."
 msgstr "Disabling key %s..."
 
 #: scripts/pacman-key.sh.in:376
-#, fuzzy
 msgid "Disabled %s keys."
-msgstr "Disabling key %s..."
+msgstr "Disabled %s keys."
 
 #: scripts/pacman-key.sh.in:383
 msgid "A specified keyfile could not be added to the keyring."
@@ -821,9 +819,8 @@ msgid "%s could not be locally signed."
 msgstr "%s could not be locally signed."
 
 #: scripts/pacman-key.sh.in:507
-#, fuzzy
 msgid "Locally signed %s keys."
-msgstr "Locally signing key %s..."
+msgstr "Locally signed %s keys."
 
 #: scripts/pacman-key.sh.in:530
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -835,7 +832,7 @@ msgstr "Remote key not fetched correctly from keyserver."
 
 #: scripts/pacman-key.sh.in:567
 msgid "Could not update key: %s"
-msgstr ""
+msgstr "Could not update key: %s"
 
 #: scripts/pacman-key.sh.in:588 scripts/repo-add.sh.in:265
 msgid "Cannot use armored signatures for packages: %s"
@@ -1553,80 +1550,3 @@ msgstr "You do not have write permission for the directory $%s (%s)."
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
 msgstr "Failed to source %s"
-
-#, perl-format
-#~ msgid "can't create '%s': %s"
-#~ msgstr "can't create '%s': %s"
-
-#~ msgid "invalid key/value pair\n"
-#~ msgstr "invalid key/value pair\n"
-
-#~ msgid "invalid template line: can't find template name\n"
-#~ msgstr "invalid template line: can't find template name\n"
-
-#, perl-format
-#~ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-#~ msgstr "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-
-#, perl-format
-#~ msgid "Couldn't detect version for template '%s'\n"
-#~ msgstr "Couldn't detect version for template '%s'\n"
-
-#, perl-format
-#~ msgid "Failed to find template file matching '%s'\n"
-#~ msgstr "Failed to find template file matching '%s'\n"
-
-#, perl-format
-#~ msgid "failed to open '%s': %s\n"
-#~ msgstr "failed to open '%s': %s\n"
-
-#, perl-format
-#~ msgid "Unknown template marker '%s'\n"
-#~ msgstr "Unknown template marker '%s'\n"
-
-#~ msgid "makepkg-template [options]\n"
-#~ msgstr "makepkg-template [options]\n"
-
-#~ msgid "Options:\n"
-#~ msgstr "Options:\n"
-
-#, perl-format
-#~ msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-#~ msgstr "  --input, -p <file>    Build script to read (default: %s)\n"
-
-#~ msgid "  --output, -o <file>   file to output to (default: input file)\n"
-#~ msgstr "  --output, -o <file>   file to output to (default: input file)\n"
-
-#~ msgid "  --newest, -n          update templates to newest version\n"
-#~ msgstr "  --newest, -n          update templates to newest version\n"
-
-#~ msgid ""
-#~ "                        (default: use version specified in the template "
-#~ "markers)\n"
-#~ msgstr ""
-#~ "                        (default: use version specified in the template "
-#~ "markers)\n"
-
-#~ msgid "  --template-dir <dir>  directory to search for templates\n"
-#~ msgstr "  --template-dir <dir>  directory to search for templates\n"
-
-#, perl-format
-#~ msgid "                        (default: %s)\n"
-#~ msgstr "                        (default: %s)\n"
-
-#~ msgid "  --help, -h            This help message\n"
-#~ msgstr "  --help, -h            This help message\n"
-
-#~ msgid ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "This is free software; see the source for copying conditions.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "This is free software; see the source for copying conditions.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-
-#~ msgid "A specified local key could not be updated from a keyserver."
-#~ msgstr "A specified local key could not be updated from a keyserver."

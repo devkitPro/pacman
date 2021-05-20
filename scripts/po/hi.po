@@ -1,15 +1,15 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the pacman-scripts package.
 #
 # Translators:
-# Panwar108 <caspian7pena@gmail.com>, 2020
+# Panwar108 <caspian7pena@gmail.com>, 2020-2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2020-08-02 16:46+0000\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-05-09 11:23+0000\n"
 "Last-Translator: Panwar108 <caspian7pena@gmail.com>\n"
 "Language-Team: Hindi (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/hi/)\n"
@@ -651,9 +651,8 @@ msgstr ""
 "  --refresh-keys            कुंजी सर्वर द्वारा निर्दिष्ट या सभी कुंजियाँ अपडेट करें"
 
 #: scripts/pacman-key.sh.in:80
-#, fuzzy
 msgid "  --verbose                 Show extra information"
-msgstr "  --version             संस्करण जानकारी\n"
+msgstr "  --verbose                 अतिरिक्त सूचना दिखाएँ"
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
@@ -693,7 +692,7 @@ msgstr "अस्पष्ट कुंजी नाम :"
 
 #: scripts/pacman-key.sh.in:148
 msgid "Generating pacman master key. This may take some time."
-msgstr ""
+msgstr "पैकमैन मास्टर कुंजी सृजन जारी। इसमें कुछ समय लग सकता है।"
 
 #: scripts/pacman-key.sh.in:185
 msgid "The key identified by %s could not be found locally."
@@ -702,11 +701,11 @@ msgstr "%s द्वारा पहचानी गई कुंजी हे�
 #: scripts/pacman-key.sh.in:196 scripts/pacman-key.sh.in:208
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:204
 msgid "_"
-msgstr ""
+msgstr "_"
 
 #: scripts/pacman-key.sh.in:208
 msgid "flags"
-msgstr ""
+msgstr "फ्लैग"
 
 #: scripts/pacman-key.sh.in:263
 msgid "You do not have sufficient permissions to read the %s keyring."
@@ -757,9 +756,8 @@ msgid "Disabling key %s..."
 msgstr "कुंजी %s निष्क्रिय हो रही है..."
 
 #: scripts/pacman-key.sh.in:376
-#, fuzzy
 msgid "Disabled %s keys."
-msgstr "कुंजी %s निष्क्रिय हो रही है..."
+msgstr "%s कुंजियाँ निष्क्रिय की गईं।"
 
 #: scripts/pacman-key.sh.in:383
 msgid "A specified keyfile could not be added to the keyring."
@@ -806,9 +804,8 @@ msgid "%s could not be locally signed."
 msgstr "%s को लोकल रूप से हस्ताक्षरित करना विफल।"
 
 #: scripts/pacman-key.sh.in:507
-#, fuzzy
 msgid "Locally signed %s keys."
-msgstr "%s हेतु लोकल रूप से हस्ताक्षर..."
+msgstr "लोकल रूप से हस्ताक्षरित %s कुंजियाँ।"
 
 #: scripts/pacman-key.sh.in:530
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -820,7 +817,7 @@ msgstr "कुंजी सर्वर से दूरस्थ कुंज�
 
 #: scripts/pacman-key.sh.in:567
 msgid "Could not update key: %s"
-msgstr ""
+msgstr "कुंजी अपडेट करना विफल : %s"
 
 #: scripts/pacman-key.sh.in:588 scripts/repo-add.sh.in:265
 msgid "Cannot use armored signatures for packages: %s"
@@ -1531,79 +1528,3 @@ msgstr "आपके पास डायरेक्टरी $ %s हेतु 
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
 msgstr "%s हेतु स्रोत विफल"
-
-#, perl-format
-#~ msgid "can't create '%s': %s"
-#~ msgstr "'%s बनाना विफल : %s"
-
-#~ msgid "invalid key/value pair\n"
-#~ msgstr "अमान्य कुंजी/मान युग्म\n"
-
-#~ msgid "invalid template line: can't find template name\n"
-#~ msgstr "अमान्य टेम्पलेट पंक्ति : टेम्पलेट नाम नहीं मिला\n"
-
-#, perl-format
-#~ msgid "invalid chars used in name '%s'. allowed: [:alnum:]+_.@-\n"
-#~ msgstr "'%s' नाम में अमान्य अक्षर प्रयुक्त। ये स्वीकार्य हैं : [:alnum:]+_.@-\n"
-
-#, perl-format
-#~ msgid "Couldn't detect version for template '%s'\n"
-#~ msgstr "टेम्पलेट '%s' हेतु संस्करण पहचान विफल\n"
-
-#, perl-format
-#~ msgid "Failed to find template file matching '%s'\n"
-#~ msgstr "'%s' से मेल खाती टेम्पलेट फाइल खोजना विफल\n"
-
-#, perl-format
-#~ msgid "failed to open '%s': %s\n"
-#~ msgstr "'%s' खोलना विफल: %s\n"
-
-#, perl-format
-#~ msgid "Unknown template marker '%s'\n"
-#~ msgstr "अज्ञात टेम्पलेट मार्कर '%s'\n"
-
-#~ msgid "makepkg-template [options]\n"
-#~ msgstr "makepkg-template [विकल्प]\n"
-
-#~ msgid "Options:\n"
-#~ msgstr "विकल्प :\n"
-
-#, perl-format
-#~ msgid "  --input, -p <file>    Build script to read (default: %s)\n"
-#~ msgstr "  --input, -p <file>    रीड हेतु बिल्ड स्क्रिप्ट (डिफ़ॉल्ट : %s)\n"
-
-#~ msgid "  --output, -o <file>   file to output to (default: input file)\n"
-#~ msgstr "  --output, -o <file>   आउटपुट हेतु फाइल (डिफ़ॉल्ट : इनपुट फाइल)\n"
-
-#~ msgid "  --newest, -n          update templates to newest version\n"
-#~ msgstr "  --newest, -n          टेम्पलेट की नवीन संस्करण में अपग्रेड करें\n"
-
-#~ msgid ""
-#~ "                        (default: use version specified in the template "
-#~ "markers)\n"
-#~ msgstr ""
-#~ "                        (डिफ़ॉल्ट : टेम्पलेट मार्कर में निर्दिष्ट संस्करण उपयोग करें)\n"
-
-#~ msgid "  --template-dir <dir>  directory to search for templates\n"
-#~ msgstr "  --template-dir <dir>  टेम्पलेट खोजने हेतु डायरेक्टरी\n"
-
-#, perl-format
-#~ msgid "                        (default: %s)\n"
-#~ msgstr "                        (डिफ़ॉल्ट : %s)\n"
-
-#~ msgid "  --help, -h            This help message\n"
-#~ msgstr "  --help, -h            यह सहायता संदेश\n"
-
-#~ msgid ""
-#~ "Copyright (c) 2013-2018 Pacman Development Team <pacman-dev@archlinux."
-#~ "org>.\n"
-#~ "This is free software; see the source for copying conditions.\n"
-#~ "There is NO WARRANTY, to the extent permitted by law.\n"
-#~ msgstr ""
-#~ "प्रतिलिप्यधिकार (c) 2013-2018 पैकमैन सॉफ्टवेयर विकास टीम <pacman-dev@archlinux."
-#~ "org>।\n"
-#~ "यह नि: शुल्क सॉफ्टवेयर है; प्रतिलिपि शर्तों के लिए स्रोत देखें।\n"
-#~ "कानून द्वारा अनुमत सीमा तक कोई वारंटी नहीं है।\n"
-
-#~ msgid "A specified local key could not be updated from a keyserver."
-#~ msgstr "कुंजी सर्वर द्वारा निर्दिष्ट लोकल कुंजी अपडेट करना विफल।"

@@ -1,12 +1,12 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Pacman Development Team <pacman-dev@archlinux.org>
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR "Pacman Development Team <pacman-dev@archlinux.org>"
+# This file is distributed under the same license as the libalpm package.
 #
 # Translators:
 # Alimspender Dong <akillcool@outlook.com>, 2019
 # Feng Chao <chaofeng111@qq.com>, 2018
 # Dan McGee <dpmcgee@gmail.com>, 2011
-# Feng Chao <chaofeng111@qq.com>, 2020
+# Feng Chao <chaofeng111@qq.com>, 2011,2018,2020
 # Jiachen YANG <farseerfc@gmail.com>, 2019
 # Feng Chao <chaofeng111@qq.com>, 2011
 # Feng Chao <chaofeng111@qq.com>, 2011,2018
@@ -15,15 +15,15 @@
 # mytbk <mytbk920423@gmail.com>, 2013,2015,2017
 # ykelvis <ykelvis@users.noreply.github.com>, 2014
 # 张海, 2015,2018
-# 张海, 2015,2018
+# 张海, 2015,2018,2021
 # 甘 露 <rhythm.gan@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-04-23 10:36+1000\n"
-"PO-Revision-Date: 2020-04-26 08:52+0000\n"
-"Last-Translator: Feng Chao <chaofeng111@qq.com>\n"
+"POT-Creation-Date: 2021-05-20 12:24+1000\n"
+"PO-Revision-Date: 2021-04-23 10:10+0000\n"
+"Last-Translator: 张海\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -62,7 +62,7 @@ msgstr "解压 %s 时出现警告 (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "无法解压缩 %1$s (%2$s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:659 lib/libalpm/remove.c:534
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:672 lib/libalpm/remove.c:534
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "无法将 %1$s 重命名为 %2$s (%3$s)\n"
@@ -173,7 +173,7 @@ msgstr "损坏的数据库记录 '%s'\n"
 
 #: lib/libalpm/be_local.c:722 lib/libalpm/be_local.c:818
 #: lib/libalpm/be_local.c:958 lib/libalpm/be_local.c:1055
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:770 lib/libalpm/util.c:254
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:783 lib/libalpm/util.c:254
 #: lib/libalpm/util.c:270
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -235,7 +235,7 @@ msgstr "%s 中缺少软件包元数据\n"
 msgid "failed to read signature file: %s\n"
 msgstr "读取签名文件失败：%s\n"
 
-#: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:934
+#: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:953
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "所需的密钥不在密钥环中\n"
@@ -270,7 +270,7 @@ msgstr "%s 数据库不一致: 包 %s 的文件名太长\n"
 msgid "unknown database file: %s\n"
 msgstr "未知的数据库文件： %s\n"
 
-#: lib/libalpm/db.c:338
+#: lib/libalpm/db.c:344
 #, c-format
 msgid "database path is undefined\n"
 msgstr "数据库路径未定义\n"
@@ -358,62 +358,62 @@ msgstr ""
 #, c-format
 msgid ""
 "too many errors from %s, skipping for the remainder of this transaction\n"
-msgstr ""
+msgstr "%s 返回错误过多，将在此事务的剩余部分中跳过\n"
 
-#: lib/libalpm/dload.c:224
+#: lib/libalpm/dload.c:220
 #, c-format
 msgid "disk"
 msgstr "硬盘"
 
-#: lib/libalpm/dload.c:396
+#: lib/libalpm/dload.c:392
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "无法创建下载用的临时文件\n"
 
-#: lib/libalpm/dload.c:497 lib/libalpm/dload.c:525 lib/libalpm/dload.c:542
+#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:537 lib/libalpm/dload.c:551
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "无法从 %2$s : %3$s 获取文件 '%1$s'\n"
 
-#: lib/libalpm/dload.c:516
+#: lib/libalpm/dload.c:529
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr "获取文件 '%s' 失败，来自 %s : 下载大小超出期望值\n"
 
-#: lib/libalpm/dload.c:637
+#: lib/libalpm/dload.c:650
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s 可缩小：%jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:737
+#: lib/libalpm/dload.c:750
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "url '%s' 无效\n"
 
-#: lib/libalpm/dload.c:817
-#, fuzzy, c-format
+#: lib/libalpm/dload.c:836
+#, c-format
 msgid "failed to setup a download payload for %s\n"
-msgstr "下载 %s 失败\n"
+msgstr "为 %s 设置下载负载失败\n"
 
-#: lib/libalpm/dload.c:829
+#: lib/libalpm/dload.c:848
 #, c-format
 msgid "curl returned error %d from transfer\n"
-msgstr ""
+msgstr "curl 在传输中返回了错误 %d\n"
 
-#: lib/libalpm/dload.c:851
+#: lib/libalpm/dload.c:872
 #, c-format
 msgid "curl transfer error: %d\n"
-msgstr ""
+msgstr "curl 传输错误：%d\n"
 
-#: lib/libalpm/dload.c:969 lib/libalpm/sync.c:821
+#: lib/libalpm/dload.c:989 lib/libalpm/sync.c:840
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "无法获取某些文件\n"
 
-#: lib/libalpm/dload.c:992
+#: lib/libalpm/dload.c:1012
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
-msgstr ""
+msgstr "下载已成功完成但缓存中没有文件\n"
 
 #: lib/libalpm/error.c:40
 #, c-format
@@ -530,7 +530,7 @@ msgstr "软件仓库没有配置服务器信息"
 msgid "transaction already initialized"
 msgstr "事务已初始化"
 
-#: lib/libalpm/error.c:90 lib/libalpm/error.c:94
+#: lib/libalpm/error.c:90 lib/libalpm/error.c:96
 #, c-format
 msgid "transaction not initialized"
 msgstr "事务未初始化"
@@ -540,85 +540,85 @@ msgstr "事务未初始化"
 msgid "duplicate target"
 msgstr "重复的目标"
 
-#: lib/libalpm/error.c:96
+#: lib/libalpm/error.c:94
+#, fuzzy, c-format
+msgid "duplicate filename"
+msgstr "重复的目标"
+
+#: lib/libalpm/error.c:98
 #, c-format
 msgid "transaction not prepared"
 msgstr "事务未准备好"
 
-#: lib/libalpm/error.c:98
+#: lib/libalpm/error.c:100
 #, c-format
 msgid "transaction aborted"
 msgstr "事务已放弃"
 
-#: lib/libalpm/error.c:100
+#: lib/libalpm/error.c:102
 #, c-format
 msgid "operation not compatible with the transaction type"
 msgstr "操作与事务类型不兼容"
 
-#: lib/libalpm/error.c:102
+#: lib/libalpm/error.c:104
 #, c-format
 msgid "transaction commit attempt when database is not locked"
 msgstr "尝试提交事务处理时尚未锁定数据库"
 
-#: lib/libalpm/error.c:104
+#: lib/libalpm/error.c:106
 #, c-format
 msgid "failed to run transaction hooks"
 msgstr "运行事务处理钩子函数失败"
 
-#: lib/libalpm/error.c:107
+#: lib/libalpm/error.c:109
 #, c-format
 msgid "could not find or read package"
 msgstr "无法找到或读取软件包"
 
-#: lib/libalpm/error.c:109
+#: lib/libalpm/error.c:111
 #, c-format
 msgid "operation cancelled due to ignorepkg"
 msgstr "由于 ignorepkg 指定，操作已取消"
 
-#: lib/libalpm/error.c:111
+#: lib/libalpm/error.c:113
 #, c-format
 msgid "invalid or corrupted package"
 msgstr "无效或已损坏的软件包"
 
-#: lib/libalpm/error.c:113
+#: lib/libalpm/error.c:115
 #, c-format
 msgid "invalid or corrupted package (checksum)"
 msgstr "无效或已损坏的软件包 (检验值)"
 
-#: lib/libalpm/error.c:115
+#: lib/libalpm/error.c:117
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
 msgstr "无效或已损坏的软件包 (PGP 签名)"
 
-#: lib/libalpm/error.c:117
+#: lib/libalpm/error.c:119
 #, c-format
 msgid "package missing required signature"
 msgstr "软件包缺失签名"
 
-#: lib/libalpm/error.c:119
+#: lib/libalpm/error.c:121
 #, c-format
 msgid "cannot open package file"
 msgstr "无法打开软件包文件"
 
-#: lib/libalpm/error.c:121
+#: lib/libalpm/error.c:123
 #, c-format
 msgid "cannot remove all files for package"
 msgstr "无法为软件包删除全部文件"
 
-#: lib/libalpm/error.c:123
+#: lib/libalpm/error.c:125
 #, c-format
 msgid "package filename is not valid"
 msgstr "软件包文件名无效"
 
-#: lib/libalpm/error.c:125
+#: lib/libalpm/error.c:127
 #, c-format
 msgid "package architecture is not valid"
 msgstr "无效的软件包架构"
-
-#: lib/libalpm/error.c:127
-#, c-format
-msgid "could not find repository for target"
-msgstr "无法为目标找到软件仓库"
 
 #: lib/libalpm/error.c:130
 #, c-format
@@ -862,7 +862,7 @@ msgstr "密钥 \"%s\" 无法导入\n"
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "无法远程查找到密钥 \"%s\"\n"
 
-#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1003
+#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s：缺失签名\n"
@@ -944,32 +944,37 @@ msgstr "正在忽略替换软件包 (%s-%s => %s-%s)\n"
 msgid "cannot replace %s by %s\n"
 msgstr "无法替换 %s 为 %s\n"
 
-#: lib/libalpm/sync.c:523 lib/libalpm/sync.c:593
+#: lib/libalpm/sync.c:476
+#, c-format
+msgid "packages %s and %s have the same filename: %s\n"
+msgstr ""
+
+#: lib/libalpm/sync.c:542 lib/libalpm/sync.c:612
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "检测到未解决的软件包冲突\n"
 
-#: lib/libalpm/sync.c:543
+#: lib/libalpm/sync.c:562
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
 msgstr "正在从目标清单中删除 '%1$s' ，因为它和 '%2$s' 冲突\n"
 
-#: lib/libalpm/sync.c:1017
+#: lib/libalpm/sync.c:1036
 #, c-format
 msgid "failed to read file %s: %s\n"
 msgstr "无法读取文件 %s：%s\n"
 
-#: lib/libalpm/sync.c:1204
+#: lib/libalpm/sync.c:1223
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "剩余空间不够\n"
 
-#: lib/libalpm/sync.c:1226
+#: lib/libalpm/sync.c:1245
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "无法提交删除事务\n"
 
-#: lib/libalpm/sync.c:1234
+#: lib/libalpm/sync.c:1253
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "无法提交事务\n"
@@ -1053,3 +1058,7 @@ msgstr "没有 %s 缓存存在，正在创建...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "无法找到或创建软件包缓存，使用 %s 中\n"
+
+#, c-format
+#~ msgid "could not find repository for target"
+#~ msgstr "无法为目标找到软件仓库"
