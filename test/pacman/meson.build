@@ -173,6 +173,7 @@ pacman_tests = [
   'tests/symlink012.py',
   'tests/symlink020.py',
   'tests/symlink021.py',
+  'tests/sync-failover-404-with-body.py',
   'tests/sync-install-assumeinstalled.py',
   'tests/sync-nodepversion01.py',
   'tests/sync-nodepversion02.py',
