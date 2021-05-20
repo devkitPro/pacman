@@ -1,5 +1,65 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+6.0.0         - internal downloader can retrieve files in parallel (FS#20056)
+              - an additional progress bar is added to track total download
+                progress.  This replaces the previous TotalDownload option.
+              - fix download rates becoming negative
+              - skip mirror servers with too many errors (FS#29293)
+              - package signatures are always retrieved even if signature is
+                embedded in repo database or package is in cache (FS#33992)
+              - detached package signatures found in CacheDir can be used to
+                verify packages if signature is not in the database. Also
+                verify packages checksums from repo db when using detached
+                signatures.
+              - add support for multiple 'Architecture' values
+              - -Qkk now validates file checksums in addition to date/size
+              - colored upgrade summary now dulls version numbers for contrast
+              - libalpm frontends can now supply context to callbacks (FS#12721)
+              - support xattr when extracting packages
+              - allow setting --noprogressbar in pacman.conf
+              - fix output alignment for CJK translated text (FS#59229)
+              - fix reading targets from stdin when using --sysroot (FS#68630)
+              - fix deleting signatures for existing databases with -Sc
+              - check for and forbid duplicate download filenames (FS#67850)
+              - -Fx now reports error for invalid regex
+              - remove support for the autotools build system
+              - meson: properly compile internal symbols as hidden
+              - meson: make -uninstalled.pc correct
+              - fix build errors on systems like FreeBSD
+              - makepkg:
+                - add link time optimization support to makepkg
+                - add support for sources using the fossil VCS
+                - allow specifying alternative authentication commands when
+                  running pacman as root (FS#32621)
+                - support zstd decompression for sources
+                - strip: fix removing file attributes such as xattr
+                - switch to CRC as default integrity checksum
+                - record $startdir for reproducible builds
+                - record name of build orchestration tool for reproducible builds
+                - fix signing of source packages
+                - add optional argument support to parseopts
+                - reduce dependency on file for detecting ELF files
+                - remove dependency on GNU sed
+                - avoid trailing whitespace in --printsrcinfo output
+                - libprovides: don't provide both versioned and unversioned
+                  sonames
+                - don't double-layer distcc on ccache
+                - fix detection of source file names for debug packages with
+                  gcc 11
+                - strip: silence warnings emitted by readelf while detecting
+                  source filenames
+                - fix use of spaces in source file renaming (FS#70254)
+              - pacman-key:
+                - --refresh-keys queries WKD before keyserver
+                - be less noisy when populating the keyring (FS#64142)
+                - warn about time taken for master key generation
+              - repo-add:
+                - support the same compression methods as makepkg
+              - zsh completion: add pacman-conf support
+              - various documentation updates
+              - after a decade and a half of promising libalpm.3 documentation
+                "once we get around to doing good Doxygen documentation", it
+                has happened!
 5.2.2         - fix pacman test suite under python 3.8
               - only prompt to import new keys once in a transaction
               - fix handling of fully downloaded .part files
