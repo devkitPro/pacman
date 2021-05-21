@@ -447,7 +447,7 @@ static int curl_retry_next_server(CURLM *curlm, CURL *curl, struct dload_payload
 		fseek(payload->localf, 0, SEEK_SET);
 	}
 
-	if(handle->dlcb && !payload->signature) {
+	if(handle->dlcb) {
 		alpm_download_event_retry_t cb_data;
 		cb_data.resume = payload->allow_resume;
 		handle->dlcb(handle->dlcb_ctx, payload->remote_name, ALPM_DOWNLOAD_RETRY, &cb_data);
