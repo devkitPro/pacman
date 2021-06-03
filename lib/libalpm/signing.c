@@ -513,6 +513,10 @@ int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr)
 				.key = &fetch_key
 			};
 	QUESTION(handle, &question);
+
+	free(fetch_key.uid);
+	free(fetch_key.fingerprint);
+
 	if(question.import) {
 		/* Try to import the key from a WKD first */
 		if(email_from_uid(uid, &email) == 0) {
@@ -538,9 +542,6 @@ int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr)
 		}
 	}
 	gpgme_key_unref(fetch_key.data);
-	free(fetch_key.uid);
-	free(fetch_key.fingerprint);
-
 	return ret;
 }
 
