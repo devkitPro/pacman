@@ -495,7 +495,7 @@ static int email_from_uid(const char *uid, char **email)
 int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr)
 {
 	int ret = -1;
-	alpm_pgpkey_t fetch_key = {0};
+	alpm_pgpkey_t fetch_key;
 	char *email;
 
 	if(_alpm_access(handle, handle->gpgdir, "pubring.gpg", W_OK)) {
@@ -504,18 +504,14 @@ int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr)
 		return -1;
 	}
 
-	STRDUP(fetch_key.uid, uid, return -1);
-	STRDUP(fetch_key.fingerprint, fpr, free(fetch_key.uid); return -1);
 
 	alpm_question_import_key_t question = {
 				.type = ALPM_QUESTION_IMPORT_KEY,
 				.import = 0,
-				.key = &fetch_key
+				.uid = uid,
+				.fingerprint = fpr
 			};
 	QUESTION(handle, &question);
-
-	free(fetch_key.uid);
-	free(fetch_key.fingerprint);
 
 	if(question.import) {
 		/* Try to import the key from a WKD first */

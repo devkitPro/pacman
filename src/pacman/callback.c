@@ -541,12 +541,12 @@ void cb_question(void *ctx, alpm_question_t *question)
 			{
 				alpm_question_import_key_t *q = &question->import_key;
 				/* the uid is unknown with db signatures */
-				if (q->key->uid == NULL) {
+				if (q->uid == NULL) {
 					q->import = yesno(_("Import PGP key %s?"),
-							q->key->fingerprint);
+							q->fingerprint);
 				} else {
 					q->import = yesno(_("Import PGP key %s, \"%s\"?"),
-							q->key->fingerprint, q->key->uid);
+							q->fingerprint, q->uid);
 				}
 			}
 			break;

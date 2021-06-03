@@ -1074,8 +1074,10 @@ typedef struct _alpm_question_import_key_t {
 	alpm_question_type_t type;
 	/** Answer: whether or not to import key */
 	int import;
-	/** The key to import */
-	alpm_pgpkey_t *key;
+	/** UID of the key to import */
+	const char *uid;
+	/** Fingerprint the key to import */
+	const char *fingerprint;
 } alpm_question_import_key_t;
 
 /**
