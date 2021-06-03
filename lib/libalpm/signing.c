@@ -350,7 +350,7 @@ static int key_search_keyserver(alpm_handle_t *handle, const char *fpr,
 	pgpkey->data = key;
 	if(key->subkeys->fpr) {
 		pgpkey->fingerprint = key->subkeys->fpr;
-	} else if(key->subkeys->keyid) {
+	} else {
 		pgpkey->fingerprint = key->subkeys->keyid;
 	}
 	pgpkey->uid = key->uids->uid;
