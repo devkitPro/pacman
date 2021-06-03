@@ -836,15 +836,15 @@ int sync_prepare_execute(void)
 					alpm_fileconflict_t *conflict = i->data;
 					switch(conflict->type) {
 						case ALPM_FILECONFLICT_TARGET:
-							printf(_("%s exists in both '%s' and '%s'\n"),
+							fprintf(stderr, _("%s exists in both '%s' and '%s'\n"),
 									conflict->file, conflict->target, conflict->ctarget);
 							break;
 						case ALPM_FILECONFLICT_FILESYSTEM:
 							if(conflict->ctarget[0]) {
-								printf(_("%s: %s exists in filesystem (owned by %s)\n"),
+								fprintf(stderr, _("%s: %s exists in filesystem (owned by %s)\n"),
 										conflict->target, conflict->file, conflict->ctarget);
 							} else {
-								printf(_("%s: %s exists in filesystem\n"),
+								fprintf(stderr, _("%s: %s exists in filesystem\n"),
 										conflict->target, conflict->file);
 							}
 							break;
@@ -857,7 +857,7 @@ int sync_prepare_execute(void)
 			case ALPM_ERR_PKG_INVALID_SIG:
 				for(i = data; i; i = alpm_list_next(i)) {
 					char *filename = i->data;
-					printf(_("%s is invalid or corrupted\n"), filename);
+					fprintf(stderr, _("%s is invalid or corrupted\n"), filename);
 					free(filename);
 				}
 				break;
