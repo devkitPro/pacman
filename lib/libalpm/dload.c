@@ -613,12 +613,33 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 	/* Let's check if client requested downloading accompanion *.sig file */
 	if(!payload->signature && payload->download_signature && curlerr == CURLE_OK && payload->respcode < 400) {
 		struct dload_payload *sig = NULL;
-
+		char *url = payload->fileurl;
+		char *_effective_filename;
+		const char *effective_filename;
+		char *query;
+		const char *dbext = alpm_option_get_dbext(handle);
 		const char* realname = payload->destfile_name ? payload->destfile_name : payload->tempfile_name;
-		int len = strlen(effective_url) + 5;
+		int len;
+
+		STRDUP(_effective_filename, effective_url, GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+		effective_filename = get_filename(_effective_filename);
+		query = strrchr(effective_filename, '?');
+
+		if(query) {
+			query[0] = '\0';
+		}
+
+		/* Only use the effective url for sig downloads if the effective_url contains .dbext or .pkg */
+		if(strstr(effective_filename, dbext) || strstr(effective_filename, ".pkg")) {
+			url = effective_url;
+		}
+
+		free(_effective_filename);
+
+		len = strlen(url) + 5;
 		CALLOC(sig, 1, sizeof(*sig), GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
 		MALLOC(sig->fileurl, len, FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
-		snprintf(sig->fileurl, len, "%s.sig", effective_url);
+		snprintf(sig->fileurl, len, "%s.sig", url);
 
 		if(payload->trust_remote_name) {
 			/* In this case server might provide a new name for the main payload.
