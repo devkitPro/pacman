@@ -22,6 +22,12 @@ url = self.add_simple_http_server({
     '/redir-dest.pkg': 'redir-dest',
     '/redir-dest.pkg.sig': 'redir-dest.sig',
 
+    # redirect cdn
+    '/redir-cdn.pkg': { 'code': 303, 'headers': { 'Location': '/cdn-1' } },
+    '/redir-cdn.pkg.sig': { 'code': 303, 'headers': { 'Location': '/cdn-2' } },
+    '/cdn-1': 'redir-dest',
+    '/cdn-2': 'redir-dest.sig',
+
     # content-disposition and redirect
     '/cd-redir.pkg': { 'code': 303, 'headers': { 'Location': '/cd-redir-dest.pkg' } },
     '/cd-redir-dest.pkg': {
@@ -29,6 +35,18 @@ url = self.add_simple_http_server({
         'body': 'cd-redir-dest'
     },
     '/cd-redir-dest.pkg.sig': 'cd-redir-dest.sig',
+
+    # content-disposition and redirect to cdn
+    '/cd-redir-cdn.pkg': { 'code': 303, 'headers': { 'Location': '/cdn-3' } },
+    '/cd-redir-cdn.pkg.sig': { 'code': 303, 'headers': { 'Location': '/cdn-4' } },
+    '/cdn-3': {
+        'headers': { 'Content-Disposition': 'attachment; filename="cdn-alt.pkg"' },
+        'body': 'cdn-alt'
+    },
+    '/cdn-4': {
+        'headers': { 'Content-Disposition': 'attachment; filename="cdn-alt.pkg.sig"' },
+        'body': 'cdn-alt.sig'
+    },
 
     # TODO: absolutely terrible hack to prevent pacman from attempting to
     # validate packages, which causes failure under --valgrind thanks to
@@ -38,7 +56,7 @@ url = self.add_simple_http_server({
     '': 'fallback',
 })
 
-self.args = '-Uw {url}/simple.pkg {url}/cd.pkg {url}/redir.pkg {url}/cd-redir.pkg {url}/404'.format(url=url)
+self.args = '-Uw {url}/simple.pkg {url}/cd.pkg {url}/redir.pkg {url}/redir-cdn.pkg {url}/cd-redir.pkg {url}/cd-redir-cdn.pkg {url}/404'.format(url=url)
 
 # packages/sigs are not valid, error is expected
 self.addrule('!PACMAN_RETCODE=0')
@@ -59,3 +77,6 @@ self.addrule('!CACHE_FEXISTS=cd-redir.pkg')
 self.addrule('!CACHE_FEXISTS=cd-redir-dest.pkg')
 self.addrule('CACHE_FCONTENTS=cd-redir-dest-alt.pkg|cd-redir-dest')
 self.addrule('CACHE_FCONTENTS=cd-redir-dest-alt.pkg.sig|cd-redir-dest.sig')
+
+self.addrule('CACHE_FCONTENTS=cdn-alt.pkg|cdn-alt')
+self.addrule('CACHE_FCONTENTS=cdn-alt.pkg.sig|cdn-alt.sig')
