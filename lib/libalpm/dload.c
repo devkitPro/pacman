@@ -614,6 +614,7 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 	if(!payload->signature && payload->download_signature && curlerr == CURLE_OK && payload->respcode < 400) {
 		struct dload_payload *sig = NULL;
 
+		const char* realname = payload->destfile_name ? payload->destfile_name : payload->tempfile_name;
 		int len = strlen(effective_url) + 5;
 		CALLOC(sig, 1, sizeof(*sig), GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
 		MALLOC(sig->fileurl, len, FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
@@ -623,12 +624,17 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 			/* In this case server might provide a new name for the main payload.
 			 * Choose *.sig filename based on this new name.
 			 */
-			const char* realname = payload->destfile_name ? payload->destfile_name : payload->tempfile_name;
 			const char *final_file = get_filename(realname);
 			int remote_name_len = strlen(final_file) + 5;
 			MALLOC(sig->remote_name, remote_name_len, FREE(sig->fileurl); FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
 			snprintf(sig->remote_name, remote_name_len, "%s.sig", final_file);
 		}
+
+		/* force the filename to be realname + ".sig" */
+		int destfile_name_len = strlen(realname) + 5;
+		MALLOC(sig->destfile_name, destfile_name_len, FREE(sig->remote_name);
+				FREE(sig->fileurl); FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+		snprintf(sig->destfile_name, destfile_name_len, "%s.sig", realname);
 
 		sig->signature = 1;
 		sig->handle = handle;
@@ -762,7 +768,9 @@ static int curl_add_payload(alpm_handle_t *handle, CURLM *curlm,
 	}
 
 	if(payload->remote_name && strlen(payload->remote_name) > 0) {
-		payload->destfile_name = get_fullpath(localpath, payload->remote_name, "");
+		if(!payload->destfile_name) {
+			payload->destfile_name = get_fullpath(localpath, payload->remote_name, "");
+		}
 		payload->tempfile_name = get_fullpath(localpath, payload->remote_name, ".part");
 		if(!payload->destfile_name || !payload->tempfile_name) {
 			goto cleanup;
