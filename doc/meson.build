@@ -25,7 +25,6 @@ asciidoc_conf = join_paths(meson.current_source_dir(), 'asciidoc.conf')
 asciidoc_opts = [
  '-f', asciidoc_conf,
  '-a', 'pacman_version="@0@"'.format(PACKAGE_VERSION),
- '-a', 'pacman_date=@0@'.format(run_command('date', '+%Y-%m-%d').stdout().strip()),
  '-a', 'srcext=@0@'.format(get_option('src-ext')),
  '-a', 'pkgext=@0@'.format(get_option('pkg-ext')),
  '-a', 'pkgdatadir=@0@'.format(PKGDATADIR),
