@@ -767,7 +767,7 @@ static int curl_add_payload(alpm_handle_t *handle, CURLM *curlm,
 		GOTO_ERR(handle, ALPM_ERR_SERVER_BAD_URL, cleanup);
 	}
 
-	if(payload->remote_name && strlen(payload->remote_name) > 0) {
+	if(!payload->random_partfile && payload->remote_name && strlen(payload->remote_name) > 0) {
 		if(!payload->destfile_name) {
 			payload->destfile_name = get_fullpath(localpath, payload->remote_name, "");
 		}
@@ -776,8 +776,9 @@ static int curl_add_payload(alpm_handle_t *handle, CURLM *curlm,
 			goto cleanup;
 		}
 	} else {
-		/* URL doesn't contain a filename, so make a tempfile. We can't support
-		 * resuming this kind of download; partial transfers will be destroyed */
+		/* We want a random filename or the URL does not contain a filename, so download to a
+		 * temporary location. We can not support resuming this kind of download; any partial
+		 * transfers will be destroyed */
 		payload->unlink_on_fail = 1;
 
 		payload->localf = create_tempfile(payload, localpath);
@@ -986,11 +987,20 @@ int SYMEXPORT alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
 			alpm_list_append(fetched, filepath);
 		} else {
 			struct dload_payload *payload = NULL;
+			char *c;
 
 			ASSERT(url, GOTO_ERR(handle, ALPM_ERR_WRONG_ARGS, err));
 			CALLOC(payload, 1, sizeof(*payload), GOTO_ERR(handle, ALPM_ERR_MEMORY, err));
 			STRDUP(payload->fileurl, url, FREE(payload); GOTO_ERR(handle, ALPM_ERR_MEMORY, err));
-			payload->allow_resume = 1;
+
+			c = strrchr(url, '/');
+			if(strstr(c, ".pkg")) {
+				/* we probably have a usable package filename to download to */
+				payload->allow_resume = 1;
+			} else {
+				payload->random_partfile = 1;
+			}
+
 			payload->handle = handle;
 			payload->trust_remote_name = 1;
 			payload->download_signature = (handle->siglevel & ALPM_SIG_PACKAGE);
