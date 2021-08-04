@@ -135,6 +135,8 @@ tidy_strip() {
 			case "$(LC_ALL=C readelf -h "$binary" 2>/dev/null)" in
 				*Type:*'DYN (Shared object file)'*) # Libraries (.so) or Relocatable binaries
 					strip_flags="$STRIP_SHARED";;
+				*Type:*'DYN (Position-Independent Executable file)'*) # Relocatable binaries
+					strip_flags="$STRIP_SHARED";;
 				*Type:*'EXEC (Executable file)'*) # Binaries
 					strip_flags="$STRIP_BINARIES";;
 				*Type:*'REL (Relocatable file)'*) # Libraries (.a) or objects
