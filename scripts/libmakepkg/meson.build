@@ -5,6 +5,7 @@ libmakepkg_modules = [
   { 'name' : 'lint_config',   'has_subdir' : true },
   { 'name' : 'lint_package',  'has_subdir' : true },
   { 'name' : 'lint_pkgbuild', 'has_subdir' : true },
+  { 'name' : 'reproducible',  'has_subdir' : true },
   { 'name' : 'source',        'has_subdir' : true },
   { 'name' : 'srcinfo',                           },
   { 'name' : 'tidy',          'has_subdir' : true },
