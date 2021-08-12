@@ -847,6 +847,19 @@ cleanup:
 	return ret;
 }
 
+/*
+ * Use to sort payloads by max size in decending order (largest -> smallest)
+ */
+static int compare_dload_payload_sizes(const void *left_ptr, const void *right_ptr)
+{
+	struct dload_payload *left, *right;
+
+	left = (struct dload_payload *) left_ptr;
+	right = (struct dload_payload *) right_ptr;
+
+	return right->max_size - left->max_size;
+}
+
 /* Returns -1 if an error happened for a required file
  * Returns 0 if a payload was actually downloaded
  * Returns 1 if no files were downloaded and all errors were non-fatal
@@ -860,6 +873,10 @@ static int curl_download_internal(alpm_handle_t *handle,
 	int max_streams = handle->parallel_downloads;
 	int updated = 0; /* was a file actually updated */
 	CURLM *curlm = handle->curlm;
+	size_t payloads_size = alpm_list_count(payloads);
+
+	/* Sort payloads by package size */
+	payloads = alpm_list_msort(payloads, payloads_size, &compare_dload_payload_sizes);
 
 	while(active_downloads_num > 0 || payloads) {
 		CURLMcode mc;
