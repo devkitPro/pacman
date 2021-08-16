@@ -348,7 +348,7 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 
 	/* Print additional package info if info flag passed more than once */
 	if(from == ALPM_PKG_FROM_LOCALDB && extra) {
-		dump_pkg_backups(pkg);
+		dump_pkg_backups(pkg, cols);
 	}
 
 	/* final newline to separate packages */
@@ -379,21 +379,21 @@ static const char *get_backup_file_status(const char *root,
 
 		/* if checksums don't match, file has been modified */
 		if(strcmp(md5sum, backup->hash) != 0) {
-			ret = "MODIFIED";
+			ret = "[modified]";
 		} else {
-			ret = "UNMODIFIED";
+			ret = "[unmodified]";
 		}
 		free(md5sum);
 	} else {
 		switch(errno) {
 			case EACCES:
-				ret = "UNREADABLE";
+				ret = "[unreadable]";
 				break;
 			case ENOENT:
-				ret = "MISSING";
+				ret = "[missing]";
 				break;
 			default:
-				ret = "UNKNOWN";
+				ret = "[unknown]";
 		}
 	}
 	return ret;
@@ -401,27 +401,33 @@ static const char *get_backup_file_status(const char *root,
 
 /* Display list of backup files and their modification states
  */
-void dump_pkg_backups(alpm_pkg_t *pkg)
+void dump_pkg_backups(alpm_pkg_t *pkg, unsigned short cols)
 {
-	alpm_list_t *i;
+	alpm_list_t *i, *text = NULL;
 	const char *root = alpm_option_get_root(config->handle);
-	printf("%s%s\n%s", config->colstr.title, titles[T_BACKUP_FILES],
-				 config->colstr.nocolor);
-	if(alpm_pkg_get_backup(pkg)) {
-		/* package has backup files, so print them */
-		for(i = alpm_pkg_get_backup(pkg); i; i = alpm_list_next(i)) {
-			const alpm_backup_t *backup = i->data;
-			const char *value;
-			if(!backup->hash) {
-				continue;
-			}
-			value = get_backup_file_status(root, backup);
-			printf("%s\t%s%s\n", value, root, backup->name);
+	/* package has backup files, so print them */
+	for(i = alpm_pkg_get_backup(pkg); i; i = alpm_list_next(i)) {
+		const alpm_backup_t *backup = i->data;
+		const char *value;
+		char *line;
+		size_t needed;
+		if(!backup->hash) {
+			continue;
 		}
-	} else {
-		/* package had no backup files */
-		printf(_("(none)\n"));
+		value = get_backup_file_status(root, backup);
+		needed = strlen(root) + strlen(backup->name) + 1 + strlen(value) + 1;
+		line = malloc(needed);
+		if(!line) {
+			goto cleanup;
+		}
+		sprintf(line, "%s%s %s", root, backup->name, value);
+		text = alpm_list_add(text, line);
 	}
+
+	list_display_linebreak(titles[T_BACKUP_FILES], text, cols);
+
+cleanup:
+	FREELIST(text);
 }
 
 /* List all files contained in a package
