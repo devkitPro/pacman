@@ -1,6 +1,6 @@
 project('pacman',
         'c',
-        version : '6.0.0',
+        version : '6.0.1',
         license : 'GPLv2+',
         default_options : [
           'c_std=gnu99',
@@ -10,7 +10,7 @@ project('pacman',
         ],
         meson_version : '>= 0.51')
 
-libalpm_version = '13.0.0'
+libalpm_version = '13.0.1'
 
 cc = meson.get_compiler('c')
 
