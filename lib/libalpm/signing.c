@@ -495,7 +495,7 @@ static int email_from_uid(const char *uid, char **email)
 int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr)
 {
 	int ret = -1;
-	alpm_pgpkey_t fetch_key;
+	alpm_pgpkey_t fetch_key = {0};
 	char *email;
 
 	if(_alpm_access(handle, handle->gpgdir, "pubring.gpg", W_OK)) {
