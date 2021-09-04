@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-05-20 12:24+1000\n"
-"PO-Revision-Date: 2021-05-02 11:27+0000\n"
+"POT-Creation-Date: 2021-09-04 16:15+1000\n"
+"PO-Revision-Date: 2021-05-20 08:01+0000\n"
 "Last-Translator: Davidmp <medipas@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ca/)\n"
@@ -57,7 +57,7 @@ msgstr "avís en extreure %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "no s'ha pogut extreure %s (%s).\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:672 lib/libalpm/remove.c:534
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:709 lib/libalpm/remove.c:534
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "no s'ha pogut canviar el nom %s a %s (%s).\n"
@@ -170,7 +170,7 @@ msgstr "entrada de la base de dades corrupta \"%s'\".\n"
 
 #: lib/libalpm/be_local.c:722 lib/libalpm/be_local.c:818
 #: lib/libalpm/be_local.c:958 lib/libalpm/be_local.c:1055
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:783 lib/libalpm/util.c:254
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:823 lib/libalpm/util.c:254
 #: lib/libalpm/util.c:270
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -374,49 +374,49 @@ msgstr "disc"
 msgid "failed to create temporary file for download\n"
 msgstr "ha fallat crear un fitxer temporal per a la baixada.\n"
 
-#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:537 lib/libalpm/dload.c:551
+#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:547 lib/libalpm/dload.c:561
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "ha fallat la recuperació del fitxer \"%s\" des de %s: %s\n"
 
-#: lib/libalpm/dload.c:529
+#: lib/libalpm/dload.c:539
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "ha fallat recuperar el fitxer \"%s\" des de %s: mida de la baixada superior "
 "a l'esperada.\n"
 
-#: lib/libalpm/dload.c:650
+#: lib/libalpm/dload.c:687
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s sembla que està truncat: %jd/%jd bytes.\n"
 
-#: lib/libalpm/dload.c:750
+#: lib/libalpm/dload.c:787
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "l'url \"%s\" no és vàlid.\n"
 
-#: lib/libalpm/dload.c:836
+#: lib/libalpm/dload.c:893
 #, c-format
 msgid "failed to setup a download payload for %s\n"
 msgstr "ha fallat configurar una càrrega de baixada per a %s\n"
 
-#: lib/libalpm/dload.c:848
+#: lib/libalpm/dload.c:905
 #, c-format
 msgid "curl returned error %d from transfer\n"
 msgstr "curl ha retornat l'error %d de la transferència\n"
 
-#: lib/libalpm/dload.c:872
+#: lib/libalpm/dload.c:929
 #, c-format
 msgid "curl transfer error: %d\n"
 msgstr "error de transferència de curl: %d\n"
 
-#: lib/libalpm/dload.c:989 lib/libalpm/sync.c:840
+#: lib/libalpm/dload.c:1055 lib/libalpm/sync.c:840
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "ha fallat la recuperació d'alguns fitxers.\n"
 
-#: lib/libalpm/dload.c:1012
+#: lib/libalpm/dload.c:1078
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
 msgstr ""
@@ -548,9 +548,9 @@ msgid "duplicate target"
 msgstr "objectiu duplicat."
 
 #: lib/libalpm/error.c:94
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate filename"
-msgstr "objectiu duplicat."
+msgstr "nom de fitxer duplicat"
 
 #: lib/libalpm/error.c:98
 #, c-format
@@ -838,7 +838,7 @@ msgstr "no s'ha pogut suprimir l'entrada \"%s\" de la memòria cau.\n"
 msgid "Public keyring not found; have you run '%s'?\n"
 msgstr "No s'ha trobat el clauer públic. Heu executat \"%s\"?\n"
 
-#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:766
+#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:767
 #, c-format
 msgid "GPGME error: %s\n"
 msgstr "error de GPGME: %s\n"
@@ -858,69 +858,69 @@ msgstr "error de gpg: %s\n"
 msgid "keyring is not writable\n"
 msgstr "el clauer no és escrivible.\n"
 
-#: lib/libalpm/signing.c:527
+#: lib/libalpm/signing.c:531
 #, c-format
 msgid "key \"%s\" on keyserver\n"
 msgstr "clau \"%s\" al servidor de claus\n"
 
-#: lib/libalpm/signing.c:532
+#: lib/libalpm/signing.c:536
 #, c-format
 msgid "key \"%s\" could not be imported\n"
 msgstr "la clau \"%s\" no s'ha pogut importar.\n"
 
-#: lib/libalpm/signing.c:536
+#: lib/libalpm/signing.c:540
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "la clau \"%s\" no s'ha pogut cercar remotament.\n"
 
-#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:926 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: manca la signatura requerida.\n"
 
-#: lib/libalpm/signing.c:940
+#: lib/libalpm/signing.c:941
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
 msgstr "%s: la signatura de \"%s\" és de confiança marginal.\n"
 
-#: lib/libalpm/signing.c:948
+#: lib/libalpm/signing.c:949
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
 msgstr "%s:  la signatura de \"%s\" és de confiança desconeguda.\n"
 
-#: lib/libalpm/signing.c:955
+#: lib/libalpm/signing.c:956
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
 msgstr "%s: en la signatura de \"%s\" no s'hi hauria de confiar mai.\n"
 
-#: lib/libalpm/signing.c:967
+#: lib/libalpm/signing.c:968
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
 msgstr "%s: la clau \"%s\" és desconeguda.\n"
 
-#: lib/libalpm/signing.c:976
+#: lib/libalpm/signing.c:977
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
 msgstr "%s: la clau \"%s\" està inhabilitada.\n"
 
-#: lib/libalpm/signing.c:980
+#: lib/libalpm/signing.c:981
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
 msgstr "%s: la signatura de \"%s\" està caducada.\n"
 
-#: lib/libalpm/signing.c:984
+#: lib/libalpm/signing.c:985
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
 msgstr "%s: la signatura de \"%s\" no és vàlida.\n"
 
-#: lib/libalpm/signing.c:1042 lib/libalpm/signing.c:1103
-#: lib/libalpm/signing.c:1182
+#: lib/libalpm/signing.c:1043 lib/libalpm/signing.c:1104
+#: lib/libalpm/signing.c:1183
 #, c-format
 msgid "%s: signature format error\n"
 msgstr "%s: error de format de la signatura.\n"
 
-#: lib/libalpm/signing.c:1135 lib/libalpm/signing.c:1168
-#: lib/libalpm/signing.c:1176
+#: lib/libalpm/signing.c:1136 lib/libalpm/signing.c:1169
+#: lib/libalpm/signing.c:1177
 #, c-format
 msgid "%s: unsupported signature format\n"
 msgstr "%s: format de la signatura no admès.\n"
@@ -958,7 +958,7 @@ msgstr "no es pot reemplaçar %s per %s.\n"
 #: lib/libalpm/sync.c:476
 #, c-format
 msgid "packages %s and %s have the same filename: %s\n"
-msgstr ""
+msgstr "els paquets %s i %s tenen el mateix nom de fitxer: %s\n"
 
 #: lib/libalpm/sync.c:542 lib/libalpm/sync.c:612
 #, c-format
@@ -1073,7 +1073,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "No s'ha pogut trobar o crear el paquet de memòria cau; en lloc d'això, s'usa"
 "%s.\n"
-
-#, c-format
-#~ msgid "could not find repository for target"
-#~ msgstr "no s'ha pogut trobar el repositori per a l'objectiu."

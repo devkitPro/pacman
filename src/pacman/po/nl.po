@@ -13,6 +13,7 @@
 # Peter van den Hurk, 2014
 # a91dc94891efad958223abaf78f68e63_4458573, 2014-2016
 # Peter Wu <peter@lekensteyn.nl>, 2014
+# Philip Goto <philip.goto@gmail.com>, 2021
 # Ruben Van Boxem <vanboxem.ruben@gmail.com>, 2014-2015,2018-2019
 # Sijmen <me@sijmenschoon.nl>, 2021
 # W J <transifex@woutje.be>, 2020
@@ -22,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-05-20 12:24+1000\n"
-"PO-Revision-Date: 2021-04-23 00:39+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2021-09-04 16:15+1000\n"
+"PO-Revision-Date: 2021-08-03 21:27+0000\n"
+"Last-Translator: Philip Goto <philip.goto@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/nl/)\n"
 "Language: nl\n"
@@ -36,12 +37,12 @@ msgstr ""
 #: src/pacman/callback.c:245
 #, c-format
 msgid "Running pre-transaction hooks...\n"
-msgstr "Pre-transactie hooks uitvoeren...\n"
+msgstr "Pre-transactie-hooks uitvoeren...\n"
 
 #: src/pacman/callback.c:247
 #, c-format
 msgid "Running post-transaction hooks...\n"
-msgstr "Post-transactie hooks uitvoeren...\n"
+msgstr "Post-transactie-hooks uitvoeren...\n"
 
 #: src/pacman/callback.c:260
 #, c-format
@@ -257,27 +258,27 @@ msgstr "pakketbestanden laden"
 #: src/pacman/callback.c:751
 #, c-format
 msgid "Total"
-msgstr ""
+msgstr "Totaal"
 
 #: src/pacman/callback.c:884
 #, c-format
 msgid " %s downloading...\n"
-msgstr ""
+msgstr " %s aan het downloaden...\n"
 
 #: src/pacman/callback.c:1051
 #, c-format
 msgid " %s is up to date"
-msgstr ""
+msgstr " %s is bijgewerkt"
 
 #: src/pacman/callback.c:1077
 #, c-format
 msgid " %s failed to download"
-msgstr ""
+msgstr " downloaden van %s mislukt"
 
 #: src/pacman/callback.c:1126
 #, c-format
 msgid "unknown callback event type %d for %s\n"
-msgstr ""
+msgstr "onbekende callback-event-type %d voor %s\n"
 
 #: src/pacman/check.c:63 src/pacman/check.c:291
 #, c-format
@@ -327,17 +328,17 @@ msgstr "%s: %s (Grootte komt niet overeen)\n"
 #: src/pacman/check.c:185
 #, c-format
 msgid "%s: %s (failed to calculate %s checksum)\n"
-msgstr ""
+msgstr "%s: %s (controlesom van %s berekenen mislukt)\n"
 
 #: src/pacman/check.c:193
 #, c-format
 msgid "%s: %s (%s checksum information not available)\n"
-msgstr ""
+msgstr "%s: %s (geen controlesominformatie van %s beschikbaar)\n"
 
 #: src/pacman/check.c:204 src/pacman/check.c:210
 #, c-format
 msgid "%s: %s (%s checksum mismatch)\n"
-msgstr ""
+msgstr "%s: %s (controlesom van %s komt niet overeen)\n"
 
 #: src/pacman/check.c:266 src/pacman/check.c:281 src/pacman/check.c:325
 #: src/pacman/check.c:379
@@ -438,11 +439,14 @@ msgstr ""
 #, c-format
 msgid "config file %s, line %d: value for '%s' has to be positive : '%s'\n"
 msgstr ""
+"configuratiebestand %s, regel %d: waarde voor '%s' moet positief zijn : "
+"'%s'\n"
 
 #: src/pacman/conf.c:741
 #, c-format
 msgid "config file %s, line %d: value for '%s' is too large : '%s'\n"
 msgstr ""
+"configuratiebestand %s, regel %d: waarde voor '%s' is te groot : '%s'\n"
 
 #: src/pacman/conf.c:761
 #, c-format
@@ -466,6 +470,9 @@ msgid ""
 "(root: %s, dbpath: %s)\n"
 "%s\n"
 msgstr ""
+"alpm-bibliotheek initialiseren mislukt:\n"
+"(root: %s, dbpath: %s)\n"
+"%s\n"
 
 #: src/pacman/conf.c:842
 #, c-format
@@ -568,7 +575,7 @@ msgstr "%s is eigendom van %s%s/%s%s %s%s%s\n"
 #: src/pacman/files.c:129
 #, c-format
 msgid "invalid regular expression '%s'\n"
-msgstr ""
+msgstr "ongeldige reguliere expressie '%s'\n"
 
 #: src/pacman/files.c:253
 #, c-format
@@ -1086,6 +1093,9 @@ msgid ""
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
+"      --overwrite <glob>\n"
+"                       overschrijf conflicterende bestanden (kan meer dan "
+"een keer gebruikt worden)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1635,7 +1645,7 @@ msgstr "database '%s' is niet geldig (%s)\n"
 #: src/pacman/util.c:159
 #, c-format
 msgid "failed to synchronize all databases (%s)\n"
-msgstr ""
+msgstr "alle databases synchroniseren mislukt (%s)\n"
 
 #: src/pacman/util.c:651
 #, c-format

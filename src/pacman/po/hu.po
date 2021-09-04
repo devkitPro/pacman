@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the pacman package.
 #
 # Translators:
+# Ács Zoltán <acszoltan111@gmail.com>, 2021
 # Balló György <ballogyor@gmail.com>, 2014
 # Balló György <ballogyor@gmail.com>, 2014,2017
 # Gábor Nagy <ngaba@bibl.u-szeged.hu>, 2011,2013
@@ -13,14 +14,15 @@
 # Gábor Nagy <ngaba@bibl.u-szeged.hu>, 2013
 # Gábor Nagy <ngaba@bibl.u-szeged.hu>, 2011,2013
 # user14 <nleknh@gmail.com>, 2019
+# PB, 2021
 # user14 <nleknh@gmail.com>, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-05-20 12:24+1000\n"
-"PO-Revision-Date: 2021-04-23 00:39+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2021-09-04 16:15+1000\n"
+"PO-Revision-Date: 2021-07-23 22:01+0000\n"
+"Last-Translator: PB\n"
 "Language-Team: Hungarian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/hu/)\n"
 "Language: hu\n"
@@ -262,7 +264,7 @@ msgstr ""
 #: src/pacman/callback.c:1051
 #, c-format
 msgid " %s is up to date"
-msgstr ""
+msgstr "%s naprakész"
 
 #: src/pacman/callback.c:1077
 #, c-format
@@ -332,7 +334,7 @@ msgstr ""
 #: src/pacman/check.c:204 src/pacman/check.c:210
 #, c-format
 msgid "%s: %s (%s checksum mismatch)\n"
-msgstr ""
+msgstr "%s: %s (%s eltérő ellenőrző összeg)\n"
 
 #: src/pacman/check.c:266 src/pacman/check.c:281 src/pacman/check.c:325
 #: src/pacman/check.c:379
@@ -461,6 +463,9 @@ msgid ""
 "(root: %s, dbpath: %s)\n"
 "%s\n"
 msgstr ""
+"az alpm függvénytár inicializálása sikertelen:\n"
+"(gyökér: %s, adatbázis: %s)\n"
+"%s\n"
 
 #: src/pacman/conf.c:842
 #, c-format
@@ -562,7 +567,7 @@ msgstr "A %s %s tulajdona%s/%s%s %s%s%s\n"
 #: src/pacman/files.c:129
 #, c-format
 msgid "invalid regular expression '%s'\n"
-msgstr ""
+msgstr "érvénytelen reguláris kifejezés %s\n"
 
 #: src/pacman/files.c:253
 #, c-format
@@ -1075,6 +1080,8 @@ msgid ""
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
+"      --overwrite <glob>\n"
+"                       ütköző fájlok felülírása (többször is használható)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1390,7 +1397,7 @@ msgstr "nem sikerült előkészíteni a tranzakciót (%s)\n"
 #: src/pacman/remove.c:119 src/pacman/sync.c:746
 #, c-format
 msgid "removing %s breaks dependency '%s' required by %s\n"
-msgstr "%seltávolításával megtörik a '%s' függőség amit a %s kér\n"
+msgstr "%s eltávolításával megtörik a(z) '%s' függőség amit %s kér\n"
 
 #: src/pacman/remove.c:138
 #, c-format

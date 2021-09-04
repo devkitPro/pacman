@@ -18,13 +18,14 @@
 # picodotdev <pico.dev@gmail.com>, 2016,2019,2021
 # prflr88 <prflr88@gmail.com>, 2017
 # Swyter <Swyterzone@gmail.com>, 2015,2017-2018,2021
+# Swyter <Swyterzone@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-05-20 12:24+1000\n"
-"PO-Revision-Date: 2021-05-04 16:24+0000\n"
-"Last-Translator: Pedro Román <roizheim@gmail.com>\n"
+"POT-Creation-Date: 2021-09-04 16:15+1000\n"
+"PO-Revision-Date: 2021-05-20 04:57+0000\n"
+"Last-Translator: Swyter <Swyterzone@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/es/)\n"
 "Language: es\n"
@@ -64,7 +65,7 @@ msgstr "se han advertido errores mientras se extraía %s (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "no se pudo extraer %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:672 lib/libalpm/remove.c:534
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:709 lib/libalpm/remove.c:534
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "no se pudo renombrar %s a %s (%s)\n"
@@ -179,7 +180,7 @@ msgstr "la entrada «%s» de la base de datos está dañada\n"
 
 #: lib/libalpm/be_local.c:722 lib/libalpm/be_local.c:818
 #: lib/libalpm/be_local.c:958 lib/libalpm/be_local.c:1055
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:783 lib/libalpm/util.c:254
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:823 lib/libalpm/util.c:254
 #: lib/libalpm/util.c:270
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -388,49 +389,49 @@ msgstr "disco"
 msgid "failed to create temporary file for download\n"
 msgstr "no se pudo crear el archivo temporal para la descarga\n"
 
-#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:537 lib/libalpm/dload.c:551
+#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:547 lib/libalpm/dload.c:561
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "no se pudo obtener el archivo «%s» desde %s: %s\n"
 
-#: lib/libalpm/dload.c:529
+#: lib/libalpm/dload.c:539
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "no se pudo obtener el archivo «%s» desde %s : el tamaño de la descarga "
 "supera lo esperado\n"
 
-#: lib/libalpm/dload.c:650
+#: lib/libalpm/dload.c:687
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s parece estar incompleto: %jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:750
+#: lib/libalpm/dload.c:787
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "la dirección «%s» no es válida\n"
 
-#: lib/libalpm/dload.c:836
+#: lib/libalpm/dload.c:893
 #, c-format
 msgid "failed to setup a download payload for %s\n"
 msgstr "no se pudo configurar un objeto de descarga para %s\n"
 
-#: lib/libalpm/dload.c:848
+#: lib/libalpm/dload.c:905
 #, c-format
 msgid "curl returned error %d from transfer\n"
 msgstr "curl ha generado un error de transferencia %d\n"
 
-#: lib/libalpm/dload.c:872
+#: lib/libalpm/dload.c:929
 #, c-format
 msgid "curl transfer error: %d\n"
 msgstr "error de transferencia de curl: %d\n"
 
-#: lib/libalpm/dload.c:989 lib/libalpm/sync.c:840
+#: lib/libalpm/dload.c:1055 lib/libalpm/sync.c:840
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "no se pudieron recibir algunos archivos\n"
 
-#: lib/libalpm/dload.c:1012
+#: lib/libalpm/dload.c:1078
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
 msgstr "se ha completado la descarga, pero el archivo no está en la caché\n"
@@ -561,9 +562,9 @@ msgid "duplicate target"
 msgstr "paquete duplicado"
 
 #: lib/libalpm/error.c:94
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate filename"
-msgstr "paquete duplicado"
+msgstr "nombre de archivo duplicado"
 
 #: lib/libalpm/error.c:98
 #, c-format
@@ -853,7 +854,7 @@ msgstr ""
 "No se ha encontrado el depósito público de claves; ¿ya se ha ejecutado "
 "«%s»?\n"
 
-#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:766
+#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:767
 #, c-format
 msgid "GPGME error: %s\n"
 msgstr "Error de GPGME: %s\n"
@@ -873,71 +874,71 @@ msgstr "error gpg: %s\n"
 msgid "keyring is not writable\n"
 msgstr "no se puede escribir en el depósito de claves\n"
 
-#: lib/libalpm/signing.c:527
+#: lib/libalpm/signing.c:531
 #, c-format
 msgid "key \"%s\" on keyserver\n"
 msgstr "clave «%s» en servidor de claves\n"
 
-#: lib/libalpm/signing.c:532
+#: lib/libalpm/signing.c:536
 #, c-format
 msgid "key \"%s\" could not be imported\n"
 msgstr "no se pudo importar la clave «%s»\n"
 
-#: lib/libalpm/signing.c:536
+#: lib/libalpm/signing.c:540
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "no se pudo buscar la clave «%s» de forma remota\n"
 
-#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:926 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: falta la firma exigida\n"
 
-#: lib/libalpm/signing.c:940
+#: lib/libalpm/signing.c:941
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
 msgstr "%s: la firma de «%s» es de confianza mínima\n"
 
-#: lib/libalpm/signing.c:948
+#: lib/libalpm/signing.c:949
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
 msgstr "%s: se desconoce el nivel de confianza de la firma de «%s»\n"
 
-#: lib/libalpm/signing.c:955
+#: lib/libalpm/signing.c:956
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
 msgstr ""
 "%s: la firma de «%s» no es de confianza y no se debería confiar en ella bajo "
 "ningún concepto\n"
 
-#: lib/libalpm/signing.c:967
+#: lib/libalpm/signing.c:968
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
 msgstr "%s: clave «%s» desconocida\n"
 
-#: lib/libalpm/signing.c:976
+#: lib/libalpm/signing.c:977
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
 msgstr "%s: la clave «%s» está desactivada\n"
 
-#: lib/libalpm/signing.c:980
+#: lib/libalpm/signing.c:981
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
 msgstr "%s: la firma de «%s» ha expirado\n"
 
-#: lib/libalpm/signing.c:984
+#: lib/libalpm/signing.c:985
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
 msgstr "%s: la firma de «%s» no es válida\n"
 
-#: lib/libalpm/signing.c:1042 lib/libalpm/signing.c:1103
-#: lib/libalpm/signing.c:1182
+#: lib/libalpm/signing.c:1043 lib/libalpm/signing.c:1104
+#: lib/libalpm/signing.c:1183
 #, c-format
 msgid "%s: signature format error\n"
 msgstr "%s: hubo un error con el formato de la firma\n"
 
-#: lib/libalpm/signing.c:1135 lib/libalpm/signing.c:1168
-#: lib/libalpm/signing.c:1176
+#: lib/libalpm/signing.c:1136 lib/libalpm/signing.c:1169
+#: lib/libalpm/signing.c:1177
 #, c-format
 msgid "%s: unsupported signature format\n"
 msgstr "%s: formato de firma desconocido\n"
@@ -975,7 +976,7 @@ msgstr "no se pudo remplazar el archivo %s por %s\n"
 #: lib/libalpm/sync.c:476
 #, c-format
 msgid "packages %s and %s have the same filename: %s\n"
-msgstr ""
+msgstr "los paquetes %s y %s comparten un archivo con el mismo nombre: «%s»\n"
 
 #: lib/libalpm/sync.c:542 lib/libalpm/sync.c:612
 #, c-format
@@ -1090,7 +1091,3 @@ msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
 "no se pudo encontrar o crear la caché del paquete, en su lugar se utilizará "
 "%s\n"
-
-#, c-format
-#~ msgid "could not find repository for target"
-#~ msgstr "no se pudo encontrar un repositorio que contenga el paquete"

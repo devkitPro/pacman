@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the libalpm package.
 #
 # Translators:
+# Andrew Kotsyuba <avallach2000@gmail.com>, 2021
 # Max Lyashuk <m_lyashuk@ukr.net>, 2015
 # Yarema aka Knedlyk <yupadmin@gmail.com>, 2011-2013,2015,2017-2018
 # Данило Коростіль <ted.korostiled@gmail.com>, 2011,2014
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-05-20 12:24+1000\n"
-"PO-Revision-Date: 2021-04-23 00:37+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2021-09-04 16:15+1000\n"
+"PO-Revision-Date: 2021-07-08 13:32+0000\n"
+"Last-Translator: Andrew Kotsyuba <avallach2000@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/uk/)\n"
 "Language: uk\n"
@@ -27,34 +28,34 @@ msgstr ""
 #: lib/libalpm/add.c:90 lib/libalpm/sync.c:279
 #, c-format
 msgid "%s-%s is up to date -- skipping\n"
-msgstr "%s-%s не потребує оновлення — пропущено\n"
+msgstr "%s-%s не потребує оновлення -- пропускаємо\n"
 
 #: lib/libalpm/add.c:94
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s не потребує оновлення — перевстановлюється\n"
+msgstr "%s-%s не потребує оновлення -- перевстановлюємо\n"
 
 #: lib/libalpm/add.c:99
 #, c-format
 msgid "downgrading package %s (%s => %s)\n"
-msgstr "пониження версії пакунку %s (%s => %s)\n"
+msgstr "понижуємо версію пакунка %s (%s => %s)\n"
 
 #: lib/libalpm/add.c:129
 #, c-format
 msgid "cannot allocate disk archive object"
-msgstr "неможливо виділити об'єкт архіву диску"
+msgstr "неможливо виділити об'єкт архіву на диску"
 
 #: lib/libalpm/add.c:143 lib/libalpm/util.c:384
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
-msgstr "Видається попередження протягом розпакування %s (%s)\n"
+msgstr "попередження протягом витягування %s (%s)\n"
 
 #: lib/libalpm/add.c:146 lib/libalpm/util.c:387
 #, c-format
 msgid "could not extract %s (%s)\n"
-msgstr "неможливо розпакувати %s (%s)\n"
+msgstr "неможливо витягти %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:672 lib/libalpm/remove.c:534
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:709 lib/libalpm/remove.c:534
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "неможливо перейменувати %s на %s (%s)\n"
@@ -63,13 +64,13 @@ msgstr "неможливо перейменувати %s на %s (%s)\n"
 #, c-format
 msgid "file not found in file list for package %s. skipping extraction of %s\n"
 msgstr ""
-"файл не знайдено в переліку файлів для пакунку %s, пропускаємо витягування з "
+"файл не знайдено в переліку файлів для пакунка %s, пропускаємо витягування з "
 "%s\n"
 
 #: lib/libalpm/add.c:219
 #, c-format
 msgid "unable to extract %s%s: path too long"
-msgstr "не вдається розпакувати %s%s: шлях занадто довгий"
+msgstr "не вдається витягти %s%s: шлях занадто довгий"
 
 #: lib/libalpm/add.c:261
 #, c-format
@@ -77,8 +78,8 @@ msgid ""
 "directory permissions differ on %s\n"
 "filesystem: %o  package: %o\n"
 msgstr ""
-"права каталогу відрізняються у\n"
-"файловій системі %s: %o  пакунок: %o\n"
+"права на теку відрізняються для %s\n"
+"файлова система: %o  пакунок: %o\n"
 
 #: lib/libalpm/add.c:276
 #, c-format
@@ -86,35 +87,34 @@ msgid ""
 "directory ownership differs on %s\n"
 "filesystem: %u:%u  package: %u:%u\n"
 msgstr ""
-"власність каталогу відрізняється на %s\n"
-"\n"
-"файлова система: %u:%u пакунок: %u:%u\n"
+"власник теки відрізняється для %s\n"
+"файлова система: %u:%u  пакунок: %u:%u\n"
 
 #: lib/libalpm/add.c:292
 #, c-format
 msgid "extract: not overwriting dir with file %s\n"
-msgstr "розпакування: каталог не перезаписано файлом %s\n"
+msgstr "витягування: теку не перезаписано файлом %s\n"
 
 #: lib/libalpm/add.c:320
 #, c-format
 msgid "unable to extract %s.pacnew: path too long"
-msgstr "не вдається розпакувати %s.pacnew: шлях занадто довгий"
+msgstr "не вдається витягти %s.pacnew: шлях занадто довгий"
 
 #: lib/libalpm/add.c:510 lib/libalpm/util.c:335 lib/libalpm/util.c:600
 #, c-format
 msgid "could not get current working directory\n"
-msgstr "неможливо одержати поточний робочий каталог\n"
+msgstr "неможливо одержати шлях поточної робочої теки\n"
 
 #: lib/libalpm/add.c:515 lib/libalpm/util.c:340 lib/libalpm/util.c:605
 #: lib/libalpm/util.c:658
 #, c-format
 msgid "could not change directory to %s (%s)\n"
-msgstr "неможливо змінити каталог на %s (%s)\n"
+msgstr "неможливо змінити теку на %s (%s)\n"
 
 #: lib/libalpm/add.c:571 lib/libalpm/util.c:405 lib/libalpm/util.c:774
 #, c-format
 msgid "could not restore working directory (%s)\n"
-msgstr "неможливо відновити робочий каталог (%s)\n"
+msgstr "неможливо відновити робочу теку (%s)\n"
 
 #: lib/libalpm/add.c:579
 #, c-format
@@ -124,7 +124,7 @@ msgstr "виникла проблема протягом оновлення %s\n
 #: lib/libalpm/add.c:585
 #, c-format
 msgid "problem occurred while installing %s\n"
-msgstr "виникла проблема протягом установлення %s\n"
+msgstr "виникла проблема протягом встановлення %s\n"
 
 #: lib/libalpm/add.c:600
 #, c-format
@@ -134,7 +134,7 @@ msgstr "неможливо оновити запис бази даних %s-%s\n
 #: lib/libalpm/add.c:610
 #, c-format
 msgid "could not add entry '%s' in cache\n"
-msgstr "неможливо додати запис  «%s» у кеш\n"
+msgstr "неможливо додати запис \"%s\" у кеш\n"
 
 #: lib/libalpm/be_local.c:266
 #, c-format
@@ -146,31 +146,31 @@ msgstr ""
 #: lib/libalpm/be_local.c:376
 #, c-format
 msgid "removing invalid database: %s\n"
-msgstr "вилучення неправильної бази даних: %s\n"
+msgstr "вилучення недійсної бази даних: %s\n"
 
 #: lib/libalpm/be_local.c:427 lib/libalpm/be_local.c:909
 #, c-format
 msgid "could not create directory %s: %s\n"
-msgstr "неможливо створити каталог %s: %s\n"
+msgstr "неможливо створити теку %s: %s\n"
 
 #: lib/libalpm/be_local.c:602 lib/libalpm/be_sync.c:322
 #, c-format
 msgid "invalid name for database entry '%s'\n"
-msgstr "неправильна назва для запису бази даних «%s»\n"
+msgstr "неприпустима назва для запису бази даних \"%s\"\n"
 
 #: lib/libalpm/be_local.c:610
 #, c-format
 msgid "duplicated database entry '%s'\n"
-msgstr "дублікат у базі даних «%s»\n"
+msgstr "дублікат у базі даних \"%s\"\n"
 
 #: lib/libalpm/be_local.c:622
 #, c-format
 msgid "corrupted database entry '%s'\n"
-msgstr "пошкоджений запис у базі даних «%s»\n"
+msgstr "пошкоджений запис у базі даних \"%s\"\n"
 
 #: lib/libalpm/be_local.c:722 lib/libalpm/be_local.c:818
 #: lib/libalpm/be_local.c:958 lib/libalpm/be_local.c:1055
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:783 lib/libalpm/util.c:254
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:823 lib/libalpm/util.c:254
 #: lib/libalpm/util.c:270
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -189,7 +189,7 @@ msgstr "база даних %s неоднорідна: не збігаються
 #: lib/libalpm/be_local.c:785
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
-msgstr "невідомий тип перевірки для пакунку %s: %s\n"
+msgstr "невідомий тип перевірки для пакунка %s: %s\n"
 
 #: lib/libalpm/be_package.c:478 lib/libalpm/be_package.c:631
 #: lib/libalpm/be_package.c:643
@@ -220,7 +220,7 @@ msgstr "бракує версії пакунка в %s\n"
 #: lib/libalpm/be_package.c:610
 #, c-format
 msgid "invalid package version in %s\n"
-msgstr "неправильна версія пакунка в %s\n"
+msgstr "неприпустима версія пакунка в %s\n"
 
 #: lib/libalpm/be_package.c:649
 #, c-format
@@ -230,37 +230,38 @@ msgstr "бракує метаданих пакунка в %s\n"
 #: lib/libalpm/be_package.c:741
 #, c-format
 msgid "failed to read signature file: %s\n"
-msgstr "не вдалось одержати файл підпису: %s\n"
+msgstr "не вдалося одержати файл підпису: %s\n"
 
 #: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:953
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr "потрібний ключ не міститься в зв’язці ключів\n"
+msgstr "потрібний ключ не міститься в в'язці ключів\n"
 
 #: lib/libalpm/be_sync.c:61
 #, c-format
 msgid "removing invalid file: %s\n"
-msgstr "вилучення неправильного файла : %s\n"
+msgstr "вилучення недійсного файлу: %s\n"
 
 #: lib/libalpm/be_sync.c:449
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
-msgstr "неможливо провести аналіз файлу опису пакунка «%s» з бази даних «%s»\n"
+msgstr ""
+"неможливо провести аналіз файлу опису пакунка \"%s\" з бази даних \"%s\"\n"
 
 #: lib/libalpm/be_sync.c:456
 #, c-format
 msgid "could not read db '%s' (%s)\n"
-msgstr "неможливо прочитати базу даних '%s' (%s)\n"
+msgstr "неможливо прочитати базу даних \"%s\" (%s)\n"
 
 #: lib/libalpm/be_sync.c:489 lib/libalpm/be_sync.c:494
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
-msgstr "база даних %s неоднорідна: неправильна назва для пакунка %s\n"
+msgstr "база даних %s неоднорідна: неправильна назва для файлу пакунка %s\n"
 
 #: lib/libalpm/be_sync.c:499
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
-msgstr "база даних %s неоднорідна: назва пакунка %s задовга\n"
+msgstr "база даних %s неоднорідна: назва файлу пакунка %s задовга\n"
 
 #: lib/libalpm/be_sync.c:564
 #, c-format
@@ -275,7 +276,7 @@ msgstr "шлях до бази даних не вказано\n"
 #: lib/libalpm/deps.c:184
 #, c-format
 msgid "dependency cycle detected:\n"
-msgstr "виявлено цикл залежностей:\n"
+msgstr "виявлено циклічну залежність:\n"
 
 #: lib/libalpm/deps.c:187
 #, c-format
@@ -295,12 +296,12 @@ msgstr "ігнорування пакунка %s-%s\n"
 #: lib/libalpm/deps.c:842
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
-msgstr "неможливо розв'язати «%s», залежність від «%s»\n"
+msgstr "неможливо розв'язати \"%s\", що є залежністю \"%s\"\n"
 
 #: lib/libalpm/diskspace.c:78
 #, c-format
 msgid "could not get filesystem information for %s: %s\n"
-msgstr "неможливо одержати інформації про файлову систему для %s: %s\n"
+msgstr "неможливо одержати інформацію про файлову систему для %s: %s\n"
 
 #: lib/libalpm/diskspace.c:108
 #, c-format
@@ -310,12 +311,12 @@ msgstr "неможливо відкрити файл %s: %s\n"
 #: lib/libalpm/diskspace.c:146 lib/libalpm/diskspace.c:159
 #, c-format
 msgid "could not get filesystem information\n"
-msgstr "неможливо одержати інформації про файлову систему\n"
+msgstr "неможливо одержати інформацію про файлову систему\n"
 
 #: lib/libalpm/diskspace.c:242
 #, c-format
 msgid "could not get file information for %s\n"
-msgstr "неможливо одержати інформації про файл %s\n"
+msgstr "неможливо одержати інформацію про файл %s\n"
 
 #: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
 #, c-format
@@ -335,7 +336,7 @@ msgstr "неможливо визначити файлові системи то
 #: lib/libalpm/diskspace.c:385
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
-msgstr "неможливо визначити точку монтування теку кешу %s\n"
+msgstr "неможливо визначити точку монтування теки кешу %s\n"
 
 #: lib/libalpm/diskspace.c:438
 #, c-format
@@ -351,7 +352,7 @@ msgstr "Розділ %s змонтовано лише для читання\n"
 #, c-format
 msgid ""
 "too many errors from %s, skipping for the remainder of this transaction\n"
-msgstr ""
+msgstr "забагато помилок з %s, пропускаємо залишок цієї транзакції\n"
 
 #: lib/libalpm/dload.c:220
 #, c-format
@@ -361,52 +362,52 @@ msgstr "диск"
 #: lib/libalpm/dload.c:392
 #, c-format
 msgid "failed to create temporary file for download\n"
-msgstr "не вдалось створити тимчасово файла для звантаження\n"
+msgstr "не вдалося створити тимчасовий файл для завантаження\n"
 
-#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:537 lib/libalpm/dload.c:551
+#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:547 lib/libalpm/dload.c:561
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
-msgstr "не вдалось одержати файл «%s» з %s : %s\n"
+msgstr "не вдалося одержати файл \"%s\" з %s : %s\n"
 
-#: lib/libalpm/dload.c:529
+#: lib/libalpm/dload.c:539
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
-msgstr "не вдалось одержати файл «%s» з %s : перевищено сподіваний розмір\n"
+msgstr "не вдалося одержати файл \"%s\" з %s : перевищено сподіваний розмір\n"
 
-#: lib/libalpm/dload.c:650
+#: lib/libalpm/dload.c:687
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "здається, %s обрізаний: %jd/%jd байтів\n"
 
-#: lib/libalpm/dload.c:750
+#: lib/libalpm/dload.c:787
 #, c-format
 msgid "url '%s' is invalid\n"
-msgstr "посилання «%s» неправильне\n"
+msgstr "url-посилання \"%s\" є недійсним\n"
 
-#: lib/libalpm/dload.c:836
+#: lib/libalpm/dload.c:893
 #, c-format
 msgid "failed to setup a download payload for %s\n"
-msgstr ""
+msgstr "неможливо задати задачу завантаження для %s\n"
 
-#: lib/libalpm/dload.c:848
+#: lib/libalpm/dload.c:905
 #, c-format
 msgid "curl returned error %d from transfer\n"
-msgstr ""
+msgstr "curl повернув помилку %d при передачі\n"
 
-#: lib/libalpm/dload.c:872
+#: lib/libalpm/dload.c:929
 #, c-format
 msgid "curl transfer error: %d\n"
-msgstr ""
+msgstr "помилка передачі curl: %d\n"
 
-#: lib/libalpm/dload.c:989 lib/libalpm/sync.c:840
+#: lib/libalpm/dload.c:1055 lib/libalpm/sync.c:840
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "не вдалось одержати деякі файли\n"
 
-#: lib/libalpm/dload.c:1012
+#: lib/libalpm/dload.c:1078
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
-msgstr ""
+msgstr "завантаження виконано успішно, але файл відсутній у кеші\n"
 
 #: lib/libalpm/error.c:40
 #, c-format
@@ -431,7 +432,7 @@ msgstr "неможливо знайти чи прочитати файл"
 #: lib/libalpm/error.c:48
 #, c-format
 msgid "could not find or read directory"
-msgstr "неможливо знайти чи прочитати каталог"
+msgstr "неможливо знайти чи прочитати теку"
 
 #: lib/libalpm/error.c:50
 #, c-format
@@ -441,17 +442,17 @@ msgstr "передано неправильний аргумент або NULL"
 #: lib/libalpm/error.c:52
 #, c-format
 msgid "not enough free disk space"
-msgstr "недостатньо вільного місця на диску "
+msgstr "недостатньо вільного місця на диску"
 
 #: lib/libalpm/error.c:55
 #, c-format
 msgid "library not initialized"
-msgstr "бібліотеку не запущено"
+msgstr "бібліотеку не ініціалізовано"
 
 #: lib/libalpm/error.c:57
 #, c-format
 msgid "library already initialized"
-msgstr "бібліотеку вже запущено"
+msgstr "бібліотеку вже ініціалізовано"
 
 #: lib/libalpm/error.c:59
 #, c-format
@@ -471,7 +472,7 @@ msgstr "неможливо створити базу даних"
 #: lib/libalpm/error.c:66
 #, c-format
 msgid "database not initialized"
-msgstr "базу даних не запущено"
+msgstr "базу даних не ініціалізовано"
 
 #: lib/libalpm/error.c:68
 #, c-format
@@ -486,12 +487,12 @@ msgstr "неможливо знайти базу даних"
 #: lib/libalpm/error.c:72
 #, c-format
 msgid "invalid or corrupted database"
-msgstr "неправильна або пошкоджена база даних"
+msgstr "недійсна або пошкоджена база даних"
 
 #: lib/libalpm/error.c:74
 #, c-format
 msgid "invalid or corrupted database (PGP signature)"
-msgstr "неправильна або пошкоджена база даних (підпис PGP)"
+msgstr "недійсна або пошкоджена база даних (підпис PGP)"
 
 #: lib/libalpm/error.c:76
 #, c-format
@@ -511,7 +512,7 @@ msgstr "неможливо вилучити запис з бази даних"
 #: lib/libalpm/error.c:83
 #, c-format
 msgid "invalid url for server"
-msgstr "неправильне посилання чи сервер"
+msgstr "недійсне URL-посилання чи сервер"
 
 #: lib/libalpm/error.c:85
 #, c-format
@@ -534,9 +535,9 @@ msgid "duplicate target"
 msgstr "продубльований цільовий пакунок"
 
 #: lib/libalpm/error.c:94
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate filename"
-msgstr "продубльований цільовий пакунок"
+msgstr "продубльоване ім'я файлу"
 
 #: lib/libalpm/error.c:98
 #, c-format
@@ -556,12 +557,12 @@ msgstr "операція несумісна з типом транзакції"
 #: lib/libalpm/error.c:104
 #, c-format
 msgid "transaction commit attempt when database is not locked"
-msgstr "спроба здійснити транзакцію, коли базу даних не замкнено"
+msgstr "спроба здійснити транзакцію, коли базу даних не блоковано"
 
 #: lib/libalpm/error.c:106
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr "не вдалось розпочати транзакції"
+msgstr "не вдалось запустити дії до/після транзакції"
 
 #: lib/libalpm/error.c:109
 #, c-format
@@ -576,17 +577,17 @@ msgstr "операцію скасовано через ignorepkg"
 #: lib/libalpm/error.c:113
 #, c-format
 msgid "invalid or corrupted package"
-msgstr "неправильний або пошкоджений пакунок"
+msgstr "некоректний або пошкоджений пакунок"
 
 #: lib/libalpm/error.c:115
 #, c-format
 msgid "invalid or corrupted package (checksum)"
-msgstr "неправильний або пошкоджений пакунок (контрольна сума)"
+msgstr "некоректний або пошкоджений пакунок (контрольна сума)"
 
 #: lib/libalpm/error.c:117
 #, c-format
 msgid "invalid or corrupted package (PGP signature)"
-msgstr "неправильний або пошкоджений пакунок (підпис PGP)"
+msgstr "некоректний або пошкоджений пакунок (підпис PGP)"
 
 #: lib/libalpm/error.c:119
 #, c-format
@@ -606,27 +607,27 @@ msgstr "неможливо вилучити всі файли для пакун�
 #: lib/libalpm/error.c:125
 #, c-format
 msgid "package filename is not valid"
-msgstr "назва файла пакунку неправильна"
+msgstr "неприпустима назва файлу пакунка"
 
 #: lib/libalpm/error.c:127
 #, c-format
 msgid "package architecture is not valid"
-msgstr "архітектура пакунка неправильна"
+msgstr "неприпустима архітектура пакунка"
 
 #: lib/libalpm/error.c:130
 #, c-format
 msgid "missing PGP signature"
-msgstr "немає підпису "
+msgstr "немає PGP підпису"
 
 #: lib/libalpm/error.c:132
 #, c-format
 msgid "invalid PGP signature"
-msgstr "неправильний підпис "
+msgstr "недійсний PGP підпис"
 
 #: lib/libalpm/error.c:135 lib/libalpm/hook.c:514
 #, c-format
 msgid "could not satisfy dependencies"
-msgstr "неможливо забезпечити залежності"
+msgstr "неможливо вдовольнити залежності"
 
 #: lib/libalpm/error.c:137
 #, c-format
@@ -646,7 +647,7 @@ msgstr "не вдалось одержати деякі файли"
 #: lib/libalpm/error.c:144
 #, c-format
 msgid "invalid regular expression"
-msgstr "неправильний формальний вираз"
+msgstr "хибний регулярний вираз"
 
 #: lib/libalpm/error.c:150
 #, c-format
@@ -656,22 +657,22 @@ msgstr "помилка libarchive"
 #: lib/libalpm/error.c:152
 #, c-format
 msgid "download library error"
-msgstr "помилка бібліотеки звантаження"
+msgstr "помилка бібліотеки завантаження"
 
 #: lib/libalpm/error.c:154
 #, c-format
 msgid "gpgme error"
-msgstr "помилка "
+msgstr "помилка gpgme"
 
 #: lib/libalpm/error.c:156
 #, c-format
 msgid "error invoking external downloader"
-msgstr "помилка виклику зовнішнього звантажувача"
+msgstr "помилка виклику зовнішнього завантажувача"
 
 #: lib/libalpm/error.c:159
 #, c-format
 msgid "compiled without signature support"
-msgstr ""
+msgstr "зібрано без підтримки підписів"
 
 #: lib/libalpm/error.c:162
 #, c-format
@@ -681,7 +682,7 @@ msgstr "неочікувана помилка"
 #: lib/libalpm/handle.c:142
 #, c-format
 msgid "lock file missing %s\n"
-msgstr "бракує блокувального файла %s\n"
+msgstr "бракує файлу блокування %s\n"
 
 #: lib/libalpm/handle.c:148
 #, c-format
@@ -691,69 +692,69 @@ msgstr "неможливо вилучити файл блокування %s\n"
 #: lib/libalpm/hook.c:95
 #, c-format
 msgid "Missing trigger targets in hook: %s\n"
-msgstr "Пропущено перемикач цілі в подачі: %s\n"
+msgstr "Пропущено тригер цілі у файлі дії: %s\n"
 
 #: lib/libalpm/hook.c:101
 #, c-format
 msgid "Missing trigger type in hook: %s\n"
-msgstr "Пропущено тип перемикача в подачі: %s\n"
+msgstr "Пропущено тригер типу у файлі дії: %s\n"
 
 #: lib/libalpm/hook.c:107
 #, c-format
 msgid "Missing trigger operation in hook: %s\n"
-msgstr "Пропущено операцію перемикача в подачі: %s\n"
+msgstr "Пропущено тригер операції у файлі дії: %s\n"
 
 #: lib/libalpm/hook.c:134
 #, c-format
 msgid "Missing Exec option in hook: %s\n"
-msgstr "Пропущено опцію Exec в подачі: %s\n"
+msgstr "Пропущено параметр Exec у файлі дії: %s\n"
 
 #: lib/libalpm/hook.c:140
 #, c-format
 msgid "Missing When option in hook: %s\n"
-msgstr "Пропущено опцію When в подачі: %s\n"
+msgstr "Пропущено параметр When у файлі дії: %s\n"
 
 #: lib/libalpm/hook.c:143
 #, c-format
 msgid "AbortOnFail set for PostTransaction hook: %s\n"
-msgstr "AbortOnFail встановлено для подачі PostTransaction: %s\n"
+msgstr "AbortOnFail встановлено для дії типу PostTransaction: %s\n"
 
 #: lib/libalpm/hook.c:160
 #, c-format
 msgid "error while reading hook %s: %s\n"
-msgstr "помилка читання подачі %s: %s\n"
+msgstr "помилка читання файлу дії %s: %s\n"
 
 #: lib/libalpm/hook.c:162 lib/libalpm/hook.c:206 lib/libalpm/hook.c:248
 #, c-format
 msgid "hook %s line %d: invalid option %s\n"
-msgstr "подача %s лінійка %d: неправильна опція %s\n"
+msgstr "файл дії %s рядок %d: недійсний параметр %s\n"
 
 #: lib/libalpm/hook.c:172
 #, c-format
 msgid "hook %s line %d: invalid section %s\n"
-msgstr "подача %s лінійка %d: неправильна секція %s\n"
+msgstr "файл дії %s рядок %d: недійсна секція %s\n"
 
 #: lib/libalpm/hook.c:184 lib/libalpm/hook.c:199 lib/libalpm/hook.c:218
 #: lib/libalpm/hook.c:241
 #, c-format
 msgid "hook %s line %d: invalid value %s\n"
-msgstr "подача %s лінійка %d: неправильне значення %s\n"
+msgstr "файл дії %s рядок %d: неприпустиме значення %s\n"
 
 #: lib/libalpm/hook.c:188 lib/libalpm/hook.c:211 lib/libalpm/hook.c:222
 #: lib/libalpm/hook.c:236
 #, c-format
 msgid "hook %s line %d: overwriting previous definition of %s\n"
-msgstr "подача %s лінійка %d: перезапис попереднього визначення %s\n"
+msgstr "файл дії %s рядок %d: перезапис попереднього визначення %s\n"
 
 #: lib/libalpm/hook.c:243
 #, c-format
 msgid "hook %s line %d: unable to set option (%s)\n"
-msgstr "подача %s лінійка %d: неможливо встановити опцію (%s)\n"
+msgstr "файл дії %s рядок %d: неможливо встановити параметр (%s)\n"
 
 #: lib/libalpm/hook.c:513
 #, c-format
 msgid "unable to run hook %s: %s\n"
-msgstr "неможливо запустити подачу %s: %s\n"
+msgstr "неможливо запустити дію %s: %s\n"
 
 #: lib/libalpm/hook.c:547 lib/libalpm/hook.c:559 lib/libalpm/remove.c:378
 #, c-format
@@ -783,22 +784,22 @@ msgstr "неможливо повністю завантажити метада�
 #: lib/libalpm/remove.c:111
 #, c-format
 msgid "could not find %s in database -- skipping\n"
-msgstr "неможливо знайти %s в базі даних — пропускається\n"
+msgstr "неможливо знайти %s в базі даних -- пропускаємо\n"
 
 #: lib/libalpm/remove.c:146
 #, c-format
 msgid "removing %s from target list\n"
-msgstr "вилучення «%s» зі списку пакунків\n"
+msgstr "вилучення \"%s\" зі списку пакунків\n"
 
 #: lib/libalpm/remove.c:338
 #, c-format
 msgid "cannot remove file '%s': %s\n"
-msgstr "неможливо вилучити файл «%s»: %s\n"
+msgstr "неможливо вилучити файл \"%s\": %s\n"
 
 #: lib/libalpm/remove.c:403 lib/libalpm/remove.c:412
 #, c-format
 msgid "could not backup %s due to PATH_MAX overflow\n"
-msgstr "неможливо створити запасну копію %s через переповнення PATH_MAX\n"
+msgstr "неможливо створити резервну копію %s через переповнення PATH_MAX\n"
 
 #: lib/libalpm/remove.c:554
 #, c-format
@@ -813,14 +814,14 @@ msgstr "неможливо вилучити запис бази даних %s-%s
 #: lib/libalpm/remove.c:732
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
-msgstr "неможливо вилучити запис «%s» з кешу\n"
+msgstr "неможливо вилучити запис \"%s\" з кешу\n"
 
 #: lib/libalpm/signing.c:163
 #, c-format
 msgid "Public keyring not found; have you run '%s'?\n"
-msgstr "Публічну в'язку ключів не знайдено; чи Ви виконували '%s'?\n"
+msgstr "Публічну в'язку ключів не знайдено; чи ви виконували \"%s\"?\n"
 
-#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:766
+#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:767
 #, c-format
 msgid "GPGME error: %s\n"
 msgstr "Помилка GPGME: %s\n"
@@ -828,81 +829,81 @@ msgstr "Помилка GPGME: %s\n"
 #: lib/libalpm/signing.c:274
 #, c-format
 msgid "looking up key %s using WKD\n"
-msgstr ""
+msgstr "шукаємо ключ %s використовуючи WKD (веб-каталог ключів)\n"
 
 #: lib/libalpm/signing.c:283
 #, c-format
 msgid "gpg error: %s\n"
-msgstr ""
+msgstr "помилка gpg: %s\n"
 
 #: lib/libalpm/signing.c:430 lib/libalpm/signing.c:503
 #, c-format
 msgid "keyring is not writable\n"
-msgstr "неможливо записати в'язку ключів\n"
+msgstr "в'язка ключів недоступна для запису\n"
 
-#: lib/libalpm/signing.c:527
+#: lib/libalpm/signing.c:531
 #, c-format
 msgid "key \"%s\" on keyserver\n"
-msgstr ""
+msgstr "ключ \"%s\" з серверу ключів\n"
 
-#: lib/libalpm/signing.c:532
+#: lib/libalpm/signing.c:536
 #, c-format
 msgid "key \"%s\" could not be imported\n"
 msgstr "ключ \"%s\" неможливо імпортувати\n"
 
-#: lib/libalpm/signing.c:536
+#: lib/libalpm/signing.c:540
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "ключ \"%s\" неможливо шукати віддалено\n"
 
-#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:926 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
-msgstr "%s: бракує підпису\n"
+msgstr "%s: бракує потрібного підпису\n"
 
-#: lib/libalpm/signing.c:940
+#: lib/libalpm/signing.c:941
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
-msgstr "%s: підпис з \"%s\" є з посередньою довірою\n"
+msgstr "%s: підпис з \"%s\" має посередню довіру\n"
 
-#: lib/libalpm/signing.c:948
+#: lib/libalpm/signing.c:949
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
-msgstr "%s: підпис з \"%s\" є з невідомою довірою\n"
+msgstr "%s: підпис з \"%s\" має невідому довіру\n"
 
-#: lib/libalpm/signing.c:955
+#: lib/libalpm/signing.c:956
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
-msgstr "%s: підпису з \"%s\" неповинно ніколи довіряти\n"
+msgstr "%s: підпис з \"%s\" є таким, якому не треба довіряти ніколи\n"
 
-#: lib/libalpm/signing.c:967
+#: lib/libalpm/signing.c:968
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
 msgstr "%s: ключ \"%s\" невідомий\n"
 
-#: lib/libalpm/signing.c:976
+#: lib/libalpm/signing.c:977
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
 msgstr "%s: ключ \"%s\" відключено\n"
 
-#: lib/libalpm/signing.c:980
+#: lib/libalpm/signing.c:981
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
 msgstr "%s: дата довіри підпису з \"%s\" закінчилася\n"
 
-#: lib/libalpm/signing.c:984
+#: lib/libalpm/signing.c:985
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
-msgstr "%s: підпис з \"%s\" неправильний\n"
+msgstr "%s: підпис з \"%s\" недійсний\n"
 
-#: lib/libalpm/signing.c:1042 lib/libalpm/signing.c:1103
-#: lib/libalpm/signing.c:1182
+#: lib/libalpm/signing.c:1043 lib/libalpm/signing.c:1104
+#: lib/libalpm/signing.c:1183
 #, c-format
 msgid "%s: signature format error\n"
 msgstr "%s: помилка формату підпису\n"
 
-#: lib/libalpm/signing.c:1135 lib/libalpm/signing.c:1168
-#: lib/libalpm/signing.c:1176
+#: lib/libalpm/signing.c:1136 lib/libalpm/signing.c:1169
+#: lib/libalpm/signing.c:1177
 #, c-format
 msgid "%s: unsupported signature format\n"
 msgstr "%s: непідтримуваний формат підпису\n"
@@ -910,17 +911,17 @@ msgstr "%s: непідтримуваний формат підпису\n"
 #: lib/libalpm/sync.c:96
 #, c-format
 msgid "%s: ignoring package upgrade (%s => %s)\n"
-msgstr "%s: ігнорування оновлення пакунку (%s => %s)\n"
+msgstr "%s: ігноруємо оновлення пакунка (%s => %s)\n"
 
 #: lib/libalpm/sync.c:108
 #, c-format
 msgid "%s: ignoring package downgrade (%s => %s)\n"
-msgstr "%s: ігнорування пониження версії пакунка (%s => %s)\n"
+msgstr "%s: ігноруємо пониження версії пакунка (%s => %s)\n"
 
 #: lib/libalpm/sync.c:111
 #, c-format
 msgid "%s: downgrading from version %s to version %s\n"
-msgstr "%s: пониження версії з %s до %s\n"
+msgstr "%s: понижуємо версію з %s до %s\n"
 
 #: lib/libalpm/sync.c:117
 #, c-format
@@ -930,7 +931,7 @@ msgstr "%s: локальна версія (%s) новіша за %s (%s)\n"
 #: lib/libalpm/sync.c:158
 #, c-format
 msgid "ignoring package replacement (%s-%s => %s-%s)\n"
-msgstr "ігнорування заміни пакунка (%s-%s => %s-%s)\n"
+msgstr "ігноруємо заміну пакунка (%s-%s => %s-%s)\n"
 
 #: lib/libalpm/sync.c:174
 #, c-format
@@ -940,7 +941,7 @@ msgstr "неможливо замінити %s на %s\n"
 #: lib/libalpm/sync.c:476
 #, c-format
 msgid "packages %s and %s have the same filename: %s\n"
-msgstr ""
+msgstr "пакунки %s та %s мають однакове ім'я файлу: %s\n"
 
 #: lib/libalpm/sync.c:542 lib/libalpm/sync.c:612
 #, c-format
@@ -950,12 +951,12 @@ msgstr "виявлено нерозв'язні конфлікти пакункі
 #: lib/libalpm/sync.c:562
 #, c-format
 msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr "вилучення  «%s» зі списку пакунків через конфлікт з «%s»\n"
+msgstr "вилучення \"%s\" зі списку пакунків через конфлікт з \"%s\"\n"
 
 #: lib/libalpm/sync.c:1036
 #, c-format
 msgid "failed to read file %s: %s\n"
-msgstr ""
+msgstr "неможливо прочитати файл %s: %s\n"
 
 #: lib/libalpm/sync.c:1223
 #, c-format
@@ -975,7 +976,7 @@ msgstr "неможливо здійснити транзакцію\n"
 #: lib/libalpm/trans.c:365
 #, c-format
 msgid "could not create temp directory\n"
-msgstr "неможливо створити тимчасовий каталог\n"
+msgstr "неможливо створити тимчасову теку\n"
 
 #: lib/libalpm/trans.c:380
 #, c-format
@@ -990,22 +991,22 @@ msgstr "неможливо вилучити %s\n"
 #: lib/libalpm/trans.c:415
 #, c-format
 msgid "could not remove tmpdir %s\n"
-msgstr "неможливо вилучити тимчасовий каталог %s\n"
+msgstr "неможливо вилучити тимчасову теку %s\n"
 
 #: lib/libalpm/util.c:488
 #, c-format
 msgid "unable to write to pipe (%s)\n"
-msgstr "неможливо записати у вузол (%s)\n"
+msgstr "неможливо записати до потоку (%s)\n"
 
 #: lib/libalpm/util.c:547
 #, c-format
 msgid "unable to read from pipe (%s)\n"
-msgstr "неможливо прочитати з вузла (%s)\n"
+msgstr "неможливо прочитати з потоку (%s)\n"
 
 #: lib/libalpm/util.c:617 lib/libalpm/util.c:623
 #, c-format
 msgid "could not create pipe (%s)\n"
-msgstr "неможливо створити вузол (%s)\n"
+msgstr "неможливо створити потік (%s)\n"
 
 #: lib/libalpm/util.c:631
 #, c-format
@@ -1015,7 +1016,7 @@ msgstr "неможливо почати новий процес (%s)\n"
 #: lib/libalpm/util.c:654
 #, c-format
 msgid "could not change the root directory (%s)\n"
-msgstr "неможливо змінити кореневий каталог (%s)\n"
+msgstr "неможливо змінити кореневу теку (%s)\n"
 
 #: lib/libalpm/util.c:666
 #, c-format
@@ -1045,14 +1046,10 @@ msgstr "команду завершено сигналом %d: %s\n"
 #: lib/libalpm/util.c:875
 #, c-format
 msgid "no %s cache exists, creating...\n"
-msgstr "кеш %s не існує, створюється…\n"
+msgstr "кеш %s не існує, створюємо...\n"
 
 #: lib/libalpm/util.c:906
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
-"неможливо знайти або створити кеш пакунків, використовуючи %s натомість\n"
-
-#, c-format
-#~ msgid "could not find repository for target"
-#~ msgstr "неможливо знайти сховища з пакунком"
+"неможливо знайти або створити кеш пакунків, використовуємо %s натомість\n"

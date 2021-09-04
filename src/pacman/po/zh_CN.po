@@ -7,9 +7,9 @@
 # Blask <blaskyy@gmail.com>, 2013
 # Blask <blaskyy@gmail.com>, 2013
 # Feng Chao <chaofeng111@qq.com>, 2018-2019
-# Felix Yan <felixonmars@gmail.com>, 2015
+# Felix Yan <felixonmars@gmail.com>, 2015,2021
 # Feng Chao <chaofeng111@qq.com>, 2011,2013,2018
-# Jiachen YANG <farseerfc@gmail.com>, 2018-2020
+# Jiachen YANG <farseerfc@gmail.com>, 2018-2021
 # Feng Chao <chaofeng111@qq.com>, 2011,2013
 # Feng Chao <chaofeng111@qq.com>, 2011,2013,2018
 # Feng Chao <chaofeng111@qq.com>, 2011,2013
@@ -22,16 +22,16 @@
 # shuyu liu <liushuyu011@gmail.com>, 2018
 # Tian Yunhao <t123yh@outlook.com>, 2018
 # ykelvis <ykelvis@users.noreply.github.com>, 2014
-# 张海, 2015,2018
+# 张海, 2015,2018,2021
 # 张海, 2015,2018,2021
 # 甘 露 <rhythm.gan@gmail.com>, 2011-2012
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-05-20 12:24+1000\n"
-"PO-Revision-Date: 2021-04-23 10:12+0000\n"
-"Last-Translator: 张海\n"
+"POT-Creation-Date: 2021-09-04 16:15+1000\n"
+"PO-Revision-Date: 2021-08-30 06:00+0000\n"
+"Last-Translator: Jiachen YANG <farseerfc@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -262,7 +262,7 @@ msgstr "全部"
 #: src/pacman/callback.c:884
 #, c-format
 msgid " %s downloading...\n"
-msgstr ""
+msgstr "%s正在下载……\n"
 
 #: src/pacman/callback.c:1051
 #, c-format
@@ -272,12 +272,12 @@ msgstr " %s 已经是最新版本"
 #: src/pacman/callback.c:1077
 #, c-format
 msgid " %s failed to download"
-msgstr ""
+msgstr "%s下载失败"
 
 #: src/pacman/callback.c:1126
 #, c-format
 msgid "unknown callback event type %d for %s\n"
-msgstr ""
+msgstr "未知的回调事件类型 %d 为文件 %s\n"
 
 #: src/pacman/check.c:63 src/pacman/check.c:291
 #, c-format
@@ -327,17 +327,17 @@ msgstr "%s: %s (大小不匹配)\n"
 #: src/pacman/check.c:185
 #, c-format
 msgid "%s: %s (failed to calculate %s checksum)\n"
-msgstr ""
+msgstr "%s：%s（计算 %s 的校验和失败）\n"
 
 #: src/pacman/check.c:193
 #, c-format
 msgid "%s: %s (%s checksum information not available)\n"
-msgstr ""
+msgstr "%s：%s（%s的校验和信息不存在）\n"
 
 #: src/pacman/check.c:204 src/pacman/check.c:210
 #, c-format
 msgid "%s: %s (%s checksum mismatch)\n"
-msgstr ""
+msgstr "%s：%s（%s校验和不一致）\n"
 
 #: src/pacman/check.c:266 src/pacman/check.c:281 src/pacman/check.c:325
 #: src/pacman/check.c:379
@@ -429,12 +429,12 @@ msgstr "配置文件 %s，第 %d 行：指示符 '%s' 在 '%s' 章节中无法�
 #: src/pacman/conf.c:734
 #, c-format
 msgid "config file %s, line %d: value for '%s' has to be positive : '%s'\n"
-msgstr ""
+msgstr "配置文件 %s，行 %d： '%s' 的值必须为正数：'%s'\n"
 
 #: src/pacman/conf.c:741
 #, c-format
 msgid "config file %s, line %d: value for '%s' is too large : '%s'\n"
-msgstr ""
+msgstr "配置文件 %s，行 %d：'%s' 的值过大：'%s'\n"
 
 #: src/pacman/conf.c:761
 #, c-format
@@ -458,6 +458,9 @@ msgid ""
 "(root: %s, dbpath: %s)\n"
 "%s\n"
 msgstr ""
+"初始化 alpm 库时失败：\n"
+"（root: %s，dbpath: %s）\n"
+"%s\n"
 
 #: src/pacman/conf.c:842
 #, c-format
@@ -553,7 +556,7 @@ msgstr "%s 由 %s%s/%s%s %s%s%s 所拥有\n"
 #: src/pacman/files.c:129
 #, c-format
 msgid "invalid regular expression '%s'\n"
-msgstr ""
+msgstr "无效的正则表达式‘%s’\n"
 
 #: src/pacman/files.c:253
 #, c-format
@@ -1035,6 +1038,8 @@ msgid ""
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
+" --overwrite <glob>\n"
+"                        覆盖冲突的文件（可以指定多次）\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1563,7 +1568,7 @@ msgstr "数据库 '%s' 无效 (%s)\n"
 #: src/pacman/util.c:159
 #, c-format
 msgid "failed to synchronize all databases (%s)\n"
-msgstr ""
+msgstr "未能同步所有数据库（%s）\n"
 
 #: src/pacman/util.c:651
 #, c-format

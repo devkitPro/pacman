@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-05-20 12:24+1000\n"
-"PO-Revision-Date: 2021-04-23 00:37+0000\n"
+"POT-Creation-Date: 2021-09-04 16:15+1000\n"
+"PO-Revision-Date: 2021-05-20 02:25+0000\n"
 "Last-Translator: Allan McRae <allan@archlinux.org>\n"
 "Language-Team: Russian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ru/)\n"
@@ -62,7 +62,7 @@ msgstr "получено предупреждение при извлечени�
 msgid "could not extract %s (%s)\n"
 msgstr "не удалось извлечь %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:672 lib/libalpm/remove.c:534
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:709 lib/libalpm/remove.c:534
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "не удалось переименовать %s в %s (%s)\n"
@@ -173,7 +173,7 @@ msgstr "повреждённая запись в базе данных '%s'\n"
 
 #: lib/libalpm/be_local.c:722 lib/libalpm/be_local.c:818
 #: lib/libalpm/be_local.c:958 lib/libalpm/be_local.c:1055
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:783 lib/libalpm/util.c:254
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:823 lib/libalpm/util.c:254
 #: lib/libalpm/util.c:270
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -372,47 +372,47 @@ msgstr "диск"
 msgid "failed to create temporary file for download\n"
 msgstr "не удалось создать временный файл для загрузки\n"
 
-#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:537 lib/libalpm/dload.c:551
+#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:547 lib/libalpm/dload.c:561
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "не удалось получить файл '%s' из %s : %s\n"
 
-#: lib/libalpm/dload.c:529
+#: lib/libalpm/dload.c:539
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr "не удалось получить файл '%s' из %s: превышен ожидаемый размер\n"
 
-#: lib/libalpm/dload.c:650
+#: lib/libalpm/dload.c:687
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s, видимо, обрезан: %jd/%jd байт\n"
 
-#: lib/libalpm/dload.c:750
+#: lib/libalpm/dload.c:787
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "ссылка '%s' некорректна\n"
 
-#: lib/libalpm/dload.c:836
+#: lib/libalpm/dload.c:893
 #, c-format
 msgid "failed to setup a download payload for %s\n"
 msgstr ""
 
-#: lib/libalpm/dload.c:848
+#: lib/libalpm/dload.c:905
 #, c-format
 msgid "curl returned error %d from transfer\n"
 msgstr ""
 
-#: lib/libalpm/dload.c:872
+#: lib/libalpm/dload.c:929
 #, c-format
 msgid "curl transfer error: %d\n"
 msgstr ""
 
-#: lib/libalpm/dload.c:989 lib/libalpm/sync.c:840
+#: lib/libalpm/dload.c:1055 lib/libalpm/sync.c:840
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "не удалось получить некоторые файлы\n"
 
-#: lib/libalpm/dload.c:1012
+#: lib/libalpm/dload.c:1078
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
 msgstr ""
@@ -543,9 +543,9 @@ msgid "duplicate target"
 msgstr "повторение целей"
 
 #: lib/libalpm/error.c:94
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate filename"
-msgstr "повторение целей"
+msgstr ""
 
 #: lib/libalpm/error.c:98
 #, c-format
@@ -829,7 +829,7 @@ msgstr "не удалось удалить запись '%s' из кэша\n"
 msgid "Public keyring not found; have you run '%s'?\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:766
+#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:767
 #, c-format
 msgid "GPGME error: %s\n"
 msgstr "ошибка GPGME: %s\n"
@@ -849,69 +849,69 @@ msgstr ""
 msgid "keyring is not writable\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:527
+#: lib/libalpm/signing.c:531
 #, c-format
 msgid "key \"%s\" on keyserver\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:532
+#: lib/libalpm/signing.c:536
 #, c-format
 msgid "key \"%s\" could not be imported\n"
 msgstr "не удалось импортировать ключ \"%s\"\n"
 
-#: lib/libalpm/signing.c:536
+#: lib/libalpm/signing.c:540
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:926 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: не найдена необходимая подпись\n"
 
-#: lib/libalpm/signing.c:940
+#: lib/libalpm/signing.c:941
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:948
+#: lib/libalpm/signing.c:949
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:955
+#: lib/libalpm/signing.c:956
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:967
+#: lib/libalpm/signing.c:968
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
 msgstr "%s: неизвестный ключ \"%s\"\n"
 
-#: lib/libalpm/signing.c:976
+#: lib/libalpm/signing.c:977
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:980
+#: lib/libalpm/signing.c:981
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
 msgstr "%s: подпись от \"%s\" просрочена\n"
 
-#: lib/libalpm/signing.c:984
+#: lib/libalpm/signing.c:985
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
 msgstr "%s: подпись от \"%s\" некорректна\n"
 
-#: lib/libalpm/signing.c:1042 lib/libalpm/signing.c:1103
-#: lib/libalpm/signing.c:1182
+#: lib/libalpm/signing.c:1043 lib/libalpm/signing.c:1104
+#: lib/libalpm/signing.c:1183
 #, c-format
 msgid "%s: signature format error\n"
 msgstr "%s: ошибка формата подписи\n"
 
-#: lib/libalpm/signing.c:1135 lib/libalpm/signing.c:1168
-#: lib/libalpm/signing.c:1176
+#: lib/libalpm/signing.c:1136 lib/libalpm/signing.c:1169
+#: lib/libalpm/signing.c:1177
 #, c-format
 msgid "%s: unsupported signature format\n"
 msgstr "%s: неподдерживаемый формат подписи\n"
@@ -1060,7 +1060,3 @@ msgstr "кэш %s не существует, создается...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "не удалось найти или создать кеш пакета, используется %s\n"
-
-#, c-format
-#~ msgid "could not find repository for target"
-#~ msgstr "не найден репозиторий для цели"

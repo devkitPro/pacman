@@ -9,6 +9,7 @@
 # dlin <dlin.tw@gmail.com>, 2014
 # dlin <dlin.tw@gmail.com>, 2011-2012
 # green.leek <grann88417@gmail.com>, 2021
+# green.leek <grann88417@gmail.com>, 2021
 # 黃柏諺 <s8321414@gmail.com>, 2014-2015,2018
 # 黃柏諺 <s8321414@gmail.com>, 2014
 # 黃柏諺 <s8321414@gmail.com>, 2014,2019,2021
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-05-20 12:24+1000\n"
-"PO-Revision-Date: 2021-05-11 11:00+0000\n"
-"Last-Translator: green.leek <grann88417@gmail.com>\n"
+"POT-Creation-Date: 2021-09-04 16:15+1000\n"
+"PO-Revision-Date: 2021-05-21 01:46+0000\n"
+"Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/zh_TW/)\n"
 "Language: zh_TW\n"
@@ -57,7 +58,7 @@ msgstr "解壓縮 %s 時出現警告 (%s)\n"
 msgid "could not extract %s (%s)\n"
 msgstr "無法解壓縮 %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:672 lib/libalpm/remove.c:534
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:709 lib/libalpm/remove.c:534
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "無法將 %s 重命名為 %s (%s)\n"
@@ -169,7 +170,7 @@ msgstr "損壞的資料庫記錄「%s」\n"
 
 #: lib/libalpm/be_local.c:722 lib/libalpm/be_local.c:818
 #: lib/libalpm/be_local.c:958 lib/libalpm/be_local.c:1055
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:783 lib/libalpm/util.c:254
+#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:823 lib/libalpm/util.c:254
 #: lib/libalpm/util.c:270
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -362,47 +363,47 @@ msgstr "硬碟"
 msgid "failed to create temporary file for download\n"
 msgstr "無法建立下載暫存檔\n"
 
-#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:537 lib/libalpm/dload.c:551
+#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:547 lib/libalpm/dload.c:561
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "無法取得檔案「%s」從 %s：%s\n"
 
-#: lib/libalpm/dload.c:529
+#: lib/libalpm/dload.c:539
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr "無法解開「%s」從 %s 壓縮檔：超出下載的檔案大小\n"
 
-#: lib/libalpm/dload.c:650
+#: lib/libalpm/dload.c:687
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s 可縮小：%jd/%jd 位元組\n"
 
-#: lib/libalpm/dload.c:750
+#: lib/libalpm/dload.c:787
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "url「%s」無效\n"
 
-#: lib/libalpm/dload.c:836
+#: lib/libalpm/dload.c:893
 #, c-format
 msgid "failed to setup a download payload for %s\n"
 msgstr "設定 %s 的下載有效負荷失敗\n"
 
-#: lib/libalpm/dload.c:848
+#: lib/libalpm/dload.c:905
 #, c-format
 msgid "curl returned error %d from transfer\n"
 msgstr "傳輸 curl 回傳錯誤 %d\n"
 
-#: lib/libalpm/dload.c:872
+#: lib/libalpm/dload.c:929
 #, c-format
 msgid "curl transfer error: %d\n"
 msgstr "curl 傳輸錯誤：%d\n"
 
-#: lib/libalpm/dload.c:989 lib/libalpm/sync.c:840
+#: lib/libalpm/dload.c:1055 lib/libalpm/sync.c:840
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "解開部分檔案失敗\n"
 
-#: lib/libalpm/dload.c:1012
+#: lib/libalpm/dload.c:1078
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
 msgstr "下載成功完成，但快取中沒有檔案\n"
@@ -533,9 +534,9 @@ msgid "duplicate target"
 msgstr "重複的目標"
 
 #: lib/libalpm/error.c:94
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate filename"
-msgstr "重複的目標"
+msgstr "重複的檔案名稱"
 
 #: lib/libalpm/error.c:98
 #, c-format
@@ -819,7 +820,7 @@ msgstr "無法從快取中刪除記錄 '%s'\n"
 msgid "Public keyring not found; have you run '%s'?\n"
 msgstr "找不到公開的鑰匙圈；您要執行「%s」嗎？\n"
 
-#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:766
+#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:767
 #, c-format
 msgid "GPGME error: %s\n"
 msgstr "GPGME 錯誤：%s\n"
@@ -839,69 +840,69 @@ msgstr "gpg 錯誤：%s\n"
 msgid "keyring is not writable\n"
 msgstr "無法寫入鑰匙圈\n"
 
-#: lib/libalpm/signing.c:527
+#: lib/libalpm/signing.c:531
 #, c-format
 msgid "key \"%s\" on keyserver\n"
 msgstr "金鑰「%s」在金鑰伺服器上\n"
 
-#: lib/libalpm/signing.c:532
+#: lib/libalpm/signing.c:536
 #, c-format
 msgid "key \"%s\" could not be imported\n"
 msgstr "金鑰「%s」無法匯入\n"
 
-#: lib/libalpm/signing.c:536
+#: lib/libalpm/signing.c:540
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "金鑰「%s」無法遠端鎖定\n"
 
-#: lib/libalpm/signing.c:925 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:926 lib/libalpm/sync.c:1022
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s：缺少需要的簽章\n"
 
-#: lib/libalpm/signing.c:940
+#: lib/libalpm/signing.c:941
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
 msgstr "%s：來自 %s 的簽章信任等級不足\n"
 
-#: lib/libalpm/signing.c:948
+#: lib/libalpm/signing.c:949
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
 msgstr "%s：來自 %s 的簽章信任等級不明\n"
 
-#: lib/libalpm/signing.c:955
+#: lib/libalpm/signing.c:956
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
 msgstr "%s：來自 %s 的簽章不該被信任\n"
 
-#: lib/libalpm/signing.c:967
+#: lib/libalpm/signing.c:968
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
 msgstr "%s：金鑰「%s」未知\n"
 
-#: lib/libalpm/signing.c:976
+#: lib/libalpm/signing.c:977
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
 msgstr "%s：金鑰「%s」已停用\n"
 
-#: lib/libalpm/signing.c:980
+#: lib/libalpm/signing.c:981
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
 msgstr "%s：來自 %s 的簽章已過期\n"
 
-#: lib/libalpm/signing.c:984
+#: lib/libalpm/signing.c:985
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
 msgstr "%s：來自 %s 的簽章無效\n"
 
-#: lib/libalpm/signing.c:1042 lib/libalpm/signing.c:1103
-#: lib/libalpm/signing.c:1182
+#: lib/libalpm/signing.c:1043 lib/libalpm/signing.c:1104
+#: lib/libalpm/signing.c:1183
 #, c-format
 msgid "%s: signature format error\n"
 msgstr "%s：簽章格式錯誤\n"
 
-#: lib/libalpm/signing.c:1135 lib/libalpm/signing.c:1168
-#: lib/libalpm/signing.c:1176
+#: lib/libalpm/signing.c:1136 lib/libalpm/signing.c:1169
+#: lib/libalpm/signing.c:1177
 #, c-format
 msgid "%s: unsupported signature format\n"
 msgstr "%s：簽章格式不受支援\n"
@@ -939,7 +940,7 @@ msgstr "無法替代 %s 以 %s\n"
 #: lib/libalpm/sync.c:476
 #, c-format
 msgid "packages %s and %s have the same filename: %s\n"
-msgstr ""
+msgstr "軟體包 %s 與 %s 有相同的檔案名稱：%s\n"
 
 #: lib/libalpm/sync.c:542 lib/libalpm/sync.c:612
 #, c-format
@@ -1050,7 +1051,3 @@ msgstr "沒有 %s 快取存在，正在建立...\n"
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "無法建立軟體包快取，以 %s 取代\n"
-
-#, c-format
-#~ msgid "could not find repository for target"
-#~ msgstr "無法為目標找到軟體庫"

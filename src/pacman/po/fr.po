@@ -16,7 +16,8 @@
 # Élie Bouttier <elie.bouttier@free.fr>, 2013
 # ef7dab0d6077eb6318482e1ba81363ed, 2014
 # Élie Bouttier <elie.bouttier@free.fr>, 2013
-# Erwan Amans <erwan.amans@gmail.com>, 2019
+# Erwan Amans <erwan.amans@gmail.com>, 2019,2021
+# Erwan Amans <erwan.amans@gmail.com>, 2021
 # Iago Bonnici <iago.bonnici@cleb.io>, 2020
 # jiehong <ma.jiehong@gmail.com>, 2011-2012
 # ef7dab0d6077eb6318482e1ba81363ed, 2014
@@ -27,9 +28,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-05-20 12:24+1000\n"
-"PO-Revision-Date: 2021-05-10 06:09+0000\n"
-"Last-Translator: Charles Monzat <c.monzat@laposte.net>\n"
+"POT-Creation-Date: 2021-09-04 16:15+1000\n"
+"PO-Revision-Date: 2021-07-06 18:55+0000\n"
+"Last-Translator: Erwan Amans <erwan.amans@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/fr/)\n"
 "Language: fr\n"
@@ -41,12 +42,12 @@ msgstr ""
 #: src/pacman/callback.c:245
 #, c-format
 msgid "Running pre-transaction hooks...\n"
-msgstr "Exécution des crochets de pré-transaction…\n"
+msgstr "Exécution des crochets (« hooks ») de pré-transaction…\n"
 
 #: src/pacman/callback.c:247
 #, c-format
 msgid "Running post-transaction hooks...\n"
-msgstr "Exécution des crochets de post-transaction…\n"
+msgstr "Exécution des crochets (« hooks ») de post-transaction…\n"
 
 #: src/pacman/callback.c:260
 #, c-format
@@ -264,12 +265,12 @@ msgstr "chargement des fichiers des paquets"
 #: src/pacman/callback.c:751
 #, c-format
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 #: src/pacman/callback.c:884
 #, c-format
 msgid " %s downloading...\n"
-msgstr ""
+msgstr "téléchargement de %s…\n"
 
 #: src/pacman/callback.c:1051
 #, c-format
@@ -279,7 +280,7 @@ msgstr " %s est à jour"
 #: src/pacman/callback.c:1077
 #, c-format
 msgid " %s failed to download"
-msgstr ""
+msgstr "le fichier %s n’a pas pu être téléchargé"
 
 #: src/pacman/callback.c:1126
 #, c-format
@@ -334,17 +335,17 @@ msgstr "%s : %s (Les tailles ne correspondent pas)\n"
 #: src/pacman/check.c:185
 #, c-format
 msgid "%s: %s (failed to calculate %s checksum)\n"
-msgstr ""
+msgstr "%s : %s (échec du calcul de la somme de contrôle %s)\n"
 
 #: src/pacman/check.c:193
 #, c-format
 msgid "%s: %s (%s checksum information not available)\n"
-msgstr ""
+msgstr "%s : %s (%s information de la somme de contrôle indisponible)\n"
 
 #: src/pacman/check.c:204 src/pacman/check.c:210
 #, c-format
 msgid "%s: %s (%s checksum mismatch)\n"
-msgstr ""
+msgstr "%s : %s (%s les sommes de contrôle ne correspondent pas)\n"
 
 #: src/pacman/check.c:266 src/pacman/check.c:281 src/pacman/check.c:325
 #: src/pacman/check.c:379
@@ -448,11 +449,15 @@ msgstr ""
 #, c-format
 msgid "config file %s, line %d: value for '%s' has to be positive : '%s'\n"
 msgstr ""
+"le fichier de configuration %s possède une entrée non valide à la ligne %d : "
+"la valeur de « %s » doit être positive : « %s »\n"
 
 #: src/pacman/conf.c:741
 #, c-format
 msgid "config file %s, line %d: value for '%s' is too large : '%s'\n"
 msgstr ""
+"le fichier de configuration %s possède une entrée non valide à la ligne %d : "
+"la valeur de « %s » est trop grande : « %s »\n"
 
 #: src/pacman/conf.c:761
 #, c-format
@@ -498,7 +503,8 @@ msgstr "problème en définissant le chemin du répertoire de gpg « %s » (%s
 #: src/pacman/conf.c:879
 #, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
-msgstr "problème lors de l’ajout du dossier de scripts « %s » (%s)\n"
+msgstr ""
+"problème lors de l’ajout du dossier des crochets (« hooks ») « %s » (%s)\n"
 
 #: src/pacman/conf.c:901
 #, c-format
@@ -582,7 +588,7 @@ msgstr "%s appartient à %s%s/%s%s %s%s%s\n"
 #: src/pacman/files.c:129
 #, c-format
 msgid "invalid regular expression '%s'\n"
-msgstr ""
+msgstr "expression régulière « %s » invalide\n"
 
 #: src/pacman/files.c:253
 #, c-format
@@ -1113,6 +1119,9 @@ msgid ""
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
+"      --overwrite <path>\n"
+"                       écrase les fichiers conflictuels (peut être utilisé "
+"plus d’une fois)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1240,7 +1249,8 @@ msgstr "      --cachedir <dossier> définit le dossier de cache\n"
 #, c-format
 msgid "      --hookdir <dir>  set an alternate hook location\n"
 msgstr ""
-"      --hookdir <dir>      spécifie un autre dossier pour les scripts\n"
+"      --hookdir <dir>      spécifie un autre dossier pour les crochets (« "
+"hooks »)\n"
 
 #: src/pacman/pacman.c:220
 #, c-format
@@ -1667,7 +1677,7 @@ msgstr "la base de données « %s » n’est pas valide (%s)\n"
 #: src/pacman/util.c:159
 #, c-format
 msgid "failed to synchronize all databases (%s)\n"
-msgstr ""
+msgstr "la synchronisation de toutes les bases de données a échoué (%s)\n"
 
 #: src/pacman/util.c:651
 #, c-format
