@@ -27,7 +27,7 @@ arch:
 arch-debug:
   extends: .arch-test
   script:
-    - meson --buildtype=debug build
+    - meson --buildtype=debug --werror build
     - ninja -C build
     - fakechroot meson test -C build
 
