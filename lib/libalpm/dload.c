@@ -427,6 +427,9 @@ static int curl_retry_next_server(CURLM *curlm, CURL *curl, struct dload_payload
 	len = strlen(server) + strlen(payload->filepath) + 2;
 	MALLOC(payload->fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 	snprintf(payload->fileurl, len, "%s/%s", server, payload->filepath);
+	_alpm_log(handle, ALPM_LOG_DEBUG,
+			"%s: retrying from %s\n",
+			payload->remote_name, payload->fileurl);
 
 
 	fflush(payload->localf);
