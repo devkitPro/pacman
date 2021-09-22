@@ -1,4 +1,4 @@
-#  Copyright (c) 2013-2021 Pacman Development Team <pacman-dev@archlinux.org>
+#  Copyright (c) 2013-2021 Pacman Development Team <pacman-dev@lists.archlinux.org>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by

@@ -2,7 +2,7 @@
 #
 # vercmptest - a test suite for the vercmp/libalpm program
 #
-#   Copyright (c) 2009-2021 by Pacman Development Team <pacman-dev@archlinux.org>
+#   Copyright (c) 2009-2021 by Pacman Development Team <pacman-dev@lists.archlinux.org>
 #   Copyright (c) 2008 by Dan McGee <dan@archlinux.org>
 #
 #   This program is free software; you can redistribute it and/or modify

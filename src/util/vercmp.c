@@ -2,7 +2,7 @@
  *  vercmp.c - Compare package version numbers using pacman's version
  *      comparison logic
  *
- *  Copyright (c) 2006-2021 Pacman Development Team <pacman-dev@archlinux.org>
+ *  Copyright (c) 2006-2021 Pacman Development Team <pacman-dev@lists.archlinux.org>
  *  Copyright (c) 2002-2005 by Judd Vinet <jvinet@zeroflux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
