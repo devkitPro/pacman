@@ -843,10 +843,17 @@ char *_alpm_filecache_find(alpm_handle_t *handle, const char *filename)
 	for(i = handle->cachedirs; i; i = i->next) {
 		snprintf(path, PATH_MAX, "%s%s", (char *)i->data,
 				filename);
-		if(stat(path, &buf) == 0 && S_ISREG(buf.st_mode)) {
-			retpath = strdup(path);
-			_alpm_log(handle, ALPM_LOG_DEBUG, "found cached pkg: %s\n", retpath);
-			return retpath;
+		if(stat(path, &buf) == 0) {
+			if(S_ISREG(buf.st_mode)) {
+				retpath = strdup(path);
+				_alpm_log(handle, ALPM_LOG_DEBUG, "found cached pkg: %s\n", retpath);
+				return retpath;
+			} else {
+				_alpm_log(handle, ALPM_LOG_WARNING,
+						"cached pkg '%s' is not a regular file: mode=%i\n", path, buf.st_mode);
+			}
+		} else if(errno != ENOENT) {
+			_alpm_log(handle, ALPM_LOG_WARNING, "could not open '%s'\n: %s", path, strerror(errno));
 		}
 	}
 	/* package wasn't found in any cachedir */

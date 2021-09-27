@@ -995,6 +995,13 @@ static int check_validity(alpm_handle_t *handle,
 
 		current_bytes += v.pkg->size;
 		v.path = _alpm_filecache_find(handle, v.pkg->filename);
+
+		if(!v.path) {
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("%s: could not find package in cache\n"), v.pkg->name);
+			RET_ERR(handle, ALPM_ERR_PKG_NOT_FOUND, -1);
+		}
+
 		v.siglevel = alpm_db_get_siglevel(alpm_pkg_get_db(v.pkg));
 
 		if(_alpm_pkg_validate_internal(handle, v.path, v.pkg,
@@ -1085,6 +1092,12 @@ static int load_packages(alpm_handle_t *handle, alpm_list_t **data,
 
 		current_bytes += spkg->size;
 		filepath = _alpm_filecache_find(handle, spkg->filename);
+
+		if(!filepath) {
+			_alpm_log(handle, ALPM_LOG_ERROR,
+					_("%s: could not find package in cache\n"), spkg->name);
+			RET_ERR(handle, ALPM_ERR_PKG_NOT_FOUND, -1);
+		}
 
 		/* load the package file and replace pkgcache entry with it in the target list */
 		/* TODO: alpm_pkg_get_db() will not work on this target anymore */
