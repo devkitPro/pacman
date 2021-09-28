@@ -1146,6 +1146,16 @@ void print_packages(const alpm_list_t *packages)
 		alpm_pkg_t *pkg = i->data;
 		char *string = strdup(config->print_format);
 		char *temp = string;
+		/* %a : arch */
+		if(strstr(temp, "%a")) {
+			const char *arch = alpm_pkg_get_arch(pkg);
+			if(arch == NULL) {
+				arch = "";
+			}
+			string = strreplace(temp, "%a", arch);
+			free(temp);
+			temp = string;
+		}
 		/* %n : pkgname */
 		if(strstr(temp, "%n")) {
 			string = strreplace(temp, "%n", alpm_pkg_get_name(pkg));
