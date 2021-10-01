@@ -31,6 +31,7 @@
 #include <limits.h>
 #include <sys/wait.h>
 #include <sys/socket.h>
+#include <fcntl.h>
 #include <fnmatch.h>
 #include <poll.h>
 #include <signal.h>
@@ -1352,6 +1353,11 @@ int _alpm_access(alpm_handle_t *handle, const char *dir, const char *file, int a
 	size_t len = 0;
 	int ret = 0;
 
+	int flag = 0;
+#ifdef AT_SYMLINK_NOFOLLOW
+	flag |= AT_SYMLINK_NOFOLLOW;
+#endif
+
 	if(dir) {
 		char *check_path;
 
@@ -1359,11 +1365,11 @@ int _alpm_access(alpm_handle_t *handle, const char *dir, const char *file, int a
 		CALLOC(check_path, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, -1));
 		snprintf(check_path, len, "%s%s", dir, file);
 
-		ret = access(check_path, amode);
+		ret = faccessat(AT_FDCWD, check_path, amode, flag);
 		free(check_path);
 	} else {
 		dir = "";
-		ret = access(file, amode);
+		ret = faccessat(AT_FDCWD, file, amode, flag);
 	}
 
 	if(ret != 0) {
