@@ -466,11 +466,7 @@ void dump_pkg_changelog(alpm_pkg_t *pkg)
 		char buf[CLBUF_SIZE];
 		size_t ret = 0;
 		while((ret = alpm_pkg_changelog_read(buf, CLBUF_SIZE, pkg, fp))) {
-			if(ret < CLBUF_SIZE) {
-				/* if we hit the end of the file, we need to add a null terminator */
-				*(buf + ret) = '\0';
-			}
-			fputs(buf, stdout);
+			fwrite(buf, 1, ret, stdout);
 		}
 		alpm_pkg_changelog_close(pkg, fp);
 		putchar('\n');
