@@ -732,7 +732,7 @@ static int find_dl_candidates(alpm_handle_t *handle, alpm_list_t **files)
 				handle->pm_errno = ALPM_ERR_SERVER_NONE;
 				_alpm_log(handle, ALPM_LOG_ERROR, "%s: %s\n",
 						alpm_strerror(handle->pm_errno), repo->treename);
-				return 1;
+				return -1;
 			}
 
 			ASSERT(spkg->filename != NULL, RET_ERR(handle, ALPM_ERR_PKG_INVALID_NAME, -1));
