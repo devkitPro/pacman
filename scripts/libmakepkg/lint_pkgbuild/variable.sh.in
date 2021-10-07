@@ -28,7 +28,7 @@ source "$LIBRARY/util/pkgbuild.sh"
 source "$LIBRARY/util/schema.sh"
 
 lint_pkgbuild_functions+=('lint_variable')
-
+lint_pkgbuild_functions+=('lint_array')
 
 lint_variable() {
 	local i a pkg out bad ret=0
@@ -88,6 +88,24 @@ lint_variable() {
 		for i in ${pkgbuild_schema_strings[@]}; do
 			if extract_function_variable "package_$pkg" $i 1 out; then
 				error "$(gettext "%s should not be an array")" "$i"
+				ret=1
+			fi
+		done
+	done
+
+	return $ret
+}
+
+lint_array() {
+	local i var ret=0
+
+	for i in ${pkgbuild_schema_arrays[@]}; do
+		local l=()
+		get_pkgbuild_all_split_attributes $i l
+
+		for var in "${l[@]}"; do
+			if [[ -z $var ]]; then
+				error "$(gettext "%s does not allow empty values.")" "$i"
 				ret=1
 			fi
 		done
