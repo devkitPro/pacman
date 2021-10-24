@@ -156,12 +156,7 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 	/* 8 = 1 space + 1 [ + 1 ] + 5 for percent */
 	const int hashlen = proglen > 8 ? proglen - 8 : 0;
 	const int hash = bar_percent * hashlen / 100;
-	static int lasthash = 0;
 	int i;
-
-	if(bar_percent == 0) {
-		lasthash = 0;
-	}
 
 	if(hashlen > 0) {
 		fputs(" [", stdout);
@@ -171,19 +166,10 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 				if(i > hashlen - hash) {
 					putchar('-');
 				} else if(i == hashlen - hash) {
-					if(lasthash == hash) {
-						if(i % 2 == 0) {
-							fputs("\033[1;33mC\033[m", stdout);
-						} else {
-							fputs("\033[1;33mc\033[m", stdout);
-						}
+					if(i % 2 == 0) {
+						fputs("\033[1;33mC\033[m", stdout);
 					} else {
-						lasthash = hash;
-						if(i % 2 == 0) {
-							fputs("\033[1;33mC\033[m", stdout);
-						} else {
-							fputs("\033[1;33mc\033[m", stdout);
-						}
+						fputs("\033[1;33mc\033[m", stdout);
 					}
 				} else if(i % 3 == 0) {
 					fputs("\033[0;37mo\033[m", stdout);
