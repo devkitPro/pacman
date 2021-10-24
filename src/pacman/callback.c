@@ -156,12 +156,11 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 	/* 8 = 1 space + 1 [ + 1 ] + 5 for percent */
 	const int hashlen = proglen > 8 ? proglen - 8 : 0;
 	const int hash = bar_percent * hashlen / 100;
-	static int lasthash = 0, mouth = 0;
+	static int lasthash = 0;
 	int i;
 
 	if(bar_percent == 0) {
 		lasthash = 0;
-		mouth = 0;
 	}
 
 	if(hashlen > 0) {
@@ -173,15 +172,14 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 					putchar('-');
 				} else if(i == hashlen - hash) {
 					if(lasthash == hash) {
-						if(mouth) {
+						if(i % 2 == 0) {
 							fputs("\033[1;33mC\033[m", stdout);
 						} else {
 							fputs("\033[1;33mc\033[m", stdout);
 						}
 					} else {
 						lasthash = hash;
-						mouth = mouth == 1 ? 0 : 1;
-						if(mouth) {
+						if(i % 2 == 0) {
 							fputs("\033[1;33mC\033[m", stdout);
 						} else {
 							fputs("\033[1;33mc\033[m", stdout);
@@ -252,7 +250,7 @@ void cb_event(void *ctx, alpm_event_t *event)
 				alpm_event_hook_run_t *e = &event->hook_run;
 				int digits = number_length(e->total);
 				printf("(%*zu/%*zu) %s\n", digits, e->position,
-						digits, e->total, 
+						digits, e->total,
 						e->desc ? e->desc : e->name);
 			}
 			break;
