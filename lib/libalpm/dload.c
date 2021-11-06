@@ -493,8 +493,8 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 
 	curl_gethost(payload->fileurl, hostname, sizeof(hostname));
 	curlerr = msg->data.result;
-	_alpm_log(handle, ALPM_LOG_DEBUG, "%s: curl returned result %d from transfer\n",
-			payload->remote_name, curlerr);
+	_alpm_log(handle, ALPM_LOG_DEBUG, "%s: %s returned result %d from transfer\n",
+			payload->remote_name, "curl", curlerr);
 
 	/* was it a success? */
 	switch(curlerr) {
