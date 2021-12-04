@@ -212,6 +212,12 @@ int SYMEXPORT alpm_db_remove_server(alpm_db_t *db, const char *url)
 	return ret;
 }
 
+alpm_handle_t SYMEXPORT *alpm_db_get_handle(alpm_db_t *db)
+{
+	ASSERT(db != NULL, return NULL);
+	return db->handle;
+}
+
 const char SYMEXPORT *alpm_db_get_name(const alpm_db_t *db)
 {
 	ASSERT(db != NULL, return NULL);

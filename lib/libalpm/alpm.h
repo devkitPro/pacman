@@ -1281,6 +1281,12 @@ int alpm_unregister_all_syncdbs(alpm_handle_t *handle);
  */
 int alpm_db_unregister(alpm_db_t *db);
 
+/** Get the handle of a package database.
+ * @param db pointer to the package database
+ * @return the alpm handle that the package database belongs to
+ */
+alpm_handle_t *alpm_db_get_handle(alpm_db_t *db);
+
 /** Get the name of a package database.
  * @param db pointer to the package database
  * @return the name of the package database, NULL on error
@@ -2385,6 +2391,12 @@ int alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg);
  * For database packages, they will be freed when the database is unregistered.
  * @{
  */
+
+/** Gets the handle of a package
+ * @param pkg a pointer to package
+ * @return the alpm handle that the package belongs to
+ */
+alpm_handle_t *alpm_pkg_get_handle(alpm_pkg_t *pkg);
 
 /** Gets the name of the file from which the package was loaded.
  * @param pkg a pointer to package
