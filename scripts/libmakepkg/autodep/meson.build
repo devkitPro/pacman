@@ -1,8 +1,8 @@
 libmakepkg_module = 'tidy'
 
 sources = [
+  'library_depends.sh.in',
   'library_provides.sh.in',
-
 ]
 
 foreach src : sources
