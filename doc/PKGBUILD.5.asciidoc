@@ -187,11 +187,6 @@ contain whitespace characters.
 	than or equal to), `<=` (less than or equal to), `=` (equal to), `>`
 	(greater than), or `<` (less than).
 +
-If the dependency name appears to be a library (ends with .so), makepkg will
-try to find a binary that depends on the library in the built package and
-append the version needed by the binary. Appending the version yourself
-disables automatic detection.
-+
 Additional architecture-specific depends can be added by appending an
 underscore and the architecture name e.g., 'depends_x86_64=()'.
 
@@ -244,10 +239,6 @@ Versioned provisions are also possible, in the 'name=version' format. For
 example, dcron can provide 'cron=2.0' to satisfy the 'cron>=2.0' dependency of
 other packages. Provisions involving the `>` and `<` operators are invalid as
 only specific versions of a package may be provided.
-+
-If the provision name appears to be a library (ends with .so), makepkg will
-try to find the library in the built package and append the correct
-version. Appending the version yourself disables automatic detection.
 +
 Additional architecture-specific provides can be added by appending an
 underscore and the architecture name e.g., 'provides_x86_64=()'.

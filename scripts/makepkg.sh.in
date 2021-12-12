@@ -463,121 +463,6 @@ run_package() {
 	run_function_safe "package${1:+_$1}"
 }
 
-find_libdepends() {
-	local d sodepends
-
-	sodepends=0
-	for d in "${depends[@]}"; do
-		if [[ $d = *.so ]]; then
-			sodepends=1
-			break
-		fi
-	done
-
-	if (( sodepends == 0 )); then
-		(( ${#depends[@]} )) && printf '%s\n' "${depends[@]}"
-		return 0
-	fi
-
-	local libdeps filename soarch sofile soname soversion
-	declare -A libdeps
-
-	while IFS= read -rd '' filename; do
-		# get architecture of the file; if soarch is empty it's not an ELF binary
-		soarch=$(LC_ALL=C readelf -h "$filename" 2>/dev/null | sed -n 's/.*Class.*ELF\(32\|64\)/\1/p')
-		[[ -n "$soarch" ]] || continue
-
-		# process all libraries needed by the binary
-		for sofile in $(LC_ALL=C readelf -d "$filename" 2>/dev/null | sed -nr 's/.*Shared library: \[(.*)\].*/\1/p')
-		do
-			# extract the library name: libfoo.so
-			soname="${sofile%.so?(+(.+([0-9])))}".so
-			# extract the major version: 1
-			soversion="${sofile##*\.so\.}"
-
-			if [[ ${libdeps[$soname]} ]]; then
-				if [[ ${libdeps[$soname]} != *${soversion}-${soarch}* ]]; then
-					libdeps[$soname]+=" ${soversion}-${soarch}"
-				fi
-			else
-				libdeps[$soname]="${soversion}-${soarch}"
-			fi
-		done
-	done < <(find "$pkgdir" -type f -perm -u+x -print0)
-
-	local libdepends v
-	for d in "${depends[@]}"; do
-		case "$d" in
-			*.so)
-				if [[ ${libdeps[$d]} ]]; then
-					for v in ${libdeps[$d]}; do
-						libdepends+=("$d=$v")
-					done
-				else
-					warning "$(gettext "Library listed in %s is not required by any files: %s")" "'depends'" "$d"
-					libdepends+=("$d")
-				fi
-				;;
-			*)
-				libdepends+=("$d")
-				;;
-		esac
-	done
-
-	(( ${#libdepends[@]} )) && printf '%s\n' "${libdepends[@]}"
-}
-
-
-find_libprovides() {
-	local p versioned_provides libprovides missing
-	for p in "${provides[@]}"; do
-		missing=0
-		versioned_provides=()
-		case "$p" in
-			*.so)
-				mapfile -t filename < <(find "$pkgdir" -type f -name $p\* | LC_ALL=C sort)
-				if [[ $filename ]]; then
-					# packages may provide multiple versions of the same library
-					for fn in "${filename[@]}"; do
-						# check if we really have a shared object
-						if LC_ALL=C readelf -h "$fn" 2>/dev/null | grep -q '.*Type:.*DYN (Shared object file).*'; then
-							# get the string binaries link to (e.g. libfoo.so.1.2 -> libfoo.so.1)
-							local sofile=$(LC_ALL=C readelf -d "$fn" 2>/dev/null | sed -n 's/.*Library soname: \[\(.*\)\].*/\1/p')
-							if [[ -z "$sofile" ]]; then
-								warning "$(gettext "Library listed in %s is not versioned: %s")" "'provides'" "$p"
-								continue
-							fi
-
-							# get the library architecture (32 or 64 bit)
-							local soarch=$(LC_ALL=C readelf -h "$fn" | sed -n 's/.*Class.*ELF\(32\|64\)/\1/p')
-
-							# extract the library major version
-							local soversion="${sofile##*\.so\.}"
-
-							versioned_provides+=("${p}=${soversion}-${soarch}")
-						else
-							warning "$(gettext "Library listed in %s is not a shared object: %s")" "'provides'" "$p"
-						fi
-					done
-				else
-					missing=1
-				fi
-				;;
-		esac
-
-		if (( missing )); then
-			warning "$(gettext "Cannot find library listed in %s: %s")" "'provides'" "$p"
-		fi
-		if (( ${#versioned_provides[@]} > 0 )); then
-			libprovides+=("${versioned_provides[@]}")
-		else
-			libprovides+=("$p")
-		fi
-	done
-
-	(( ${#libprovides[@]} )) && printf '%s\n' "${libprovides[@]}"
-}
-
 write_kv_pair() {
 	local key="$1"
 	shift
@@ -616,9 +501,6 @@ write_pkginfo() {
 	write_kv_pair "packager" "$PACKAGER"
 	write_kv_pair "size" "$size"
 	write_kv_pair "arch" "$pkgarch"
-
-	mapfile -t provides < <(find_libprovides)
-	mapfile -t depends < <(find_libdepends)
 
 	write_kv_pair "license"     "${license[@]}"
 	write_kv_pair "replaces"    "${replaces[@]}"
