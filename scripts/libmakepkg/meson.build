@@ -1,4 +1,5 @@
 libmakepkg_modules = [
+  { 'name' : 'autodep',       'has_subdir' : true },
   { 'name' : 'buildenv',      'has_subdir' : true },
   { 'name' : 'executable',    'has_subdir' : true },
   { 'name' : 'integrity',     'has_subdir' : true },

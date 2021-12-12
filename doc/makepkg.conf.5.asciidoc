@@ -193,6 +193,11 @@ Options
 		Enable building packages using link time optimization. Adds '-flto'
 		to both CFLAGS and CXXFLAGS.
 
+	*autodep*;;
+		Enable the automatic addition of libraries to the depends and
+		provides arrays. Search library directories are controlled by
+		the LIB_DIRS variable defined below.
+
 **INTEGRITY_CHECK=(**check1 ...**)**::
 	File integrity checks to use. Multiple checks may be specified; this
 	affects both generation and checking. The current valid options are:
@@ -222,6 +227,12 @@ Options
 	instruct makepkg where to look to remove docs. If you build packages
 	that are located in opt/, you may need to add the directory to this
 	array. *NOTE:* Do not add the leading slash to the directory name.
+
+**LIB_DIRS=(**lib:usr/lib ...**)**::
+	If `autodeps` is specified in the `OPTIONS` array, this variable will
+	instruct makepkg where to look to find librarys to add to the `provides`
+	array. The format is "prefix:path", where provides will be added for
+	libraries found in "path" with the specified prefix added.
 
 **PURGE_TARGETS=(**usr/{,share}/info/dir .podlist *.pod...**)**::
 	If `purge` is specified in the `OPTIONS` array, this variable will
