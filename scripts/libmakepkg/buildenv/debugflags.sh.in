@@ -30,8 +30,8 @@ buildenv_functions+=('buildenv_debugflags')
 
 buildenv_debugflags() {
 	if check_option "debug" "y"; then
-		DEBUG_CFLAGS+=" -fdebug-prefix-map=$srcdir=${DBGSRCDIR:-/usr/src/debug}"
-		DEBUG_CXXFLAGS+=" -fdebug-prefix-map=$srcdir=${DBGSRCDIR:-/usr/src/debug}"
+		DEBUG_CFLAGS+=" -ffile-prefix-map=$srcdir=${DBGSRCDIR:-/usr/src/debug}"
+		DEBUG_CXXFLAGS+=" -ffile-prefix-map=$srcdir=${DBGSRCDIR:-/usr/src/debug}"
 		DEBUG_RUSTFLAGS+=" --remap-path-prefix=$srcdir=${DBGSRCDIR:-/usr/src/debug}"
 		CFLAGS+=" $DEBUG_CFLAGS"
 		CXXFLAGS+=" $DEBUG_CXXFLAGS"
