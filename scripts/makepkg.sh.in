@@ -487,6 +487,7 @@ write_pkginfo() {
 
 	write_kv_pair "pkgname" "$pkgname"
 	write_kv_pair "pkgbase" "$pkgbase"
+	write_kv_pair "pkgtype" "$pkgtype"
 
 	local fullver=$(get_full_version)
 	write_kv_pair "pkgver" "$fullver"
@@ -563,6 +564,8 @@ list_package_files() {
 
 create_package() {
 	(( NOARCHIVE )) && return 0
+
+	pkgtype=${pkgtype:-pkg}
 
 	if [[ ! -d $pkgdir ]]; then
 		error "$(gettext "Missing %s directory.")" "\$pkgdir/"
@@ -648,6 +651,7 @@ create_debug_package() {
 
 	pkgdesc="Detached debugging symbols for $pkgbase"
 	pkgname=$pkgbase-@DEBUGSUFFIX@
+	pkgtype=debug
 
 	create_package
 }
@@ -657,6 +661,8 @@ create_srcpackage() {
 	msg "$(gettext "Creating source package...")"
 	local srclinks="$(mktemp -d "$startdir"/srclinks.XXXXXXXXX)"
 	mkdir "${srclinks}"/${pkgbase}
+
+	pkgtype=src
 
 	msg2 "$(gettext "Adding %s...")" "$BUILDSCRIPT"
 	ln -s "${BUILDFILE}" "${srclinks}/${pkgbase}/${BUILDSCRIPT}"
@@ -833,6 +839,9 @@ run_single_packaging() {
 
 run_split_packaging() {
 	local pkgname_backup=("${pkgname[@]}")
+	# We might run this function when we only have package_pkgname
+	# and we don't want that marked as a split package
+	(( ${#pkgname[@]} > 1 )) && pkgtype=split
 	backup_package_variables
 	for pkgname in ${pkgname_backup[@]}; do
 		run_single_packaging $pkgname
