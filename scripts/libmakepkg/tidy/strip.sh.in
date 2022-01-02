@@ -36,8 +36,20 @@ build_id() {
 }
 
 source_files() {
-	LANG=C readelf "$1" --debug-dump 2>/dev/null | \
-		awk '/DW_AT_name +:/{name=$NF}/DW_AT_comp_dir +:/{{if (name == "<artificial>") next}{if (name !~ /^[<\/]/) {printf "%s/", $NF}}{print name}}'
+	# This function does two things:
+	#
+	# 1) rewrites source file locations for packages not respecting prefix-
+	#    map switches.  This ensures all source file references in debug
+	#    info point to $dbgsrcdir.
+	#
+	# 2) outputs a list of files from the package source files to stdout
+	#    while stripping the $dbgsrcdir prefix
+
+	LANG=C debugedit --no-recompute-build-id \
+		--base-dir "${srcdir}" \
+		--dest-dir "${dbgsrcdir}" \
+		--list-file /dev/stdout "$1" \
+		| sort -zu | tr '\0' '\n'
 }
 
 strip_file() {
@@ -58,9 +70,9 @@ strip_file() {
 		# copy source files to debug directory
 		local file dest t
 		while IFS= read -r t; do
-			file=${t/${dbgsrcdir}/"$srcdir"}
-			dest="${dbgsrc/"$dbgsrcdir"/}$t"
-			if ! [[ -f $dest ]]; then
+			file="${srcdir}/${t}"
+			dest="${dbgsrc}/${t}"
+			if [[ -f "$file" ]] && ! [[ -f $dest ]]; then
 				mkdir -p "${dest%/*}"
 				cp -- "$file" "$dest"
 			fi
