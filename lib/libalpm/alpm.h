@@ -156,7 +156,7 @@ typedef struct _alpm_backup_t {
  * @param path the path to search for in the package
  * @return a pointer to the matching file or NULL if not found
  */
-alpm_file_t *alpm_filelist_contains(alpm_filelist_t *filelist, const char *path);
+alpm_file_t *alpm_filelist_contains(const alpm_filelist_t *filelist, const char *path);
 
 /* End of libalpm_files */
 /** @} */
