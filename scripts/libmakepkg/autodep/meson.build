@@ -1,4 +1,4 @@
-libmakepkg_module = 'tidy'
+libmakepkg_module = 'autodep'
 
 sources = [
   'library_depends.sh.in',
