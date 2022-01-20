@@ -13,7 +13,6 @@ sed \
   -e "s|@pkgdatadir[@]|@PKGDATADIR@|g" \
   -e "s|@keyringdir[@]|@KEYRINGDIR@|g" \
   -e "s|@prefix[@]|@PREFIX@|g" \
-  -e "1s|#!/usr/bin/env bash|#!@BASH@|g" \
   -e "s|@PACKAGE_VERSION[@]|@PACKAGE_VERSION@|g" \
   -e "s|@PACKAGE_NAME[@]|@PACKAGE_NAME@|g" \
   -e "s|@BUILDSCRIPT[@]|@BUILDSCRIPT@|g" \
