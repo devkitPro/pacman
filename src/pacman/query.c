@@ -468,11 +468,6 @@ int pacman_query(alpm_list_t *targets)
 	for(i = targets; i; i = alpm_list_next(i)) {
 		const char *strname = i->data;
 
-		/* strip leading part of "local/pkgname" */
-		if(strncmp(strname, LOCAL_PREFIX, strlen(LOCAL_PREFIX)) == 0) {
-			strname += strlen(LOCAL_PREFIX);
-		}
-
 		if(config->op_q_isfile) {
 			alpm_pkg_load(config->handle, strname, 1, 0, &pkg);
 
@@ -482,6 +477,11 @@ int pacman_query(alpm_list_t *targets)
 						alpm_strerror(alpm_errno(config->handle)));
 			}
 		} else {
+			/* strip leading part of "local/pkgname" */
+			if(strncmp(strname, LOCAL_PREFIX, strlen(LOCAL_PREFIX)) == 0) {
+				strname += strlen(LOCAL_PREFIX);
+			}
+
 			pkg = alpm_db_get_pkg(db_local, strname);
 			if(pkg == NULL) {
 				pkg = alpm_find_satisfier(alpm_db_get_pkgcache(db_local), strname);
