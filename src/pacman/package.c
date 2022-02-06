@@ -351,6 +351,19 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 		dump_pkg_backups(pkg, cols);
 	}
 
+	if(extra) {
+		alpm_list_t *text = NULL, *pdata = alpm_pkg_get_xdata(pkg);
+		while(pdata) {
+			alpm_pkg_xdata_t *pd = pdata->data;
+			char *formatted = NULL;
+			pm_asprintf(&formatted, "%s=%s", pd->name, pd->value);
+			text = alpm_list_add(text, formatted);
+			pdata = pdata->next;
+		}
+		list_display_linebreak("Extended Data   :", text, cols);
+		FREELIST(text);
+	}
+
 	/* final newline to separate packages */
 	printf("\n");
 
