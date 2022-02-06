@@ -306,11 +306,7 @@ static int display(alpm_pkg_t *pkg)
 	int ret = 0;
 
 	if(config->op_q_info) {
-		if(config->op_q_isfile) {
-			dump_pkg_full(pkg, 0);
-		} else {
-			dump_pkg_full(pkg, config->op_q_info > 1);
-		}
+		dump_pkg_full(pkg, config->op_q_info > 1);
 	}
 	if(config->op_q_list) {
 		dump_pkg_files(pkg, config->quiet);
