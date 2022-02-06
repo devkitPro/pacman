@@ -2291,6 +2291,13 @@ typedef enum _alpm_pkgvalidation_t {
 	ALPM_PKG_VALIDATION_SIGNATURE = (1 << 3)
 } alpm_pkgvalidation_t;
 
+typedef struct _alpm_pkg_xdata_t {
+	char *name;
+	char *value;
+} alpm_pkg_xdata_t;
+
+alpm_list_t *alpm_pkg_get_xdata(alpm_pkg_t *pkg);
+
 /** Create a package from a file.
  * If full is false, the archive is read only until all necessary
  * metadata is found. If it is true, the entire archive is read, which

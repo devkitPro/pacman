@@ -98,6 +98,7 @@ static alpm_list_t *_pkg_get_provides(alpm_pkg_t *pkg)   { return pkg->provides;
 static alpm_list_t *_pkg_get_replaces(alpm_pkg_t *pkg)   { return pkg->replaces; }
 static alpm_filelist_t *_pkg_get_files(alpm_pkg_t *pkg)  { return &(pkg->files); }
 static alpm_list_t *_pkg_get_backup(alpm_pkg_t *pkg)     { return pkg->backup; }
+static alpm_list_t *_pkg_get_xdata(alpm_pkg_t *pkg)      { return pkg->xdata; }
 
 static void *_pkg_changelog_open(alpm_pkg_t UNUSED *pkg)
 {
@@ -162,6 +163,7 @@ const struct pkg_operations default_pkg_ops = {
 	.get_replaces    = _pkg_get_replaces,
 	.get_files       = _pkg_get_files,
 	.get_backup      = _pkg_get_backup,
+	.get_xdata       = _pkg_get_xdata,
 
 	.changelog_open  = _pkg_changelog_open,
 	.changelog_read  = _pkg_changelog_read,
@@ -485,6 +487,13 @@ int SYMEXPORT alpm_pkg_has_scriptlet(alpm_pkg_t *pkg)
 	return pkg->ops->has_scriptlet(pkg);
 }
 
+alpm_list_t SYMEXPORT *alpm_pkg_get_xdata(alpm_pkg_t *pkg)
+{
+	ASSERT(pkg != NULL, return NULL);
+	pkg->handle->pm_errno = ALPM_ERR_OK;
+	return pkg->ops->get_xdata(pkg);
+}
+
 static void find_requiredby(alpm_pkg_t *pkg, alpm_db_t *db, alpm_list_t **reqs,
 		int optional)
 {
@@ -677,6 +686,30 @@ static void free_deplist(alpm_list_t *deps)
 	alpm_list_free(deps);
 }
 
+alpm_pkg_xdata_t *_alpm_pkg_parse_xdata(const char *string)
+{
+	alpm_pkg_xdata_t *pd;
+	const char *sep;
+	if(string == NULL || (sep = strchr(string, '=')) == NULL) {
+		return NULL;
+	}
+
+	CALLOC(pd, 1, sizeof(alpm_pkg_xdata_t), return NULL);
+	STRNDUP(pd->name, string, sep - string, FREE(pd); return NULL);
+	STRDUP(pd->value, sep + 1, FREE(pd->name); FREE(pd); return NULL);
+
+	return pd;
+}
+
+void _alpm_pkg_xdata_free(alpm_pkg_xdata_t *pd)
+{
+	if(pd) {
+		free(pd->name);
+		free(pd->value);
+		free(pd);
+	}
+}
+
 void _alpm_pkg_free(alpm_pkg_t *pkg)
 {
 	if(pkg == NULL) {
@@ -707,6 +740,8 @@ void _alpm_pkg_free(alpm_pkg_t *pkg)
 	}
 	alpm_list_free_inner(pkg->backup, (alpm_list_fn_free)_alpm_backup_free);
 	alpm_list_free(pkg->backup);
+	alpm_list_free_inner(pkg->xdata, (alpm_list_fn_free)_alpm_pkg_xdata_free);
+	alpm_list_free(pkg->xdata);
 	free_deplist(pkg->depends);
 	free_deplist(pkg->optdepends);
 	free_deplist(pkg->checkdepends);

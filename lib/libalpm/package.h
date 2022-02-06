@@ -67,6 +67,8 @@ struct pkg_operations {
 	alpm_filelist_t *(*get_files) (alpm_pkg_t *);
 	alpm_list_t *(*get_backup) (alpm_pkg_t *);
 
+	alpm_list_t *(*get_xdata) (alpm_pkg_t *);
+
 	void *(*changelog_open) (alpm_pkg_t *);
 	size_t (*changelog_read) (void *, size_t, const alpm_pkg_t *, void *);
 	int (*changelog_close) (const alpm_pkg_t *, void *);
@@ -136,6 +138,8 @@ struct _alpm_pkg_t {
 	alpm_pkgreason_t reason;
 	int scriptlet;
 
+	alpm_list_t *xdata;
+
 	/* Bitfield from alpm_dbinfrq_t */
 	int infolevel;
 	/* Bitfield from alpm_pkgvalidation_t */
@@ -157,5 +161,8 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 
 int _alpm_pkg_cmp(const void *p1, const void *p2);
 int _alpm_pkg_compare_versions(alpm_pkg_t *local_pkg, alpm_pkg_t *pkg);
+
+alpm_pkg_xdata_t *_alpm_pkg_parse_xdata(const char *string);
+void _alpm_pkg_xdata_free(alpm_pkg_xdata_t *pd);
 
 #endif /* ALPM_PACKAGE_H */

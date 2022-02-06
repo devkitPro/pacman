@@ -666,6 +666,18 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 				pkg->files.count = files_count;
 				pkg->files.files = files;
 				_alpm_filelist_sort(&pkg->files);
+			} else if(strcmp(line, "%DATA%") == 0) {
+				alpm_list_t *i, *lines = NULL;
+				READ_AND_STORE_ALL(lines);
+				for(i = lines; i; i = i->next) {
+					alpm_pkg_xdata_t *pd = _alpm_pkg_parse_xdata(i->data);
+					if(pd == NULL || !alpm_list_append(&pkg->xdata, pd)) {
+						_alpm_pkg_xdata_free(pd);
+						FREELIST(lines);
+						goto error;
+					}
+				}
+				FREELIST(lines);
 			}
 		}
 		if(ret != ARCHIVE_EOF) {

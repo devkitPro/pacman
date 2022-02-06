@@ -195,6 +195,12 @@ static alpm_list_t *_cache_get_backup(alpm_pkg_t *pkg)
 	return pkg->backup;
 }
 
+static alpm_list_t *_cache_get_xdata(alpm_pkg_t *pkg)
+{
+	LAZY_LOAD(INFRQ_DESC);
+	return pkg->xdata;
+}
+
 /**
  * Open a package changelog for reading. Similar to fopen in functionality,
  * except that the returned 'file stream' is from the database.
@@ -349,6 +355,7 @@ static const struct pkg_operations local_pkg_ops = {
 	.get_replaces = _cache_get_replaces,
 	.get_files = _cache_get_files,
 	.get_backup = _cache_get_backup,
+	.get_xdata = _cache_get_xdata,
 
 	.changelog_open = _cache_changelog_open,
 	.changelog_read = _cache_changelog_read,
@@ -804,6 +811,18 @@ static int local_db_read(alpm_pkg_t *info, int inforeq)
 				READ_AND_SPLITDEP(info->conflicts);
 			} else if(strcmp(line, "%PROVIDES%") == 0) {
 				READ_AND_SPLITDEP(info->provides);
+			} else if(strcmp(line, "%XDATA%") == 0) {
+				alpm_list_t *i, *lines = NULL;
+				READ_AND_STORE_ALL(lines);
+				for(i = lines; i; i = i->next) {
+					alpm_pkg_xdata_t *pd = _alpm_pkg_parse_xdata(i->data);
+					if(pd == NULL || !alpm_list_append(&info->xdata, pd)) {
+						_alpm_pkg_xdata_free(pd);
+						FREELIST(lines);
+						goto error;
+					}
+				}
+				FREELIST(lines);
 			}
 		}
 		fclose(fp);
@@ -1039,6 +1058,15 @@ int _alpm_local_db_write(alpm_db_t *db, alpm_pkg_t *info, int inforeq)
 		write_deps(fp, "%OPTDEPENDS%", info->optdepends);
 		write_deps(fp, "%CONFLICTS%", info->conflicts);
 		write_deps(fp, "%PROVIDES%", info->provides);
+
+		if(info->xdata) {
+			fputs("%XDATA%\n", fp);
+			for(lp = info->xdata; lp; lp = lp->next) {
+				alpm_pkg_xdata_t *pd = lp->data;
+				fprintf(fp, "%s=%s\n", pd->name, pd->value);
+			}
+			fputc('\n', fp);
+		}
 
 		fclose(fp);
 		fp = NULL;
