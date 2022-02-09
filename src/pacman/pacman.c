@@ -1094,6 +1094,8 @@ int main(int argc, char *argv[])
 	/* i18n init */
 #if defined(ENABLE_NLS)
 	localize();
+#else
+	setlocale(LC_ALL, "");
 #endif
 
 	/* set user agent for downloading */
