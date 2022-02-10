@@ -31,8 +31,8 @@ buildenv_functions+=('buildenv_lto')
 
 buildenv_lto() {
 	if check_option "lto" "y" && ! check_option "buildflags" "n"; then
-		CFLAGS+=" -flto"
-		CXXFLAGS+=" -flto"
-		LDFLAGS+=" -flto"
+		CFLAGS+=" ${LTOFLAGS:--flto}"
+		CXXFLAGS+=" ${LTOFLAGS:--flto}"
+		LDFLAGS+=" ${LTOFLAGS:--flto}"
 	fi
 }

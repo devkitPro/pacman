@@ -81,6 +81,11 @@ Options
 	usage resembling ``-Wl,--hash-style=gnu''. Read ld(1) for more details on
 	available linker flags.
 
+**LTOFLAGS=**"ltoflags"::
+	Additional compiler and linker flags appended to `CFLAGS`, `CXXFLAGS`
+	and `LDFLAGS` when building with link time optimization. If empty,
+	``-flto'' is used.
+
 **MAKEFLAGS=**"makeflags"::
 	This is often used to set the number of jobs used; for example, `-j2`.
 	Other flags that make accepts can also be passed.
@@ -190,8 +195,9 @@ Options
 		package containing the debug symbols when used with `strip'.
 
 	*lto*;;
-		Enable building packages using link time optimization. Adds '-flto'
-		to both CFLAGS and CXXFLAGS.
+		Enable building packages using link time optimization. Adds the
+		flags specified in LTOFLAGS to CFLAGS, CXXFLAGS and LDFLAGS (or
+		``-flto'' if LTOFLAGS is empty).
 
 **INTEGRITY_CHECK=(**check1 ...**)**::
 	File integrity checks to use. Multiple checks may be specified; this
