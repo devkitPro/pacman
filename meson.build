@@ -8,7 +8,7 @@ project('pacman',
           'sysconfdir=/etc',
           'localstatedir=/var',
         ],
-        meson_version : '>= 0.51')
+        meson_version : '>= 0.55')
 
 libalpm_version = '13.0.1'
 
@@ -262,7 +262,7 @@ substs.set('sysconfdir', SYSCONFDIR)
 substs.set('localstatedir', LOCALSTATEDIR)
 substs.set('PKGDATADIR', PKGDATADIR)
 substs.set('PREFIX', PREFIX)
-substs.set('BASH', BASH.path())
+substs.set('BASH', BASH.full_path())
 substs.set('PACKAGE_VERSION', PACKAGE_VERSION)
 substs.set('PACKAGE_NAME', meson.project_name())
 substs.set('BUILDSCRIPT', BUILDSCRIPT)
@@ -374,7 +374,7 @@ executable(
 
 foreach wrapper : script_wrappers
   cdata = configuration_data()
-  cdata.set_quoted('BASH', BASH.path())
+  cdata.set_quoted('BASH', BASH.full_path())
   cdata.set_quoted('BUILDDIR', wrapper[2])
   cdata.set_quoted('REAL_PROGPATH', wrapper[1].full_path())
 
