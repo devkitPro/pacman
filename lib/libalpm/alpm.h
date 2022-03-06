@@ -967,7 +967,7 @@ typedef union _alpm_event_t {
  * Called when an event occurs
  * @param ctx user-provided context
  * @param event the event that occurred */
-typedef void (*alpm_cb_event)(void *ctx, alpm_event_t *);
+typedef void (*alpm_cb_event)(void *ctx, alpm_event_t *event);
 
 /**
  * Type of question.
@@ -1114,7 +1114,7 @@ typedef union _alpm_question_t {
  * @param ctx user-provided context
  * @param question the question being asked.
  */
-typedef void (*alpm_cb_question)(void *ctx, alpm_question_t *);
+typedef void (*alpm_cb_question)(void *ctx, alpm_question_t *question);
 
 /** An enum over different kinds of progress alerts. */
 typedef enum _alpm_progress_t {
