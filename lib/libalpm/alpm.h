@@ -107,7 +107,7 @@ typedef struct _alpm_db_t alpm_db_t;
  * Packages from databases are automatically freed when the database is unregistered. Packages loaded
  * from a file must be freed manually.
  *
- * Packages can then be queried for metadata or added to a \link alpm_trans_t transaction \endlink
+ * Packages can then be queried for metadata or added to a transaction
  * to be added or removed from the system.
  * @ingroup libalpm_packages
  */
