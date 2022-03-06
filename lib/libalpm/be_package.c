@@ -723,7 +723,6 @@ int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int ful
 	int validation = 0;
 	char *sigpath;
 	alpm_pkg_t *pkg_temp;
-	char *packager;
 
 	CHECK_HANDLE(handle, return -1);
 	ASSERT(pkg != NULL, RET_ERR(handle, ALPM_ERR_WRONG_ARGS, -1));
@@ -749,13 +748,7 @@ int SYMEXPORT alpm_pkg_load(alpm_handle_t *handle, const char *filename, int ful
 					char *key = k->data;
 					if(_alpm_key_in_keychain(handle, key) == 0) {
 						pkg_temp = _alpm_pkg_load_internal(handle, filename, full);
-						if(pkg_temp) {
-							packager = pkg_temp->packager;
-
-						} else {
-							packager = NULL;
-						}
-						if(_alpm_key_import(handle, packager, key) == -1) {
+						if(_alpm_key_import(handle, NULL, key) == -1) {
 							fail = 1;
 						}
 						_alpm_pkg_free(pkg_temp);
