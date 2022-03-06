@@ -359,14 +359,18 @@ static int key_search_keyserver(alpm_handle_t *handle, const char *fpr,
 	} else if(key->subkeys->keyid) {
 		pgpkey->fingerprint = key->subkeys->keyid;
 	}
-	pgpkey->uid = key->uids->uid;
-	pgpkey->name = key->uids->name;
-	pgpkey->email = key->uids->email;
+
+	/* we are probably going to fail importing, but continue anyway... */
+	if(key->uids != NULL) {
+		pgpkey->uid = key->uids->uid;
+		pgpkey->name = key->uids->name;
+		pgpkey->email = key->uids->email;
+	}
+
 	pgpkey->created = key->subkeys->timestamp;
 	pgpkey->expires = key->subkeys->expires;
 	pgpkey->length = key->subkeys->length;
 	pgpkey->revoked = key->subkeys->revoked;
-
 	/* Initialize with '?', this is overwritten unless public key
 	 * algorithm is unknown. */
 	pgpkey->pubkey_algo = '?';
@@ -539,7 +543,7 @@ int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr)
 					ret = 0;
 				} else {
 					_alpm_log(handle, ALPM_LOG_ERROR,
-							_("key \"%s\" could not be imported\n"), fetch_key.uid);
+							_("key \"%s\" could not be imported\n"), fpr);
 				}
 			} else {
 				_alpm_log(handle, ALPM_LOG_ERROR,
