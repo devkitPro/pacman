@@ -295,8 +295,11 @@ static size_t dload_parseheader_cb(void *ptr, size_t size, size_t nmemb, void *u
 				endptr--;
 			}
 
-			STRNDUP(payload->content_disp_name, fptr, endptr - fptr + 1,
-					RET_ERR(payload->handle, ALPM_ERR_MEMORY, realsize));
+			/* avoid information leakage with badly formed headers */
+			if(endptr > fptr) {
+				STRNDUP(payload->content_disp_name, fptr, endptr - fptr + 1,
+						RET_ERR(payload->handle, ALPM_ERR_MEMORY, realsize));
+			}
 		}
 	}
 
