@@ -33,7 +33,7 @@ MESON_MAKE_SYMLINK = join_paths(meson.source_root(), 'build-aux/meson-make-symli
 
 BASH = find_program('bash4', 'bash')
 if BASH.found()
-  bash_version = run_command(BASH, '-c', 'IFS=.; echo "${BASH_VERSINFO[*]:0:3}"').stdout()
+  bash_version = run_command(BASH, '-c', 'IFS=.; echo "${BASH_VERSINFO[*]:0:3}"', check: true).stdout()
 
   have_bash = bash_version.version_compare('>= 4.4.0')
 endif
@@ -53,7 +53,8 @@ if get_option('use-git-version')
       find_program('git'),
       'describe',
       '--abbrev=4',
-      '--dirty').stdout().strip().strip('v')
+      '--dirty',
+      check: true).stdout().strip().strip('v')
 else
   PACKAGE_VERSION = meson.project_version()
 endif
@@ -230,7 +231,7 @@ strip_static = '--strip-debug'
 
 file_seccomp = get_option('file-seccomp')
 # meson-git has find_program('file', required: false, version: '>=5.38')
-filever = run_command('sh', '-c', 'file --version | sed -n "s/^file-\(.*\)/\\1/p"').stdout()
+filever = run_command('sh', '-c', 'file --version | sed -n "s/^file-\(.*\)/\\1/p"', check: true).stdout()
 if file_seccomp.enabled() or ( file_seccomp.auto() and filever.version_compare('>= 5.38') )
   filecmd = 'file -S'
 endif
@@ -245,7 +246,7 @@ elif os.contains('bsd') or os == 'dragonfly'
   inodecmd = 'stat -f \'%i %N\''
 endif
 
-chost = run_command(cc, '-dumpmachine').stdout().strip()
+chost = run_command(cc, '-dumpmachine', check: true).stdout().strip()
 carch = chost.split('-')[0]
 
 # annoyingly, we have to maintain two sets of configuration_data which is
