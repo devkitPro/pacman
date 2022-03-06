@@ -312,7 +312,7 @@ libalpm_a = static_library(
   'alpm_objlib',
   libalpm_sources,
   # https://github.com/mesonbuild/meson/issues/3937
-  objects : libcommon.extract_all_objects(),
+  objects : libcommon.extract_all_objects(recursive: true),
   include_directories : includes,
   gnu_symbol_visibility : 'hidden',
   dependencies : alpm_deps)
