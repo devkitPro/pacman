@@ -253,9 +253,10 @@ error:
  * This requires GPGME to call the gpg binary.
  * @param handle the context handle
  * @param email the email address of the key to import
+ * @param fpr the fingerprint key ID to look up (or NULL)
  * @return 0 on success, -1 on error
  */
-static int key_import_wkd(alpm_handle_t *handle, const char *email)
+static int key_import_wkd(alpm_handle_t *handle, const char *email, const char *fpr)
 {
 	gpgme_error_t gpg_err;
 	gpgme_ctx_t ctx = {0};
@@ -274,7 +275,12 @@ static int key_import_wkd(alpm_handle_t *handle, const char *email)
 	_alpm_log(handle, ALPM_LOG_DEBUG, _("looking up key %s using WKD\n"), email);
 	gpg_err = gpgme_get_key(ctx, email, &key, 0);
 	if(gpg_err_code(gpg_err) == GPG_ERR_NO_ERROR) {
-		ret = 0;
+		/* check if correct key was imported via WKD */
+		if(fpr && _alpm_key_in_keychain(handle, fpr)) {
+			ret = 0;
+		} else {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "key lookup failed: WKD imported wrong fingerprint\n");
+		}
 	}
 	gpgme_key_unref(key);
 
@@ -516,7 +522,7 @@ int _alpm_key_import(alpm_handle_t *handle, const char *uid, const char *fpr)
 	if(question.import) {
 		/* Try to import the key from a WKD first */
 		if(email_from_uid(uid, &email) == 0) {
-			ret = key_import_wkd(handle, email);
+			ret = key_import_wkd(handle, email, fpr);
 			free(email);
 		}
 
