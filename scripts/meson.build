@@ -10,7 +10,7 @@ scripts = [
 ]
 
 SCRIPT_EDITOR = find_program(configure_file(
-  input : join_paths(meson.source_root(), 'build-aux/edit-script.sh.in'),
+  input : join_paths(meson.project_source_root(), 'build-aux/edit-script.sh.in'),
   output : 'edit-script.sh',
   configuration : substs))
 

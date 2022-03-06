@@ -354,7 +354,7 @@ foreach input : pacman_tests
   args = [
     join_paths(meson.current_source_dir(), 'pactest.py'),
     '--scriptlet-shell', get_option('scriptlet-shell'),
-    '--bindir', meson.build_root(),
+    '--bindir', meson.project_build_root(),
     '--ldconfig', LDCONFIG,
     '--verbose',
     join_paths(meson.current_source_dir(), input)

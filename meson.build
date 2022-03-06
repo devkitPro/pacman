@@ -8,7 +8,7 @@ project('pacman',
           'sysconfdir=/etc',
           'localstatedir=/var',
         ],
-        meson_version : '>= 0.55')
+        meson_version : '>= 0.56')
 
 libalpm_version = '13.0.1'
 
@@ -29,7 +29,7 @@ PKGDATADIR = join_paths(PREFIX, DATAROOTDIR, meson.project_name())
 
 PYTHON = import('python').find_installation('python3')
 LDCONFIG = get_option('ldconfig')
-MESON_MAKE_SYMLINK = join_paths(meson.source_root(), 'build-aux/meson-make-symlink.sh')
+MESON_MAKE_SYMLINK = join_paths(meson.project_source_root(), 'build-aux/meson-make-symlink.sh')
 
 BASH = find_program('bash4', 'bash')
 if BASH.found()
@@ -382,7 +382,7 @@ foreach wrapper : script_wrappers
   # directory. Use configure_file instead of a custom_target to ensure that
   # permissions on the input script wrapper are preserved.
   configure_file(
-    input : join_paths(meson.source_root(), 'build-aux', 'script-wrapper.sh.in'),
+    input : join_paths(meson.project_source_root(), 'build-aux', 'script-wrapper.sh.in'),
     output : wrapper[0],
     configuration : cdata)
 endforeach
@@ -416,10 +416,10 @@ foreach path : [
 endforeach
 
 TEST_ENV = environment()
-TEST_ENV.set('PMTEST_SCRIPTLIB_DIR', join_paths(meson.source_root(), 'scripts/library/'))
-TEST_ENV.set('PMTEST_LIBMAKEPKG_DIR', join_paths(meson.build_root(), 'scripts/libmakepkg/'))
-TEST_ENV.set('PMTEST_UTIL_DIR', meson.build_root() + '/')
-TEST_ENV.set('PMTEST_SCRIPT_DIR', join_paths(meson.build_root(), 'scripts/'))
+TEST_ENV.set('PMTEST_SCRIPTLIB_DIR', join_paths(meson.project_source_root(), 'scripts/library/'))
+TEST_ENV.set('PMTEST_LIBMAKEPKG_DIR', join_paths(meson.project_build_root(), 'scripts/libmakepkg/'))
+TEST_ENV.set('PMTEST_UTIL_DIR', meson.project_build_root() + '/')
+TEST_ENV.set('PMTEST_SCRIPT_DIR', join_paths(meson.project_build_root(), 'scripts/'))
 
 subdir('test/pacman')
 subdir('test/scripts')
