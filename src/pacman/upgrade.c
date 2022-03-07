@@ -99,7 +99,9 @@ int pacman_upgrade(alpm_list_t *targets)
 		goto fail_free;
 	}
 
-	printf(_("loading packages...\n"));
+	if(!config->print) {
+		printf(_("loading packages...\n"));
+	}
 	retval |= load_packages(local_targets, alpm_option_get_local_file_siglevel(config->handle));
 	retval |= load_packages(fetched_files, alpm_option_get_remote_file_siglevel(config->handle));
 
