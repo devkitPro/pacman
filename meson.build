@@ -91,6 +91,11 @@ endif
 libarchive = dependency('libarchive',
                         version : '>=3.0.0',
                         static : get_option('buildstatic'))
+if libarchive.version().version_compare('>=3.6.0')
+  bsdtar_no_read_sparse = '--no-read-sparse'
+else
+  bsdtar_no_read_sparse = ''
+endif
 
 libcurl = dependency('libcurl',
                      version : '>=7.55.0',
@@ -274,6 +279,7 @@ substs.set('LIBMAKEPKGDIR', LIBMAKEPKGDIR)
 substs.set('STRIP_BINARIES', strip_binaries)
 substs.set('STRIP_SHARED', strip_shared)
 substs.set('STRIP_STATIC', strip_static)
+substs.set('BSDTAR_NO_READ_SPARSE', bsdtar_no_read_sparse)
 
 subdir('lib/libalpm')
 subdir('src/common')

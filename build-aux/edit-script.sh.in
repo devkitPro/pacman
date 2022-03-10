@@ -20,6 +20,7 @@ sed \
   -e "s|@DEBUGSUFFIX[@]|@DEBUGSUFFIX@|g" \
   -e "s|@INODECMD[@]|@INODECMD@|g" \
   -e "s|@FILECMD[@]|@FILECMD@|g" \
+  -e "s|@BSDTAR_NO_READ_SPARSE[@]|@BSDTAR_NO_READ_SPARSE@|g" \
   "$input" >"$output"
 
 if [[ $mode ]]; then
