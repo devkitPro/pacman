@@ -659,6 +659,13 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 					"/", strerror(errno));
 			exit(1);
 		}
+		/* bash assumes it's being run under rsh/ssh if stdin is a socket and
+		 * sources ~/.bashrc if it thinks it's the top-level shell.
+		 * set SHLVL before running to indicate that it's a child shell and
+		 * disable this behavior */
+		setenv("SHLVL", "1", 0);
+		/* bash sources $BASH_ENV when run non-interactively */
+		unsetenv("BASH_ENV");
 		umask(0022);
 		_alpm_reset_signals();
 		execv(cmd, argv);
