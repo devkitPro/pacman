@@ -244,8 +244,6 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 				CALLOC(backup, 1, sizeof(alpm_backup_t), return -1);
 				STRDUP(backup->name, ptr, FREE(backup); return -1);
 				newpkg->backup = alpm_list_add(newpkg->backup, backup);
-			} else if(strcmp(key, "pkgtype") == 0) {
-				/* not used atm */
 			} else if(strcmp(key, "xdata") == 0) {
 				alpm_pkg_xdata_t *pd = _alpm_pkg_parse_xdata(ptr);
 				if(pd == NULL || !alpm_list_append(&newpkg->xdata, pd)) {
