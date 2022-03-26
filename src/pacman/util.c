@@ -405,6 +405,28 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 	return newstr;
 }
 
+static char *concat_alpm_depends(alpm_list_t *lst)
+{
+	char *depends = NULL;
+	char *tmp = NULL;
+	for(alpm_list_t *i = lst; i; i = alpm_list_next(i)) {
+		alpm_depend_t *dep = i->data;
+		char *depstring = alpm_dep_compute_string(dep);
+		if(tmp) {
+		    asprintf(&depends, "%s %s", tmp, depstring);
+		    free(tmp);
+		} else {
+		    asprintf(&depends, "%s", depstring);
+		}
+		tmp = depends;
+		free(depstring);
+	}
+	if(!depends) {
+		asprintf(&depends, "%s", "");
+	}
+	return depends;
+}
+
 static size_t string_length(const char *s)
 {
 	int len;
@@ -1219,6 +1241,33 @@ void print_packages(const alpm_list_t *packages)
 		}
 		/* %u : url */
 		VAL_FROM_FORMAT_STR(temp, "%u", alpm_pkg_get_url)
+		/* %C : checkdepends */
+		if(strstr(temp, "%C")) {
+			alpm_list_t *lst = alpm_pkg_get_checkdepends(pkg);
+			char *depends = concat_alpm_depends(lst);
+			string = strreplace(temp, "%C", lst ? depends : "");
+			free(depends);
+			free(temp);
+			temp = string;
+		}
+		/* %D : depends */
+		if(strstr(temp, "%D")) {
+			alpm_list_t *lst = alpm_pkg_get_depends(pkg);
+			char *depends = concat_alpm_depends(lst);
+			string = strreplace(temp, "%D", depends);
+			free(depends);
+			free(temp);
+			temp = string;
+		}
+		/* %M : makedepends */
+		if(strstr(temp, "%M")) {
+			alpm_list_t *lst = alpm_pkg_get_makedepends(pkg);
+			char *depends = concat_alpm_depends(lst);
+			string = strreplace(temp, "%M", depends);
+			free(depends);
+			free(temp);
+			temp = string;
+		}
 		printf("%s\n", string);
 		free(string);
 	}
