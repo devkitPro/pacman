@@ -1163,6 +1163,17 @@ void print_packages(const alpm_list_t *packages)
 			free(temp);
 			temp = string;
 		}
+		/* %b : build date */
+		if(strstr(temp, "%b")) {
+			char bdatestr[50] = "";
+			time_t bdate = (time_t)alpm_pkg_get_builddate(pkg);
+			if(bdate != -1) {
+				strftime(bdatestr, 50, "%c", localtime(&bdate));
+				string = strreplace(temp, "%b", bdatestr);
+				free(temp);
+				temp = string;
+			}
+		}
 		/* %d : description */
 		VAL_FROM_FORMAT_STR(temp, "%d", alpm_pkg_get_desc)
 		/* %e : pkgbase */
