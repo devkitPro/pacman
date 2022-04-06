@@ -153,8 +153,7 @@ static char *get_fullpath(const char *path, const char *filename,
 }
 
 enum {
-	ABORT_SIGINT = 1,
-	ABORT_OVER_MAXFILESIZE
+	ABORT_OVER_MAXFILESIZE = 1,
 };
 
 static int dload_interrupted;
