@@ -1499,6 +1499,16 @@ void console_cursor_hide(void) {
 void console_cursor_show(void) {
 	if(isatty(fileno(stdout))) {
 		printf(CURSOR_SHOW_ANSICODE);
+
+		/* We typically explicitly show the cursor either when we are
+		 * getting input from stdin, or when we are in the process of
+		 * exiting. In the former case, it's not guaranteed that the
+		 * terminal will see the command before reading from stdin. In
+		 * the latter case, we need to make sure that if we get a
+		 * further TERM/INT after we return signal disposition to
+		 * SIG_DFL, it doesn't leave the cursor invisible.
+		 */
+		fflush(stdout);
 	}
 }
 

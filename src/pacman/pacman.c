@@ -289,6 +289,7 @@ static void setuseragent(void)
  */
 static void cleanup(int ret)
 {
+	console_cursor_show();
 	remove_soft_interrupt_handler();
 	if(config) {
 		/* free alpm library resources */
@@ -302,7 +303,6 @@ static void cleanup(int ret)
 
 	/* free memory */
 	FREELIST(pm_targets);
-	console_cursor_show();
 	exit(ret);
 }
 
