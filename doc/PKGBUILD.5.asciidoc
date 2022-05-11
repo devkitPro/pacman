@@ -336,6 +336,13 @@ function.
 	the optional functions listed below. The packaging stage is run using
 	fakeroot to ensure correct file permissions in the resulting package.
 	All other functions will be run as the user calling makepkg.
+	This function is run inside `$srcdir`.
+
+*verify() Function*::
+	An optional `verify()` function can be specified to implement arbiterary
+	source authentication. The function should return a non-zero exit code when
+	verification fails. This function is run before sources are extracted.
+	This function is run inside `$startdir`.
 
 *prepare() Function*::
 	An optional `prepare()` function can be specified in which operations to
@@ -343,16 +350,19 @@ function.
 	function is run after the source extraction and before the `build()`
 	function. The `prepare()` function is skipped when source extraction
 	is skipped.
+	This function is run inside `$srcdir`.
 
 *build() Function*::
 	The optional `build()` function is used to compile and/or adjust the source
 	files in preparation to be installed by the `package()` function.
+	This function is run inside `$srcdir`.
 
 *check() Function*::
 	An optional `check()` function can be specified in which a package's
 	test-suite may be run. This function is run between the `build()` and
 	`package()` functions. Be sure any exotic commands used are covered by the
 	`checkdepends` array.
+	This function is run inside `$srcdir`.
 
 All of the above variables such as `$pkgname` and `$pkgver` are available for
 use in the packaging functions. In addition, makepkg defines the following
@@ -362,7 +372,6 @@ variables:
 	This contains the directory where makepkg extracts, or copies, all source
 	files.
 +
-All of the packaging functions defined above are run starting inside `$srcdir`
 
 *pkgdir*::
 	This contains the directory where makepkg bundles the installed package.

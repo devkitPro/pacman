@@ -144,6 +144,9 @@ clean_up() {
 			if (( PKGVERFUNC )); then
 				rm -f "${pkgbase}-${fullver}-${CARCH}-pkgver.log"*
 			fi
+			if (( VERIFYFUNC )); then
+				rm -f "${pkgbase}-${fullver}-${CARCH}-verify.log"*
+			fi
 			if (( PREPAREFUNC )); then
 				rm -f "${pkgbase}-${fullver}-${CARCH}-prepare.log"*
 			fi
@@ -398,7 +401,7 @@ run_function_safe() {
 	restoretrap=$(trap -p ERR)
 	trap "error_function '$1'" ERR
 
-	run_function "$1"
+	run_function "$1" "$2"
 
 	trap - ERR
 	eval "$restoretrap"
@@ -410,11 +413,12 @@ run_function() {
 		return 1
 	fi
 	local pkgfunc="$1"
+	local workingdir="${2:-$srcdir}"
 
 	if (( ! BASH_SUBSHELL )); then
 		msg "$(gettext "Starting %s()...")" "$pkgfunc"
 	fi
-	cd_safe "$srcdir"
+	cd_safe "$workingdir"
 
 	local ret=0
 	if (( LOGGING )); then
@@ -445,6 +449,10 @@ run_function() {
 	else
 		"$pkgfunc"
 	fi
+}
+
+run_verify() {
+	run_function_safe "verify" "$startdir"
 }
 
 run_prepare() {
@@ -984,6 +992,7 @@ while true; do
 		-m|--nocolor)     USE_COLOR='n'; PACMAN_OPTS+=("--color" "never") ;;
 		--noarchive)      NOARCHIVE=1 ;;
 		--nocheck)        RUN_CHECK='n' ;;
+		--noverify)       RUN_VERIFY='n' ;;
 		--noprepare)      RUN_PREPARE='n' ;;
 		--nosign)         SIGNPKG='n' ;;
 		-o|--nobuild)     BUILDPKG=0 NOBUILD=1 ;;
@@ -1110,7 +1119,7 @@ fi
 
 unset pkgname "${pkgbuild_schema_strings[@]}" "${pkgbuild_schema_arrays[@]}"
 unset "${known_hash_algos[@]/%/sums}"
-unset -f pkgver prepare build check package "${!package_@}"
+unset -f pkgver verify prepare build check package "${!package_@}"
 unset "${!makedepends_@}" "${!depends_@}" "${!source_@}" "${!checkdepends_@}"
 unset "${!optdepends_@}" "${!conflicts_@}" "${!provides_@}" "${!replaces_@}"
 unset "${!cksums_@}" "${!md5sums_@}" "${!sha1sums_@}" "${!sha224sums_@}"
@@ -1182,6 +1191,12 @@ if (( ${#pkgname[@]} > 1 )) || have_function package_${pkgname}; then
 fi
 
 # test for available PKGBUILD functions
+if have_function verify; then
+	# "Hide" verify() function if not going to be run
+	if [[ $RUN_VERIFY != "n" ]] && (( ! SKIPCHECKSUMS && ! SKIPPGPCHECK )); then
+		VERIFYFUNC=1
+	fi
+fi
 if have_function prepare; then
 	# "Hide" prepare() function if not going to be run
 	if [[ $RUN_PREPARE != "n" ]]; then

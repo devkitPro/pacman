@@ -42,4 +42,7 @@ check_source_integrity() {
 		check_checksums "$@"
 		check_pgpsigs "$@"
 	fi
+	if (( VERIFYFUNC )); then
+		run_verify
+	fi
 }
