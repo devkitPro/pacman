@@ -80,7 +80,12 @@ strip_file() {
 
 		# copy debug symbols to debug directory
 		mkdir -p "$dbgdir/${binary%/*}"
-		objcopy --only-keep-debug "$binary" "$dbgdir/$binary.debug"
+
+		# abandon processing files that are not a recognised format
+		if ! objcopy --only-keep-debug "$binary" "$dbgdir/$binary.debug" 2>/dev/null; then
+			return
+		fi
+
 		local tempfile=$(mktemp "$binary.XXXXXX")
 		objcopy --add-gnu-debuglink="$dbgdir/${binary#/}.debug" "$binary" "$tempfile"
 		cat "$tempfile" > "$binary"
