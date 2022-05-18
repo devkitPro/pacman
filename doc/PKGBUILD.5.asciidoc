@@ -3,7 +3,7 @@ PKGBUILD(5)
 
 Name
 ----
-PKGBUILD - Arch Linux package build description file
+PKGBUILD - Package build description file
 
 
 Synopsis
@@ -84,14 +84,7 @@ systems (see below).
 
 *license (array)*::
 	This field specifies the license(s) that apply to the package.
-	Commonly used licenses can be found in '/usr/share/licenses/common'. If you
-	see the package's license there, simply reference it in the license
-	field (e.g., `license=('GPL')`). If the package provides a license not
-	available in '/usr/share/licenses/common', then you should include it
-	in the package itself and set `license=('custom')` or
-	`license=('custom:LicenseName')`. The license should be placed in
-	'$pkgdir/usr/share/licenses/$pkgname/' when building the package. If
-	multiple licenses are applicable, list all of them:
+	If multiple licenses are applicable, list all of them:
 	`license=('GPL' 'FDL')`.
 
 *install*::
@@ -515,8 +508,7 @@ The source URL is divided into four components:
 Example
 -------
 The following is an example PKGBUILD for the 'patch' package. For more
-examples, look through the build files of your distribution's packages. For
-those using Arch Linux, consult the Arch Build System (ABS) tree.
+examples, look through the build files of your distribution's packages.
 
 [source,sh]
 -------------------------------
