@@ -47,7 +47,7 @@ source_files() {
 
 	LANG=C debugedit --no-recompute-build-id \
 		--base-dir "${srcdir}" \
-		--dest-dir "${dbgsrcdir}" \
+		--dest-dir "${dbgsrcdir}/${pkgbase}" \
 		--list-file /dev/stdout "$1" \
 		| sort -zu | tr '\0' '\n'
 }
