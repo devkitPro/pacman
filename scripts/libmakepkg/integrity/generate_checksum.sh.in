@@ -54,7 +54,17 @@ generate_one_checksum() {
 
 		case $proto in
 			bzr|git|hg|svn)
-				sum="SKIP"
+				if declare -f "calc_checksum_$proto" > /dev/null; then
+					if ! sum=$("calc_checksum_$proto" "$netfile" "$integ"); then
+						local name
+						name=$(get_filename "$netfile")
+						error "$(gettext "Failure while calculating %s %s checksum")" "${name}" "${proto}"
+						plainerr "$(gettext "Aborting...")"
+						exit 1
+					fi
+				else
+					sum="SKIP"
+				fi
 				;;
 			*)
 				if [[ ${netfile%%::*} != *.@(sig?(n)|asc) ]]; then

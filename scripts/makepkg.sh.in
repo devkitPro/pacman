@@ -1158,7 +1158,7 @@ if (( GENINTEG )); then
 	mkdir -p "$srcdir"
 	chmod a-s "$srcdir"
 	cd_safe "$srcdir"
-	download_sources novcs allarch >&2
+	download_sources allarch >&2
 	generate_checksums
 	exit $E_OK
 fi
@@ -1262,7 +1262,7 @@ if (( SOURCEONLY )); then
 		download_sources allarch
 	elif ( (( ! SKIPCHECKSUMS )) || \
 			( (( ! SKIPPGPCHECK )) && source_has_signatures ) ); then
-		download_sources allarch novcs
+		download_sources allarch
 	fi
 	check_source_integrity all
 	cd_safe "$startdir"

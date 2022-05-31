@@ -464,6 +464,9 @@ Currently makepkg supports the Bazaar, Git, Subversion, Fossil and Mercurial
 version control systems. For other version control systems, manual cloning of
 upstream repositories must be done in the `prepare()` function.
 
+Some <<VCS,VCS Sources>> like Git support pinning the checkout by a checksum of
+its content using deterministic export functionality like ``git archive''.
+
 The source URL is divided into four components:
 
 *directory*::

@@ -134,3 +134,30 @@ extract_git() {
 
 	popd &>/dev/null
 }
+
+calc_checksum_git() {
+	local netfile=$1 integ=$2 ret=0 shellopts dir url fragment sum
+
+	# this function requires pipefail - save current status to restore later
+	shellopts=$(shopt -p -o pipefail)
+	shopt -s -o pipefail
+
+	dir=$(get_filepath "$netfile")
+	url=$(get_url "$netfile")
+	fragment=$(get_uri_fragment "$url")
+
+	case ${fragment%%=*} in
+		tag|commit)
+			fragval=${fragment##*=}
+			sum=$(git -c core.abbrev=no -C "$dir" archive --format tar "$fragval" | "${integ}sum" 2>&1) || ret=1
+			sum="${sum%% *}"
+			;;
+		*)
+			sum="SKIP"
+			;;
+	esac
+
+	eval "$shellopts"
+	printf '%s' "$sum"
+	return $ret
+}
