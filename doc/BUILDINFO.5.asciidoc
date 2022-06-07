@@ -18,7 +18,7 @@ value.
 Description
 -----------
 
-This is a description of the contents of version '1' of the
+This is a description of the contents of version '2' of the
 BUILDINFO file format.
 
 *format*::
@@ -52,6 +52,15 @@ BUILDINFO file format.
 
 *startdir*::
 	The directory from which makepkg was executed.
+
+*buildtool*::
+	The name of the tool ecosystem used to set up the build environment. Used
+	for defining a spec for reproducible builds, e.g. the source of the
+	linkman:makepkg.conf[5] used.
+
+*buildtoolver*::
+	The full version of the 'buildtool', for example:
+	"$pkgver-$pkgrel-$pkgarch".
 
 *buildenv (array)*::
 	The build environment specified in makepkg.conf.
