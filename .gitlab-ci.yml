@@ -50,6 +50,7 @@ arch-valgrind:
   extends: .arch-test
   script:
     - pacman -Syu --needed --noconfirm valgrind
+    - pacman -U --noconfirm https://geo.mirror.pkgbuild.com/core-debug/os/x86_64/glibc-debug-$(pacman -S --print-format %v glibc)-x86_64.pkg.tar.zst
     - meson build
     - ninja -C build
     - PACTEST_VALGRIND=1 fakechroot meson test -C build
