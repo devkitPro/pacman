@@ -210,11 +210,11 @@ void dump_pkg_full(alpm_pkg_t *pkg, int extra)
 
 	/* set variables here, do all output below */
 	bdate = (time_t)alpm_pkg_get_builddate(pkg);
-	if(bdate) {
+	if(bdate != -1) {
 		strftime(bdatestr, 50, "%c", localtime(&bdate));
 	}
 	idate = (time_t)alpm_pkg_get_installdate(pkg);
-	if(idate) {
+	if(idate != -1) {
 		strftime(idatestr, 50, "%c", localtime(&idate));
 	}
 
