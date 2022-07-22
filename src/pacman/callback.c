@@ -150,12 +150,11 @@ static int64_t get_update_timediff(int first_call)
 }
 
 /* refactored from cb_trans_progress */
-static void fill_progress(const int bar_percent, const int disp_percent,
-		const int proglen)
+static void fill_progress(const int percent, const int proglen)
 {
 	/* 8 = 1 space + 1 [ + 1 ] + 5 for percent */
 	const int hashlen = proglen > 8 ? proglen - 8 : 0;
-	const int hash = bar_percent * hashlen / 100;
+	const int hash = percent * hashlen / 100;
 	int i;
 
 	if(hashlen > 0) {
@@ -188,7 +187,7 @@ static void fill_progress(const int bar_percent, const int disp_percent,
 	/* print display percent after progress bar */
 	/* 5 = 1 space + 3 digits + 1 % */
 	if(proglen >= 5) {
-		printf(" %3d%%", disp_percent);
+		printf(" %3d%%", percent);
 	}
 
 	putchar('\r');
@@ -677,7 +676,7 @@ void cb_progress(void *ctx, alpm_progress_t event, const char *pkgname,
 	free(wcstr);
 
 	/* call refactored fill progress function */
-	fill_progress(percent, percent, cols - infolen);
+	fill_progress(percent, cols - infolen);
 
 	if(percent == 100) {
 		putchar('\n');
@@ -855,7 +854,7 @@ static void draw_pacman_progress_bar(struct pacman_progress_bar *bar)
 	free(fname);
 	free(wcfname);
 
-	fill_progress(file_percent, file_percent, cols - infolen);
+	fill_progress(file_percent, cols - infolen);
 	return;
 }
 
