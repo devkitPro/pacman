@@ -616,7 +616,7 @@ _key_longopts=(
 	'--init[Ensure the keyring is properly initialized]'
 	'--list-sigs[List keys and their signatures]:*: :_keys'
 	'--lsign-key[Locally sign the specified keyid]:*: :_keys'
-	'--populate[Reload the default keys from the (given) keyrings in '/usr/share/pacman/keyrings']: :_path_files -W /usr/share/pacman/keyrings'
+	'--populate[Reload the default keys from the (given) keyrings in '@keyringdir@']: :_path_files -W @keyringdir@'
 	'--refresh-keys[Update specified or all keys from a keyserver]:*: :_keys'
 )
 

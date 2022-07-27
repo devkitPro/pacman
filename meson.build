@@ -26,6 +26,7 @@ MANDIR = join_paths(PREFIX, get_option('mandir'))
 BUILDSCRIPT = get_option('buildscript')
 LIBMAKEPKGDIR = join_paths(PREFIX, DATAROOTDIR, 'makepkg')
 PKGDATADIR = join_paths(PREFIX, DATAROOTDIR, meson.project_name())
+KEYRINGDIR = join_paths(PREFIX, DATAROOTDIR, get_option('keyringdir'))
 
 PYTHON = import('python').find_installation('python3')
 LDCONFIG = get_option('ldconfig')
@@ -266,6 +267,7 @@ substs.set('LOCALEDIR', LOCALEDIR)
 substs.set('sysconfdir', SYSCONFDIR)
 substs.set('localstatedir', LOCALSTATEDIR)
 substs.set('PKGDATADIR', PKGDATADIR)
+substs.set('KEYRINGDIR', KEYRINGDIR)
 substs.set('PREFIX', PREFIX)
 substs.set('BASH', BASH.full_path())
 substs.set('PACKAGE_VERSION', PACKAGE_VERSION)
@@ -440,6 +442,7 @@ message('\n    '.join([
   '   localstatedir           : @0@'.format(LOCALSTATEDIR),
   '       database dir        : @0@'.format(join_paths(LOCALSTATEDIR, 'lib/pacman/')),
   '       cache dir           : @0@'.format(join_paths(LOCALSTATEDIR, 'cache/pacman/pkg/')),
+  '   keyringdir              : @0@'.format(KEYRINGDIR),
   '   compiler                : @0@ @1@'.format(cc.get_id(), cc.version()),
   '',
   '   Architecture            : @0@'.format(carch),

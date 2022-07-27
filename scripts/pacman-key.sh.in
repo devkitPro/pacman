@@ -75,7 +75,7 @@ usage() {
 	printf -- "$(gettext "  --list-sigs               List keys and their signatures")\n"
 	printf -- "$(gettext "  --lsign-key               Locally sign the specified keyid")\n"
 	printf -- "$(gettext "  --populate                Reload the default keys from the (given) keyrings\n\
-                            in '%s'")\n" "@pkgdatadir@/keyrings"
+                            in '%s'")\n" "@keyringdir@"
 	printf -- "$(gettext "  --refresh-keys            Update specified or all keys from a keyserver")\n"
 	printf -- "$(gettext "  --verbose                 Show extra information")\n"
 	echo
@@ -283,7 +283,7 @@ check_keyring() {
 }
 
 populate_keyring() {
-	local KEYRING_IMPORT_DIR='@pkgdatadir@/keyrings'
+	local KEYRING_IMPORT_DIR='@keyringdir@'
 
 	local keyring KEYRINGIDS=("$@")
 	local ret=0

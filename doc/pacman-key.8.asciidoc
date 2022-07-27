@@ -86,7 +86,7 @@ Operations
 
 *\--populate*::
 	Reload the default keys from the (optionally provided) keyrings in
-	+{pkgdatadir}/keyrings+. For more information, see
+	+{keyringdir}+. For more information, see
 	<<PK,Providing a Keyring for Import>> below.
 
 *-u, \--updatedb*::
@@ -129,7 +129,7 @@ A distribution or other repository provided may want to provide a set of
 PGP keys used in the signing of its packages and repository databases that can
 be readily imported into the pacman keyring. This is achieved by providing a
 PGP keyring file `foo.gpg` that contains the keys for the foo keyring in the
-directory +{pkgdatadir}/keyrings+.
+directory +{keyringdir}+.
 
 Optionally, the file `foo-trusted` can be provided containing a list of trusted
 key IDs for that keyring. This is a file in a format compatible with 'gpg

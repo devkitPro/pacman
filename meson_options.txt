@@ -26,6 +26,9 @@ option('buildscript', type : 'string', value : 'PKGBUILD',
 option('datarootdir', type : 'string', value : 'share',
        description : 'FIXME')
 
+option('keyringdir', type : 'string', value: 'pacman/keyrings',
+	description : 'Where to look for keyring files under datarootdir')
+
 option('makepkg-template-dir', type : 'string', value : '/usr/share/makepkg-template',
        description : 'template dir used by makepkg-template')
 

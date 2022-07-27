@@ -11,6 +11,7 @@ sed \
   -e "s|@localstatedir[@]|@localstatedir@|g" \
   -e "s|@libmakepkgdir[@]|@LIBMAKEPKGDIR@|g" \
   -e "s|@pkgdatadir[@]|@PKGDATADIR@|g" \
+  -e "s|@keyringdir[@]|@KEYRINGDIR@|g" \
   -e "s|@prefix[@]|@PREFIX@|g" \
   -e "1s|#!/bin/bash|#!@BASH@|g" \
   -e "s|@PACKAGE_VERSION[@]|@PACKAGE_VERSION@|g" \

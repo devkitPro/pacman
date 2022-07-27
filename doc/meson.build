@@ -28,6 +28,7 @@ asciidoc_opts = [
  '-a', 'srcext=@0@'.format(get_option('src-ext')),
  '-a', 'pkgext=@0@'.format(get_option('pkg-ext')),
  '-a', 'pkgdatadir=@0@'.format(PKGDATADIR),
+ '-a', 'keyringdir=@0@'.format(KEYRINGDIR),
  '-a', 'localstatedir=@0@'.format(LOCALSTATEDIR),
  '-a', 'sysconfdir=@0@'.format(SYSCONFDIR),
  '-a', 'datarootdir=@0@'.format(DATAROOTDIR),
