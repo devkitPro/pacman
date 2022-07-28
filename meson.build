@@ -43,7 +43,7 @@ endif
 
 bashcompletion = dependency('bash-completion', required : false)
 if bashcompletion.found()
-  BASHCOMPDIR = bashcompletion.get_pkgconfig_variable('completionsdir')
+  BASHCOMPDIR = bashcompletion.get_variable(pkgconfig: 'completionsdir')
 else
   BASHCOMPDIR = join_paths(DATAROOTDIR, 'bash-completion/completions')
 endif
