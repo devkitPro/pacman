@@ -1279,6 +1279,24 @@ void print_packages(const alpm_list_t *packages)
 			free(temp);
 			temp = string;
 		}
+		/* %P : provides */
+		if(strstr(temp, "%P")) {
+			alpm_list_t *lst = alpm_pkg_get_provides(pkg);
+			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
+			string = strreplace(temp, "%P", depends);
+			free(depends);
+			free(temp);
+			temp = string;
+		}
+		/* %R : replaces */
+		if(strstr(temp, "%R")) {
+			alpm_list_t *lst = alpm_pkg_get_replaces(pkg);
+			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
+			string = strreplace(temp, "%R", depends);
+			free(depends);
+			free(temp);
+			temp = string;
+		}
 		/* %L : license */
 		if(strstr(temp, "%L")) {
 			alpm_list_t *lst = alpm_pkg_get_licenses(pkg);
