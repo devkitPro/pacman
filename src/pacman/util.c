@@ -1223,6 +1223,8 @@ void print_packages(const alpm_list_t *packages)
 		VAL_FROM_FORMAT_STR(temp, "%p", alpm_pkg_get_packager)
 		/* %v : pkgver */
 		VAL_FROM_FORMAT_STR(temp, "%v", alpm_pkg_get_version)
+		/* %m : md5sum */
+		VAL_FROM_FORMAT_STR(temp, "%m", alpm_pkg_get_md5sum)
 		/* %l : location */
 		if(strstr(temp, "%l")) {
 			char *pkgloc = pkg_get_location(pkg);
