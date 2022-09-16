@@ -1279,6 +1279,15 @@ void print_packages(const alpm_list_t *packages)
 			free(temp);
 			temp = string;
 		}
+		/* %O : optional */
+		if(strstr(temp, "%O")) {
+			alpm_list_t *lst = alpm_pkg_get_optdepends(pkg);
+			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
+			string = strreplace(temp, "%O", depends);
+			free(depends);
+			free(temp);
+			temp = string;
+		}
 		/* %P : provides */
 		if(strstr(temp, "%P")) {
 			alpm_list_t *lst = alpm_pkg_get_provides(pkg);
