@@ -1270,6 +1270,15 @@ void print_packages(const alpm_list_t *packages)
 			free(temp);
 			temp = string;
 		}
+		/* %H : conflicts */
+		if(strstr(temp, "%H")) {
+			alpm_list_t *lst = alpm_pkg_get_conflicts(pkg);
+			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
+			string = strreplace(temp, "%H", depends);
+			free(depends);
+			free(temp);
+			temp = string;
+		}
 		/* %M : makedepends */
 		if(strstr(temp, "%M")) {
 			alpm_list_t *lst = alpm_pkg_get_makedepends(pkg);
