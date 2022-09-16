@@ -1270,6 +1270,15 @@ void print_packages(const alpm_list_t *packages)
 			free(temp);
 			temp = string;
 		}
+		/* %G : groups */
+		if(strstr(temp, "%G")) {
+			alpm_list_t *lst = alpm_pkg_get_groups(pkg);
+			char *depends = concat_list(lst, NULL);
+			string = strreplace(temp, "%G", depends);
+			free(depends);
+			free(temp);
+			temp = string;
+		}
 		/* %H : conflicts */
 		if(strstr(temp, "%H")) {
 			alpm_list_t *lst = alpm_pkg_get_conflicts(pkg);
