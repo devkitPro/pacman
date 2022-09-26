@@ -13,16 +13,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-04-23 08:10+0000\n"
-"Last-Translator: Rafael Fontenelle <rffontenelle@gmail.com>\n"
+"POT-Creation-Date: 2022-09-26 21:09+1000\n"
+"PO-Revision-Date: 2011-08-08 22:35+0000\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>, 2018\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/toofishes/"
 "archlinux-pacman/language/pt_BR/)\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % "
+"1000000 == 0 ? 1 : 2;\n"
 
 #: scripts/makepkg.sh.in:139
 msgid "Cleaning up..."
@@ -284,15 +285,15 @@ msgstr "  -o, --nobuild    Apenas baixa e extrai os arquivos"
 #: scripts/makepkg.sh.in:981
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr ""
-"  -p <arquivo>     Usa um script de empacotamento alternativo (ao invés"
-"\\n                   de \"%s\")"
+"  -p <arquivo>     Usa um script de empacotamento alternativo (ao "
+"invés\\n                   de \"%s\")"
 
 #: scripts/makepkg.sh.in:982
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
-"  -r, --rmdeps     Remove dependências instaladas após uma compilação"
-"\\n                   bem-sucedida"
+"  -r, --rmdeps     Remove dependências instaladas após uma "
+"compilação\\n                   bem-sucedida"
 
 #: scripts/makepkg.sh.in:983
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
@@ -316,8 +317,8 @@ msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
 msgstr ""
-"  --allsource      Gera um tarball somente com os fontes, incluindo os que"
-"\\n                   foram baixados"
+"  --allsource      Gera um tarball somente com os fontes, incluindo os "
+"que\\n                   foram baixados"
 
 #: scripts/makepkg.sh.in:988
 msgid "  --check          Run the %s function in the %s"
@@ -327,8 +328,8 @@ msgstr "  --check          Executa a função %s no %s"
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
 "  --config <arquivo>\n"
-"                   Usa um arquivo de configuração alternativo (ao invés"
-"\\n                   de '%s')"
+"                   Usa um arquivo de configuração alternativo (ao "
+"invés\\n                   de '%s')"
 
 #: scripts/makepkg.sh.in:990
 msgid "  --holdver        Do not update VCS sources"
@@ -340,8 +341,8 @@ msgstr ""
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
-"  --key <chave>    Especifica uma chave para ser usada na assinatura %s ao"
-"\\n                   invés do padrão"
+"  --key <chave>    Especifica uma chave para ser usada na assinatura %s "
+"ao\\n                   invés do padrão"
 
 #: scripts/makepkg.sh.in:992
 msgid "  --noarchive      Do not create package archive"
@@ -391,8 +392,8 @@ msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
 msgstr ""
-"  --verifysource   Baixa arquivos fontes (se necessário) e realiza"
-"\\n                   verificações de integridade"
+"  --verifysource   Baixa arquivos fontes (se necessário) e "
+"realiza\\n                   verificações de integridade"
 
 #: scripts/makepkg.sh.in:1004
 msgid "These options can be passed to %s:"
@@ -608,8 +609,8 @@ msgstr "Operações:"
 #: scripts/pacman-key.sh.in:63
 msgid "  -a, --add                 Add the specified keys (empty for stdin)"
 msgstr ""
-"  -a, --add                 Adiciona as chaves especificadas"
-"\\n                            (vazio, para entrada padrão)"
+"  -a, --add                 Adiciona as chaves "
+"especificadas\\n                            (vazio, para entrada padrão)"
 
 #: scripts/pacman-key.sh.in:64
 msgid "  -d, --delete              Remove the specified keyids"
@@ -623,8 +624,8 @@ msgstr "  -e, --export              Exporta a keyid especificada ou todas"
 msgid ""
 "  -f, --finger              List fingerprint for specified or all keyids"
 msgstr ""
-"  -f, --finger              Lista a impressão digital da keyid especificada"
-"\\n                            ou todas"
+"  -f, --finger              Lista a impressão digital da keyid "
+"especificada\\n                            ou todas"
 
 #: scripts/pacman-key.sh.in:67
 msgid "  -l, --list-keys           List the specified or all keys"
@@ -649,8 +650,8 @@ msgstr ""
 msgid ""
 "  --edit-key                Present a menu for key management task on keyids"
 msgstr ""
-"  --edit-key                Apresenta um menu para a tarefa de gerenciamento"
-"\\n                            de chaves de keyids"
+"  --edit-key                Apresenta um menu para a tarefa de "
+"gerenciamento\\n                            de chaves de keyids"
 
 #: scripts/pacman-key.sh.in:72
 msgid "  --import                  Imports pubring.gpg from dir(s)"
@@ -661,14 +662,14 @@ msgid ""
 "  --import-trustdb          Imports ownertrust values from trustdb.gpg in "
 "dir(s)"
 msgstr ""
-"  --import-trustdb          Importa valores de confiança do proprietário do"
-"\\n                            trustdb.gpg nos diretórios"
+"  --import-trustdb          Importa valores de confiança do proprietário "
+"do\\n                            trustdb.gpg nos diretórios"
 
 #: scripts/pacman-key.sh.in:74
 msgid "  --init                    Ensure the keyring is properly initialized"
 msgstr ""
-"  --init                    Garante que o chaveiro está inicializado"
-"\\n                             corretamente"
+"  --init                    Garante que o chaveiro está "
+"inicializado\\n                             corretamente"
 
 #: scripts/pacman-key.sh.in:75
 msgid "  --list-sigs               List keys and their signatures"
@@ -680,18 +681,18 @@ msgstr "  --lsign-key               Assina localmente a keyid especificada"
 
 #: scripts/pacman-key.sh.in:77
 msgid ""
-"  --populate                Reload the default keys from the (given) keyrings"
-"\\n                            in '%s'"
+"  --populate                Reload the default keys from the (given) "
+"keyrings\\n                            in '%s'"
 msgstr ""
-"  --populate                Recarrega as chaves padrões dos chaveiros dados"
-"\\n                            em '%s'"
+"  --populate                Recarrega as chaves padrões dos chaveiros "
+"dados\\n                            em '%s'"
 
 #: scripts/pacman-key.sh.in:79
 msgid ""
 "  --refresh-keys            Update specified or all keys from a keyserver"
 msgstr ""
-"  --refresh-keys            Atualiza a chave especificada ou todas de um"
-"\\n                            servidor de chaves"
+"  --refresh-keys            Atualiza a chave especificada ou todas de "
+"um\\n                            servidor de chaves"
 
 #: scripts/pacman-key.sh.in:80
 msgid "  --verbose                 Show extra information"
@@ -699,16 +700,16 @@ msgstr "  --verbose                 Mostra informações extras"
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
-"  --config <file>           Use an alternate config file (instead of"
-"\\n                            '%s')"
+"  --config <file>           Use an alternate config file (instead "
+"of\\n                            '%s')"
 msgstr ""
 "  --config <arquivo>         Usa um arquivo de configuração alternativo (ao\n"
 "                             invés de '%s')"
 
 #: scripts/pacman-key.sh.in:85
 msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
-"\\n                            of '%s')"
+"  --gpgdir <dir>            Set an alternate directory for GnuPG "
+"(instead\\n                            of '%s')"
 msgstr ""
 "  --gpgdir <diretório>       Define um diretório alternativo para GnuPG\n"
 "                             (invés de '%s')"
@@ -938,11 +939,11 @@ msgstr ""
 
 #: scripts/repo-add.sh.in:66
 msgid ""
-"  -R, --remove      remove old package file from disk after updating database"
-"\\n"
+"  -R, --remove      remove old package file from disk after updating "
+"database\\n"
 msgstr ""
-"  -R, --remove      remove o pacote antigo do disco depois de atualizar a"
-"\\n                    base de dados\\n"
+"  -R, --remove      remove o pacote antigo do disco depois de atualizar "
+"a\\n                    base de dados\\n"
 
 #: scripts/repo-add.sh.in:67
 msgid ""
@@ -958,14 +959,14 @@ msgstr "Uso: repo-remove [opções] <path-to-db> <packagename> ...\\n"
 
 #: scripts/repo-add.sh.in:71
 msgid ""
-"repo-remove will update a package database by removing the package name"
-"\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n"
+"repo-remove will update a package database by removing the package "
+"name\\nspecified on the command line from the given repo database. "
+"Multiple\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
-"repo-remove atualiza uma base de dados de pacotes removendo o nome do"
-"\\npacote especificado na linha de comando da base de dados de repositório"
-"\\ninformada. Múltiplos pacotes a serem removidos podem ser especificados"
-"\\nna linha de comando.\\n"
+"repo-remove atualiza uma base de dados de pacotes removendo o nome "
+"do\\npacote especificado na linha de comando da base de dados de "
+"repositório\\ninformada. Múltiplos pacotes a serem removidos podem ser "
+"especificados\\nna linha de comando.\\n"
 
 #: scripts/repo-add.sh.in:78
 msgid "Please move along, there is nothing to see here.\\n"
@@ -992,8 +993,8 @@ msgstr ""
 #: scripts/repo-add.sh.in:85
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr ""
-"  -v, --verify      verifica a assinatura da base de dados antes de atualizar"
-"\\n"
+"  -v, --verify      verifica a assinatura da base de dados antes de "
+"atualizar\\n"
 
 #: scripts/repo-add.sh.in:86
 msgid ""

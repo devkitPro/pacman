@@ -12,15 +12,15 @@
 # Kiprianas Spiridonovas <k.spiridonovas@gmail.com>, 2012-2013
 # Moo, 2015-2020
 # Tautvydas Ž., 2019
-# Tautvydas Ž., 2019
+# Tautvydas Ž., 2019,2021
 # Dan McGee <dpmcgee@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-04-23 00:39+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2022-09-26 21:09+1000\n"
+"PO-Revision-Date: 2010-11-29 23:17+0000\n"
+"Last-Translator: Tautvydas Ž., 2019,2021\n"
 "Language-Team: Lithuanian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/lt/)\n"
 "Language: lt\n"
@@ -261,27 +261,27 @@ msgstr "įkraunami paketo failai"
 #: src/pacman/callback.c:751
 #, c-format
 msgid "Total"
-msgstr ""
+msgstr "Iš viso"
 
 #: src/pacman/callback.c:884
 #, c-format
 msgid " %s downloading...\n"
-msgstr ""
+msgstr "%s siunčiama...\n"
 
 #: src/pacman/callback.c:1051
 #, c-format
 msgid " %s is up to date"
-msgstr ""
+msgstr "%s yra naujausios versijos"
 
 #: src/pacman/callback.c:1077
 #, c-format
 msgid " %s failed to download"
-msgstr ""
+msgstr "Nepavyko parsisiųsti %s"
 
 #: src/pacman/callback.c:1126
 #, c-format
 msgid "unknown callback event type %d for %s\n"
-msgstr ""
+msgstr "nežinomas callback įvykio tipas %d %s\n"
 
 #: src/pacman/check.c:63 src/pacman/check.c:291
 #, c-format
@@ -337,17 +337,17 @@ msgstr "%s: %s (nesutampa dydis)\n"
 #: src/pacman/check.c:185
 #, c-format
 msgid "%s: %s (failed to calculate %s checksum)\n"
-msgstr ""
+msgstr "%s: %s (nepavyko apskaičiuoti %s kontrolinės sumos)\n"
 
 #: src/pacman/check.c:193
 #, c-format
 msgid "%s: %s (%s checksum information not available)\n"
-msgstr ""
+msgstr "%s: %s (%s kontrolinės sumos informacija neprienama)\n"
 
 #: src/pacman/check.c:204 src/pacman/check.c:210
 #, c-format
 msgid "%s: %s (%s checksum mismatch)\n"
-msgstr ""
+msgstr "%s: %s (%s kontrolinė suma nesutampa)\n"
 
 #: src/pacman/check.c:266 src/pacman/check.c:281 src/pacman/check.c:325
 #: src/pacman/check.c:379
@@ -456,11 +456,13 @@ msgstr ""
 #, c-format
 msgid "config file %s, line %d: value for '%s' has to be positive : '%s'\n"
 msgstr ""
+"konfigūracijos failas %s, eilutė %d: '%s' reikšmė turi būti teigiama : '%s'\n"
 
 #: src/pacman/conf.c:741
 #, c-format
 msgid "config file %s, line %d: value for '%s' is too large : '%s'\n"
 msgstr ""
+"konfigūracijos failas %s, eilutė %d: '%s' reikšmė yra per didelė : '%s'\n"
 
 #: src/pacman/conf.c:761
 #, c-format
@@ -484,6 +486,9 @@ msgid ""
 "(root: %s, dbpath: %s)\n"
 "%s\n"
 msgstr ""
+"nepavyko inicijuoti alpm bibliotekos:\n"
+"(root: %s, dbpath: %s)\n"
+"%s\n"
 
 #: src/pacman/conf.c:842
 #, c-format
@@ -583,7 +588,7 @@ msgstr "%s priklauso %s%s/%s%s %s%s%s\n"
 #: src/pacman/files.c:129
 #, c-format
 msgid "invalid regular expression '%s'\n"
-msgstr ""
+msgstr "neteisinga reguliarioji išraiška '%s'\n"
 
 #: src/pacman/files.c:253
 #, c-format
@@ -1096,6 +1101,9 @@ msgid ""
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
+"      --overwrite <glob>\n"
+"                       perrašyti konfliktuojančius failus (galima naudoti "
+"daugiau nei kartą)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1641,7 +1649,7 @@ msgstr "duomenų bazė „%s“ netinkama (%s)\n"
 #: src/pacman/util.c:159
 #, c-format
 msgid "failed to synchronize all databases (%s)\n"
-msgstr ""
+msgstr "nepavyko sinchronizuoti visų duomenų bazių (%s)\n"
 
 #: src/pacman/util.c:651
 #, c-format

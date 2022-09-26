@@ -13,7 +13,7 @@
 # Frank, 2014,2016
 # Frank Theile, 2014,2016,2018
 # Frank Theile, 2014,2016,2018
-# Jakob Gahde <j5lx@fmail.co.uk>, 2014-2015
+# J5lx <j5lx@fmail.co.uk>, 2014-2015
 # Jimmie Staedele <maddogie@gmail.com>, 2018
 # 65138391f015e4001c6ef9d675c96796_707a378 <99e420e9f3ea1b91cb2cbbb4cbc7cd27_2862>, 2013
 # 65138391f015e4001c6ef9d675c96796_707a378 <99e420e9f3ea1b91cb2cbbb4cbc7cd27_2862>, 2013
@@ -30,7 +30,7 @@
 # pierres <pierre@archlinux.de>, 2011
 # pierres <pierre@archlinux.de>, 2011
 # Robert Orzanna <robert@orzanna.de>, 2014
-# Roman Volak <romanvolak@web.de>, 2020
+# Roman Volak <romanvolak@web.de>, 2020-2021
 # Silvan Jegen <s.jegen@gmail.com>, 2014
 # Simon Schneider <SPAM.schneida@gmail.com>, 2011
 # Wieland Hoffmann <themineo+transifex@googlemail.com>, 2013
@@ -44,9 +44,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-09-04 02:38+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2022-09-26 21:09+1000\n"
+"PO-Revision-Date: 2011-08-08 22:35+0000\n"
+"Last-Translator: Roman Volak <romanvolak@web.de>, 2020-2021\n"
 "Language-Team: German (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/de/)\n"
 "Language: de\n"
@@ -729,8 +729,8 @@ msgstr "  --lsign-key               Signiert die angegebene Schlüssel-Id lokal"
 
 #: scripts/pacman-key.sh.in:77
 msgid ""
-"  --populate                Reload the default keys from the (given) keyrings"
-"\\n                            in '%s'"
+"  --populate                Reload the default keys from the (given) "
+"keyrings\\n                            in '%s'"
 msgstr ""
 "  --populate                Lädt die Standard-Schlüssel erneut aus den "
 "(vorher bestimmten) Schlüsselbunden\\n                            in '%s'"
@@ -744,20 +744,20 @@ msgstr ""
 
 #: scripts/pacman-key.sh.in:80
 msgid "  --verbose                 Show extra information"
-msgstr ""
+msgstr "--verbose"
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
-"  --config <file>           Use an alternate config file (instead of"
-"\\n                            '%s')"
+"  --config <file>           Use an alternate config file (instead "
+"of\\n                            '%s')"
 msgstr ""
 "  --config <file>           Benutze eine alternative Konfigurationsdatei (an "
 "Stelle von\\n                            '%s')"
 
 #: scripts/pacman-key.sh.in:85
 msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
-"\\n                            of '%s')"
+"  --gpgdir <dir>            Set an alternate directory for GnuPG "
+"(instead\\n                            of '%s')"
 msgstr ""
 "  --gpgdir <dir>            Setze ein alternatives Verzeichnis für GnuPG (an "
 "Stelle\\n                            von '%s')"
@@ -786,7 +786,7 @@ msgstr "Schlüsselname ist zweideutig:"
 
 #: scripts/pacman-key.sh.in:148
 msgid "Generating pacman master key. This may take some time."
-msgstr ""
+msgstr "Pacman Hauptschlüssel generieren. Kann eine Weile dauern."
 
 #: scripts/pacman-key.sh.in:185
 msgid "The key identified by %s could not be found locally."
@@ -796,11 +796,11 @@ msgstr ""
 #: scripts/pacman-key.sh.in:196 scripts/pacman-key.sh.in:208
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:204
 msgid "_"
-msgstr ""
+msgstr "_"
 
 #: scripts/pacman-key.sh.in:208
 msgid "flags"
-msgstr ""
+msgstr "Flags"
 
 #: scripts/pacman-key.sh.in:263
 msgid "You do not have sufficient permissions to read the %s keyring."
@@ -855,7 +855,7 @@ msgstr "Mache Schlüssel %s unbrauchbar..."
 
 #: scripts/pacman-key.sh.in:381
 msgid "Disabled %s keys."
-msgstr ""
+msgstr "Mache Schlüssel %s unbrauchbar..."
 
 #: scripts/pacman-key.sh.in:388
 msgid "A specified keyfile could not be added to the keyring."
@@ -910,7 +910,7 @@ msgstr "%s konnte nicht lokal signiert werden."
 
 #: scripts/pacman-key.sh.in:509
 msgid "Locally signed %s keys."
-msgstr ""
+msgstr "Signiere Schlüssel %s lokal..."
 
 #: scripts/pacman-key.sh.in:532
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -926,7 +926,7 @@ msgstr ""
 
 #: scripts/pacman-key.sh.in:569
 msgid "Could not update key: %s"
-msgstr ""
+msgstr "Kann Schlüssel nicht aktualisieren: %s"
 
 #: scripts/pacman-key.sh.in:590 scripts/repo-add.sh.in:265
 msgid "Cannot use armored signatures for packages: %s"
@@ -999,8 +999,8 @@ msgstr ""
 
 #: scripts/repo-add.sh.in:66
 msgid ""
-"  -R, --remove      remove old package file from disk after updating database"
-"\\n"
+"  -R, --remove      remove old package file from disk after updating "
+"database\\n"
 msgstr ""
 "-R, --remove Entferne alte Paketdatei nach dem Aktualisieren der Datenbank "
 "von der Festplatte\\n"
@@ -1019,9 +1019,9 @@ msgstr "Verwendung: repo-remove [Options] <Pfad-zur-db> <Paketname> ...\\n"
 
 #: scripts/repo-add.sh.in:71
 msgid ""
-"repo-remove will update a package database by removing the package name"
-"\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n"
+"repo-remove will update a package database by removing the package "
+"name\\nspecified on the command line from the given repo database. "
+"Multiple\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove wird eine Paket-Daten aktualisieren, indem der auf der Kommando-"
 "Zeile\\nspezifierte Paketname von der Datenbank des angegebenen Repos "

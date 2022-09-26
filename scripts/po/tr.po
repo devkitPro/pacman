@@ -10,7 +10,7 @@
 # a8b98026cb7595de301f11ec8460745f_aca0204, 2016
 # Betül Ünlü, 2018-2019
 # Betül Ünlü, 2018-2019
-# Demiray Muhterem <mdemiray@msn.com>, 2016,2018
+# Demiray Muhterem <mdemiray@msn.com>, 2016,2018,2021
 # Demiray Muhterem <mdemiray@msn.com>, 2016
 # Betül Ünlü, 2019
 # Samed Beyribey <samed@ozguryazilim.com.tr>, 2012-2013
@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-04-23 00:41+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2022-09-26 21:09+1000\n"
+"PO-Revision-Date: 2011-08-08 22:35+0000\n"
+"Last-Translator: Demiray Muhterem <mdemiray@msn.com>, 2016,2018,2021\n"
 "Language-Team: Turkish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/tr/)\n"
 "Language: tr\n"
@@ -674,11 +674,11 @@ msgstr "  --lsign-key              Belirtilen anahtarı yerelde imzala"
 
 #: scripts/pacman-key.sh.in:77
 msgid ""
-"  --populate                Reload the default keys from the (given) keyrings"
-"\\n                            in '%s'"
+"  --populate                Reload the default keys from the (given) "
+"keyrings\\n                            in '%s'"
 msgstr ""
-"  --populate             Belirtilen anahtarlıktan anahtarları tekrar yükle"
-"\\n                            '%s'"
+"  --populate             Belirtilen anahtarlıktan anahtarları tekrar "
+"yükle\\n                            '%s'"
 
 #: scripts/pacman-key.sh.in:79
 msgid ""
@@ -689,20 +689,20 @@ msgstr ""
 
 #: scripts/pacman-key.sh.in:80
 msgid "  --verbose                 Show extra information"
-msgstr ""
+msgstr "  --verbose                 Ek bilgilendirmeleri göster"
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
-"  --config <file>           Use an alternate config file (instead of"
-"\\n                            '%s')"
+"  --config <file>           Use an alternate config file (instead "
+"of\\n                            '%s')"
 msgstr ""
 "  --config <file>           Farklı bir yapılandırma dosyası kullan. ('%s'\n"
 "                            yerine)"
 
 #: scripts/pacman-key.sh.in:85
 msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
-"\\n                            of '%s')"
+"  --gpgdir <dir>            Set an alternate directory for GnuPG "
+"(instead\\n                            of '%s')"
 msgstr ""
 "  --gpgdir <dir>            GnuPG için farklı bir dizin ayarla. ('%s'\n"
 "                            yerine)"
@@ -730,7 +730,7 @@ msgstr "Anahtar ismi belirsiz:"
 
 #: scripts/pacman-key.sh.in:148
 msgid "Generating pacman master key. This may take some time."
-msgstr ""
+msgstr "Pacman ana anahtarı oluşturuluyor. Bu biraz zaman alabilir."
 
 #: scripts/pacman-key.sh.in:185
 msgid "The key identified by %s could not be found locally."
@@ -739,11 +739,11 @@ msgstr "%s tarafından tanımlanmış anahtar yerelde bulunamadı."
 #: scripts/pacman-key.sh.in:196 scripts/pacman-key.sh.in:208
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:204
 msgid "_"
-msgstr ""
+msgstr "_"
 
 #: scripts/pacman-key.sh.in:208
 msgid "flags"
-msgstr ""
+msgstr "bayraklar"
 
 #: scripts/pacman-key.sh.in:263
 msgid "You do not have sufficient permissions to read the %s keyring."
@@ -795,7 +795,7 @@ msgstr "%s anahtarı devre dışı bırakılıyor ..."
 
 #: scripts/pacman-key.sh.in:381
 msgid "Disabled %s keys."
-msgstr ""
+msgstr "%s anahtar devre dışı bırakıldı. "
 
 #: scripts/pacman-key.sh.in:388
 msgid "A specified keyfile could not be added to the keyring."
@@ -843,7 +843,7 @@ msgstr "%s yerelde imzalanamadı."
 
 #: scripts/pacman-key.sh.in:509
 msgid "Locally signed %s keys."
-msgstr ""
+msgstr "Yerel olarak imzalanmış %s anahtar."
 
 #: scripts/pacman-key.sh.in:532
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -855,7 +855,7 @@ msgstr "Uzak konumdaki anahtar anahtar sunucusundan doğruca alınamadı."
 
 #: scripts/pacman-key.sh.in:569
 msgid "Could not update key: %s"
-msgstr ""
+msgstr "Anahtar güncellenemedi: %s"
 
 #: scripts/pacman-key.sh.in:590 scripts/repo-add.sh.in:265
 msgid "Cannot use armored signatures for packages: %s"
@@ -924,8 +924,8 @@ msgstr "  -n, --new        sadece veritabanında yer almayan paketleri ekle\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid ""
-"  -R, --remove      remove old package file from disk after updating database"
-"\\n"
+"  -R, --remove      remove old package file from disk after updating "
+"database\\n"
 msgstr ""
 "  -R, --remove      veritabanını güncelledikten sonra eski paket dosyasını "
 "diskten kaldır\\n"
@@ -944,13 +944,13 @@ msgstr "Kullanım: repo-remove [seçenek] <path-to-db> <packagename> ...\\n"
 
 #: scripts/repo-add.sh.in:71
 msgid ""
-"repo-remove will update a package database by removing the package name"
-"\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n"
+"repo-remove will update a package database by removing the package "
+"name\\nspecified on the command line from the given repo database. "
+"Multiple\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
-"repo-remove komut satırından verilen veritabanını kullanarak paket  ismini"
-"\\n paket veritabanından çıkararak paket veritabanını günceller. Birden\\n "
-"fazla paket komut satırından belirtilebilir.\\n"
+"repo-remove komut satırından verilen veritabanını kullanarak paket  "
+"ismini\\n paket veritabanından çıkararak paket veritabanını günceller. "
+"Birden\\n fazla paket komut satırından belirtilebilir.\\n"
 
 #: scripts/repo-add.sh.in:78
 msgid "Please move along, there is nothing to see here.\\n"

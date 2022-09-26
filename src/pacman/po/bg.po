@@ -5,15 +5,15 @@
 # Translators:
 # Alexander Angelov Nestorov <alexandernst@gmail.com>, 2013
 # Alexander Angelov Nestorov <alexandernst@gmail.com>, 2013
-# Galin Iskrenov <loot270@abv.bg>, 2016-2019,2021
+# Galin Iskrenov <loot270@abv.bg>, 2016-2019,2021-2022
 # Ivailo Monev <xakepa10@gmail.com>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-08-16 11:04+0000\n"
-"Last-Translator: Galin Iskrenov <loot270@abv.bg>\n"
+"POT-Creation-Date: 2022-09-26 21:09+1000\n"
+"PO-Revision-Date: 2010-11-29 23:17+0000\n"
+"Last-Translator: Galin Iskrenov <loot270@abv.bg>, 2016-2019,2021-2022\n"
 "Language-Team: Bulgarian (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/bg/)\n"
 "Language: bg\n"
@@ -249,22 +249,22 @@ msgstr "Общо"
 #: src/pacman/callback.c:884
 #, c-format
 msgid " %s downloading...\n"
-msgstr ""
+msgstr " %s сваляне...\n"
 
 #: src/pacman/callback.c:1051
 #, c-format
 msgid " %s is up to date"
-msgstr ""
+msgstr " %s е актуален"
 
 #: src/pacman/callback.c:1077
 #, c-format
 msgid " %s failed to download"
-msgstr ""
+msgstr " %s неуспешно сваляне"
 
 #: src/pacman/callback.c:1126
 #, c-format
 msgid "unknown callback event type %d for %s\n"
-msgstr ""
+msgstr "Неизвестен тип събитие %d за %s\n"
 
 #: src/pacman/check.c:63 src/pacman/check.c:291
 #, c-format
@@ -316,17 +316,17 @@ msgstr "%s: %s (несъвпадение в размера)\n"
 #: src/pacman/check.c:185
 #, c-format
 msgid "%s: %s (failed to calculate %s checksum)\n"
-msgstr ""
+msgstr "%s: %s (Неуспешно изчисляване %s  контролна сума)\n"
 
 #: src/pacman/check.c:193
 #, c-format
 msgid "%s: %s (%s checksum information not available)\n"
-msgstr ""
+msgstr "%s: %s (%s информация за  контролната сума е недостъпна)\n"
 
 #: src/pacman/check.c:204 src/pacman/check.c:210
 #, c-format
 msgid "%s: %s (%s checksum mismatch)\n"
-msgstr ""
+msgstr "%s: %s (%s Несъответствие на контролната сума)\n"
 
 #: src/pacman/check.c:266 src/pacman/check.c:281 src/pacman/check.c:325
 #: src/pacman/check.c:379
@@ -424,11 +424,14 @@ msgstr ""
 #, c-format
 msgid "config file %s, line %d: value for '%s' has to be positive : '%s'\n"
 msgstr ""
+"конфигурационен файл %s, ред %d: стойността за '%s' трябва да бъде "
+"положителна: '%s'\n"
 
 #: src/pacman/conf.c:741
 #, c-format
 msgid "config file %s, line %d: value for '%s' is too large : '%s'\n"
 msgstr ""
+"конфигурационен файл %s, ред %d: стойността за '%s' е твърде голяма: '%s'\n"
 
 #: src/pacman/conf.c:761
 #, c-format
@@ -452,6 +455,9 @@ msgid ""
 "(root: %s, dbpath: %s)\n"
 "%s\n"
 msgstr ""
+"неуспешно инициализиране на alpm library:\n"
+"(root: %s, dbpath: %s)\n"
+"%s\n"
 
 #: src/pacman/conf.c:842
 #, c-format
@@ -548,7 +554,7 @@ msgstr "%s е собственост на %s%s/%s%s %s%s%s\n"
 #: src/pacman/files.c:129
 #, c-format
 msgid "invalid regular expression '%s'\n"
-msgstr ""
+msgstr "Невалиден редовен израз '%s'\n"
 
 #: src/pacman/files.c:253
 #, c-format
@@ -1041,6 +1047,9 @@ msgid ""
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
+"      --overwrite <glob>\n"
+"                       презаписване на конфликтните файлове (може да се "
+"използва повече от веднъж)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1579,7 +1588,7 @@ msgstr "базата '%s' не е валидна (%s)\n"
 #: src/pacman/util.c:159
 #, c-format
 msgid "failed to synchronize all databases (%s)\n"
-msgstr ""
+msgstr "неуспешно синхронизиране на всички бази от данни (%s)\n"
 
 #: src/pacman/util.c:651
 #, c-format

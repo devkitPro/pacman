@@ -4,7 +4,7 @@
 #
 # Translators:
 # Seong-ho Cho <darkcircle.0426@gmail.com>, 2013
-# 배태길 <esrevinu@gmail.com>, 2016-2019
+# 배태길 <esrevinu@gmail.com>, 2016-2019,2021
 # Seong-ho Cho <darkcircle.0426@gmail.com>, 2013,2015
 # Sung jin Gang <>, 2012
 # Thomas Sungjin Kang <potopro@gmail.com>, 2012
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-04-23 00:41+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2022-09-26 21:09+1000\n"
+"PO-Revision-Date: 2011-08-08 22:35+0000\n"
+"Last-Translator: 배태길 <esrevinu@gmail.com>, 2016-2019,2021\n"
 "Language-Team: Korean (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
 "Language: ko\n"
@@ -659,8 +659,8 @@ msgstr "  --lsign-key               지정한 키 ID로 로컬 서명합니다"
 
 #: scripts/pacman-key.sh.in:77
 msgid ""
-"  --populate                Reload the default keys from the (given) keyrings"
-"\\n                            in '%s'"
+"  --populate                Reload the default keys from the (given) "
+"keyrings\\n                            in '%s'"
 msgstr ""
 "  --populate                '%s'의(주어진) 키 모음에서 기본값을 다시 불러옵니"
 "다"
@@ -673,18 +673,18 @@ msgstr ""
 
 #: scripts/pacman-key.sh.in:80
 msgid "  --verbose                 Show extra information"
-msgstr ""
+msgstr "  --verbose                 추가 정보 표시"
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
-"  --config <file>           Use an alternate config file (instead of"
-"\\n                            '%s')"
+"  --config <file>           Use an alternate config file (instead "
+"of\\n                            '%s')"
 msgstr "  --config <파일>           ('%s' 대신) 지정한 설정 파일을 사용합니다"
 
 #: scripts/pacman-key.sh.in:85
 msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
-"\\n                            of '%s')"
+"  --gpgdir <dir>            Set an alternate directory for GnuPG "
+"(instead\\n                            of '%s')"
 msgstr ""
 "  --gpgdir <디렉터리>            ('%s' 대신) GnuPG에서 사용할 대체 디렉터리를"
 "\\n                            설정합니다."
@@ -711,7 +711,7 @@ msgstr "키 이름이 애매모호합니다:"
 
 #: scripts/pacman-key.sh.in:148
 msgid "Generating pacman master key. This may take some time."
-msgstr ""
+msgstr "Pacman 마스터 키를 생성 중입니다. 시간이 걸릴 수 있습니다."
 
 #: scripts/pacman-key.sh.in:185
 msgid "The key identified by %s could not be found locally."
@@ -720,11 +720,11 @@ msgstr "%s로 식별되는 키를 로컬에서 찾을 수 없습니다."
 #: scripts/pacman-key.sh.in:196 scripts/pacman-key.sh.in:208
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:204
 msgid "_"
-msgstr ""
+msgstr "_"
 
 #: scripts/pacman-key.sh.in:208
 msgid "flags"
-msgstr ""
+msgstr "flags"
 
 #: scripts/pacman-key.sh.in:263
 msgid "You do not have sufficient permissions to read the %s keyring."
@@ -776,7 +776,7 @@ msgstr "키 %s 비활성화하는 중..."
 
 #: scripts/pacman-key.sh.in:381
 msgid "Disabled %s keys."
-msgstr ""
+msgstr "%s 개의 키를 비활성화함."
 
 #: scripts/pacman-key.sh.in:388
 msgid "A specified keyfile could not be added to the keyring."
@@ -824,7 +824,7 @@ msgstr "%s를 자체적으로 서명할 수 없습니다."
 
 #: scripts/pacman-key.sh.in:509
 msgid "Locally signed %s keys."
-msgstr ""
+msgstr "%s 개의 키를 로컬 서명함."
 
 #: scripts/pacman-key.sh.in:532
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -836,7 +836,7 @@ msgstr "원격 키를 키 서버에서 올바르게 가져올 수 없습니다."
 
 #: scripts/pacman-key.sh.in:569
 msgid "Could not update key: %s"
-msgstr ""
+msgstr "키를 업데이트할 수 없었음: %s"
 
 #: scripts/pacman-key.sh.in:590 scripts/repo-add.sh.in:265
 msgid "Cannot use armored signatures for packages: %s"
@@ -905,8 +905,8 @@ msgstr "  -n, --new         데이터베이스에 없는 꾸러미만 추가합�
 
 #: scripts/repo-add.sh.in:66
 msgid ""
-"  -R, --remove      remove old package file from disk after updating database"
-"\\n"
+"  -R, --remove      remove old package file from disk after updating "
+"database\\n"
 msgstr ""
 "  -R, --remove      데이터베이스 갱신 후 디스크로부터 오래된 꾸러미 파일 삭제"
 "\\n"
@@ -925,9 +925,9 @@ msgstr "사용법: repo-remove [옵션] <DB 경로> <꾸러미 이름> ...\\n"
 
 #: scripts/repo-add.sh.in:71
 msgid ""
-"repo-remove will update a package database by removing the package name"
-"\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n"
+"repo-remove will update a package database by removing the package "
+"name\\nspecified on the command line from the given repo database. "
+"Multiple\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove는 명령줄 상에서 repo 데이터베이스에 주어진 꾸러미 이름을 지우고"
 "\\n꾸러미 데이터베이스를 업데이트합니다. 여러 꾸러미를 추가하려면 명령줄에서"

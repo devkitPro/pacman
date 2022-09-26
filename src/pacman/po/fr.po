@@ -8,7 +8,7 @@
 # Antoine Lubineau <antoine@lubignon.info>, 2012
 # Antoine Lubineau <antoine@lubignon.info>, 2012-2013,2015,2017
 # Cedric Girard <girard.cedric@gmail.com>, 2014
-# Charles Monzat <c.monzat@laposte.net>, 2018-2021
+# Charles Monzat <c.monzat@laposte.net>, 2018-2022
 # Charles Monzat <c.monzat@laposte.net>, 2015-2016,2018
 # Charles Monzat <c.monzat@laposte.net>, 2018
 # Charles Monzat <c.monzat@laposte.net>, 2018
@@ -28,16 +28,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-07-06 18:55+0000\n"
-"Last-Translator: Erwan Amans <erwan.amans@gmail.com>\n"
+"POT-Creation-Date: 2022-09-26 21:09+1000\n"
+"PO-Revision-Date: 2010-11-29 23:17+0000\n"
+"Last-Translator: Charles Monzat <c.monzat@laposte.net>, 2018-2022\n"
 "Language-Team: French (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % "
+"1000000 == 0 ? 1 : 2;\n"
 
 #: src/pacman/callback.c:245
 #, c-format
@@ -178,6 +179,9 @@ msgstr[0] ""
 msgstr[1] ""
 "Les paquets suivants ne peuvent être mis à jour à cause de dépendances "
 "insolubles :\n"
+msgstr[2] ""
+"Les paquets suivants ne peuvent être mis à jour à cause de dépendances "
+"insolubles :\n"
 
 #: src/pacman/callback.c:512
 #, c-format
@@ -185,6 +189,7 @@ msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Voulez-vous ignorer le paquet ci-dessus pour cette mise à jour ?"
 msgstr[1] "Voulez-vous ignorer les paquets ci-dessus pour cette mise à jour ?"
+msgstr[2] "Voulez-vous ignorer les paquets ci-dessus pour cette mise à jour ?"
 
 #: src/pacman/callback.c:523
 #, c-format
@@ -192,6 +197,7 @@ msgid "There is %zu provider available for %s\n"
 msgid_plural "There are %zu providers available for %s:\n"
 msgstr[0] "Il y a %zu fournisseur disponible pour %s\n"
 msgstr[1] "Il y a %zu fournisseurs disponibles pour %s :\n"
+msgstr[2] "Il y a %zu fournisseurs disponibles pour %s :\n"
 
 #: src/pacman/callback.c:534
 #, c-format
@@ -359,6 +365,7 @@ msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
 msgstr[0] "%s : %jd du fichier total, "
 msgstr[1] "%s : %jd fichiers au total, "
+msgstr[2] "%s : %jd fichiers au total, "
 
 #: src/pacman/check.c:303
 #, c-format
@@ -366,6 +373,7 @@ msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
 msgstr[0] "%jd fichier manquant\n"
 msgstr[1] "%jd fichiers manquants\n"
+msgstr[2] "%jd fichiers manquants\n"
 
 #: src/pacman/check.c:334
 #, c-format
@@ -388,6 +396,7 @@ msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
 msgstr[0] "%jd fichier modifié\n"
 msgstr[1] "%jd fichiers modifiés\n"
+msgstr[2] "%jd fichiers modifiés\n"
 
 #: src/pacman/conf.c:102 src/pacman/conf.c:315
 #, c-format
@@ -395,6 +404,8 @@ msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
 msgstr[0] "erreur d’allocation mémoire : malloc n’a pas pu allouer %zu octet\n"
 msgstr[1] ""
+"erreur d’allocation mémoire : malloc n’a pas pu allouer %zu octets\n"
+msgstr[2] ""
 "erreur d’allocation mémoire : malloc n’a pas pu allouer %zu octets\n"
 
 #: src/pacman/conf.c:338
@@ -740,7 +751,7 @@ msgstr "URL"
 #: src/pacman/package.c:125
 #, c-format
 msgid "Validated By"
-msgstr "Validé par"
+msgstr "Validé par "
 
 #: src/pacman/package.c:126
 #, c-format
@@ -1553,6 +1564,7 @@ msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
 msgstr[0] "Il y a %d membre dans le groupe %s%s%s :\n"
 msgstr[1] "Il y a %d membres dans le groupe %s%s%s :\n"
+msgstr[2] "Il y a %d membres dans le groupe %s%s%s :\n"
 
 #: src/pacman/sync.c:629
 #, c-format

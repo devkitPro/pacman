@@ -8,23 +8,25 @@
 # d574d4bb40c84861791a694a999cce69_9aabecb <ec34fbc10d74f76d8160c2aae04a84b4_6702>, 2014
 # d574d4bb40c84861791a694a999cce69_9aabecb <ec34fbc10d74f76d8160c2aae04a84b4_6702>, 2014
 # d574d4bb40c84861791a694a999cce69_9aabecb <ec34fbc10d74f76d8160c2aae04a84b4_6702>, 2014
-# Giovanni Scafora <giovanni@archlinux.org>, 2011-2013,2015
+# Giovanni Scafora <scafora.giovanni@gmail.com>, 2011-2013,2015,2022
 # Saverio <saverio.brancaccio@gmail.com>, 2016
 # ~Smlb <smlb@riseup.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-04-23 00:41+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2022-09-26 21:09+1000\n"
+"PO-Revision-Date: 2011-08-08 22:35+0000\n"
+"Last-Translator: Giovanni Scafora <scafora.giovanni@gmail.com>, "
+"2011-2013,2015,2022\n"
 "Language-Team: Italian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/it/)\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
 
 #: scripts/makepkg.sh.in:139
 msgid "Cleaning up..."
@@ -88,7 +90,7 @@ msgstr "L'operazione sta per essere interrotta..."
 
 #: scripts/makepkg.sh.in:248
 msgid "Pacman is currently in use, please wait..."
-msgstr "Pacman è attualmente utilizzato, attendere..."
+msgstr "Pacman è attualmente in uso, attendere..."
 
 #: scripts/makepkg.sh.in:269
 msgid "'%s' returned a fatal error (%i): %s"
@@ -679,8 +681,8 @@ msgstr "--lsign-key Firma localmente il keyid specificato"
 
 #: scripts/pacman-key.sh.in:77
 msgid ""
-"  --populate                Reload the default keys from the (given) keyrings"
-"\\n                            in '%s'"
+"  --populate                Reload the default keys from the (given) "
+"keyrings\\n                            in '%s'"
 msgstr ""
 "--populate Ricarica le chiavi di default dai portachiavi\\n (specificati) in "
 "'%s'"
@@ -694,20 +696,20 @@ msgstr ""
 
 #: scripts/pacman-key.sh.in:80
 msgid "  --verbose                 Show extra information"
-msgstr ""
+msgstr "  --verbose                 Mostra ulteriori informazioni"
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
-"  --config <file>           Use an alternate config file (instead of"
-"\\n                            '%s')"
+"  --config <file>           Use an alternate config file (instead "
+"of\\n                            '%s')"
 msgstr ""
 "  --config <file>           Usa un file di configurazione alternativo "
 "(invece di\\n                            '%s')"
 
 #: scripts/pacman-key.sh.in:85
 msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
-"\\n                            of '%s')"
+"  --gpgdir <dir>            Set an alternate directory for GnuPG "
+"(instead\\n                            of '%s')"
 msgstr ""
 "  --gpgdir <dir>            Imposta una directory alternativa per GnuPG "
 "(invece\\n                            di '%s')"
@@ -736,6 +738,8 @@ msgstr "Il nome della chiave è ambiguo:"
 #: scripts/pacman-key.sh.in:148
 msgid "Generating pacman master key. This may take some time."
 msgstr ""
+"Generazione della chiave master di pacman. Questa operazione potrebbe "
+"richiedere del tempo."
 
 #: scripts/pacman-key.sh.in:185
 msgid "The key identified by %s could not be found locally."
@@ -744,11 +748,11 @@ msgstr "La chiave identificata da %s non esiste localmente."
 #: scripts/pacman-key.sh.in:196 scripts/pacman-key.sh.in:208
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:204
 msgid "_"
-msgstr ""
+msgstr "_"
 
 #: scripts/pacman-key.sh.in:208
 msgid "flags"
-msgstr ""
+msgstr "flag"
 
 #: scripts/pacman-key.sh.in:263
 msgid "You do not have sufficient permissions to read the %s keyring."
@@ -800,7 +804,7 @@ msgstr "Disabilitazione della chiave %s in corso..."
 
 #: scripts/pacman-key.sh.in:381
 msgid "Disabled %s keys."
-msgstr ""
+msgstr "Disabilitate %s chiavi."
 
 #: scripts/pacman-key.sh.in:388
 msgid "A specified keyfile could not be added to the keyring."
@@ -848,7 +852,7 @@ msgstr "%s non può essere firmata localmente."
 
 #: scripts/pacman-key.sh.in:509
 msgid "Locally signed %s keys."
-msgstr ""
+msgstr "Firmate localmente %s chiavi."
 
 #: scripts/pacman-key.sh.in:532
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -862,7 +866,7 @@ msgstr "La chiave remota non è stata correttamente scaricata dal keyserver."
 
 #: scripts/pacman-key.sh.in:569
 msgid "Could not update key: %s"
-msgstr ""
+msgstr "Impossibile aggiornare la chiave: %s"
 
 #: scripts/pacman-key.sh.in:590 scripts/repo-add.sh.in:265
 msgid "Cannot use armored signatures for packages: %s"
@@ -933,8 +937,8 @@ msgstr ""
 
 #: scripts/repo-add.sh.in:66
 msgid ""
-"  -R, --remove      remove old package file from disk after updating database"
-"\\n"
+"  -R, --remove      remove old package file from disk after updating "
+"database\\n"
 msgstr ""
 "-R, --remove rimuove il vecchio pacchetto dal disco dopo l'aggiornamento del "
 "database\\n"
@@ -953,9 +957,9 @@ msgstr "Uso: repo-remove [opzioni] <path-to-db> <packagename> ...\\n"
 
 #: scripts/repo-add.sh.in:71
 msgid ""
-"repo-remove will update a package database by removing the package name"
-"\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n"
+"repo-remove will update a package database by removing the package "
+"name\\nspecified on the command line from the given repo database. "
+"Multiple\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove aggiornerà il database di un pacchetto, rimuovendo il nome del "
 "pacchetto dal database del repository,\\nspecificato dalla linea di comando. "
@@ -987,8 +991,8 @@ msgstr ""
 #: scripts/repo-add.sh.in:85
 msgid "  -v, --verify      verify database's signature before update\\n"
 msgstr ""
-"  -v, --verify      verifica la firma del database prima dell'aggiornamento"
-"\\n"
+"  -v, --verify      verifica la firma del database prima "
+"dell'aggiornamento\\n"
 
 #: scripts/repo-add.sh.in:86
 msgid ""
@@ -1301,7 +1305,7 @@ msgstr "%s non dovrebbe essere un array"
 #: scripts/libmakepkg/lint_config/variable.sh.in:66
 msgid "PACKAGER should have the format 'Example Name <email@address.invalid>'"
 msgstr ""
-"PACKAGER deve essere nel formato 'Nome d'esempio <indirizzo@email.nonvalido>'"
+"PACKAGER deve essere nel formato 'Nome d'esempio <email@address.invalid>'"
 
 #: scripts/libmakepkg/lint_package.sh.in:41
 msgid "Checking for packaging issues..."
@@ -1382,7 +1386,7 @@ msgstr "%s non può iniziare con un punto."
 #: scripts/libmakepkg/lint_pkgbuild/pkgname.sh.in:49
 #: scripts/libmakepkg/lint_pkgbuild/pkgver.sh.in:46
 msgid "%s may only contain ascii characters."
-msgstr "%s può contenere solo caratteri ASCII."
+msgstr "%s può contenere solo caratteri ascii."
 
 #: scripts/libmakepkg/lint_pkgbuild/pkgrel.sh.in:40
 msgid "%s must be of the form 'integer[.integer]', not %s."
@@ -1502,7 +1506,7 @@ msgstr "Impossibile aggiornare il repository %s %s"
 #: scripts/libmakepkg/source/git.sh.in:121
 msgid "Failure while checking out version %s, the git tag has been forged"
 msgstr ""
-"Errore durante il checkout della version %s, il tag Git è stato falsificato"
+"Errore durante il controllo della versione %s, il tag git è stato falsificato"
 
 #: scripts/libmakepkg/source/local.sh.in:39
 msgid "%s was not found in the build directory and is not a URL."

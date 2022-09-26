@@ -26,7 +26,7 @@
 # Michal Plichta <mplichta@gmail.com>, 2013
 # Michal Plichta <mplichta@gmail.com>, 2013
 # megamann, 2015-2016
-# Piotr Strębski <strebski@gmail.com>, 2017-2018
+# Piotr Strębski <strebski@gmail.com>, 2017-2018,2022
 # Piotr Strębski <strebski@gmail.com>, 2013-2014,2017
 # Sebastian Jakubiak, 2019
 # Sebastian Jakubiak, 2019
@@ -35,18 +35,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-04-23 00:41+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2022-09-26 21:09+1000\n"
+"PO-Revision-Date: 2011-08-08 22:35+0000\n"
+"Last-Translator: Piotr Strębski <strebski@gmail.com>, 2017-2018,2022\n"
 "Language-Team: Polish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/pl/)\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n"
-"%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
-"%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
+"(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
+"n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
 #: scripts/makepkg.sh.in:139
 msgid "Cleaning up..."
@@ -685,8 +685,8 @@ msgstr "--lsign-key Lokalne oznaczenie określonego klucza identyfikacyjnego"
 
 #: scripts/pacman-key.sh.in:77
 msgid ""
-"  --populate                Reload the default keys from the (given) keyrings"
-"\\n                            in '%s'"
+"  --populate                Reload the default keys from the (given) "
+"keyrings\\n                            in '%s'"
 msgstr ""
 "--populate Odświeżanie domyślnych kluczy z (podanego) zbioru kluczy\\n w '%s'"
 
@@ -701,16 +701,16 @@ msgstr ""
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
-"  --config <file>           Use an alternate config file (instead of"
-"\\n                            '%s')"
+"  --config <file>           Use an alternate config file (instead "
+"of\\n                            '%s')"
 msgstr ""
-"  --config <plik>           Użycie alternatywnego pliku konfiguracji (zamiast"
-"\\n                            '%s')"
+"  --config <plik>           Użycie alternatywnego pliku konfiguracji "
+"(zamiast\\n                            '%s')"
 
 #: scripts/pacman-key.sh.in:85
 msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
-"\\n                            of '%s')"
+"  --gpgdir <dir>            Set an alternate directory for GnuPG "
+"(instead\\n                            of '%s')"
 msgstr ""
 "  --gpgdir <katalog>            Użycie alternatywnego katalogu dla GnuPG "
 "(zamiast\\n                            '%s')"
@@ -737,7 +737,7 @@ msgstr "Nazwa klucza jest wieloznaczna:"
 
 #: scripts/pacman-key.sh.in:148
 msgid "Generating pacman master key. This may take some time."
-msgstr ""
+msgstr "Generowanie klucza głównego pacmana. To może zająć trochę czasu."
 
 #: scripts/pacman-key.sh.in:185
 msgid "The key identified by %s could not be found locally."
@@ -862,7 +862,7 @@ msgstr "Nie udało się pobrać klucza z keyservera."
 
 #: scripts/pacman-key.sh.in:569
 msgid "Could not update key: %s"
-msgstr ""
+msgstr "Nie udało się zaktualizować klucza: %s"
 
 #: scripts/pacman-key.sh.in:590 scripts/repo-add.sh.in:265
 msgid "Cannot use armored signatures for packages: %s"
@@ -932,8 +932,8 @@ msgstr "-n, --new dodaje tylko te pakiety, które nie są jeszcze w bazie\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid ""
-"  -R, --remove      remove old package file from disk after updating database"
-"\\n"
+"  -R, --remove      remove old package file from disk after updating "
+"database\\n"
 msgstr ""
 "-R, --remove usuwanie starego pliku pakietu z dysku podczas aktualizacji "
 "wpisu bazy danych\\n"
@@ -952,13 +952,13 @@ msgstr "Sposób użycia: repo-remove [opcje] <path-to-db> <packagename> ...\\n"
 
 #: scripts/repo-add.sh.in:71
 msgid ""
-"repo-remove will update a package database by removing the package name"
-"\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n"
+"repo-remove will update a package database by removing the package "
+"name\\nspecified on the command line from the given repo database. "
+"Multiple\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
-"repo-remove zaktualizuje bazę danych pakietów poprzez usunięcie nazwy pakietu"
-"\\nokreslonego w wierszu poleceń z danej bazy danych repozytorium.Wiele"
-"\\npakietów do usunięcia może zostać określone w wierszu poleceń.\\n"
+"repo-remove zaktualizuje bazę danych pakietów poprzez usunięcie nazwy "
+"pakietu\\nokreslonego w wierszu poleceń z danej bazy danych repozytorium."
+"Wiele\\npakietów do usunięcia może zostać określone w wierszu poleceń.\\n"
 
 #: scripts/repo-add.sh.in:78
 msgid "Please move along, there is nothing to see here.\\n"
@@ -998,8 +998,8 @@ msgstr ""
 msgid ""
 "Example:  repo-add /path/to/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz\\n"
 msgstr ""
-"Przykład:  repo-add /ścieżka/do/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar.gz"
-"\\n"
+"Przykład:  repo-add /ścieżka/do/repo.db.tar.gz pacman-3.0.0-1-i686.pkg.tar."
+"gz\\n"
 
 #: scripts/repo-add.sh.in:92
 msgid "Example:  repo-remove /path/to/repo.db.tar.gz kernel26\\n"

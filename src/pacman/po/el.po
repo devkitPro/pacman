@@ -16,6 +16,7 @@
 # ifaigios <ifaigios@gmail.com>, 2013,2015-2016
 # ifaigios <ifaigios@gmail.com>, 2013,2015
 # Christos Nouskas <nous@artixlinux.org>, 2011
+# 492d30ca33568c5819a4f95c90617de1_3730d98 <c1a4cca7e440358a87e394a300ed18e2_882277>, 2021
 # flamelab <panosfilip@gmail.com>, 2011
 # Paschalis Sposito <linuxer@artixlinux.org>, 2020
 # rtnpro_test <rtnpro@gmail.com>, 2011
@@ -26,9 +27,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-04-23 00:39+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2022-09-26 21:09+1000\n"
+"PO-Revision-Date: 2010-11-29 23:17+0000\n"
+"Last-Translator: 492d30ca33568c5819a4f95c90617de1_3730d98 "
+"<c1a4cca7e440358a87e394a300ed18e2_882277>, 2021\n"
 "Language-Team: Greek (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/el/)\n"
 "Language: el\n"
@@ -259,27 +261,27 @@ msgstr "φόρτωση αρχείων πακέτων"
 #: src/pacman/callback.c:751
 #, c-format
 msgid "Total"
-msgstr ""
+msgstr "Σύνολο"
 
 #: src/pacman/callback.c:884
 #, c-format
 msgid " %s downloading...\n"
-msgstr ""
+msgstr "λήψη %s...\n"
 
 #: src/pacman/callback.c:1051
 #, c-format
 msgid " %s is up to date"
-msgstr ""
+msgstr "%s είναι ενημερωμένο"
 
 #: src/pacman/callback.c:1077
 #, c-format
 msgid " %s failed to download"
-msgstr ""
+msgstr "αποτυχία λήψης %s"
 
 #: src/pacman/callback.c:1126
 #, c-format
 msgid "unknown callback event type %d for %s\n"
-msgstr ""
+msgstr "άγνωστος τύπος συμβάντος επανάκλησης %d για %s\n"
 
 #: src/pacman/check.c:63 src/pacman/check.c:291
 #, c-format
@@ -329,17 +331,17 @@ msgstr "%s: %s (Αναντιστοιχία μεγέθους)\n"
 #: src/pacman/check.c:185
 #, c-format
 msgid "%s: %s (failed to calculate %s checksum)\n"
-msgstr ""
+msgstr "%s: %s (αποτυχία υπολογισμού αθροίσματος ελέγχου %s)\n"
 
 #: src/pacman/check.c:193
 #, c-format
 msgid "%s: %s (%s checksum information not available)\n"
-msgstr ""
+msgstr "%s: %s (%s μη διαθέσιμες πληροφορίες αθροίσματος ελέγχου)\n"
 
 #: src/pacman/check.c:204 src/pacman/check.c:210
 #, c-format
 msgid "%s: %s (%s checksum mismatch)\n"
-msgstr ""
+msgstr "%s: %s (%s αναντιστοιχία αθροίσματος ελέγχου)\n"
 
 #: src/pacman/check.c:266 src/pacman/check.c:281 src/pacman/check.c:325
 #: src/pacman/check.c:379
@@ -438,11 +440,15 @@ msgstr "αρχείο επιλογών %s, γραμμή %d: άγνωστη εντ
 #, c-format
 msgid "config file %s, line %d: value for '%s' has to be positive : '%s'\n"
 msgstr ""
+"αρχείο διαμόρφωσης %s, γραμμή %d: η τιμή για '%s' πρέπει να είναι θετική: "
+"'%s'\n"
 
 #: src/pacman/conf.c:741
 #, c-format
 msgid "config file %s, line %d: value for '%s' is too large : '%s'\n"
 msgstr ""
+"αρχείο διαμόρφωσης %s, γραμμή %d:  η τιμή για '%s' είναι υπερβολικά μεγάλη: "
+"'%s'\n"
 
 #: src/pacman/conf.c:761
 #, c-format
@@ -467,6 +473,9 @@ msgid ""
 "(root: %s, dbpath: %s)\n"
 "%s\n"
 msgstr ""
+"αποτυχία αρχικοποίησης βιβλιοθήκης alpm:\n"
+"(root: %s, dbpath: %s)\n"
+"%s\n"
 
 #: src/pacman/conf.c:842
 #, c-format
@@ -567,7 +576,7 @@ msgstr "Ιδιοκτησία %s από %s%s/%s%s%s%s%s\n"
 #: src/pacman/files.c:129
 #, c-format
 msgid "invalid regular expression '%s'\n"
-msgstr ""
+msgstr "μη έγκυρη κανονική έκφραση '%s'\n"
 
 #: src/pacman/files.c:253
 #, c-format
@@ -1074,6 +1083,9 @@ msgid ""
 "                       overwrite conflicting files (can be used more than "
 "once)\n"
 msgstr ""
+"--overwrite \n"
+"αντικατάσταση αντικρουόμενων αρχείων (μπορεί να χρησιμοποιηθεί πάνω από μία "
+"φορά)\n"
 
 #: src/pacman/pacman.c:194
 #, c-format
@@ -1617,7 +1629,7 @@ msgstr "μη έγκυρη βάση'%s' (%s)\n"
 #: src/pacman/util.c:159
 #, c-format
 msgid "failed to synchronize all databases (%s)\n"
-msgstr ""
+msgstr "αποτυχία συγχρονισμού όλων των βάσεων δεδομένων (%s)\n"
 
 #: src/pacman/util.c:651
 #, c-format

@@ -22,16 +22,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-04-23 00:39+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2022-09-26 21:09+1000\n"
+"PO-Revision-Date: 2010-11-29 23:17+0000\n"
+"Last-Translator: c0d75bae60e6967ec54315cff4da5848, 2012\n"
 "Language-Team: Portuguese (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/pt/)\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % "
+"1000000 == 0 ? 1 : 2;\n"
 
 #: src/pacman/callback.c:245
 #, c-format
@@ -170,6 +171,9 @@ msgstr[0] ""
 msgstr[1] ""
 "Os seguintes pacotes não podem ser atualizados devido a dependências não "
 "resolvidas:\n"
+msgstr[2] ""
+"Os seguintes pacotes não podem ser atualizados devido a dependências não "
+"resolvidas:\n"
 
 #: src/pacman/callback.c:512
 #, c-format
@@ -177,6 +181,7 @@ msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Deseja ignorar o pacote acima para esta atualização?"
 msgstr[1] "Deseja ignorar os pacotes acima para esta atualização?"
+msgstr[2] "Deseja ignorar os pacotes acima para esta atualização?"
 
 #: src/pacman/callback.c:523
 #, c-format
@@ -184,6 +189,7 @@ msgid "There is %zu provider available for %s\n"
 msgid_plural "There are %zu providers available for %s:\n"
 msgstr[0] "Existe %zu fornecedor disponível para %s\n"
 msgstr[1] "Existem %zu fornecedores disponíveis para %s:\n"
+msgstr[2] "Existem %zu fornecedores disponíveis para %s:\n"
 
 #: src/pacman/callback.c:534
 #, c-format
@@ -351,6 +357,7 @@ msgid "%s: %jd total file, "
 msgid_plural "%s: %jd total files, "
 msgstr[0] "%s: %jd ficheiro no total, "
 msgstr[1] "%s: %jd ficheiros no total, "
+msgstr[2] "%s: %jd ficheiros no total, "
 
 #: src/pacman/check.c:303
 #, c-format
@@ -358,6 +365,7 @@ msgid "%jd missing file\n"
 msgid_plural "%jd missing files\n"
 msgstr[0] "%jd ficheiro em falta\n"
 msgstr[1] "%jd ficheiros em falta\n"
+msgstr[2] "%jd ficheiros em falta\n"
 
 #: src/pacman/check.c:334
 #, c-format
@@ -380,6 +388,7 @@ msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
 msgstr[0] "%jd ficheiro alterado\n"
 msgstr[1] "%jd ficheiro alterados\n"
+msgstr[2] "%jd ficheiro alterados\n"
 
 #: src/pacman/conf.c:102 src/pacman/conf.c:315
 #, c-format
@@ -387,6 +396,7 @@ msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
 msgstr[0] "malloc falhou: não foi possível alocar %zu byte\n"
 msgstr[1] "malloc falhou: não foi possível alocar %zu bytes\n"
+msgstr[2] "malloc falhou: não foi possível alocar %zu bytes\n"
 
 #: src/pacman/conf.c:338
 #, c-format
@@ -1518,6 +1528,7 @@ msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: src/pacman/sync.c:629
 #, c-format

@@ -11,28 +11,29 @@
 # Leonel <leonelmalon@gmail.com>, 2013
 # Leonel <leonelmalon@gmail.com>, 2013
 # neiko <neikokz+tsfx@gmail.com>, 2011
-# prflr88 <prflr88@gmail.com>, 2017
-# prflr88 <prflr88@gmail.com>, 2013-2016
-# prflr88 <prflr88@gmail.com>, 2017
+# Pablo Lezaeta Reyes <prflr88@gmail.com>, 2017
+# Pablo Lezaeta Reyes <prflr88@gmail.com>, 2013-2016
+# Pablo Lezaeta Reyes <prflr88@gmail.com>, 2017
 # Pedro Román <roizheim@gmail.com>, 2013-2014,2016-2019
-# picodotdev <pico.dev@gmail.com>, 2016,2019,2021
-# prflr88 <prflr88@gmail.com>, 2017
+# picodotdev <pico.dev@gmail.com>, 2016,2019,2021-2022
+# Pablo Lezaeta Reyes <prflr88@gmail.com>, 2017
 # Swyter <Swyterzone@gmail.com>, 2015,2017-2018,2021
 # Swyter <Swyterzone@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-05-20 04:57+0000\n"
-"Last-Translator: Swyter <Swyterzone@gmail.com>\n"
+"POT-Creation-Date: 2022-09-26 21:09+1000\n"
+"PO-Revision-Date: 2010-11-29 23:17+0000\n"
+"Last-Translator: picodotdev <pico.dev@gmail.com>, 2016,2019,2021-2022\n"
 "Language-Team: Spanish (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
 
 #: lib/libalpm/add.c:90 lib/libalpm/sync.c:279
 #, c-format
@@ -295,7 +296,7 @@ msgstr "la ruta de la base de datos no está definida\n"
 #: lib/libalpm/deps.c:184
 #, c-format
 msgid "dependency cycle detected:\n"
-msgstr "se ha detectado un bucle de dependencias:\n"
+msgstr "detectado bucle de dependencias:\n"
 
 #: lib/libalpm/deps.c:187
 #, c-format
@@ -305,7 +306,7 @@ msgstr "%s se quitará después de su dependencia %s\n"
 #: lib/libalpm/deps.c:191
 #, c-format
 msgid "%s will be installed before its %s dependency\n"
-msgstr "%s se instalará antes de su dependencia %s\n"
+msgstr "%s se instalará antes que su dependencia %s\n"
 
 #: lib/libalpm/deps.c:666 lib/libalpm/deps.c:697
 #, c-format
@@ -429,7 +430,7 @@ msgstr "error de transferencia de curl: %d\n"
 #: lib/libalpm/dload.c:1055 lib/libalpm/sync.c:840
 #, c-format
 msgid "failed to retrieve some files\n"
-msgstr "no se pudieron recibir algunos archivos\n"
+msgstr "no se pudo recibir algunos archivos\n"
 
 #: lib/libalpm/dload.c:1078
 #, c-format
@@ -590,7 +591,7 @@ msgstr ""
 #: lib/libalpm/error.c:106
 #, c-format
 msgid "failed to run transaction hooks"
-msgstr "no se pudieron ejecutar los «hooks»"
+msgstr "no se pudo ejecutar los «hooks»"
 
 #: lib/libalpm/error.c:109
 #, c-format
@@ -630,7 +631,7 @@ msgstr "no se pudo abrir el archivo del paquete"
 #: lib/libalpm/error.c:123
 #, c-format
 msgid "cannot remove all files for package"
-msgstr "no se pudieron quitar todos los archivos del paquete"
+msgstr "no se pudo quitar todos los archivos del paquete"
 
 #: lib/libalpm/error.c:125
 #, c-format
@@ -655,7 +656,7 @@ msgstr "firma PGP no válida"
 #: lib/libalpm/error.c:135 lib/libalpm/hook.c:514
 #, c-format
 msgid "could not satisfy dependencies"
-msgstr "no se pudieron satisfacer las dependencias"
+msgstr "no se pudo satisfacer las dependencias"
 
 #: lib/libalpm/error.c:137
 #, c-format
@@ -670,7 +671,7 @@ msgstr "archivos en conflicto"
 #: lib/libalpm/error.c:142
 #, c-format
 msgid "failed to retrieve some files"
-msgstr "no se pudieron descargar algunos archivos"
+msgstr "no se pudo descargar algunos archivos"
 
 #: lib/libalpm/error.c:144
 #, c-format
@@ -807,8 +808,7 @@ msgstr "no se pudo crear la carpeta: %s: %s\n"
 #: lib/libalpm/package.c:598
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
-msgstr ""
-"no se pudieron cargar completamente los metadatos para el paquete %s-%s\n"
+msgstr "no se pudo cargar completamente los metadatos para el paquete %s-%s\n"
 
 #: lib/libalpm/remove.c:111
 #, c-format

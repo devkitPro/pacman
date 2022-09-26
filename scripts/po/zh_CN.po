@@ -8,7 +8,8 @@
 # Felix Yan <felixonmars@gmail.com>, 2015-2016
 # Feng Chao <chaofeng111@qq.com>, 2011,2019
 # Isaac Ge <acgtyrant@gmail.com>, 2014
-# Jiachen YANG <farseerfc@gmail.com>, 2020
+# Jiachen YANG <farseerfc@gmail.com>, 2020-2021
+# lakejason0 <sunliyuan200402@outlook.com>, 2022
 # Feng Chao <chaofeng111@qq.com>, 2011
 # Feng Chao <chaofeng111@qq.com>, 2011,2019
 # Feng Chao <chaofeng111@qq.com>, 2011
@@ -24,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-04-23 10:02+0000\n"
-"Last-Translator: 张海\n"
+"POT-Creation-Date: 2022-09-26 21:09+1000\n"
+"PO-Revision-Date: 2011-08-08 22:35+0000\n"
+"Last-Translator: lakejason0 <sunliyuan200402@outlook.com>, 2022\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/toofishes/archlinux-"
 "pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -447,11 +448,11 @@ msgstr "%s 必须在当前工作目录。"
 
 #: scripts/makepkg.sh.in:1300
 msgid "The key %s does not exist in your keyring."
-msgstr "在您的密匙环中不存在密匙 %s。"
+msgstr "在您的密钥环中不存在密钥 %s。"
 
 #: scripts/makepkg.sh.in:1302 scripts/repo-add.sh.in:145
 msgid "There is no key in your keyring."
-msgstr "您密匙环中无密匙。"
+msgstr "您的密钥环中无密钥。"
 
 #: scripts/makepkg.sh.in:1326 scripts/makepkg.sh.in:1341
 msgid "Leaving %s environment."
@@ -579,7 +580,7 @@ msgstr "用法： %s [选项] 操作 [目标]"
 
 #: scripts/pacman-key.sh.in:60
 msgid "Manage pacman's list of trusted keys"
-msgstr "管理 pacman 的可信密匙清单"
+msgstr "管理 pacman 的可信密钥列表"
 
 #: scripts/pacman-key.sh.in:62
 msgid "Operations:"
@@ -587,28 +588,28 @@ msgstr "操作："
 
 #: scripts/pacman-key.sh.in:63
 msgid "  -a, --add                 Add the specified keys (empty for stdin)"
-msgstr "  -a, --add              添加指定的密匙 (空则使用 stdin)"
+msgstr "  -a, --add              添加指定的密钥 (空则使用 stdin)"
 
 #: scripts/pacman-key.sh.in:64
 msgid "  -d, --delete              Remove the specified keyids"
-msgstr "  -d, --delete              删除指定的密匙识别号"
+msgstr "  -d, --delete              删除指定的密钥识别号"
 
 #: scripts/pacman-key.sh.in:65
 msgid "  -e, --export              Export the specified or all keyids"
-msgstr "  -e, --export              导出指定的或所有密匙识别号"
+msgstr "  -e, --export              导出指定的或所有密钥识别号"
 
 #: scripts/pacman-key.sh.in:66
 msgid ""
 "  -f, --finger              List fingerprint for specified or all keyids"
-msgstr "  -f, --finger              列出指定的或所有密匙识别号的指纹"
+msgstr "  -f, --finger              列出指定的或所有密钥识别号的指纹"
 
 #: scripts/pacman-key.sh.in:67
 msgid "  -l, --list-keys           List the specified or all keys"
-msgstr "  -l, --list-keys            列出指定的或全部的密匙"
+msgstr "  -l, --list-keys            列出指定的或所有密钥"
 
 #: scripts/pacman-key.sh.in:68
 msgid "  -r, --recv-keys           Fetch the specified keyids"
-msgstr "  -r, --recv-keys            取回指定的密钥id"
+msgstr "  -r, --recv-keys            取回指定的密钥识别号"
 
 #: scripts/pacman-key.sh.in:69
 msgid "  -u, --updatedb            Update the trustdb of pacman"
@@ -622,7 +623,7 @@ msgstr "  -v, --verify         验证该签名指定的文件"
 #: scripts/pacman-key.sh.in:71
 msgid ""
 "  --edit-key                Present a menu for key management task on keyids"
-msgstr "  --edit-key                为有关密匙识别号的管理密匙任务提供一个菜单"
+msgstr "  --edit-key                为有关密钥识别号的管理密钥任务提供一个菜单"
 
 #: scripts/pacman-key.sh.in:72
 msgid "  --import                  Imports pubring.gpg from dir(s)"
@@ -636,27 +637,27 @@ msgstr "  --import-trustdb        从目录中的 trustdb.gpg 导入拥有者信
 
 #: scripts/pacman-key.sh.in:74
 msgid "  --init                    Ensure the keyring is properly initialized"
-msgstr "  --init                    确保密匙环已正确初始化"
+msgstr "  --init                    确保密钥环已正确初始化"
 
 #: scripts/pacman-key.sh.in:75
 msgid "  --list-sigs               List keys and their signatures"
-msgstr "  --list-sigs               列出密匙及对应签名"
+msgstr "  --list-sigs               列出密钥及对应签名"
 
 #: scripts/pacman-key.sh.in:76
 msgid "  --lsign-key               Locally sign the specified keyid"
-msgstr "  --lsign-key                  在本地签名指定的密匙识别号"
+msgstr "  --lsign-key                  在本地签名指定的密钥识别号"
 
 #: scripts/pacman-key.sh.in:77
 msgid ""
-"  --populate                Reload the default keys from the (given) keyrings"
-"\\n                            in '%s'"
+"  --populate                Reload the default keys from the (given) "
+"keyrings\\n                            in '%s'"
 msgstr ""
-"  --populate              从 (给定的) 密匙环中重新加载默认密匙\\n（在'%s'中）"
+"  --populate              从 (给定的) 密钥环中重新加载默认密钥\\n（在'%s'中）"
 
 #: scripts/pacman-key.sh.in:79
 msgid ""
 "  --refresh-keys            Update specified or all keys from a keyserver"
-msgstr "  --refresh-keys            从密匙服务器中更新指定的或所有的密匙"
+msgstr "  --refresh-keys            从密钥服务器中更新指定的或所有的密钥"
 
 #: scripts/pacman-key.sh.in:80
 msgid "  --verbose                 Show extra information"
@@ -664,21 +665,21 @@ msgstr "  --verbose                 显示额外信息"
 
 #: scripts/pacman-key.sh.in:83
 msgid ""
-"  --config <file>           Use an alternate config file (instead of"
-"\\n                            '%s')"
+"  --config <file>           Use an alternate config file (instead "
+"of\\n                            '%s')"
 msgstr "--config <file>           使用另外的配置文件(而不是\\n '%s')"
 
 #: scripts/pacman-key.sh.in:85
 msgid ""
-"  --gpgdir <dir>            Set an alternate directory for GnuPG (instead"
-"\\n                            of '%s')"
+"  --gpgdir <dir>            Set an alternate directory for GnuPG "
+"(instead\\n                            of '%s')"
 msgstr ""
 "  --gpgdir <dir>            为 GnuPG 设定的另外目录 (而"
 "\\n                            非 '%s')"
 
 #: scripts/pacman-key.sh.in:87
 msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
-msgstr "  --keyserver <server-url>              如果需要，指定使用的密匙服务器"
+msgstr "  --keyserver <server-url>              如果需要，指定使用的密钥服务器"
 
 #: scripts/pacman-key.sh.in:89
 msgid "  -h, --help                Show this help message and exit"
@@ -694,7 +695,7 @@ msgstr "根据名字查询密钥失败："
 
 #: scripts/pacman-key.sh.in:140
 msgid "Key name is ambiguous:"
-msgstr "关键字有歧义："
+msgstr "密钥名有歧义："
 
 #: scripts/pacman-key.sh.in:148
 msgid "Generating pacman master key. This may take some time."
@@ -702,7 +703,7 @@ msgstr "正在生成 pacman 主密钥。这可能需要一段时间。"
 
 #: scripts/pacman-key.sh.in:185
 msgid "The key identified by %s could not be found locally."
-msgstr "本地没有找到由 %s 认定的密匙。"
+msgstr "本地没有找到由 %s 认定的密钥。"
 
 #: scripts/pacman-key.sh.in:196 scripts/pacman-key.sh.in:208
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:204
@@ -711,15 +712,15 @@ msgstr "_"
 
 #: scripts/pacman-key.sh.in:208
 msgid "flags"
-msgstr ""
+msgstr "flags"
 
 #: scripts/pacman-key.sh.in:263
 msgid "You do not have sufficient permissions to read the %s keyring."
-msgstr "您没有足够的许可权来读取 %s 密匙环。"
+msgstr "您没有足够的权限来读取 %s 密钥环。"
 
 #: scripts/pacman-key.sh.in:264 scripts/pacman-key.sh.in:271
 msgid "Use '%s' to correct the keyring permissions."
-msgstr "使用 '%s' 更正密匙环许可。"
+msgstr "使用 '%s' 更正密钥环许可。"
 
 #: scripts/pacman-key.sh.in:270
 msgid "You do not have sufficient permissions to run this command."
@@ -727,27 +728,27 @@ msgstr "您没有足够的许可权来运行该命令。"
 
 #: scripts/pacman-key.sh.in:278
 msgid "There is no secret key available to sign with."
-msgstr "没有签名可用的机密密匙。"
+msgstr "没有签名可用的私密密钥。"
 
 #: scripts/pacman-key.sh.in:279
 msgid "Use '%s' to generate a default secret key."
-msgstr "使用 '%s' 来生成默认的机密密匙。"
+msgstr "使用 '%s' 来生成默认的私密密钥。"
 
 #: scripts/pacman-key.sh.in:298
 msgid "No keyring files exist in %s."
-msgstr "在 %s 中没有密匙环文件。"
+msgstr "在 %s 中没有密钥环文件。"
 
 #: scripts/pacman-key.sh.in:305
 msgid "The keyring file %s does not exist."
-msgstr "密匙环文件 %s 不存在。"
+msgstr "密钥环文件 %s 不存在。"
 
 #: scripts/pacman-key.sh.in:320
 msgid "Appending keys from %s.gpg..."
-msgstr "正在从 %s.gpg 添加密匙..."
+msgstr "正在从 %s.gpg 添加密钥..."
 
 #: scripts/pacman-key.sh.in:360
 msgid "Locally signing trusted keys in keyring..."
-msgstr "正在本地签名密匙环中的可信密匙..."
+msgstr "正在本地签名密钥环中的可信密钥..."
 
 #: scripts/pacman-key.sh.in:362
 msgid "Importing owner trust values..."
@@ -755,11 +756,11 @@ msgstr "正在导入拥有者信任值..."
 
 #: scripts/pacman-key.sh.in:372
 msgid "Disabling revoked keys in keyring..."
-msgstr "正在密匙环中禁用已激活密匙..."
+msgstr "正在禁用密钥环中已激活的密钥..."
 
 #: scripts/pacman-key.sh.in:375
 msgid "Disabling key %s..."
-msgstr "正在禁用密匙 %s..."
+msgstr "正在禁用密钥 %s..."
 
 #: scripts/pacman-key.sh.in:381
 msgid "Disabled %s keys."
@@ -775,7 +776,7 @@ msgstr "无法从密钥环删除指定的键。"
 
 #: scripts/pacman-key.sh.in:406
 msgid "The key identified by %s could not be edited."
-msgstr "由 %s 认定的密匙不能编辑。"
+msgstr "由 %s 认定的密钥不能编辑。"
 
 #: scripts/pacman-key.sh.in:418
 msgid "A specified key could not be exported from the keyring."
@@ -783,7 +784,7 @@ msgstr "无法从密钥环导出指定的键。"
 
 #: scripts/pacman-key.sh.in:426
 msgid "The fingerprint of a specified key could not be determined."
-msgstr "无法确定指定密匙的指纹。"
+msgstr "无法确定指定密钥的指纹。"
 
 #: scripts/pacman-key.sh.in:439 scripts/pacman-key.sh.in:458
 msgid "%s could not be imported."
@@ -795,7 +796,7 @@ msgstr "文件 %s 不存在且无法导入。"
 
 #: scripts/pacman-key.sh.in:474
 msgid "A specified key could not be listed."
-msgstr "指定密匙无法列出。"
+msgstr "指定密钥无法列出。"
 
 #: scripts/pacman-key.sh.in:482
 msgid "A specified signature could not be listed."
@@ -803,7 +804,7 @@ msgstr "指定签名无法列出。"
 
 #: scripts/pacman-key.sh.in:494
 msgid "Locally signing key %s..."
-msgstr "正在本地签名密匙 %s..."
+msgstr "正在本地签名密钥 %s..."
 
 #: scripts/pacman-key.sh.in:499
 msgid "%s could not be locally signed."
@@ -819,7 +820,7 @@ msgstr "无法从WKD或者公钥服务器获取远程公钥。"
 
 #: scripts/pacman-key.sh.in:537
 msgid "Remote key not fetched correctly from keyserver."
-msgstr "无法从密匙服务器中正确取回远端密匙。"
+msgstr "无法从密钥服务器中正确取回远端密钥。"
 
 #: scripts/pacman-key.sh.in:569
 msgid "Could not update key: %s"
@@ -892,8 +893,8 @@ msgstr " -n, --new 只增加数据库中没有的包\\n"
 
 #: scripts/repo-add.sh.in:66
 msgid ""
-"  -R, --remove      remove old package file from disk after updating database"
-"\\n"
+"  -R, --remove      remove old package file from disk after updating "
+"database\\n"
 msgstr "-R, --remove 在更新数据库之后，删除旧的软件包文件\\n"
 
 #: scripts/repo-add.sh.in:67
@@ -910,9 +911,9 @@ msgstr "用法：repo-remove [选项] <path-to-db> <packagename> ...\\n"
 
 #: scripts/repo-add.sh.in:71
 msgid ""
-"repo-remove will update a package database by removing the package name"
-"\\nspecified on the command line from the given repo database. Multiple"
-"\\npackages to remove can be specified on the command line.\\n"
+"repo-remove will update a package database by removing the package "
+"name\\nspecified on the command line from the given repo database. "
+"Multiple\\npackages to remove can be specified on the command line.\\n"
 msgstr ""
 "repo-remove 会通过移除从给定的软件库数据库的命令行中\\n指定的软件包名来更新软"
 "件包数据库。\\n可以在命令行中移除多个指定的软件包。\\n"
@@ -935,7 +936,7 @@ msgstr "  -s, --sign        更新后使用 GnuPG 签名数据库\\n"
 
 #: scripts/repo-add.sh.in:84
 msgid "  -k, --key <key>   use the specified key to sign the database\\n"
-msgstr "  -k, --key <密匙>   使用指定的密匙签名该数据库\\n"
+msgstr "  -k, --key <密钥>   使用指定的密钥签名该数据库\\n"
 
 #: scripts/repo-add.sh.in:85
 msgid "  -v, --verify      verify database's signature before update\\n"
@@ -1166,7 +1167,7 @@ msgstr "正在使用 %s 验证源文件签名..."
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:69
 msgid "unknown public key"
-msgstr "未知的公共密匙"
+msgstr "未知的公共密钥"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:72
 msgid "public key %s has been revoked"
@@ -1186,7 +1187,7 @@ msgstr "公钥 %s 不被信任"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:87
 msgid "invalid public key"
-msgstr "无效的公共密匙"
+msgstr "无效的公钥"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:93
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:97
@@ -1200,7 +1201,7 @@ msgstr "该签名已过期。"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:97
 msgid "the key has expired."
-msgstr "该密匙已过期。"
+msgstr "该密钥已过期。"
 
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:109
 msgid "One or more PGP signatures could not be verified!"

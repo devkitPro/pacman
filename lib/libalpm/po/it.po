@@ -9,22 +9,24 @@
 # d574d4bb40c84861791a694a999cce69_9aabecb <ec34fbc10d74f76d8160c2aae04a84b4_6702>, 2014
 # d574d4bb40c84861791a694a999cce69_9aabecb <ec34fbc10d74f76d8160c2aae04a84b4_6702>, 2014
 # Dan McGee <dpmcgee@gmail.com>, 2011
-# Giovanni Scafora <giovanni@archlinux.org>, 2011-2013,2015
+# Giovanni Scafora <scafora.giovanni@gmail.com>, 2011-2013,2015,2022
 # ~Smlb <smlb@riseup.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-05-20 02:25+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
+"POT-Creation-Date: 2022-09-26 21:09+1000\n"
+"PO-Revision-Date: 2010-11-29 23:17+0000\n"
+"Last-Translator: Giovanni Scafora <scafora.giovanni@gmail.com>, "
+"2011-2013,2015,2022\n"
 "Language-Team: Italian (http://www.transifex.com/toofishes/archlinux-pacman/"
 "language/it/)\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? "
+"1 : 2;\n"
 
 #: lib/libalpm/add.c:90 lib/libalpm/sync.c:279
 #, c-format
@@ -364,7 +366,7 @@ msgstr "La partizione %s è montata in sola lettura\n"
 #, c-format
 msgid ""
 "too many errors from %s, skipping for the remainder of this transaction\n"
-msgstr ""
+msgstr "troppi errori da %s, ignoro il resto dell'operazione\n"
 
 #: lib/libalpm/dload.c:220
 #, c-format
@@ -401,17 +403,17 @@ msgstr "l'url '%s' non è valido\n"
 #: lib/libalpm/dload.c:893
 #, c-format
 msgid "failed to setup a download payload for %s\n"
-msgstr ""
+msgstr "impossibile impostare un payload di download per %s\n"
 
 #: lib/libalpm/dload.c:905
 #, c-format
 msgid "curl returned error %d from transfer\n"
-msgstr ""
+msgstr "curl ha restituito l'errore %d dal download\n"
 
 #: lib/libalpm/dload.c:929
 #, c-format
 msgid "curl transfer error: %d\n"
-msgstr ""
+msgstr "errore di curl: %d\n"
 
 #: lib/libalpm/dload.c:1055 lib/libalpm/sync.c:840
 #, c-format
@@ -421,7 +423,7 @@ msgstr "impossibile scaricare alcuni file\n"
 #: lib/libalpm/dload.c:1078
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
-msgstr ""
+msgstr "download completato con successo ma nessun file nella cache\n"
 
 #: lib/libalpm/error.c:40
 #, c-format
@@ -551,7 +553,7 @@ msgstr "pacchetto duplicato"
 #: lib/libalpm/error.c:94
 #, c-format
 msgid "duplicate filename"
-msgstr ""
+msgstr "il nome del file è duplicato"
 
 #: lib/libalpm/error.c:98
 #, c-format
@@ -686,7 +688,7 @@ msgstr "si è verificato un errore lanciando il downloader esterno"
 #: lib/libalpm/error.c:159
 #, c-format
 msgid "compiled without signature support"
-msgstr "compilato senza supporto per le firme"
+msgstr "compilato senza supporto delle firme"
 
 #: lib/libalpm/error.c:162
 #, c-format
@@ -741,29 +743,29 @@ msgstr "si è verificato un errore durante la lettura dell'hook %s: %s\n"
 #: lib/libalpm/hook.c:162 lib/libalpm/hook.c:206 lib/libalpm/hook.c:248
 #, c-format
 msgid "hook %s line %d: invalid option %s\n"
-msgstr "hook %s, riga %d: opzione non valida: %s\n"
+msgstr "hook %s riga %d: l'opzione %s non è valida\n"
 
 #: lib/libalpm/hook.c:172
 #, c-format
 msgid "hook %s line %d: invalid section %s\n"
-msgstr "hook %s, riga %d: sezione non valida: %s\n"
+msgstr "hook %s riga %d: la sezione %s non è valida\n"
 
 #: lib/libalpm/hook.c:184 lib/libalpm/hook.c:199 lib/libalpm/hook.c:218
 #: lib/libalpm/hook.c:241
 #, c-format
 msgid "hook %s line %d: invalid value %s\n"
-msgstr "hook %s, riga %d: valore non valido: %s\n"
+msgstr "hook %s riga %d: il valore %s non è valido\n"
 
 #: lib/libalpm/hook.c:188 lib/libalpm/hook.c:211 lib/libalpm/hook.c:222
 #: lib/libalpm/hook.c:236
 #, c-format
 msgid "hook %s line %d: overwriting previous definition of %s\n"
-msgstr "hook %s, riga %d: sovrascrivo la definizione precedente di %s\n"
+msgstr "hook %s riga %d: sovrascrivo la definizione precedente di %s\n"
 
 #: lib/libalpm/hook.c:243
 #, c-format
 msgid "hook %s line %d: unable to set option (%s)\n"
-msgstr "hook %s, riga %d: impossibile impostare l'opzione (%s)\n"
+msgstr "hook %s riga %d: impossibile impostare l'opzione (%s)\n"
 
 #: lib/libalpm/hook.c:513
 #, c-format
@@ -813,7 +815,8 @@ msgstr "impossibile rimuovere il file '%s': %s\n"
 #: lib/libalpm/remove.c:403 lib/libalpm/remove.c:412
 #, c-format
 msgid "could not backup %s due to PATH_MAX overflow\n"
-msgstr "impossibile eseguire il backup %s a causa di un overflow di PATH_MAX\n"
+msgstr ""
+"impossibile eseguire il backup di %s a causa di un overflow di PATH_MAX\n"
 
 #: lib/libalpm/remove.c:554
 #, c-format
@@ -833,7 +836,7 @@ msgstr "impossibile rimuovere la voce '%s' dalla cache\n"
 #: lib/libalpm/signing.c:163
 #, c-format
 msgid "Public keyring not found; have you run '%s'?\n"
-msgstr "Portachiavi pubblico non trovato; hai eseguito '%s'?\n"
+msgstr "Il portachiavi pubblico non è stato trovato; hai eseguito '%s'?\n"
 
 #: lib/libalpm/signing.c:199 lib/libalpm/signing.c:767
 #, c-format
@@ -848,7 +851,7 @@ msgstr "ricerca della chiave %s tramite WKD in corso\n"
 #: lib/libalpm/signing.c:283
 #, c-format
 msgid "gpg error: %s\n"
-msgstr "errore GPG: %s\n"
+msgstr "errore gpg: %s\n"
 
 #: lib/libalpm/signing.c:430 lib/libalpm/signing.c:503
 #, c-format
@@ -894,12 +897,12 @@ msgstr ""
 #: lib/libalpm/signing.c:968
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
-msgstr "%s: chiave \"%s\" sconosciuta\n"
+msgstr "%s: la chiave \"%s\" è sconosciuta\n"
 
 #: lib/libalpm/signing.c:977
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
-msgstr "%s: chiave \"%s\" disabilitata\n"
+msgstr "%s: la chiave \"%s\" è disabilitata\n"
 
 #: lib/libalpm/signing.c:981
 #, c-format
@@ -915,13 +918,13 @@ msgstr "%s: la firma di \"%s\" non è valida\n"
 #: lib/libalpm/signing.c:1183
 #, c-format
 msgid "%s: signature format error\n"
-msgstr "%s: errore formato firma\n"
+msgstr "%s: errore formato della firma\n"
 
 #: lib/libalpm/signing.c:1136 lib/libalpm/signing.c:1169
 #: lib/libalpm/signing.c:1177
 #, c-format
 msgid "%s: unsupported signature format\n"
-msgstr "%s: formato firma non supportato\n"
+msgstr "%s: il formato della firma non è supportato\n"
 
 #: lib/libalpm/sync.c:96
 #, c-format
@@ -957,7 +960,7 @@ msgstr "impossibile sostituire %s con %s\n"
 #: lib/libalpm/sync.c:476
 #, c-format
 msgid "packages %s and %s have the same filename: %s\n"
-msgstr ""
+msgstr "i pacchetti %s e %s hanno lo stesso nome: %s\n"
 
 #: lib/libalpm/sync.c:542 lib/libalpm/sync.c:612
 #, c-format
