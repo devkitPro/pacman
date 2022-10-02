@@ -1,5 +1,19 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+6.0.2         - Fix potential content injection during PGP import (FS#73703)
+              - Fix potential segfault during PGP key import (FS#73534)
+              - Fix potential information leak while parsing badly formed
+                download header (FS#73704)
+              - Translation fixes to avoid segfault (FS#75680)
+              - makepkg:
+                - Fix compatability with bash 5.2 (FS#76035)
+                - Fix behaviour while attempting stripping of readonly files
+                  (FS#74486)
+                - Use debugedit instead of awk for identifying source files
+                  for debug packages
+                - Use -ffile-prefix-map instead of -fdebug-prefix-map to
+                  capture all source files in debug packages
+                - Add -flto to LDFLAGS for clang
 6.0.1         - Prevent download error pages ending up in package files
                 (FS#71083)
               - Give -U downloads a random .part file name if needed
