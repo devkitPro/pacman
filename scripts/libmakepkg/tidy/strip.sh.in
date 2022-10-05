@@ -160,7 +160,7 @@ tidy_strip() {
 					if ar t "$binary" &>/dev/null; then # Libraries (.a)
 						strip_flags="$STRIP_STATIC"
 						STRIPLTO=1
-					elif [[ $binary = *'.ko' ]]; then # Kernel module
+					elif [[ $binary = *'.ko' || $binary = *'.o' ]]; then # Kernel module or object file
 						strip_flags="$STRIP_SHARED"
 					else
 						continue
