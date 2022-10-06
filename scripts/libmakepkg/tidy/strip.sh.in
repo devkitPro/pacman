@@ -47,7 +47,7 @@ source_files() {
 
 	LANG=C debugedit --no-recompute-build-id \
 		--base-dir "${srcdir}" \
-		--dest-dir "${dbgsrcdir}/${pkgbase}" \
+		--dest-dir "${dbgsrcdir}" \
 		--list-file /dev/stdout "$1" \
 		| sort -zu | tr '\0' '\n'
 }
@@ -141,7 +141,7 @@ tidy_strip() {
 		if check_option "debug" "y"; then
 
 			dbgdir="$pkgdirbase/$pkgbase-@DEBUGSUFFIX@/usr/lib/debug"
-			dbgsrcdir="${DBGSRCDIR:-/usr/src/debug}"
+			dbgsrcdir="${DBGSRCDIR:-/usr/src/debug}/${pkgbase}"
 			dbgsrc="$pkgdirbase/$pkgbase-@DEBUGSUFFIX@$dbgsrcdir"
 			mkdir -p "$dbgdir" "$dbgsrc"
 		fi
