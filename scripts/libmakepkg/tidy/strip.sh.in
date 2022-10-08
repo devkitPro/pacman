@@ -72,8 +72,8 @@ strip_file() {
 		while IFS= read -r t; do
 			file="${srcdir}/${t}"
 			dest="${dbgsrc}/${t}"
-			if [[ -f "$file" ]] && ! [[ -f $dest ]]; then
-				mkdir -p "${dest%/*}"
+			mkdir -p "${dest%/*}"
+			[[ -f "$file" ]]; then
 				cp -- "$file" "$dest"
 			fi
 		done < <(source_files "$binary")
