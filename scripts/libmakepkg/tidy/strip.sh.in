@@ -73,7 +73,7 @@ strip_file() {
 			file="${srcdir}/${t}"
 			dest="${dbgsrc}/${t}"
 			mkdir -p "${dest%/*}"
-			[[ -f "$file" ]]; then
+			if [[ -f "$file" ]]; then
 				cp -- "$file" "$dest"
 			fi
 		done < <(source_files "$binary")
