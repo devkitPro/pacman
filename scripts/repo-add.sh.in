@@ -43,6 +43,7 @@ CLEAN_LOCK=0
 USE_COLOR='y'
 PREVENT_DOWNGRADE=0
 INCLUDE_SIGS=0
+DB_MODIFIED=0
 
 # Import libmakepkg
 source "$LIBRARY"/util/compress.sh
@@ -341,6 +342,8 @@ db_write_entry() {
 		rm -f ${oldfile} ${oldfile}.sig
 	fi
 
+	DB_MODIFIED=1
+
 	return 0
 } # end db_write_entry
 
@@ -360,6 +363,8 @@ db_remove_entry() {
 		# remove entries in "files" database
 		local filesentry=$(echo "$pkgentry" | sed 's/\(.*\)\/db\//\1\/files\//')
 		rm -rf "$filesentry"
+
+		DB_MODIFIED=1
 
 		pkgentry=$(find_pkgentry "$pkgname")
 	done
@@ -695,13 +700,13 @@ for arg in "${args[@]:1}"; do
 done
 
 # if the whole operation was a success, re-zip and rotate databases
-if (( !fail )); then
+if (( !fail )) && (( DB_MODIFIED )); then
 	msg "$(gettext "Creating updated database file '%s'")" "$REPO_DB_FILE"
 	create_db
 	rotate_db
 else
 	msg "$(gettext "No packages modified, nothing to do.")"
-	exit 1
+	exit $(( fail != 0 ))
 fi
 
 exit 0
