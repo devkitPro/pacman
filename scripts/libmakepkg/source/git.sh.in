@@ -48,7 +48,7 @@ download_git() {
 
 	if [[ ! -d "$dir" ]] || dir_is_empty "$dir" ; then
 		msg2 "$(gettext "Cloning %s %s repo...")" "${repo}" "git"
-		if ! git clone ${GITFLAGS:---mirror} "$url" "$dir"; then
+		if ! git clone --origin=origin ${GITFLAGS:---mirror} "$url" "$dir"; then
 			error "$(gettext "Failure while downloading %s %s repo")" "${repo}" "git"
 			plainerr "$(gettext "Aborting...")"
 			exit 1
@@ -91,7 +91,7 @@ extract_git() {
 			exit 1
 		fi
 		cd_safe "$srcdir"
-	elif ! git clone -s "$dir" "${dir##*/}"; then
+	elif ! git clone --origin=origin -s "$dir" "${dir##*/}"; then
 		error "$(gettext "Failure while creating working copy of %s %s repo")" "${repo}" "git"
 		plainerr "$(gettext "Aborting...")"
 		exit 1
