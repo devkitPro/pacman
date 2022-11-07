@@ -40,8 +40,7 @@
 #include <archive_entry.h>
 
 #ifdef HAVE_LIBSSL
-#include <openssl/md5.h>
-#include <openssl/sha.h>
+#include <openssl/evp.h>
 #endif
 
 #ifdef HAVE_LIBNETTLE
@@ -923,7 +922,8 @@ const char *_alpm_filecache_setup(alpm_handle_t *handle)
 static int md5_file(const char *path, unsigned char output[16])
 {
 #if HAVE_LIBSSL
-	MD5_CTX ctx;
+	EVP_MD_CTX *ctx;
+	const EVP_MD *md = EVP_get_digestbyname("MD5");
 #else /* HAVE_LIBNETTLE */
 	struct md5_ctx ctx;
 #endif
@@ -940,7 +940,8 @@ static int md5_file(const char *path, unsigned char output[16])
 	}
 
 #if HAVE_LIBSSL
-	MD5_Init(&ctx);
+	ctx = EVP_MD_CTX_create();
+	EVP_DigestInit_ex(ctx, md, NULL);
 #else /* HAVE_LIBNETTLE */
 	md5_init(&ctx);
 #endif
@@ -950,7 +951,7 @@ static int md5_file(const char *path, unsigned char output[16])
 			continue;
 		}
 #if HAVE_LIBSSL
-		MD5_Update(&ctx, buf, n);
+		EVP_DigestUpdate(ctx, buf, n);
 #else /* HAVE_LIBNETTLE */
 		md5_update(&ctx, n, buf);
 #endif
@@ -964,7 +965,8 @@ static int md5_file(const char *path, unsigned char output[16])
 	}
 
 #if HAVE_LIBSSL
-	MD5_Final(output, &ctx);
+	EVP_DigestFinal_ex(ctx, output, NULL);
+	EVP_MD_CTX_destroy(ctx);
 #else /* HAVE_LIBNETTLE */
 	md5_digest(&ctx, MD5_DIGEST_SIZE, output);
 #endif
@@ -979,7 +981,8 @@ static int md5_file(const char *path, unsigned char output[16])
 static int sha256_file(const char *path, unsigned char output[32])
 {
 #if HAVE_LIBSSL
-	SHA256_CTX ctx;
+	EVP_MD_CTX *ctx;
+	const EVP_MD *md = EVP_get_digestbyname("SHA256");
 #else /* HAVE_LIBNETTLE */
 	struct sha256_ctx ctx;
 #endif
@@ -996,7 +999,8 @@ static int sha256_file(const char *path, unsigned char output[32])
 	}
 
 #if HAVE_LIBSSL
-	SHA256_Init(&ctx);
+	ctx = EVP_MD_CTX_create();
+	EVP_DigestInit_ex(ctx, md, NULL);
 #else /* HAVE_LIBNETTLE */
 	sha256_init(&ctx);
 #endif
@@ -1006,7 +1010,7 @@ static int sha256_file(const char *path, unsigned char output[32])
 			continue;
 		}
 #if HAVE_LIBSSL
-		SHA256_Update(&ctx, buf, n);
+		EVP_DigestUpdate(ctx, buf, n);
 #else /* HAVE_LIBNETTLE */
 		sha256_update(&ctx, n, buf);
 #endif
@@ -1020,7 +1024,8 @@ static int sha256_file(const char *path, unsigned char output[32])
 	}
 
 #if HAVE_LIBSSL
-	SHA256_Final(output, &ctx);
+	EVP_DigestFinal_ex(ctx, output, NULL);
+	EVP_MD_CTX_destroy(ctx);
 #else /* HAVE_LIBNETTLE */
 	sha256_digest(&ctx, SHA256_DIGEST_SIZE, output);
 #endif
