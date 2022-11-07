@@ -5,6 +5,7 @@ sources = [
   'checksum.sh.in',
   'distcc.sh.in',
   'fakeroot.sh.in',
+  'debugedit.sh.in',
   'gpg.sh.in',
   'gzip.sh.in',
   'pacman.sh.in',
