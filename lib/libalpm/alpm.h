@@ -1844,7 +1844,7 @@ const char *alpm_option_get_gpgdir(alpm_handle_t *handle);
  * @param gpgdir the gpgdir to set
  */
 int alpm_option_set_gpgdir(alpm_handle_t *handle, const char *gpgdir);
-/* End of gpdir accessors */
+/* End of gpgdir accessors */
 /** @} */
 
 
