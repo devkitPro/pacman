@@ -156,6 +156,7 @@ int config_free(config_t *oldconfig)
 	free(oldconfig->dbpath);
 	free(oldconfig->logfile);
 	free(oldconfig->gpgdir);
+	free(oldconfig->sandboxuser);
 	FREELIST(oldconfig->hookdirs);
 	FREELIST(oldconfig->cachedirs);
 	free(oldconfig->xfercommand);
@@ -670,6 +671,11 @@ static int _parse_options(const char *key, char *value,
 				config->logfile = strdup(value);
 				pm_printf(ALPM_LOG_DEBUG, "config: logfile: %s\n", value);
 			}
+		} else if(strcmp(key, "DownloadUser") == 0) {
+			if(!config->sandboxuser) {
+				config->sandboxuser = strdup(value);
+				pm_printf(ALPM_LOG_DEBUG, "config: sandboxuser: %s\n", value);
+			}
 		} else if(strcmp(key, "XferCommand") == 0) {
 			char **c;
 			if((config->xfercommand_argv = wordsplit(value)) == NULL) {
@@ -922,6 +928,7 @@ static int setup_libalpm(void)
 	alpm_option_set_architectures(handle, config->architectures);
 	alpm_option_set_checkspace(handle, config->checkspace);
 	alpm_option_set_usesyslog(handle, config->usesyslog);
+	alpm_option_set_sandboxuser(handle, config->sandboxuser);
 
 	alpm_option_set_ignorepkgs(handle, config->ignorepkg);
 	alpm_option_set_ignoregroups(handle, config->ignoregrp);

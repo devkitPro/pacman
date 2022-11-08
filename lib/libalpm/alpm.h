@@ -1870,6 +1870,28 @@ int alpm_option_set_gpgdir(alpm_handle_t *handle, const char *gpgdir);
 /** @} */
 
 
+/** @name Accessors for use sandboxuser
+ *
+ *  This controls the user that libalpm will use for sensitive operations like
+ *  downloading files.
+ * @{
+ */
+
+/** Returns the user to switch to for sensitive operations.
+ * @return the user name
+ */
+const char *alpm_option_get_sandboxuser(alpm_handle_t *handle);
+
+/** Sets the user to switch to for sensitive operations.
+ * @param handle the context handle
+ * @param sandboxuser the user to set
+ */
+int alpm_option_set_sandboxuser(alpm_handle_t *handle, const char *sandboxuser);
+
+/* End of sandboxuser accessors */
+/** @} */
+
+
 /** @name Accessors for use syslog
  *
  * This controls whether libalpm will also use the syslog. Even if this option

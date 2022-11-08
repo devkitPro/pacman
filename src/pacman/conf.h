@@ -68,6 +68,7 @@ typedef struct __config_t {
 	char *logfile;
 	char *gpgdir;
 	char *sysroot;
+	char *sandboxuser;
 	alpm_list_t *hookdirs;
 	alpm_list_t *cachedirs;
 	alpm_list_t *architectures;

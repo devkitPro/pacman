@@ -262,6 +262,7 @@ static void dump_config(void)
 	show_list_str("HookDir", config->hookdirs);
 	show_str("GPGDir", config->gpgdir);
 	show_str("LogFile", config->logfile);
+	show_str("DownloadUser", config->sandboxuser);
 
 	show_list_str("HoldPkg", config->holdpkg);
 	show_list_str("IgnorePkg", config->ignorepkg);
@@ -362,6 +363,8 @@ static int list_directives(void)
 			show_str("GPGDir", config->gpgdir);
 		} else if(strcasecmp(i->data, "LogFile") == 0) {
 			show_str("LogFile", config->logfile);
+		} else if(strcasecmp(i->data, "DownloadUser") == 0) {
+			show_str("DownloadUser", config->sandboxuser);
 
 		} else if(strcasecmp(i->data, "HoldPkg") == 0) {
 			show_list_str("HoldPkg", config->holdpkg);
