@@ -24,6 +24,7 @@ libalpm_sources = files('''
   pkghash.h pkghash.c
   rawstr.c
   remove.h remove.c
+  sandbox.c
   signing.c signing.h
   sync.h sync.c
   trans.h trans.c
