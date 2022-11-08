@@ -113,6 +113,14 @@ typedef struct _alpm_db_t alpm_db_t;
  */
 typedef struct _alpm_pkg_t alpm_pkg_t;
 
+/** The extended data type used to store non-standard package data fields
+ * @ingroup libalpm_packages
+ */
+typedef struct _alpm_pkg_xdata_t {
+	char *name;
+	char *value;
+} alpm_pkg_xdata_t;
+
 /** The time type used by libalpm. Represents a unix time stamp
  * @ingroup libalpm_misc */
 typedef int64_t alpm_time_t;
@@ -2291,13 +2299,6 @@ typedef enum _alpm_pkgvalidation_t {
 	ALPM_PKG_VALIDATION_SIGNATURE = (1 << 3)
 } alpm_pkgvalidation_t;
 
-typedef struct _alpm_pkg_xdata_t {
-	char *name;
-	char *value;
-} alpm_pkg_xdata_t;
-
-alpm_list_t *alpm_pkg_get_xdata(alpm_pkg_t *pkg);
-
 /** Create a package from a file.
  * If full is false, the archive is read only until all necessary
  * metadata is found. If it is true, the entire archive is read, which
@@ -2604,6 +2605,12 @@ int alpm_pkg_get_sig(alpm_pkg_t *pkg, unsigned char **sig, size_t *sig_len);
  * @return an enum member giving the validation method
  */
 int alpm_pkg_get_validation(alpm_pkg_t *pkg);
+
+/** Gets the extended data field of a package.
+ * @param pkg a pointer to package
+ * @return a reference to a list of alpm_pkg_xdata_t objects
+ */
+alpm_list_t *alpm_pkg_get_xdata(alpm_pkg_t *pkg);
 
 /** Returns whether the package has an install scriptlet.
  * @return 0 if FALSE, TRUE otherwise
