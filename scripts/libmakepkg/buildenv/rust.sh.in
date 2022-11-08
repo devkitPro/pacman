@@ -24,13 +24,14 @@ LIBMAKEPKG_BUILDENV_RUST_SH=1
 MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
 source "$MAKEPKG_LIBRARY/util/option.sh"
+source "$MAKEPKG_LIBRARY/util/util.sh"
 
 buildenv_var+=('RUSTFLAGS' 'DEBUG_RUSTFLAGS')
 buildenv_functions+=('buildenv_rust')
 
 buildenv_rust() {
 	if check_option "debug" "y" && ! check_option "buildflags" "n"; then
-		DEBUG_RUSTFLAGS+=" --remap-path-prefix=$srcdir=${DBGSRCDIR:-/usr/src/debug}/${pkgbase}"
-		RUSTFLAGS+=" $DEBUG_RUSTFLAGS"
+		append_once DEBUG_RUSTFLAGS "--remap-path-prefix=$srcdir=${DBGSRCDIR:-/usr/src/debug}/${pkgbase}"
+		append_once RUSTFLAGS "$DEBUG_RUSTFLAGS"
 	fi
 }

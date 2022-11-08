@@ -25,14 +25,15 @@ LIBMAKEPKG_BUILDENV_DEBUGFLAGS_SH=1
 MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
 source "$MAKEPKG_LIBRARY/util/option.sh"
+source "$MAKEPKG_LIBRARY/util/util.sh"
 
 buildenv_functions+=('buildenv_debugflags')
 
 buildenv_debugflags() {
 	if check_option "debug" "y" && ! check_option "buildflags" "n"; then
-		DEBUG_CFLAGS+=" -ffile-prefix-map=$srcdir=${DBGSRCDIR:-/usr/src/debug}/${pkgbase}"
-		DEBUG_CXXFLAGS+=" -ffile-prefix-map=$srcdir=${DBGSRCDIR:-/usr/src/debug}/${pkgbase}"
-		CFLAGS+=" $DEBUG_CFLAGS"
-		CXXFLAGS+=" $DEBUG_CXXFLAGS"
+		append_once DEBUG_CFLAGS "-ffile-prefix-map=$srcdir=${DBGSRCDIR:-/usr/src/debug}/${pkgbase}"
+		append_once DEBUG_CXXFLAGS "-ffile-prefix-map=$srcdir=${DBGSRCDIR:-/usr/src/debug}/${pkgbase}"
+		append_once CFLAGS "$DEBUG_CFLAGS"
+		append_once CXXFLAGS "$DEBUG_CXXFLAGS"
 	fi
 }

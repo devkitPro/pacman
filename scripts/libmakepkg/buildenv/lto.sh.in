@@ -25,14 +25,15 @@ LIBMAKEPKG_BUILDENV_LTO_SH=1
 MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
 source "$MAKEPKG_LIBRARY/util/option.sh"
+source "$MAKEPKG_LIBRARY/util/util.sh"
 
 build_options+=('lto')
 buildenv_functions+=('buildenv_lto')
 
 buildenv_lto() {
 	if check_option "lto" "y" && ! check_option "buildflags" "n"; then
-		CFLAGS+=" ${LTOFLAGS:--flto}"
-		CXXFLAGS+=" ${LTOFLAGS:--flto}"
-		LDFLAGS+=" ${LTOFLAGS:--flto}"
+		append_once CFLAGS "${LTOFLAGS:--flto}"
+		append_once CXXFLAGS "${LTOFLAGS:--flto}"
+		append_once LDFLAGS "${LTOFLAGS:--flto}"
 	fi
 }

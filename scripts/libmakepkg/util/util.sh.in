@@ -112,3 +112,13 @@ source_safe() {
 
 	eval "$shellopts"
 }
+
+# Append a string to a variable if the value is not already contained.
+# usage : append_once( $ref, $value )
+append_once() {
+	local -n var=$1
+	local value=$2
+	if [[ ! $var =~ (^| )"$value"($| ) ]]; then
+		var+=" $value"
+	fi
+}
