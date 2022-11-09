@@ -218,7 +218,7 @@ static char *get_tempfile(const char *path, const char *filename)
  * - not thread-safe
  * - errno may be set by fork(), pipe(), or execvp()
  */
-static int systemvp(const char *file, char *const argv[])
+static int systemvp(const char *file, char *const argv[], const char *sandboxuser)
 {
 	int pid, err = 0, ret = -1, err_fd[2];
 	sigset_t oldblock;
@@ -244,6 +244,14 @@ static int systemvp(const char *file, char *const argv[])
 		sigaction(SIGINT, &oldint, NULL);
 		sigaction(SIGQUIT, &oldquit, NULL);
 		sigprocmask(SIG_SETMASK, &oldblock, NULL);
+
+		if (sandboxuser) {
+			ret = alpm_sandbox_setup_child(sandboxuser);
+			if (ret != 0) {
+				pm_printf(ALPM_LOG_ERROR, _("switching to sandbox user '%s' failed!\n"), sandboxuser);
+				_Exit(ret);
+			}
+		}
 
 		execvp(file, argv);
 
@@ -355,7 +363,7 @@ static int download_with_xfercommand(void *ctx, const char *url,
 			free(cmd);
 		}
 	}
-	retval = systemvp(argv[0], (char**)argv);
+	retval = systemvp(argv[0], (char**)argv, config->sandboxuser);
 
 	if(retval == -1) {
 		pm_printf(ALPM_LOG_WARNING, _("running XferCommand: fork failed!\n"));
