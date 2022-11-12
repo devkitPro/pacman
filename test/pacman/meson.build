@@ -158,6 +158,8 @@ pacman_tests = [
   'tests/replace103.py',
   'tests/replace104.py',
   'tests/replace110.py',
+  'tests/sandbox-download-upgrade.py',
+  'tests/sandbox-download-basic.py',
   'tests/scriptlet001.py',
   'tests/scriptlet002.py',
   'tests/scriptlet-signal-handling.py',
@@ -337,7 +339,6 @@ pacman_tests = [
   'tests/xfercommand001.py',
   'tests/upgrade-download-404.py',
   'tests/upgrade-download-pkg-and-sig-with-filename.py',
-  'tests/upgrade-download-pkg-and-sig-without-filename.py',
   'tests/upgrade-download-with-xfercommand.py',
 ]
 

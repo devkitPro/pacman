@@ -10,7 +10,7 @@ url = self.add_simple_http_server({
         'body': 'simple.sig',
     },
 
-    # content-disposition filename
+    # content-disposition filename is now ignored
     '/cd.pkg': {
         'headers': { 'Content-Disposition': 'attachment; filename="cd-alt.pkg"' },
         'body': 'cd'
@@ -64,19 +64,26 @@ self.addrule('!PACMAN_RETCODE=0')
 self.addrule('CACHE_FCONTENTS=simple.pkg|simple')
 self.addrule('CACHE_FCONTENTS=simple.pkg.sig|simple.sig')
 
-self.addrule('!CACHE_FEXISTS=cd.pkg')
-self.addrule('!CACHE_FEXISTS=cd.pkg.sig')
-self.addrule('CACHE_FCONTENTS=cd-alt.pkg|cd')
-self.addrule('CACHE_FCONTENTS=cd-alt.pkg.sig|cd.sig')
+self.addrule('!CACHE_FEXISTS=cd-alt.pkg')
+self.addrule('!CACHE_FEXISTS=cd-alt.pkg.sig')
+self.addrule('CACHE_FCONTENTS=cd.pkg|cd')
+self.addrule('CACHE_FCONTENTS=cd.pkg.sig|cd.sig')
 
-self.addrule('!CACHE_FEXISTS=redir.pkg')
-self.addrule('CACHE_FCONTENTS=redir-dest.pkg|redir-dest')
-self.addrule('CACHE_FCONTENTS=redir-dest.pkg.sig|redir-dest.sig')
+self.addrule('!CACHE_FEXISTS=redir-dest.pkg')
+self.addrule('CACHE_FCONTENTS=redir.pkg|redir-dest')
+self.addrule('CACHE_FCONTENTS=redir.pkg.sig|redir-dest.sig')
 
-self.addrule('!CACHE_FEXISTS=cd-redir.pkg')
-self.addrule('!CACHE_FEXISTS=cd-redir-dest.pkg')
-self.addrule('CACHE_FCONTENTS=cd-redir-dest-alt.pkg|cd-redir-dest')
-self.addrule('CACHE_FCONTENTS=cd-redir-dest-alt.pkg.sig|cd-redir-dest.sig')
+self.addrule('CACHE_FCONTENTS=redir-cdn.pkg|redir-dest')
+self.addrule('CACHE_FCONTENTS=redir-cdn.pkg.sig|redir-dest.sig')
 
-self.addrule('CACHE_FCONTENTS=cdn-alt.pkg|cdn-alt')
-self.addrule('CACHE_FCONTENTS=cdn-alt.pkg.sig|cdn-alt.sig')
+self.addrule('!CACHE_FEXISTS=cd-redir-dest-alt.pkg')
+self.addrule('!CACHE_FEXISTS=cd-redir-dest-alt.pkg')
+self.addrule('CACHE_FCONTENTS=cd-redir.pkg|cd-redir-dest')
+self.addrule('CACHE_FCONTENTS=cd-redir.pkg.sig|cd-redir-dest.sig')
+
+self.addrule('!CACHE_FEXISTS=cdn-3')
+self.addrule('!CACHE_FEXISTS=cdn-4')
+self.addrule('!CACHE_FEXISTS=cdn-alt.pkg')
+self.addrule('!CACHE_FEXISTS=cdn-alt.pkg.sig')
+self.addrule('CACHE_FCONTENTS=cd-redir-cdn.pkg|cdn-alt')
+self.addrule('CACHE_FCONTENTS=cd-redir-cdn.pkg.sig|cdn-alt.sig')
