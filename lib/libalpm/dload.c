@@ -473,10 +473,9 @@ static int curl_retry_next_server(CURLM *curlm, CURL *curl, struct dload_payload
  * Returns -1 if an error happened for a required file
  * Returns -2 if an error happened for an optional file
  */
-static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
+static int curl_check_finished_download(alpm_handle_t *handle, CURLM *curlm, CURLMsg *msg,
 		const char *localpath, int *active_downloads_num)
 {
-	alpm_handle_t *handle = NULL;
 	struct dload_payload *payload = NULL;
 	CURL *curl = msg->easy_handle;
 	CURLcode curlerr;
@@ -491,7 +490,6 @@ static int curl_check_finished_download(CURLM *curlm, CURLMsg *msg,
 
 	curlerr = curl_easy_getinfo(curl, CURLINFO_PRIVATE, &payload);
 	ASSERT(curlerr == CURLE_OK, RET_ERR(handle, ALPM_ERR_LIBCURL, -1));
-	handle = payload->handle;
 
 	curl_gethost(payload->fileurl, hostname, sizeof(hostname));
 	curlerr = msg->data.result;
@@ -919,7 +917,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 				break;
 			}
 			if(msg->msg == CURLMSG_DONE) {
-				int ret = curl_check_finished_download(curlm, msg,
+				int ret = curl_check_finished_download(handle, curlm, msg,
 						localpath, &active_downloads_num);
 				if(ret == -1) {
 					/* if current payload failed to download then stop adding new payloads but wait for the
