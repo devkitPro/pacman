@@ -887,6 +887,8 @@ static void dload_init_event(const char *filename, alpm_download_event_init_t *d
 		printf("\n");
 		multibar_ui.cursor_lineno++;
 	}
+
+	free(cleaned_filename);
 }
 
 /* Update progress bar rate/eta stats.
