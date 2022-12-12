@@ -470,7 +470,6 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 			for(j = i->next; j; j = j->next) {
 				alpm_pkg_t *pkg2 = j->data;
 				if(strcmp(pkg1->filename, pkg2->filename) == 0) {
-					alpm_list_free(resolved);
 					ret = -1;
 					handle->pm_errno = ALPM_ERR_TRANS_DUP_FILENAME;
 					_alpm_log(handle, ALPM_LOG_ERROR, _("packages %s and %s have the same filename: %s\n"),
@@ -480,6 +479,7 @@ int _alpm_sync_prepare(alpm_handle_t *handle, alpm_list_t **data)
 		}
 
 		if(ret != 0) {
+			alpm_list_free(resolved);
 			goto cleanup;
 		}
 
