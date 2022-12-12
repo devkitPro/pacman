@@ -20,14 +20,14 @@ default:
 arch:
   extends: .arch-test
   script:
-    - meson build
+    - meson setup build
     - ninja -C build
     - fakechroot meson test -C build
 
 arch-debug:
   extends: .arch-test
   script:
-    - meson --buildtype=debug --werror build
+    - meson setup --buildtype=debug --werror build
     - ninja -C build
     - fakechroot meson test -C build
 
@@ -35,14 +35,14 @@ arch-docs:
   extends: .arch-test
   script:
     - pacman -Syu --needed --noconfirm asciidoc
-    - meson -Ddoc=enabled build
+    - meson setup -Ddoc=enabled build
     - ninja -C build
 
 arch-clang:
   extends: .arch-test
   script:
     - pacman -Syu --needed --noconfirm clang
-    - CC=clang meson build
+    - CC=clang meson setup build
     - ninja -C build
     - fakechroot meson test -C build
 
@@ -51,35 +51,35 @@ arch-valgrind:
   script:
     - pacman -Syu --needed --noconfirm valgrind
     - pacman -U --noconfirm https://geo.mirror.pkgbuild.com/core-debug/os/x86_64/glibc-debug-$(pacman -S --print-format %v glibc)-x86_64.pkg.tar.zst
-    - meson build
+    - meson setup build
     - ninja -C build
     - PACTEST_VALGRIND=1 fakechroot meson test -C build
 
 arch-nettle:
   extends: .arch-test
   script:
-    - meson -Dcrypto=nettle --buildtype=debug build
+    - meson setup -Dcrypto=nettle --buildtype=debug build
     - ninja -C build
     - fakechroot meson test -C build
 
 arch-no-gpg:
   extends: .arch-test
   script:
-    - meson -Dgpgme=disabled --buildtype=debug build
+    - meson setup -Dgpgme=disabled --buildtype=debug build
     - ninja -C build
     - fakechroot meson test -C build
 
 arch-no-curl:
   extends: .arch-test
   script:
-    - meson -Dcurl=disabled --buildtype=debug build
+    - meson setup -Dcurl=disabled --buildtype=debug build
     - ninja -C build
     - fakechroot meson test -C build
 
 arch-no-nls:
   extends: .arch-test
   script:
-    - meson -Di18n=false --buildtype=debug build
+    - meson setup -Di18n=false --buildtype=debug build
     - ninja -C build
     - fakechroot meson test -C build
 
@@ -94,7 +94,7 @@ debian:
       gettext python3 python3-setuptools dash gawk ca-certificates
       fakeroot fakechroot
   script:
-    - meson --buildtype=debug build
+    - meson setup --buildtype=debug build
     - ninja -C build
     - fakechroot meson test -C build
 
@@ -110,6 +110,6 @@ fedora:
       fakeroot fakechroot
       perl-Module-Load-Conditional
   script:
-    - meson --buildtype=debug build
+    - meson setup --buildtype=debug build
     - ninja -C build
     - fakechroot meson test -C build
