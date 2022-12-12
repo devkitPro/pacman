@@ -1109,6 +1109,7 @@ static int load_packages(alpm_handle_t *handle, alpm_list_t **data,
 			errors++;
 			*data = alpm_list_add(*data, strdup(spkg->filename));
 			free(filepath);
+			_alpm_pkg_free(pkgfile);
 			continue;
 		}
 		free(filepath);
