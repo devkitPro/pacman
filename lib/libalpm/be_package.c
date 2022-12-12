@@ -653,7 +653,6 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 	}
 
 	_alpm_archive_read_free(archive);
-	close(fd);
 
 	/* internal fields for package struct */
 	newpkg->origin = ALPM_PKG_FROM_FILE;
@@ -676,6 +675,7 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 		newpkg->infolevel |= INFRQ_FILES;
 	}
 
+	close(fd);
 	return newpkg;
 
 pkg_invalid:
