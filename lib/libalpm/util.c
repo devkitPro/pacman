@@ -348,6 +348,11 @@ int _alpm_unpack(alpm_handle_t *handle, const char *path, const char *prefix,
 
 		entryname = archive_entry_pathname(entry);
 
+		if(entryname == NULL) {
+			ret = 1;
+			goto cleanup;
+		}
+
 		/* If specific files were requested, skip entries that don't match. */
 		if(list) {
 			char *entry_prefix = NULL;
