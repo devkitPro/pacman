@@ -1279,6 +1279,16 @@ void print_packages(const alpm_list_t *packages)
 			free(temp);
 			temp = string;
 		}
+		/* %L : license */
+		if(strstr(temp, "%L")) {
+			alpm_list_t *lst = alpm_pkg_get_licenses(pkg);
+			char *licenses = concat_list(lst, NULL);
+			string = strreplace(temp, "%L", licenses);
+			free(licenses);
+			free(temp);
+			temp = string;
+		}
+
 		printf("%s\n", string);
 		free(string);
 	}
