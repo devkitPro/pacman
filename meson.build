@@ -104,7 +104,7 @@ libcurl = dependency('libcurl',
                      static : get_option('buildstatic'))
 conf.set('HAVE_LIBCURL', libcurl.found())
 
-needed_gpgme_version = '>=1.3.0'
+needed_gpgme_version = '>=1.12.0'
 gpgme = dependency('gpgme',
                    version : needed_gpgme_version,
                    required : get_option('gpgme'),
