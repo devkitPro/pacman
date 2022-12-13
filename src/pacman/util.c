@@ -405,26 +405,30 @@ char *strreplace(const char *str, const char *needle, const char *replace)
 	return newstr;
 }
 
-static char *concat_alpm_depends(alpm_list_t *lst)
+typedef char *(*formatfn)(void*);
+
+static char *concat_list(alpm_list_t *lst, formatfn fn)
 {
-	char *depends = NULL;
-	char *tmp = NULL;
+	char *output = NULL, *tmp = NULL;
+	asprintf(&output, "%s", "");
+
 	for(alpm_list_t *i = lst; i; i = alpm_list_next(i)) {
-		alpm_depend_t *dep = i->data;
-		char *depstring = alpm_dep_compute_string(dep);
-		if(tmp) {
-		    asprintf(&depends, "%s %s", tmp, depstring);
-		    free(tmp);
-		} else {
-		    asprintf(&depends, "%s", depstring);
+		char *str = fn ? fn(i->data) : i->data;
+
+		if(str == NULL) {
+			continue;
 		}
-		tmp = depends;
-		free(depstring);
+
+		tmp = output;
+		asprintf(&output, "%s %s", tmp, str);
+		free(tmp);
+
+		if(fn) {
+			free(str);
+		}
 	}
-	if(!depends) {
-		asprintf(&depends, "%s", "");
-	}
-	return depends;
+
+	return output;
 }
 
 static size_t string_length(const char *s)
@@ -1244,7 +1248,7 @@ void print_packages(const alpm_list_t *packages)
 		/* %C : checkdepends */
 		if(strstr(temp, "%C")) {
 			alpm_list_t *lst = alpm_pkg_get_checkdepends(pkg);
-			char *depends = concat_alpm_depends(lst);
+			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
 			string = strreplace(temp, "%C", lst ? depends : "");
 			free(depends);
 			free(temp);
@@ -1253,7 +1257,7 @@ void print_packages(const alpm_list_t *packages)
 		/* %D : depends */
 		if(strstr(temp, "%D")) {
 			alpm_list_t *lst = alpm_pkg_get_depends(pkg);
-			char *depends = concat_alpm_depends(lst);
+			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
 			string = strreplace(temp, "%D", depends);
 			free(depends);
 			free(temp);
@@ -1262,7 +1266,7 @@ void print_packages(const alpm_list_t *packages)
 		/* %M : makedepends */
 		if(strstr(temp, "%M")) {
 			alpm_list_t *lst = alpm_pkg_get_makedepends(pkg);
-			char *depends = concat_alpm_depends(lst);
+			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
 			string = strreplace(temp, "%M", depends);
 			free(depends);
 			free(temp);
