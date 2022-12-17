@@ -611,7 +611,7 @@ unset OPT_SHORT OPT_LONG OPTRET
 
 declare -a args
 # parse arguments
-while (( $# )); do
+while true; do
 	case $1 in
 		-q|--quiet) QUIET=1;;
 		-n|--new) ONLYADDNEW=1;;
@@ -634,12 +634,15 @@ while (( $# )); do
 		--include-sigs)
 			INCLUDE_SIGS=1
 			;;
-		*)
-			args+=("$1")
+		--)
+			shift
+			break
 			;;
 	esac
 	shift
 done
+
+args=("$@")
 
 # check if messages are to be printed using color
 if [[ -t 2 && $USE_COLOR != "n" ]]; then
