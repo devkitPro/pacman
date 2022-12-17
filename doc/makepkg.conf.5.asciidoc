@@ -291,9 +291,10 @@ Options
 
 **PKGEXT=**"{pkgext}", **SRCEXT=**"{srcext}"::
 	Sets the compression used when making compiled or source packages.
-	Valid suffixes are `.tar.gz`, `.tar.bz2`, `.tar.xz`, `.tar.zst`,
-	`.tar.lzo`, `.tar.lrz`, `.tar.lz4`, `.tar.lz` and `.tar.Z`, or
-	simply `.tar` to disable compression entirely.
+	Valid suffixes are `.pkg` or `.src` (for PKGEXT and SRCEXT resepectively)
+	followed by one of `.tar.gz`, `.tar.bz2`, `.tar.xz`, `.tar.zst`, `.tar.lzo`,
+	`.tar.lrz`, `.tar.lz4`, `.tar.lz` and `.tar.Z`, or simply `.tar` to
+	disable compression entirely.
 
 **PACMAN_AUTH=()**::
 	Specify a command prefix for running pacman as root. If unset, makepkg will
