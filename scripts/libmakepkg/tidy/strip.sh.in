@@ -66,7 +66,7 @@ package_source_files() {
 	done < <(source_files "$binary")
 }
 
-strip_file() {
+collect_debug_symbols() {
 	local binary=$1; shift
 
 	if check_option "debug" "y"; then
@@ -118,7 +118,10 @@ strip_file() {
 			ln -s "$target" "$dbgdir/.build-id/${bid:0:2}/${bid:2}.debug"
 		fi
 	fi
+}
 
+strip_file(){
+	local binary=$1; shift
 	local tempfile=$(mktemp "$binary.XXXXXX")
 	if strip "$@" "$binary" -o "$tempfile"; then
 		cat "$tempfile" > "$binary"
@@ -174,6 +177,7 @@ tidy_strip() {
 				*)
 					continue ;;
 			esac
+			collect_debug_symbols "$binary"
 			strip_file "$binary" ${strip_flags}
 			(( STRIPLTO )) && strip_lto "$binary"
 		done
