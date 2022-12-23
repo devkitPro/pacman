@@ -378,7 +378,7 @@ populate_keyring() {
 			key_count=$((key_count+1))
 		done
 		if (( key_count )); then
-			msg2 "$(gettext "Disabled %s keys.")" "${key_count}"
+			msg2 "$(ngettext "Disabled %s key." "Disabled %s keys." "${key_count}")" "${key_count}"
 		fi
 	fi
 }
@@ -506,7 +506,7 @@ lsign_keys() {
 		exit 1
 	fi
 	if (( key_count )); then
-		msg2 "$(gettext "Locally signed %s keys.")" "${key_count}"
+		msg2 "$(ngettext "Locally signed %s key." "Locally signed %s keys." "${key_count}")" "${key_count}"
 	fi
 }
 
@@ -609,6 +609,16 @@ updatedb() {
 if ! type gettext &>/dev/null; then
 	gettext() {
 		echo "$@"
+	}
+fi
+
+if ! type ngettext &>/dev/null; then
+	ngettext() {
+		if (( $3 == 1 )); then
+			echo "$1"
+		else
+			echo "$2"
+		done
 	}
 fi
 
