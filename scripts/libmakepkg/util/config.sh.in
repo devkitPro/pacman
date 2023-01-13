@@ -37,6 +37,11 @@ source_makepkg_config() {
 	# Source the config file; fail if it is not found
 	if [[ -r $MAKEPKG_CONF ]]; then
 		source_safe "$MAKEPKG_CONF"
+		if [[ -d "$MAKEPKG_CONF.d" ]]; then
+			for c in "$MAKEPKG_CONF.d"/*.conf; do
+				source_safe $c
+			done
+		fi
 	else
 		error "$(gettext "%s not found.")" "$MAKEPKG_CONF"
 		plainerr "$(gettext "Aborting...")"
