@@ -26,7 +26,6 @@ LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 source "$LIBRARY/util/option.sh"
 
 build_options+=('buildflags')
-buildenv_functions+=('buildenv_buildflags')
 
 buildenv_buildflags() {
 	if check_option "buildflags" "n"; then

@@ -34,6 +34,9 @@ done
 readonly -a buildenv_functions buildenv_vars build_options
 
 prepare_buildenv() {
+	# ensure this function runs first
+	buildenv_buildflags
+
 	for func in ${buildenv_functions[@]}; do
 		$func
 	done
