@@ -43,7 +43,6 @@ unset GREP_OPTIONS
 declare -r makepkg_version='@PACKAGE_VERSION@'
 declare -r confdir='@sysconfdir@'
 declare -r BUILDSCRIPT='@BUILDSCRIPT@'
-declare -r startdir="$(pwd -P)"
 
 LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 
@@ -51,6 +50,7 @@ LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
 ASDEPS=0
 BUILDFUNC=0
 BUILDPKG=1
+CHDIR=''
 CHECKFUNC=0
 CLEANBUILD=0
 CLEANUP=0
@@ -939,8 +939,8 @@ fi
 ARGLIST=("$@")
 
 # Parse Command Line Options.
-OPT_SHORT="AcCdefFghiLmop:rRsSV"
-OPT_LONG=('allsource' 'check' 'clean' 'cleanbuild' 'config:' 'force' 'geninteg'
+OPT_SHORT="AcCdD:efFghiLmop:rRsSV"
+OPT_LONG=('allsource' 'check' 'clean' 'cleanbuild' 'config:' 'dir:' 'force' 'geninteg'
           'help' 'holdver' 'ignorearch' 'install' 'key:' 'log' 'noarchive' 'nobuild'
           'nocolor' 'nocheck' 'nodeps' 'noextract' 'noprepare' 'nosign' 'packagelist'
           'printsrcinfo' 'repackage' 'rmdeps' 'sign' 'skipchecksums' 'skipinteg'
@@ -971,6 +971,7 @@ while true; do
 		--check)          RUN_CHECK='y' ;;
 		--config)         shift; MAKEPKG_CONF=$1 ;;
 		-d|--nodeps)      NODEPS=1 ;;
+		-D|--dir)         shift; CHDIR=$1 ;;
 		-e|--noextract)   NOEXTRACT=1 ;;
 		-f|--force)       FORCE=1 ;;
 		-F)               INFAKEROOT=1 ;;
@@ -1016,6 +1017,12 @@ while [[ $1 ]]; do
 	fi
 	shift
 done
+
+if [[ -n $CHDIR ]]; then
+	cd_safe "$CHDIR"
+fi
+
+declare -r startdir="$(pwd -P)"
 
 # setup signal traps
 trap 'clean_up' 0
