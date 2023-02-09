@@ -190,6 +190,7 @@ endif
 
 if get_option('debug')
   extra_cflags = [
+    '-pedantic',
     '-Wcast-align',
     '-Wclobbered',
     '-Wempty-body',
