@@ -44,7 +44,7 @@ library_provides() {
 					local sofile=$(LC_ALL=C readelf -d "$fn" 2>/dev/null | sed -n 's/.*Library soname: \[\(.*\)\].*/\1/p')
 
 					if [[ -z "$sofile" ]]; then
-						# the library is not versioned
+						# the library has no soname
 						continue
 					fi
 
