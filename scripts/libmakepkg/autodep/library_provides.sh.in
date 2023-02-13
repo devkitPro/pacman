@@ -35,7 +35,7 @@ library_provides() {
 				continue;
 			fi
 
-			mapfile -t filenames < <(find "$pkgdir/$dir" -type f | LC_ALL=C sort)
+			mapfile -t filenames < <(find "$pkgdir/$dir" -maxdepth 1 -type f | LC_ALL=C sort)
 
 			for fn in "${filenames[@]}"; do
 				# check we have a shared library
