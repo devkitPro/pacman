@@ -65,7 +65,7 @@ Use the "help" option to get the full list of parameters:
 When run with the `--valgrind' option, an additional rule will be added to all
 tests to check for memory leaks.  To use `--valgrind' when running the full
 test suite, run:
-    make PY_LOG_FLAGS=--valgrind check
+    PACTEST_VALGRIND=1 ninja test
 
 The following pieces of software are required to run the pactest suite:
 
