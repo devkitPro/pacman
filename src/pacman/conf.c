@@ -1136,15 +1136,22 @@ int setdefaults(config_t *c)
 #define SETDEFAULT(opt, val) if(!opt) { opt = val; if(!opt) { return -1; } }
 
 	if(c->rootdir) {
+		char* rootdir = strdup(c->rootdir);
+		int rootdir_len = strlen(rootdir);
+		/* This removes trailing slashes from the root directory */
+		if(rootdir[rootdir_len-1] == '/'){
+			rootdir[rootdir_len-1] = '\0';
+		}
 		char path[PATH_MAX];
 		if(!c->dbpath) {
-			snprintf(path, PATH_MAX, "%s/%s", c->rootdir, &DBPATH[1]);
+			snprintf(path, PATH_MAX, "%s/%s", rootdir, &DBPATH[1]);
 			SETDEFAULT(c->dbpath, strdup(path));
 		}
 		if(!c->logfile) {
-			snprintf(path, PATH_MAX, "%s/%s", c->rootdir, &LOGFILE[1]);
+			snprintf(path, PATH_MAX, "%s/%s", rootdir, &LOGFILE[1]);
 			SETDEFAULT(c->logfile, strdup(path));
 		}
+		free(rootdir);
 	} else {
 		SETDEFAULT(c->rootdir, strdup(ROOTDIR));
 		SETDEFAULT(c->dbpath, strdup(DBPATH));
