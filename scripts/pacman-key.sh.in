@@ -84,6 +84,8 @@ usage() {
                             '%s')")\n" "@sysconfdir@/pacman.conf"
 	printf -- "$(gettext "  --gpgdir <dir>            Set an alternate directory for GnuPG (instead\n\
                             of '%s')")\n" "@sysconfdir@/pacman.d/gnupg"
+	printf -- "$(gettext "  --populate-from <dir>     Set an alternate directory for --populate (instead\n\
+                            of '%s')")\n" "@keyringdir@"
 	printf -- "$(gettext "  --keyserver <server-url>  Specify a keyserver to use if necessary")\n"
 	echo
 	printf -- "$(gettext "  -h, --help                Show this help message and exit")\n"
@@ -283,7 +285,6 @@ check_keyring() {
 }
 
 populate_keyring() {
-	local KEYRING_IMPORT_DIR='@keyringdir@'
 
 	local keyring KEYRINGIDS=("$@")
 	local ret=0
@@ -625,7 +626,7 @@ fi
 OPT_SHORT="adefhlruvV"
 OPT_LONG=('add' 'config:' 'delete' 'edit-key' 'export' 'finger' 'gpgdir:'
           'help' 'import' 'import-trustdb' 'init' 'keyserver:' 'list-keys' 'list-sigs'
-          'lsign-key' 'nocolor' 'populate' 'recv-keys' 'refresh-keys' 'updatedb'
+          'lsign-key' 'nocolor' 'populate' 'populate-from:' 'recv-keys' 'refresh-keys' 'updatedb'
           'verbose' 'verify' 'version')
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	exit 1 # E_INVALID_OPTION
@@ -647,6 +648,7 @@ while (( $# )); do
 		-e|--export)      EXPORT=1 ;;
 		-f|--finger)      FINGER=1 ;;
 		--gpgdir)         shift; PACMAN_KEYRING_DIR=$1 ;;
+		--populate-from)  shift; KEYRING_IMPORT_DIR=$1 ;;
 		--import)         IMPORT=1 UPDATEDB=1 ;;
 		--import-trustdb) IMPORT_TRUSTDB=1 UPDATEDB=1 ;;
 		--init)           INIT=1 ;;
@@ -692,6 +694,8 @@ if [[ ! -r "${CONFIG}" ]]; then
 	error "$(gettext "%s configuration file '%s' not found.")" "pacman" "$CONFIG"
 	exit 1
 fi
+
+KEYRING_IMPORT_DIR=${KEYRING_IMPORT_DIR:-"@keyringdir@"}
 
 # if PACMAN_KEYRING_DIR isn't assigned, try to get it from the config
 # file, falling back on a hard default
