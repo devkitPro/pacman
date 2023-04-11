@@ -584,9 +584,9 @@ if [[ $cmd != "repo-add" && $cmd != "repo-remove" ]]; then
 	exit 1
 fi
 
-tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/repo-tools.XXXXXXXXXX") || (\
-	error "$(gettext "Cannot create temp directory for database building.")"; \
-	exit 1)
+tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/repo-tools.XXXXXXXXXX") || {
+	error "$(gettext "Cannot create temp directory for database building.")";
+	exit 1; }
 
 for repo in "db" "files"; do
 	mkdir "$tmpdir/$repo"
