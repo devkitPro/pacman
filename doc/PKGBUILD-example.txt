@@ -12,8 +12,8 @@ depends=('glibc')
 makedepends=('ed')
 optdepends=('ed: for "patch -e" functionality')
 source=("ftp://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz"{,.sig})
-md5sums=('e9ae5393426d3ad783a300a338c09b72'
-         'SKIP')
+sha256sums=('9124ba46db0abd873d0995c2ca880e81252676bb6c03e0a37dfc5f608a9b0ceb'
+            'SKIP')
 
 build() {
 	cd "$srcdir/$pkgname-$pkgver"
