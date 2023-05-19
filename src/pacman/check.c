@@ -217,22 +217,6 @@ static int check_file_cksum(const char *pkgname, const char *filepath,
 }
 #endif
 
-static int check_file_md5sum(const char *pkgname, const char *filepath,
-		struct archive_entry *entry, int backup)
-{
-	int errors = 0;
-#if ARCHIVE_VERSION_NUMBER >= 3005000
-	char *cksum_calc = alpm_compute_md5sum(filepath);
-	char *cksum_mtree = hex_representation(archive_entry_digest(entry,
-													ARCHIVE_ENTRY_DIGEST_MD5), 16);
-	errors = check_file_cksum(pkgname, filepath, backup, "MD5", cksum_calc,
-									cksum_mtree);
-	free(cksum_mtree);
-	free(cksum_calc);
-#endif
-	return (errors != 0 ? 1 : 0);
-}
-
 static int check_file_sha256sum(const char *pkgname, const char *filepath,
 		struct archive_entry *entry, int backup)
 {
@@ -428,7 +412,6 @@ int check_pkg_full(alpm_pkg_t *pkg)
 
 		if(type == AE_IFREG) {
 			file_errors += check_file_size(pkgname, filepath, &st, entry, backup);
-			file_errors += check_file_md5sum(pkgname, filepath, entry, backup);
 			file_errors += check_file_sha256sum(pkgname, filepath, entry, backup);
 		}
 
