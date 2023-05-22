@@ -199,7 +199,7 @@ Options
 		flags specified in LTOFLAGS to CFLAGS, CXXFLAGS and LDFLAGS (or
 		``-flto'' if LTOFLAGS is empty).
 
-	*autodep*;;
+	*autodeps*;;
 		Enable the automatic addition of libraries to the depends and
 		provides arrays. Search library directories are controlled by
 		the LIB_DIRS variable defined below.
@@ -236,7 +236,7 @@ Options
 
 **LIB_DIRS=(**lib:usr/lib ...**)**::
 	If `autodeps` is specified in the `OPTIONS` array, this variable will
-	instruct makepkg where to look to find librarys to add to the `provides`
+	instruct makepkg where to look to find libraries to add to the `provides`
 	array. The format is "prefix:path", where provides will be added for
 	libraries found in "path" with the specified prefix added.
 
