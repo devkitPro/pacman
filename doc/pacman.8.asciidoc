@@ -456,11 +456,11 @@ Additional targets can also be specified manually, so that '-Su foo' will do a
 system upgrade and install/upgrade the "foo" package in the same operation.
 
 *-y, \--refresh*::
-	Download a fresh copy of the master package database from the server(s)
-	defined in linkman:pacman.conf[5]. This should typically be used each time
-	you use	'\--sysupgrade' or '-u'. Passing two '\--refresh' or '-y' flags
-	will force a refresh of all package databases, even if they appear to be
-	up-to-date.
+	Download a fresh copy of the master package databases '(repo.db)' from the
+	server(s) defined in linkman:pacman.conf[5]. This should typically be used
+	each time you use '\--sysupgrade' or '-u'. Passing two '\--refresh' or '-y'
+	flags will force a refresh of all package databases, even if they appear to
+	be up-to-date.
 
 
 Database Options (apply to '-D')[[QO]]
@@ -489,8 +489,8 @@ Database Options (apply to '-D')[[QO]]
 File Options (apply to '-F')[[FO]]
 ----------------------------------
 *-y, --refresh*::
-	Download fresh package databases from the server. Use twice to force a
-	refresh even if databases are up to date.
+	Download fresh package file databases '(repo.files)' from the server.
+	Use twice to force a refresh even if databases are up to date.
 
 *-l, \--list*::
 	List the files owned by the queried package.
