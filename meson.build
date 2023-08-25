@@ -182,7 +182,22 @@ foreach type : [
   endif
 endforeach
 
-if conf.has('HAVE_STRUCT_STATVFS_F_FLAG')
+
+if conf.has('HAVE_GETMNTINFO')
+  if cc.compiles('''
+      #include <sys/types.h>
+      #include <sys/statvfs.h>
+
+      void func() {
+        struct statvfs *buf;
+        getmntinfo(&buf, 0);
+      }
+      ''')
+      conf.set('FSSTATSTYPE', 'struct statvfs')
+  else
+      conf.set('FSSTATSTYPE', 'struct statfs')
+  endif
+elif conf.has('HAVE_STRUCT_STATVFS_F_FLAG')
   conf.set('FSSTATSTYPE', 'struct statvfs')
 elif conf.has('HAVE_STRUCT_STATFS_F_FLAGS')
   conf.set('FSSTATSTYPE', 'struct statfs')
