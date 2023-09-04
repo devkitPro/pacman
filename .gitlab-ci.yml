@@ -16,6 +16,10 @@ default:
       python
       fakeroot fakechroot
       meson
+  artifacts:
+      when: always
+      paths:
+        - build/meson-logs/meson-log.txt
 
 arch:
   extends: .arch-test
