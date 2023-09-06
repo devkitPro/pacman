@@ -1256,7 +1256,7 @@ void print_packages(const alpm_list_t *packages)
 		if(strstr(temp, "%C")) {
 			alpm_list_t *lst = alpm_pkg_get_checkdepends(pkg);
 			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
-			string = strreplace(temp, "%C", lst ? depends : "");
+			string = strreplace(temp, "%C", depends);
 			free(depends);
 			free(temp);
 			temp = string;
