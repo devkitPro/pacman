@@ -68,6 +68,17 @@ enum {
 		temp = string; \
 	} \
 
+#define PRINT_FORMAT_LIST(temp, format, func, extract) \
+	if(strstr(temp, format)) { \
+		alpm_list_t *lst = func(pkg); \
+		char *cl = concat_list(lst, (formatfn)extract); \
+		string = strreplace(temp, format, cl); \
+		free(cl); \
+		free(temp); \
+		temp = string; \
+	} \
+
+
 int trans_init(int flags, int check_valid)
 {
 	int ret;
@@ -1255,86 +1266,23 @@ void print_packages(const alpm_list_t *packages)
 		/* %u : url */
 		PRINT_FORMAT_STRING(temp, "%u", alpm_pkg_get_url)
 		/* %C : checkdepends */
-		if(strstr(temp, "%C")) {
-			alpm_list_t *lst = alpm_pkg_get_checkdepends(pkg);
-			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
-			string = strreplace(temp, "%C", depends);
-			free(depends);
-			free(temp);
-			temp = string;
-		}
+		PRINT_FORMAT_LIST(temp, "%C", alpm_pkg_get_checkdepends, alpm_dep_compute_string)
 		/* %D : depends */
-		if(strstr(temp, "%D")) {
-			alpm_list_t *lst = alpm_pkg_get_depends(pkg);
-			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
-			string = strreplace(temp, "%D", depends);
-			free(depends);
-			free(temp);
-			temp = string;
-		}
+		PRINT_FORMAT_LIST(temp, "%D", alpm_pkg_get_depends, alpm_dep_compute_string)
 		/* %G : groups */
-		if(strstr(temp, "%G")) {
-			alpm_list_t *lst = alpm_pkg_get_groups(pkg);
-			char *depends = concat_list(lst, NULL);
-			string = strreplace(temp, "%G", depends);
-			free(depends);
-			free(temp);
-			temp = string;
-		}
+		PRINT_FORMAT_LIST(temp, "%G", alpm_pkg_get_groups, NULL)
 		/* %H : conflicts */
-		if(strstr(temp, "%H")) {
-			alpm_list_t *lst = alpm_pkg_get_conflicts(pkg);
-			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
-			string = strreplace(temp, "%H", depends);
-			free(depends);
-			free(temp);
-			temp = string;
-		}
+		PRINT_FORMAT_LIST(temp, "%H", alpm_pkg_get_conflicts, alpm_dep_compute_string)
 		/* %M : makedepends */
-		if(strstr(temp, "%M")) {
-			alpm_list_t *lst = alpm_pkg_get_makedepends(pkg);
-			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
-			string = strreplace(temp, "%M", depends);
-			free(depends);
-			free(temp);
-			temp = string;
-		}
-		/* %O : optional */
-		if(strstr(temp, "%O")) {
-			alpm_list_t *lst = alpm_pkg_get_optdepends(pkg);
-			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
-			string = strreplace(temp, "%O", depends);
-			free(depends);
-			free(temp);
-			temp = string;
-		}
+		PRINT_FORMAT_LIST(temp, "%M", alpm_pkg_get_makedepends, alpm_dep_compute_string)
+		/* %O : optdepends */
+		PRINT_FORMAT_LIST(temp, "%O", alpm_pkg_get_optdepends, alpm_dep_compute_string)
 		/* %P : provides */
-		if(strstr(temp, "%P")) {
-			alpm_list_t *lst = alpm_pkg_get_provides(pkg);
-			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
-			string = strreplace(temp, "%P", depends);
-			free(depends);
-			free(temp);
-			temp = string;
-		}
+		PRINT_FORMAT_LIST(temp, "%P", alpm_pkg_get_provides, alpm_dep_compute_string)
 		/* %R : replaces */
-		if(strstr(temp, "%R")) {
-			alpm_list_t *lst = alpm_pkg_get_replaces(pkg);
-			char *depends = concat_list(lst, (formatfn)alpm_dep_compute_string);
-			string = strreplace(temp, "%R", depends);
-			free(depends);
-			free(temp);
-			temp = string;
-		}
+		PRINT_FORMAT_LIST(temp, "%R", alpm_pkg_get_replaces, alpm_dep_compute_string)
 		/* %L : license */
-		if(strstr(temp, "%L")) {
-			alpm_list_t *lst = alpm_pkg_get_licenses(pkg);
-			char *licenses = concat_list(lst, NULL);
-			string = strreplace(temp, "%L", licenses);
-			free(licenses);
-			free(temp);
-			temp = string;
-		}
+		PRINT_FORMAT_LIST(temp, "%L", alpm_pkg_get_licenses, NULL)
 
 		printf("%s\n", string);
 		free(string);
