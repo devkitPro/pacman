@@ -410,7 +410,6 @@ typedef char *(*formatfn)(void*);
 static char *concat_list(alpm_list_t *lst, formatfn fn)
 {
 	char *output = NULL, *tmp = NULL;
-	asprintf(&output, "%s", "");
 
 	for(alpm_list_t *i = lst; i; i = alpm_list_next(i)) {
 		char *str = fn ? fn(i->data) : i->data;
@@ -419,13 +418,21 @@ static char *concat_list(alpm_list_t *lst, formatfn fn)
 			continue;
 		}
 
+		if(tmp) {
+			asprintf(&output, "%s %s", tmp, str);
+			free(tmp);
+		} else {
+			asprintf(&output, "%s", str);
+		}
 		tmp = output;
-		asprintf(&output, "%s %s", tmp, str);
-		free(tmp);
 
 		if(fn) {
 			free(str);
 		}
+	}
+
+	if(!output) {
+		asprintf(&output, "%s", "");
 	}
 
 	return output;
