@@ -61,7 +61,7 @@ enum {
 	CELL_FREE = (1 << 3)
 };
 
-#define VAL_FROM_FORMAT_STR(temp, format, func) \
+#define PRINT_FORMAT_STRING(temp, format, func) \
 	if(strstr(temp, format)) { \
 		string = strreplace(temp, format, func(pkg)); \
 		free(temp); \
@@ -1208,23 +1208,23 @@ void print_packages(const alpm_list_t *packages)
 			}
 		}
 		/* %d : description */
-		VAL_FROM_FORMAT_STR(temp, "%d", alpm_pkg_get_desc)
+		PRINT_FORMAT_STRING(temp, "%d", alpm_pkg_get_desc)
 		/* %e : pkgbase */
-		VAL_FROM_FORMAT_STR(temp, "%e", alpm_pkg_get_base)
+		PRINT_FORMAT_STRING(temp, "%e", alpm_pkg_get_base)
 		/* %f : filename */
-		VAL_FROM_FORMAT_STR(temp, "%f", alpm_pkg_get_filename)
+		PRINT_FORMAT_STRING(temp, "%f", alpm_pkg_get_filename)
 		/* %g : base64 encoded PGP signature */
-		VAL_FROM_FORMAT_STR(temp, "%g", alpm_pkg_get_base64_sig)
+		PRINT_FORMAT_STRING(temp, "%g", alpm_pkg_get_base64_sig)
 		/* %h : sha25sum */
-		VAL_FROM_FORMAT_STR(temp, "%h", alpm_pkg_get_sha256sum)
+		PRINT_FORMAT_STRING(temp, "%h", alpm_pkg_get_sha256sum)
 		/* %n : pkgname */
-		VAL_FROM_FORMAT_STR(temp, "%n", alpm_pkg_get_name)
+		PRINT_FORMAT_STRING(temp, "%n", alpm_pkg_get_name)
 		/* %p : packager */
-		VAL_FROM_FORMAT_STR(temp, "%p", alpm_pkg_get_packager)
+		PRINT_FORMAT_STRING(temp, "%p", alpm_pkg_get_packager)
 		/* %v : pkgver */
-		VAL_FROM_FORMAT_STR(temp, "%v", alpm_pkg_get_version)
+		PRINT_FORMAT_STRING(temp, "%v", alpm_pkg_get_version)
 		/* %m : md5sum */
-		VAL_FROM_FORMAT_STR(temp, "%m", alpm_pkg_get_md5sum)
+		PRINT_FORMAT_STRING(temp, "%m", alpm_pkg_get_md5sum)
 		/* %l : location */
 		if(strstr(temp, "%l")) {
 			char *pkgloc = pkg_get_location(pkg);
@@ -1253,7 +1253,7 @@ void print_packages(const alpm_list_t *packages)
 			free(temp);
 		}
 		/* %u : url */
-		VAL_FROM_FORMAT_STR(temp, "%u", alpm_pkg_get_url)
+		PRINT_FORMAT_STRING(temp, "%u", alpm_pkg_get_url)
 		/* %C : checkdepends */
 		if(strstr(temp, "%C")) {
 			alpm_list_t *lst = alpm_pkg_get_checkdepends(pkg);
