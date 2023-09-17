@@ -240,17 +240,19 @@ class pmtest(object):
 
         cmd = []
         if os.geteuid() != 0:
-            fakeroot = util.which("fakeroot")
-            if not fakeroot:
-                tap.diag("WARNING: fakeroot not found!")
-            else:
-                cmd.append("fakeroot")
-
+            # fakechroot must be called before fakeroot due to potential
+            # potential interactions when wrapping the same C functions
             fakechroot = util.which("fakechroot")
             if not fakechroot:
                 tap.diag("WARNING: fakechroot not found!")
             else:
                 cmd.append("fakechroot")
+
+            fakeroot = util.which("fakeroot")
+            if not fakeroot:
+                tap.diag("WARNING: fakeroot not found!")
+            else:
+                cmd.append("fakeroot")
 
         if pacman["gdb"]:
             cmd.extend(["libtool", "execute", "gdb", "--args"])
