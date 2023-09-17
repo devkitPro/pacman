@@ -769,6 +769,7 @@ static int find_dl_candidates(alpm_handle_t *handle, alpm_list_t **files)
 	return 0;
 }
 
+
 static int download_files(alpm_handle_t *handle)
 {
 	const char *cachedir;
@@ -827,8 +828,15 @@ static int download_files(alpm_handle_t *handle)
 			CALLOC(payload, 1, sizeof(*payload), GOTO_ERR(handle, ALPM_ERR_MEMORY, finish));
 			STRDUP(payload->remote_name, pkg->filename, FREE(payload); GOTO_ERR(handle, ALPM_ERR_MEMORY, finish));
 			STRDUP(payload->filepath, pkg->filename,
-				FREE(payload->remote_name); FREE(payload);
+				_alpm_dload_payload_reset(payload); FREE(payload);
 				GOTO_ERR(handle, ALPM_ERR_MEMORY, finish));
+			payload->destfile_name = _alpm_get_fullpath(cachedir, payload->remote_name, "");
+			payload->tempfile_name = _alpm_get_fullpath(cachedir, payload->remote_name, ".part");
+			if(!payload->destfile_name || !payload->tempfile_name) {
+				_alpm_dload_payload_reset(payload);
+				FREE(payload);
+				GOTO_ERR(handle, ALPM_ERR_MEMORY, finish);
+			}
 			payload->max_size = pkg->size;
 			payload->cache_servers = pkg->origin_data.db->cache_servers;
 			payload->servers = pkg->origin_data.db->servers;

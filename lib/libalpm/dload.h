@@ -54,10 +54,10 @@ struct dload_payload {
 #ifdef HAVE_LIBCURL
 	CURL *curl;
 	char error_buffer[CURL_ERROR_SIZE];
-	FILE *localf; /* temp download file */
 	int signature; /* specifies if this payload is for a signature file */
 	int request_errors_ok; /* per-request errors-ok */
 #endif
+	FILE *localf; /* temp download file */
 };
 
 void _alpm_dload_payload_reset(struct dload_payload *payload);

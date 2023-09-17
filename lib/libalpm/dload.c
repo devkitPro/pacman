@@ -51,13 +51,65 @@
 #include "handle.h"
 #include "sandbox.h"
 
+
+static const char *get_filename(const char *url)
+{
+	char *filename = strrchr(url, '/');
+	if(filename != NULL) {
+		return filename + 1;
+	}
+
+	/* no slash found, it's a filename */
+	return url;
+}
+
+/* prefix to avoid possible future clash with getumask(3) */
+static mode_t _getumask(void)
+{
+	mode_t mask = umask(0);
+	umask(mask);
+	return mask;
+}
+
+static FILE *create_tempfile(struct dload_payload *payload, const char *localpath)
+{
+	int fd;
+	FILE *fp;
+	char *randpath;
+	size_t len;
+
+	/* create a random filename, which is opened with O_EXCL */
+	len = strlen(localpath) + 14 + 1;
+	MALLOC(randpath, len, RET_ERR(payload->handle, ALPM_ERR_MEMORY, NULL));
+	snprintf(randpath, len, "%salpmtmp.XXXXXX", localpath);
+	if((fd = mkstemp(randpath)) == -1 ||
+			fchmod(fd, ~(_getumask()) & 0666) ||
+			!(fp = fdopen(fd, payload->tempfile_openmode))) {
+		unlink(randpath);
+		close(fd);
+		_alpm_log(payload->handle, ALPM_LOG_ERROR,
+				_("failed to create temporary file for download\n"));
+		free(randpath);
+		return NULL;
+	}
+	/* fp now points to our alpmtmp.XXXXXX */
+	free(payload->tempfile_name);
+	payload->tempfile_name = randpath;
+	free(payload->remote_name);
+	STRDUP(payload->remote_name, strrchr(randpath, '/') + 1,
+			fclose(fp); RET_ERR(payload->handle, ALPM_ERR_MEMORY, NULL));
+
+	return fp;
+}
+
+
 #ifdef HAVE_LIBCURL
 
 /* RFC1123 states applications should support this length */
 #define HOSTNAME_SIZE 256
 
 static int curl_add_payload(alpm_handle_t *handle, CURLM *curlm,
-	struct dload_payload *payload, const char *localpath);
+	struct dload_payload *payload);
 static int curl_gethost(const char *url, char *buffer, size_t buf_len);
 
 /* number of "soft" errors required to blacklist a server, set to 0 to disable
@@ -175,29 +227,6 @@ static const char *payload_next_server(struct dload_payload *payload)
 	return NULL;
 }
 
-static const char *get_filename(const char *url)
-{
-	char *filename = strrchr(url, '/');
-	if(filename != NULL) {
-		return filename + 1;
-	}
-
-	/* no slash found, it's a filename */
-	return url;
-}
-
-static char *get_fullpath(const char *path, const char *filename,
-		const char *suffix)
-{
-	char *filepath;
-	/* len = localpath len + filename len + suffix len + null */
-	size_t len = strlen(path) + strlen(filename) + strlen(suffix) + 1;
-	MALLOC(filepath, len, return NULL);
-	snprintf(filepath, len, "%s%s%s", path, filename, suffix);
-
-	return filepath;
-}
-
 enum {
 	ABORT_OVER_MAXFILESIZE = 1,
 };
@@ -308,14 +337,6 @@ static int utimes_long(const char *path, long seconds)
 	return 0;
 }
 
-/* prefix to avoid possible future clash with getumask(3) */
-static mode_t _getumask(void)
-{
-	mode_t mask = umask(0);
-	umask(mask);
-	return mask;
-}
-
 static size_t dload_parseheader_cb(void *ptr, size_t size, size_t nmemb, void *user)
 {
 	size_t realsize = size * nmemb;
@@ -418,37 +439,6 @@ static void curl_set_handle_opts(CURL *curl, struct dload_payload *payload)
 				payload->remote_name, (intmax_t)st.st_size);
 		payload->initial_size = st.st_size;
 	}
-}
-
-static FILE *create_tempfile(struct dload_payload *payload, const char *localpath)
-{
-	int fd;
-	FILE *fp;
-	char *randpath;
-	size_t len;
-
-	/* create a random filename, which is opened with O_EXCL */
-	len = strlen(localpath) + 14 + 1;
-	MALLOC(randpath, len, RET_ERR(payload->handle, ALPM_ERR_MEMORY, NULL));
-	snprintf(randpath, len, "%salpmtmp.XXXXXX", localpath);
-	if((fd = mkstemp(randpath)) == -1 ||
-			fchmod(fd, ~(_getumask()) & 0666) ||
-			!(fp = fdopen(fd, payload->tempfile_openmode))) {
-		unlink(randpath);
-		close(fd);
-		_alpm_log(payload->handle, ALPM_LOG_ERROR,
-				_("failed to create temporary file for download\n"));
-		free(randpath);
-		return NULL;
-	}
-	/* fp now points to our alpmtmp.XXXXXX */
-	free(payload->tempfile_name);
-	payload->tempfile_name = randpath;
-	free(payload->remote_name);
-	STRDUP(payload->remote_name, strrchr(randpath, '/') + 1,
-			fclose(fp); RET_ERR(payload->handle, ALPM_ERR_MEMORY, NULL));
-
-	return fp;
 }
 
 /* Return 0 if retry was successful, -1 otherwise */
@@ -632,7 +622,7 @@ static int curl_check_finished_download(alpm_handle_t *handle, CURLM *curlm, CUR
 		if(payload->content_disp_name) {
 			/* content-disposition header has a better name for our file */
 			free(payload->destfile_name);
-			payload->destfile_name = get_fullpath(localpath,
+			payload->destfile_name = _alpm_get_fullpath(localpath,
 				get_filename(payload->content_disp_name), "");
 		} else {
 			const char *effective_filename = strrchr(effective_url, '/');
@@ -647,7 +637,7 @@ static int curl_check_finished_download(alpm_handle_t *handle, CURLM *curlm, CUR
 				if(!payload->destfile_name || strcmp(effective_filename,
 							strrchr(payload->destfile_name, '/') + 1) != 0) {
 					free(payload->destfile_name);
-					payload->destfile_name = get_fullpath(localpath, effective_filename, "");
+					payload->destfile_name = _alpm_get_fullpath(localpath, effective_filename, "");
 				}
 			}
 		}
@@ -690,15 +680,27 @@ static int curl_check_finished_download(alpm_handle_t *handle, CURLM *curlm, CUR
 			 */
 			const char *final_file = get_filename(realname);
 			int remote_name_len = strlen(final_file) + 5;
-			MALLOC(sig->remote_name, remote_name_len, FREE(sig->fileurl); FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+			MALLOC(sig->remote_name, remote_name_len, _alpm_dload_payload_reset(sig);
+					FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
 			snprintf(sig->remote_name, remote_name_len, "%s.sig", final_file);
+		} else {
+			int remote_name_len = strlen(payload->remote_name) + 5;
+			MALLOC(sig->remote_name, remote_name_len, _alpm_dload_payload_reset(sig);
+					FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+			snprintf(sig->remote_name, remote_name_len, "%s.sig", payload->remote_name);
 		}
 
 		/* force the filename to be realname + ".sig" */
 		int destfile_name_len = strlen(realname) + 5;
-		MALLOC(sig->destfile_name, destfile_name_len, FREE(sig->remote_name);
-				FREE(sig->fileurl); FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+		MALLOC(sig->destfile_name, destfile_name_len, _alpm_dload_payload_reset(sig);
+				FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
 		snprintf(sig->destfile_name, destfile_name_len, "%s.sig", realname);
+
+		int tempfile_name_len = strlen(realname) + 10;
+		MALLOC(sig->tempfile_name, tempfile_name_len, _alpm_dload_payload_reset(sig);
+				FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+		snprintf(sig->tempfile_name, tempfile_name_len, "%s.sig.part", realname);
+
 
 		sig->signature = 1;
 		sig->handle = handle;
@@ -708,7 +710,7 @@ static int curl_check_finished_download(alpm_handle_t *handle, CURLM *curlm, CUR
 		/* set hard upper limit of 16KiB */
 		sig->max_size = 16 * 1024;
 
-		curl_add_payload(handle, curlm, sig, localpath);
+		curl_add_payload(handle, curlm, sig);
 		(*active_downloads_num)++;
 	}
 
@@ -791,7 +793,7 @@ cleanup:
  * Returns -1 if am error happened while starting a new download
  */
 static int curl_add_payload(alpm_handle_t *handle, CURLM *curlm,
-		struct dload_payload *payload, const char *localpath)
+		struct dload_payload *payload)
 {
 	size_t len;
 	CURL *curl = NULL;
@@ -817,33 +819,9 @@ static int curl_add_payload(alpm_handle_t *handle, CURLM *curlm,
 	}
 
 	payload->tempfile_openmode = "wb";
-	if(!payload->remote_name) {
-		STRDUP(payload->remote_name, get_filename(payload->fileurl),
-			GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
-	}
 	if(curl_gethost(payload->fileurl, hostname, sizeof(hostname)) != 0) {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("url '%s' is invalid\n"), payload->fileurl);
 		GOTO_ERR(handle, ALPM_ERR_SERVER_BAD_URL, cleanup);
-	}
-
-	if(!payload->random_partfile && payload->remote_name && strlen(payload->remote_name) > 0) {
-		if(!payload->destfile_name) {
-			payload->destfile_name = get_fullpath(localpath, payload->remote_name, "");
-		}
-		payload->tempfile_name = get_fullpath(localpath, payload->remote_name, ".part");
-		if(!payload->destfile_name || !payload->tempfile_name) {
-			goto cleanup;
-		}
-	} else {
-		/* We want a random filename or the URL does not contain a filename, so download to a
-		 * temporary location. We can not support resuming this kind of download; any partial
-		 * transfers will be destroyed */
-		payload->unlink_on_fail = 1;
-
-		payload->localf = create_tempfile(payload, localpath);
-		if(payload->localf == NULL) {
-			goto cleanup;
-		}
 	}
 
 	curl_set_handle_opts(curl, payload);
@@ -922,7 +900,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 		for(; active_downloads_num < max_streams && payloads; active_downloads_num++) {
 			struct dload_payload *payload = payloads->data;
 
-			if(curl_add_payload(handle, curlm, payload, localpath) == 0) {
+			if(curl_add_payload(handle, curlm, payload) == 0) {
 				payloads = payloads->next;
 			} else {
 				/* The payload failed to start. Do not start any new downloads.
@@ -1278,12 +1256,32 @@ int SYMEXPORT alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
 			CALLOC(payload, 1, sizeof(*payload), GOTO_ERR(handle, ALPM_ERR_MEMORY, err));
 			STRDUP(payload->fileurl, url, FREE(payload); GOTO_ERR(handle, ALPM_ERR_MEMORY, err));
 
+			STRDUP(payload->remote_name, get_filename(payload->fileurl),
+				GOTO_ERR(handle, ALPM_ERR_MEMORY, err));
+
 			c = strrchr(url, '/');
-			if(c != NULL && strstr(c, ".pkg")) {
+			if(c != NULL &&  strstr(c, ".pkg") && payload->remote_name && strlen(payload->remote_name) > 0) {
 				/* we probably have a usable package filename to download to */
+				payload->destfile_name = _alpm_get_fullpath(cachedir, payload->remote_name, "");
+				payload->tempfile_name = _alpm_get_fullpath(cachedir, payload->remote_name, ".part");
 				payload->allow_resume = 1;
+
+				if(!payload->destfile_name || !payload->tempfile_name) {
+					goto err;
+				}
+
 			} else {
+				/* The URL does not contain a filename, so download to a temporary location.
+				 * We can not support resuming this kind of download; any partial transfers
+				 * will be destroyed */
 				payload->random_partfile = 1;
+				payload->unlink_on_fail = 1;
+
+				payload->tempfile_openmode = "wb";
+				payload->localf = create_tempfile(payload, cachedir);
+				if(payload->localf == NULL) {
+					goto err;
+				}
 			}
 
 			payload->handle = handle;

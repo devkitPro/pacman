@@ -350,7 +350,6 @@ xfail_tests = {
   'tests/sync403.py': true,
   'tests/sync406.py': true,
   'tests/upgrade078.py': true,
-  'tests/upgrade-download-with-xfercommand.py': true,
 }
 
 foreach input : pacman_tests

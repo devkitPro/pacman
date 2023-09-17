@@ -1,6 +1,7 @@
 self.description = "--upgrade remote packages with XferCommand"
 
 self.option['XferCommand'] = ['/usr/bin/curl %u -o %o']
+self.option['SigLevel'] = ['Never']
 
 p1 = pmpkg('pkg1', '1.0-1')
 self.addpkg(p1)
@@ -20,7 +21,3 @@ self.addrule("PKG_EXIST=pkg1")
 self.addrule("PKG_EXIST=pkg2")
 self.addrule("CACHE_EXISTS=pkg1|1.0-1")
 self.addrule("CACHE_EXISTS=pkg2|2.0-2")
-
-# --upgrade fails hard with XferCommand because the fetch callback has no way
-# to return the file path to alpm
-self.expectfailure = True

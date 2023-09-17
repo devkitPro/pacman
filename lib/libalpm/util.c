@@ -197,6 +197,23 @@ cleanup:
 	return ret;
 }
 
+/** Combines a directory, filename and suffix to provide full path of a file
+ * @param path directory path
+ * @param filename file name
+ * @param suffix suffix
+ * @return file path
+*/
+char *_alpm_get_fullpath(const char *path, const char *filename, const char *suffix)
+{
+	char *filepath;
+	/* len = localpath len + filename len + suffix len + null */
+	size_t len = strlen(path) + strlen(filename) + strlen(suffix) + 1;
+	MALLOC(filepath, len, return NULL);
+	snprintf(filepath, len, "%s%s%s", path, filename, suffix);
+
+	return filepath;
+}
+
 /** Trim trailing newlines from a string (if any exist).
  * @param str a single line of text
  * @param len size of str, if known, else 0

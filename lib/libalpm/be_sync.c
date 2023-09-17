@@ -189,6 +189,18 @@ int SYMEXPORT alpm_db_update(alpm_handle_t *handle, alpm_list_t *dbs, int force)
 		MALLOC(payload->filepath, len,
 			FREE(payload); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
 		snprintf(payload->filepath, len, "%s%s", db->treename, dbext);
+
+		STRDUP(payload->remote_name, payload->filepath,
+			_alpm_dload_payload_reset(payload); FREE(payload);
+			GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+		payload->destfile_name = _alpm_get_fullpath(syncpath, payload->remote_name, "");
+		payload->tempfile_name = _alpm_get_fullpath(syncpath, payload->remote_name, ".part");
+		if(!payload->destfile_name || !payload->tempfile_name) {
+			_alpm_dload_payload_reset(payload);
+			FREE(payload);
+			GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup);
+		}
+
 		payload->handle = handle;
 		payload->force = dbforce;
 		payload->unlink_on_fail = 1;
