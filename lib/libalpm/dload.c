@@ -1274,7 +1274,6 @@ int SYMEXPORT alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
 				/* The URL does not contain a filename, so download to a temporary location.
 				 * We can not support resuming this kind of download; any partial transfers
 				 * will be destroyed */
-				payload->random_partfile = 1;
 				payload->unlink_on_fail = 1;
 
 				payload->tempfile_openmode = "wb";

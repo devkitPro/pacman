@@ -45,7 +45,6 @@ struct dload_payload {
 	off_t prevprogress;
 	int force;
 	int allow_resume;
-	int random_partfile;
 	int errors_ok;
 	int unlink_on_fail;
 	int trust_remote_name;
