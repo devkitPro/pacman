@@ -415,7 +415,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		size_t pkg_current, size_t pkg_count)
 {
-	int i, ret = 0, errors = 0;
+	int ret = 0, errors = 0;
 	int is_upgrade = 0;
 	alpm_pkg_t *oldpkg = NULL;
 	alpm_db_t *db = handle->db_local;
@@ -538,7 +538,7 @@ static int commit_single_pkg(alpm_handle_t *handle, alpm_pkg_t *newpkg,
 		/* call PROGRESS once with 0 percent, as we sort-of skip that here */
 		PROGRESS(handle, progress, newpkg->name, 0, pkg_count, pkg_current);
 
-		for(i = 0; archive_read_next_header(archive, &entry) == ARCHIVE_OK; i++) {
+		while(archive_read_next_header(archive, &entry) == ARCHIVE_OK) {
 			int percent;
 
 			if(newpkg->size != 0) {
