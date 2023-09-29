@@ -655,7 +655,9 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 		}
 
 		/* use fprintf instead of _alpm_log to send output through the parent */
-		if(chroot(handle->root) != 0) {
+		/* don't chroot() to "/": this allows running with less caps when the
+		 * caller puts us in the right root */
+		if(strcmp(handle->root, "/") != 0 && chroot(handle->root) != 0) {
 			fprintf(stderr, _("could not change the root directory (%s)\n"), strerror(errno));
 			exit(1);
 		}
