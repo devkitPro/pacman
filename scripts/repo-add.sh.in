@@ -700,13 +700,17 @@ for arg in "${args[@]:1}"; do
 done
 
 # if the whole operation was a success, re-zip and rotate databases
-if (( !fail )) && (( DB_MODIFIED )); then
+if (( fail )); then
+	msg "$(gettext "Package database was not modified due to errors.")"
+	exit 1
+fi
+
+if (( DB_MODIFIED )); then
 	msg "$(gettext "Creating updated database file '%s'")" "$REPO_DB_FILE"
 	create_db
 	rotate_db
 else
-	msg "$(gettext "No packages modified, nothing to do.")"
-	exit $(( fail != 0 ))
+	msg "$(gettext "No changes made to package database.")"
 fi
 
 exit 0
