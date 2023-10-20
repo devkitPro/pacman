@@ -340,34 +340,9 @@ static int utimes_long(const char *path, long seconds)
 static size_t dload_parseheader_cb(void *ptr, size_t size, size_t nmemb, void *user)
 {
 	size_t realsize = size * nmemb;
-	const char *fptr, *endptr = NULL;
-	const char * const cd_header = "Content-Disposition:";
-	const char * const fn_key = "filename=";
 	struct dload_payload *payload = (struct dload_payload *)user;
 	long respcode;
-
-	if(_alpm_raw_ncmp(cd_header, ptr, strlen(cd_header)) == 0) {
-		if((fptr = strstr(ptr, fn_key))) {
-			fptr += strlen(fn_key);
-
-			/* find the end of the field, which is either a semi-colon, or the end of
-			 * the data. As per curl_easy_setopt(3), we cannot count on headers being
-			 * null terminated, so we look for the closing \r\n */
-			endptr = fptr + strcspn(fptr, ";\r\n") - 1;
-
-			/* remove quotes */
-			if(*fptr == '"' && *endptr == '"') {
-				fptr++;
-				endptr--;
-			}
-
-			/* avoid information leakage with badly formed headers */
-			if(endptr > fptr) {
-				STRNDUP(payload->content_disp_name, fptr, endptr - fptr + 1,
-						RET_ERR(payload->handle, ALPM_ERR_MEMORY, realsize));
-			}
-		}
-	}
+	(void) ptr;
 
 	curl_easy_getinfo(payload->curl, CURLINFO_RESPONSE_CODE, &respcode);
 	if(payload->respcode != respcode) {
@@ -504,7 +479,7 @@ static int curl_retry_next_server(CURLM *curlm, CURL *curl, struct dload_payload
  * Returns -2 if an error happened for an optional file
  */
 static int curl_check_finished_download(alpm_handle_t *handle, CURLM *curlm, CURLMsg *msg,
-		const char *localpath, int *active_downloads_num)
+		int *active_downloads_num)
 {
 	struct dload_payload *payload = NULL;
 	CURL *curl = msg->easy_handle;
@@ -618,31 +593,6 @@ static int curl_check_finished_download(alpm_handle_t *handle, CURLM *curlm, CUR
 	curl_easy_getinfo(curl, CURLINFO_CONDITION_UNMET, &timecond);
 	curl_easy_getinfo(curl, CURLINFO_EFFECTIVE_URL, &effective_url);
 
-	if(payload->trust_remote_name) {
-		if(payload->content_disp_name) {
-			/* content-disposition header has a better name for our file */
-			free(payload->destfile_name);
-			payload->destfile_name = _alpm_get_fullpath(localpath,
-				get_filename(payload->content_disp_name), "");
-		} else {
-			const char *effective_filename = strrchr(effective_url, '/');
-
-			if(effective_filename && strlen(effective_filename) > 2) {
-				effective_filename++;
-
-				/* if destfile was never set, we wrote to a tempfile. even if destfile is
-				 * set, we may have followed some redirects and the effective url may
-				 * have a better suggestion as to what to name our file. in either case,
-				 * refactor destfile to this newly derived name. */
-				if(!payload->destfile_name || strcmp(effective_filename,
-							strrchr(payload->destfile_name, '/') + 1) != 0) {
-					free(payload->destfile_name);
-					payload->destfile_name = _alpm_get_fullpath(localpath, effective_filename, "");
-				}
-			}
-		}
-	}
-
 	/* Let's check if client requested downloading accompanion *.sig file */
 	if(!payload->signature && payload->download_signature && curlerr == CURLE_OK && payload->respcode < 400) {
 		struct dload_payload *sig = NULL;
@@ -674,21 +624,10 @@ static int curl_check_finished_download(alpm_handle_t *handle, CURLM *curlm, CUR
 		MALLOC(sig->fileurl, len, FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
 		snprintf(sig->fileurl, len, "%s.sig", url);
 
-		if(payload->trust_remote_name) {
-			/* In this case server might provide a new name for the main payload.
-			 * Choose *.sig filename based on this new name.
-			 */
-			const char *final_file = get_filename(realname);
-			int remote_name_len = strlen(final_file) + 5;
-			MALLOC(sig->remote_name, remote_name_len, _alpm_dload_payload_reset(sig);
-					FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
-			snprintf(sig->remote_name, remote_name_len, "%s.sig", final_file);
-		} else {
-			int remote_name_len = strlen(payload->remote_name) + 5;
-			MALLOC(sig->remote_name, remote_name_len, _alpm_dload_payload_reset(sig);
-					FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
-			snprintf(sig->remote_name, remote_name_len, "%s.sig", payload->remote_name);
-		}
+		int remote_name_len = strlen(payload->remote_name) + 5;
+		MALLOC(sig->remote_name, remote_name_len, _alpm_dload_payload_reset(sig);
+			FREE(sig); GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
+		snprintf(sig->remote_name, remote_name_len, "%s.sig", payload->remote_name);
 
 		/* force the filename to be realname + ".sig" */
 		int destfile_name_len = strlen(realname) + 5;
@@ -881,8 +820,7 @@ static int compare_dload_payload_sizes(const void *left_ptr, const void *right_p
  * Returns 1 if no files were downloaded and all errors were non-fatal
  */
 static int curl_download_internal(alpm_handle_t *handle,
-		alpm_list_t *payloads /* struct dload_payload */,
-		const char *localpath)
+		alpm_list_t *payloads /* struct dload_payload */)
 {
 	int active_downloads_num = 0;
 	int err = 0;
@@ -931,7 +869,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 			}
 			if(msg->msg == CURLMSG_DONE) {
 				int ret = curl_check_finished_download(handle, curlm, msg,
-						localpath, &active_downloads_num);
+						&active_downloads_num);
 				if(ret == -1) {
 					/* if current payload failed to download then stop adding new payloads but wait for the
 					 * current ones
@@ -1013,7 +951,7 @@ static int curl_download_internal_sandboxed(alpm_handle_t *handle,
 				_Exit(2);
 			}
 
-			ret = curl_download_internal(handle, payloads, localpath);
+			ret = curl_download_internal(handle, payloads);
 		}
 
 		/* pass the result back to the parent */
@@ -1136,7 +1074,7 @@ int _alpm_download(alpm_handle_t *handle,
 		if(handle->sandboxuser) {
 			return curl_download_internal_sandboxed(handle, payloads, localpath);
 		} else {
-			return curl_download_internal(handle, payloads, localpath);
+			return curl_download_internal(handle, payloads);
 		}
 #else
 		RET_ERR(handle, ALPM_ERR_EXTERNAL_DOWNLOAD, -1);
@@ -1284,7 +1222,6 @@ int SYMEXPORT alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
 			}
 
 			payload->handle = handle;
-			payload->trust_remote_name = 1;
 			payload->download_signature = (handle->siglevel & ALPM_SIG_PACKAGE);
 			payload->signature_optional = (handle->siglevel & ALPM_SIG_PACKAGE_OPTIONAL);
 			payloads = alpm_list_add(payloads, payload);
@@ -1345,7 +1282,6 @@ void _alpm_dload_payload_reset(struct dload_payload *payload)
 	FREE(payload->remote_name);
 	FREE(payload->tempfile_name);
 	FREE(payload->destfile_name);
-	FREE(payload->content_disp_name);
 	FREE(payload->fileurl);
 	FREE(payload->filepath);
 	*payload = (struct dload_payload){0};

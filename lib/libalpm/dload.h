@@ -26,10 +26,12 @@
 struct dload_payload {
 	alpm_handle_t *handle;
 	const char *tempfile_openmode;
+	/* name of the remote file */
 	char *remote_name;
+	/* temporary file name, to which the payload is downloaded */
 	char *tempfile_name;
+	/* name to which the downloaded file will be renamed */
 	char *destfile_name;
-	char *content_disp_name;
 	/* client has to provide either
 	 *  1) fileurl - full URL to the file
 	 *  2) pair of (servers, filepath), in this case ALPM iterates over the
@@ -47,7 +49,6 @@ struct dload_payload {
 	int allow_resume;
 	int errors_ok;
 	int unlink_on_fail;
-	int trust_remote_name;
 	int download_signature; /* specifies if an accompanion *.sig file need to be downloaded*/
 	int signature_optional; /* *.sig file is optional */
 #ifdef HAVE_LIBCURL
