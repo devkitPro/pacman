@@ -1027,7 +1027,7 @@ while [[ $1 ]]; do
 	shift
 done
 
-if [[ -n $CHDIR ]]; then
+if (( ! INFAKEROOT )) &&  [[ -n $CHDIR ]]; then
 	cd_safe "$CHDIR"
 fi
 
