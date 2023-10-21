@@ -22,10 +22,10 @@
 [[ -n "$LIBMAKEPKG_UTIL_UTIL_SH" ]] && return
 LIBMAKEPKG_UTIL_UTIL_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
-source "$LIBRARY/util/error.sh"
-source "$LIBRARY/util/message.sh"
+source "$MAKEPKG_LIBRARY/util/error.sh"
+source "$MAKEPKG_LIBRARY/util/message.sh"
 
 ##
 #  usage : in_array( $needle, $haystack )

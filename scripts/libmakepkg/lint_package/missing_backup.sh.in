@@ -21,9 +21,9 @@
 [[ -n "$LIBMAKEPKG_LINT_PACKAGE_MISSING_BACKUP_SH" ]] && return
 LIBMAKEPKG_LINT_PACKAGE_MISSING_BACKUP_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
-source "$LIBRARY/util/message.sh"
+source "$MAKEPKG_LIBRARY/util/message.sh"
 
 
 lint_package_functions+=('warn_missing_backup')

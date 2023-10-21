@@ -21,10 +21,10 @@
 [[ -n "$LIBMAKEPKG_SRCINFO_SH" ]] && return
 LIBMAKEPKG_SRCINFO_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
-source "$LIBRARY/util/pkgbuild.sh"
-source "$LIBRARY/util/schema.sh"
+source "$MAKEPKG_LIBRARY/util/pkgbuild.sh"
+source "$MAKEPKG_LIBRARY/util/schema.sh"
 
 srcinfo_open_section() {
 	printf '%s = %s\n' "$1" "$2"

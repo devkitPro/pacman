@@ -23,9 +23,9 @@
 [[ -n "$LIBMAKEPKG_BUILDENV_COMPILER_SH" ]] && return
 LIBMAKEPKG_BUILDENV_COMPILER_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
-source "$LIBRARY/util/option.sh"
+source "$MAKEPKG_LIBRARY/util/option.sh"
 
 build_options+=('ccache' 'distcc')
 buildenv_functions+=('buildenv_ccache' 'buildenv_distcc')

@@ -21,10 +21,10 @@
 [[ -n "$LIBMAKEPKG_EXECUTABLE_VCS_SH" ]] && return
 LIBMAKEPKG_EXECUTABLE_VCS_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
-source "$LIBRARY/util/error.sh"
-source "$LIBRARY/util/message.sh"
+source "$MAKEPKG_LIBRARY/util/error.sh"
+source "$MAKEPKG_LIBRARY/util/message.sh"
 
 executable_functions+=('executable_vcs')
 

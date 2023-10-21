@@ -21,9 +21,9 @@
 [[ -n "$LIBMAKEPKG_LINT_PKGBUILD_PKGNAME_SH" ]] && return
 LIBMAKEPKG_LINT_PKGBUILD_PKGNAME_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
-source "$LIBRARY/util/message.sh"
+source "$MAKEPKG_LIBRARY/util/message.sh"
 
 
 lint_pkgbuild_functions+=('lint_pkgname')

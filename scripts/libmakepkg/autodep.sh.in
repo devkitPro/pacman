@@ -21,11 +21,11 @@
 [[ -n "$LIBMAKEPKG_AUTODEP_SH" ]] && return
 LIBMAKEPKG_AUTODEP_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
 declare -a autodep_functions
 
-for lib in "$LIBRARY/autodep/"*.sh; do
+for lib in "$MAKEPKG_LIBRARY/autodep/"*.sh; do
 	source "$lib"
 done
 

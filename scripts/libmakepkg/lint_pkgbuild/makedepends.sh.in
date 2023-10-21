@@ -21,12 +21,12 @@
 [[ -n "$LIBMAKEPKG_LINT_PKGBUILD_MAKEDEPENDS_SH" ]] && return
 LIBMAKEPKG_LINT_PKGBUILD_MAKEDEPENDS_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
-source "$LIBRARY/lint_pkgbuild/fullpkgver.sh"
-source "$LIBRARY/lint_pkgbuild/pkgname.sh"
-source "$LIBRARY/util/message.sh"
-source "$LIBRARY/util/pkgbuild.sh"
+source "$MAKEPKG_LIBRARY/lint_pkgbuild/fullpkgver.sh"
+source "$MAKEPKG_LIBRARY/lint_pkgbuild/pkgname.sh"
+source "$MAKEPKG_LIBRARY/util/message.sh"
+source "$MAKEPKG_LIBRARY/util/pkgbuild.sh"
 
 
 lint_pkgbuild_functions+=('lint_makedepends')

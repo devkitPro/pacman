@@ -22,11 +22,11 @@
 [[ -n "$LIBMAKEPKG_UTIL_CONFIG_SH" ]] && return
 LIBMAKEPKG_UTIL_CONFIG_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
-source "$LIBRARY/util/error.sh"
-source "$LIBRARY/util/message.sh"
-source "$LIBRARY/util/util.sh"
+source "$MAKEPKG_LIBRARY/util/error.sh"
+source "$MAKEPKG_LIBRARY/util/message.sh"
+source "$MAKEPKG_LIBRARY/util/util.sh"
 
 # correctly source makepkg.conf, respecting user precedence and the system conf
 source_makepkg_config() {

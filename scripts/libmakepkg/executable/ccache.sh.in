@@ -21,10 +21,10 @@
 [[ -n "$LIBMAKEPKG_EXECUTABLE_CCACHE_SH" ]] && return
 LIBMAKEPKG_EXECUTABLE_CCACHE_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
-source "$LIBRARY/util/message.sh"
-source "$LIBRARY/util/option.sh"
+source "$MAKEPKG_LIBRARY/util/message.sh"
+source "$MAKEPKG_LIBRARY/util/option.sh"
 
 executable_functions+=('executable_ccache')
 

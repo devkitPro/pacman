@@ -21,11 +21,11 @@
 [[ -n "$LIBMAKEPKG_EXECUTABLE_SH" ]] && return
 LIBMAKEPKG_EXECUTABLE_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
 declare -a executable_functions
 
-for lib in "$LIBRARY/executable/"*.sh; do
+for lib in "$MAKEPKG_LIBRARY/executable/"*.sh; do
 	source "$lib"
 done
 

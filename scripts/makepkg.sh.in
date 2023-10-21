@@ -44,7 +44,7 @@ declare -r makepkg_version='@PACKAGE_VERSION@'
 declare -r confdir='@sysconfdir@'
 declare -r BUILDSCRIPT='@BUILDSCRIPT@'
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
 # Options
 ASDEPS=0
@@ -94,7 +94,7 @@ shopt -s extglob
 ### SUBROUTINES ###
 
 # Import libmakepkg
-for lib in "$LIBRARY"/*.sh; do
+for lib in "$MAKEPKG_LIBRARY"/*.sh; do
 	source "$lib"
 done
 

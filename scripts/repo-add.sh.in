@@ -27,7 +27,7 @@ export TEXTDOMAINDIR='@localedir@'
 declare -r myver='@PACKAGE_VERSION@'
 declare -r confdir='@sysconfdir@'
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
 QUIET=0
 ONLYADDNEW=0
@@ -46,9 +46,9 @@ INCLUDE_SIGS=0
 DB_MODIFIED=0
 
 # Import libmakepkg
-source "$LIBRARY"/util/compress.sh
-source "$LIBRARY"/util/message.sh
-source "$LIBRARY"/util/parseopts.sh
+source "$MAKEPKG_LIBRARY"/util/compress.sh
+source "$MAKEPKG_LIBRARY"/util/message.sh
+source "$MAKEPKG_LIBRARY"/util/parseopts.sh
 
 # ensure we have a sane umask set
 umask 0022

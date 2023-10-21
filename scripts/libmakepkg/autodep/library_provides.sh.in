@@ -21,7 +21,7 @@
 [[ -n "$LIBMAKEPKG_AUTODEP_LIBRARY_PROVIDES_SH" ]] && return
 LIBMAKEPKG_AUTODEP_LIBRARY_PROVIDES_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
 autodep_functions+=('library_provides')
 

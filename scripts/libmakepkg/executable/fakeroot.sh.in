@@ -21,9 +21,9 @@
 [[ -n "$LIBMAKEPKG_EXECUTABLE_FAKEROOT_SH" ]] && return
 LIBMAKEPKG_EXECUTABLE_FAKEROOT_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
-source "$LIBRARY/util/message.sh"
+source "$MAKEPKG_LIBRARY/util/message.sh"
 
 executable_functions+=('executable_fakeroot')
 

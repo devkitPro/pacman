@@ -21,9 +21,9 @@
 [[ -n $LIBMAKEPKG_LINT_CONFIG_SOURCE_DATE_EPOCH_SH ]] && return
 LIBMAKEPKG_LINT_CONFIG_SOURCE_DATE_EPOCH_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
-source "$LIBRARY/util/message.sh"
+source "$MAKEPKG_LIBRARY/util/message.sh"
 
 lint_config_functions+=('lint_source_date_epoch')
 

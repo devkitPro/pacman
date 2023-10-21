@@ -27,11 +27,11 @@ export TEXTDOMAINDIR='@localedir@'
 
 declare -r myver='@PACKAGE_VERSION@'
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
 # Import libmakepkg
-source "$LIBRARY"/util/message.sh
-source "$LIBRARY"/util/parseopts.sh
+source "$MAKEPKG_LIBRARY"/util/message.sh
+source "$MAKEPKG_LIBRARY"/util/parseopts.sh
 
 usage() {
 	printf "pacman-db-upgrade (pacman) %s\n" "${myver}"

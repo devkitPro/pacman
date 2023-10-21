@@ -21,9 +21,9 @@
 [[ -n "$LIBMAKEPKG_UTIL_SOURCE_SH" ]] && return
 LIBMAKEPKG_UTIL_SOURCE_SH=1
 
-LIBRARY=${LIBRARY:-'@libmakepkgdir@'}
+MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
-source "$LIBRARY/util/message.sh"
+source "$MAKEPKG_LIBRARY/util/message.sh"
 
 
 # a source entry can have two forms :
