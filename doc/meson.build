@@ -35,6 +35,7 @@ asciidoc_opts = [
  '-a', 'sysconfdir=@0@'.format(SYSCONFDIR),
  '-a', 'datarootdir=@0@'.format(DATAROOTDIR),
  '-a', 'rootdir=@0@'.format(ROOTDIR),
+ '-a', 'libmakepkgdir=@0@'.format(LIBMAKEPKGDIR),
 ]
 
 html_targets = []
