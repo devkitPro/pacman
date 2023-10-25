@@ -56,7 +56,8 @@ download_git() {
 	elif (( ! HOLDVER )); then
 		cd_safe "$dir"
 		# Make sure we are fetching the right repo
-		if [[ "$url" != "$(git config --get remote.origin.url)" ]] ; then
+		local remote_url="$(git config --get remote.origin.url)"
+		if [[ "${url%%.git}" != "${remote_url%%.git}" ]] ; then
 			error "$(gettext "%s is not a clone of %s")" "$dir" "$url"
 			plainerr "$(gettext "Aborting...")"
 			exit 1
