@@ -328,6 +328,22 @@ void *alpm_list_find_ptr(const alpm_list_t *haystack, const void *needle);
  */
 char *alpm_list_find_str(const alpm_list_t *haystack, const char *needle);
 
+
+/**
+ * @brief Check if two lists contain the same data, ignoring order.
+ *
+ * Lists are considered equal if they both contain the same data regardless
+ * of order.
+ *
+ * @param left      the first list
+ * @param right     the second list
+ * @param fn        the comparison function
+ *
+ * @return 1 if the lists are equal, 0 otherwise.
+ */
+int alpm_list_cmp_unsorted(const alpm_list_t *left,
+		const alpm_list_t *right, alpm_list_fn_cmp fn);
+
 /**
  * @brief Find the differences between list `left` and list `right`
  *

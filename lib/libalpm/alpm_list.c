@@ -509,6 +509,51 @@ char SYMEXPORT *alpm_list_find_str(const alpm_list_t *haystack,
 			(alpm_list_fn_cmp)strcmp);
 }
 
+int SYMEXPORT alpm_list_cmp_unsorted(const alpm_list_t *left,
+		const alpm_list_t *right, alpm_list_fn_cmp fn)
+{
+	const alpm_list_t *l = left;
+	const alpm_list_t *r = right;
+	int *matched;
+
+	/* short circuiting length comparison */
+	while(l && r) {
+		l = l->next;
+		r = r->next;
+	}
+	if(l || r) {
+		return 0;
+	}
+
+	matched = calloc(alpm_list_count(right), sizeof(int));
+
+	for(l = left; l; l = l->next) {
+		int found = 0;
+		int n = 0;
+
+		for(r = right; r; r = r->next, n++) {
+			/* make sure we don't match the same value twice */
+			if(matched[n]) {
+				continue;
+			}
+			if(fn(l->data, r->data) == 0) {
+				found = 1;
+				matched[n] = 1;
+				break;
+			}
+
+		}
+
+		if(!found) {
+			free(matched);
+			return 0;
+		}
+	}
+
+	free(matched);
+	return 1;
+}
+
 void SYMEXPORT alpm_list_diff_sorted(const alpm_list_t *left,
 		const alpm_list_t *right, alpm_list_fn_cmp fn,
 		alpm_list_t **onlyleft, alpm_list_t **onlyright)
