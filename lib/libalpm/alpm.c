@@ -93,34 +93,16 @@ cleanup:
 	return NULL;
 }
 
+/* check current state and free all resources including storage locks */
 int SYMEXPORT alpm_release(alpm_handle_t *myhandle)
 {
-	int ret = 0;
-	alpm_db_t *db;
-
 	CHECK_HANDLE(myhandle, return -1);
-
-	/* close local database */
-	db = myhandle->db_local;
-	if(db) {
-		db->ops->unregister(db);
-		myhandle->db_local = NULL;
-	}
-
-	if(alpm_unregister_all_syncdbs(myhandle) == -1) {
-		ret = -1;
-	}
-
-#ifdef HAVE_LIBCURL
-	curl_multi_cleanup(myhandle->curlm);
-	curl_global_cleanup();
-	FREELIST(myhandle->server_errors);
-#endif
+	ASSERT(myhandle->trans == NULL, RET_ERR(myhandle, ALPM_ERR_TRANS_NOT_NULL, -1));
 
 	_alpm_handle_unlock(myhandle);
 	_alpm_handle_free(myhandle);
 
-	return ret;
+	return 0;
 }
 
 const char SYMEXPORT *alpm_version(void)
