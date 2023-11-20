@@ -228,6 +228,7 @@ static int check_db_local_filelist_conflicts(alpm_list_t *pkglist)
 					alpm_pkg_get_name(prev_fileitem->pkg),
 					alpm_pkg_get_name(fileitem->pkg),
 					fileitem->file->name);
+			ret++;
 		}
 		prev_fileitem = fileitem;
 	}
