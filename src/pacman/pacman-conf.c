@@ -236,6 +236,7 @@ static void dump_repo(config_repo_t *repo)
 {
 	show_usage("Usage", repo->usage);
 	show_siglevel("SigLevel", repo->siglevel, 0);
+	show_list_str("CacheServer", repo->cache_servers);
 	show_list_str("Server", repo->servers);
 }
 
@@ -310,6 +311,8 @@ static int list_repo_directives(void)
 	for(i = directives; i; i = i->next) {
 		if(strcasecmp(i->data, "Server") == 0) {
 			show_list_str("Server", repo->servers);
+		} else if(strcasecmp(i->data, "CacheServer") == 0) {
+			show_list_str("CacheServer", repo->cache_servers);
 		} else if(strcasecmp(i->data, "SigLevel") == 0) {
 			show_siglevel("SigLevel", repo->siglevel, 0);
 		} else if(strcasecmp(i->data, "Usage") == 0) {

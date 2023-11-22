@@ -1,5 +1,6 @@
 pacman_tests = [
   'tests/backup001.py',
+  'tests/cache-server-basic.py',
   'tests/clean001.py',
   'tests/clean002.py',
   'tests/clean003.py',

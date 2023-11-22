@@ -37,6 +37,7 @@ typedef struct __colstr_t {
 
 typedef struct __config_repo_t {
 	char *name;
+	alpm_list_t *cache_servers;
 	alpm_list_t *servers;
 	int usage;
 	int siglevel;

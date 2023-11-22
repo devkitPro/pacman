@@ -172,6 +172,7 @@ void config_repo_free(config_repo_t *repo)
 		return;
 	}
 	free(repo->name);
+	FREELIST(repo->cache_servers);
 	FREELIST(repo->servers);
 	free(repo);
 }
@@ -781,6 +782,21 @@ static char *replace_server_vars(config_t *c, config_repo_t *r, const char *s)
 	}
 }
 
+static int replace_server_list_vars(config_t *c, config_repo_t *r, alpm_list_t *list)
+{
+	alpm_list_t *i;
+	for(i = list; i; i = i->next) {
+		char *newurl = replace_server_vars(c, r, i->data);
+		if(newurl == NULL) {
+			return -1;
+		} else {
+			free(i->data);
+			i->data = newurl;
+		}
+	}
+	return 0;
+}
+
 static int register_repo(config_repo_t *repo)
 {
 	alpm_list_t *i;
@@ -797,6 +813,15 @@ static int register_repo(config_repo_t *repo)
 			repo->usage, repo->name);
 	alpm_db_set_usage(db, repo->usage);
 
+	for(i = repo->cache_servers; i; i = alpm_list_next(i)) {
+		const char *value = i->data;
+		if(alpm_db_add_cache_server(db, value) != 0) {
+			/* pm_errno is set by alpm_db_setserver */
+			pm_printf(ALPM_LOG_ERROR, _("could not add cache server URL to database '%s': %s (%s)\n"),
+					alpm_db_get_name(db), value, alpm_strerror(alpm_errno(config->handle)));
+			return 1;
+		}
+	}
 	for(i = repo->servers; i; i = alpm_list_next(i)) {
 		const char *value = i->data;
 		if(alpm_db_add_server(db, value) != 0) {
@@ -982,7 +1007,10 @@ static int _parse_repo(const char *key, char *value, const char *file,
 	} \
 } while(0)
 
-	if(strcmp(key, "Server") == 0) {
+	if(strcmp(key, "CacheServer") == 0) {
+		CHECK_VALUE(value);
+		repo->cache_servers = alpm_list_add(repo->cache_servers, strdup(value));
+	} else if(strcmp(key, "Server") == 0) {
 		CHECK_VALUE(value);
 		repo->servers = alpm_list_add(repo->servers, strdup(value));
 	} else if(strcmp(key, "SigLevel") == 0) {
@@ -1162,17 +1190,11 @@ int setdefaults(config_t *c)
 
 	for(i = c->repos; i; i = i->next) {
 		config_repo_t *r = i->data;
-		alpm_list_t *j;
 		SETDEFAULT(r->usage, ALPM_DB_USAGE_ALL);
 		r->siglevel = merge_siglevel(c->siglevel, r->siglevel, r->siglevel_mask);
-		for(j = r->servers; j; j = j->next) {
-			char *newurl = replace_server_vars(c, r, j->data);
-			if(newurl == NULL) {
-				return -1;
-			} else {
-				free(j->data);
-				j->data = newurl;
-			}
+		if(replace_server_list_vars(c, r, r->cache_servers) == -1
+				|| replace_server_list_vars(c, r, r->servers) == -1) {
+			return -1;
 		}
 	}
 
