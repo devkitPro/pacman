@@ -60,11 +60,11 @@ static int curl_gethost(const char *url, char *buffer, size_t buf_len);
 
 /* number of "soft" errors required to blacklist a server, set to 0 to disable
  * server blacklisting */
-const unsigned int server_error_limit = 3;
+const int server_error_limit = 3;
 
 struct server_error_count {
 	char server[HOSTNAME_SIZE];
-	unsigned int errors;
+	int errors;
 };
 
 static struct server_error_count *find_server_errors(alpm_handle_t *handle, const char *server)
@@ -98,18 +98,18 @@ static int should_skip_server(alpm_handle_t *handle, const char *server)
 {
 	struct server_error_count *h;
 	if(server_error_limit && (h = find_server_errors(handle, server)) ) {
-		return h->errors >= server_error_limit;
+		return h->errors < 0 || h->errors >= server_error_limit;
 	}
 	return 0;
 }
 
-static void server_increment_error(alpm_handle_t *handle, const char *server, int count)
+static void server_soft_error(alpm_handle_t *handle, const char *server)
 {
 	struct server_error_count *h;
 	if(server_error_limit
 			&& (h = find_server_errors(handle, server))
 			&& !should_skip_server(handle, server) ) {
-		h->errors += count;
+		h->errors++;
 
 		if(should_skip_server(handle, server)) {
 			_alpm_log(handle, ALPM_LOG_WARNING,
@@ -119,14 +119,20 @@ static void server_increment_error(alpm_handle_t *handle, const char *server, in
 	}
 }
 
-static void server_soft_error(alpm_handle_t *handle, const char *server)
-{
-	server_increment_error(handle, server, 1);
-}
-
 static void server_hard_error(alpm_handle_t *handle, const char *server)
 {
-	server_increment_error(handle, server, server_error_limit);
+	struct server_error_count *h;
+	if(server_error_limit && (h = find_server_errors(handle, server))) {
+		if(h->errors != -1) {
+			/* always set even if already skipped for soft errors
+			 * to disable cache servers too */
+			h->errors = -1;
+
+			_alpm_log(handle, ALPM_LOG_WARNING,
+					_("fatal error from %s, skipping for the remainder of this transaction\n"),
+					h->server);
+		}
+	}
 }
 
 static const char *get_filename(const char *url)
