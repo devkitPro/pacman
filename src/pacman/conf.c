@@ -781,18 +781,6 @@ static char *replace_server_vars(config_t *c, config_repo_t *r, const char *s)
 	}
 }
 
-static int _add_mirror(alpm_db_t *db, char *value)
-{
-	if(alpm_db_add_server(db, value) != 0) {
-		/* pm_errno is set by alpm_db_setserver */
-		pm_printf(ALPM_LOG_ERROR, _("could not add server URL to database '%s': %s (%s)\n"),
-				alpm_db_get_name(db), value, alpm_strerror(alpm_errno(config->handle)));
-		return 1;
-	}
-
-	return 0;
-}
-
 static int register_repo(config_repo_t *repo)
 {
 	alpm_list_t *i;
@@ -810,7 +798,11 @@ static int register_repo(config_repo_t *repo)
 	alpm_db_set_usage(db, repo->usage);
 
 	for(i = repo->servers; i; i = alpm_list_next(i)) {
-		if(_add_mirror(db, i->data) != 0) {
+		const char *value = i->data;
+		if(alpm_db_add_server(db, value) != 0) {
+			/* pm_errno is set by alpm_db_setserver */
+			pm_printf(ALPM_LOG_ERROR, _("could not add server URL to database '%s': %s (%s)\n"),
+					alpm_db_get_name(db), value, alpm_strerror(alpm_errno(config->handle)));
 			return 1;
 		}
 	}
