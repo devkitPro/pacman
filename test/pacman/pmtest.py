@@ -60,6 +60,7 @@ class pmtest(object):
         if not treename in self.db:
             self.db[treename] = pmdb.pmdb(treename, self.root)
         self.db[treename].pkgs.append(pkg)
+        return pkg
 
     def addpkg(self, pkg):
         self.localpkgs.append(pkg)
