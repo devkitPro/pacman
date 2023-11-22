@@ -94,6 +94,7 @@ static struct server_error_count *find_server_errors(alpm_handle_t *handle, cons
 	}
 }
 
+/* skip for hard errors or too many soft errors */
 static int should_skip_server(alpm_handle_t *handle, const char *server)
 {
 	struct server_error_count *h;
@@ -103,6 +104,17 @@ static int should_skip_server(alpm_handle_t *handle, const char *server)
 	return 0;
 }
 
+/* only skip for hard errors */
+static int should_skip_cache_server(alpm_handle_t *handle, const char *server)
+{
+	struct server_error_count *h;
+	if(server_error_limit && (h = find_server_errors(handle, server)) ) {
+		return h->errors < 0;
+	}
+	return 0;
+}
+
+/* block normal servers after too many errors */
 static void server_soft_error(alpm_handle_t *handle, const char *server)
 {
 	struct server_error_count *h;
@@ -119,6 +131,7 @@ static void server_soft_error(alpm_handle_t *handle, const char *server)
 	}
 }
 
+/* immediate block for both servers and cache servers */
 static void server_hard_error(alpm_handle_t *handle, const char *server)
 {
 	struct server_error_count *h;
@@ -133,6 +146,31 @@ static void server_hard_error(alpm_handle_t *handle, const char *server)
 					h->server);
 		}
 	}
+}
+
+static const char *payload_next_server(struct dload_payload *payload)
+{
+	while(payload->cache_servers
+			&& should_skip_cache_server(payload->handle, payload->cache_servers->data)) {
+		payload->cache_servers = payload->cache_servers->next;
+	}
+	if(payload->cache_servers) {
+		const char *server = payload->cache_servers->data;
+		payload->cache_servers = payload->cache_servers->next;
+		payload->request_errors_ok = 1;
+		return server;
+	}
+	while(payload->servers
+			&& should_skip_server(payload->handle, payload->servers->data)) {
+		payload->servers = payload->servers->next;
+	}
+	if(payload->servers) {
+		const char *server = payload->servers->data;
+		payload->servers = payload->servers->next;
+		payload->request_errors_ok = payload->errors_ok;
+		return server;
+	}
+	return NULL;
 }
 
 static const char *get_filename(const char *url)
@@ -414,21 +452,16 @@ static FILE *create_tempfile(struct dload_payload *payload, const char *localpat
 /* Return 0 if retry was successful, -1 otherwise */
 static int curl_retry_next_server(CURLM *curlm, CURL *curl, struct dload_payload *payload)
 {
-	const char *server;
+	const char *server = NULL;
 	size_t len;
 	struct stat st;
 	alpm_handle_t *handle = payload->handle;
 
-	while(payload->servers && should_skip_server(handle, payload->servers->data)) {
-		payload->servers = payload->servers->next;
-	}
-	if(!payload->servers) {
+	if((server = payload_next_server(payload)) == NULL) {
 		_alpm_log(payload->handle, ALPM_LOG_DEBUG,
 				"%s: no more servers to retry\n", payload->remote_name);
 		return -1;
 	}
-	server = payload->servers->data;
-	payload->servers = payload->servers->next;
 
 	/* regenerate a new fileurl */
 	FREE(payload->fileurl);
@@ -438,7 +471,6 @@ static int curl_retry_next_server(CURLM *curlm, CURL *curl, struct dload_payload
 	_alpm_log(handle, ALPM_LOG_DEBUG,
 			"%s: retrying from %s\n",
 			payload->remote_name, payload->fileurl);
-
 
 	fflush(payload->localf);
 
@@ -509,7 +541,7 @@ static int curl_check_finished_download(alpm_handle_t *handle, CURLM *curlm, CUR
 			_alpm_log(handle, ALPM_LOG_DEBUG, "%s: response code %ld\n",
 					payload->remote_name, payload->respcode);
 			if(payload->respcode >= 400) {
-				if(!payload->errors_ok) {
+				if(!payload->request_errors_ok) {
 					handle->pm_errno = ALPM_ERR_RETRIEVE;
 					/* non-translated message is same as libcurl */
 					snprintf(payload->error_buffer, sizeof(payload->error_buffer),
@@ -564,7 +596,7 @@ static int curl_check_finished_download(alpm_handle_t *handle, CURLM *curlm, CUR
 				goto cleanup;
 			}
 		default:
-			if(!payload->errors_ok) {
+			if(!payload->request_errors_ok) {
 				handle->pm_errno = ALPM_ERR_LIBCURL;
 				_alpm_log(handle, ALPM_LOG_ERROR,
 						_("failed retrieving file '%s' from %s : %s\n"),
@@ -770,17 +802,12 @@ static int curl_add_payload(alpm_handle_t *handle, CURLM *curlm,
 	if(payload->fileurl) {
 		ASSERT(!payload->servers, GOTO_ERR(handle, ALPM_ERR_WRONG_ARGS, cleanup));
 		ASSERT(!payload->filepath, GOTO_ERR(handle, ALPM_ERR_WRONG_ARGS, cleanup));
+		payload->request_errors_ok = payload->errors_ok;
 	} else {
-		const char *server;
-		while(payload->servers && should_skip_server(handle, payload->servers->data)) {
-			payload->servers = payload->servers->next;
-		}
+		const char *server = payload_next_server(payload);
 
-		ASSERT(payload->servers, GOTO_ERR(handle, ALPM_ERR_SERVER_NONE, cleanup));
+		ASSERT(server, GOTO_ERR(handle, ALPM_ERR_SERVER_NONE, cleanup));
 		ASSERT(payload->filepath, GOTO_ERR(handle, ALPM_ERR_WRONG_ARGS, cleanup));
-
-		server = payload->servers->data;
-		payload->servers = payload->servers->next;
 
 		len = strlen(server) + strlen(payload->filepath) + 2;
 		MALLOC(payload->fileurl, len, GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
@@ -946,6 +973,23 @@ static int curl_download_internal(alpm_handle_t *handle,
 
 #endif
 
+static int payload_download_fetchcb(struct dload_payload *payload,
+		const char *server, const char *localpath)
+{
+	int ret;
+	char *fileurl;
+	alpm_handle_t *handle = payload->handle;
+
+	size_t len = strlen(server) + strlen(payload->filepath) + 2;
+	MALLOC(fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
+	snprintf(fileurl, len, "%s/%s", server, payload->filepath);
+
+	ret = handle->fetchcb(handle->fetchcb_ctx, fileurl, localpath, payload->force);
+	free(fileurl);
+
+	return ret;
+}
+
 /* Returns -1 if an error happened for a required file
  * Returns 0 if a payload was actually downloaded
  * Returns 1 if no files were downloaded and all errors were non-fatal
@@ -971,16 +1015,11 @@ int _alpm_download(alpm_handle_t *handle,
 			if(payload->fileurl) {
 				ret = handle->fetchcb(handle->fetchcb_ctx, payload->fileurl, localpath, payload->force);
 			} else {
+				for(s = payload->cache_servers; s && ret == -1; s = s->next) {
+					ret = payload_download_fetchcb(payload, s->data, localpath);
+				}
 				for(s = payload->servers; s && ret == -1; s = s->next) {
-					const char *server = s->data;
-					char *fileurl;
-
-					size_t len = strlen(server) + strlen(payload->filepath) + 2;
-					MALLOC(fileurl, len, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-					snprintf(fileurl, len, "%s/%s", server, payload->filepath);
-
-					ret = handle->fetchcb(handle->fetchcb_ctx, fileurl, localpath, payload->force);
-					free(fileurl);
+					ret = payload_download_fetchcb(payload, s->data, localpath);
 				}
 			}
 

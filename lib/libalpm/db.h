@@ -69,6 +69,7 @@ struct _alpm_db_t {
 	char *_path;
 	alpm_pkghash_t *pkgcache;
 	alpm_list_t *grpcache;
+	alpm_list_t *cache_servers;
 	alpm_list_t *servers;
 	const struct db_operations *ops;
 

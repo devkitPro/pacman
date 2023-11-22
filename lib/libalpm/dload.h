@@ -37,6 +37,7 @@ struct dload_payload {
 	 */
 	char *fileurl;
 	char *filepath; /* download URL path */
+	alpm_list_t *cache_servers;
 	alpm_list_t *servers;
 	long respcode;
 	off_t initial_size;
@@ -55,6 +56,7 @@ struct dload_payload {
 	char error_buffer[CURL_ERROR_SIZE];
 	FILE *localf; /* temp download file */
 	int signature; /* specifies if this payload is for a signature file */
+	int request_errors_ok; /* per-request errors-ok */
 #endif
 };
 

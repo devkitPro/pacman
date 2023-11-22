@@ -1343,6 +1343,34 @@ int alpm_db_add_server(alpm_db_t *db, const char *url);
  */
 int alpm_db_remove_server(alpm_db_t *db, const char *url);
 
+/** Get the list of cache servers assigned to this db.
+ * @param db pointer to the database to get the servers from
+ * @return a char* list of servers
+ */
+alpm_list_t *alpm_db_get_cache_servers(const alpm_db_t *db);
+
+/** Sets the list of cache servers for the database to use.
+ * @param db the database to set the servers. The list will be duped and
+ * the original will still need to be freed by the caller.
+ * @param servers a char* list of servers.
+ */
+int alpm_db_set_cache_servers(alpm_db_t *db, alpm_list_t *servers);
+
+/** Add a download cache server to a database.
+ * @param db database pointer
+ * @param url url of the server
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_db_add_cache_server(alpm_db_t *db, const char *url);
+
+/** Remove a download cache server from a database.
+ * @param db database pointer
+ * @param url url of the server
+ * @return 0 on success, 1 on server not present,
+ * -1 on error (pm_errno is set accordingly)
+ */
+int alpm_db_remove_cache_server(alpm_db_t *db, const char *url);
+
 /* End of server accessors */
 /** @} */
 

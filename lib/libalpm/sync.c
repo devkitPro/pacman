@@ -828,6 +828,7 @@ static int download_files(alpm_handle_t *handle)
 				FREE(payload->remote_name); FREE(payload);
 				GOTO_ERR(handle, ALPM_ERR_MEMORY, finish));
 			payload->max_size = pkg->size;
+			payload->cache_servers = pkg->origin_data.db->cache_servers;
 			payload->servers = pkg->origin_data.db->servers;
 			payload->handle = handle;
 			payload->allow_resume = 1;
