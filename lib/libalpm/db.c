@@ -194,9 +194,8 @@ int SYMEXPORT alpm_db_add_cache_server(alpm_db_t *db, const char *url)
 	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, -1));
 
 	newurl = sanitize_url(url);
-	if(!newurl) {
-		return -1;
-	}
+	ASSERT(newurl != NULL, RET_ERR(db->handle, ALPM_ERR_MEMORY, -1));
+
 	db->cache_servers = alpm_list_add(db->cache_servers, newurl);
 	_alpm_log(db->handle, ALPM_LOG_DEBUG, "adding new cache server URL to database '%s': %s\n",
 			db->treename, newurl);
@@ -214,9 +213,8 @@ int SYMEXPORT alpm_db_add_server(alpm_db_t *db, const char *url)
 	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, -1));
 
 	newurl = sanitize_url(url);
-	if(!newurl) {
-		return -1;
-	}
+	ASSERT(newurl != NULL, RET_ERR(db->handle, ALPM_ERR_MEMORY, -1));
+
 	db->servers = alpm_list_add(db->servers, newurl);
 	_alpm_log(db->handle, ALPM_LOG_DEBUG, "adding new server URL to database '%s': %s\n",
 			db->treename, newurl);
@@ -235,9 +233,7 @@ int SYMEXPORT alpm_db_remove_cache_server(alpm_db_t *db, const char *url)
 	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, -1));
 
 	newurl = sanitize_url(url);
-	if(!newurl) {
-		return -1;
-	}
+	ASSERT(newurl != NULL, RET_ERR(db->handle, ALPM_ERR_MEMORY, -1));
 
 	db->cache_servers = alpm_list_remove_str(db->cache_servers, newurl, &vdata);
 
@@ -263,9 +259,7 @@ int SYMEXPORT alpm_db_remove_server(alpm_db_t *db, const char *url)
 	ASSERT(url != NULL && strlen(url) != 0, RET_ERR(db->handle, ALPM_ERR_WRONG_ARGS, -1));
 
 	newurl = sanitize_url(url);
-	if(!newurl) {
-		return -1;
-	}
+	ASSERT(newurl != NULL, RET_ERR(db->handle, ALPM_ERR_MEMORY, -1));
 
 	db->servers = alpm_list_remove_str(db->servers, newurl, &vdata);
 
