@@ -359,7 +359,9 @@ pkgconfig.generate(
   name : 'libalpm',
   description : 'Arch Linux package management library',
   version : libalpm_version,
-  url : 'http://archlinux.org/pacman/')
+  url : 'http://archlinux.org/pacman/',
+  extra_cflags: [ '-D_FILE_OFFSET_BITS=64' ],
+)
 
 pacman_bin = executable(
   'pacman',
