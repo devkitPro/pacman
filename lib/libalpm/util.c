@@ -675,6 +675,7 @@ int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 		unsetenv("BASH_ENV");
 		umask(0022);
 		_alpm_reset_signals();
+		_alpm_handle_free(handle);
 		execv(cmd, argv);
 		/* execv only returns if there was an error */
 		fprintf(stderr, _("call to execv failed (%s)\n"), strerror(errno));
