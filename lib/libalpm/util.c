@@ -555,7 +555,7 @@ static int _alpm_chroot_read_from_child(alpm_handle_t *handle, int fd,
 	return 0;
 }
 
-static void _alpm_reset_signals(void)
+void _alpm_reset_signals(void)
 {
 	/* reset POSIX defined signals (see signal.h) */
 	/* there are likely more but there is no easy way

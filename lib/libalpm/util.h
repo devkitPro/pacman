@@ -129,6 +129,7 @@ ssize_t _alpm_files_in_directory(alpm_handle_t *handle, const char *path, int fu
 
 typedef ssize_t (*_alpm_cb_io)(void *buf, ssize_t len, void *ctx);
 
+void _alpm_reset_signals(void);
 int _alpm_run_chroot(alpm_handle_t *handle, const char *cmd, char *const argv[],
 		_alpm_cb_io in_cb, void *in_ctx);
 int _alpm_ldconfig(alpm_handle_t *handle);
