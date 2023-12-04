@@ -488,7 +488,7 @@ typedef struct _alpm_siglist_t {
  * Check the PGP signature for the given package file.
  * @param pkg the package to check
  * @param siglist a pointer to storage for signature results
- * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
+ * @return 0 if valid, -1 if an error occurred or signature is invalid
  */
 int alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg, alpm_siglist_t *siglist);
 
@@ -496,7 +496,7 @@ int alpm_pkg_check_pgp_signature(alpm_pkg_t *pkg, alpm_siglist_t *siglist);
  * Check the PGP signature for the given database.
  * @param db the database to check
  * @param siglist a pointer to storage for signature results
- * @return a int value : 0 (valid), 1 (invalid), -1 (an error occurred)
+ * @return 0 if valid, -1 if an error occurred or signature is invalid
  */
 int alpm_db_check_pgp_signature(alpm_db_t *db, alpm_siglist_t *siglist);
 
