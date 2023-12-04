@@ -262,7 +262,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 					"filesystem: %o  package: %o\n"), filename, lsbuf.st_mode & mask,
 					entrymode & mask);
 			alpm_logaction(handle, ALPM_CALLER_PREFIX,
-					"warning: directory permissions differ on %s\n"
+					"warning: directory permissions differ on %s, "
 					"filesystem: %o  package: %o\n", filename, lsbuf.st_mode & mask,
 					entrymode & mask);
 		}
@@ -277,7 +277,7 @@ static int extract_single_file(alpm_handle_t *handle, struct archive *archive,
 					"filesystem: %u:%u  package: %u:%u\n"), filename,
 					lsbuf.st_uid, lsbuf.st_gid, entryuid, entrygid);
 			alpm_logaction(handle, ALPM_CALLER_PREFIX,
-					"warning: directory ownership differs on %s\n"
+					"warning: directory ownership differs on %s, "
 					"filesystem: %u:%u  package: %u:%u\n", filename,
 					lsbuf.st_uid, lsbuf.st_gid, entryuid, entrygid);
 		}
