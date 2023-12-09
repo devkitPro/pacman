@@ -1183,9 +1183,6 @@ if have_function pkgver; then
 	PKGVERFUNC=1
 fi
 
-# check we have the software required to process the PKGBUILD
-check_software || exit $E_MISSING_MAKEPKG_DEPS
-
 if (( ${#pkgname[@]} > 1 )) || have_function package_${pkgname}; then
 	SPLITPKG=1
 fi
@@ -1214,19 +1211,6 @@ if have_function check; then
 fi
 if have_function package; then
 	PKGFUNC=1
-fi
-
-# check if gpg signature is to be created and if signing key is valid
-if { [[ -z $SIGNPKG ]] && check_buildenv "sign" "y"; } || [[ $SIGNPKG == 'y' ]]; then
-	SIGNPKG='y'
-	if ! gpg --list-secret-key ${GPGKEY:+"$GPGKEY"} &>/dev/null; then
-		if [[ ! -z $GPGKEY ]]; then
-			error "$(gettext "The key %s does not exist in your keyring.")" "${GPGKEY}"
-		else
-			error "$(gettext "There is no key in your keyring.")"
-		fi
-		exit $E_PRETTY_BAD_PRIVACY
-	fi
 fi
 
 if (( PACKAGELIST )); then
@@ -1264,6 +1248,22 @@ if (( INFAKEROOT )); then
 
 	msg "$(gettext "Leaving %s environment.")" "fakeroot"
 	exit $E_OK
+fi
+
+# check we have the software required to process the PKGBUILD
+check_software || exit $E_MISSING_MAKEPKG_DEPS
+
+# check if gpg signature is to be created and if signing key is valid
+if { [[ -z $SIGNPKG ]] && check_buildenv "sign" "y"; } || [[ $SIGNPKG == 'y' ]]; then
+	SIGNPKG='y'
+	if ! gpg --list-secret-key ${GPGKEY:+"$GPGKEY"} &>/dev/null; then
+		if [[ ! -z $GPGKEY ]]; then
+			error "$(gettext "The key %s does not exist in your keyring.")" "${GPGKEY}"
+		else
+			error "$(gettext "There is no key in your keyring.")"
+		fi
+		exit $E_PRETTY_BAD_PRIVACY
+	fi
 fi
 
 msg "$(gettext "Making package: %s")" "$pkgbase $basever ($(date +%c))"
