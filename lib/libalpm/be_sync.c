@@ -138,6 +138,7 @@ valid:
 
 int SYMEXPORT alpm_db_update(alpm_handle_t *handle, alpm_list_t *dbs, int force) {
 	char *syncpath;
+	char *temporary_syncpath;
 	const char *dbext = handle->dbext;
 	alpm_list_t *i;
 	int ret = -1;
@@ -152,6 +153,8 @@ int SYMEXPORT alpm_db_update(alpm_handle_t *handle, alpm_list_t *dbs, int force)
 
 	syncpath = get_sync_dir(handle);
 	ASSERT(syncpath != NULL, return -1);
+	temporary_syncpath = _alpm_temporary_download_dir_setup(syncpath, handle->sandboxuser);
+	ASSERT(temporary_syncpath != NULL, FREE(syncpath); return -1);
 
 	/* make sure we have a sane umask */
 	oldmask = umask(0022);
@@ -193,8 +196,8 @@ int SYMEXPORT alpm_db_update(alpm_handle_t *handle, alpm_list_t *dbs, int force)
 		STRDUP(payload->remote_name, payload->filepath,
 			_alpm_dload_payload_reset(payload); FREE(payload);
 			GOTO_ERR(handle, ALPM_ERR_MEMORY, cleanup));
-		payload->destfile_name = _alpm_get_fullpath(syncpath, payload->remote_name, "");
-		payload->tempfile_name = _alpm_get_fullpath(syncpath, payload->remote_name, ".part");
+		payload->destfile_name = _alpm_get_fullpath(temporary_syncpath, payload->remote_name, "");
+		payload->tempfile_name = _alpm_get_fullpath(temporary_syncpath, payload->remote_name, ".part");
 		if(!payload->destfile_name || !payload->tempfile_name) {
 			_alpm_dload_payload_reset(payload);
 			FREE(payload);
@@ -217,7 +220,7 @@ int SYMEXPORT alpm_db_update(alpm_handle_t *handle, alpm_list_t *dbs, int force)
 
 	event.type = ALPM_EVENT_DB_RETRIEVE_START;
 	EVENT(handle, &event);
-	ret = _alpm_download(handle, payloads, syncpath);
+	ret = _alpm_download(handle, payloads, syncpath, temporary_syncpath);
 	if(ret < 0) {
 		event.type = ALPM_EVENT_DB_RETRIEVE_FAILED;
 		EVENT(handle, &event);
@@ -265,7 +268,9 @@ cleanup:
 		alpm_list_free_inner(payloads, (alpm_list_fn_free)_alpm_dload_payload_reset);
 		FREELIST(payloads);
 	}
-	free(syncpath);
+	_alpm_remove_temporary_download_dir(temporary_syncpath);
+	FREE(temporary_syncpath);
+	FREE(syncpath);
 	umask(oldmask);
 	return ret;
 }

@@ -139,6 +139,9 @@ char *_alpm_filecache_find(alpm_handle_t *handle, const char *filename);
 /* Checks whether a file exists in cache */
 int _alpm_filecache_exists(alpm_handle_t *handle, const char *filename);
 const char *_alpm_filecache_setup(alpm_handle_t *handle);
+char *_alpm_temporary_download_dir_setup(const char *dir, const char *user);
+void _alpm_remove_temporary_download_dir(const char *dir);
+
 /* Unlike many uses of alpm_pkgvalidation_t, _alpm_test_checksum expects
  * an enum value rather than a bitfield. */
 int _alpm_test_checksum(const char *filepath, const char *expected, alpm_pkgvalidation_t type);

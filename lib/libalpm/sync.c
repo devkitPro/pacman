@@ -773,12 +773,18 @@ static int find_dl_candidates(alpm_handle_t *handle, alpm_list_t **files)
 static int download_files(alpm_handle_t *handle)
 {
 	const char *cachedir;
+	char * temporary_cachedir = NULL;
 	alpm_list_t *i, *files = NULL;
 	int ret = 0;
 	alpm_event_t event = {0};
 	alpm_list_t *payloads = NULL;
 
 	cachedir = _alpm_filecache_setup(handle);
+	temporary_cachedir = _alpm_temporary_download_dir_setup(cachedir, handle->sandboxuser);
+	if(temporary_cachedir == NULL) {
+		ret = -1;
+		goto finish;
+	}
 	handle->trans->state = STATE_DOWNLOADING;
 
 	ret = find_dl_candidates(handle, &files);
@@ -802,7 +808,7 @@ static int download_files(alpm_handle_t *handle)
 				file_sizes[idx] = pkg->size;
 			}
 
-			ret = _alpm_check_downloadspace(handle, cachedir, num_files, file_sizes);
+			ret = _alpm_check_downloadspace(handle, temporary_cachedir, num_files, file_sizes);
 			free(file_sizes);
 
 			if(ret != 0) {
@@ -830,8 +836,8 @@ static int download_files(alpm_handle_t *handle)
 			STRDUP(payload->filepath, pkg->filename,
 				_alpm_dload_payload_reset(payload); FREE(payload);
 				GOTO_ERR(handle, ALPM_ERR_MEMORY, finish));
-			payload->destfile_name = _alpm_get_fullpath(cachedir, payload->remote_name, "");
-			payload->tempfile_name = _alpm_get_fullpath(cachedir, payload->remote_name, ".part");
+			payload->destfile_name = _alpm_get_fullpath(temporary_cachedir, payload->remote_name, "");
+			payload->tempfile_name = _alpm_get_fullpath(temporary_cachedir, payload->remote_name, ".part");
 			if(!payload->destfile_name || !payload->tempfile_name) {
 				_alpm_dload_payload_reset(payload);
 				FREE(payload);
@@ -848,7 +854,7 @@ static int download_files(alpm_handle_t *handle)
 			payloads = alpm_list_add(payloads, payload);
 		}
 
-		ret = _alpm_download(handle, payloads, cachedir);
+		ret = _alpm_download(handle, payloads, cachedir, temporary_cachedir);
 		if(ret == -1) {
 			event.type = ALPM_EVENT_PKG_RETRIEVE_FAILED;
 			EVENT(handle, &event);
@@ -874,6 +880,8 @@ finish:
 		pkg->infolevel &= ~INFRQ_DSIZE;
 		pkg->download_size = 0;
 	}
+	_alpm_remove_temporary_download_dir(temporary_cachedir);
+	FREE(temporary_cachedir);
 
 	return ret;
 }

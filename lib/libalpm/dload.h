@@ -64,6 +64,7 @@ void _alpm_dload_payload_reset(struct dload_payload *payload);
 
 int _alpm_download(alpm_handle_t *handle,
 		alpm_list_t *payloads /* struct dload_payload */,
-		const char *localpath);
+		const char *localpath,
+		const char *temporary_localpath);
 
 #endif /* ALPM_DLOAD_H */
