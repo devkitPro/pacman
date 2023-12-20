@@ -88,12 +88,12 @@ collect_debug_symbols() {
 		mkdir -p "$dbgdir/${binary%/*}"
 
 		# abandon processing files that are not a recognised format
-		if ! objcopy --only-keep-debug "$binary" "$dbgdir/$binary.debug" 2>/dev/null; then
+		if ! ${OBJCOPY} --only-keep-debug "$binary" "$dbgdir/$binary.debug" 2>/dev/null; then
 			return
 		fi
 
 		local tempfile=$(mktemp "$binary.XXXXXX")
-		objcopy --add-gnu-debuglink="$dbgdir/${binary#/}.debug" "$binary" "$tempfile"
+		${OBJCOPY} --add-gnu-debuglink="$dbgdir/${binary#/}.debug" "$binary" "$tempfile"
 		cat "$tempfile" > "$binary"
 		rm "$tempfile"
 
@@ -123,7 +123,7 @@ collect_debug_symbols() {
 strip_file(){
 	local binary=$1; shift
 	local tempfile=$(mktemp "$binary.XXXXXX")
-	if strip "$@" "$binary" -o "$tempfile"; then
+	if ${STRIP} "$@" "$binary" -o "$tempfile"; then
 		cat "$tempfile" > "$binary"
 	fi
 	rm -f "$tempfile"
@@ -133,7 +133,7 @@ strip_lto() {
 	local binary=$1;
 
 	local tempfile=$(mktemp "$binary.XXXXXX")
-	if strip -R .gnu.lto_* -R .gnu.debuglto_* -N __gnu_lto_v1 "$binary" -o "$tempfile"; then
+	if ${STRIP} -R .gnu.lto_* -R .gnu.debuglto_* -N __gnu_lto_v1 "$binary" -o "$tempfile"; then
 		cat "$tempfile" > "$binary"
 	fi
 	rm -f "$tempfile"
