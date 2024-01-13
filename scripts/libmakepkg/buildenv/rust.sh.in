@@ -26,7 +26,7 @@ MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 source "$MAKEPKG_LIBRARY/util/option.sh"
 source "$MAKEPKG_LIBRARY/util/util.sh"
 
-buildenv_var+=('RUSTFLAGS' 'DEBUG_RUSTFLAGS')
+buildenv_vars+=('RUSTFLAGS' 'DEBUG_RUSTFLAGS')
 buildenv_functions+=('buildenv_rust')
 
 buildenv_rust() {
