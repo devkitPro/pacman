@@ -677,7 +677,7 @@ char *_alpm_local_db_pkgpath(alpm_db_t *db, alpm_pkg_t *info,
 	len = strlen(dbpath) + strlen(info->name) + strlen(info->version) + 3;
 	len += filename ? strlen(filename) : 0;
 	MALLOC(pkgpath, len, RET_ERR(db->handle, ALPM_ERR_MEMORY, NULL));
-	sprintf(pkgpath, "%s%s-%s/%s", dbpath, info->name, info->version,
+	snprintf(pkgpath, len, "%s%s-%s/%s", dbpath, info->name, info->version,
 			filename ? filename : "");
 	return pkgpath;
 }
@@ -1164,7 +1164,7 @@ int _alpm_local_db_remove(alpm_db_t *db, alpm_pkg_t *info)
 				/* file path is too long to remove, hmm. */
 				ret = -1;
 			} else {
-				sprintf(name, "%s/%s", pkgpath, dp->d_name);
+				snprintf(name, PATH_MAX, "%s/%s", pkgpath, dp->d_name);
 				if(unlink(name)) {
 					ret = -1;
 				}

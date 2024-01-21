@@ -66,7 +66,7 @@ static int search_path(char **filename, struct stat *bufptr)
 			free(envpath);
 			return -1;
 		}
-		sprintf(fullname, "%s/%s", path, *filename);
+		snprintf(fullname, plen + flen + 2, "%s/%s", path, *filename);
 
 		if(lstat(fullname, bufptr) == 0) {
 			free(*filename);

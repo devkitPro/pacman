@@ -48,7 +48,7 @@ static char *get_sync_dir(alpm_handle_t *handle)
 	struct stat buf;
 
 	MALLOC(syncpath, len, RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
-	sprintf(syncpath, "%s%s", handle->dbpath, "sync/");
+	snprintf(syncpath, len, "%s%s", handle->dbpath, "sync/");
 
 	if(stat(syncpath, &buf) != 0) {
 		_alpm_log(handle, ALPM_LOG_DEBUG, "database dir '%s' does not exist, creating it\n",

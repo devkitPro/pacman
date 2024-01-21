@@ -612,8 +612,9 @@ alpm_list_t *_alpm_db_find_fileconflicts(alpm_handle_t *handle,
 			/* check if all files of the dir belong to the installed pkg */
 			if(!resolved_conflict && S_ISDIR(lsbuf.st_mode)) {
 				alpm_list_t *owners;
-				char *dir = malloc(strlen(relative_path) + 2);
-				sprintf(dir, "%s/", relative_path);
+				size_t dir_len = strlen(relative_path) + 2;
+				char *dir = malloc(dir_len);
+				snprintf(dir, dir_len, "%s/", relative_path);
 
 				owners = alpm_db_find_file_owners(handle->db_local, dir);
 				if(owners) {

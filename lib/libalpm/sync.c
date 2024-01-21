@@ -314,6 +314,7 @@ static int compute_download_size(alpm_pkg_t *newpkg)
 	off_t size = 0;
 	alpm_handle_t *handle = newpkg->handle;
 	int ret = 0;
+	size_t fnamepartlen = 0;
 
 	if(newpkg->origin != ALPM_PKG_FROM_SYNCDB) {
 		newpkg->infolevel |= INFRQ_DSIZE;
@@ -331,8 +332,9 @@ static int compute_download_size(alpm_pkg_t *newpkg)
 		goto finish;
 	}
 
-	CALLOC(fnamepart, strlen(fname) + 6, sizeof(char), return -1);
-	sprintf(fnamepart, "%s.part", fname);
+	fnamepartlen = strlen(fname) + 6;
+	CALLOC(fnamepart, fnamepartlen, sizeof(char), return -1);
+	snprintf(fnamepart, fnamepartlen, "%s.part", fname);
 	fpath = _alpm_filecache_find(handle, fnamepart);
 	if(fpath) {
 		struct stat st;

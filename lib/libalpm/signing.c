@@ -316,7 +316,7 @@ static int key_search_keyserver(alpm_handle_t *handle, const char *fpr,
 	 * key fingerprint with 0x, or the lookup will fail. */
 	fpr_len = strlen(fpr);
 	MALLOC(full_fpr, fpr_len + 3, RET_ERR(handle, ALPM_ERR_MEMORY, -1));
-	sprintf(full_fpr, "0x%s", fpr);
+	snprintf(full_fpr, fpr_len + 3, "0x%s", fpr);
 
 	gpg_err = gpgme_new(&ctx);
 	CHECK_ERR();
@@ -816,7 +816,7 @@ char *_alpm_sigpath(alpm_handle_t *handle, const char *path)
 	}
 	len = strlen(path) + 5;
 	CALLOC(sigpath, len, sizeof(char), RET_ERR(handle, ALPM_ERR_MEMORY, NULL));
-	sprintf(sigpath, "%s.sig", path);
+	snprintf(sigpath, len, "%s.sig", path);
 	return sigpath;
 }
 
@@ -1085,7 +1085,7 @@ static int parse_subpacket(alpm_handle_t *handle, const char *identifier,
 					return -1;
 				}
 				for (i = 0; i < 8; i++) {
-					sprintf(&key[i * 2], "%02X", sig[spos + i + 1]);
+					snprintf(&key[i * 2], 3, "%02X", sig[spos + i + 1]);
 				}
 				*keys = alpm_list_add(*keys, strdup(key));
 				break;

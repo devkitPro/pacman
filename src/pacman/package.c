@@ -433,7 +433,7 @@ void dump_pkg_backups(alpm_pkg_t *pkg, unsigned short cols)
 		if(!line) {
 			goto cleanup;
 		}
-		sprintf(line, "%s%s %s", root, backup->name, value);
+		snprintf(line, needed, "%s%s %s", root, backup->name, value);
 		text = alpm_list_add(text, line);
 	}
 

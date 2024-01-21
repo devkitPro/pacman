@@ -99,7 +99,7 @@ static alpm_list_t *check_arch(alpm_handle_t *handle, alpm_list_t *pkgs)
 			const char *pkgver = pkg->version;
 			size_t len = strlen(pkgname) + strlen(pkgver) + strlen(pkgarch) + 3;
 			MALLOC(string, len, RET_ERR(handle, ALPM_ERR_MEMORY, invalid));
-			sprintf(string, "%s-%s-%s", pkgname, pkgver, pkgarch);
+			snprintf(string, len, "%s-%s-%s", pkgname, pkgver, pkgarch);
 			invalid = alpm_list_add(invalid, string);
 		}
 	}

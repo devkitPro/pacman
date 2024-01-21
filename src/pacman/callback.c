@@ -805,7 +805,7 @@ static void draw_pacman_progress_bar(struct pacman_progress_bar *bar)
 		// fname + digits +  ( /) + \0
 		size_t needed = strlen(fname) + (digits * 2) + 4 + 1;
 		char *name = malloc(needed);
-		sprintf(name, "%s (%*zu/%*zu)", fname, digits, bar->downloaded, digits, bar->howmany);
+		snprintf(name, needed, "%s (%*zu/%*zu)", fname, digits, bar->downloaded, digits, bar->howmany);
 		free(fname);
 		fname = name;
 	}
