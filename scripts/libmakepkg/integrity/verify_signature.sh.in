@@ -26,6 +26,12 @@ MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 source "$MAKEPKG_LIBRARY/util/message.sh"
 source "$MAKEPKG_LIBRARY/util/pkgbuild.sh"
 
+# Filter the contents of a GnuPG statusfile to only contain understood terms to narrow the file's scope and circumvent
+# the use of terms (e.g. NOTATION_DATA) that may contain unescaped binary data
+filter_gnupg_statusfile() {
+	grep -E "(.*SIG| TRUST_.*)"
+}
+
 check_pgpsigs() {
 	(( SKIPPGPCHECK )) && return 0
 	! source_has_signatures && return 0
@@ -35,6 +41,7 @@ check_pgpsigs() {
 	local netfile proto pubkey success status fingerprint trusted
 	local warnings=0
 	local errors=0
+	local statusfile_raw="$(mktemp)"
 	local statusfile=$(mktemp)
 	local all_sources
 
@@ -103,7 +110,7 @@ check_pgpsigs() {
 		printf '\n' >&2
 	done
 
-	rm -f "$statusfile"
+	rm -f "$statusfile" "$statusfile_raw"
 
 	if (( errors )); then
 		error "$(gettext "One or more PGP signatures could not be verified!")"
@@ -158,8 +165,15 @@ verify_file_signature() {
 	esac
 
 	# verify the signature and write metadata to a status file
-	if ! $decompress < "$sourcefile" | gpg --quiet --batch --status-file "$statusfile" --verify "$file" - 2> /dev/null; then
+	if ! $decompress < "$sourcefile" | gpg --quiet --batch --status-file "$statusfile_raw" --verify "$file" - 2> /dev/null; then
 		printf '%s\n' "$(gettext "%s is unable to verify the signature.")" "gpg" >&2
+		errors=1
+		return 1
+	fi
+
+	# create a statusfile that contains only understood terms
+	if ! filter_gnupg_statusfile > "$statusfile" < "$statusfile_raw"; then
+		printf '%s\n' "$(gettext "unable to extract signature metadata.")" >&2
 		errors=1
 		return 1
 	fi
@@ -196,8 +210,15 @@ verify_git_signature() {
 	printf "    %s git repo ... " "${dir##*/}" >&2
 
 	# verify the signature and write metadata to a status file
-	if ! git -C "$dir" verify-$fragtype --raw "$fragval" > "$statusfile" 2>&1; then
+	if ! git -C "$dir" verify-$fragtype --raw "$fragval" > "$statusfile_raw" 2>&1; then
 		printf '%s\n' "$(gettext "%s is unable to verify the signature.")" "git" >&2
+		errors=1
+		return 1
+	fi
+
+	# create a statusfile that contains only understood terms
+	if ! filter_gnupg_statusfile > "$statusfile" < "$statusfile_raw"; then
+		printf '%s\n' "$(gettext "unable to extract signature metadata.")" >&2
 		errors=1
 		return 1
 	fi
