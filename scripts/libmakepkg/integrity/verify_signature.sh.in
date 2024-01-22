@@ -223,16 +223,18 @@ verify_git_signature() {
 		return 1
 	fi
 
-	if ! grep -qs NEWSIG "$statusfile"; then
-		printf '%s\n' "$(gettext "SIGNATURE NOT FOUND")" >&2
-		errors=1
-		return 1
-	fi
 	return 0
 }
 
 parse_gpg_statusfile() {
 	local type arg1 arg6 arg10
+
+	# ensure the NEWSIG keyword is part of the metadata
+	if ! grep -qs NEWSIG "$statusfile"; then
+		printf '%s\n' "$(gettext "SIGNATURE NOT FOUND")" >&2
+		errors=1
+		return 1
+	fi
 
 	while read -r _ type arg1 _ _ _ _ arg6 _ _ _ arg10 _; do
 		case "$type" in
