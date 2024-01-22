@@ -591,10 +591,21 @@ verify_sig() {
 		error "$(gettext "Cannot use armored signatures for packages: %s")" "$sig"
 		exit 1
 	fi
-	if ! "${GPG_PACMAN[@]}" --status-fd 1 --verify "${files[@]}" | grep -qE '^\[GNUPG:\] TRUST_(FULLY|ULTIMATE).*$'; then
-		error "$(gettext "The signature identified by %s could not be verified.")" "$sig"
+
+	"${GPG_PACMAN[@]}" --status-fd 1 --verify "${files[@]}" | grep -qE '^\[GNUPG:\] TRUST_(FULLY|ULTIMATE).*$'
+
+	# return error if GnuPG fails to verify the signature
+	if [[ "${PIPESTATUS[0]}" -ne 0 ]]; then
+		error "$(gettext "The signature verification for %s failed.")" "$sig"
 		ret=1
 	fi
+
+	# return error if the signature is not trusted fully or ultimately
+	if [[ "${PIPESTATUS[1]}" -ne 0 ]]; then
+		error "$(gettext "The signature %s is not trusted.")" "$sig"
+		ret=1
+	fi
+
 	exit $ret
 }
 
