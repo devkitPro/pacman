@@ -157,7 +157,13 @@ verify_file_signature() {
 		"")  decompress="cat" ;;
 	esac
 
-	$decompress < "$sourcefile" | gpg --quiet --batch --status-file "$statusfile" --verify "$file" - 2> /dev/null
+	# verify the signature and write metadata to a status file
+	if ! $decompress < "$sourcefile" | gpg --quiet --batch --status-file "$statusfile" --verify "$file" - 2> /dev/null; then
+		printf '%s\n' "$(gettext "%s is unable to verify the signature.")" "gpg" >&2
+		errors=1
+		return 1
+	fi
+
 	return 0
 }
 
@@ -189,7 +195,13 @@ verify_git_signature() {
 
 	printf "    %s git repo ... " "${dir##*/}" >&2
 
-	git -C "$dir" verify-$fragtype --raw "$fragval" > "$statusfile" 2>&1
+	# verify the signature and write metadata to a status file
+	if ! git -C "$dir" verify-$fragtype --raw "$fragval" > "$statusfile" 2>&1; then
+		printf '%s\n' "$(gettext "%s is unable to verify the signature.")" "git" >&2
+		errors=1
+		return 1
+	fi
+
 	if ! grep -qs NEWSIG "$statusfile"; then
 		printf '%s\n' "$(gettext "SIGNATURE NOT FOUND")" >&2
 		errors=1
