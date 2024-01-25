@@ -417,6 +417,7 @@ alpm_list_t SYMEXPORT *alpm_list_reverse(alpm_list_t *list)
 	while(lp) {
 		if(alpm_list_append(&newlist, lp->data) == NULL) {
 			alpm_list_free(newlist);
+			list->prev = backup;
 			return NULL;
 		}
 		lp = lp->prev;
