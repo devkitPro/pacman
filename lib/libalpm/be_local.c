@@ -250,7 +250,6 @@ static int _cache_changelog_close(const alpm_pkg_t UNUSED *pkg, void *fp)
  */
 static struct archive *_cache_mtree_open(alpm_pkg_t *pkg)
 {
-	int r;
 	struct archive *mtree;
 
 	alpm_db_t *db = alpm_pkg_get_db(pkg);
@@ -268,7 +267,7 @@ static struct archive *_cache_mtree_open(alpm_pkg_t *pkg)
 	_alpm_archive_read_support_filter_all(mtree);
 	archive_read_support_format_mtree(mtree);
 
-	if((r = _alpm_archive_read_open_file(mtree, mtfile, ALPM_BUFFER_SIZE))) {
+	if(_alpm_archive_read_open_file(mtree, mtfile, ALPM_BUFFER_SIZE)) {
 		_alpm_log(pkg->handle, ALPM_LOG_ERROR, _("error while reading file %s: %s\n"),
 					mtfile, archive_error_string(mtree));
 		_alpm_archive_read_free(mtree);
