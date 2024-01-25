@@ -1044,7 +1044,7 @@ int SYMEXPORT alpm_siglist_cleanup(alpm_siglist_t *siglist)
 static size_t length_check(size_t length, size_t position, size_t a,
 		alpm_handle_t *handle, const char *identifier)
 {
-	if( a == 0 || length - position <= a) {
+	if( a == 0 || position > length || length - position <= a) {
 		_alpm_log(handle, ALPM_LOG_ERROR,
 				_("%s: signature format error\n"), identifier);
 		return -1;
