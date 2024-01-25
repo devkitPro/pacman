@@ -754,14 +754,11 @@ static void init_total_progressbar(void)
 
 static char *clean_filename(const char *filename)
 {
-	int len = strlen(filename);
 	char *p;
-	char *fname = malloc(len + 1);
-	memcpy(fname, filename, len + 1);
+	char *fname = strdup(filename);
 	/* strip package or DB extension for cleaner look */
 	if((p = strstr(fname, ".pkg")) || (p = strstr(fname, ".db")) || (p = strstr(fname, ".files"))) {
-		len = p - fname;
-		fname[len] = '\0';
+		fname[p - fname] = '\0';
 	}
 
 	return fname;
