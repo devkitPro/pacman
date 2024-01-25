@@ -233,6 +233,7 @@ if get_option('debug')
     '-Wuninitialized',
     '-Wunused-but-set-parameter',
     '-Wunused-parameter',
+    '-Wunused-result',
     '-Wwrite-strings',
   ]
   add_project_arguments(cc.get_supported_arguments(extra_cflags), language : 'c')
