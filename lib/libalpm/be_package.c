@@ -683,9 +683,7 @@ pkg_invalid:
 error:
 	_alpm_pkg_free(newpkg);
 	_alpm_archive_read_free(archive);
-	if(fd >= 0) {
-		close(fd);
-	}
+	close(fd);
 
 	return NULL;
 }
