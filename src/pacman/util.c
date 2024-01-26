@@ -1262,6 +1262,7 @@ void print_packages(const alpm_list_t *packages)
 			string = strreplace(temp, "%s", size);
 			free(size);
 			free(temp);
+			temp = string;
 		}
 		/* %u : url */
 		PRINT_FORMAT_STRING(temp, "%u", alpm_pkg_get_url)
