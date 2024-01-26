@@ -420,7 +420,9 @@ static void shift_pacsave(alpm_handle_t *handle, const char *file)
 
 cleanup:
 	free(dirname);
-	closedir(dir);
+	if(dir != NULL) {
+		closedir(dir);
+	}
 }
 
 
