@@ -569,6 +569,7 @@ void cb_progress(void *ctx, alpm_progress_t event, const char *pkgname,
 	/* used for wide character width determination and printing */
 	int len, wclen, wcwid, padwid;
 	wchar_t *wcstr;
+	int has_pkgname = (pkgname && pkgname[0] != '\0' ? 1 : 0);
 
 	const unsigned short cols = getcols();
 
@@ -589,7 +590,7 @@ void cb_progress(void *ctx, alpm_progress_t event, const char *pkgname,
 	} else {
 		if(current != prevcurrent) {
 			/* update always */
-		} else if(!pkgname || percent == prevpercent ||
+		} else if(has_pkgname || percent == prevpercent ||
 				get_update_timediff(0) < UPDATE_SPEED_MS) {
 			/* only update the progress bar when we have a package name, the
 			 * percentage has changed, and it has been long enough. */
@@ -653,19 +654,25 @@ void cb_progress(void *ctx, alpm_progress_t event, const char *pkgname,
 	 * by the output, and then pad it accordingly so we fill the terminal.
 	 */
 	/* len = opr len + pkgname len (if available) + space + null */
-	len = strlen(opr) + ((pkgname) ? strlen(pkgname) : 0) + 2;
+	len = strlen(opr) + (has_pkgname ? strlen(pkgname) + 1 : 0) + 1;
 	wcstr = calloc(len, sizeof(wchar_t));
 	/* print our strings to the alloc'ed memory */
 #if defined(HAVE_SWPRINTF)
-	wclen = swprintf(wcstr, len, L"%s %s", opr, pkgname);
+	if(has_pkgname) {
+		wclen = swprintf(wcstr, len, L"%s %s", opr, pkgname);
+	} else {
+		wclen = swprintf(wcstr, len, L"%s", opr);
+	}
 #else
 	/* because the format string was simple, we can easily do this without
 	 * using swprintf, although it is probably not as safe/fast. The max
 	 * chars we can copy is decremented each time by subtracting the length
 	 * of the already printed/copied wide char string. */
 	wclen = mbstowcs(wcstr, opr, len);
-	wclen += mbstowcs(wcstr + wclen, " ", len - wclen);
-	wclen += mbstowcs(wcstr + wclen, pkgname, len - wclen);
+	if(has_pkgname) {
+		wclen += mbstowcs(wcstr + wclen, " ", len - wclen);
+		wclen += mbstowcs(wcstr + wclen, pkgname, len - wclen);
+	}
 #endif
 	wcwid = wcswidth(wcstr, wclen);
 	padwid = textlen - wcwid;
