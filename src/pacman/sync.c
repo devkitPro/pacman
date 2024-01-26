@@ -83,7 +83,11 @@ static int sync_cleandb(const char *dbpath)
 		}
 
 		/* build the full path */
-		snprintf(path, PATH_MAX, "%s%s", dbpath, dname);
+		len = snprintf(path, PATH_MAX, "%s%s", dbpath, dname);
+		if(len > PATH_MAX) {
+			pm_printf(ALPM_LOG_ERROR, _("could not remove %s%s: path exceeds PATH_MAX\n"),
+					dbpath, dname);
+		}
 
 		/* remove all non-skipped directories and non-database files */
 		if(stat(path, &buf) == -1) {
@@ -211,6 +215,7 @@ static int sync_cleancache(int level)
 			int delete = 1;
 			alpm_pkg_t *localpkg = NULL, *pkg = NULL;
 			const char *local_name, *local_version;
+			size_t len;
 
 			if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0) {
 				continue;
@@ -239,7 +244,12 @@ static int sync_cleancache(int level)
 			}
 
 			/* build the full filepath */
-			snprintf(path, PATH_MAX, "%s%s", cachedir, ent->d_name);
+			len=snprintf(path, PATH_MAX, "%s%s", cachedir, ent->d_name);
+			if(len > PATH_MAX) {
+				pm_printf(ALPM_LOG_ERROR, _("skipping %s%s: path exceeds PATH_MAX\n"),
+						cachedir, ent->d_name);
+				continue;
+			}
 
 			/* short circuit for removing all files from cache */
 			if(level > 1) {
