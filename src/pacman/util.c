@@ -34,6 +34,7 @@
 #include <limits.h>
 #include <wchar.h>
 #include <wctype.h>
+#include <ctype.h>
 #ifdef HAVE_TERMIOS_H
 #include <termios.h> /* tcflush */
 #endif
@@ -448,24 +449,33 @@ static char *concat_list(alpm_list_t *lst, formatfn fn)
 
 static size_t string_length(const char *s)
 {
-	int len;
+	size_t len;
 	wchar_t *wcstr;
 
 	if(!s || s[0] == '\0') {
 		return 0;
 	}
-	if(strstr(s, "\033")) {
+	if(strchr(s, '\033')) {
 		char* replaced = malloc(sizeof(char) * strlen(s));
-		int iter = 0;
+		size_t iter = 0;
 		for(; *s; s++) {
-			if(*s == '\033') {
-				while(*s != 'm') {
-					s++;
+			if(*s == '\033' && *(s+1) == '[' && isdigit(s+2)) {
+				/* handle terminal colour escape sequences */
+				const char* t = s + 3;
+
+				while(isdigit(*t) || *t == ';') {
+					t++;
 				}
-			} else {
-				replaced[iter] = *s;
-				iter++;
+
+				if(*t == 'm') {
+					/* end of terminal colour sequence */
+					s = t++;
+					continue;
+				}
 			}
+
+			replaced[iter] = *s;
+			iter++;
 		}
 		replaced[iter] = '\0';
 		len = iter;
