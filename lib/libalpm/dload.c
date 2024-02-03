@@ -967,8 +967,9 @@ static int curl_download_internal(alpm_handle_t *handle,
 		}
 	}
 
-	_alpm_log(handle, ALPM_LOG_DEBUG, "curl_download_internal return code is %d\n", err);
-	return err ? -1 : updated ? 0 : 1;
+	int ret = err ? -1 : updated ? 0 : 1;
+	_alpm_log(handle, ALPM_LOG_DEBUG, "curl_download_internal return code is %d\n", ret);
+	return ret;
 }
 
 #endif
