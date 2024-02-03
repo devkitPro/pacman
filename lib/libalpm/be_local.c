@@ -654,6 +654,17 @@ static int local_db_populate(alpm_db_t *db)
 	return 0;
 }
 
+static alpm_pkgreason_t _read_pkgreason(alpm_handle_t *handle, const char *pkgname, const char *line) {
+	if(strcmp(line, "0") == 0) {
+		return ALPM_PKG_REASON_EXPLICIT;
+	} else if(strcmp(line, "1") == 0) {
+		return ALPM_PKG_REASON_DEPEND;
+	} else {
+		_alpm_log(handle, ALPM_LOG_ERROR, _("unknown install reason for package %s: %s\n"), pkgname, line);
+		return ALPM_PKG_REASON_EXPLICIT;
+	}
+}
+
 /* Note: the return value must be freed by the caller */
 char *_alpm_local_db_pkgpath(alpm_db_t *db, alpm_pkg_t *info,
 		const char *filename)
@@ -776,7 +787,7 @@ static int local_db_read(alpm_pkg_t *info, int inforeq)
 				READ_AND_STORE(info->packager);
 			} else if(strcmp(line, "%REASON%") == 0) {
 				READ_NEXT();
-				info->reason = (alpm_pkgreason_t)atoi(line);
+				info->reason = _read_pkgreason(db->handle, info->name, line);
 			} else if(strcmp(line, "%VALIDATION%") == 0) {
 				alpm_list_t *i, *v = NULL;
 				READ_AND_STORE_ALL(v);
