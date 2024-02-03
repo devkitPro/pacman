@@ -525,6 +525,15 @@ int SYMEXPORT alpm_list_cmp_unsorted(const alpm_list_t *left,
 		return 0;
 	}
 
+	/* faster comparison for if the lists happen to be in the same order */
+	while(left && fn(left->data, right->data) == 0) {
+		left = left->next;
+		right = right->next;
+	}
+	if(!left) {
+		return 1;
+	}
+
 	matched = calloc(alpm_list_count(right), sizeof(int));
 
 	for(l = left; l; l = l->next) {
