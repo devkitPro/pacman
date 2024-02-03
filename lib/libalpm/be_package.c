@@ -251,8 +251,10 @@ static int parse_descfile(alpm_handle_t *handle, struct archive *a, alpm_pkg_t *
 					return -1;
 				}
 			} else {
+				const char *pkgname = newpkg->name ? newpkg->name : "error";
+				_alpm_log(handle, ALPM_LOG_WARNING, _("%s: unknown key '%s' in package description\n"), pkgname, key);
 				_alpm_log(handle, ALPM_LOG_DEBUG, "%s: unknown key '%s' in description file line %d\n",
-									newpkg->name ? newpkg->name : "error", key, linenum);
+									pkgname, key, linenum);
 			}
 		}
 	}
