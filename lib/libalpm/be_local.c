@@ -661,7 +661,7 @@ static alpm_pkgreason_t _read_pkgreason(alpm_handle_t *handle, const char *pkgna
 		return ALPM_PKG_REASON_DEPEND;
 	} else {
 		_alpm_log(handle, ALPM_LOG_ERROR, _("unknown install reason for package %s: %s\n"), pkgname, line);
-		return ALPM_PKG_REASON_EXPLICIT;
+		return ALPM_PKG_REASON_UNKNOWN;
 	}
 }
 

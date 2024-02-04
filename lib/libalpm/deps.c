@@ -556,7 +556,7 @@ static void _alpm_select_depends(alpm_list_t **from, alpm_list_t **to,
 	for(i = *from; i; i = next) {
 		alpm_pkg_t *deppkg = i->data;
 		next = i->next;
-		if((explicit || alpm_pkg_get_reason(deppkg) != ALPM_PKG_REASON_EXPLICIT)
+		if((explicit || alpm_pkg_get_reason(deppkg) == ALPM_PKG_REASON_DEPEND)
 				&& _alpm_pkg_depends_on(pkg, deppkg)) {
 			*to = alpm_list_add(*to, deppkg);
 			*from = alpm_list_remove_item(*from, i);

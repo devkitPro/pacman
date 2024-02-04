@@ -2293,7 +2293,9 @@ typedef enum _alpm_pkgreason_t {
 	/** Explicitly requested by the user. */
 	ALPM_PKG_REASON_EXPLICIT = 0,
 	/** Installed as a dependency for another package. */
-	ALPM_PKG_REASON_DEPEND = 1
+	ALPM_PKG_REASON_DEPEND = 1,
+	/** Failed parsing of local database */
+	ALPM_PKG_REASON_UNKNOWN = 2
 } alpm_pkgreason_t;
 
 /** Location a package object was loaded from. */
