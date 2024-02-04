@@ -673,6 +673,10 @@ alpm_pkg_t *_alpm_pkg_load_internal(alpm_handle_t *handle,
 		newpkg->infolevel |= INFRQ_FILES;
 	}
 
+	if(_alpm_pkg_check_meta(newpkg) != 0) {
+		goto pkg_invalid;
+	}
+
 	_alpm_archive_read_free(archive);
 	close(fd);
 	return newpkg;

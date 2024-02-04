@@ -21,6 +21,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <limits.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
@@ -843,4 +844,59 @@ int SYMEXPORT alpm_pkg_should_ignore(alpm_handle_t *handle, alpm_pkg_t *pkg)
 	}
 
 	return 0;
+}
+
+/* check that package metadata meets our requirements */
+int _alpm_pkg_check_meta(alpm_pkg_t *pkg)
+{
+	char *c;
+	int error_found = 0;
+
+#define EPKGMETA(error) do { \
+	error_found = -1; \
+	_alpm_log(pkg->handle, ALPM_LOG_ERROR, error, pkg->name, pkg->version); \
+} while(0)
+
+	/* sanity check */
+	if(pkg->handle == NULL) {
+		return -1;
+	}
+
+	/* immediate bail if package doesn't have name or version */
+	if(pkg->name == NULL || pkg->name[0] == '\0'
+			|| pkg->version == NULL || pkg->version[0] == '\0') {
+		_alpm_log(pkg->handle, ALPM_LOG_ERROR,
+				_("invalid package metadata (name or version missing)"));
+		return -1;
+	}
+
+	if(pkg->name[0] == '-' || pkg->name[0] == '.') {
+		EPKGMETA(_("invalid metadata for package %s-%s "
+					"(package name cannot start with '.' or '-')\n"));
+	}
+	if(_alpm_fnmatch(pkg->name, "[![:alnum:]+_.@-]") == 0) {
+		EPKGMETA(_("invalid metadata for package %s-%s "
+					"(package name contains invalid characters)\n"));
+	}
+
+	/* multiple '-' in pkgver can cause local db entries for different packages
+	 * to overlap (e.g. foo-1=2-3 and foo=1-2-3 both give foo-1-2-3) */
+	if((c = strchr(pkg->version, '-')) && (strchr(c + 1, '-'))) {
+		EPKGMETA(_("invalid metadata for package %s-%s "
+					"(package version contains invalid characters)\n"));
+	}
+	if(strchr(pkg->version, '/')) {
+		EPKGMETA(_("invalid metadata for package %s-%s "
+					"(package version contains invalid characters)\n"));
+	}
+
+	/* local db entry is <pkgname>-<pkgver> */
+	if(strlen(pkg->name) + strlen(pkg->version) + 1 > NAME_MAX) {
+		EPKGMETA(_("invalid metadata for package %s-%s "
+					"(package name and version too long)\n"));
+	}
+
+#undef EPKGMETA
+
+	return error_found;
 }

@@ -630,6 +630,10 @@ static int local_db_populate(alpm_db_t *db)
 			continue;
 		}
 
+		/* treat local metadata errors as warning-only,
+		 * they are already installed and otherwise they can't be operated on */
+		_alpm_pkg_check_meta(pkg);
+
 		/* add to the collection */
 		_alpm_log(db->handle, ALPM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
 				pkg->name, db->treename);

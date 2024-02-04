@@ -165,4 +165,6 @@ int _alpm_pkg_compare_versions(alpm_pkg_t *local_pkg, alpm_pkg_t *pkg);
 alpm_pkg_xdata_t *_alpm_pkg_parse_xdata(const char *string);
 void _alpm_pkg_xdata_free(alpm_pkg_xdata_t *pd);
 
+int _alpm_pkg_check_meta(alpm_pkg_t *pkg);
+
 #endif /* ALPM_PACKAGE_H */

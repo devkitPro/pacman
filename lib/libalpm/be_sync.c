@@ -344,6 +344,11 @@ static alpm_pkg_t *load_pkg_for_entry(alpm_db_t *db, const char *entryname,
 		pkg->ops = get_sync_pkg_ops();
 		pkg->handle = db->handle;
 
+		if(_alpm_pkg_check_meta(pkg) != 0) {
+			_alpm_pkg_free(pkg);
+			RET_ERR(db->handle, ALPM_ERR_PKG_INVALID, NULL);
+		}
+
 		/* add to the collection */
 		_alpm_log(db->handle, ALPM_LOG_FUNCTION, "adding '%s' to package cache for db '%s'\n",
 				pkg->name, db->treename);
