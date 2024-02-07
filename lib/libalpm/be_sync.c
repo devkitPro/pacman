@@ -452,6 +452,14 @@ static int sync_db_populate(alpm_db_t *db)
 			}
 		}
 	}
+	/* the db file was successfully read, but contained errors */
+	if(ret == -1) {
+		db->status &= ~DB_STATUS_VALID;
+		db->status |= DB_STATUS_INVALID;
+		_alpm_db_free_pkgcache(db);
+		GOTO_ERR(db->handle, ALPM_ERR_DB_INVALID, cleanup);
+	}
+	/* reading the db file failed */
 	if(archive_ret != ARCHIVE_EOF) {
 		_alpm_log(db->handle, ALPM_LOG_ERROR, _("could not read db '%s' (%s)\n"),
 				db->treename, archive_error_string(archive));
