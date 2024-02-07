@@ -563,18 +563,17 @@ static void free_groupcache(alpm_db_t *db)
 
 void _alpm_db_free_pkgcache(alpm_db_t *db)
 {
-	if(db == NULL || !(db->status & DB_STATUS_PKGCACHE)) {
+	if(db == NULL || db->pkgcache == NULL) {
 		return;
 	}
 
 	_alpm_log(db->handle, ALPM_LOG_DEBUG,
 			"freeing package cache for repository '%s'\n", db->treename);
 
-	if(db->pkgcache) {
-		alpm_list_free_inner(db->pkgcache->list,
-				(alpm_list_fn_free)_alpm_pkg_free);
-		_alpm_pkghash_free(db->pkgcache);
-	}
+	alpm_list_free_inner(db->pkgcache->list,
+			(alpm_list_fn_free)_alpm_pkg_free);
+	_alpm_pkghash_free(db->pkgcache);
+	db->pkgcache = NULL;
 	db->status &= ~DB_STATUS_PKGCACHE;
 
 	free_groupcache(db);
