@@ -24,6 +24,7 @@ LIBMAKEPKG_SOURCE_FOSSIL_SH=1
 
 MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
+source "$MAKEPKG_LIBRARY/util/error.sh"
 source "$MAKEPKG_LIBRARY/util/message.sh"
 source "$MAKEPKG_LIBRARY/util/pkgbuild.sh"
 
@@ -57,7 +58,7 @@ download_fossil() {
 		if ! [[ $(fossil remote -R "$db") = "$url" ]]; then
 			error "$(gettext "%s is not a clone of %s")" "$db" "$url"
 			plainerr "$(gettext "Aborting...")"
-			exit 1
+			exit $E_NOT_A_CLONE_OF
 		fi
 		msg2 "$(gettext "Updating %s %s repo...")" "${repo}" "fossil"
 		if ! fossil pull -R "$db"; then

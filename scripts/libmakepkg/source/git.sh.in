@@ -24,6 +24,7 @@ LIBMAKEPKG_SOURCE_GIT_SH=1
 
 MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
+source "$MAKEPKG_LIBRARY/util/error.sh"
 source "$MAKEPKG_LIBRARY/util/message.sh"
 source "$MAKEPKG_LIBRARY/util/pkgbuild.sh"
 
@@ -60,7 +61,7 @@ download_git() {
 		if [[ "${url%%.git}" != "${remote_url%%.git}" ]] ; then
 			error "$(gettext "%s is not a clone of %s")" "$dir" "$url"
 			plainerr "$(gettext "Aborting...")"
-			exit 1
+			exit $E_NOT_A_CLONE_OF
 		fi
 		msg2 "$(gettext "Updating %s %s repo...")" "${repo}" "git"
 		if ! git fetch --all -p; then
