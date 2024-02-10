@@ -23,6 +23,21 @@ The pacman code can be fetched using the following command:
 	git clone https://gitlab.archlinux.org/pacman/pacman.git
 
 
+Before making large changes
+---------------------------
+
+--
+* Discuss your idea
+
+There is nothing worse that spending time making a change only for it to be
+rejected immediately.  Ensure ideas are discussed beforehand to avoid
+disappointment.  Appropriate locations for discussion are the issue tracker
+on gitlab, or the pacman-dev mailing list.  Transient discussion channels
+such as IRC are not appropriate.
+
+--
+
+
 Creating your patch
 -------------------
 
@@ -43,36 +58,18 @@ It helps if you describe the overview and goals of the patch in the git commit
 log.  This allows others to see what you intended so as to compare it to what
 was actually done, and allows better feedback.
 
-* Use `git format-patch` to create patches.
-
-Your commit message will be shown above the patch by default when you will use
-`git format-patch`, including the signoff line.  Sets of multiple patches that
-need extra explanation beyond the commit messages may include additional notes
-in a cover letter.  Individual patches may include additional notes between the
-"---" following the commit message and the beginning of the diff.
-
 --
 
 Submitting your patch
 ---------------------
 
 --
-* Send the patch to the pacman-dev mailing list
+* Submit patches with a gitlab merge request
 
-The mailing list is the primary queue for review and acceptance.  Here you
-will get feedback, and let the reviewers know the details of your patch.
+The pacman gitlab instance is the primary queue for review and acceptance.
+Here you will get feedback, and let the reviewers know the details of your
+patch.
 
-* No MIME, no links, no compression, no attachments.  Just plain text.
-
-Patches should be contained in the actual body of the email.  There are many
-reasons for this.  First, it makes them easier to read with any mail reader,
-it allows easier review "at a glance", and most importantly, it allows people
-to comment on exact lines of the patch in reply emails.
-
-`git send-email` allows you to send Git-formatted patches in plain text easily
-and is the preferred method for submission to the mailing list.  Mail clients,
-including Gmail's web interface, have a tendency to break patches by wrapping
-lines and/or adjusting whitespace and should be avoided.
 
 --
 
@@ -95,7 +92,6 @@ When you do get feedback, it usually merits a response, whether this be a
 resubmission of the patch with corrections or a follow-up email asking for
 clarifications. When neither of these occurs, don't expect your patch to get
 further review. The all-volunteer staff don't have time to fix up patches that
-aren't their own.  When resubmitting patches, update the subject line to reflect
-the version number ('[PATCHv2]'), and send it as a reply to the original thread.
+aren't their own.
 
 --
