@@ -166,7 +166,7 @@ verify_file_signature() {
 
 	# verify the signature and write metadata to a status file
 	if ! $decompress < "$sourcefile" | gpg --quiet --batch --status-file "$statusfile_raw" --verify "$file" - 2> /dev/null; then
-		printf '%s\n' "$(gettext "%s is unable to verify the signature.")" "gpg" >&2
+		printf '%s %s\n' "gpg" "$(gettext "is unable to verify the signature.")" >&2
 		errors=1
 		return 1
 	fi
@@ -211,7 +211,7 @@ verify_git_signature() {
 
 	# verify the signature and write metadata to a status file
 	if ! git -C "$dir" verify-$fragtype --raw "$fragval" > "$statusfile_raw" 2>&1; then
-		printf '%s\n' "$(gettext "%s is unable to verify the signature.")" "git" >&2
+		printf '%s %s\n' "git" "$(gettext "is unable to verify the signature.")" >&2
 		errors=1
 		return 1
 	fi
