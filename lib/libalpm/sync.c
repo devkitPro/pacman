@@ -1079,19 +1079,31 @@ static int dep_not_equal(const alpm_depend_t *left, const alpm_depend_t *right)
 static int check_pkg_field_matches_db(alpm_handle_t *handle, const char *field,
 		alpm_list_t *left, alpm_list_t *right, alpm_list_fn_cmp cmp)
 {
-	if(!alpm_list_cmp_unsorted(left, right, cmp)) {
-		_alpm_log(handle, ALPM_LOG_DEBUG,
-				"internal package %s mismatch\n", field);
-		return 1;
+	switch(alpm_list_cmp_unsorted(left, right, cmp)) {
+		case 0:
+			_alpm_log(handle, ALPM_LOG_DEBUG,
+					"internal package %s mismatch\n", field);
+			return 1;
+		case 1:
+			return 0;
+		default:
+			RET_ERR(handle, ALPM_ERR_MEMORY, -1);
 	}
-
-	return 0;
 }
 
 static int check_pkg_matches_db(alpm_pkg_t *spkg, alpm_pkg_t *pkgfile)
 {
-	alpm_handle_t *handle  = spkg->handle;
+	alpm_handle_t *handle = spkg->handle;
 	int error = 0;
+
+#define CHECK_FIELD(STR, FIELD, CMP) do { \
+	int ok = check_pkg_field_matches_db(handle, STR, spkg->FIELD, pkgfile->FIELD, (alpm_list_fn_cmp)CMP); \
+	if(ok == -1) { \
+		return 1; \
+	} else if(ok != 0) { \
+		error = 1; \
+	} \
+} while(0)
 
 	if(strcmp(spkg->name, pkgfile->name) != 0) {
 		_alpm_log(handle, ALPM_LOG_DEBUG,
@@ -1112,11 +1124,13 @@ static int check_pkg_matches_db(alpm_pkg_t *spkg, alpm_pkg_t *pkgfile)
 		error = 1;
 	}
 
-	error |= check_pkg_field_matches_db(handle, "depends", spkg->depends, pkgfile->depends, (alpm_list_fn_cmp)dep_not_equal);
-	error |= check_pkg_field_matches_db(handle, "conflicts", spkg->conflicts, pkgfile->conflicts, (alpm_list_fn_cmp)dep_not_equal);
-	error |= check_pkg_field_matches_db(handle, "replaces", spkg->replaces, pkgfile->replaces, (alpm_list_fn_cmp)dep_not_equal);
-	error |= check_pkg_field_matches_db(handle, "provides", spkg->provides, pkgfile->provides, (alpm_list_fn_cmp)dep_not_equal);
-	error |= check_pkg_field_matches_db(handle, "groups", spkg->groups, pkgfile->groups, (alpm_list_fn_cmp)strcmp);
+	CHECK_FIELD("depends", depends, dep_not_equal);
+	CHECK_FIELD("conflicts", conflicts, dep_not_equal);
+	CHECK_FIELD("replaces", replaces, dep_not_equal);
+	CHECK_FIELD("provides", provides, dep_not_equal);
+	CHECK_FIELD("groups", groups, strcmp);
+
+#undef CHECK_FIELD
 
 	return error;
 }

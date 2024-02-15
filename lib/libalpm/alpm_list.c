@@ -535,6 +535,9 @@ int SYMEXPORT alpm_list_cmp_unsorted(const alpm_list_t *left,
 	}
 
 	matched = calloc(alpm_list_count(right), sizeof(int));
+	if(matched == NULL) {
+		return -1;
+	}
 
 	for(l = left; l; l = l->next) {
 		int found = 0;

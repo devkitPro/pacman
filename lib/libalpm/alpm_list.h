@@ -339,7 +339,7 @@ char *alpm_list_find_str(const alpm_list_t *haystack, const char *needle);
  * @param right     the second list
  * @param fn        the comparison function
  *
- * @return 1 if the lists are equal, 0 otherwise.
+ * @return 1 if the lists are equal, 0 if not equal, -1 on error.
  */
 int alpm_list_cmp_unsorted(const alpm_list_t *left,
 		const alpm_list_t *right, alpm_list_fn_cmp fn);
