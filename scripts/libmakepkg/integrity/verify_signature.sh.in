@@ -164,19 +164,9 @@ verify_file_signature() {
 		"")  decompress="cat" ;;
 	esac
 
-	# verify the signature and write metadata to a status file
-	if ! $decompress < "$sourcefile" | gpg --quiet --batch --status-file "$statusfile_raw" --verify "$file" - 2> /dev/null; then
-		printf '%s %s\n' "gpg" "$(gettext "is unable to verify the signature.")" >&2
-		errors=1
-		return 1
-	fi
-
 	# create a statusfile that contains only understood terms
-	if ! filter_gnupg_statusfile > "$statusfile" < "$statusfile_raw"; then
-		printf '%s\n' "$(gettext "unable to extract signature metadata.")" >&2
-		errors=1
-		return 1
-	fi
+	$decompress < "$sourcefile" | gpg --quiet --batch --status-file "$statusfile_raw" --verify "$file" - 2> /dev/null
+	filter_gnupg_statusfile > "$statusfile" < "$statusfile_raw"
 
 	return 0
 }
@@ -209,19 +199,9 @@ verify_git_signature() {
 
 	printf "    %s git repo ... " "${dir##*/}" >&2
 
-	# verify the signature and write metadata to a status file
-	if ! git -C "$dir" verify-$fragtype --raw "$fragval" > "$statusfile_raw" 2>&1; then
-		printf '%s %s\n' "git" "$(gettext "is unable to verify the signature.")" >&2
-		errors=1
-		return 1
-	fi
-
 	# create a statusfile that contains only understood terms
-	if ! filter_gnupg_statusfile > "$statusfile" < "$statusfile_raw"; then
-		printf '%s\n' "$(gettext "unable to extract signature metadata.")" >&2
-		errors=1
-		return 1
-	fi
+	git -C "$dir" verify-$fragtype --raw "$fragval" > "$statusfile_raw" 2>&1
+	filter_gnupg_statusfile > "$statusfile" < "$statusfile_raw"
 
 	return 0
 }
