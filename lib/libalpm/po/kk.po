@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-05-20 02:25+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
-"Language-Team: Kazakh (http://www.transifex.com/toofishes/archlinux-pacman/"
+"POT-Creation-Date: 2024-02-19 11:08+1000\n"
+"PO-Revision-Date: 2010-11-29 23:17+0000\n"
+"Last-Translator: Dan McGee <dpmcgee@gmail.com>, 2011\n"
+"Language-Team: Kazakh (http://app.transifex.com/toofishes/archlinux-pacman/"
 "language/kk/)\n"
 "Language: kk\n"
 "MIME-Version: 1.0\n"
@@ -40,17 +40,17 @@ msgstr "дестенің нұсқасын төмендету %s (%s => %s)\n"
 msgid "cannot allocate disk archive object"
 msgstr "дискі архив объектін бөлу мүмкін емес"
 
-#: lib/libalpm/add.c:143 lib/libalpm/util.c:384
+#: lib/libalpm/add.c:143 lib/libalpm/util.c:389
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
 msgstr "%s тарқатқанда ескерту алынды (%s)\n"
 
-#: lib/libalpm/add.c:146 lib/libalpm/util.c:387
+#: lib/libalpm/add.c:146 lib/libalpm/util.c:392
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "%s тарқату қатесі (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:709 lib/libalpm/remove.c:534
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:750 lib/libalpm/remove.c:536
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "%s атын жаңа %s атына ауыстыру мүмкін емес (%s)\n"
@@ -95,18 +95,18 @@ msgstr "тарқату: бума %s файлымен ауыстырылмайд�
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "%s.pacnew тарқату мүмкін емес: жол тым ұзын"
 
-#: lib/libalpm/add.c:510 lib/libalpm/util.c:335 lib/libalpm/util.c:600
+#: lib/libalpm/add.c:510 lib/libalpm/util.c:335 lib/libalpm/util.c:605
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "ағымдағы жұмыс бумасын анықтау мүмкін емес\n"
 
-#: lib/libalpm/add.c:515 lib/libalpm/util.c:340 lib/libalpm/util.c:605
-#: lib/libalpm/util.c:658
+#: lib/libalpm/add.c:515 lib/libalpm/util.c:340 lib/libalpm/util.c:610
+#: lib/libalpm/util.c:665
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "%s бумасына ауысу мүмкін емес (%s)\n"
 
-#: lib/libalpm/add.c:571 lib/libalpm/util.c:405 lib/libalpm/util.c:774
+#: lib/libalpm/add.c:571 lib/libalpm/util.c:410 lib/libalpm/util.c:789
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "жұмыс бумасын (%s) қалпына келтіру мүмкін емес\n"
@@ -131,101 +131,116 @@ msgstr "дерекқорда жазбаны жаңарту мүмкін емес
 msgid "could not add entry '%s' in cache\n"
 msgstr "кэш ішіне '%s' жазбасын қосу мүмкін емес\n"
 
-#: lib/libalpm/be_local.c:266
+#: lib/libalpm/be_local.c:271
 #, c-format
 msgid "error while reading file %s: %s\n"
 msgstr "%s файлын оқу қатесі: %s\n"
 
-#: lib/libalpm/be_local.c:376
+#: lib/libalpm/be_local.c:382
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "қате дерекқорды өшіру: %s\n"
 
-#: lib/libalpm/be_local.c:427 lib/libalpm/be_local.c:909
+#: lib/libalpm/be_local.c:433 lib/libalpm/be_local.c:947
 #, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "%s бумасын жасау мүмкін емес: %s\n"
 
-#: lib/libalpm/be_local.c:602 lib/libalpm/be_sync.c:322
+#: lib/libalpm/be_local.c:608 lib/libalpm/be_sync.c:322
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "дерекқордағы '%s' жазбасының аты қате\n"
 
-#: lib/libalpm/be_local.c:610
+#: lib/libalpm/be_local.c:616
 #, c-format
 msgid "duplicated database entry '%s'\n"
 msgstr "деркқордағы '%s' жазбасы қайталанып тұр\n"
 
-#: lib/libalpm/be_local.c:622
+#: lib/libalpm/be_local.c:628
 #, c-format
 msgid "corrupted database entry '%s'\n"
 msgstr "дерекқордағы '%s' жазбасы зақымдалған\n"
 
-#: lib/libalpm/be_local.c:722 lib/libalpm/be_local.c:818
-#: lib/libalpm/be_local.c:958 lib/libalpm/be_local.c:1055
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:823 lib/libalpm/util.c:254
+#: lib/libalpm/be_local.c:663
+#, fuzzy, c-format
+msgid "unknown install reason for package %s: %s\n"
+msgstr "%s дестесі үшін растау түрі белгісіз: %s\n"
+
+#: lib/libalpm/be_local.c:743 lib/libalpm/be_local.c:856
+#: lib/libalpm/be_local.c:996 lib/libalpm/be_local.c:1102
+#: lib/libalpm/diskspace.c:135 lib/libalpm/dload.c:859 lib/libalpm/util.c:254
 #: lib/libalpm/util.c:270
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "%s файлын ашу мүмкін емес: %s\n"
 
-#: lib/libalpm/be_local.c:738 lib/libalpm/be_sync.c:582
+#: lib/libalpm/be_local.c:759 lib/libalpm/be_sync.c:595
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
 msgstr "дерекқордағы қате ақпарат %s: %s дестесінің аты сәйкес келмейді\n"
 
-#: lib/libalpm/be_local.c:744 lib/libalpm/be_sync.c:588
+#: lib/libalpm/be_local.c:765 lib/libalpm/be_sync.c:601
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "дерекқордағы қате ақпарат %s: %s дестесінің нұсқасы сәйкес келмейді\n"
 
-#: lib/libalpm/be_local.c:785
+#: lib/libalpm/be_local.c:806
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
 msgstr "%s дестесі үшін растау түрі белгісіз: %s\n"
 
-#: lib/libalpm/be_package.c:478 lib/libalpm/be_package.c:631
-#: lib/libalpm/be_package.c:643
+#: lib/libalpm/be_local.c:841
+#, c-format
+msgid "%s: unknown key '%s' in sync database\n"
+msgstr ""
+
+#: lib/libalpm/be_package.c:255
+#, c-format
+msgid "%s: unknown key '%s' in package description\n"
+msgstr ""
+
+#: lib/libalpm/be_package.c:482 lib/libalpm/be_package.c:635
+#: lib/libalpm/be_package.c:647
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "%s дестесін оқу қатесі: %s\n"
 
-#: lib/libalpm/be_package.c:491 lib/libalpm/be_package.c:514
+#: lib/libalpm/be_package.c:495 lib/libalpm/be_package.c:518
 #, c-format
 msgid "error while reading mtree of package %s: %s\n"
 msgstr "%s дестесінен mtree оқу қатесі: %s\n"
 
-#: lib/libalpm/be_package.c:597
+#: lib/libalpm/be_package.c:601
 #, c-format
 msgid "could not parse package description file in %s\n"
 msgstr "%s ішіндегі анықтама файлын зерттеу мүмкін емес\n"
 
-#: lib/libalpm/be_package.c:602
+#: lib/libalpm/be_package.c:606
 #, c-format
 msgid "missing package name in %s\n"
 msgstr "%s ішінде десте аты жоқ\n"
 
-#: lib/libalpm/be_package.c:606
+#: lib/libalpm/be_package.c:610
 #, c-format
 msgid "missing package version in %s\n"
 msgstr "%s ішінде десте нұсқасы жоқ\n"
 
-#: lib/libalpm/be_package.c:610
+#: lib/libalpm/be_package.c:614
 #, c-format
 msgid "invalid package version in %s\n"
 msgstr "%s ішіндегі десте нұсқасы жарамсыз\n"
 
-#: lib/libalpm/be_package.c:649
+#: lib/libalpm/be_package.c:653
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "%s ішінде дестенің мета мәліметтері жоқ\n"
 
-#: lib/libalpm/be_package.c:741
+#: lib/libalpm/be_package.c:745
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "қолтаңба файлын оқу сәтсіз аяқталды: %s\n"
 
-#: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:953
+#: lib/libalpm/be_package.c:768 lib/libalpm/sync.c:958
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "кілттер бауында керек кілт жоқ болып тұр\n"
@@ -235,32 +250,37 @@ msgstr "кілттер бауында керек кілт жоқ болып тұ
 msgid "removing invalid file: %s\n"
 msgstr "қате файлды өшіру: %s\n"
 
-#: lib/libalpm/be_sync.c:449
+#: lib/libalpm/be_sync.c:454
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "'%s' десте сипаттама файлын, '%s' дерекқорынан, талдау мүмкін емес\n"
 
-#: lib/libalpm/be_sync.c:456
+#: lib/libalpm/be_sync.c:469
 #, c-format
 msgid "could not read db '%s' (%s)\n"
 msgstr ""
 
-#: lib/libalpm/be_sync.c:489 lib/libalpm/be_sync.c:494
+#: lib/libalpm/be_sync.c:502 lib/libalpm/be_sync.c:507
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
 msgstr "%s дерекқоры екімәнді: %s дестесінің файл аты жарамсыз\n"
 
-#: lib/libalpm/be_sync.c:499
+#: lib/libalpm/be_sync.c:512
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "%s дерекқоры екімәнді: %s дестесінің файл аты тым ұзын\n"
 
-#: lib/libalpm/be_sync.c:564
+#: lib/libalpm/be_sync.c:577
 #, c-format
 msgid "unknown database file: %s\n"
 msgstr "белгісіз дерекқор файлы: %s\n"
 
-#: lib/libalpm/db.c:344
+#: lib/libalpm/be_sync.c:695
+#, c-format
+msgid "%s: unknown key '%s' in local database\n"
+msgstr ""
+
+#: lib/libalpm/db.c:413
 #, c-format
 msgid "database path is undefined\n"
 msgstr "дерекқорға жол анықталмаған\n"
@@ -300,104 +320,109 @@ msgstr "%s үшін файлдық жүйе ақпаратын алу мүмкі
 msgid "could not open file: %s: %s\n"
 msgstr "файлды ашу мүмкін емес: %s: %s\n"
 
-#: lib/libalpm/diskspace.c:146 lib/libalpm/diskspace.c:159
+#: lib/libalpm/diskspace.c:154 lib/libalpm/diskspace.c:167
 #, c-format
 msgid "could not get filesystem information\n"
 msgstr "файлдық жүйе ақпаратын алу мүмкін емес\n"
 
-#: lib/libalpm/diskspace.c:242
+#: lib/libalpm/diskspace.c:254
 #, c-format
 msgid "could not get file information for %s\n"
 msgstr "%s үшін файл ақпаратын алу мүмкін емес\n"
 
-#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
+#: lib/libalpm/diskspace.c:268 lib/libalpm/diskspace.c:327
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "%s файлы үшін тіркеу нүктесін анықтау мүмкін емес\n"
 
-#: lib/libalpm/diskspace.c:354
+#: lib/libalpm/diskspace.c:366
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
 msgstr "%s бөлімі тым толық: %jd блок керек, %ju блок бос\n"
 
-#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
+#: lib/libalpm/diskspace.c:391 lib/libalpm/diskspace.c:445
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "файлдық жүйесінің тіркелу нүктелерін анықтау мүмкін емес\n"
 
-#: lib/libalpm/diskspace.c:385
+#: lib/libalpm/diskspace.c:397
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "%s кэш бумасының тіркелу нүктесін анықтау мүмкін емес\n"
 
-#: lib/libalpm/diskspace.c:438
+#: lib/libalpm/diskspace.c:450
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "%s түбірлік бумасының тіркелу нүктесін анықтау мүмкін емес\n"
 
-#: lib/libalpm/diskspace.c:486
+#: lib/libalpm/diskspace.c:498
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "%s бөлімі тек оқу үшін тіркелген\n"
 
-#: lib/libalpm/dload.c:116
+#: lib/libalpm/dload.c:128
 #, c-format
 msgid ""
 "too many errors from %s, skipping for the remainder of this transaction\n"
 msgstr ""
 
-#: lib/libalpm/dload.c:220
+#: lib/libalpm/dload.c:145
+#, c-format
+msgid "fatal error from %s, skipping for the remainder of this transaction\n"
+msgstr ""
+
+#: lib/libalpm/dload.c:263
 #, c-format
 msgid "disk"
 msgstr "дискі"
 
-#: lib/libalpm/dload.c:392
+#: lib/libalpm/dload.c:438
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "жүктеп алу үшін уақытша файлды жасау сәтсіз аяқталды\n"
 
-#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:547 lib/libalpm/dload.c:561
+#: lib/libalpm/dload.c:550 lib/libalpm/dload.c:588 lib/libalpm/dload.c:602
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "'%s' файлын  %s адресінен алу қатемен аяқталды : %s\n"
 
-#: lib/libalpm/dload.c:539
+#: lib/libalpm/dload.c:580
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "'%s' файлын %s ішінен алу қатесі : күтілген жүктеп алу өлшемінен асып кетті\n"
 
-#: lib/libalpm/dload.c:687
+#: lib/libalpm/dload.c:728
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s қысқартылған сияқты: %jd/%jd байт\n"
 
-#: lib/libalpm/dload.c:787
+#: lib/libalpm/dload.c:823
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "'%s' сілтемесі қате\n"
 
-#: lib/libalpm/dload.c:893
+#: lib/libalpm/dload.c:929
 #, c-format
 msgid "failed to setup a download payload for %s\n"
 msgstr ""
 
-#: lib/libalpm/dload.c:905
+#: lib/libalpm/dload.c:941
 #, c-format
 msgid "curl returned error %d from transfer\n"
 msgstr ""
 
-#: lib/libalpm/dload.c:929
+#: lib/libalpm/dload.c:965
 #, c-format
 msgid "curl transfer error: %d\n"
 msgstr ""
 
-#: lib/libalpm/dload.c:1055 lib/libalpm/sync.c:840
+#: lib/libalpm/dload.c:1137 lib/libalpm/sync.c:845
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "кейбір файлдарды алу сәтсіз аяқталды\n"
 
-#: lib/libalpm/dload.c:1078
+#: lib/libalpm/dload.c:1160
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
 msgstr ""
@@ -672,12 +697,12 @@ msgstr ""
 msgid "unexpected error"
 msgstr "күтпеген қате кетті"
 
-#: lib/libalpm/handle.c:142
+#: lib/libalpm/handle.c:164
 #, c-format
 msgid "lock file missing %s\n"
 msgstr "блоктау файлы жоқ %s\n"
 
-#: lib/libalpm/handle.c:148
+#: lib/libalpm/handle.c:170
 #, c-format
 msgid "could not remove lock file %s\n"
 msgstr "%s оқшау файлын өшіру мүмкін емес\n"
@@ -769,10 +794,42 @@ msgstr "%s файлын табу мүмкін емес: %s\n"
 msgid "could not read directory: %s: %s\n"
 msgstr ""
 
-#: lib/libalpm/package.c:598
+#: lib/libalpm/package.c:614
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
 msgstr "%s-%s дестесі үшін метаақпаратты толығымен жүктеу мүмкін емес\n"
+
+#: lib/libalpm/package.c:869
+#, c-format
+msgid "invalid package metadata (name or version missing)"
+msgstr ""
+
+#: lib/libalpm/package.c:874
+#, c-format
+msgid ""
+"invalid metadata for package %s-%s (package name cannot start with '.' or "
+"'-')\n"
+msgstr ""
+
+#: lib/libalpm/package.c:878
+#, c-format
+msgid ""
+"invalid metadata for package %s-%s (package name contains invalid "
+"characters)\n"
+msgstr ""
+
+#: lib/libalpm/package.c:885 lib/libalpm/package.c:889
+#, c-format
+msgid ""
+"invalid metadata for package %s-%s (package version contains invalid "
+"characters)\n"
+msgstr ""
+
+#: lib/libalpm/package.c:895
+#, c-format
+msgid ""
+"invalid metadata for package %s-%s (package name and version too long)\n"
+msgstr ""
 
 #: lib/libalpm/remove.c:111
 #, c-format
@@ -794,17 +851,17 @@ msgstr " '%s' файлын өшіру мүмкін емес: %s\n"
 msgid "could not backup %s due to PATH_MAX overflow\n"
 msgstr ""
 
-#: lib/libalpm/remove.c:554
+#: lib/libalpm/remove.c:556
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "%s (%s) өшіру мүмкін емес\n"
 
-#: lib/libalpm/remove.c:727
+#: lib/libalpm/remove.c:729
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "дерекқордан %s-%s жазбасын өшіру мүмкін емес\n"
 
-#: lib/libalpm/remove.c:732
+#: lib/libalpm/remove.c:734
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "кэш ішінен '%s' жазбасын өшіру мүмкін емес\n"
@@ -814,89 +871,89 @@ msgstr "кэш ішінен '%s' жазбасын өшіру мүмкін еме
 msgid "Public keyring not found; have you run '%s'?\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:767
+#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:773
 #, c-format
 msgid "GPGME error: %s\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:274
+#: lib/libalpm/signing.c:275
 #, c-format
 msgid "looking up key %s using WKD\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:283
+#: lib/libalpm/signing.c:289
 #, c-format
 msgid "gpg error: %s\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:430 lib/libalpm/signing.c:503
+#: lib/libalpm/signing.c:440 lib/libalpm/signing.c:513
 #, c-format
 msgid "keyring is not writable\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:531
+#: lib/libalpm/signing.c:537
 #, c-format
 msgid "key \"%s\" on keyserver\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:536
+#: lib/libalpm/signing.c:542
 #, c-format
 msgid "key \"%s\" could not be imported\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:540
+#: lib/libalpm/signing.c:546
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:926 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:932 lib/libalpm/sync.c:1034
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: міндетті қолтаңба жоқ\n"
 
-#: lib/libalpm/signing.c:941
+#: lib/libalpm/signing.c:947
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:949
+#: lib/libalpm/signing.c:955
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:956
+#: lib/libalpm/signing.c:962
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:968
+#: lib/libalpm/signing.c:974
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:977
+#: lib/libalpm/signing.c:983
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:981
+#: lib/libalpm/signing.c:987
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:985
+#: lib/libalpm/signing.c:991
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:1043 lib/libalpm/signing.c:1104
-#: lib/libalpm/signing.c:1183
+#: lib/libalpm/signing.c:1049 lib/libalpm/signing.c:1110
+#: lib/libalpm/signing.c:1189
 #, c-format
 msgid "%s: signature format error\n"
 msgstr ""
 
-#: lib/libalpm/signing.c:1136 lib/libalpm/signing.c:1169
-#: lib/libalpm/signing.c:1177
+#: lib/libalpm/signing.c:1142 lib/libalpm/signing.c:1175
+#: lib/libalpm/signing.c:1183
 #, c-format
 msgid "%s: unsupported signature format\n"
 msgstr ""
@@ -931,118 +988,122 @@ msgstr "дестені алмастыруды елемеу (%s-%s => %s-%s)\n"
 msgid "cannot replace %s by %s\n"
 msgstr "%s жаңа %s нұсқасымен алмастыру мүмкін емес\n"
 
-#: lib/libalpm/sync.c:476
+#: lib/libalpm/sync.c:475
 #, c-format
 msgid "packages %s and %s have the same filename: %s\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:542 lib/libalpm/sync.c:612
+#: lib/libalpm/sync.c:544 lib/libalpm/sync.c:616
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "дестелердің шешілмейтін ерегісі табылды\n"
 
-#: lib/libalpm/sync.c:562
+#: lib/libalpm/sync.c:564
 #, c-format
-msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgid "removing '%s-%s' from target list because it conflicts with '%s-%s'\n"
 msgstr ""
-"мақсаттар тізімінен '%s' өшіріледі, өйткені ол '%s' дестесімен ерегіседі\n"
 
-#: lib/libalpm/sync.c:1036
+#: lib/libalpm/sync.c:1002 lib/libalpm/sync.c:1169
+#, c-format
+msgid "%s: could not find package in cache\n"
+msgstr ""
+
+#: lib/libalpm/sync.c:1048
 #, c-format
 msgid "failed to read file %s: %s\n"
 msgstr ""
 
-#: lib/libalpm/sync.c:1223
+#: lib/libalpm/sync.c:1306
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "бос диск орны жеткіліксіз\n"
 
-#: lib/libalpm/sync.c:1245
+#: lib/libalpm/sync.c:1328
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "өшіруге сұранымды орындау мүмкін емес\n"
 
-#: lib/libalpm/sync.c:1253
+#: lib/libalpm/sync.c:1336
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "сұранымды аяқтау мүмкін емес\n"
 
-#: lib/libalpm/trans.c:365
+#: lib/libalpm/trans.c:369
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "уақытша буманы құру мүмкін емес\n"
 
-#: lib/libalpm/trans.c:380
+#: lib/libalpm/trans.c:384
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "уақытша файлды %s ішіне көшіру мүмкін емес (%s)\n"
 
-#: lib/libalpm/trans.c:411
+#: lib/libalpm/trans.c:415
 #, c-format
 msgid "could not remove %s\n"
 msgstr "%s өшіру мүмкін емес\n"
 
-#: lib/libalpm/trans.c:415
+#: lib/libalpm/trans.c:419
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "%s уақытша бумасын өшіру мүмкін емес\n"
 
-#: lib/libalpm/util.c:488
+#: lib/libalpm/util.c:493
 #, c-format
 msgid "unable to write to pipe (%s)\n"
 msgstr ""
 
-#: lib/libalpm/util.c:547
+#: lib/libalpm/util.c:552
 #, c-format
 msgid "unable to read from pipe (%s)\n"
 msgstr ""
 
-#: lib/libalpm/util.c:617 lib/libalpm/util.c:623
+#: lib/libalpm/util.c:622 lib/libalpm/util.c:628
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "pipe жасау мүмкін емес (%s)\n"
 
-#: lib/libalpm/util.c:631
+#: lib/libalpm/util.c:636
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "жаңа үрдісті жасау мүмкін емес (%s)\n"
 
-#: lib/libalpm/util.c:654
+#: lib/libalpm/util.c:661
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "түбірлік буманы ауыстыру мүмкін емес (%s)\n"
 
-#: lib/libalpm/util.c:666
+#: lib/libalpm/util.c:681
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "execv шақыру талабы сәтсіз (%s)\n"
 
-#: lib/libalpm/util.c:745
+#: lib/libalpm/util.c:760
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "waitpid шақыру қатемен аяқталды(%s)\n"
 
-#: lib/libalpm/util.c:755
+#: lib/libalpm/util.c:770
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "команда дұрыс орындалмады\n"
 
-#: lib/libalpm/util.c:762
+#: lib/libalpm/util.c:777
 #, c-format
 msgid "Unknown signal"
 msgstr "Белгісіз сигнал"
 
-#: lib/libalpm/util.c:764
+#: lib/libalpm/util.c:779
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "команда %d сигналымен үзілді: %s\n"
 
-#: lib/libalpm/util.c:875
+#: lib/libalpm/util.c:897
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "%s кэші жоқ болып тұр, құрылады...\n"
 
-#: lib/libalpm/util.c:906
+#: lib/libalpm/util.c:928
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "дестелер кэшін табу не жасау мүмкін емес, орнына %s қолданылады\n"

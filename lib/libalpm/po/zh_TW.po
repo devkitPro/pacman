@@ -11,16 +11,17 @@
 # green.leek <grann88417@gmail.com>, 2021
 # green.leek <grann88417@gmail.com>, 2021
 # 黃柏諺 <s8321414@gmail.com>, 2014-2015,2018
+# lakejason0 <sunliyuan200402@outlook.com>, 2023
 # 黃柏諺 <s8321414@gmail.com>, 2014
-# 黃柏諺 <s8321414@gmail.com>, 2014,2019,2021
+# 黃柏諺 <s8321414@gmail.com>, 2014,2019,2021-2022
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-05-21 01:46+0000\n"
-"Last-Translator: 黃柏諺 <s8321414@gmail.com>\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/toofishes/"
+"POT-Creation-Date: 2024-02-19 11:08+1000\n"
+"PO-Revision-Date: 2010-11-29 23:17+0000\n"
+"Last-Translator: lakejason0 <sunliyuan200402@outlook.com>, 2023\n"
+"Language-Team: Chinese (Taiwan) (http://app.transifex.com/toofishes/"
 "archlinux-pacman/language/zh_TW/)\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -48,17 +49,17 @@ msgstr "正在降級軟體包 %s (%s => %s)\n"
 msgid "cannot allocate disk archive object"
 msgstr "無法分配磁碟封存物件"
 
-#: lib/libalpm/add.c:143 lib/libalpm/util.c:384
+#: lib/libalpm/add.c:143 lib/libalpm/util.c:389
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
 msgstr "解壓縮 %s 時出現警告 (%s)\n"
 
-#: lib/libalpm/add.c:146 lib/libalpm/util.c:387
+#: lib/libalpm/add.c:146 lib/libalpm/util.c:392
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "無法解壓縮 %s (%s)\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:709 lib/libalpm/remove.c:534
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:750 lib/libalpm/remove.c:536
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "無法將 %s 重命名為 %s (%s)\n"
@@ -102,18 +103,18 @@ msgstr "解壓縮：沒有用檔案 %s 覆蓋目錄\n"
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "無法解壓縮 %s.pacnew：路徑過長"
 
-#: lib/libalpm/add.c:510 lib/libalpm/util.c:335 lib/libalpm/util.c:600
+#: lib/libalpm/add.c:510 lib/libalpm/util.c:335 lib/libalpm/util.c:605
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "無法取得目前的工作目錄\n"
 
-#: lib/libalpm/add.c:515 lib/libalpm/util.c:340 lib/libalpm/util.c:605
-#: lib/libalpm/util.c:658
+#: lib/libalpm/add.c:515 lib/libalpm/util.c:340 lib/libalpm/util.c:610
+#: lib/libalpm/util.c:665
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "無法更改目錄到 %s (%s)\n"
 
-#: lib/libalpm/add.c:571 lib/libalpm/util.c:405 lib/libalpm/util.c:774
+#: lib/libalpm/add.c:571 lib/libalpm/util.c:410 lib/libalpm/util.c:789
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "無法回存到工作目錄(%s)\n"
@@ -138,101 +139,116 @@ msgstr "無法更新資料庫記錄 %s-%s\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "無法在快取中添加記錄 '%s' \n"
 
-#: lib/libalpm/be_local.c:266
+#: lib/libalpm/be_local.c:271
 #, c-format
 msgid "error while reading file %s: %s\n"
 msgstr "讀取檔案 %s 時發生錯誤: %s\n"
 
-#: lib/libalpm/be_local.c:376
+#: lib/libalpm/be_local.c:382
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "正在刪除無效的資料庫： %s\n"
 
-#: lib/libalpm/be_local.c:427 lib/libalpm/be_local.c:909
+#: lib/libalpm/be_local.c:433 lib/libalpm/be_local.c:947
 #, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "無法更改目錄到 %1$s：%2$s\n"
 
-#: lib/libalpm/be_local.c:602 lib/libalpm/be_sync.c:322
+#: lib/libalpm/be_local.c:608 lib/libalpm/be_sync.c:322
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "資料庫記錄「%s」名字無效\n"
 
-#: lib/libalpm/be_local.c:610
+#: lib/libalpm/be_local.c:616
 #, c-format
 msgid "duplicated database entry '%s'\n"
 msgstr "重複的資料庫記錄「%s」\n"
 
-#: lib/libalpm/be_local.c:622
+#: lib/libalpm/be_local.c:628
 #, c-format
 msgid "corrupted database entry '%s'\n"
 msgstr "損壞的資料庫記錄「%s」\n"
 
-#: lib/libalpm/be_local.c:722 lib/libalpm/be_local.c:818
-#: lib/libalpm/be_local.c:958 lib/libalpm/be_local.c:1055
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:823 lib/libalpm/util.c:254
+#: lib/libalpm/be_local.c:663
+#, fuzzy, c-format
+msgid "unknown install reason for package %s: %s\n"
+msgstr "未知的驗證類型，軟體包 %s: %s\n"
+
+#: lib/libalpm/be_local.c:743 lib/libalpm/be_local.c:856
+#: lib/libalpm/be_local.c:996 lib/libalpm/be_local.c:1102
+#: lib/libalpm/diskspace.c:135 lib/libalpm/dload.c:859 lib/libalpm/util.c:254
 #: lib/libalpm/util.c:270
 #, c-format
 msgid "could not open file %s: %s\n"
 msgstr "無法打開檔案 %s: %s\n"
 
-#: lib/libalpm/be_local.c:738 lib/libalpm/be_sync.c:582
+#: lib/libalpm/be_local.c:759 lib/libalpm/be_sync.c:595
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
 msgstr "%s 資料庫不一致：名字和軟體包中的 %s 不一致\n"
 
-#: lib/libalpm/be_local.c:744 lib/libalpm/be_sync.c:588
+#: lib/libalpm/be_local.c:765 lib/libalpm/be_sync.c:601
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr "%s 資料庫不一致：版本和軟體包中的 %s 不一致\n"
 
-#: lib/libalpm/be_local.c:785
+#: lib/libalpm/be_local.c:806
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
 msgstr "未知的驗證類型，軟體包 %s: %s\n"
 
-#: lib/libalpm/be_package.c:478 lib/libalpm/be_package.c:631
-#: lib/libalpm/be_package.c:643
+#: lib/libalpm/be_local.c:841
+#, fuzzy, c-format
+msgid "%s: unknown key '%s' in sync database\n"
+msgstr "%s：金鑰「%s」已停用\n"
+
+#: lib/libalpm/be_package.c:255
+#, c-format
+msgid "%s: unknown key '%s' in package description\n"
+msgstr ""
+
+#: lib/libalpm/be_package.c:482 lib/libalpm/be_package.c:635
+#: lib/libalpm/be_package.c:647
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "讀取軟體包 %s 發生錯誤：%s\n"
 
-#: lib/libalpm/be_package.c:491 lib/libalpm/be_package.c:514
+#: lib/libalpm/be_package.c:495 lib/libalpm/be_package.c:518
 #, c-format
 msgid "error while reading mtree of package %s: %s\n"
 msgstr "讀取軟體包 mtree 錯誤 %s: %s\n"
 
-#: lib/libalpm/be_package.c:597
+#: lib/libalpm/be_package.c:601
 #, c-format
 msgid "could not parse package description file in %s\n"
 msgstr "無法解析 %s 中的軟體包描述檔案\n"
 
-#: lib/libalpm/be_package.c:602
+#: lib/libalpm/be_package.c:606
 #, c-format
 msgid "missing package name in %s\n"
 msgstr "%s 中缺少軟體包名字\n"
 
-#: lib/libalpm/be_package.c:606
+#: lib/libalpm/be_package.c:610
 #, c-format
 msgid "missing package version in %s\n"
 msgstr "%s 中缺少軟體包版本號\n"
 
-#: lib/libalpm/be_package.c:610
+#: lib/libalpm/be_package.c:614
 #, c-format
 msgid "invalid package version in %s\n"
 msgstr "%s 中軟體包版本編號不正確\n"
 
-#: lib/libalpm/be_package.c:649
+#: lib/libalpm/be_package.c:653
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "%s 中缺少軟體包元資料\n"
 
-#: lib/libalpm/be_package.c:741
+#: lib/libalpm/be_package.c:745
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "無法讀取簽章檔：%s\n"
 
-#: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:953
+#: lib/libalpm/be_package.c:768 lib/libalpm/sync.c:958
 #, c-format
 msgid "required key missing from keyring\n"
 msgstr "從鑰匙圈找不到需要的金鑰\n"
@@ -242,32 +258,37 @@ msgstr "從鑰匙圈找不到需要的金鑰\n"
 msgid "removing invalid file: %s\n"
 msgstr "刪除無效檔案：%s\n"
 
-#: lib/libalpm/be_sync.c:449
+#: lib/libalpm/be_sync.c:454
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr "無法解析軟體包描述檔案「%s」從軟體庫「%s」\n"
 
-#: lib/libalpm/be_sync.c:456
+#: lib/libalpm/be_sync.c:469
 #, c-format
 msgid "could not read db '%s' (%s)\n"
 msgstr "無法讀取資料庫 '%s' (%s)\n"
 
-#: lib/libalpm/be_sync.c:489 lib/libalpm/be_sync.c:494
+#: lib/libalpm/be_sync.c:502 lib/libalpm/be_sync.c:507
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
 msgstr "%s 資料庫不一致：軟體包 %s 的檔名不正確\n"
 
-#: lib/libalpm/be_sync.c:499
+#: lib/libalpm/be_sync.c:512
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr "%s 資料庫不一致：軟體包 %s 的檔名太長\n"
 
-#: lib/libalpm/be_sync.c:564
+#: lib/libalpm/be_sync.c:577
 #, c-format
 msgid "unknown database file: %s\n"
 msgstr "未知的資料庫：%s\n"
 
-#: lib/libalpm/db.c:344
+#: lib/libalpm/be_sync.c:695
+#, c-format
+msgid "%s: unknown key '%s' in local database\n"
+msgstr ""
+
+#: lib/libalpm/db.c:413
 #, c-format
 msgid "database path is undefined\n"
 msgstr "資料庫路徑未定義\n"
@@ -307,103 +328,108 @@ msgstr "無法為 %s 獲得檔案系統資訊：%s\n"
 msgid "could not open file: %s: %s\n"
 msgstr "無法打開檔案：%s: %s\n"
 
-#: lib/libalpm/diskspace.c:146 lib/libalpm/diskspace.c:159
+#: lib/libalpm/diskspace.c:154 lib/libalpm/diskspace.c:167
 #, c-format
 msgid "could not get filesystem information\n"
 msgstr "無法取得檔案系統資訊\n"
 
-#: lib/libalpm/diskspace.c:242
+#: lib/libalpm/diskspace.c:254
 #, c-format
 msgid "could not get file information for %s\n"
 msgstr "無法取得 %s 的檔案資訊\n"
 
-#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
+#: lib/libalpm/diskspace.c:268 lib/libalpm/diskspace.c:327
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "無法確定檔案 %s 的掛載點\n"
 
-#: lib/libalpm/diskspace.c:354
+#: lib/libalpm/diskspace.c:366
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
 msgstr "分割區 %s 太滿了：需要 %jd 個區塊，但只剩 %ju 個可用區塊\n"
 
-#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
+#: lib/libalpm/diskspace.c:391 lib/libalpm/diskspace.c:445
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "無法測定檔案系統掛載點\n"
 
-#: lib/libalpm/diskspace.c:385
+#: lib/libalpm/diskspace.c:397
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr "無法決定快取目錄掛載點 %s\n"
 
-#: lib/libalpm/diskspace.c:438
+#: lib/libalpm/diskspace.c:450
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "無法測定根分割區掛載點 %s\n"
 
-#: lib/libalpm/diskspace.c:486
+#: lib/libalpm/diskspace.c:498
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "分區 %s 為唯讀\n"
 
-#: lib/libalpm/dload.c:116
+#: lib/libalpm/dload.c:128
 #, c-format
 msgid ""
 "too many errors from %s, skipping for the remainder of this transaction\n"
-msgstr "太多來自 %s 的錯誤，正在跳過此異動的剩下部份\n"
+msgstr "太多來自 %s 的錯誤，正在跳過此事務剩下的部份\n"
 
-#: lib/libalpm/dload.c:220
+#: lib/libalpm/dload.c:145
+#, c-format
+msgid "fatal error from %s, skipping for the remainder of this transaction\n"
+msgstr "發生來自 %s 的嚴重錯誤，正在跳過此事務剩下的部份\n"
+
+#: lib/libalpm/dload.c:263
 #, c-format
 msgid "disk"
 msgstr "硬碟"
 
-#: lib/libalpm/dload.c:392
+#: lib/libalpm/dload.c:438
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "無法建立下載暫存檔\n"
 
-#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:547 lib/libalpm/dload.c:561
+#: lib/libalpm/dload.c:550 lib/libalpm/dload.c:588 lib/libalpm/dload.c:602
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "無法取得檔案「%s」從 %s：%s\n"
 
-#: lib/libalpm/dload.c:539
+#: lib/libalpm/dload.c:580
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr "無法解開「%s」從 %s 壓縮檔：超出下載的檔案大小\n"
 
-#: lib/libalpm/dload.c:687
+#: lib/libalpm/dload.c:728
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s 可縮小：%jd/%jd 位元組\n"
 
-#: lib/libalpm/dload.c:787
+#: lib/libalpm/dload.c:823
 #, c-format
 msgid "url '%s' is invalid\n"
 msgstr "url「%s」無效\n"
 
-#: lib/libalpm/dload.c:893
+#: lib/libalpm/dload.c:929
 #, c-format
 msgid "failed to setup a download payload for %s\n"
 msgstr "設定 %s 的下載有效負荷失敗\n"
 
-#: lib/libalpm/dload.c:905
+#: lib/libalpm/dload.c:941
 #, c-format
 msgid "curl returned error %d from transfer\n"
 msgstr "傳輸 curl 回傳錯誤 %d\n"
 
-#: lib/libalpm/dload.c:929
+#: lib/libalpm/dload.c:965
 #, c-format
 msgid "curl transfer error: %d\n"
 msgstr "curl 傳輸錯誤：%d\n"
 
-#: lib/libalpm/dload.c:1055 lib/libalpm/sync.c:840
+#: lib/libalpm/dload.c:1137 lib/libalpm/sync.c:845
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "解開部分檔案失敗\n"
 
-#: lib/libalpm/dload.c:1078
+#: lib/libalpm/dload.c:1160
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
 msgstr "下載成功完成，但快取中沒有檔案\n"
@@ -678,12 +704,12 @@ msgstr "編譯時未啟用簽章支援"
 msgid "unexpected error"
 msgstr "未預期的錯誤"
 
-#: lib/libalpm/handle.c:142
+#: lib/libalpm/handle.c:164
 #, c-format
 msgid "lock file missing %s\n"
 msgstr "鎖定檔案遺失 %s\n"
 
-#: lib/libalpm/handle.c:148
+#: lib/libalpm/handle.c:170
 #, c-format
 msgid "could not remove lock file %s\n"
 msgstr "無法刪除鎖定檔案 %s\n"
@@ -775,10 +801,42 @@ msgstr "無法取得檔案統計資訊 %s: %s\n"
 msgid "could not read directory: %s: %s\n"
 msgstr "無法讀取目錄：%s：%s\n"
 
-#: lib/libalpm/package.c:598
+#: lib/libalpm/package.c:614
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
 msgstr "無法完全載入軟體包的解釋用資料 %s-%s\n"
+
+#: lib/libalpm/package.c:869
+#, c-format
+msgid "invalid package metadata (name or version missing)"
+msgstr ""
+
+#: lib/libalpm/package.c:874
+#, c-format
+msgid ""
+"invalid metadata for package %s-%s (package name cannot start with '.' or "
+"'-')\n"
+msgstr ""
+
+#: lib/libalpm/package.c:878
+#, c-format
+msgid ""
+"invalid metadata for package %s-%s (package name contains invalid "
+"characters)\n"
+msgstr ""
+
+#: lib/libalpm/package.c:885 lib/libalpm/package.c:889
+#, c-format
+msgid ""
+"invalid metadata for package %s-%s (package version contains invalid "
+"characters)\n"
+msgstr ""
+
+#: lib/libalpm/package.c:895
+#, c-format
+msgid ""
+"invalid metadata for package %s-%s (package name and version too long)\n"
+msgstr ""
 
 #: lib/libalpm/remove.c:111
 #, c-format
@@ -800,17 +858,17 @@ msgstr "無法刪除檔案「%s」：%s\n"
 msgid "could not backup %s due to PATH_MAX overflow\n"
 msgstr "因為超過 PATH_MAX 限制而無法備份 %s\n"
 
-#: lib/libalpm/remove.c:554
+#: lib/libalpm/remove.c:556
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "無法移除 %s (%s)\n"
 
-#: lib/libalpm/remove.c:727
+#: lib/libalpm/remove.c:729
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "無法刪除資料庫記錄 %s-%s\n"
 
-#: lib/libalpm/remove.c:732
+#: lib/libalpm/remove.c:734
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "無法從快取中刪除記錄 '%s'\n"
@@ -820,89 +878,89 @@ msgstr "無法從快取中刪除記錄 '%s'\n"
 msgid "Public keyring not found; have you run '%s'?\n"
 msgstr "找不到公開的鑰匙圈；您要執行「%s」嗎？\n"
 
-#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:767
+#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:773
 #, c-format
 msgid "GPGME error: %s\n"
 msgstr "GPGME 錯誤：%s\n"
 
-#: lib/libalpm/signing.c:274
+#: lib/libalpm/signing.c:275
 #, c-format
 msgid "looking up key %s using WKD\n"
 msgstr "使用 WKD 尋找金鑰 %s\n"
 
-#: lib/libalpm/signing.c:283
+#: lib/libalpm/signing.c:289
 #, c-format
 msgid "gpg error: %s\n"
 msgstr "gpg 錯誤：%s\n"
 
-#: lib/libalpm/signing.c:430 lib/libalpm/signing.c:503
+#: lib/libalpm/signing.c:440 lib/libalpm/signing.c:513
 #, c-format
 msgid "keyring is not writable\n"
 msgstr "無法寫入鑰匙圈\n"
 
-#: lib/libalpm/signing.c:531
+#: lib/libalpm/signing.c:537
 #, c-format
 msgid "key \"%s\" on keyserver\n"
 msgstr "金鑰「%s」在金鑰伺服器上\n"
 
-#: lib/libalpm/signing.c:536
+#: lib/libalpm/signing.c:542
 #, c-format
 msgid "key \"%s\" could not be imported\n"
 msgstr "金鑰「%s」無法匯入\n"
 
-#: lib/libalpm/signing.c:540
+#: lib/libalpm/signing.c:546
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
 msgstr "金鑰「%s」無法遠端鎖定\n"
 
-#: lib/libalpm/signing.c:926 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:932 lib/libalpm/sync.c:1034
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s：缺少需要的簽章\n"
 
-#: lib/libalpm/signing.c:941
+#: lib/libalpm/signing.c:947
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
 msgstr "%s：來自 %s 的簽章信任等級不足\n"
 
-#: lib/libalpm/signing.c:949
+#: lib/libalpm/signing.c:955
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
 msgstr "%s：來自 %s 的簽章信任等級不明\n"
 
-#: lib/libalpm/signing.c:956
+#: lib/libalpm/signing.c:962
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
 msgstr "%s：來自 %s 的簽章不該被信任\n"
 
-#: lib/libalpm/signing.c:968
+#: lib/libalpm/signing.c:974
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
 msgstr "%s：金鑰「%s」未知\n"
 
-#: lib/libalpm/signing.c:977
+#: lib/libalpm/signing.c:983
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
 msgstr "%s：金鑰「%s」已停用\n"
 
-#: lib/libalpm/signing.c:981
+#: lib/libalpm/signing.c:987
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
 msgstr "%s：來自 %s 的簽章已過期\n"
 
-#: lib/libalpm/signing.c:985
+#: lib/libalpm/signing.c:991
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
 msgstr "%s：來自 %s 的簽章無效\n"
 
-#: lib/libalpm/signing.c:1043 lib/libalpm/signing.c:1104
-#: lib/libalpm/signing.c:1183
+#: lib/libalpm/signing.c:1049 lib/libalpm/signing.c:1110
+#: lib/libalpm/signing.c:1189
 #, c-format
 msgid "%s: signature format error\n"
 msgstr "%s：簽章格式錯誤\n"
 
-#: lib/libalpm/signing.c:1136 lib/libalpm/signing.c:1169
-#: lib/libalpm/signing.c:1177
+#: lib/libalpm/signing.c:1142 lib/libalpm/signing.c:1175
+#: lib/libalpm/signing.c:1183
 #, c-format
 msgid "%s: unsupported signature format\n"
 msgstr "%s：簽章格式不受支援\n"
@@ -937,117 +995,122 @@ msgstr "正在忽略軟體包更新 (%s-%s => %s-%s)\n"
 msgid "cannot replace %s by %s\n"
 msgstr "無法替代 %s 以 %s\n"
 
-#: lib/libalpm/sync.c:476
+#: lib/libalpm/sync.c:475
 #, c-format
 msgid "packages %s and %s have the same filename: %s\n"
 msgstr "軟體包 %s 與 %s 有相同的檔案名稱：%s\n"
 
-#: lib/libalpm/sync.c:542 lib/libalpm/sync.c:612
+#: lib/libalpm/sync.c:544 lib/libalpm/sync.c:616
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "檢測到無法解決的軟體包衝突\n"
 
-#: lib/libalpm/sync.c:562
+#: lib/libalpm/sync.c:564
 #, c-format
-msgid "removing '%s' from target list because it conflicts with '%s'\n"
-msgstr "正在從目標清單中刪除「%s」，因為它和「%s」衝突\n"
+msgid "removing '%s-%s' from target list because it conflicts with '%s-%s'\n"
+msgstr "正在從目標清單中刪除「%s-%s」，因為它和「%s-%s」衝突\n"
 
-#: lib/libalpm/sync.c:1036
+#: lib/libalpm/sync.c:1002 lib/libalpm/sync.c:1169
+#, c-format
+msgid "%s: could not find package in cache\n"
+msgstr "%s: 無法在快取中找到軟體包\n"
+
+#: lib/libalpm/sync.c:1048
 #, c-format
 msgid "failed to read file %s: %s\n"
 msgstr "讀取檔案 %s 失敗：%s\n"
 
-#: lib/libalpm/sync.c:1223
+#: lib/libalpm/sync.c:1306
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "剩餘空間不夠\n"
 
-#: lib/libalpm/sync.c:1245
+#: lib/libalpm/sync.c:1328
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "無法遞交移除事務處理\n"
 
-#: lib/libalpm/sync.c:1253
+#: lib/libalpm/sync.c:1336
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "無法遞交事務處理\n"
 
-#: lib/libalpm/trans.c:365
+#: lib/libalpm/trans.c:369
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "無法創建臨時目錄\n"
 
-#: lib/libalpm/trans.c:380
+#: lib/libalpm/trans.c:384
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "無法複製臨時檔案到 %s (%s)\n"
 
-#: lib/libalpm/trans.c:411
+#: lib/libalpm/trans.c:415
 #, c-format
 msgid "could not remove %s\n"
 msgstr "無法移除 %s\n"
 
-#: lib/libalpm/trans.c:415
+#: lib/libalpm/trans.c:419
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "無法刪除臨時目錄 %s\n"
 
-#: lib/libalpm/util.c:488
+#: lib/libalpm/util.c:493
 #, c-format
 msgid "unable to write to pipe (%s)\n"
 msgstr "無法寫入到管線 (%s)\n"
 
-#: lib/libalpm/util.c:547
+#: lib/libalpm/util.c:552
 #, c-format
 msgid "unable to read from pipe (%s)\n"
 msgstr "無法從管線讀取 (%s)\n"
 
-#: lib/libalpm/util.c:617 lib/libalpm/util.c:623
+#: lib/libalpm/util.c:622 lib/libalpm/util.c:628
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "無法建立管線 (%s)\n"
 
-#: lib/libalpm/util.c:631
+#: lib/libalpm/util.c:636
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "無法 fork 新行程 (%s)\n"
 
-#: lib/libalpm/util.c:654
+#: lib/libalpm/util.c:661
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "無法更改根目錄 (%s)\n"
 
-#: lib/libalpm/util.c:666
+#: lib/libalpm/util.c:681
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "呼叫 execv 失敗 (%s)\n"
 
-#: lib/libalpm/util.c:745
+#: lib/libalpm/util.c:760
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "呼叫 waitpid 失敗 (%s)\n"
 
-#: lib/libalpm/util.c:755
+#: lib/libalpm/util.c:770
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "命令未能被正確執行\n"
 
-#: lib/libalpm/util.c:762
+#: lib/libalpm/util.c:777
 #, c-format
 msgid "Unknown signal"
 msgstr "未知的訊號"
 
-#: lib/libalpm/util.c:764
+#: lib/libalpm/util.c:779
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "命令被訊號中斷 %d: %s\n"
 
-#: lib/libalpm/util.c:875
+#: lib/libalpm/util.c:897
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "沒有 %s 快取存在，正在建立...\n"
 
-#: lib/libalpm/util.c:906
+#: lib/libalpm/util.c:928
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr "無法建立軟體包快取，以 %s 取代\n"

@@ -8,17 +8,17 @@
 # Alexandre Filgueira <faidoc@gmail.com>, 2013
 # Alexandre Filgueira <faidoc@gmail.com>, 2013
 # Daniel, 2016
-# Daniel, 2016-2018
+# Daniel, 2016-2018,2023
 # Alexandre Filgueira <faidoc@gmail.com>, 2013
 # Alexandre Filgueira <faidoc@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2021-09-04 16:15+1000\n"
-"PO-Revision-Date: 2021-05-20 02:25+0000\n"
-"Last-Translator: Allan McRae <allan@archlinux.org>\n"
-"Language-Team: Galician (http://www.transifex.com/toofishes/archlinux-pacman/"
+"POT-Creation-Date: 2024-02-19 11:08+1000\n"
+"PO-Revision-Date: 2010-11-29 23:17+0000\n"
+"Last-Translator: Daniel, 2016-2018,2023\n"
+"Language-Team: Galician (http://app.transifex.com/toofishes/archlinux-pacman/"
 "language/gl/)\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr "%s-%s está actualizado -- omitindo\n"
 #: lib/libalpm/add.c:94
 #, c-format
 msgid "%s-%s is up to date -- reinstalling\n"
-msgstr "%s-%s está actualizado --re-instalando\n"
+msgstr "%s-%s está actualizado -- re-instalando\n"
 
 #: lib/libalpm/add.c:99
 #, c-format
@@ -46,17 +46,17 @@ msgstr "desactualizando a versión do paquete %s (%s => %s)\n"
 msgid "cannot allocate disk archive object"
 msgstr "memoria insuficiente para o obxecto de arquivo de disco"
 
-#: lib/libalpm/add.c:143 lib/libalpm/util.c:384
+#: lib/libalpm/add.c:143 lib/libalpm/util.c:389
 #, c-format
 msgid "warning given when extracting %s (%s)\n"
 msgstr "alerta producida mentres se extraía %s (%s)\n"
 
-#: lib/libalpm/add.c:146 lib/libalpm/util.c:387
+#: lib/libalpm/add.c:146 lib/libalpm/util.c:392
 #, c-format
 msgid "could not extract %s (%s)\n"
 msgstr "Non foi posíbel extraer «%s» (%s).\n"
 
-#: lib/libalpm/add.c:159 lib/libalpm/dload.c:709 lib/libalpm/remove.c:534
+#: lib/libalpm/add.c:159 lib/libalpm/dload.c:750 lib/libalpm/remove.c:536
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "Non foi posíbel cambiar o nome de «%s» a «%s» (%s).\n"
@@ -102,18 +102,18 @@ msgstr ""
 msgid "unable to extract %s.pacnew: path too long"
 msgstr "non se pode extraer %s.pacnew: ruta demasiado longa"
 
-#: lib/libalpm/add.c:510 lib/libalpm/util.c:335 lib/libalpm/util.c:600
+#: lib/libalpm/add.c:510 lib/libalpm/util.c:335 lib/libalpm/util.c:605
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "non se puido obter o directorio de traballo actual\n"
 
-#: lib/libalpm/add.c:515 lib/libalpm/util.c:340 lib/libalpm/util.c:605
-#: lib/libalpm/util.c:658
+#: lib/libalpm/add.c:515 lib/libalpm/util.c:340 lib/libalpm/util.c:610
+#: lib/libalpm/util.c:665
 #, c-format
 msgid "could not change directory to %s (%s)\n"
 msgstr "non se puido cambiar o directorio a %s (%s)\n"
 
-#: lib/libalpm/add.c:571 lib/libalpm/util.c:405 lib/libalpm/util.c:774
+#: lib/libalpm/add.c:571 lib/libalpm/util.c:410 lib/libalpm/util.c:789
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "non se puido restaurar o directorio de traballo (%s)\n"
@@ -138,39 +138,44 @@ msgstr "non se puido actualizar a entrada %s-%s na base de datos\n"
 msgid "could not add entry '%s' in cache\n"
 msgstr "non se puido agregar a entrada '%s' á caché\n"
 
-#: lib/libalpm/be_local.c:266
+#: lib/libalpm/be_local.c:271
 #, c-format
 msgid "error while reading file %s: %s\n"
 msgstr "erro ao ler o ficheiro «%s»: %s\n"
 
-#: lib/libalpm/be_local.c:376
+#: lib/libalpm/be_local.c:382
 #, c-format
 msgid "removing invalid database: %s\n"
 msgstr "quitando a base de datos non válida: %s\n"
 
-#: lib/libalpm/be_local.c:427 lib/libalpm/be_local.c:909
+#: lib/libalpm/be_local.c:433 lib/libalpm/be_local.c:947
 #, c-format
 msgid "could not create directory %s: %s\n"
 msgstr "non se puido crear o directorio %s: %s\n"
 
-#: lib/libalpm/be_local.c:602 lib/libalpm/be_sync.c:322
+#: lib/libalpm/be_local.c:608 lib/libalpm/be_sync.c:322
 #, c-format
 msgid "invalid name for database entry '%s'\n"
 msgstr "nome non válido para a entrada '%s' da base de datos\n"
 
-#: lib/libalpm/be_local.c:610
+#: lib/libalpm/be_local.c:616
 #, c-format
 msgid "duplicated database entry '%s'\n"
 msgstr "entrada '%s' duplicada na base de datos\n"
 
-#: lib/libalpm/be_local.c:622
+#: lib/libalpm/be_local.c:628
 #, c-format
 msgid "corrupted database entry '%s'\n"
-msgstr "entrada dañada na base de datos '%s'\n"
+msgstr "entrada danada na base de datos '%s'\n"
 
-#: lib/libalpm/be_local.c:722 lib/libalpm/be_local.c:818
-#: lib/libalpm/be_local.c:958 lib/libalpm/be_local.c:1055
-#: lib/libalpm/diskspace.c:131 lib/libalpm/dload.c:823 lib/libalpm/util.c:254
+#: lib/libalpm/be_local.c:663
+#, fuzzy, c-format
+msgid "unknown install reason for package %s: %s\n"
+msgstr "tipo de validación descoñecida para o paquete %s: %s\n"
+
+#: lib/libalpm/be_local.c:743 lib/libalpm/be_local.c:856
+#: lib/libalpm/be_local.c:996 lib/libalpm/be_local.c:1102
+#: lib/libalpm/diskspace.c:135 lib/libalpm/dload.c:859 lib/libalpm/util.c:254
 #: lib/libalpm/util.c:270
 #, c-format
 msgid "could not open file %s: %s\n"
@@ -178,105 +183,121 @@ msgstr ""
 "non se puido abrir o arquivo %s: %s\n"
 "\n"
 
-#: lib/libalpm/be_local.c:738 lib/libalpm/be_sync.c:582
+#: lib/libalpm/be_local.c:759 lib/libalpm/be_sync.c:595
 #, c-format
 msgid "%s database is inconsistent: name mismatch on package %s\n"
 msgstr ""
-"a base de datos %s é inconsistente: nome mal emparexado no paquete %s\n"
+"a base de datos %s é inconsistente: o nome no paquete %s non concorda\n"
 
-#: lib/libalpm/be_local.c:744 lib/libalpm/be_sync.c:588
+#: lib/libalpm/be_local.c:765 lib/libalpm/be_sync.c:601
 #, c-format
 msgid "%s database is inconsistent: version mismatch on package %s\n"
 msgstr ""
-"a base de datos %s é inconsistente: versión mal emparexada no paquete %s\n"
+"a base de datos %s é inconsistente: a versión no paquete %s non concorda\n"
 
-#: lib/libalpm/be_local.c:785
+#: lib/libalpm/be_local.c:806
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
-msgstr "o paquete «%s» ten un tipo de validación incorrecto: %s\n"
+msgstr "tipo de validación descoñecida para o paquete %s: %s\n"
 
-#: lib/libalpm/be_package.c:478 lib/libalpm/be_package.c:631
-#: lib/libalpm/be_package.c:643
+#: lib/libalpm/be_local.c:841
+#, fuzzy, c-format
+msgid "%s: unknown key '%s' in sync database\n"
+msgstr "%s: a clave \"%s\" está desactivada\n"
+
+#: lib/libalpm/be_package.c:255
+#, c-format
+msgid "%s: unknown key '%s' in package description\n"
+msgstr ""
+
+#: lib/libalpm/be_package.c:482 lib/libalpm/be_package.c:635
+#: lib/libalpm/be_package.c:647
 #, c-format
 msgid "error while reading package %s: %s\n"
 msgstr "error ao ler o paquete %s: %s\n"
 
-#: lib/libalpm/be_package.c:491 lib/libalpm/be_package.c:514
+#: lib/libalpm/be_package.c:495 lib/libalpm/be_package.c:518
 #, c-format
 msgid "error while reading mtree of package %s: %s\n"
-msgstr "Produciuse un erro ao ler os datos dos ficheiros do paquete «%s»: %s\n"
+msgstr "produciuse un erro lendo o «mtree» do paquete%s: %s\n"
 
-#: lib/libalpm/be_package.c:597
+#: lib/libalpm/be_package.c:601
 #, c-format
 msgid "could not parse package description file in %s\n"
-msgstr "non se puido ler o arquivo de descripción en %s\n"
+msgstr "non se puido analizar o arquivo de descripción en %s\n"
 
-#: lib/libalpm/be_package.c:602
+#: lib/libalpm/be_package.c:606
 #, c-format
 msgid "missing package name in %s\n"
 msgstr "falta o nome do paquete en %s\n"
 
-#: lib/libalpm/be_package.c:606
+#: lib/libalpm/be_package.c:610
 #, c-format
 msgid "missing package version in %s\n"
 msgstr "falta a versión do paquete en %s\n"
 
-#: lib/libalpm/be_package.c:610
+#: lib/libalpm/be_package.c:614
 #, c-format
 msgid "invalid package version in %s\n"
-msgstr "A versión do paquete %s non é correcta.\n"
+msgstr "a versión do paquete %s non é válida\n"
 
-#: lib/libalpm/be_package.c:649
+#: lib/libalpm/be_package.c:653
 #, c-format
 msgid "missing package metadata in %s\n"
 msgstr "faltan os metadatos do paquete en %s\n"
 
-#: lib/libalpm/be_package.c:741
+#: lib/libalpm/be_package.c:745
 #, c-format
 msgid "failed to read signature file: %s\n"
 msgstr "non foi posíbel ler o ficheiro da sinatura: %s\n"
 
-#: lib/libalpm/be_package.c:770 lib/libalpm/sync.c:953
+#: lib/libalpm/be_package.c:768 lib/libalpm/sync.c:958
 #, c-format
 msgid "required key missing from keyring\n"
-msgstr "a chave solicitada non está no anel\n"
+msgstr "a clave requirida falta no depósito de claves\n"
 
 #: lib/libalpm/be_sync.c:61
 #, c-format
 msgid "removing invalid file: %s\n"
 msgstr "eliminando arquivo inválido: %s\n"
 
-#: lib/libalpm/be_sync.c:449
+#: lib/libalpm/be_sync.c:454
 #, c-format
 msgid "could not parse package description file '%s' from db '%s'\n"
 msgstr ""
-"error ao ler o arquivo de descripción '%s' do paquete da base de datos '%s'\n"
+"non se puido analizar o arquivo de descrición do paquete '%s'  da base de "
+"datos '%s'\n"
 
-#: lib/libalpm/be_sync.c:456
+#: lib/libalpm/be_sync.c:469
 #, c-format
 msgid "could not read db '%s' (%s)\n"
 msgstr "non se puido ler a base de datos '%s' (%s)\n"
 
-#: lib/libalpm/be_sync.c:489 lib/libalpm/be_sync.c:494
+#: lib/libalpm/be_sync.c:502 lib/libalpm/be_sync.c:507
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is illegal\n"
 msgstr ""
-"A base de datos «%s» é inconsistente: a ruta do arquivo do paquete %s contén "
-"caracteres non permitidos.\n"
+"a base de datos %s é inconsistente: o nome do ficheiro do paquete %s non "
+"está permitido\n"
 
-#: lib/libalpm/be_sync.c:499
+#: lib/libalpm/be_sync.c:512
 #, c-format
 msgid "%s database is inconsistent: filename of package %s is too long\n"
 msgstr ""
-"A base de datos «%s» é inconsistente: a ruta do arquivo do paquete %s é "
-"demasiado longa.\n"
+"a base de datos %s é inconsistente: o nome do ficheiro do paquete %s é "
+"demasiado longo\n"
 
-#: lib/libalpm/be_sync.c:564
+#: lib/libalpm/be_sync.c:577
 #, c-format
 msgid "unknown database file: %s\n"
-msgstr "Ficheiro de base de datos descoñecido: %s\n"
+msgstr "ficheiro de base de datos descoñecido: %s\n"
 
-#: lib/libalpm/db.c:344
+#: lib/libalpm/be_sync.c:695
+#, c-format
+msgid "%s: unknown key '%s' in local database\n"
+msgstr ""
+
+#: lib/libalpm/db.c:413
 #, c-format
 msgid "database path is undefined\n"
 msgstr "a ruta da base de datos non está definida\n"
@@ -284,7 +305,7 @@ msgstr "a ruta da base de datos non está definida\n"
 #: lib/libalpm/deps.c:184
 #, c-format
 msgid "dependency cycle detected:\n"
-msgstr "bucle de dependencias detectado:\n"
+msgstr "ciclo de dependencias detectado:\n"
 
 #: lib/libalpm/deps.c:187
 #, c-format
@@ -304,7 +325,7 @@ msgstr "ignorando o paquete %s-%s\n"
 #: lib/libalpm/deps.c:842
 #, c-format
 msgid "cannot resolve \"%s\", a dependency of \"%s\"\n"
-msgstr "non se puido resolver \"%s\", unha dependencia de \"%s\"\n"
+msgstr "non se pode resolver «%s», unha dependencia de «%s»\n"
 
 #: lib/libalpm/diskspace.c:78
 #, c-format
@@ -316,111 +337,116 @@ msgstr "non se puido obter información do sistema de ficheiros para %s: %s\n"
 msgid "could not open file: %s: %s\n"
 msgstr "non foi posíbel abrir o ficheiro «%s»: %s\n"
 
-#: lib/libalpm/diskspace.c:146 lib/libalpm/diskspace.c:159
+#: lib/libalpm/diskspace.c:154 lib/libalpm/diskspace.c:167
 #, c-format
 msgid "could not get filesystem information\n"
 msgstr "non se puido obter información do sistema de ficheiros\n"
 
-#: lib/libalpm/diskspace.c:242
+#: lib/libalpm/diskspace.c:254
 #, c-format
 msgid "could not get file information for %s\n"
 msgstr "non se puido obter información de ficheiro para %s\n"
 
-#: lib/libalpm/diskspace.c:256 lib/libalpm/diskspace.c:315
+#: lib/libalpm/diskspace.c:268 lib/libalpm/diskspace.c:327
 #, c-format
 msgid "could not determine mount point for file %s\n"
 msgstr "non se puido determinar o punto de montaxe para o arquivo %s\n"
 
-#: lib/libalpm/diskspace.c:354
+#: lib/libalpm/diskspace.c:366
 #, c-format
 msgid "Partition %s too full: %jd blocks needed, %ju blocks free\n"
 msgstr ""
 "A partición %s está moi chea: necesítanse %jd bloques, quedan %ju bloques "
 "libres\n"
 
-#: lib/libalpm/diskspace.c:379 lib/libalpm/diskspace.c:433
+#: lib/libalpm/diskspace.c:391 lib/libalpm/diskspace.c:445
 #, c-format
 msgid "could not determine filesystem mount points\n"
 msgstr "non se puido determinar o punto de montaxe do sistema de ficheiros\n"
 
-#: lib/libalpm/diskspace.c:385
+#: lib/libalpm/diskspace.c:397
 #, c-format
 msgid "could not determine cachedir mount point %s\n"
 msgstr ""
 "non foi posíbel determinar o punto de montaxe do directorio de caché «%s»\n"
 
-#: lib/libalpm/diskspace.c:438
+#: lib/libalpm/diskspace.c:450
 #, c-format
 msgid "could not determine root mount point %s\n"
 msgstr "non se puido determinar o punto de montaxe da raiz %s\n"
 
-#: lib/libalpm/diskspace.c:486
+#: lib/libalpm/diskspace.c:498
 #, c-format
 msgid "Partition %s is mounted read only\n"
 msgstr "A partición %s está montada como só lectura\n"
 
-#: lib/libalpm/dload.c:116
+#: lib/libalpm/dload.c:128
 #, c-format
 msgid ""
 "too many errors from %s, skipping for the remainder of this transaction\n"
-msgstr ""
+msgstr "demasiados erros de %s, omitindo o que queda desta transacción\n"
 
-#: lib/libalpm/dload.c:220
+#: lib/libalpm/dload.c:145
+#, c-format
+msgid "fatal error from %s, skipping for the remainder of this transaction\n"
+msgstr "erro fatal de %s, omitindo o que queda desta transacción\n"
+
+#: lib/libalpm/dload.c:263
 #, c-format
 msgid "disk"
 msgstr "disco"
 
-#: lib/libalpm/dload.c:392
+#: lib/libalpm/dload.c:438
 #, c-format
 msgid "failed to create temporary file for download\n"
 msgstr "error ao crear un arquivo temporal para a descarga\n"
 
-#: lib/libalpm/dload.c:509 lib/libalpm/dload.c:547 lib/libalpm/dload.c:561
+#: lib/libalpm/dload.c:550 lib/libalpm/dload.c:588 lib/libalpm/dload.c:602
 #, c-format
 msgid "failed retrieving file '%s' from %s : %s\n"
 msgstr "error ao obter o arquivo '%s' dende %s: %s\n"
 
-#: lib/libalpm/dload.c:539
+#: lib/libalpm/dload.c:580
 #, c-format
 msgid "failed retrieving file '%s' from %s : expected download size exceeded\n"
 msgstr ""
 "Non foi posíbel obter o ficheiro «%s» de «%s»: superouse o tamaño de "
 "descarga esperado.\n"
 
-#: lib/libalpm/dload.c:687
+#: lib/libalpm/dload.c:728
 #, c-format
 msgid "%s appears to be truncated: %jd/%jd bytes\n"
 msgstr "%s parece estar truncado:  %jd/%jd bytes\n"
 
-#: lib/libalpm/dload.c:787
+#: lib/libalpm/dload.c:823
 #, c-format
 msgid "url '%s' is invalid\n"
-msgstr "a dirección %s non é válida\n"
-
-#: lib/libalpm/dload.c:893
-#, c-format
-msgid "failed to setup a download payload for %s\n"
-msgstr ""
-
-#: lib/libalpm/dload.c:905
-#, c-format
-msgid "curl returned error %d from transfer\n"
-msgstr ""
+msgstr "a dirección '%s' non é válida\n"
 
 #: lib/libalpm/dload.c:929
 #, c-format
-msgid "curl transfer error: %d\n"
-msgstr ""
+msgid "failed to setup a download payload for %s\n"
+msgstr "fallou a preparación da descarga para %s\n"
 
-#: lib/libalpm/dload.c:1055 lib/libalpm/sync.c:840
+#: lib/libalpm/dload.c:941
+#, c-format
+msgid "curl returned error %d from transfer\n"
+msgstr "«curl» devolveu un erro %dda transferencia\n"
+
+#: lib/libalpm/dload.c:965
+#, c-format
+msgid "curl transfer error: %d\n"
+msgstr "erro de tranferencia de «curl»: %d\n"
+
+#: lib/libalpm/dload.c:1137 lib/libalpm/sync.c:845
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "non foi posíbel descargar algúns dos ficheiros\n"
 
-#: lib/libalpm/dload.c:1078
+#: lib/libalpm/dload.c:1160
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
-msgstr ""
+msgstr "a descarga compleouse correctamente pero non hai ficheiro na caché\n"
 
 #: lib/libalpm/error.c:40
 #, c-format
@@ -550,7 +576,7 @@ msgstr "obxetivo duplicado"
 #: lib/libalpm/error.c:94
 #, c-format
 msgid "duplicate filename"
-msgstr ""
+msgstr "nome de ficheiro duplicado"
 
 #: lib/libalpm/error.c:98
 #, c-format
@@ -686,19 +712,19 @@ msgstr "error invocando o descargador externo"
 #: lib/libalpm/error.c:159
 #, c-format
 msgid "compiled without signature support"
-msgstr ""
+msgstr "compilado sen soporte de sinatura"
 
 #: lib/libalpm/error.c:162
 #, c-format
 msgid "unexpected error"
 msgstr "error inesperado"
 
-#: lib/libalpm/handle.c:142
+#: lib/libalpm/handle.c:164
 #, c-format
 msgid "lock file missing %s\n"
 msgstr "Falta «%s» ao ficheiro de bloqueo.\n"
 
-#: lib/libalpm/handle.c:148
+#: lib/libalpm/handle.c:170
 #, c-format
 msgid "could not remove lock file %s\n"
 msgstr "Non foi posíbel eliminar o ficheiro de bloqueo «%s».\n"
@@ -706,69 +732,69 @@ msgstr "Non foi posíbel eliminar o ficheiro de bloqueo «%s».\n"
 #: lib/libalpm/hook.c:95
 #, c-format
 msgid "Missing trigger targets in hook: %s\n"
-msgstr ""
+msgstr "Faltan os obxectivos do disparador no «hook»: %s\n"
 
 #: lib/libalpm/hook.c:101
 #, c-format
 msgid "Missing trigger type in hook: %s\n"
-msgstr ""
+msgstr "Falta o tipo do disparador no «hook»: %s\n"
 
 #: lib/libalpm/hook.c:107
 #, c-format
 msgid "Missing trigger operation in hook: %s\n"
-msgstr ""
+msgstr "Falta a operación do disparador no «hook»: %s\n"
 
 #: lib/libalpm/hook.c:134
 #, c-format
 msgid "Missing Exec option in hook: %s\n"
-msgstr ""
+msgstr "Falta a opción «Exec» no «hook»: %s\n"
 
 #: lib/libalpm/hook.c:140
 #, c-format
 msgid "Missing When option in hook: %s\n"
-msgstr ""
+msgstr "Falta a opción «When» no «hook»: %s\n"
 
 #: lib/libalpm/hook.c:143
 #, c-format
 msgid "AbortOnFail set for PostTransaction hook: %s\n"
-msgstr ""
+msgstr "«AbortOnFail» posto para o «hook» «PostTransaction»: %s\n"
 
 #: lib/libalpm/hook.c:160
 #, c-format
 msgid "error while reading hook %s: %s\n"
-msgstr ""
+msgstr "erro durante a lectura do «hook» %s: %s\n"
 
 #: lib/libalpm/hook.c:162 lib/libalpm/hook.c:206 lib/libalpm/hook.c:248
 #, c-format
 msgid "hook %s line %d: invalid option %s\n"
-msgstr ""
+msgstr "«hook» %s liña %d: opción inválida %s\n"
 
 #: lib/libalpm/hook.c:172
 #, c-format
 msgid "hook %s line %d: invalid section %s\n"
-msgstr ""
+msgstr "«hook» %s liña %d: sección inválida %s\n"
 
 #: lib/libalpm/hook.c:184 lib/libalpm/hook.c:199 lib/libalpm/hook.c:218
 #: lib/libalpm/hook.c:241
 #, c-format
 msgid "hook %s line %d: invalid value %s\n"
-msgstr ""
+msgstr "«hook» %s liña %d: valor inválido %s\n"
 
 #: lib/libalpm/hook.c:188 lib/libalpm/hook.c:211 lib/libalpm/hook.c:222
 #: lib/libalpm/hook.c:236
 #, c-format
 msgid "hook %s line %d: overwriting previous definition of %s\n"
-msgstr ""
+msgstr "«hook» %s liña %d: sobrescribindo a definición previa de %s\n"
 
 #: lib/libalpm/hook.c:243
 #, c-format
 msgid "hook %s line %d: unable to set option (%s)\n"
-msgstr ""
+msgstr "«hook» %s liña %d: non se pode establecer a opción (%s)\n"
 
 #: lib/libalpm/hook.c:513
 #, c-format
 msgid "unable to run hook %s: %s\n"
-msgstr ""
+msgstr "non se pode executar o «hook» %s: %s\n"
 
 #: lib/libalpm/hook.c:547 lib/libalpm/hook.c:559 lib/libalpm/remove.c:378
 #, c-format
@@ -790,15 +816,47 @@ msgstr "non foi posíbel executar a orde «stat» co ficheiro «%s»: %s\n"
 msgid "could not read directory: %s: %s\n"
 msgstr "non se puido ler o cartafol: %s: %s\n"
 
-#: lib/libalpm/package.c:598
+#: lib/libalpm/package.c:614
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
 msgstr "non se puido cargar completamente os metadatos para o paquete %s-%s\n"
 
+#: lib/libalpm/package.c:869
+#, c-format
+msgid "invalid package metadata (name or version missing)"
+msgstr ""
+
+#: lib/libalpm/package.c:874
+#, c-format
+msgid ""
+"invalid metadata for package %s-%s (package name cannot start with '.' or "
+"'-')\n"
+msgstr ""
+
+#: lib/libalpm/package.c:878
+#, c-format
+msgid ""
+"invalid metadata for package %s-%s (package name contains invalid "
+"characters)\n"
+msgstr ""
+
+#: lib/libalpm/package.c:885 lib/libalpm/package.c:889
+#, c-format
+msgid ""
+"invalid metadata for package %s-%s (package version contains invalid "
+"characters)\n"
+msgstr ""
+
+#: lib/libalpm/package.c:895
+#, c-format
+msgid ""
+"invalid metadata for package %s-%s (package name and version too long)\n"
+msgstr ""
+
 #: lib/libalpm/remove.c:111
 #, c-format
 msgid "could not find %s in database -- skipping\n"
-msgstr "non se puido atopar %s na base de datos --saltando\n"
+msgstr "non se puido atopar %s na base de datos -- saltando\n"
 
 #: lib/libalpm/remove.c:146
 #, c-format
@@ -808,24 +866,26 @@ msgstr "quitando %s da lista de obxetivos\n"
 #: lib/libalpm/remove.c:338
 #, c-format
 msgid "cannot remove file '%s': %s\n"
-msgstr "non se puido quitar o arquivo '%s': %s\n"
+msgstr "non se puido quitar o ficheiro '%s': %s\n"
 
 #: lib/libalpm/remove.c:403 lib/libalpm/remove.c:412
 #, c-format
 msgid "could not backup %s due to PATH_MAX overflow\n"
 msgstr ""
+"non se puido facer unha copia de seguranza %s debido a que a ruta supera o "
+"tamaño de PATH_MAX\n"
 
-#: lib/libalpm/remove.c:554
+#: lib/libalpm/remove.c:556
 #, c-format
 msgid "cannot remove %s (%s)\n"
 msgstr "error ao eliminar %s (%s)\n"
 
-#: lib/libalpm/remove.c:727
+#: lib/libalpm/remove.c:729
 #, c-format
 msgid "could not remove database entry %s-%s\n"
 msgstr "non se puido quitar a entrada %s-%s da base de datos\n"
 
-#: lib/libalpm/remove.c:732
+#: lib/libalpm/remove.c:734
 #, c-format
 msgid "could not remove entry '%s' from cache\n"
 msgstr "non se puido quitar a entrada '%s' do caché\n"
@@ -834,90 +894,91 @@ msgstr "non se puido quitar a entrada '%s' do caché\n"
 #, c-format
 msgid "Public keyring not found; have you run '%s'?\n"
 msgstr ""
+"Non se atopou o depósito de claves público; probaches a executar '%s'?\n"
 
-#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:767
+#: lib/libalpm/signing.c:199 lib/libalpm/signing.c:773
 #, c-format
 msgid "GPGME error: %s\n"
-msgstr ""
+msgstr "erro de GPGME: %s\n"
 
-#: lib/libalpm/signing.c:274
+#: lib/libalpm/signing.c:275
 #, c-format
 msgid "looking up key %s using WKD\n"
-msgstr ""
+msgstr "buscando a clave %s usando WKD\n"
 
-#: lib/libalpm/signing.c:283
+#: lib/libalpm/signing.c:289
 #, c-format
 msgid "gpg error: %s\n"
-msgstr ""
+msgstr "erro de gpg: %s\n"
 
-#: lib/libalpm/signing.c:430 lib/libalpm/signing.c:503
+#: lib/libalpm/signing.c:440 lib/libalpm/signing.c:513
 #, c-format
 msgid "keyring is not writable\n"
-msgstr ""
+msgstr "non se pode escribir no depósito de claves\n"
 
-#: lib/libalpm/signing.c:531
+#: lib/libalpm/signing.c:537
 #, c-format
 msgid "key \"%s\" on keyserver\n"
-msgstr ""
+msgstr "clave \"%s\" no servidor de claves\n"
 
-#: lib/libalpm/signing.c:536
+#: lib/libalpm/signing.c:542
 #, c-format
 msgid "key \"%s\" could not be imported\n"
 msgstr "a clave \"%s\" non se puido importar\n"
 
-#: lib/libalpm/signing.c:540
+#: lib/libalpm/signing.c:546
 #, c-format
 msgid "key \"%s\" could not be looked up remotely\n"
-msgstr ""
+msgstr "a clave \"%s\" non se puido buscar de forma remota\n"
 
-#: lib/libalpm/signing.c:926 lib/libalpm/sync.c:1022
+#: lib/libalpm/signing.c:932 lib/libalpm/sync.c:1034
 #, c-format
 msgid "%s: missing required signature\n"
 msgstr "%s: fáltalle a sinatura obrigatoria.\n"
 
-#: lib/libalpm/signing.c:941
+#: lib/libalpm/signing.c:947
 #, c-format
 msgid "%s: signature from \"%s\" is marginal trust\n"
-msgstr ""
+msgstr "%s: a sinatura de \"%s\" é de confianza mínima\n"
 
-#: lib/libalpm/signing.c:949
+#: lib/libalpm/signing.c:955
 #, c-format
 msgid "%s: signature from \"%s\" is unknown trust\n"
-msgstr ""
+msgstr "%s: a sinatura de \"%s\" é de unha confianza descoñecida\n"
 
-#: lib/libalpm/signing.c:956
+#: lib/libalpm/signing.c:962
 #, c-format
 msgid "%s: signature from \"%s\" should never be trusted\n"
-msgstr ""
+msgstr "%s: a sinatura de \"%s\" nunca debería ser confiada\n"
 
-#: lib/libalpm/signing.c:968
+#: lib/libalpm/signing.c:974
 #, c-format
 msgid "%s: key \"%s\" is unknown\n"
 msgstr "%s: a clave \"%s\" é descoñecida\n"
 
-#: lib/libalpm/signing.c:977
+#: lib/libalpm/signing.c:983
 #, c-format
 msgid "%s: key \"%s\" is disabled\n"
-msgstr ""
+msgstr "%s: a clave \"%s\" está desactivada\n"
 
-#: lib/libalpm/signing.c:981
+#: lib/libalpm/signing.c:987
 #, c-format
 msgid "%s: signature from \"%s\" is expired\n"
 msgstr "%s: a sinatura de \"%s\" caducou\n"
 
-#: lib/libalpm/signing.c:985
+#: lib/libalpm/signing.c:991
 #, c-format
 msgid "%s: signature from \"%s\" is invalid\n"
 msgstr "%s: a sinatura de \"%s\" non é válida\n"
 
-#: lib/libalpm/signing.c:1043 lib/libalpm/signing.c:1104
-#: lib/libalpm/signing.c:1183
+#: lib/libalpm/signing.c:1049 lib/libalpm/signing.c:1110
+#: lib/libalpm/signing.c:1189
 #, c-format
 msgid "%s: signature format error\n"
 msgstr "%s: erro no formato da sinatura\n"
 
-#: lib/libalpm/signing.c:1136 lib/libalpm/signing.c:1169
-#: lib/libalpm/signing.c:1177
+#: lib/libalpm/signing.c:1142 lib/libalpm/signing.c:1175
+#: lib/libalpm/signing.c:1183
 #, c-format
 msgid "%s: unsupported signature format\n"
 msgstr "%s: formato da sinatura non soportado\n"
@@ -952,118 +1013,124 @@ msgstr "ignorando o reemplazo do paquete (%s-%s => %s-%s)\n"
 msgid "cannot replace %s by %s\n"
 msgstr "non se puido reemplazar o arquivo %s por %s\n"
 
-#: lib/libalpm/sync.c:476
+#: lib/libalpm/sync.c:475
 #, c-format
 msgid "packages %s and %s have the same filename: %s\n"
-msgstr ""
+msgstr "paquetes %s e %s teñen o mesmo nome de ficheiro: %s\n"
 
-#: lib/libalpm/sync.c:542 lib/libalpm/sync.c:612
+#: lib/libalpm/sync.c:544 lib/libalpm/sync.c:616
 #, c-format
 msgid "unresolvable package conflicts detected\n"
 msgstr "detectáronse paquetes con conflictos non resolvibles\n"
 
-#: lib/libalpm/sync.c:562
+#: lib/libalpm/sync.c:564
 #, c-format
-msgid "removing '%s' from target list because it conflicts with '%s'\n"
+msgid "removing '%s-%s' from target list because it conflicts with '%s-%s'\n"
 msgstr ""
-"quitando '%s' da lista de obxetivos debido a que ten conflictos con '%s'\n"
+"quitando '%s-%s' da lista de obxectivos porque entra en conflito con '%s-"
+"%s'\n"
 
-#: lib/libalpm/sync.c:1036
+#: lib/libalpm/sync.c:1002 lib/libalpm/sync.c:1169
+#, c-format
+msgid "%s: could not find package in cache\n"
+msgstr "%s: non se puido encontrar o paquete na caché\n"
+
+#: lib/libalpm/sync.c:1048
 #, c-format
 msgid "failed to read file %s: %s\n"
-msgstr ""
+msgstr "errou a lectura do ficherio %s: %s\n"
 
-#: lib/libalpm/sync.c:1223
+#: lib/libalpm/sync.c:1306
 #, c-format
 msgid "not enough free disk space\n"
 msgstr "non hai espazo de almacenamento dabondo\n"
 
-#: lib/libalpm/sync.c:1245
+#: lib/libalpm/sync.c:1328
 #, c-format
 msgid "could not commit removal transaction\n"
 msgstr "non se puido enviar a operación de eliminación\n"
 
-#: lib/libalpm/sync.c:1253
+#: lib/libalpm/sync.c:1336
 #, c-format
 msgid "could not commit transaction\n"
 msgstr "non se puido asignar a transacción\n"
 
-#: lib/libalpm/trans.c:365
+#: lib/libalpm/trans.c:369
 #, c-format
 msgid "could not create temp directory\n"
 msgstr "non se pode crear o directorio temporal\n"
 
-#: lib/libalpm/trans.c:380
+#: lib/libalpm/trans.c:384
 #, c-format
 msgid "could not copy tempfile to %s (%s)\n"
 msgstr "non se puido copiar o arquivo temporal a %s (%s)\n"
 
-#: lib/libalpm/trans.c:411
+#: lib/libalpm/trans.c:415
 #, c-format
 msgid "could not remove %s\n"
 msgstr "non se puido eliminar %s\n"
 
-#: lib/libalpm/trans.c:415
+#: lib/libalpm/trans.c:419
 #, c-format
 msgid "could not remove tmpdir %s\n"
 msgstr "non se puido eliminar o directorio temporal %s\n"
 
-#: lib/libalpm/util.c:488
+#: lib/libalpm/util.c:493
 #, c-format
 msgid "unable to write to pipe (%s)\n"
 msgstr "non se pode escribir na tubería (%s)\n"
 
-#: lib/libalpm/util.c:547
+#: lib/libalpm/util.c:552
 #, c-format
 msgid "unable to read from pipe (%s)\n"
 msgstr "non se pode ler da tubería (%s)\n"
 
-#: lib/libalpm/util.c:617 lib/libalpm/util.c:623
+#: lib/libalpm/util.c:622 lib/libalpm/util.c:628
 #, c-format
 msgid "could not create pipe (%s)\n"
 msgstr "non se puido crear tubería (%s)\n"
 
-#: lib/libalpm/util.c:631
+#: lib/libalpm/util.c:636
 #, c-format
 msgid "could not fork a new process (%s)\n"
 msgstr "non se puido crear un novo proceso (%s)\n"
 
-#: lib/libalpm/util.c:654
+#: lib/libalpm/util.c:661
 #, c-format
 msgid "could not change the root directory (%s)\n"
 msgstr "non se puido cambiar o directorio raíz (%s)\n"
 
-#: lib/libalpm/util.c:666
+#: lib/libalpm/util.c:681
 #, c-format
 msgid "call to execv failed (%s)\n"
 msgstr "chamada a execv fallida (%s)\n"
 
-#: lib/libalpm/util.c:745
+#: lib/libalpm/util.c:760
 #, c-format
 msgid "call to waitpid failed (%s)\n"
 msgstr "chamada a waitpid fallida (%s)\n"
 
-#: lib/libalpm/util.c:755
+#: lib/libalpm/util.c:770
 #, c-format
 msgid "command failed to execute correctly\n"
 msgstr "o comando fallou ao executarse\n"
 
-#: lib/libalpm/util.c:762
+#: lib/libalpm/util.c:777
 #, c-format
 msgid "Unknown signal"
 msgstr "Sinal descoñecido"
 
-#: lib/libalpm/util.c:764
+#: lib/libalpm/util.c:779
 #, c-format
 msgid "command terminated by signal %d: %s\n"
 msgstr "O sinal %d interrompeu a execución: %s\n"
 
-#: lib/libalpm/util.c:875
+#: lib/libalpm/util.c:897
 #, c-format
 msgid "no %s cache exists, creating...\n"
 msgstr "non existe o caché %s, creando...\n"
 
-#: lib/libalpm/util.c:906
+#: lib/libalpm/util.c:928
 #, c-format
 msgid "couldn't find or create package cache, using %s instead\n"
 msgstr ""
