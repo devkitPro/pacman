@@ -697,3 +697,29 @@ API CHANGES BETWEEN 5.2 AND 6.0
 - misc
  - alpm_pkg_get_sig()
 - callbacks add front-end provided context
+
+
+API CHANGES BETWEEN 6.0 AND 6.1
+===============================
+
+[REMOVED]
+- alpm_trans_t
+
+[CHANGED]
+- alpm_conflict_t - full package added as member, removing package name and name
+  hash members
+- alpm_question_import_key_t - holds key uid and fingerprint rather than alpm_pgpkey_t
+- alpm_pkgreason_t - added ALPM_PKG_REASON_UNKNOWN
+- alpm_transflag_t - added ALPM_TRANS_FLAG_NOHOOKS
+
+[ADDED]
+- extensible package data type
+ - alpm_pkg_xdata_t
+ - alpm_pkg_get_xdata()
+- accessor functions
+ - alpm_db_get_handle()
+ - alpm_pkg_get_handle()
+- cache server support
+ - alpm_db_get_cache_servers()
+ - alpm_db_set_cache_servers()
+ - alpm_db_add_cache_server()
