@@ -1,5 +1,34 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+6.1.0         - Add cache server support
+              - Improvements to --sysroot option - NOTE: targets to -U are no
+                longer interpreted relative to sysroot
+              - Add more format specifiers for --print operations
+              - Add extended data field for arbitrary package data
+              - Do not run hooks with --dbonly
+              - Provide more details when encountering file conflicts or
+                corrupt packages
+              - Improved WKD support (FS#73703, FS#73534)
+              - Improved handling of malformed download headers (FS#73704)
+              - Use openssl interfaces for calculating sha256 and md5 sums
+              - Fix multi download bar chomps
+              - makepkg:
+                - Replace libdepends and libprovides with autodeps
+                - Support configuration via makepkg.conf.d drop-ins
+                - Add GITFLAGS environmental variable to customize checkouts
+                - Add -D option to change directory before building
+                - Implement verify() function for custom source verificaton
+                - Add checksum support for git/mercurial/bzr sources
+                - Improved stripping and debug package support
+                - Configurable LTO support
+                - Add source signing PGP keys to package if available
+                - Store "pkgtype" in xdata
+                - Remove md5sum from mtree files
+                - Document MAKEPKG_LIBRARY
+              - repo-add:
+                - Do not include package signature details in the repo. Add
+                  the --include-sigs to revert to old behaviour.
+                - Do not add md5sum to the repo database
 6.0.1         - Prevent download error pages ending up in package files
                 (FS#71083)
               - Give -U downloads a random .part file name if needed
