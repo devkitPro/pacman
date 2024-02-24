@@ -421,6 +421,12 @@ configure_file(
   install_dir : SYSCONFDIR)
 
 configure_file(
+  input : 'etc/makepkg.conf.d/fortran.conf.in',
+  output : 'fortran.conf',
+  configuration : substs,
+  install_dir : join_paths(SYSCONFDIR, 'makepkg.conf.d/'))
+
+configure_file(
   input : 'etc/makepkg.conf.d/rust.conf.in',
   output : 'rust.conf',
   configuration : substs,
