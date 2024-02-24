@@ -1,7 +1,7 @@
 /*
  *  pkghash.c
  *
- *  Copyright (c) 2011-2022 Pacman Development Team <pacman-dev@lists.archlinux.org>
+ *  Copyright (c) 2011-2024 Pacman Development Team <pacman-dev@lists.archlinux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
