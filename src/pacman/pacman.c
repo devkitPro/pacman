@@ -409,7 +409,18 @@ static int parsearg_global(int opt)
 			 * here, error and warning are set in config_new, though perhaps a
 			 * --quiet option will remove these later */
 			if(optarg) {
-				unsigned short debug = (unsigned short)atoi(optarg);
+				char *endptr;
+				long debug;
+
+				errno = 0;
+				debug = strtol(optarg, &endptr, 10);
+
+				if(errno == ERANGE || endptr == optarg || *endptr != '\0') {
+					pm_printf(ALPM_LOG_ERROR, _("'%s' is not a valid debug level\n"),
+							optarg);
+					return 1;
+				}
+
 				switch(debug) {
 					case 2:
 						config->logmask |= ALPM_LOG_FUNCTION;
