@@ -371,7 +371,7 @@ static int parsearg_op(int opt, int dryrun)
 
 /** Helper functions for parsing command-line arguments.
  * @param opt Keycode returned by getopt_long
- * @return 0 on success, 1 on failure
+ * @return 0 on success, 1 on unkown option, 2 on invalid argument
  */
 static int parsearg_global(int opt)
 {
@@ -380,8 +380,25 @@ static int parsearg_global(int opt)
 			config_add_architecture(strdup(optarg));
 			break;
 		case OP_ASK:
-			config->noask = 1;
-			config->ask = (unsigned int)atoi(optarg);
+			if(optarg) {
+				char *endptr;
+				long ask;
+
+				errno = 0;
+				ask = strtol(optarg, &endptr, 10);
+
+				if(errno == ERANGE || endptr == optarg || *endptr != '\0' || ask > UINT_MAX) {
+					pm_printf(ALPM_LOG_ERROR, "'%s' is not a valid ask level\n",
+							optarg);
+					return 2;
+				}
+
+				config->noask = 1;
+				config->ask = (unsigned int)ask;
+			} else {
+				pm_printf(ALPM_LOG_ERROR, "no value provided for ask level\n");
+				return 2;
+			}
 			break;
 		case OP_CACHEDIR:
 			config->cachedirs = alpm_list_add(config->cachedirs, strdup(optarg));
@@ -396,7 +413,7 @@ static int parsearg_global(int opt)
 			} else {
 				pm_printf(ALPM_LOG_ERROR, _("invalid argument '%s' for %s\n"),
 						optarg, "--color");
-				return 1;
+				return 2;
 			}
 			enable_colors(config->color);
 			break;
@@ -418,7 +435,7 @@ static int parsearg_global(int opt)
 				if(errno == ERANGE || endptr == optarg || *endptr != '\0') {
 					pm_printf(ALPM_LOG_ERROR, _("'%s' is not a valid debug level\n"),
 							optarg);
-					return 1;
+					return 2;
 				}
 
 				switch(debug) {
@@ -431,7 +448,7 @@ static int parsearg_global(int opt)
 					default:
 						pm_printf(ALPM_LOG_ERROR, _("'%s' is not a valid debug level\n"),
 								optarg);
-						return 1;
+						return 2;
 				}
 			} else {
 				config->logmask |= ALPM_LOG_DEBUG;
@@ -1030,14 +1047,16 @@ static int parseargs(int argc, char *argv[])
 		/* fall back to global options */
 		result = parsearg_global(opt);
 		if(result != 0) {
+			if(result == 1) {
 			/* global option parsing failed, abort */
-			if(opt < OP_LONG_FLAG_MIN) {
-				pm_printf(ALPM_LOG_ERROR, _("invalid option '-%c'\n"), opt);
-			} else {
-				pm_printf(ALPM_LOG_ERROR, _("invalid option '--%s'\n"),
-						opts[option_index].name);
+				if(opt < OP_LONG_FLAG_MIN) {
+					pm_printf(ALPM_LOG_ERROR, _("invalid option '-%c'\n"), opt);
+				} else {
+					pm_printf(ALPM_LOG_ERROR, _("invalid option '--%s'\n"),
+							opts[option_index].name);
+				}
 			}
-			return result;
+			return 1;
 		}
 	}
 
