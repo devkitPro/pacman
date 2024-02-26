@@ -459,7 +459,7 @@ static size_t string_length(const char *s)
 		char* replaced = malloc(sizeof(char) * strlen(s));
 		size_t iter = 0;
 		for(; *s; s++) {
-			if(*s == '\033' && *(s+1) == '[' && isdigit(s+2)) {
+			if(*s == '\033' && *(s+1) == '[' && isdigit(*(s+2))) {
 				/* handle terminal colour escape sequences */
 				const char* t = s + 3;
 
