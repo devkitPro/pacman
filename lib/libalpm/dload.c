@@ -1114,7 +1114,7 @@ int SYMEXPORT alpm_fetch_pkgurl(alpm_handle_t *handle, const alpm_list_t *urls,
 			STRDUP(payload->fileurl, url, FREE(payload); GOTO_ERR(handle, ALPM_ERR_MEMORY, err));
 
 			c = strrchr(url, '/');
-			if(strstr(c, ".pkg")) {
+			if(c != NULL && strstr(c, ".pkg")) {
 				/* we probably have a usable package filename to download to */
 				payload->allow_resume = 1;
 			} else {
