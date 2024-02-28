@@ -40,10 +40,16 @@ srcinfo_write_attr() {
 
 	local attrname=$1 attrvalues=("${@:2}")
 
+	# this function requires extglob - save current status to restore later
+	local shellopts=$(shopt -p extglob)
+	shopt -s extglob
+
 	# normalize whitespace, strip leading and trailing
 	attrvalues=("${attrvalues[@]//+([[:space:]])/ }")
 	attrvalues=("${attrvalues[@]#[[:space:]]}")
 	attrvalues=("${attrvalues[@]%[[:space:]]}")
+
+	eval "$shellopts"
 
 	printf "\t$attrname = %s\n" "${attrvalues[@]}"
 }
