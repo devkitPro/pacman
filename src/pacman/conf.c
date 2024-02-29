@@ -1098,11 +1098,15 @@ static char *escape_glob_pattern(const char *pattern)
 
 static char *prepend_dir(const char *dir, const char *path)
 {
-	char *newpath;
-	size_t dlen = strlen(dir);
-	const char *sep = dlen && dir[dlen - 1] == '/' ? "" : "/";
-	while(path[0] == '/') { path++; }
-	return pm_asprintf(&newpath, "%s%s%s", dir, sep, path) == -1 ? NULL : newpath;
+	if(dir == NULL) {
+		return strdup(path);
+	} else {
+		char *newpath;
+		size_t dlen = strlen(dir);
+		const char *sep = dlen && dir[dlen - 1] == '/' ? "" : "/";
+		while(path[0] == '/') { path++; }
+		return pm_asprintf(&newpath, "%s%s%s", dir, sep, path) == -1 ? NULL : newpath;
+	}
 }
 
 static int globdir(const char *dir, const char *pattern, int flags,
@@ -1110,6 +1114,10 @@ static int globdir(const char *dir, const char *pattern, int flags,
 {
 	int gret;
 	char *fullpattern = NULL, *escaped_dir = NULL;
+
+	if(dir == NULL) {
+		return glob(pattern, flags, errfunc, globbuf);
+	}
 
 	if((escaped_dir = escape_glob_pattern(dir)) == NULL) {
 		goto nospace;
