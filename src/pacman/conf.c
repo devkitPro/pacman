@@ -108,7 +108,6 @@ config_t *config_new(void)
 	newconfig->op = PM_OP_MAIN;
 	newconfig->logmask = ALPM_LOG_ERROR | ALPM_LOG_WARNING;
 	newconfig->configfile = strdup(CONFFILE);
-	newconfig->sysroot = strdup("/");
 	if(alpm_capabilities() & ALPM_CAPABILITY_SIGNATURES) {
 		newconfig->siglevel = ALPM_SIG_PACKAGE | ALPM_SIG_PACKAGE_OPTIONAL |
 			ALPM_SIG_DATABASE | ALPM_SIG_DATABASE_OPTIONAL;
@@ -1257,8 +1256,7 @@ static int prepend_sysroot(config_t *c)
 {
 	alpm_list_t *i;
 
-	if(c->sysroot == NULL || c->sysroot[0] == '\0'
-			|| strcmp(c->sysroot, "/") == 0) {
+	if(c->sysroot == NULL) {
 		return 0;
 	}
 
