@@ -692,7 +692,7 @@ static int sync_db_read(alpm_db_t *db, struct archive *archive,
 				}
 				FREELIST(lines);
 			} else {
-				_alpm_log(db->handle, ALPM_LOG_WARNING, _("%s: unknown key '%s' in local database\n"), pkg->name, line);
+				_alpm_log(db->handle, ALPM_LOG_WARNING, _("%s: unknown key '%s' in sync database\n"), pkg->name, line);
 				alpm_list_t *lines = NULL;
 				READ_AND_STORE_ALL(lines);
 				FREELIST(lines);
