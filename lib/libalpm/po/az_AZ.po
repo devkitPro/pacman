@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the libalpm package.
 #
 # Translators:
-# xxmn77 <xxmn77@gmail.com>, 2021-2023
-# xxmn77 <xxmn77@gmail.com>, 2021
-# xxmn77 <xxmn77@gmail.com>, 2021
+# Xəyyam Qocayev <xxmn77@gmail.com>, 2021-2023
+# Xəyyam Qocayev <xxmn77@gmail.com>, 2021,2024
+# Xəyyam Qocayev <xxmn77@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2024-02-19 11:08+1000\n"
+"POT-Creation-Date: 2024-03-04 11:45+1000\n"
 "PO-Revision-Date: 2010-11-29 23:17+0000\n"
-"Last-Translator: xxmn77 <xxmn77@gmail.com>, 2021-2023\n"
+"Last-Translator: Xəyyam Qocayev <xxmn77@gmail.com>, 2021,2024\n"
 "Language-Team: Azerbaijani (Azerbaijan) (http://app.transifex.com/toofishes/"
 "archlinux-pacman/language/az_AZ/)\n"
 "Language: az_AZ\n"
@@ -162,9 +162,9 @@ msgid "corrupted database entry '%s'\n"
 msgstr "pozulmuş '%s' verilənlər bazası qeydi\n"
 
 #: lib/libalpm/be_local.c:663
-#, fuzzy, c-format
+#, c-format
 msgid "unknown install reason for package %s: %s\n"
-msgstr "%s paketi üçün bilinməyən doğrulama: %s\n"
+msgstr "%s paketi üçün naməlum quraşdırma səbəbi: %s\n"
 
 #: lib/libalpm/be_local.c:743 lib/libalpm/be_local.c:856
 #: lib/libalpm/be_local.c:996 lib/libalpm/be_local.c:1102
@@ -192,14 +192,14 @@ msgid "unknown validation type for package %s: %s\n"
 msgstr "%s paketi üçün bilinməyən doğrulama: %s\n"
 
 #: lib/libalpm/be_local.c:841
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unknown key '%s' in sync database\n"
-msgstr "%s: \"%s\" açarı söndürülüb\n"
+msgstr "%s: eyniləşdirmə üçün verilənlər bazasında \"%s\"  açarı naməlumdur\n"
 
 #: lib/libalpm/be_package.c:255
 #, c-format
 msgid "%s: unknown key '%s' in package description\n"
-msgstr ""
+msgstr "%s: paketin açıqlamasında\"%s\" açarı naməlumdur\n"
 
 #: lib/libalpm/be_package.c:482 lib/libalpm/be_package.c:635
 #: lib/libalpm/be_package.c:647
@@ -282,7 +282,7 @@ msgstr "bilinməyən verilənlər bazası faylı: %s\n"
 #: lib/libalpm/be_sync.c:695
 #, c-format
 msgid "%s: unknown key '%s' in local database\n"
-msgstr ""
+msgstr "%s: yerli verilənlər bazasında \"%s\" açarı naməlumdur\n"
 
 #: lib/libalpm/db.c:413
 #, c-format
@@ -806,7 +806,7 @@ msgstr "%s-%s paketi üçün meta məlumatları tam yüklənə bilmədi\n"
 #: lib/libalpm/package.c:869
 #, c-format
 msgid "invalid package metadata (name or version missing)"
-msgstr ""
+msgstr "paketin meta verilənləri səhvdir (ad və ya versiya çatışmır)"
 
 #: lib/libalpm/package.c:874
 #, c-format
@@ -814,6 +814,8 @@ msgid ""
 "invalid metadata for package %s-%s (package name cannot start with '.' or "
 "'-')\n"
 msgstr ""
+"%s-%s paketi üçün meta verilənləri səhvdir (paketin adı \".\" və ya \"-\" "
+"ilə başlaya bilməz)\n"
 
 #: lib/libalpm/package.c:878
 #, c-format
@@ -821,6 +823,8 @@ msgid ""
 "invalid metadata for package %s-%s (package name contains invalid "
 "characters)\n"
 msgstr ""
+"%s-%s paketi üçün meta verilənləri səhvdir (paketin adında səhv simvollar "
+"var)\n"
 
 #: lib/libalpm/package.c:885 lib/libalpm/package.c:889
 #, c-format
@@ -828,12 +832,16 @@ msgid ""
 "invalid metadata for package %s-%s (package version contains invalid "
 "characters)\n"
 msgstr ""
+"%s-%s paketi üçün meta verilənlıri səhvdir (paketin adında səhv simvollar "
+"var)\n"
 
 #: lib/libalpm/package.c:895
 #, c-format
 msgid ""
 "invalid metadata for package %s-%s (package name and version too long)\n"
 msgstr ""
+"%s-%s paketi üçün meta verilənləri səhvdir (paketin adı və ya versiyası çox "
+"uzundur)\n"
 
 #: lib/libalpm/remove.c:111
 #, c-format

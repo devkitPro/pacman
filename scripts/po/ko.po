@@ -5,7 +5,7 @@
 # Translators:
 # Seong-ho Cho <darkcircle.0426@gmail.com>, 2013
 # 배태길 <esrevinu@gmail.com>, 2016-2019,2021
-# Seong-ho Cho <darkcircle.0426@gmail.com>, 2013,2015
+# Seong-ho Cho <darkcircle.0426@gmail.com>, 2013,2015,2024
 # Sung jin Gang <>, 2012
 # Thomas Sungjin Kang <potopro@gmail.com>, 2012
 # Thomas Sungjin Kang <potopro@gmail.com>, 2013
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2024-02-19 11:08+1000\n"
+"POT-Creation-Date: 2024-03-04 11:45+1000\n"
 "PO-Revision-Date: 2011-08-08 22:35+0000\n"
-"Last-Translator: Thomas Sungjin Kang <potopro@gmail.com>, 2012-2013\n"
+"Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>, 2013,2015,2024\n"
 "Language-Team: Korean (http://app.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
 "Language: ko\n"
@@ -679,6 +679,8 @@ msgid ""
 "  --populate-from <dir>     Set an alternate directory for --populate "
 "(instead\\n                            of '%s')"
 msgstr ""
+"  --populate-from <dir>     --populate 옵션의 대안 디렉터리 값을 설정 합니다 "
+"('%s'\\n                            대신)"
 
 #: scripts/pacman-key.sh.in:89
 msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
@@ -717,166 +719,165 @@ msgstr "_"
 msgid "flags"
 msgstr "flags"
 
-#: scripts/pacman-key.sh.in:265
+#: scripts/pacman-key.sh.in:264
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "%s 키 모음을 읽을 충분한 권한이 없습니다."
 
-#: scripts/pacman-key.sh.in:266 scripts/pacman-key.sh.in:273
+#: scripts/pacman-key.sh.in:265 scripts/pacman-key.sh.in:272
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "키 모음 권한을 바로 잡으려면 '%s' 옵션을 사용하십시오."
 
-#: scripts/pacman-key.sh.in:272
+#: scripts/pacman-key.sh.in:271
 msgid "You do not have sufficient permissions to run this command."
 msgstr "이 명령을 실행하는데 충분한 권한이 없습니다."
 
-#: scripts/pacman-key.sh.in:280
+#: scripts/pacman-key.sh.in:279
 msgid "There is no secret key available to sign with."
 msgstr "서명할 수 있는 비밀 키가 없습니다."
 
-#: scripts/pacman-key.sh.in:281
+#: scripts/pacman-key.sh.in:280
 msgid "Use '%s' to generate a default secret key."
 msgstr "기본 서명키를 만들려면 '%s'를 사용하십시오."
 
-#: scripts/pacman-key.sh.in:299
+#: scripts/pacman-key.sh.in:298
 msgid "No keyring files exist in %s."
 msgstr "%s에 키 모음 파일이 없습니다."
 
-#: scripts/pacman-key.sh.in:306
+#: scripts/pacman-key.sh.in:305
 msgid "The keyring file %s does not exist."
 msgstr "%s 키 모음 파일이 없습니다."
 
-#: scripts/pacman-key.sh.in:321
+#: scripts/pacman-key.sh.in:320
 msgid "Appending keys from %s.gpg..."
 msgstr "%s.gpg에서 키 덧붙이는 중..."
 
-#: scripts/pacman-key.sh.in:361
+#: scripts/pacman-key.sh.in:360
 msgid "Locally signing trusted keys in keyring..."
 msgstr "키 모음에 있는 신뢰하는 키를 자체적으로 서명하는 중..."
 
-#: scripts/pacman-key.sh.in:363
+#: scripts/pacman-key.sh.in:362
 msgid "Importing owner trust values..."
 msgstr "소유자 신뢰 값 가져오는 중..."
 
-#: scripts/pacman-key.sh.in:373
+#: scripts/pacman-key.sh.in:372
 msgid "Disabling revoked keys in keyring..."
 msgstr "키 모음에 있는 폐기된 키들을 비활성화하는 중..."
 
-#: scripts/pacman-key.sh.in:376
+#: scripts/pacman-key.sh.in:375
 msgid "Disabling key %s..."
 msgstr "키 %s 비활성화하는 중..."
 
-#: scripts/pacman-key.sh.in:382
+#: scripts/pacman-key.sh.in:381
 msgid "Disabled %s key."
 msgid_plural "Disabled %s keys."
-msgstr[0] ""
+msgstr[0] "%s 키를 비활성했습니다."
 
-#: scripts/pacman-key.sh.in:389
+#: scripts/pacman-key.sh.in:388
 msgid "A specified keyfile could not be added to the keyring."
 msgstr "지정한 키 파일을 키 모음에 추가할 수 없습니다."
 
-#: scripts/pacman-key.sh.in:397
+#: scripts/pacman-key.sh.in:396
 msgid "A specified key could not be removed from the keyring."
 msgstr "키 모음에서 지정한 키를 제거할 수 없습니다."
 
-#: scripts/pacman-key.sh.in:407
+#: scripts/pacman-key.sh.in:406
 msgid "The key identified by %s could not be edited."
 msgstr "%s가 식별한 키를 편집할 수 없습니다."
 
-#: scripts/pacman-key.sh.in:419
+#: scripts/pacman-key.sh.in:418
 msgid "A specified key could not be exported from the keyring."
 msgstr "키 모음에서 지정한 키를 내보낼 수 없습니다."
 
-#: scripts/pacman-key.sh.in:427
+#: scripts/pacman-key.sh.in:426
 msgid "The fingerprint of a specified key could not be determined."
 msgstr "지정한 키의 지문 키를 결정할 수 없습니다."
 
-#: scripts/pacman-key.sh.in:440 scripts/pacman-key.sh.in:459
+#: scripts/pacman-key.sh.in:439 scripts/pacman-key.sh.in:458
 msgid "%s could not be imported."
 msgstr "%s를 가져올 수 없습니다."
 
-#: scripts/pacman-key.sh.in:444 scripts/pacman-key.sh.in:463
+#: scripts/pacman-key.sh.in:443 scripts/pacman-key.sh.in:462
 msgid "File %s does not exist and could not be imported."
 msgstr "%s 파일이 없어 가져올 수 없습니다."
 
-#: scripts/pacman-key.sh.in:475
+#: scripts/pacman-key.sh.in:474
 msgid "A specified key could not be listed."
 msgstr "지정한 키를 목록에 표시할 수 없습니다."
 
-#: scripts/pacman-key.sh.in:483
+#: scripts/pacman-key.sh.in:482
 msgid "A specified signature could not be listed."
 msgstr "지정한 서명을 목록에 표시할 수 없습니다."
 
-#: scripts/pacman-key.sh.in:495
+#: scripts/pacman-key.sh.in:494
 msgid "Locally signing key %s..."
 msgstr "키 %s로 로컬 서명중..."
 
-#: scripts/pacman-key.sh.in:500
+#: scripts/pacman-key.sh.in:499
 msgid "%s could not be locally signed."
 msgstr "%s를 자체적으로 서명할 수 없습니다."
 
-#: scripts/pacman-key.sh.in:510
+#: scripts/pacman-key.sh.in:509
 msgid "Locally signed %s key."
 msgid_plural "Locally signed %s keys."
-msgstr[0] ""
+msgstr[0] "%s 키를 로컬 서명했습니다."
 
-#: scripts/pacman-key.sh.in:533
+#: scripts/pacman-key.sh.in:532
 msgid "Remote key not fetched correctly from WKD or keyserver."
 msgstr "원격 키를 WKD나 키 서버에서 올바르게 가져올 수 없습니다."
 
-#: scripts/pacman-key.sh.in:538
+#: scripts/pacman-key.sh.in:537
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "원격 키를 키 서버에서 올바르게 가져올 수 없습니다."
 
-#: scripts/pacman-key.sh.in:570
+#: scripts/pacman-key.sh.in:569
 msgid "Could not update key: %s"
 msgstr "키를 업데이트할 수 없었음: %s"
 
-#: scripts/pacman-key.sh.in:591 scripts/repo-add.sh.in:268
+#: scripts/pacman-key.sh.in:590 scripts/repo-add.sh.in:268
 msgid "Cannot use armored signatures for packages: %s"
 msgstr "꾸러미들에 외장 서명을 사용할 수 없습니다: %s"
 
-#: scripts/pacman-key.sh.in:599
+#: scripts/pacman-key.sh.in:598
 msgid "The signature verification for %s failed."
-msgstr ""
+msgstr "%s 서명 검증에 실패했습니다."
 
-#: scripts/pacman-key.sh.in:605
-#, fuzzy
+#: scripts/pacman-key.sh.in:604
 msgid "The signature %s is not trusted."
-msgstr "공개키 %s는 신뢰하는 키가 아닙니다."
+msgstr "%s 서명을 신뢰할 수 없습니다."
 
-#: scripts/pacman-key.sh.in:613
+#: scripts/pacman-key.sh.in:612
 msgid "Updating trust database..."
 msgstr "신뢰 데이터베이스 업그레이드 중..."
 
-#: scripts/pacman-key.sh.in:615
+#: scripts/pacman-key.sh.in:614
 msgid "Trust database could not be updated."
 msgstr "신뢰 데이터베이스를 업데이트할 수 없습니다."
 
-#: scripts/pacman-key.sh.in:694
+#: scripts/pacman-key.sh.in:693
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "%s 바이너리를 찾을 수 없습니다. 모든 %s 동작에 필요합니다."
 
-#: scripts/pacman-key.sh.in:699
+#: scripts/pacman-key.sh.in:698
 msgid "%s needs to be run as root for this operation."
 msgstr "%s의 동작을 루트 권한으로 실행해야 합니다."
 
-#: scripts/pacman-key.sh.in:705
+#: scripts/pacman-key.sh.in:704
 msgid "%s configuration file '%s' not found."
 msgstr "%s 설정 파일 '%s'가 없습니다."
 
-#: scripts/pacman-key.sh.in:728
+#: scripts/pacman-key.sh.in:727
 msgid "no operation specified (use -h for help)"
 msgstr "동작을 지정하지 않았습니다(도움말을 보시려면 -h를 사용하십시오)"
 
-#: scripts/pacman-key.sh.in:733
+#: scripts/pacman-key.sh.in:732
 msgid "Multiple operations specified."
 msgstr "여러 동작을 지정했습니다."
 
-#: scripts/pacman-key.sh.in:734
+#: scripts/pacman-key.sh.in:733
 msgid "Please run %s with each operation separately."
 msgstr "각각의 동작을 따로따로 지정하여 %s를 실행하십시오."
 
-#: scripts/pacman-key.sh.in:742
+#: scripts/pacman-key.sh.in:741
 msgid "No targets specified"
 msgstr "대상을 지정하지 않았습니다"
 
@@ -1103,7 +1104,7 @@ msgstr "데이터베이스를 구성하는 데 사용할 임시 디렉터리를 
 
 #: scripts/repo-add.sh.in:704
 msgid "Package database was not modified due to errors."
-msgstr ""
+msgstr "오류가 있어 꾸러미 데이터베이스를 수정하지 않았습니다."
 
 #: scripts/repo-add.sh.in:709
 msgid "Creating updated database file '%s'"
@@ -1111,7 +1112,7 @@ msgstr "최신 '%s' 데이터베이스 파일 만드는 중"
 
 #: scripts/repo-add.sh.in:713
 msgid "No changes made to package database."
-msgstr ""
+msgstr "꾸러미 데이터베이스에 바뀐 내용이 없습니다."
 
 #: scripts/libmakepkg/integrity.sh.in:34
 msgid "Skipping all source file integrity checks."
@@ -1127,7 +1128,7 @@ msgstr "원본 파일 PGP 서명 검증을 건너뜁니다."
 
 #: scripts/libmakepkg/integrity/generate_checksum.sh.in:61
 msgid "Failure while calculating %s %s checksum"
-msgstr ""
+msgstr "%s %s 체크섬 계산에 실패했습니다"
 
 #: scripts/libmakepkg/integrity/generate_checksum.sh.in:92
 msgid "Generating checksums for source files..."
@@ -1372,7 +1373,7 @@ msgstr "%s 파일 (%s)는 존재하지 않거나 보통 파일이 아닙니다."
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:108
 msgid "%s does not allow empty values."
-msgstr ""
+msgstr "%s(에)서 빈 값을 허용하지 않습니다."
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1510,7 +1511,7 @@ msgstr "바이너리와 라이브러리에서 불필요한 심볼 제거 중..."
 
 #: scripts/libmakepkg/tidy/strip.sh.in:190
 msgid "Copying source files needed for debug symbols..."
-msgstr ""
+msgstr "디버깅 심볼에 필요한 소스 코드 파일 복사중..."
 
 #: scripts/libmakepkg/tidy/zipman.sh.in:35
 msgid "Compressing man and info pages..."
@@ -1568,10 +1569,3 @@ msgstr "당신은 디렉토리 $%s (%s)에 쓰기 권한이 없습니다."
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
 msgstr "%s 원본 지정에 실패했습니다"
-
-#, fuzzy
-#~ msgid "is unable to verify the signature."
-#~ msgstr "서명을 검증하는데 경고 사항이 있습니다."
-
-#~ msgid "The signature identified by %s could not be verified."
-#~ msgstr "%s가 식별한 서명을 검증할 수 없습니다."

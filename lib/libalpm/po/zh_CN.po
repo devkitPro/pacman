@@ -7,23 +7,24 @@
 # Feng Chao <chaofeng111@qq.com>, 2018
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # Feng Chao <chaofeng111@qq.com>, 2011,2018,2020
-# Jiachen YANG <farseerfc@gmail.com>, 2019
+# Jiachen YANG <farseerfc@gmail.com>, 2019,2024
+# lakejason0 <sunliyuan200402@outlook.com>, 2024
 # Feng Chao <chaofeng111@qq.com>, 2011
 # Feng Chao <chaofeng111@qq.com>, 2011,2018
 # Feng Chao <chaofeng111@qq.com>, 2011
 # mytbk <mytbk920423@gmail.com>, 2013,2015,2017
 # mytbk <mytbk920423@gmail.com>, 2013,2015,2017
 # ykelvis <ykelvis@users.noreply.github.com>, 2014
-# 张海, 2015,2018,2021
+# 张海, 2015,2018,2021,2023
 # 张海, 2015,2018,2021,2023
 # 甘 露 <rhythm.gan@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2024-02-19 11:08+1000\n"
+"POT-Creation-Date: 2024-03-04 11:45+1000\n"
 "PO-Revision-Date: 2010-11-29 23:17+0000\n"
-"Last-Translator: 张海, 2015,2018,2021,2023\n"
+"Last-Translator: Jiachen YANG <farseerfc@gmail.com>, 2019,2024\n"
 "Language-Team: Chinese (China) (http://app.transifex.com/toofishes/archlinux-"
 "pacman/language/zh_CN/)\n"
 "Language: zh_CN\n"
@@ -172,9 +173,9 @@ msgid "corrupted database entry '%s'\n"
 msgstr "损坏的数据库记录 '%s'\n"
 
 #: lib/libalpm/be_local.c:663
-#, fuzzy, c-format
+#, c-format
 msgid "unknown install reason for package %s: %s\n"
-msgstr "包%s的验证类型未知：%s\n"
+msgstr "软件包 %s 的安装原因未知：%s\n"
 
 #: lib/libalpm/be_local.c:743 lib/libalpm/be_local.c:856
 #: lib/libalpm/be_local.c:996 lib/libalpm/be_local.c:1102
@@ -197,17 +198,17 @@ msgstr "%1$s 数据库不一致：版本和软件包中的 %2$s 不一致\n"
 #: lib/libalpm/be_local.c:806
 #, c-format
 msgid "unknown validation type for package %s: %s\n"
-msgstr "包%s的验证类型未知：%s\n"
+msgstr "软件包 %s 的验证类型未知：%s\n"
 
 #: lib/libalpm/be_local.c:841
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unknown key '%s' in sync database\n"
-msgstr "%s: 密钥 \"%s\" 被禁用了\n"
+msgstr "%s：同步数据库中有未知的密钥 '%s'\n"
 
 #: lib/libalpm/be_package.c:255
 #, c-format
 msgid "%s: unknown key '%s' in package description\n"
-msgstr ""
+msgstr "%s：软件包描述中有未知的密钥 '%s'\n"
 
 #: lib/libalpm/be_package.c:482 lib/libalpm/be_package.c:635
 #: lib/libalpm/be_package.c:647
@@ -288,7 +289,7 @@ msgstr "未知的数据库文件： %s\n"
 #: lib/libalpm/be_sync.c:695
 #, c-format
 msgid "%s: unknown key '%s' in local database\n"
-msgstr ""
+msgstr "%s：本地数据库中有未知的密钥 '%s'\n"
 
 #: lib/libalpm/db.c:413
 #, c-format
@@ -810,39 +811,39 @@ msgstr "无法读取目录：%s: %s\n"
 #: lib/libalpm/package.c:614
 #, c-format
 msgid "could not fully load metadata for package %s-%s\n"
-msgstr "无法完全加载软件包 %s 的元数据 - %s\n"
+msgstr "无法完全加载软件包 %s-%s 的元数据\n"
 
 #: lib/libalpm/package.c:869
 #, c-format
 msgid "invalid package metadata (name or version missing)"
-msgstr ""
+msgstr "软件包元数据无效（缺少名称或版本）"
 
 #: lib/libalpm/package.c:874
 #, c-format
 msgid ""
 "invalid metadata for package %s-%s (package name cannot start with '.' or "
 "'-')\n"
-msgstr ""
+msgstr "软件包 %s-%s 的元数据无效（软件包名称不能以 '.' 或 '-' 开头）\n"
 
 #: lib/libalpm/package.c:878
 #, c-format
 msgid ""
 "invalid metadata for package %s-%s (package name contains invalid "
 "characters)\n"
-msgstr ""
+msgstr "软件包 %s-%s 的元数据无效（软件包名称包含无效字符）\n"
 
 #: lib/libalpm/package.c:885 lib/libalpm/package.c:889
 #, c-format
 msgid ""
 "invalid metadata for package %s-%s (package version contains invalid "
 "characters)\n"
-msgstr ""
+msgstr "软件包 %s-%s 的元数据无效（软件包版本包含无效字符）\n"
 
 #: lib/libalpm/package.c:895
 #, c-format
 msgid ""
 "invalid metadata for package %s-%s (package name and version too long)\n"
-msgstr ""
+msgstr "软件包 %s-%s 的元数据无效（软件包名称及版本过长）\n"
 
 #: lib/libalpm/remove.c:111
 #, c-format

@@ -10,15 +10,15 @@
 # d574d4bb40c84861791a694a999cce69_9aabecb <ec34fbc10d74f76d8160c2aae04a84b4_6702>, 2014
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # Giovanni Scafora <scafora.giovanni@gmail.com>, 2011-2013,2015,2022
-# Giovanni Scafora <scafora.giovanni@gmail.com>, 2023
+# Giovanni Scafora <scafora.giovanni@gmail.com>, 2023-2024
 # ~Smlb <smlb@riseup.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2024-02-19 11:08+1000\n"
+"POT-Creation-Date: 2024-03-04 11:45+1000\n"
 "PO-Revision-Date: 2010-11-29 23:17+0000\n"
-"Last-Translator: Giovanni Scafora <scafora.giovanni@gmail.com>, 2023\n"
+"Last-Translator: Giovanni Scafora <scafora.giovanni@gmail.com>, 2023-2024\n"
 "Language-Team: Italian (http://app.transifex.com/toofishes/archlinux-pacman/"
 "language/it/)\n"
 "Language: it\n"
@@ -172,9 +172,9 @@ msgid "corrupted database entry '%s'\n"
 msgstr "la voce nel database '%s' è corrotta\n"
 
 #: lib/libalpm/be_local.c:663
-#, fuzzy, c-format
+#, c-format
 msgid "unknown install reason for package %s: %s\n"
-msgstr "tipo di convalida sconosciuto per il pacchetto %s: %s\n"
+msgstr "motivo di installazione sconosciuto del pacchetto %s: %s\n"
 
 #: lib/libalpm/be_local.c:743 lib/libalpm/be_local.c:856
 #: lib/libalpm/be_local.c:996 lib/libalpm/be_local.c:1102
@@ -203,14 +203,14 @@ msgid "unknown validation type for package %s: %s\n"
 msgstr "tipo di convalida sconosciuto per il pacchetto %s: %s\n"
 
 #: lib/libalpm/be_local.c:841
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unknown key '%s' in sync database\n"
-msgstr "%s: chiave \"%s\" è disabilitata\n"
+msgstr "%s: chiave sconosciuta '%s' nel database\n"
 
 #: lib/libalpm/be_package.c:255
 #, c-format
 msgid "%s: unknown key '%s' in package description\n"
-msgstr ""
+msgstr "%s: chiave sconosciuta '%s' nella descrizione del pacchetto\n"
 
 #: lib/libalpm/be_package.c:482 lib/libalpm/be_package.c:635
 #: lib/libalpm/be_package.c:647
@@ -296,7 +296,7 @@ msgstr "database sconosciuto: %s\n"
 #: lib/libalpm/be_sync.c:695
 #, c-format
 msgid "%s: unknown key '%s' in local database\n"
-msgstr ""
+msgstr "%s: chiave sconosciuta '%s' nel database locale\n"
 
 #: lib/libalpm/db.c:413
 #, c-format
@@ -825,7 +825,7 @@ msgstr "impossibile caricare tutti i metadata del pacchetto %s-%s\n"
 #: lib/libalpm/package.c:869
 #, c-format
 msgid "invalid package metadata (name or version missing)"
-msgstr ""
+msgstr "metadati del pacchetto non validi (nome o versione mancanti)"
 
 #: lib/libalpm/package.c:874
 #, c-format
@@ -833,6 +833,8 @@ msgid ""
 "invalid metadata for package %s-%s (package name cannot start with '.' or "
 "'-')\n"
 msgstr ""
+"metadati non validi del pacchetto %s-%s (il nome del pacchetto non può "
+"iniziare con '.' or '-')\n"
 
 #: lib/libalpm/package.c:878
 #, c-format
@@ -840,6 +842,8 @@ msgid ""
 "invalid metadata for package %s-%s (package name contains invalid "
 "characters)\n"
 msgstr ""
+"metadati non validi del pacchetto %s-%s (il nome del pacchetto contiene "
+"caratteri non validi)\n"
 
 #: lib/libalpm/package.c:885 lib/libalpm/package.c:889
 #, c-format
@@ -847,12 +851,16 @@ msgid ""
 "invalid metadata for package %s-%s (package version contains invalid "
 "characters)\n"
 msgstr ""
+"metadati non validi del pacchetto %s-%s (la versione del pacchetto contiene "
+"caratteri non validi)\n"
 
 #: lib/libalpm/package.c:895
 #, c-format
 msgid ""
 "invalid metadata for package %s-%s (package name and version too long)\n"
 msgstr ""
+"metadati non validi del pacchetto %s-%s (nome e versione del pacchetto "
+"troppo lunghi)\n"
 
 #: lib/libalpm/remove.c:111
 #, c-format

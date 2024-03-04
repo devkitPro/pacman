@@ -8,7 +8,7 @@
 # 배태길 <esrevinu@gmail.com>, 2014,2016-2019,2021
 # Ji-Hyeon Gim <potatogim@potatogim.net>, 2014,2018
 # Alan Lee <bkrhlim@aol.com>, 2013
-# Seong-ho Cho <darkcircle.0426@gmail.com>, 2013
+# Seong-ho Cho <darkcircle.0426@gmail.com>, 2013,2024
 # Thomas Sungjin Kang <potopro@gmail.com>, 2012-2013
 # Thomas Sungjin Kang <potopro@gmail.com>, 2013
 # Thomas Sungjin Kang <potopro@gmail.com>, 2013-2014
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2024-02-19 11:08+1000\n"
+"POT-Creation-Date: 2024-03-04 11:45+1000\n"
 "PO-Revision-Date: 2010-11-29 23:17+0000\n"
-"Last-Translator: Thomas Sungjin Kang <potopro@gmail.com>, 2013\n"
+"Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>, 2013,2024\n"
 "Language-Team: Korean (http://app.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
 "Language: ko\n"
@@ -148,11 +148,14 @@ msgstr "%s를 %s/%s로 바꾸시겠습니까?"
 #, c-format
 msgid "%s-%s%s%s and %s-%s%s%s are in conflict. Remove %s?"
 msgstr ""
+"%s-%s%s%s와(과) %s-%s%s%s이(가) 동시에 존재합니다. %s을(를) 제거하시겠습니까?"
 
 #: src/pacman/callback.c:478
 #, c-format
 msgid "%s-%s%s%s and %s-%s%s%s are in conflict (%s). Remove %s?"
 msgstr ""
+"%s-%s%s%s와(과) %s-%s%s%s이(가) 동시에 존재합니다(%s). %s을(를) 제거하시겠습"
+"니까?"
 
 #: src/pacman/callback.c:503
 #, c-format
@@ -194,77 +197,77 @@ msgstr "PGP 키 %s를 들여오겠습니까?"
 msgid "Import PGP key %s, \"%s\"?"
 msgstr "PGP 키 %s, \"%s\"를 들여오겠습니까?"
 
-#: src/pacman/callback.c:606
+#: src/pacman/callback.c:607
 #, c-format
 msgid "installing"
 msgstr "설치 중"
 
-#: src/pacman/callback.c:609
+#: src/pacman/callback.c:610
 #, c-format
 msgid "upgrading"
 msgstr "업그레이드 중"
 
-#: src/pacman/callback.c:612
+#: src/pacman/callback.c:613
 #, c-format
 msgid "downgrading"
 msgstr "다운그레이드 중"
 
-#: src/pacman/callback.c:615
+#: src/pacman/callback.c:616
 #, c-format
 msgid "reinstalling"
 msgstr "재설치 중"
 
-#: src/pacman/callback.c:618
+#: src/pacman/callback.c:619
 #, c-format
 msgid "removing"
 msgstr "삭제 중"
 
-#: src/pacman/callback.c:621
+#: src/pacman/callback.c:622
 #, c-format
 msgid "checking for file conflicts"
 msgstr "파일 충돌 검사 중"
 
-#: src/pacman/callback.c:624
+#: src/pacman/callback.c:625
 #, c-format
 msgid "checking available disk space"
 msgstr "사용 가능한 디스크 공간 검사 중"
 
-#: src/pacman/callback.c:627
+#: src/pacman/callback.c:628
 #, c-format
 msgid "checking package integrity"
 msgstr "꾸러미 무결성 검사 중"
 
-#: src/pacman/callback.c:630
+#: src/pacman/callback.c:631
 #, c-format
 msgid "checking keys in keyring"
 msgstr "키링의 키를 검사 중"
 
-#: src/pacman/callback.c:633
+#: src/pacman/callback.c:634
 #, c-format
 msgid "loading package files"
 msgstr "꾸러미 파일 불러오는 중"
 
-#: src/pacman/callback.c:748
+#: src/pacman/callback.c:755
 #, c-format
 msgid "Total"
 msgstr "총합"
 
-#: src/pacman/callback.c:878
+#: src/pacman/callback.c:885
 #, c-format
 msgid " %s downloading...\n"
 msgstr " %s 다운로드 중...\n"
 
-#: src/pacman/callback.c:1047
+#: src/pacman/callback.c:1054
 #, c-format
 msgid " %s is up to date"
 msgstr " %s는 최신입니다"
 
-#: src/pacman/callback.c:1073
+#: src/pacman/callback.c:1080
 #, c-format
 msgid " %s failed to download"
 msgstr "%s를 다운받지 못했습니다"
 
-#: src/pacman/callback.c:1122
+#: src/pacman/callback.c:1129
 #, c-format
 msgid "unknown callback event type %d for %s\n"
 msgstr "알 수 없는 콜백 이벤트 유형 %d, 대상 %s\n"
@@ -368,50 +371,50 @@ msgid "%jd altered file\n"
 msgid_plural "%jd altered files\n"
 msgstr[0] "대체한 파일 %jd개\n"
 
-#: src/pacman/conf.c:102 src/pacman/conf.c:318
+#: src/pacman/conf.c:102 src/pacman/conf.c:317
 #, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
 msgstr[0] "malloc 실패: %zu 바이트를 할당할 수 없습니다\n"
 
-#: src/pacman/conf.c:341
+#: src/pacman/conf.c:340
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "현재 작업 디렉터리를 가져올 수 없습니다\n"
 
-#: src/pacman/conf.c:346
+#: src/pacman/conf.c:345
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "%s 다운로드 디렉터리로 이동할 수 없습니다\n"
 
-#: src/pacman/conf.c:361
+#: src/pacman/conf.c:360
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "실행 중인 XferCommand: fork에 실패했습니다!\n"
 
-#: src/pacman/conf.c:373
+#: src/pacman/conf.c:372
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "%s 이름을 %s로 바꿀 수 없습니다(%s)\n"
 
-#: src/pacman/conf.c:384
+#: src/pacman/conf.c:383
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "작업 디렉터리를 복구할 수 없습니다(%s)\n"
 
-#: src/pacman/conf.c:522 src/pacman/conf.c:571 src/pacman/conf.c:678
-#: src/pacman/conf.c:730
+#: src/pacman/conf.c:521 src/pacman/conf.c:570 src/pacman/conf.c:677
+#: src/pacman/conf.c:729
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr "구성파일 %s, %d번째 줄: '%s'에 대한 잘못된 값입니다: '%s'\n"
 
-#: src/pacman/conf.c:536
+#: src/pacman/conf.c:535
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
 "구성파일 %s, %d번째 줄: '%s' 옵션이 잘못되었으며, 서명을 지원하지 않습니다\n"
 
-#: src/pacman/conf.c:626 src/pacman/conf.c:752 src/pacman/conf.c:1040
+#: src/pacman/conf.c:625 src/pacman/conf.c:751 src/pacman/conf.c:1039
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
@@ -419,37 +422,37 @@ msgstr ""
 "구성파일 %1$s, %2$d번째 줄: '%4$s' 섹션의 '%3$s' 지시자를 인식하지 못했습니"
 "다.\n"
 
-#: src/pacman/conf.c:737
+#: src/pacman/conf.c:736
 #, c-format
 msgid "config file %s, line %d: value for '%s' has to be positive : '%s'\n"
 msgstr " 구성파일 %s, %d 번째 줄: '%s' 값은 양수이어야 합니다 : '%s'\n"
 
-#: src/pacman/conf.c:744
+#: src/pacman/conf.c:743
 #, c-format
 msgid "config file %s, line %d: value for '%s' is too large : '%s'\n"
 msgstr " 구성파일 %s, %d 번째 줄: '%s' 값이 너무 큽니다 : '%s'\n"
 
-#: src/pacman/conf.c:764
+#: src/pacman/conf.c:763
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr "'%s' 미러에 '%s' 변수를 포함하고 있지만 '%s'를 정의하지 않았습니다.\n"
 
-#: src/pacman/conf.c:809
+#: src/pacman/conf.c:808
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "'%s' 데이터베이스를 등록할 수 없습니다(%s)\n"
 
-#: src/pacman/conf.c:822
+#: src/pacman/conf.c:821
 #, c-format
 msgid "could not add cache server URL to database '%s': %s (%s)\n"
-msgstr ""
+msgstr "'%s' 데이터베이스에 캐시 서버 URL을 추가할 수 없음: %s (%s)\n"
 
-#: src/pacman/conf.c:831
+#: src/pacman/conf.c:830
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "'%s' 데이터베이스에 서버 URL을 추가할 수 없습니다: %s (%s)\n"
 
-#: src/pacman/conf.c:858
+#: src/pacman/conf.c:857
 #, c-format
 msgid ""
 "failed to initialize alpm library:\n"
@@ -460,57 +463,57 @@ msgstr ""
 "(루트:%s, 데이터베이스 경로: %s)\n"
 "%s\n"
 
-#: src/pacman/conf.c:861
+#: src/pacman/conf.c:860
 #, c-format
 msgid "try running pacman-db-upgrade\n"
 msgstr "pacman-db-upgrade를 실행해 보세요\n"
 
-#: src/pacman/conf.c:879
+#: src/pacman/conf.c:878
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "로그파일을 '%s'로 설정하는 데 문제가 있습니다(%s)\n"
 
-#: src/pacman/conf.c:888
+#: src/pacman/conf.c:887
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "GPG 디렉터리를 '%s'로 설정하는 데 문제가 있습니다(%s)\n"
 
-#: src/pacman/conf.c:898
+#: src/pacman/conf.c:897
 #, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
 msgstr "훅 디렉토리 '%s'를 추가하는 데 문제가 있습니다(%s)\n"
 
-#: src/pacman/conf.c:920
+#: src/pacman/conf.c:919
 #, c-format
 msgid "no '%s' configured\n"
 msgstr "'%s'를 구성하지 않았습니다\n"
 
-#: src/pacman/conf.c:946
+#: src/pacman/conf.c:945
 #, c-format
 msgid "Failed to pass %s entry to libalpm"
 msgstr "libalpm에 %s 항목을 넘기는 데 실패했습니다"
 
-#: src/pacman/conf.c:986
+#: src/pacman/conf.c:985
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr "구성파일 %s, %d번째 줄: '%s' 옵션의 '%s'를 인식할 수 없습니다.\n"
 
-#: src/pacman/conf.c:1006 src/pacman/conf.c:1156
+#: src/pacman/conf.c:1005 src/pacman/conf.c:1163
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr "구성파일 %s, %d번째 줄: '%s' 지시자에 값이 필요합니다\n"
 
-#: src/pacman/conf.c:1163
+#: src/pacman/conf.c:1170
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "설정 내용 해석에 %d 최대 재귀 단계를 초과했습니다.\n"
 
-#: src/pacman/conf.c:1211
+#: src/pacman/conf.c:1218
 #, c-format
 msgid "config file %s could not be read: %s\n"
 msgstr "%s 설정 파일을 읽을 수 없습니다: %s\n"
 
-#: src/pacman/conf.c:1234
+#: src/pacman/conf.c:1241
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr "구성파일 %s, %d번째 줄: 모든 지시자는 섹션에 속해있어야 합니다.\n"
@@ -606,7 +609,7 @@ msgstr "다음에 의존"
 msgid "Description"
 msgstr "설명"
 
-#: src/pacman/package.c:106 src/pacman/util.c:881
+#: src/pacman/package.c:106 src/pacman/util.c:891
 #, c-format
 msgid "Download Size"
 msgstr "다운로드 크기"
@@ -711,7 +714,7 @@ msgstr "유효검사자"
 msgid "Version"
 msgstr "버전"
 
-#: src/pacman/package.c:174 src/pacman/util.c:1336
+#: src/pacman/package.c:174 src/pacman/util.c:1346
 #, c-format
 msgid " [installed]"
 msgstr " [설치함]"
@@ -732,8 +735,8 @@ msgid "Unknown"
 msgstr "알 수 없음"
 
 #: src/pacman/package.c:236 src/pacman/package.c:321 src/pacman/package.c:339
-#: src/pacman/util.c:547 src/pacman/util.c:735 src/pacman/util.c:775
-#: src/pacman/util.c:803
+#: src/pacman/util.c:557 src/pacman/util.c:745 src/pacman/util.c:785
+#: src/pacman/util.c:813
 #, c-format
 msgid "None"
 msgstr "없음"
@@ -1240,57 +1243,57 @@ msgstr "HTTP_USER_AGENT 잘려짐\n"
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr "잘못된 옵션: '%s'와 '%s'는 함께 사용할 수 없습니다.\n"
 
-#: src/pacman/pacman.c:397
+#: src/pacman/pacman.c:414
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "%2$s에 대한 잘못된 인자 '%1$s'\n"
 
-#: src/pacman/pacman.c:421
+#: src/pacman/pacman.c:436 src/pacman/pacman.c:449
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' 유효하지 않은 디버그 레벨 입니다.\n"
 
-#: src/pacman/pacman.c:966
+#: src/pacman/pacman.c:994
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "한번에 하나의 처리만 가능합니다.\n"
 
-#: src/pacman/pacman.c:1024
+#: src/pacman/pacman.c:1053
 #, c-format
 msgid "invalid option '-%c'\n"
 msgstr "잘못된 옵션 '-%c'\n"
 
-#: src/pacman/pacman.c:1026
+#: src/pacman/pacman.c:1055
 #, c-format
 msgid "invalid option '--%s'\n"
 msgstr "잘못된 옵션 '--%s'\n"
 
-#: src/pacman/pacman.c:1136
+#: src/pacman/pacman.c:1166
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "루트 계정이 아니라면 이 동작을 수행할 수 없습니다.\n"
 
-#: src/pacman/pacman.c:1170
+#: src/pacman/pacman.c:1200
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr "표준 입력으로부터 인자를 읽지 못했습니다: (%s)\n"
 
-#: src/pacman/pacman.c:1175
+#: src/pacman/pacman.c:1205
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "읽어오기 위한 표준 입력을 다시 여는데 실패했습니다: (%s)\n"
 
-#: src/pacman/pacman.c:1180
+#: src/pacman/pacman.c:1210
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "빈 표준 입력으로 인수 '-' 지정\n"
 
-#: src/pacman/pacman.c:1185
+#: src/pacman/pacman.c:1215
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "표준입력에 대한 입력을 빠뜨리고 '-' 인자를 지정했습니다\n"
 
-#: src/pacman/pacman.c:1262
+#: src/pacman/pacman.c:1292
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "동작을 지정하지 않았습니다(도움말을 보려면 -h 사용)\n"
@@ -1391,9 +1394,9 @@ msgid "could not access database directory\n"
 msgstr "데이터베이스 디렉터리에 접근할 수 없습니다\n"
 
 #: src/pacman/sync.c:88
-#, fuzzy, c-format
+#, c-format
 msgid "could not remove %s%s: path exceeds PATH_MAX\n"
-msgstr "%s를 제거할 수 없습니다: %s\n"
+msgstr "%s%s을(를) 제거할 수 없음: 경로 길이가 PATH_MAX 값을 넘습니다\n"
 
 #: src/pacman/sync.c:142
 #, c-format
@@ -1458,7 +1461,7 @@ msgstr "%s 캐시 디렉터리에 접근할 수 없습니다\n"
 #: src/pacman/sync.c:249
 #, c-format
 msgid "skipping %s%s: path exceeds PATH_MAX\n"
-msgstr ""
+msgstr "%s%s 건너뜀: 경로 길이가 PATH_MAX 값을 넘습니다\n"
 
 #: src/pacman/sync.c:441
 #, c-format
@@ -1514,12 +1517,12 @@ msgstr "%s 꾸러미에 유효한 아키텍처가 없습니다\n"
 #: src/pacman/sync.c:791
 #, c-format
 msgid "%s-%s and %s-%s are in conflict\n"
-msgstr ""
+msgstr "%s-%s와(과) %s-%s이(가) 동시에 존재합니다\n"
 
 #: src/pacman/sync.c:798
 #, c-format
 msgid "%s-%s and %s-%s are in conflict (%s)\n"
-msgstr ""
+msgstr "%s-%s와(과) %s-%s이(가) 동시에 존재합니다 (%s)\n"
 
 #: src/pacman/sync.c:836
 #, c-format
@@ -1561,17 +1564,17 @@ msgstr "오류가 발생하여 업그레이드한 꾸러미가 없습니다.\n"
 msgid "loading packages...\n"
 msgstr "꾸러미 불러오는 중...\n"
 
-#: src/pacman/util.c:99
+#: src/pacman/util.c:100
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "초기화 트랜잭션에 실패했습니다. (%s)\n"
 
-#: src/pacman/util.c:103
+#: src/pacman/util.c:104
 #, c-format
 msgid "could not lock database: %s\n"
 msgstr "데이터베이스를 잠글 수 없습니다: %s\n"
 
-#: src/pacman/util.c:106
+#: src/pacman/util.c:107
 #, c-format
 msgid ""
 "  if you're sure a package manager is not already\n"
@@ -1580,222 +1583,222 @@ msgstr ""
 "  꾸러미 관리자가 이미 실행 중이지 않음을 확신한다면\n"
 "  %s를 제거할 수 있습니다\n"
 
-#: src/pacman/util.c:115
+#: src/pacman/util.c:116
 #, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "릴리즈 트랜잭션에 실패했습니다. (%s)\n"
 
-#: src/pacman/util.c:148
+#: src/pacman/util.c:149
 #, c-format
 msgid "no usable package repositories configured.\n"
 msgstr "가용한 꾸러미 저장소가 설정되지 않았습니다.\n"
 
-#: src/pacman/util.c:157
+#: src/pacman/util.c:158
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
 msgstr "'%s' 데이터베이스가 유효하지 않습니다. (%s)\n"
 
-#: src/pacman/util.c:174
+#: src/pacman/util.c:175
 #, c-format
 msgid "failed to synchronize all databases (%s)\n"
 msgstr "모든 데이터베이스를 동기화하지 못했습니다 (%s)\n"
 
-#: src/pacman/util.c:699
+#: src/pacman/util.c:709
 #, c-format
 msgid "insufficient columns available for table display\n"
 msgstr "테이블을 보이는데 사용할 수 있는 열이 부족합니다\n"
 
-#: src/pacman/util.c:820
+#: src/pacman/util.c:830
 #, c-format
 msgid "Valid"
 msgstr "유효함"
 
-#: src/pacman/util.c:823
+#: src/pacman/util.c:833
 #, c-format
 msgid "Key expired"
 msgstr "키 만료됨"
 
-#: src/pacman/util.c:826
+#: src/pacman/util.c:836
 #, c-format
 msgid "Expired"
 msgstr "만료됨"
 
-#: src/pacman/util.c:829
+#: src/pacman/util.c:839
 #, c-format
 msgid "Invalid"
 msgstr "잘못됨"
 
-#: src/pacman/util.c:832
+#: src/pacman/util.c:842
 #, c-format
 msgid "Key unknown"
 msgstr "키를 알 수 없음"
 
-#: src/pacman/util.c:835
+#: src/pacman/util.c:845
 #, c-format
 msgid "Key disabled"
 msgstr "키 비활성화 됨"
 
-#: src/pacman/util.c:838
+#: src/pacman/util.c:848
 #, c-format
 msgid "Signature error"
 msgstr "서명 오류"
 
-#: src/pacman/util.c:843
+#: src/pacman/util.c:853
 #, c-format
 msgid "full trust"
 msgstr "완전히 신뢰함"
 
-#: src/pacman/util.c:846
+#: src/pacman/util.c:856
 #, c-format
 msgid "marginal trust"
 msgstr "일부만 신뢰함"
 
-#: src/pacman/util.c:849
+#: src/pacman/util.c:859
 #, c-format
 msgid "never trust"
 msgstr "신뢰하지 않음"
 
-#: src/pacman/util.c:853
+#: src/pacman/util.c:863
 #, c-format
 msgid "unknown trust"
 msgstr "알 수 없는 신뢰"
 
-#: src/pacman/util.c:857
+#: src/pacman/util.c:867
 #, c-format
 msgid "%s, %s from \"%s\""
 msgstr "%1$s, \"%3$s\"로부터 %2$s"
 
-#: src/pacman/util.c:875
+#: src/pacman/util.c:885
 #, c-format
 msgid "Package"
 msgstr "꾸러미"
 
-#: src/pacman/util.c:878
+#: src/pacman/util.c:888
 #, c-format
 msgid "Old Version"
 msgstr "옛 버전"
 
-#: src/pacman/util.c:879
+#: src/pacman/util.c:889
 #, c-format
 msgid "New Version"
 msgstr "새 버전"
 
-#: src/pacman/util.c:880
+#: src/pacman/util.c:890
 #, c-format
 msgid "Net Change"
 msgstr "알짜 차이"
 
-#: src/pacman/util.c:978
+#: src/pacman/util.c:988
 #, c-format
 msgid "removal"
 msgstr "제거"
 
-#: src/pacman/util.c:984
+#: src/pacman/util.c:994
 #, c-format
 msgid "Packages"
 msgstr "꾸러미"
 
-#: src/pacman/util.c:1005
+#: src/pacman/util.c:1015
 #, c-format
 msgid "Total Download Size:"
 msgstr "총 다운로드 크기:"
 
-#: src/pacman/util.c:1009
+#: src/pacman/util.c:1019
 #, c-format
 msgid "Total Installed Size:"
 msgstr "총 설치 크기:"
 
-#: src/pacman/util.c:1012
+#: src/pacman/util.c:1022
 #, c-format
 msgid "Total Removed Size:"
 msgstr "총 제거 크기:"
 
-#: src/pacman/util.c:1016
+#: src/pacman/util.c:1026
 #, c-format
 msgid "Net Upgrade Size:"
 msgstr "알짜 업그레이드 크기:"
 
-#: src/pacman/util.c:1338
+#: src/pacman/util.c:1348
 #, c-format
 msgid " [pending]"
 msgstr " [대기 중]"
 
-#: src/pacman/util.c:1362
+#: src/pacman/util.c:1372
 #, c-format
 msgid "New optional dependencies for %s\n"
 msgstr "%s에 대한 새로운 선택 의존성\n"
 
-#: src/pacman/util.c:1384
+#: src/pacman/util.c:1394
 #, c-format
 msgid "Optional dependencies for %s\n"
 msgstr "%s에 대한 선택 의존성\n"
 
-#: src/pacman/util.c:1398
+#: src/pacman/util.c:1408
 #, c-format
 msgid "Repository %s%s\n"
 msgstr "%s%s 저장소\n"
 
-#: src/pacman/util.c:1439
+#: src/pacman/util.c:1449
 #, c-format
 msgid "invalid value: %d is not between %d and %d\n"
 msgstr "잘못된 값입니다: %d는 %d와 %d 사이에 없습니다\n"
 
-#: src/pacman/util.c:1446
+#: src/pacman/util.c:1456
 #, c-format
 msgid "invalid number: %s\n"
 msgstr "잘못된 숫자: %s\n"
 
-#: src/pacman/util.c:1563
+#: src/pacman/util.c:1573
 #, c-format
 msgid "Enter a selection (default=all)"
 msgstr "선택을 입력하십시오. (기본값=all)"
 
-#: src/pacman/util.c:1630
+#: src/pacman/util.c:1640
 #, c-format
 msgid "Enter a number (default=%d)"
 msgstr "숫자를 입력하십시오. (기본값=%d)"
 
-#: src/pacman/util.c:1714
+#: src/pacman/util.c:1724
 #, c-format
 msgid "[Y/n]"
 msgstr "[Y/n]"
 
-#: src/pacman/util.c:1716
+#: src/pacman/util.c:1726
 #, c-format
 msgid "[y/N]"
 msgstr "[y/N]"
 
-#: src/pacman/util.c:1741
+#: src/pacman/util.c:1751
 #, c-format
 msgid "Y"
 msgstr "Y"
 
-#: src/pacman/util.c:1741
+#: src/pacman/util.c:1751
 #, c-format
 msgid "YES"
 msgstr "YES"
 
-#: src/pacman/util.c:1743
+#: src/pacman/util.c:1753
 #, c-format
 msgid "N"
 msgstr "N"
 
-#: src/pacman/util.c:1743
+#: src/pacman/util.c:1753
 #, c-format
 msgid "NO"
 msgstr "NO"
 
-#: src/pacman/util.c:1810
+#: src/pacman/util.c:1820
 #, c-format
 msgid "failed to allocate string\n"
 msgstr "문자열 할당에 실패했습니다.\n"
 
-#: src/pacman/util.c:1847 src/pacman/util.c:1897 src/util/testpkg.c:35
+#: src/pacman/util.c:1857 src/pacman/util.c:1907 src/util/testpkg.c:35
 #, c-format
 msgid "error: "
 msgstr "오류: "
 
-#: src/pacman/util.c:1851 src/pacman/util.c:1901 src/util/testpkg.c:36
+#: src/pacman/util.c:1861 src/pacman/util.c:1911 src/util/testpkg.c:36
 #, c-format
 msgid "warning: "
 msgstr "경고: "
@@ -1831,9 +1834,9 @@ msgid "  -R, --rootdir=<path> set an alternate installation root\n"
 msgstr "  -R, --rootdir=<path> 대체 설치 최상위 경로를 지정합니다\n"
 
 #: src/pacman/pacman-conf.c:47
-#, fuzzy, c-format
+#, c-format
 msgid "  -S, --sysroot=<path> set an alternate system root\n"
-msgstr "  -R, --rootdir=<path> 대체 설치 최상위 경로를 지정합니다\n"
+msgstr "  -S, --sysroot=<path> 대안 시스템 루트를 지정합니다\n"
 
 #: src/pacman/pacman-conf.c:48
 #, c-format
@@ -1866,9 +1869,9 @@ msgid "error setting rootdir '%s': out of memory\n"
 msgstr "최상위 경로 '%s' 설정 중 오류: 메모리 부족\n"
 
 #: src/pacman/pacman-conf.c:91
-#, fuzzy, c-format
+#, c-format
 msgid "error setting sysroot '%s': out of memory\n"
-msgstr "최상위 경로 '%s' 설정 중 오류: 메모리 부족\n"
+msgstr "'%s' 시스템 루트 설정 오류: 메모리 부족\n"
 
 #: src/pacman/pacman-conf.c:121
 #, c-format
@@ -1943,7 +1946,3 @@ msgstr "꾸러미가 올바릅니다.\n"
 #, c-format
 msgid "error releasing alpm\n"
 msgstr "alpm을 놓아주는 중 오류\n"
-
-#, c-format
-#~ msgid "chroot to '%s' failed: (%s)\n"
-#~ msgstr "'%s'로의 루트 변경을 실패했습니다: (%s)\n"

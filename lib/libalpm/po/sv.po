@@ -7,19 +7,22 @@
 # 0x9fff00, 2019
 # 0x9fff00 ​, 2019
 # August Wikerfors, 2019
+# August Wikerfors, 2019,2023
 # August Wikerfors, 2023
 # Daniel Sandman <revoltism@gmail.com>, 2013,2015
 # Johan R. <jreinhed@protonmail.com>, 2019
 # Kim Svensson <ks@linux.com>, 2015
 # Luna Jernberg <droidbittin@gmail.com>, 2020-2021
+# Luna Jernberg <droidbittin@gmail.com>, 2024
+# riiga <riiga_92@hotmail.com>, 2024
 # riiga <riiga_92@hotmail.com>, 2024
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2024-02-19 11:08+1000\n"
+"POT-Creation-Date: 2024-03-04 11:45+1000\n"
 "PO-Revision-Date: 2010-11-29 23:17+0000\n"
-"Last-Translator: riiga <riiga_92@hotmail.com>, 2024\n"
+"Last-Translator: Luna Jernberg <droidbittin@gmail.com>, 2024\n"
 "Language-Team: Swedish (http://app.transifex.com/toofishes/archlinux-pacman/"
 "language/sv/)\n"
 "Language: sv\n"
@@ -168,9 +171,9 @@ msgid "corrupted database entry '%s'\n"
 msgstr "korrupt databasinlägg '%s'\n"
 
 #: lib/libalpm/be_local.c:663
-#, fuzzy, c-format
+#, c-format
 msgid "unknown install reason for package %s: %s\n"
-msgstr "Okänd valideringstyp för packet %s: %s⏎\n"
+msgstr "okänd installationsandledning för paket %s: %s\n"
 
 #: lib/libalpm/be_local.c:743 lib/libalpm/be_local.c:856
 #: lib/libalpm/be_local.c:996 lib/libalpm/be_local.c:1102
@@ -196,14 +199,14 @@ msgid "unknown validation type for package %s: %s\n"
 msgstr "Okänd valideringstyp för packet %s: %s⏎\n"
 
 #: lib/libalpm/be_local.c:841
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unknown key '%s' in sync database\n"
-msgstr "%s: nyckel \"%s\" är inaktiverad\n"
+msgstr "%s: okänd nyckel '%s' i sync databas\n"
 
 #: lib/libalpm/be_package.c:255
 #, c-format
 msgid "%s: unknown key '%s' in package description\n"
-msgstr ""
+msgstr "%s: okänd nyckel '%s' i paketbeskrivning\n"
 
 #: lib/libalpm/be_package.c:482 lib/libalpm/be_package.c:635
 #: lib/libalpm/be_package.c:647
@@ -286,7 +289,7 @@ msgstr "okänd databasfil: %s\n"
 #: lib/libalpm/be_sync.c:695
 #, c-format
 msgid "%s: unknown key '%s' in local database\n"
-msgstr ""
+msgstr "%s: okänd nyckel '%s' i lokal databas\n"
 
 #: lib/libalpm/db.c:413
 #, c-format
@@ -812,7 +815,7 @@ msgstr "kunde ej ladda metadata för paket %s-%s fullständigt\n"
 #: lib/libalpm/package.c:869
 #, c-format
 msgid "invalid package metadata (name or version missing)"
-msgstr ""
+msgstr "ogiltig paketmetadata (namn eller version saknas)"
 
 #: lib/libalpm/package.c:874
 #, c-format
@@ -820,6 +823,8 @@ msgid ""
 "invalid metadata for package %s-%s (package name cannot start with '.' or "
 "'-')\n"
 msgstr ""
+"ogiltig metadata för paket %s-%s (paketnamn kan inte börja med '.' eller "
+"'-')\n"
 
 #: lib/libalpm/package.c:878
 #, c-format
@@ -827,6 +832,7 @@ msgid ""
 "invalid metadata for package %s-%s (package name contains invalid "
 "characters)\n"
 msgstr ""
+"ogiltig metadata för paket %s-%s (paketnamn innehåller ogiltiga tecken)\n"
 
 #: lib/libalpm/package.c:885 lib/libalpm/package.c:889
 #, c-format
@@ -834,12 +840,13 @@ msgid ""
 "invalid metadata for package %s-%s (package version contains invalid "
 "characters)\n"
 msgstr ""
+"ogiltig metadata för paket %s-%s (paketversion innehåller ogiltiga tecken)\n"
 
 #: lib/libalpm/package.c:895
 #, c-format
 msgid ""
 "invalid metadata for package %s-%s (package name and version too long)\n"
-msgstr ""
+msgstr "ogiltig metadata för paket %s-%s (paketnamn och version för lång)\n"
 
 #: lib/libalpm/remove.c:111
 #, c-format

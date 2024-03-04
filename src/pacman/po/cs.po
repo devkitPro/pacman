@@ -8,6 +8,7 @@
 # David Kolibáč <david@kolibac.cz>, 2011
 # David Macek <david.macek.0@gmail.com>, 2018
 # Hain Murmeltier, 2022
+# Hain Murmeltier, 2022
 # IAmNotImportant, 2017
 # Jaroslav Lichtblau <l10n@lichtblau.cz>, 2014-2016
 # Jaroslav Lichtblau <jlichtblau@seznam.cz>, 2014,2022
@@ -26,7 +27,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2024-02-19 11:08+1000\n"
+"POT-Creation-Date: 2024-03-04 11:45+1000\n"
 "PO-Revision-Date: 2010-11-29 23:17+0000\n"
 "Last-Translator: Vojtěch Gondžala <vojtech.gondzala@gmail.com>, 2011,2013\n"
 "Language-Team: Czech (http://app.transifex.com/toofishes/archlinux-pacman/"
@@ -219,77 +220,77 @@ msgstr "Importovat PGP klíč %s?"
 msgid "Import PGP key %s, \"%s\"?"
 msgstr "Importovat PGP klíč %s, \"%s\"?"
 
-#: src/pacman/callback.c:606
+#: src/pacman/callback.c:607
 #, c-format
 msgid "installing"
 msgstr "instalace"
 
-#: src/pacman/callback.c:609
+#: src/pacman/callback.c:610
 #, c-format
 msgid "upgrading"
 msgstr "aktualizace"
 
-#: src/pacman/callback.c:612
+#: src/pacman/callback.c:613
 #, c-format
 msgid "downgrading"
 msgstr "navrácení k původní verzi"
 
-#: src/pacman/callback.c:615
+#: src/pacman/callback.c:616
 #, c-format
 msgid "reinstalling"
 msgstr "přeinstalovávám"
 
-#: src/pacman/callback.c:618
+#: src/pacman/callback.c:619
 #, c-format
 msgid "removing"
 msgstr "odstranění"
 
-#: src/pacman/callback.c:621
+#: src/pacman/callback.c:622
 #, c-format
 msgid "checking for file conflicts"
 msgstr "kontrola konfliktů souborů"
 
-#: src/pacman/callback.c:624
+#: src/pacman/callback.c:625
 #, c-format
 msgid "checking available disk space"
 msgstr "kontrola volného místa na disku"
 
-#: src/pacman/callback.c:627
+#: src/pacman/callback.c:628
 #, c-format
 msgid "checking package integrity"
 msgstr "kontrola integrity balíčků"
 
-#: src/pacman/callback.c:630
+#: src/pacman/callback.c:631
 #, c-format
 msgid "checking keys in keyring"
 msgstr "kontrola klíčů v klíčence"
 
-#: src/pacman/callback.c:633
+#: src/pacman/callback.c:634
 #, c-format
 msgid "loading package files"
 msgstr "načítání balíčku"
 
-#: src/pacman/callback.c:748
+#: src/pacman/callback.c:755
 #, c-format
 msgid "Total"
 msgstr "Celkem"
 
-#: src/pacman/callback.c:878
+#: src/pacman/callback.c:885
 #, c-format
 msgid " %s downloading...\n"
 msgstr " %s stahuji...\n"
 
-#: src/pacman/callback.c:1047
+#: src/pacman/callback.c:1054
 #, c-format
 msgid " %s is up to date"
 msgstr " %s je aktuální"
 
-#: src/pacman/callback.c:1073
+#: src/pacman/callback.c:1080
 #, c-format
 msgid " %s failed to download"
 msgstr " %s stažení selhalo"
 
-#: src/pacman/callback.c:1122
+#: src/pacman/callback.c:1129
 #, c-format
 msgid "unknown callback event type %d for %s\n"
 msgstr "neznámý typ události zpětného volání %d pro %s\n"
@@ -402,7 +403,7 @@ msgstr[1] "%jd pozměněné soubory\n"
 msgstr[2] "%jd pozměněné soubory\n"
 msgstr[3] "%jd pozměněné soubory\n"
 
-#: src/pacman/conf.c:102 src/pacman/conf.c:318
+#: src/pacman/conf.c:102 src/pacman/conf.c:317
 #, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
@@ -411,45 +412,45 @@ msgstr[1] "malloc selhal: nelze alokovat %zu byty\n"
 msgstr[2] "malloc selhal: nelze alokovat %zu bytů\n"
 msgstr[3] "malloc selhal: nelze alokovat %zu bytů\n"
 
-#: src/pacman/conf.c:341
+#: src/pacman/conf.c:340
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "nepodařilo získat aktuální pracovní adresář\n"
 
-#: src/pacman/conf.c:346
+#: src/pacman/conf.c:345
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "nelze se přesunout do adresáře pro stahování (%s)\n"
 
-#: src/pacman/conf.c:361
+#: src/pacman/conf.c:360
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "spuštění XferCommand selhalo!\n"
 
-#: src/pacman/conf.c:373
+#: src/pacman/conf.c:372
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "nelze přejmenovat %s na %s (%s)\n"
 
-#: src/pacman/conf.c:384
+#: src/pacman/conf.c:383
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "nelze obnovit pracovní adresář (%s)\n"
 
-#: src/pacman/conf.c:522 src/pacman/conf.c:571 src/pacman/conf.c:678
-#: src/pacman/conf.c:730
+#: src/pacman/conf.c:521 src/pacman/conf.c:570 src/pacman/conf.c:677
+#: src/pacman/conf.c:729
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr "konfigurační soubor %s, řádka %d: neplatná hodnota pro '%s' : '%s'\n"
 
-#: src/pacman/conf.c:536
+#: src/pacman/conf.c:535
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr ""
 "konfigurační soubor %s, řádka %d: volba '%s' není platná, chybí podpora pro "
 "podepisování\n"
 
-#: src/pacman/conf.c:626 src/pacman/conf.c:752 src/pacman/conf.c:1040
+#: src/pacman/conf.c:625 src/pacman/conf.c:751 src/pacman/conf.c:1039
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
@@ -457,39 +458,39 @@ msgstr ""
 "konfigurační soubor %s, řádek %d: direktiva '%s' v sekci '%s' nebyla "
 "rozpoznána.\n"
 
-#: src/pacman/conf.c:737
+#: src/pacman/conf.c:736
 #, c-format
 msgid "config file %s, line %d: value for '%s' has to be positive : '%s'\n"
 msgstr ""
 "konfigurační soubor %s, řádek %d: hodnota pro '%s' musí být kladná : '%s'\n"
 
-#: src/pacman/conf.c:744
+#: src/pacman/conf.c:743
 #, c-format
 msgid "config file %s, line %d: value for '%s' is too large : '%s'\n"
 msgstr ""
 "konfigurační soubor %s, řádek %d: hodnota pro '%s' je příliš velká : '%s'\n"
 
-#: src/pacman/conf.c:764
+#: src/pacman/conf.c:763
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr "zrcadlo '%s' obsahuje proměnnou '%s', ale '%s' není definována.\n"
 
-#: src/pacman/conf.c:809
+#: src/pacman/conf.c:808
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "nelze zaregistrovat databázi '%s' (%s)\n"
 
-#: src/pacman/conf.c:822
+#: src/pacman/conf.c:821
 #, c-format
 msgid "could not add cache server URL to database '%s': %s (%s)\n"
 msgstr ""
 
-#: src/pacman/conf.c:831
+#: src/pacman/conf.c:830
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "nelze přidat URL serveru k databázi '%s': %s (%s)\n"
 
-#: src/pacman/conf.c:858
+#: src/pacman/conf.c:857
 #, c-format
 msgid ""
 "failed to initialize alpm library:\n"
@@ -500,58 +501,58 @@ msgstr ""
 "(root: %s, dbpath: %s)\n"
 "%s\n"
 
-#: src/pacman/conf.c:861
+#: src/pacman/conf.c:860
 #, c-format
 msgid "try running pacman-db-upgrade\n"
 msgstr "zkuste spustit pacman-db-upgrade\n"
 
-#: src/pacman/conf.c:879
+#: src/pacman/conf.c:878
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "problém s nastavením log souboru '%s' (%s)\n"
 
-#: src/pacman/conf.c:888
+#: src/pacman/conf.c:887
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "chyba při nastavování gpgdir '%s' (%s)\n"
 
-#: src/pacman/conf.c:898
+#: src/pacman/conf.c:897
 #, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
 msgstr "chyba při nastavování hookdir '%s' (%s)\n"
 
-#: src/pacman/conf.c:920
+#: src/pacman/conf.c:919
 #, c-format
 msgid "no '%s' configured\n"
 msgstr "'%s' není nastaveno\n"
 
-#: src/pacman/conf.c:946
+#: src/pacman/conf.c:945
 #, c-format
 msgid "Failed to pass %s entry to libalpm"
 msgstr "Selhalo předání vstupu %s do libalpm"
 
-#: src/pacman/conf.c:986
+#: src/pacman/conf.c:985
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr "konfigurační soubor %s, řádek %d: '%s' volba '%s' nebyla rozpoznána\n"
 
-#: src/pacman/conf.c:1006 src/pacman/conf.c:1156
+#: src/pacman/conf.c:1005 src/pacman/conf.c:1163
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr ""
 "konfigurační soubor %s, řádek %d: direktiva '%s' vyžaduje zadanou hodnotu\n"
 
-#: src/pacman/conf.c:1163
+#: src/pacman/conf.c:1170
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "načítaní konfigurace přesáhlo maximální hloubku rekurze %d.\n"
 
-#: src/pacman/conf.c:1211
+#: src/pacman/conf.c:1218
 #, c-format
 msgid "config file %s could not be read: %s\n"
 msgstr "konfigurační soubor %s nelze přečíst: %s\n"
 
-#: src/pacman/conf.c:1234
+#: src/pacman/conf.c:1241
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
@@ -649,7 +650,7 @@ msgstr "Závisí na"
 msgid "Description"
 msgstr "Popis"
 
-#: src/pacman/package.c:106 src/pacman/util.c:881
+#: src/pacman/package.c:106 src/pacman/util.c:891
 #, c-format
 msgid "Download Size"
 msgstr "Velikost ke stažení"
@@ -754,7 +755,7 @@ msgstr "Způsob ověření"
 msgid "Version"
 msgstr "Verze"
 
-#: src/pacman/package.c:174 src/pacman/util.c:1336
+#: src/pacman/package.c:174 src/pacman/util.c:1346
 #, c-format
 msgid " [installed]"
 msgstr "[nainstalovaný]"
@@ -775,8 +776,8 @@ msgid "Unknown"
 msgstr "Neznámý"
 
 #: src/pacman/package.c:236 src/pacman/package.c:321 src/pacman/package.c:339
-#: src/pacman/util.c:547 src/pacman/util.c:735 src/pacman/util.c:775
-#: src/pacman/util.c:803
+#: src/pacman/util.c:557 src/pacman/util.c:745 src/pacman/util.c:785
+#: src/pacman/util.c:813
 #, c-format
 msgid "None"
 msgstr "Žádné"
@@ -1286,57 +1287,57 @@ msgstr "HTTP_USER_AGENT byl zkrácen\n"
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr "neplatný přepínač: '%s' a '%s' nelze použít společně\n"
 
-#: src/pacman/pacman.c:397
+#: src/pacman/pacman.c:414
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "neplatný argument '%s' pro %s\n"
 
-#: src/pacman/pacman.c:421
+#: src/pacman/pacman.c:436 src/pacman/pacman.c:449
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' není validní ladící úroveň\n"
 
-#: src/pacman/pacman.c:966
+#: src/pacman/pacman.c:994
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "současně lze spustit jen jednu operaci\n"
 
-#: src/pacman/pacman.c:1024
+#: src/pacman/pacman.c:1053
 #, c-format
 msgid "invalid option '-%c'\n"
 msgstr "neplatný přepínač '-%c'\n"
 
-#: src/pacman/pacman.c:1026
+#: src/pacman/pacman.c:1055
 #, c-format
 msgid "invalid option '--%s'\n"
 msgstr "neplatný přepínač '--%s'\n"
 
-#: src/pacman/pacman.c:1136
+#: src/pacman/pacman.c:1166
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "operaci nelze provést, pokud nejste root.\n"
 
-#: src/pacman/pacman.c:1170
+#: src/pacman/pacman.c:1200
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr "selhalo čtení argumentů ze stdin: (%s)\n"
 
-#: src/pacman/pacman.c:1175
+#: src/pacman/pacman.c:1205
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "nepodařilo se znovu otevřít standardní vstup pro čtení: (%s)\n"
 
-#: src/pacman/pacman.c:1180
+#: src/pacman/pacman.c:1210
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "argument '-' specifikován s prázdným vstupem stdin\n"
 
-#: src/pacman/pacman.c:1185
+#: src/pacman/pacman.c:1215
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "byl zadán argument '-', ale bez výstupu na stdin\n"
 
-#: src/pacman/pacman.c:1262
+#: src/pacman/pacman.c:1292
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "nebyla specifikována operace (použijte -h pro nápovědu)\n"
@@ -1437,9 +1438,9 @@ msgid "could not access database directory\n"
 msgstr "nelze přistoupit k adresáři s databází\n"
 
 #: src/pacman/sync.c:88
-#, fuzzy, c-format
+#, c-format
 msgid "could not remove %s%s: path exceeds PATH_MAX\n"
-msgstr "nelze odstranit %s: %s\n"
+msgstr ""
 
 #: src/pacman/sync.c:142
 #, c-format
@@ -1610,17 +1611,17 @@ msgstr "Vyskytly se chyby, žádné balíčky nebyly aktualizovány.\n"
 msgid "loading packages...\n"
 msgstr "načítají se balíčky...\n"
 
-#: src/pacman/util.c:99
+#: src/pacman/util.c:100
 #, c-format
 msgid "failed to init transaction (%s)\n"
 msgstr "selhala příprava transakce (%s)\n"
 
-#: src/pacman/util.c:103
+#: src/pacman/util.c:104
 #, c-format
 msgid "could not lock database: %s\n"
 msgstr "nelze uzamknout databázi: %s\n"
 
-#: src/pacman/util.c:106
+#: src/pacman/util.c:107
 #, c-format
 msgid ""
 "  if you're sure a package manager is not already\n"
@@ -1629,222 +1630,222 @@ msgstr ""
 "  pokud jste si jisti, že právě neběží správce balíčků,\n"
 "  můžete odstranit %s\n"
 
-#: src/pacman/util.c:115
+#: src/pacman/util.c:116
 #, c-format
 msgid "failed to release transaction (%s)\n"
 msgstr "selhalo dokončení transakce (%s)\n"
 
-#: src/pacman/util.c:148
+#: src/pacman/util.c:149
 #, c-format
 msgid "no usable package repositories configured.\n"
 msgstr "nejsou nastaveny žádné použitelné repozitáře.\n"
 
-#: src/pacman/util.c:157
+#: src/pacman/util.c:158
 #, c-format
 msgid "database '%s' is not valid (%s)\n"
 msgstr "databáze '%s' je neplatná (%s)\n"
 
-#: src/pacman/util.c:174
+#: src/pacman/util.c:175
 #, c-format
 msgid "failed to synchronize all databases (%s)\n"
 msgstr "nepodařilo se synchronizovat všechny databáze (%s)\n"
 
-#: src/pacman/util.c:699
+#: src/pacman/util.c:709
 #, c-format
 msgid "insufficient columns available for table display\n"
 msgstr "nedostatečný počet sloupců pro zobrazení tabulky\n"
 
-#: src/pacman/util.c:820
+#: src/pacman/util.c:830
 #, c-format
 msgid "Valid"
 msgstr "Platný"
 
-#: src/pacman/util.c:823
+#: src/pacman/util.c:833
 #, c-format
 msgid "Key expired"
 msgstr "Platnost klíče vypršela"
 
-#: src/pacman/util.c:826
+#: src/pacman/util.c:836
 #, c-format
 msgid "Expired"
 msgstr "Prošlý"
 
-#: src/pacman/util.c:829
+#: src/pacman/util.c:839
 #, c-format
 msgid "Invalid"
 msgstr "Neplatný"
 
-#: src/pacman/util.c:832
+#: src/pacman/util.c:842
 #, c-format
 msgid "Key unknown"
 msgstr "Neznámý klíč"
 
-#: src/pacman/util.c:835
+#: src/pacman/util.c:845
 #, c-format
 msgid "Key disabled"
 msgstr "Klíč zakázán"
 
-#: src/pacman/util.c:838
+#: src/pacman/util.c:848
 #, c-format
 msgid "Signature error"
 msgstr "Chyba v podpisu"
 
-#: src/pacman/util.c:843
+#: src/pacman/util.c:853
 #, c-format
 msgid "full trust"
 msgstr "plná důvěra"
 
-#: src/pacman/util.c:846
+#: src/pacman/util.c:856
 #, c-format
 msgid "marginal trust"
 msgstr "částečná důvěra"
 
-#: src/pacman/util.c:849
+#: src/pacman/util.c:859
 #, c-format
 msgid "never trust"
 msgstr "žádná důvěra"
 
-#: src/pacman/util.c:853
+#: src/pacman/util.c:863
 #, c-format
 msgid "unknown trust"
 msgstr "úroveň důvěry: neznámý"
 
-#: src/pacman/util.c:857
+#: src/pacman/util.c:867
 #, c-format
 msgid "%s, %s from \"%s\""
 msgstr "%s, %s od \"%s\""
 
-#: src/pacman/util.c:875
+#: src/pacman/util.c:885
 #, c-format
 msgid "Package"
 msgstr "Balíček"
 
-#: src/pacman/util.c:878
+#: src/pacman/util.c:888
 #, c-format
 msgid "Old Version"
 msgstr "Předchozí verze"
 
-#: src/pacman/util.c:879
+#: src/pacman/util.c:889
 #, c-format
 msgid "New Version"
 msgstr "Nová verze"
 
-#: src/pacman/util.c:880
+#: src/pacman/util.c:890
 #, c-format
 msgid "Net Change"
 msgstr "Změna (zhruba)"
 
-#: src/pacman/util.c:978
+#: src/pacman/util.c:988
 #, c-format
 msgid "removal"
 msgstr "odstranění"
 
-#: src/pacman/util.c:984
+#: src/pacman/util.c:994
 #, c-format
 msgid "Packages"
 msgstr "Balíčky "
 
-#: src/pacman/util.c:1005
+#: src/pacman/util.c:1015
 #, c-format
 msgid "Total Download Size:"
 msgstr "Celková velikost ke stažení: "
 
-#: src/pacman/util.c:1009
+#: src/pacman/util.c:1019
 #, c-format
 msgid "Total Installed Size:"
 msgstr "Celková velikost po instalaci: "
 
-#: src/pacman/util.c:1012
+#: src/pacman/util.c:1022
 #, c-format
 msgid "Total Removed Size:"
 msgstr "Celkem odstraněno: "
 
-#: src/pacman/util.c:1016
+#: src/pacman/util.c:1026
 #, c-format
 msgid "Net Upgrade Size:"
 msgstr "Odhadovaná velikost aktualizace: "
 
-#: src/pacman/util.c:1338
+#: src/pacman/util.c:1348
 #, c-format
 msgid " [pending]"
 msgstr "[probíhá]"
 
-#: src/pacman/util.c:1362
+#: src/pacman/util.c:1372
 #, c-format
 msgid "New optional dependencies for %s\n"
 msgstr "Nové volitelné závislosti pro %s\n"
 
-#: src/pacman/util.c:1384
+#: src/pacman/util.c:1394
 #, c-format
 msgid "Optional dependencies for %s\n"
 msgstr "Volitelné závislosti pro %s\n"
 
-#: src/pacman/util.c:1398
+#: src/pacman/util.c:1408
 #, c-format
 msgid "Repository %s%s\n"
 msgstr "Repozitář %s%s\n"
 
-#: src/pacman/util.c:1439
+#: src/pacman/util.c:1449
 #, c-format
 msgid "invalid value: %d is not between %d and %d\n"
 msgstr "neplatná hodnota: %d není mezi %d a %d\n"
 
-#: src/pacman/util.c:1446
+#: src/pacman/util.c:1456
 #, c-format
 msgid "invalid number: %s\n"
 msgstr "neplatné číslo: %s\n"
 
-#: src/pacman/util.c:1563
+#: src/pacman/util.c:1573
 #, c-format
 msgid "Enter a selection (default=all)"
 msgstr "Zadejte výběr (výchozí = všechny)"
 
-#: src/pacman/util.c:1630
+#: src/pacman/util.c:1640
 #, c-format
 msgid "Enter a number (default=%d)"
 msgstr "Zadejte číslo (výchozí = %d)"
 
-#: src/pacman/util.c:1714
+#: src/pacman/util.c:1724
 #, c-format
 msgid "[Y/n]"
 msgstr "[A/n]"
 
-#: src/pacman/util.c:1716
+#: src/pacman/util.c:1726
 #, c-format
 msgid "[y/N]"
 msgstr "[a/N]"
 
-#: src/pacman/util.c:1741
+#: src/pacman/util.c:1751
 #, c-format
 msgid "Y"
 msgstr "A"
 
-#: src/pacman/util.c:1741
+#: src/pacman/util.c:1751
 #, c-format
 msgid "YES"
 msgstr "ANO"
 
-#: src/pacman/util.c:1743
+#: src/pacman/util.c:1753
 #, c-format
 msgid "N"
 msgstr "N"
 
-#: src/pacman/util.c:1743
+#: src/pacman/util.c:1753
 #, c-format
 msgid "NO"
 msgstr "NE"
 
-#: src/pacman/util.c:1810
+#: src/pacman/util.c:1820
 #, c-format
 msgid "failed to allocate string\n"
 msgstr "Nepodařilo se alokovat řetězec\n"
 
-#: src/pacman/util.c:1847 src/pacman/util.c:1897 src/util/testpkg.c:35
+#: src/pacman/util.c:1857 src/pacman/util.c:1907 src/util/testpkg.c:35
 #, c-format
 msgid "error: "
 msgstr "chyba: "
 
-#: src/pacman/util.c:1851 src/pacman/util.c:1901 src/util/testpkg.c:36
+#: src/pacman/util.c:1861 src/pacman/util.c:1911 src/util/testpkg.c:36
 #, c-format
 msgid "warning: "
 msgstr "varování: "
@@ -1883,10 +1884,9 @@ msgstr ""
 "  -R, --rootdir=<path> nastavit alternativní kořenový adresář instalace\n"
 
 #: src/pacman/pacman-conf.c:47
-#, fuzzy, c-format
+#, c-format
 msgid "  -S, --sysroot=<path> set an alternate system root\n"
 msgstr ""
-"  -R, --rootdir=<path> nastavit alternativní kořenový adresář instalace\n"
 
 #: src/pacman/pacman-conf.c:48
 #, c-format
@@ -1919,9 +1919,9 @@ msgid "error setting rootdir '%s': out of memory\n"
 msgstr "chyba při nastavení kořenového adresáře '%s': nedostatek paměti\n"
 
 #: src/pacman/pacman-conf.c:91
-#, fuzzy, c-format
+#, c-format
 msgid "error setting sysroot '%s': out of memory\n"
-msgstr "chyba při nastavení kořenového adresáře '%s': nedostatek paměti\n"
+msgstr ""
 
 #: src/pacman/pacman-conf.c:121
 #, c-format
@@ -1994,7 +1994,3 @@ msgstr "Balíček je platný.\n"
 #, c-format
 msgid "error releasing alpm\n"
 msgstr "uvolnění knihovny alpm se nezdařila\n"
-
-#, c-format
-#~ msgid "chroot to '%s' failed: (%s)\n"
-#~ msgstr "chroot do '%s' selhal: (%s)\n"

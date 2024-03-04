@@ -12,20 +12,21 @@
 # Leonel <leonelmalon@gmail.com>, 2013
 # neiko <neikokz+tsfx@gmail.com>, 2011
 # Pablo Lezaeta Reyes <prflr88@gmail.com>, 2017
+# Pablo Lezaeta Reyes <prflr88@gmail.com>, 2017
 # Pablo Lezaeta Reyes <prflr88@gmail.com>, 2013-2016
 # Pablo Lezaeta Reyes <prflr88@gmail.com>, 2017
 # Pedro Román <roizheim@gmail.com>, 2013-2014,2016-2019
 # picodotdev <pico.dev@gmail.com>, 2016,2019,2021-2023
 # Pablo Lezaeta Reyes <prflr88@gmail.com>, 2017
-# Swyter <Swyterzone@gmail.com>, 2015,2017-2018,2021
+# Swyter <Swyterzone@gmail.com>, 2015,2017-2018,2021,2024
 # Swyter <Swyterzone@gmail.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2024-02-19 11:08+1000\n"
+"POT-Creation-Date: 2024-03-04 11:45+1000\n"
 "PO-Revision-Date: 2010-11-29 23:17+0000\n"
-"Last-Translator: picodotdev <pico.dev@gmail.com>, 2016,2019,2021-2023\n"
+"Last-Translator: Swyter <Swyterzone@gmail.com>, 2015,2017-2018,2021,2024\n"
 "Language-Team: Spanish (http://app.transifex.com/toofishes/archlinux-pacman/"
 "language/es/)\n"
 "Language: es\n"
@@ -180,9 +181,9 @@ msgid "corrupted database entry '%s'\n"
 msgstr "la entrada «%s» de la base de datos está dañada\n"
 
 #: lib/libalpm/be_local.c:663
-#, fuzzy, c-format
+#, c-format
 msgid "unknown install reason for package %s: %s\n"
-msgstr "tipo de validación desconocida para el paquete %s: %s\n"
+msgstr "se desconoce el motivo de la instalación del paquete %s: %s\n"
 
 #: lib/libalpm/be_local.c:743 lib/libalpm/be_local.c:856
 #: lib/libalpm/be_local.c:996 lib/libalpm/be_local.c:1102
@@ -212,14 +213,15 @@ msgid "unknown validation type for package %s: %s\n"
 msgstr "tipo de validación desconocida para el paquete %s: %s\n"
 
 #: lib/libalpm/be_local.c:841
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unknown key '%s' in sync database\n"
-msgstr "%s: la clave «%s» está desactivada\n"
+msgstr ""
+"%s: no se encuentra la clave «%s» en la base de datos de sincronización\n"
 
 #: lib/libalpm/be_package.c:255
 #, c-format
 msgid "%s: unknown key '%s' in package description\n"
-msgstr ""
+msgstr "%s: no se encuentra la clave «%s» en la descripción del paquete\n"
 
 #: lib/libalpm/be_package.c:482 lib/libalpm/be_package.c:635
 #: lib/libalpm/be_package.c:647
@@ -306,7 +308,7 @@ msgstr "archivo de base de datos desconocido: %s\n"
 #: lib/libalpm/be_sync.c:695
 #, c-format
 msgid "%s: unknown key '%s' in local database\n"
-msgstr ""
+msgstr "%s: no se encuentra la clave «%s» en la base de datos local\n"
 
 #: lib/libalpm/db.c:413
 #, c-format
@@ -840,6 +842,7 @@ msgstr ""
 #, c-format
 msgid "invalid package metadata (name or version missing)"
 msgstr ""
+"los metadatos del paquete están incompletos (faltan o el nombre o la versión)"
 
 #: lib/libalpm/package.c:874
 #, c-format
@@ -847,6 +850,8 @@ msgid ""
 "invalid metadata for package %s-%s (package name cannot start with '.' or "
 "'-')\n"
 msgstr ""
+"los metadatos del paquete %s-%s no parecen ser correctos (las primeras "
+"letras de los nombres de paquetes nunca pueden ser «.» o «-»)\n"
 
 #: lib/libalpm/package.c:878
 #, c-format
@@ -854,6 +859,8 @@ msgid ""
 "invalid metadata for package %s-%s (package name contains invalid "
 "characters)\n"
 msgstr ""
+"los metadatos del paquete %s-%s no parecen ser correctos (el campo de nombre "
+"contiene caracteres fuera del rango permitido)\n"
 
 #: lib/libalpm/package.c:885 lib/libalpm/package.c:889
 #, c-format
@@ -861,12 +868,16 @@ msgid ""
 "invalid metadata for package %s-%s (package version contains invalid "
 "characters)\n"
 msgstr ""
+"los metadatos del paquete %s-%s no parecen ser correctos (el campo de "
+"versión contiene caracteres fuera del rango permitido)\n"
 
 #: lib/libalpm/package.c:895
 #, c-format
 msgid ""
 "invalid metadata for package %s-%s (package name and version too long)\n"
 msgstr ""
+"los metadatos del paquete %s-%s no parecen ser correctos (los campos de "
+"nombre y versión son demasiado largos)\n"
 
 #: lib/libalpm/remove.c:111
 #, c-format

@@ -44,7 +44,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2024-02-19 11:08+1000\n"
+"POT-Creation-Date: 2024-03-04 11:45+1000\n"
 "PO-Revision-Date: 2011-08-08 22:35+0000\n"
 "Last-Translator: Wieland Hoffmann <themineo+transifex@googlemail.com>, "
 "2013,2016\n"
@@ -504,6 +504,7 @@ msgstr "Erstelle Paket: %s"
 #: scripts/makepkg.sh.in:1275
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr ""
+"Es wurde bereits ein Quell-Paket gebaut. (Benutzen Sie %s zum Überschreiben)"
 
 #: scripts/makepkg.sh.in:1295
 msgid "Signing package..."
@@ -793,183 +794,182 @@ msgstr "_"
 msgid "flags"
 msgstr "Flags"
 
-#: scripts/pacman-key.sh.in:265
+#: scripts/pacman-key.sh.in:264
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr ""
 "Sie haben nicht genügend Berechtigungen, um den Schlüsselbund %s zu lesen."
 
-#: scripts/pacman-key.sh.in:266 scripts/pacman-key.sh.in:273
+#: scripts/pacman-key.sh.in:265 scripts/pacman-key.sh.in:272
 msgid "Use '%s' to correct the keyring permissions."
 msgstr ""
 "Benutzen Sie '%s', um die Berechtigungen des Schlüsselbundes zu korrigieren."
 
-#: scripts/pacman-key.sh.in:272
+#: scripts/pacman-key.sh.in:271
 msgid "You do not have sufficient permissions to run this command."
 msgstr "Sie haben nicht genügend Berechtigungen, um diesen Befehl auszuführen."
 
-#: scripts/pacman-key.sh.in:280
+#: scripts/pacman-key.sh.in:279
 msgid "There is no secret key available to sign with."
 msgstr ""
 "Es ist kein geheimer Schlüssel vorhanden, mit dem signiert werden kann."
 
-#: scripts/pacman-key.sh.in:281
+#: scripts/pacman-key.sh.in:280
 msgid "Use '%s' to generate a default secret key."
 msgstr "Verwenden Sie '%s', um einen Standard-Geheimschlüssel zu erstellen."
 
-#: scripts/pacman-key.sh.in:299
+#: scripts/pacman-key.sh.in:298
 msgid "No keyring files exist in %s."
 msgstr "In %s existieren keine Schlüsselbund-Dateien."
 
-#: scripts/pacman-key.sh.in:306
+#: scripts/pacman-key.sh.in:305
 msgid "The keyring file %s does not exist."
 msgstr "Die Schlüsselbund-Datei %s existiert nicht."
 
-#: scripts/pacman-key.sh.in:321
+#: scripts/pacman-key.sh.in:320
 msgid "Appending keys from %s.gpg..."
 msgstr "Füge Schlüssel aus %s.gpg hinzu..."
 
-#: scripts/pacman-key.sh.in:361
+#: scripts/pacman-key.sh.in:360
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Signiere die vertrauenswürdigen Schlüssel im Schlüsselbund lokal..."
 
-#: scripts/pacman-key.sh.in:363
+#: scripts/pacman-key.sh.in:362
 msgid "Importing owner trust values..."
 msgstr "Importiere die Vertrauenswerte des Benutzers..."
 
-#: scripts/pacman-key.sh.in:373
+#: scripts/pacman-key.sh.in:372
 msgid "Disabling revoked keys in keyring..."
 msgstr "Mache widerrufene Schlüssel im Schlüsselbund unbrauchbar..."
 
-#: scripts/pacman-key.sh.in:376
+#: scripts/pacman-key.sh.in:375
 msgid "Disabling key %s..."
 msgstr "Mache Schlüssel %s unbrauchbar..."
 
-#: scripts/pacman-key.sh.in:382
+#: scripts/pacman-key.sh.in:381
 msgid "Disabled %s key."
 msgid_plural "Disabled %s keys."
 msgstr[0] ""
 msgstr[1] ""
 
-#: scripts/pacman-key.sh.in:389
+#: scripts/pacman-key.sh.in:388
 msgid "A specified keyfile could not be added to the keyring."
 msgstr ""
 "Eine angegebene Schlüsseldatei konnte nicht zum Schlüsselbund hinzugefügt "
 "werden."
 
-#: scripts/pacman-key.sh.in:397
+#: scripts/pacman-key.sh.in:396
 msgid "A specified key could not be removed from the keyring."
 msgstr ""
 "Eine angegebene Schlüsseldatei konnte nicht vom Schlüsselbund entfernt "
 "werden."
 
-#: scripts/pacman-key.sh.in:407
+#: scripts/pacman-key.sh.in:406
 msgid "The key identified by %s could not be edited."
 msgstr "Der von %s identifizierte Schlüssel konnte nicht bearbeitet werden."
 
-#: scripts/pacman-key.sh.in:419
+#: scripts/pacman-key.sh.in:418
 msgid "A specified key could not be exported from the keyring."
 msgstr ""
 "Eine angegebene Schlüsseldatei konnte nicht vom Schlüsselbund exportiert "
 "werden."
 
-#: scripts/pacman-key.sh.in:427
+#: scripts/pacman-key.sh.in:426
 msgid "The fingerprint of a specified key could not be determined."
 msgstr ""
 "Der Fingerabdruck eines bestimmten Schlüssels konnte nicht ermittelt werden."
 
-#: scripts/pacman-key.sh.in:440 scripts/pacman-key.sh.in:459
+#: scripts/pacman-key.sh.in:439 scripts/pacman-key.sh.in:458
 msgid "%s could not be imported."
 msgstr "%s konnte nicht importiert werden."
 
-#: scripts/pacman-key.sh.in:444 scripts/pacman-key.sh.in:463
+#: scripts/pacman-key.sh.in:443 scripts/pacman-key.sh.in:462
 msgid "File %s does not exist and could not be imported."
 msgstr "Die Datei %s existiert nicht und konnte nicht importiert werden."
 
-#: scripts/pacman-key.sh.in:475
+#: scripts/pacman-key.sh.in:474
 msgid "A specified key could not be listed."
 msgstr "Ein spezifizierter Schlüssel konnte nicht aufgeführt werden."
 
-#: scripts/pacman-key.sh.in:483
+#: scripts/pacman-key.sh.in:482
 msgid "A specified signature could not be listed."
 msgstr "Eine spezifzierte Signatur konnte nicht aufgeführt werden."
 
-#: scripts/pacman-key.sh.in:495
+#: scripts/pacman-key.sh.in:494
 msgid "Locally signing key %s..."
 msgstr "Signiere Schlüssel %s lokal..."
 
-#: scripts/pacman-key.sh.in:500
+#: scripts/pacman-key.sh.in:499
 msgid "%s could not be locally signed."
 msgstr "%s konnte nicht lokal signiert werden."
 
-#: scripts/pacman-key.sh.in:510
+#: scripts/pacman-key.sh.in:509
 msgid "Locally signed %s key."
 msgid_plural "Locally signed %s keys."
 msgstr[0] ""
 msgstr[1] ""
 
-#: scripts/pacman-key.sh.in:533
+#: scripts/pacman-key.sh.in:532
 msgid "Remote key not fetched correctly from WKD or keyserver."
 msgstr ""
 "Öffentlicher Schlüssel konnte nicht geholt werden vom Schlüsselserver "
 "(hkp:// oder hkps:// oder https://)"
 
-#: scripts/pacman-key.sh.in:538
+#: scripts/pacman-key.sh.in:537
 msgid "Remote key not fetched correctly from keyserver."
 msgstr ""
 "Entfernter Schlüssel konnte nicht korrekt vom Schlüssel-Server abgerufen "
 "werden."
 
-#: scripts/pacman-key.sh.in:570
+#: scripts/pacman-key.sh.in:569
 msgid "Could not update key: %s"
 msgstr "Kann Schlüssel nicht aktualisieren: %s"
 
-#: scripts/pacman-key.sh.in:591 scripts/repo-add.sh.in:268
+#: scripts/pacman-key.sh.in:590 scripts/repo-add.sh.in:268
 msgid "Cannot use armored signatures for packages: %s"
 msgstr "Konnte geschützte Signaturen nicht für Pakete verwenden: %s"
 
-#: scripts/pacman-key.sh.in:599
+#: scripts/pacman-key.sh.in:598
 msgid "The signature verification for %s failed."
 msgstr ""
 
-#: scripts/pacman-key.sh.in:605
-#, fuzzy
+#: scripts/pacman-key.sh.in:604
 msgid "The signature %s is not trusted."
-msgstr "Dem öffentlichen Schlüssel %s wird nicht vertraut"
+msgstr ""
 
-#: scripts/pacman-key.sh.in:613
+#: scripts/pacman-key.sh.in:612
 msgid "Updating trust database..."
 msgstr "Aktualisiere Trust-Datenbank..."
 
-#: scripts/pacman-key.sh.in:615
+#: scripts/pacman-key.sh.in:614
 msgid "Trust database could not be updated."
 msgstr "Vertrauensdatenbank konnte nicht aktualisiert werden."
 
-#: scripts/pacman-key.sh.in:694
+#: scripts/pacman-key.sh.in:693
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr ""
 "Kann das Programm %s nicht finden, das für alle %s Operationen benötigt wird."
 
-#: scripts/pacman-key.sh.in:699
+#: scripts/pacman-key.sh.in:698
 msgid "%s needs to be run as root for this operation."
 msgstr "%s muss für diese Operation als root ausgeführt werden."
 
-#: scripts/pacman-key.sh.in:705
+#: scripts/pacman-key.sh.in:704
 msgid "%s configuration file '%s' not found."
 msgstr "%s Konfigurationsdatei '%s' nicht gefunden."
 
-#: scripts/pacman-key.sh.in:728
+#: scripts/pacman-key.sh.in:727
 msgid "no operation specified (use -h for help)"
 msgstr "keine Operation angegeben (benutzen Sie -h für die Hilfe)"
 
-#: scripts/pacman-key.sh.in:733
+#: scripts/pacman-key.sh.in:732
 msgid "Multiple operations specified."
 msgstr "Mehrfache Operationen spezifiziert."
 
-#: scripts/pacman-key.sh.in:734
+#: scripts/pacman-key.sh.in:733
 msgid "Please run %s with each operation separately."
 msgstr "Bitte rufen Sie %s für jede Operation getrennt auf."
 
-#: scripts/pacman-key.sh.in:742
+#: scripts/pacman-key.sh.in:741
 msgid "No targets specified"
 msgstr "Keine Ziele spezifiziert"
 
@@ -1672,10 +1672,3 @@ msgstr "Sie haben keine Schreib-Berechtigung für das Verzeichnis  $%s (%s)."
 #: scripts/libmakepkg/util/util.sh.in:109
 msgid "Failed to source %s"
 msgstr "Konnte die Quelle von %s nicht bestimmen"
-
-#, fuzzy
-#~ msgid "is unable to verify the signature."
-#~ msgstr "Beim Überprüfen der Signaturen sind Warnungen aufgetreten."
-
-#~ msgid "The signature identified by %s could not be verified."
-#~ msgstr "Die von %s identifizierte Signatur konnte nicht verifziert werden."

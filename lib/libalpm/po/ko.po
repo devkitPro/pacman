@@ -5,6 +5,7 @@
 # Translators:
 # 배태길 <esrevinu@gmail.com>, 2017-2019,2021
 # Ji-Hyeon Gim <potatogim@potatogim.net>, 2014,2018
+# Seong-ho Cho <darkcircle.0426@gmail.com>, 2024
 # Thomas Sungjin Kang <potopro@gmail.com>, 2012-2013
 # Thomas Sungjin Kang <potopro@gmail.com>, 2013
 # Thomas Sungjin Kang <potopro@gmail.com>, 2013
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2024-02-19 11:08+1000\n"
+"POT-Creation-Date: 2024-03-04 11:45+1000\n"
 "PO-Revision-Date: 2010-11-29 23:17+0000\n"
-"Last-Translator: Thomas Sungjin Kang <potopro@gmail.com>, 2013\n"
+"Last-Translator: Seong-ho Cho <darkcircle.0426@gmail.com>, 2024\n"
 "Language-Team: Korean (http://app.transifex.com/toofishes/archlinux-pacman/"
 "language/ko/)\n"
 "Language: ko\n"
@@ -169,9 +170,9 @@ msgid "corrupted database entry '%s'\n"
 msgstr "데이터베이스 항목인 '%s'가 손상되었습니다.\n"
 
 #: lib/libalpm/be_local.c:663
-#, fuzzy, c-format
+#, c-format
 msgid "unknown install reason for package %s: %s\n"
-msgstr "꾸러미 %s에 대한 검증 형식이 알 수 없는 형식입니다.: %s\n"
+msgstr "%s 꾸러미에 알 수 없는 설치 이유: %s\n"
 
 #: lib/libalpm/be_local.c:743 lib/libalpm/be_local.c:856
 #: lib/libalpm/be_local.c:996 lib/libalpm/be_local.c:1102
@@ -197,14 +198,14 @@ msgid "unknown validation type for package %s: %s\n"
 msgstr "꾸러미 %s에 대한 검증 형식이 알 수 없는 형식입니다.: %s\n"
 
 #: lib/libalpm/be_local.c:841
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unknown key '%s' in sync database\n"
-msgstr "%s: \"%s\" 키는 비활성화 되었습니다\n"
+msgstr "%s: 알 수 없는 '%s' 키가 동기화 데이터베이스에 있습니다\n"
 
 #: lib/libalpm/be_package.c:255
 #, c-format
 msgid "%s: unknown key '%s' in package description\n"
-msgstr ""
+msgstr "%s: 알 수 없는 '%s' 키가 꾸러미 설명에 있습니다\n"
 
 #: lib/libalpm/be_package.c:482 lib/libalpm/be_package.c:635
 #: lib/libalpm/be_package.c:647
@@ -285,7 +286,7 @@ msgstr "알 수 없는 데이터베이스 파일: %s\n"
 #: lib/libalpm/be_sync.c:695
 #, c-format
 msgid "%s: unknown key '%s' in local database\n"
-msgstr ""
+msgstr "%s: 알 수 없는 '%s' 키가 로컬 데이터베이스에 있습니다\n"
 
 #: lib/libalpm/db.c:413
 #, c-format
@@ -376,7 +377,7 @@ msgstr "너무 많은 오류, 서버: %s, 이 처리의 나머지를 위해서 �
 #: lib/libalpm/dload.c:145
 #, c-format
 msgid "fatal error from %s, skipping for the remainder of this transaction\n"
-msgstr ""
+msgstr "%s에 치명 오류: 이 트랜잭션의 나머지는 건너뜁니다\n"
 
 #: lib/libalpm/dload.c:263
 #, c-format
@@ -808,7 +809,7 @@ msgstr "%s-%s 꾸러미의 메타데이터를 완벽히 로드할 수 없습니�
 #: lib/libalpm/package.c:869
 #, c-format
 msgid "invalid package metadata (name or version missing)"
-msgstr ""
+msgstr "부적절한 꾸러미 메타데이터 (이름 또는 버전 빠짐)"
 
 #: lib/libalpm/package.c:874
 #, c-format
@@ -816,6 +817,8 @@ msgid ""
 "invalid metadata for package %s-%s (package name cannot start with '.' or "
 "'-')\n"
 msgstr ""
+"%s-%s 꾸러미에 부적절한 메타데이터 (꾸러미 이름은 '.' 또는 '-'(으)로 시작할 "
+"수 없음)\n"
 
 #: lib/libalpm/package.c:878
 #, c-format
@@ -823,6 +826,7 @@ msgid ""
 "invalid metadata for package %s-%s (package name contains invalid "
 "characters)\n"
 msgstr ""
+"%s-%s 꾸러미에 부적절한 메타데이터 (꾸러미 이름에 부적절한 문자가 들어있음)\n"
 
 #: lib/libalpm/package.c:885 lib/libalpm/package.c:889
 #, c-format
@@ -830,12 +834,13 @@ msgid ""
 "invalid metadata for package %s-%s (package version contains invalid "
 "characters)\n"
 msgstr ""
+"%s-%s 꾸러미에 부적절한 메타데이터 (꾸러미 버전에 부적절한 문자가 들어감)\n"
 
 #: lib/libalpm/package.c:895
 #, c-format
 msgid ""
 "invalid metadata for package %s-%s (package name and version too long)\n"
-msgstr ""
+msgstr "%s-%s 꾸러미에 부적절한 메타데이터 (꾸러미 이름과 버전이 너무 김)\n"
 
 #: lib/libalpm/remove.c:111
 #, c-format
@@ -1007,12 +1012,12 @@ msgstr "해결할 수 없는 꾸러미 충돌이 있습니다.\n"
 #: lib/libalpm/sync.c:564
 #, c-format
 msgid "removing '%s-%s' from target list because it conflicts with '%s-%s'\n"
-msgstr ""
+msgstr "대상 목록의 '%s-%s'이(가) '%s-%s'와(과) 동시에 존재하여 제거합니다\n"
 
 #: lib/libalpm/sync.c:1002 lib/libalpm/sync.c:1169
 #, c-format
 msgid "%s: could not find package in cache\n"
-msgstr ""
+msgstr "%s: 캐시에서 꾸러미를 찾을 수 없습니다\n"
 
 #: lib/libalpm/sync.c:1048
 #, c-format

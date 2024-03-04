@@ -10,15 +10,15 @@
 # Josep <jpreales@gmail.com>, 2011,2013
 # Josep <jpreales@gmail.com>, 2011,2013
 # Josep <jpreales@gmail.com>, 2011
-# Davidmp <medipas@gmail.com>, 2015-2019,2021,2023
+# Davidmp <medipas@gmail.com>, 2015-2019,2021,2023-2024
 # Ramon Buldó <rbuldo@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2024-02-19 11:08+1000\n"
+"POT-Creation-Date: 2024-03-04 11:45+1000\n"
 "PO-Revision-Date: 2010-11-29 23:17+0000\n"
-"Last-Translator: Davidmp <medipas@gmail.com>, 2015-2019,2021,2023\n"
+"Last-Translator: Davidmp <medipas@gmail.com>, 2015-2019,2021,2023-2024\n"
 "Language-Team: Catalan (http://app.transifex.com/toofishes/archlinux-pacman/"
 "language/ca/)\n"
 "Language: ca\n"
@@ -169,9 +169,9 @@ msgid "corrupted database entry '%s'\n"
 msgstr "entrada de la base de dades corrupta \"%s'\".\n"
 
 #: lib/libalpm/be_local.c:663
-#, fuzzy, c-format
+#, c-format
 msgid "unknown install reason for package %s: %s\n"
-msgstr "tipus de validació desconeguda per al paquet %s: %s\n"
+msgstr "raó d'instal·lació desconeguda per al paquet %s:%s\n"
 
 #: lib/libalpm/be_local.c:743 lib/libalpm/be_local.c:856
 #: lib/libalpm/be_local.c:996 lib/libalpm/be_local.c:1102
@@ -200,14 +200,14 @@ msgid "unknown validation type for package %s: %s\n"
 msgstr "tipus de validació desconeguda per al paquet %s: %s\n"
 
 #: lib/libalpm/be_local.c:841
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unknown key '%s' in sync database\n"
-msgstr "%s: la clau \"%s\" està inhabilitada.\n"
+msgstr "%s: clau desconeguda %s a la base de dades sincronitzada\n"
 
 #: lib/libalpm/be_package.c:255
 #, c-format
 msgid "%s: unknown key '%s' in package description\n"
-msgstr ""
+msgstr "%s: clau desconeguda %s a la descripció del paquet\n"
 
 #: lib/libalpm/be_package.c:482 lib/libalpm/be_package.c:635
 #: lib/libalpm/be_package.c:647
@@ -291,7 +291,7 @@ msgstr "fitxer de base de dades desconegut: %s.\n"
 #: lib/libalpm/be_sync.c:695
 #, c-format
 msgid "%s: unknown key '%s' in local database\n"
-msgstr ""
+msgstr "%s: clau desconeguda %s a la base de dades local\n"
 
 #: lib/libalpm/db.c:413
 #, c-format
@@ -824,7 +824,7 @@ msgstr ""
 #: lib/libalpm/package.c:869
 #, c-format
 msgid "invalid package metadata (name or version missing)"
-msgstr ""
+msgstr "metadades del paquet no vàlides (en falta el nom o la versió)"
 
 #: lib/libalpm/package.c:874
 #, c-format
@@ -832,6 +832,8 @@ msgid ""
 "invalid metadata for package %s-%s (package name cannot start with '.' or "
 "'-')\n"
 msgstr ""
+"metadades no vàlides per al paquet %s-%s (el nom del paquet no pot començar "
+"per . o -)\n"
 
 #: lib/libalpm/package.c:878
 #, c-format
@@ -839,6 +841,8 @@ msgid ""
 "invalid metadata for package %s-%s (package name contains invalid "
 "characters)\n"
 msgstr ""
+"metadades no vàlides per al paquet %s-%s (el nom del paquet conté caràcters "
+"no vàlids)\n"
 
 #: lib/libalpm/package.c:885 lib/libalpm/package.c:889
 #, c-format
@@ -846,12 +850,16 @@ msgid ""
 "invalid metadata for package %s-%s (package version contains invalid "
 "characters)\n"
 msgstr ""
+"metadades no vàlides per al paquet %s-%s (la versió del paquet conté "
+"caràcters no vàlids)\n"
 
 #: lib/libalpm/package.c:895
 #, c-format
 msgid ""
 "invalid metadata for package %s-%s (package name and version too long)\n"
 msgstr ""
+"metadades no vàlides per al paquet %s-%s (nom del paquet i la versió són "
+"massa llargs)\n"
 
 #: lib/libalpm/remove.c:111
 #, c-format
