@@ -11,12 +11,14 @@ The following checklist should be used for making a pacman release.
 - Update doc/index.asciidoc
 - Create a signed git tag (git tag -s vX.Y.Z -m "commit message")
 - Create and sign release tarballs (generate with "ninja dist")
+- Create release on gitlab project page
+- Upload release tarball and signature to gitlab ("glab release upload ...")
 - Update pacman website
 
 Transifex updates are handled using the transifex client. The basic process is:
 - Pull updates from transifex ("tx pull -f --minimum-perc 75")
 - Update po files ("./build-aux/update-po")
-- Fix all translation errors found
+- Fix all translation errors found (e.g. using "mint-check-translations")
 - Add any new locales to the relevant LINGUAS file
 - Optional: Make any manual changes needed (e.g. fixing spacing in a string)
   and update po files again
