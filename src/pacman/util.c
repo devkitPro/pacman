@@ -428,10 +428,10 @@ static char *concat_list(alpm_list_t *lst, formatfn fn)
 		}
 
 		if(tmp) {
-			asprintf(&output, "%s %s", tmp, str);
+			pm_asprintf(&output, "%s %s", tmp, str);
 			free(tmp);
 		} else {
-			asprintf(&output, "%s", str);
+			pm_asprintf(&output, "%s", str);
 		}
 		tmp = output;
 
@@ -441,7 +441,7 @@ static char *concat_list(alpm_list_t *lst, formatfn fn)
 	}
 
 	if(!output) {
-		asprintf(&output, "%s", "");
+		pm_asprintf(&output, "%s", "");
 	}
 
 	return output;
