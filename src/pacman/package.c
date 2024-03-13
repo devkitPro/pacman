@@ -140,7 +140,7 @@ static void make_aligned_titles(void)
 		size_t padlen = maxcol - wcol[i];
 		wmemset(wbuf[i] + wlen[i], L' ', padlen);
 		wmemcpy(wbuf[i] + wlen[i] + padlen, title_suffix, ARRAYSIZE(title_suffix));
-		wcstombs(titles[i], wbuf[i], sizeof(wbuf[i]));
+		wcstombs(titles[i], wbuf[i], sizeof(titles[i]));
 	}
 }
 
