@@ -605,8 +605,8 @@ trap 'trap_exit "$(gettext "Aborted by user! Exiting...")"' INT
 trap 'trap_exit "$(gettext "An unknown error has occurred. Exiting...")"' ERR
 
 
-OPT_SHORT="knpqRsv"
-OPT_LONG=('include-sigs' 'key' 'new' 'nocolor' 'quiet' 'prevent-downgrade' 'remove'
+OPT_SHORT="k:npqRsv"
+OPT_LONG=('include-sigs' 'key:' 'new' 'nocolor' 'quiet' 'prevent-downgrade' 'remove'
           'sign' 'verify')
 if ! parseopts "$OPT_SHORT" "${OPT_LONG[@]}" -- "$@"; then
 	exit 1 # E_INVALID_OPTION
