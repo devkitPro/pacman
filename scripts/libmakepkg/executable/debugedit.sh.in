@@ -29,10 +29,12 @@ source "$MAKEPKG_LIBRARY/util/option.sh"
 executable_functions+=('executable_debugedit')
 
 executable_debugedit() {
-	if check_option "debug" "y"; then
-		if ! type -p debugedit >/dev/null; then
-			error "$(gettext "Cannot find the %s binary required for including source files in debug packages.")" "debugedit"
-			return 1
+	if (( SOURCEONLY || BUILDPKG )); then
+		if check_option "debug" "y"; then
+			if ! type -p debugedit >/dev/null; then
+				error "$(gettext "Cannot find the %s binary required for including source files in debug packages.")" "debugedit"
+				return 1
+			fi
 		fi
 	fi
 }
