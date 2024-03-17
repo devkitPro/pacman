@@ -1032,13 +1032,20 @@ int _alpm_download(alpm_handle_t *handle,
 					}
 				}
 			} else {
-				for(s = payload->cache_servers; s && ret == -1; s = s->next) {
+				for(s = payload->cache_servers; s; s = s->next) {
 					ret = payload_download_fetchcb(payload, s->data, localpath);
+					if (ret != -1) {
+						goto download_signature;
+					}
 				}
-				for(s = payload->servers; s && ret == -1; s = s->next) {
+				for(s = payload->servers; s; s = s->next) {
 					ret = payload_download_fetchcb(payload, s->data, localpath);
+					if (ret != -1) {
+						goto download_signature;
+					}
 				}
 
+download_signature:
 				if (ret != -1 && payload->download_signature) {
 					/* Download signature if requested */
 					char *sig_fileurl;
