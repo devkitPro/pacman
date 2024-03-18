@@ -1375,13 +1375,13 @@ int parseconfigfile(const char *file)
 {
 	struct section_t section = {0};
 	char *realfile;
+	int ret;
 	if((realfile = prepend_dir(config->sysroot, file)) == NULL) {
 		return -1;
 	}
-	pm_printf(ALPM_LOG_DEBUG, "config: attempting to read file %s\n", realfile);
-	free(config->configfile);
-	config->configfile = realfile;
-	return parse_ini(realfile, _parse_directive, &section);
+	ret = parse_ini(realfile, _parse_directive, &section);
+	free(realfile);
+	return ret;
 }
 
 /** Parse a configuration file.
