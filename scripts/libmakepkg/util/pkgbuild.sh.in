@@ -134,7 +134,7 @@ get_pkgbuild_attribute() {
 }
 
 get_pkgbuild_all_split_attributes() {
-	local attrname=$1 outputvar=$2 all_list list
+	local attrname=$1 outputvar=$2 all_list list name a
 
 	if extract_global_variable "$attrname" 1 list; then
 		all_list+=("${list[@]}")
