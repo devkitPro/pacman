@@ -575,7 +575,6 @@ static int curl_check_finished_download(alpm_handle_t *handle, CURLM *curlm, CUR
 				(*active_downloads_num)++;
 				return 2;
 			} else {
-				payload->unlink_on_fail = 1;
 				goto cleanup;
 			}
 		default:
@@ -1127,6 +1126,39 @@ static int finalize_download_locations(alpm_list_t *payloads, const char *localp
 	return returnvalue;
 }
 
+static void prepare_resumable_downloads(alpm_list_t *payloads, const char *localpath,
+		const char *user)
+{
+	struct passwd const *pw = NULL;
+	ASSERT(payloads != NULL, return);
+	ASSERT(localpath != NULL, return);
+	if(user != NULL) {
+		ASSERT((pw = getpwnam(user)) != NULL, return);
+	}
+	alpm_list_t *p;
+	for(p = payloads; p; p = p->next) {
+		struct dload_payload *payload = p->data;
+		if(!payload->tempfile_name) {
+			continue;
+                }
+		const char *filename = mbasename(payload->tempfile_name);
+		char *src = _alpm_get_fullpath(localpath, filename, "");;
+		struct stat st;
+		if(stat(src, &st) != 0 || st.st_size == 0) {
+			FREE(src);
+			continue;
+		}
+		if(rename(src, payload->tempfile_name) != 0) {
+			FREE(src);
+			continue;
+		}
+		if(pw != NULL) {
+			ASSERT(chown(payload->tempfile_name, pw->pw_uid, pw->pw_gid), return);
+		}
+		FREE(src);
+	}
+}
+
 /* Returns -1 if an error happened for a required file
  * Returns 0 if a payload was actually downloaded
  * Returns 1 if no files were downloaded and all errors were non-fatal
@@ -1137,6 +1169,8 @@ int _alpm_download(alpm_handle_t *handle,
 		const char *temporary_localpath)
 {
 	int ret;
+	prepare_resumable_downloads(payloads, localpath, handle->sandboxuser);
+
 	if(handle->fetchcb == NULL) {
 #ifdef HAVE_LIBCURL
 		if(handle->sandboxuser) {
