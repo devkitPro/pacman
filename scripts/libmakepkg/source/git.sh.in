@@ -150,7 +150,7 @@ calc_checksum_git() {
 	case ${fragment%%=*} in
 		tag|commit)
 			fragval=${fragment##*=}
-			sum=$(git -c core.abbrev=no -C "$dir" archive --format tar "$fragval" | "${integ}sum" 2>&1) || ret=1
+			sum=$(GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null git -c core.abbrev=no -C "$dir" archive --format tar "$fragval" | "${integ}sum" 2>&1) || ret=1
 			sum="${sum%% *}"
 			;;
 		*)
