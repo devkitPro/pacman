@@ -451,10 +451,11 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 		_alpm_log(handle, ALPM_LOG_DEBUG, "path too long to unlink %s%s\n",
 				handle->root, fileobj->name);
 		return -1;
-	} else if(file[file_len-1] == '/') {
+	} else if(file[file_len - 1] == '/') {
 		/* trailing slashes cause errors and confusing messages if the user has
 		 * replaced a directory with a symlink */
-		file[--file_len] = '\0';
+		file[file_len - 1] = '\0';
+		file_len--;
 	}
 
 	if(llstat(file, &buf)) {
@@ -463,9 +464,22 @@ static int unlink_file(alpm_handle_t *handle, alpm_pkg_t *oldpkg,
 	}
 
 	if(S_ISDIR(buf.st_mode)) {
-		ssize_t files = _alpm_files_in_directory(handle, file, 0);
-		/* if we have files, no need to remove the directory */
+		ssize_t files;
+
+		/* restore/add trailing slash */
+		if(file_len < PATH_MAX - 1) {
+			file[file_len] = '/';
+			file_len++;
+			file[file_len] = '\0';
+		} else {
+			_alpm_log(handle, ALPM_LOG_DEBUG, "path too long to unlink %s%s\n",
+					handle->root, fileobj->name);
+			return -1;
+		}
+
+		files = _alpm_files_in_directory(handle, file, 0);
 		if(files > 0) {
+			/* if we have files, no need to remove the directory */
 			_alpm_log(handle, ALPM_LOG_DEBUG, "keeping directory %s (contains files)\n",
 					file);
 		} else if(files < 0) {
