@@ -393,6 +393,7 @@ void cb_event(void *ctx, alpm_event_t *event)
 			if(total_enabled) {
 				update_bar_finalstats(totalbar);
 				draw_pacman_progress_bar(totalbar);
+				free(totalbar->filename);
 				free(totalbar);
 				printf("\n");
 			}
