@@ -590,7 +590,7 @@ void cb_progress(void *ctx, alpm_progress_t event, const char *pkgname,
 	} else {
 		if(current != prevcurrent) {
 			/* update always */
-		} else if(has_pkgname || percent == prevpercent ||
+		} else if(!has_pkgname || percent == prevpercent ||
 				get_update_timediff(0) < UPDATE_SPEED_MS) {
 			/* only update the progress bar when we have a package name, the
 			 * percentage has changed, and it has been long enough. */
