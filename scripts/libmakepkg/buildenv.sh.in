@@ -25,7 +25,7 @@ LIBMAKEPKG_BUILDENV_SH=1
 MAKEPKG_LIBRARY=${MAKEPKG_LIBRARY:-'@libmakepkgdir@'}
 
 declare -a buildenv_functions build_options
-buildenv_vars=('CPPFLAGS' 'CFLAGS' 'CXXFLAGS' 'LDFLAGS' 'MAKEFLAGS' 'CHOST')
+buildenv_vars=('CPPFLAGS' 'CFLAGS' 'CXXFLAGS' 'LDFLAGS' 'CHOST')
 
 for lib in "$MAKEPKG_LIBRARY/buildenv/"*.sh; do
 	source "$lib"
