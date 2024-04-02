@@ -123,7 +123,7 @@ alpm_file_t SYMEXPORT *alpm_filelist_contains(const alpm_filelist_t *filelist,
 {
 	alpm_file_t key;
 
-	if(!filelist) {
+	if(!filelist || filelist->count == 0) {
 		return NULL;
 	}
 
