@@ -1,7 +1,7 @@
 /*
  *  sandbox.c
  *
- *  Copyright (c) 2021-2022 Pacman Development Team <pacman-dev@lists.archlinux.org>
+ *  Copyright (c) 2021-2024 Pacman Development Team <pacman-dev@lists.archlinux.org>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,15 +26,19 @@
 #include "alpm.h"
 #include "log.h"
 #include "sandbox.h"
+#include "sandbox_fs.h"
 #include "util.h"
 
-int SYMEXPORT alpm_sandbox_setup_child(const char* sandboxuser)
+int SYMEXPORT alpm_sandbox_setup_child(alpm_handle_t *handle, const char* sandboxuser, const char* sandbox_path)
 {
 	struct passwd const *pw = NULL;
 
 	ASSERT(sandboxuser != NULL, return -1);
 	ASSERT(getuid() == 0, return -1);
 	ASSERT((pw = getpwnam(sandboxuser)), return -1);
+	if(sandbox_path != NULL) {
+		_alpm_sandbox_fs_restrict_writes_to(handle, sandbox_path);
+	}
 	ASSERT(setgid(pw->pw_gid) == 0, return -1);
 	ASSERT(setgroups(0, NULL) == 0, return -1);
 	ASSERT(setuid(pw->pw_uid) == 0, return -1);

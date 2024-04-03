@@ -123,6 +123,7 @@ else
 endif
 
 foreach header : [
+    'linux/landlock.h',
     'mntent.h',
     'sys/mnttab.h',
     'sys/mount.h',

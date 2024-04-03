@@ -2954,10 +2954,12 @@ const char *alpm_version(void);
 int alpm_capabilities(void);
 
 /** Drop privileges by switching to a different user.
+ * @param handle the context handle
  * @param sandboxuser the user to switch to
+ * @param sandbox_path if non-NULL, restrict writes to this filesystem path
  * @return 0 on success, -1 on failure
  */
-int alpm_sandbox_setup_child(const char *sandboxuser);
+int alpm_sandbox_setup_child(alpm_handle_t *handle, const char *sandboxuser, const char *sandbox_path);
 
 /* End of libalpm_misc */
 /** @} */
