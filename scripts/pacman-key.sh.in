@@ -266,12 +266,9 @@ check_keyring() {
 		exit 1
 	fi
 
-	if (( (EXPORT || FINGER || LIST || VERIFY) && EUID != 0 )); then
-		if ! grep -q "^[[:space:]]*lock-never[[:space:]]*$" ${PACMAN_KEYRING_DIR}/gpg.conf &>/dev/null; then
-			error "$(gettext "You do not have sufficient permissions to run this command.")"
-			msg "$(gettext "Use '%s' to correct the keyring permissions.")" "pacman-key --init"
-			exit 1
-		fi
+	if (( !(EXPORT || FINGER || LISTKEYS || LISTSIGS || VERIFY) && EUID != 0 )); then
+		error "$(gettext "You do not have sufficient permissions to run this command.")"
+		exit 1
 	fi
 
 	if (( LSIGNKEY || POPULATE )); then
