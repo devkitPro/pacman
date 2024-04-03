@@ -132,6 +132,7 @@ foreach header : [
     'sys/mnttab.h',
     'sys/mount.h',
     'sys/param.h',
+    'sys/prctl.h',
     'sys/statvfs.h',
     'sys/types.h',
     'sys/ucred.h',
