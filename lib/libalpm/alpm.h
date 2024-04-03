@@ -34,6 +34,7 @@
 extern "C" {
 #endif
 
+#include <stdbool.h>   /* bool */
 #include <stdint.h>    /* int64_t */
 #include <sys/types.h> /* off_t */
 #include <stdarg.h>    /* va_list */
@@ -2971,9 +2972,10 @@ int alpm_capabilities(void);
  * @param handle the context handle
  * @param sandboxuser the user to switch to
  * @param sandbox_path if non-NULL, restrict writes to this filesystem path
+ * @param restrict_syscalls whether to deny access to a list of dangerous syscalls
  * @return 0 on success, -1 on failure
  */
-int alpm_sandbox_setup_child(alpm_handle_t *handle, const char *sandboxuser, const char *sandbox_path);
+int alpm_sandbox_setup_child(alpm_handle_t *handle, const char *sandboxuser, const char *sandbox_path, bool restrict_syscalls);
 
 /* End of libalpm_misc */
 /** @} */

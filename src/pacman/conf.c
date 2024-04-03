@@ -246,7 +246,7 @@ static int systemvp(const char *file, char *const argv[])
 		sigprocmask(SIG_SETMASK, &oldblock, NULL);
 
 		if (config->sandboxuser) {
-			ret = alpm_sandbox_setup_child(config->handle, config->sandboxuser, NULL);
+			ret = alpm_sandbox_setup_child(config->handle, config->sandboxuser, NULL, false);
 			if (ret != 0) {
 				pm_printf(ALPM_LOG_ERROR, _("switching to sandbox user '%s' failed!\n"), config->sandboxuser);
 				_Exit(ret);
