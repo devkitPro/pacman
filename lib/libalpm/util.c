@@ -1227,6 +1227,14 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 			b->block_offset = b->block;
 			block_remaining = b->block_size;
 
+			if(block_remaining == 0) {
+				/* there was no new data, return what is left; ARCHIVE_EOF will be
+				 * returned on next call */
+				b->line_offset[0] = '\0';
+				b->real_line_size = b->line_offset - b->line;
+				return ARCHIVE_OK;
+			}
+
 			/* error, cleanup */
 			if(b->ret < ARCHIVE_OK) {
 				goto cleanup;
@@ -1282,13 +1290,6 @@ int _alpm_archive_fgets(struct archive *a, struct archive_read_buffer *b)
 			memcpy(b->line_offset, b->block_offset, len);
 			b->line_offset += len;
 			b->block_offset = b->block + b->block_size;
-			/* there was no new data, return what is left; saved ARCHIVE_EOF will be
-			 * returned on next call */
-			if(len == 0) {
-				b->line_offset[0] = '\0';
-				b->real_line_size = b->line_offset - b->line;
-				return ARCHIVE_OK;
-			}
 		}
 	}
 
