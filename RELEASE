@@ -23,3 +23,12 @@ Transifex updates are handled using the transifex client. The basic process is:
 - Optional: Make any manual changes needed (e.g. fixing spacing in a string)
   and update po files again
 - Push updated po files to transifex ("tx push -s -t --skip")
+
+Point releases:
+- create branch release/?.?.x (with ?.? replaced by major version number)
+- all bugs fixes slated for the release branch must first land on master
+  (unless no longer relevant)
+- following the initial post-release period when the release and master
+  branches may be kept in sync, commits are backported to the release branch
+  using "git cherry-pick -x"
+- translation updates should be pulled onto the release branch only
