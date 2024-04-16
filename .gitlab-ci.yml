@@ -117,3 +117,16 @@ fedora:
     - meson setup --buildtype=debug build
     - ninja -C build
     - fakechroot meson test -C build
+
+pages:
+  extends: .arch-test
+  script:
+    - pacman -Syu --needed --noconfirm asciidoc
+    - meson setup -Ddoc=enabled build
+    - ninja -C build html
+  artifacts:
+    paths:
+      - build/doc
+  publish: build/doc
+  rules:
+    - if: $CI_COMMIT_BRANCH == "release/6.1.x"
