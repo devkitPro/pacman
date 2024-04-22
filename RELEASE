@@ -13,7 +13,8 @@ The following checklist should be used for making a pacman release.
 - Create and sign release tarballs (generate with "ninja dist")
 - Create release on gitlab project page
 - Upload release tarball and signature to gitlab ("glab release upload ...")
-- Update pacman website
+- Create branch release/?.?.x (with ?.? replaced by major version number)
+- Update .gitlab-ci.yml to point the website pages run at release branch
 
 Transifex updates are handled using the transifex client. The basic process is:
 - Pull updates from transifex ("tx pull -f --minimum-perc 75")
@@ -25,7 +26,6 @@ Transifex updates are handled using the transifex client. The basic process is:
 - Push updated po files to transifex ("tx push -s -t --skip")
 
 Point releases:
-- create branch release/?.?.x (with ?.? replaced by major version number)
 - all bugs fixes slated for the release branch must first land on master
   (unless no longer relevant)
 - following the initial post-release period when the release and master
