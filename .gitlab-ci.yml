@@ -88,7 +88,7 @@ arch-no-nls:
     - fakechroot meson test -C build
 
 debian:
-  image: debian:bullseye
+  image: debian:bookworm
   before_script:
     - apt update
     - >

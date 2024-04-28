@@ -8,7 +8,7 @@ project('pacman',
           'sysconfdir=/etc',
           'localstatedir=/var',
         ],
-        meson_version : '>= 0.56')
+        meson_version : '>= 0.61')
 
 libalpm_version = '14.0.0'
 
@@ -79,12 +79,7 @@ conf.set_quoted('ROOTDIR', ROOTDIR)
 
 libintl = dependency('', required: false)
 if get_option('i18n')
-  if not cc.has_function('ngettext')
-    libintl = cc.find_library('intl', required : false, static: get_option('buildstatic'))
-    if not libintl.found()
-      error('ngettext not found but NLS support requested')
-    endif
-  endif
+  libintl = dependency('intl', static: get_option('buildstatic'))
   conf.set('ENABLE_NLS', 1)
 endif
 
