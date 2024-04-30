@@ -68,6 +68,13 @@ download_git() {
 			warning "$(gettext "Failure while updating %s %s repo")" "${repo}" "git"
 		fi
 	fi
+
+	# Sanitize the cloned repo
+	# $GIT_DIR/info/attributes overrides .gitattributes, and thus no files in the repository
+	# can be altered by git features like export-subst or export-ignore
+	local MAKEPKG_GIT_DIR="$(git -C "$dir" rev-parse --absolute-git-dir)"
+	mkdir -p "$MAKEPKG_GIT_DIR/info"
+	echo "* -export-subst -export-ignore" > "$MAKEPKG_GIT_DIR/info/attributes"
 }
 
 extract_git() {
