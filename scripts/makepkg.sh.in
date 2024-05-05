@@ -241,7 +241,7 @@ run_pacman() {
 				cmd=("${PACMAN_AUTH[@]}" "${cmd[@]}")
 			fi
 		elif type -p sudo >/dev/null; then
-			cmd=(sudo "${cmd[@]}")
+			cmd=(sudo -k "${cmd[@]}")
 		else
 			cmd=(su root -c "$cmdescape")
 		fi
