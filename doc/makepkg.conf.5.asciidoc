@@ -23,6 +23,9 @@ NOTE: This does not guarantee that all package Makefiles will use your exported
 variables. Some of them are non-standard.
 
 The system-wide configuration file is found in {sysconfdir}/makepkg.conf.
+Specific additions (e.g. build flags for additional languages) can be placed
+in {sysconfdir}/makepkg.conf.d/*.conf.
+
 Individual options can be overridden (or added to) on a per-user basis in
 $XDG_CONFIG_HOME/pacman/makepkg.conf or ~/.makepkg.conf, with the former
 taking priority.
