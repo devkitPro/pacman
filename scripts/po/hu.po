@@ -17,8 +17,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2024-03-04 11:45+1000\n"
+"Report-Msgid-Bugs-To: https://gitlab.archlinux.org/pacman/pacman/-/issues\n"
+"POT-Creation-Date: 2024-07-02 10:33+1000\n"
 "PO-Revision-Date: 2011-08-08 22:35+0000\n"
 "Last-Translator: user14 <nleknh@gmail.com>, 2019\n"
 "Language-Team: Hungarian (http://app.transifex.com/toofishes/archlinux-"
@@ -29,42 +29,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: scripts/makepkg.sh.in:139
+#: scripts/makepkg.sh.in:141
 msgid "Cleaning up..."
 msgstr "Tisztítás..."
 
-#: scripts/makepkg.sh.in:186
+#: scripts/makepkg.sh.in:188
 msgid "Entering %s environment..."
 msgstr "Belépés a %s környezetbe..."
 
-#: scripts/makepkg.sh.in:193 scripts/makepkg.sh.in:419
+#: scripts/makepkg.sh.in:195 scripts/makepkg.sh.in:421
 msgid "Starting %s()..."
 msgstr "%s() indítása..."
 
-#: scripts/makepkg.sh.in:199
+#: scripts/makepkg.sh.in:201
 msgid "pkgver() generated an invalid version: %s"
 msgstr "pkgver() érvénytelen verziót generált: %s"
 
-#: scripts/makepkg.sh.in:209
+#: scripts/makepkg.sh.in:211
 msgid "Failed to update %s from %s to %s"
 msgstr "A %s frissítése sikertelen erről: %s erre: %s"
 
-#: scripts/makepkg.sh.in:215
+#: scripts/makepkg.sh.in:217
 msgid "Updated version: %s"
 msgstr "Frissített verzió: %s"
 
-#: scripts/makepkg.sh.in:217
+#: scripts/makepkg.sh.in:219
 msgid "%s is not writeable -- pkgver will not be updated"
 msgstr "%s nem írható -- pkgver nem lesz frissítve"
 
-#: scripts/makepkg.sh.in:225
+#: scripts/makepkg.sh.in:227
 msgid "Unable to find source file %s."
 msgstr "Nem található a(z) %s forrásfájl."
 
-#: scripts/makepkg.sh.in:226 scripts/makepkg.sh.in:368
-#: scripts/makepkg.sh.in:580 scripts/makepkg.sh.in:1077
-#: scripts/makepkg.sh.in:1082 scripts/makepkg.sh.in:1087
-#: scripts/makepkg.sh.in:1093 scripts/makepkg.sh.in:1103
+#: scripts/makepkg.sh.in:228 scripts/makepkg.sh.in:370
+#: scripts/makepkg.sh.in:582 scripts/makepkg.sh.in:1080
+#: scripts/makepkg.sh.in:1085 scripts/makepkg.sh.in:1090
+#: scripts/makepkg.sh.in:1096 scripts/makepkg.sh.in:1106
 #: scripts/libmakepkg/integrity/generate_checksum.sh.in:62
 #: scripts/libmakepkg/source/bzr.sh.in:55
 #: scripts/libmakepkg/source/bzr.sh.in:86
@@ -72,13 +72,13 @@ msgstr "Nem található a(z) %s forrásfájl."
 #: scripts/libmakepkg/source/bzr.sh.in:106
 #: scripts/libmakepkg/source/file.sh.in:75
 #: scripts/libmakepkg/source/file.sh.in:145
-#: scripts/libmakepkg/source/git.sh.in:53
-#: scripts/libmakepkg/source/git.sh.in:62
-#: scripts/libmakepkg/source/git.sh.in:91
-#: scripts/libmakepkg/source/git.sh.in:97
-#: scripts/libmakepkg/source/git.sh.in:114
-#: scripts/libmakepkg/source/git.sh.in:123
+#: scripts/libmakepkg/source/git.sh.in:54
+#: scripts/libmakepkg/source/git.sh.in:63
+#: scripts/libmakepkg/source/git.sh.in:99
+#: scripts/libmakepkg/source/git.sh.in:105
+#: scripts/libmakepkg/source/git.sh.in:122
 #: scripts/libmakepkg/source/git.sh.in:131
+#: scripts/libmakepkg/source/git.sh.in:139
 #: scripts/libmakepkg/source/hg.sh.in:52 scripts/libmakepkg/source/hg.sh.in:94
 #: scripts/libmakepkg/source/hg.sh.in:103
 #: scripts/libmakepkg/source/hg.sh.in:108
@@ -90,219 +90,223 @@ msgstr "Nem található a(z) %s forrásfájl."
 msgid "Aborting..."
 msgstr "Megszakítás..."
 
-#: scripts/makepkg.sh.in:251
+#: scripts/makepkg.sh.in:253
 msgid "Pacman is currently in use, please wait..."
 msgstr "A Pacman jelenleg használatban van. Kérem várjon..."
 
-#: scripts/makepkg.sh.in:272
+#: scripts/makepkg.sh.in:274
 msgid "'%s' returned a fatal error (%i): %s"
 msgstr "'%s' végzetes hibával tért vissza (%i): %s"
 
-#: scripts/makepkg.sh.in:291
+#: scripts/makepkg.sh.in:293
 msgid "Installing missing dependencies..."
 msgstr "Hiányzó függőségek telepítése..."
 
-#: scripts/makepkg.sh.in:294
+#: scripts/makepkg.sh.in:296
 msgid "'%s' failed to install missing dependencies."
 msgstr "'%s' nem tudta telepíteni a hiányzó függőségeket."
 
-#: scripts/makepkg.sh.in:329
+#: scripts/makepkg.sh.in:331
 msgid "Missing dependencies:"
 msgstr "Hiányzó függőségek:"
 
-#: scripts/makepkg.sh.in:345 scripts/makepkg.sh.in:359
+#: scripts/makepkg.sh.in:347 scripts/makepkg.sh.in:361
 msgid "Failed to remove installed dependencies."
 msgstr "Nem sikerült törölni a telepített függőségeket."
 
-#: scripts/makepkg.sh.in:367
+#: scripts/makepkg.sh.in:369
 msgid "A failure occurred in %s()."
 msgstr "Hiba történt a %s()-ben."
 
-#: scripts/makepkg.sh.in:480
+#: scripts/makepkg.sh.in:482
 msgid "Invalid value for %s: %s"
 msgstr "%s: Érvénytelen érték %s"
 
-#: scripts/makepkg.sh.in:579
+#: scripts/makepkg.sh.in:581
 msgid "Missing %s directory."
 msgstr "Hiányzó %s könyvtár."
 
-#: scripts/makepkg.sh.in:585
+#: scripts/makepkg.sh.in:587
 msgid "Creating package \"%s\"..."
 msgstr "\"%s\" csomag készítése..."
 
-#: scripts/makepkg.sh.in:588 scripts/makepkg.sh.in:590
-#: scripts/makepkg.sh.in:678
+#: scripts/makepkg.sh.in:590 scripts/makepkg.sh.in:592
+#: scripts/makepkg.sh.in:680
 msgid "Generating %s file..."
 msgstr "%s fájl generálása..."
 
-#: scripts/makepkg.sh.in:598
+#: scripts/makepkg.sh.in:600
 msgid "Adding %s file..."
 msgstr "%s fájl hozzáadása..."
 
-#: scripts/makepkg.sh.in:600
+#: scripts/makepkg.sh.in:602
 msgid "Failed to add %s file to package."
 msgstr "A(z) %s fájl csomaghoz adása nem sikerült."
 
-#: scripts/makepkg.sh.in:618
+#: scripts/makepkg.sh.in:620
 msgid "Generating .MTREE file..."
 msgstr ".MTREE fájl generálása..."
 
-#: scripts/makepkg.sh.in:624
+#: scripts/makepkg.sh.in:626
 msgid "Compressing package..."
 msgstr "Csomag tömörítése...."
 
-#: scripts/makepkg.sh.in:633
+#: scripts/makepkg.sh.in:635
 msgid "Failed to create package file."
 msgstr "Nem sikerült létrehozni a csomagfájlt."
 
-#: scripts/makepkg.sh.in:669
+#: scripts/makepkg.sh.in:671
 msgid "Creating source package..."
 msgstr "Forráscsomag létrehozása..."
 
-#: scripts/makepkg.sh.in:675 scripts/makepkg.sh.in:688
+#: scripts/makepkg.sh.in:677 scripts/makepkg.sh.in:690
 msgid "Adding %s..."
 msgstr "%s hozzáadása..."
 
-#: scripts/makepkg.sh.in:709
+#: scripts/makepkg.sh.in:711
 msgid "Adding %s file (%s)..."
 msgstr "%s fájl hozzáadása (%s)..."
 
-#: scripts/makepkg.sh.in:730
+#: scripts/makepkg.sh.in:732
 msgid "Compressing source package..."
 msgstr "Forráscsomag tömörítése..."
 
-#: scripts/makepkg.sh.in:740
+#: scripts/makepkg.sh.in:742
 msgid "Failed to create source package file."
 msgstr "Nem sikerült létrehozni a forráscsomagfájlt."
 
-#: scripts/makepkg.sh.in:755
+#: scripts/makepkg.sh.in:757
 msgid "Installing package %s with %s..."
 msgstr "%s csomag telepítése \"%s\"-val..."
 
-#: scripts/makepkg.sh.in:757
+#: scripts/makepkg.sh.in:759
 msgid "Installing %s package group with %s..."
 msgstr "%s csomagcsoport telepítése \"%s\"-val..."
 
-#: scripts/makepkg.sh.in:775
+#: scripts/makepkg.sh.in:777
 msgid "Failed to install built package(s)."
 msgstr "Nem sikerült a lefordított csomag(ok) telepítése."
 
-#: scripts/makepkg.sh.in:788
+#: scripts/makepkg.sh.in:790
 msgid "A package has already been built, installing existing package..."
 msgstr "A csomag már le lett fordítva, létező csomag telepítése..."
 
-#: scripts/makepkg.sh.in:792
+#: scripts/makepkg.sh.in:794
 msgid "A package has already been built. (use %s to overwrite)"
 msgstr "A csomag már le lett fordítva. (a felülíráshoz használja az %s opciót)"
 
-#: scripts/makepkg.sh.in:811
+#: scripts/makepkg.sh.in:813
 msgid ""
 "The package group has already been built, installing existing packages..."
 msgstr "A csomagcsoport már le lett fordítva, létező csomagok telepítése..."
 
-#: scripts/makepkg.sh.in:815
+#: scripts/makepkg.sh.in:817
 msgid "The package group has already been built. (use %s to overwrite)"
 msgstr ""
 "A csomagcsoport már le lett fordítva. (a felülíráshoz használja az %s opciót)"
 
-#: scripts/makepkg.sh.in:820
+#: scripts/makepkg.sh.in:822
 msgid "Part of the package group has already been built. (use %s to overwrite)"
 msgstr ""
 "A csomagcsoport egy része már le lett fordítva. (a felülíráshoz használja az "
 "%s opciót)"
 
-#: scripts/makepkg.sh.in:874
+#: scripts/makepkg.sh.in:876
 msgid "Make packages compatible for use with pacman"
 msgstr "Csomagok kompatibilitássá tétele pacman-nel történő használathoz"
 
-#: scripts/makepkg.sh.in:876 scripts/pacman-db-upgrade.sh.in:41
+#: scripts/makepkg.sh.in:878 scripts/pacman-db-upgrade.sh.in:41
 msgid "Usage: %s [options]"
 msgstr "Használat: %s [opciók]"
 
-#: scripts/makepkg.sh.in:878 scripts/pacman-key.sh.in:82
+#: scripts/makepkg.sh.in:880 scripts/pacman-key.sh.in:82
 msgid "Options:"
 msgstr "Opciók:"
 
-#: scripts/makepkg.sh.in:879
+#: scripts/makepkg.sh.in:881
 msgid "  -A, --ignorearch Ignore incomplete %s field in %s"
 msgstr "  -A, --ignorearch Hagyja figyelmen kívül a hiányos %s mezőt a %s-ben"
 
-#: scripts/makepkg.sh.in:880
+#: scripts/makepkg.sh.in:882
 msgid "  -c, --clean      Clean up work files after build"
 msgstr "  -c, --clean      Munkafájlok tisztítása fordítás után"
 
-#: scripts/makepkg.sh.in:881
+#: scripts/makepkg.sh.in:883
 msgid "  -C, --cleanbuild Remove %s dir before building the package"
 msgstr "  -C, --cleanbuild %s könyvtár eltávolítása a csomag építése előtt"
 
-#: scripts/makepkg.sh.in:882
+#: scripts/makepkg.sh.in:884
 msgid "  -d, --nodeps     Skip all dependency checks"
 msgstr "  -d, --nodeps     Minden függőségellenőrzés kihagyása"
 
-#: scripts/makepkg.sh.in:883
+#: scripts/makepkg.sh.in:885
+msgid "  -D, --dir <dir>  Change to directory <dir> before processing PKGBUILD"
+msgstr ""
+
+#: scripts/makepkg.sh.in:886
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
 msgstr ""
 "  -e, --noextract  Ne bontsa ki a forrásfájlokat (használja a meglévő %s "
 "könyvtárat)"
 
-#: scripts/makepkg.sh.in:884
+#: scripts/makepkg.sh.in:887
 msgid "  -f, --force      Overwrite existing package"
 msgstr "  -f, --force      Létező csomag felülírása"
 
-#: scripts/makepkg.sh.in:885
+#: scripts/makepkg.sh.in:888
 msgid "  -g, --geninteg   Generate integrity checks for source files"
 msgstr "  -g, --geninteg   Integritásellenőrzések generálása a forrásfájlokhoz"
 
-#: scripts/makepkg.sh.in:886
+#: scripts/makepkg.sh.in:889
 msgid "  -h, --help       Show this help message and exit"
 msgstr "  -h, --help       Súgószöveg megjelenítése és kilépés"
 
-#: scripts/makepkg.sh.in:887
+#: scripts/makepkg.sh.in:890
 msgid "  -i, --install    Install package after successful build"
 msgstr "  -i, --install    Csomagok telepítése sikeres fordítás után"
 
-#: scripts/makepkg.sh.in:888
+#: scripts/makepkg.sh.in:891
 msgid "  -L, --log        Log package build process"
 msgstr "  -L, --log        A csomagfordítási folyamat naplózása"
 
-#: scripts/makepkg.sh.in:889
+#: scripts/makepkg.sh.in:892
 msgid "  -m, --nocolor    Disable colorized output messages"
 msgstr "  -m, --nocolor    Színezett kimeneti üzenetek kikapcsolása"
 
-#: scripts/makepkg.sh.in:890
+#: scripts/makepkg.sh.in:893
 msgid "  -o, --nobuild    Download and extract files only"
 msgstr "  -o, --nobuild    Csak a fájlok letöltése és kibontása"
 
-#: scripts/makepkg.sh.in:891
+#: scripts/makepkg.sh.in:894
 msgid "  -p <file>        Use an alternate build script (instead of '%s')"
 msgstr "  -p <fájl>        Alternatív fordítószkript használata ('%s' helyett)"
 
-#: scripts/makepkg.sh.in:892
+#: scripts/makepkg.sh.in:895
 msgid ""
 "  -r, --rmdeps     Remove installed dependencies after a successful build"
 msgstr ""
 "  -r, --rmdeps     Telepített függőségek eltávolítása sikeres fordítás után"
 
-#: scripts/makepkg.sh.in:893
+#: scripts/makepkg.sh.in:896
 msgid "  -R, --repackage  Repackage contents of the package without rebuilding"
 msgstr ""
 "  -R, --repackage  A csomag tartalmának újracsomagolása újrafordítás nélkül"
 
-#: scripts/makepkg.sh.in:894
+#: scripts/makepkg.sh.in:897
 msgid "  -s, --syncdeps   Install missing dependencies with %s"
 msgstr "  -s, --syncdeps   Hiányzó függőségek telepítése %snal"
 
-#: scripts/makepkg.sh.in:895
+#: scripts/makepkg.sh.in:898
 msgid ""
 "  -S, --source     Generate a source-only tarball without downloaded sources"
 msgstr ""
 "  -S, --source     Csak forrás tarball generálása letöltött források nélkül"
 
-#: scripts/makepkg.sh.in:896
+#: scripts/makepkg.sh.in:899
 msgid "  -V, --version    Show version information and exit"
 msgstr "  -V, --version    Verzióinformációk kiírása és kilépés"
 
-#: scripts/makepkg.sh.in:897
+#: scripts/makepkg.sh.in:900
 msgid ""
 "  --allsource      Generate a source-only tarball including downloaded "
 "sources"
@@ -310,72 +314,72 @@ msgstr ""
 "  --allsource      Csak forrás tarball generálása a letöltött forrásokkal "
 "együtt"
 
-#: scripts/makepkg.sh.in:898
+#: scripts/makepkg.sh.in:901
 msgid "  --check          Run the %s function in the %s"
 msgstr "  --check          A %s funkció futtatása a %s-ben"
 
-#: scripts/makepkg.sh.in:899
+#: scripts/makepkg.sh.in:902
 msgid "  --config <file>  Use an alternate config file (instead of '%s')"
 msgstr ""
 "  --config <fájl>  Használjon egy alternatív konfiguráció fájlt ('%s' "
 "helyett)"
 
-#: scripts/makepkg.sh.in:900
+#: scripts/makepkg.sh.in:903
 msgid "  --holdver        Do not update VCS sources"
 msgstr "  --holdver        Ne frissítse a VCS forrásokat"
 
-#: scripts/makepkg.sh.in:901
+#: scripts/makepkg.sh.in:904
 msgid ""
 "  --key <key>      Specify a key to use for %s signing instead of the default"
 msgstr ""
 "  --key <kulcs>    Kulcs megadása %s aláíráshoz az alapértelmezett helyett"
 
-#: scripts/makepkg.sh.in:902
+#: scripts/makepkg.sh.in:905
 msgid "  --noarchive      Do not create package archive"
 msgstr "  --noarchive      Ne készítsen csomagarchívumot"
 
-#: scripts/makepkg.sh.in:903
+#: scripts/makepkg.sh.in:906
 msgid "  --nocheck        Do not run the %s function in the %s"
 msgstr "  --nocheck        Ne futtassa a %s funkciót a %s-ben"
 
-#: scripts/makepkg.sh.in:904
+#: scripts/makepkg.sh.in:907
 msgid "  --noprepare      Do not run the %s function in the %s"
 msgstr "  --noprepare      Ne futtassa a %s funkciót a %s-ben"
 
-#: scripts/makepkg.sh.in:905
+#: scripts/makepkg.sh.in:908
 msgid "  --nosign         Do not create a signature for the package"
 msgstr "  --nosign         Ne készítsen aláírást a csomaghoz"
 
-#: scripts/makepkg.sh.in:906
+#: scripts/makepkg.sh.in:909
 msgid "  --packagelist    Only list package filepaths that would be produced"
 msgstr ""
 "  --packagelist    Csak azokat a csomag elérési útvonalakat listázza amelyek "
 "létrehozhatóak"
 
-#: scripts/makepkg.sh.in:907
+#: scripts/makepkg.sh.in:910
 msgid "  --printsrcinfo   Print the generated SRCINFO and exit"
 msgstr "  --printsrcinfo   A generált SRCINFO kiírása, és kilépés"
 
-#: scripts/makepkg.sh.in:908
+#: scripts/makepkg.sh.in:911
 msgid "  --sign           Sign the resulting package with %s"
 msgstr "  --sign           Az eredményezett csomag aláírása %s-vel"
 
-#: scripts/makepkg.sh.in:909
+#: scripts/makepkg.sh.in:912
 msgid "  --skipchecksums  Do not verify checksums of the source files"
 msgstr "  --skipchecksums  Ne ellenőrizze a forrásfájlok ellenőrzőösszegét"
 
-#: scripts/makepkg.sh.in:910
+#: scripts/makepkg.sh.in:913
 msgid ""
 "  --skipinteg      Do not perform any verification checks on source files"
 msgstr ""
 "  --skipinteg      Ne hajtson végre semmilyen eredetiségellenőrzést a "
 "forrásfájlokon"
 
-#: scripts/makepkg.sh.in:911
+#: scripts/makepkg.sh.in:914
 msgid "  --skippgpcheck   Do not verify source files with PGP signatures"
 msgstr "  --skippgpcheck   Ne ellenőrizze a forrásfájlokat PGP aláírásokkal"
 
-#: scripts/makepkg.sh.in:912
+#: scripts/makepkg.sh.in:915
 msgid ""
 "  --verifysource   Download source files (if needed) and perform integrity "
 "checks"
@@ -383,33 +387,33 @@ msgstr ""
 "  --verifysource   Forrásfájlok letöltése (ha szükséges), és integritás-"
 "ellenőrzés végrehajtása"
 
-#: scripts/makepkg.sh.in:914
+#: scripts/makepkg.sh.in:917
 msgid "These options can be passed to %s:"
 msgstr "Ezek az opciók átadásra kerülnek a %snak:"
 
-#: scripts/makepkg.sh.in:916
+#: scripts/makepkg.sh.in:919
 msgid "  --asdeps         Install packages as non-explicitly installed"
 msgstr "  --asdeps         Csomagok telepítése nem kézzel telepítettként"
 
-#: scripts/makepkg.sh.in:917
+#: scripts/makepkg.sh.in:920
 msgid ""
 "  --needed         Do not reinstall the targets that are already up to date"
 msgstr "  --needed         Ne telepítse újra a célokat, amik már eleve frissek"
 
-#: scripts/makepkg.sh.in:918
+#: scripts/makepkg.sh.in:921
 msgid ""
 "  --noconfirm      Do not ask for confirmation when resolving dependencies"
 msgstr "  --noconfirm      Ne kérjen megerősítést a függőségek feloldásához"
 
-#: scripts/makepkg.sh.in:919
+#: scripts/makepkg.sh.in:922
 msgid "  --noprogressbar  Do not show a progress bar when downloading files"
 msgstr "  --noprogressbar  Ne mutasson folyamatsávot a fájlok letöltése közben"
 
-#: scripts/makepkg.sh.in:921
+#: scripts/makepkg.sh.in:924
 msgid "If %s is not specified, %s will look for '%s'"
 msgstr "Ha %s nincs megadva, %s a '%s'-et fogja keresni"
 
-#: scripts/makepkg.sh.in:930 scripts/pacman-db-upgrade.sh.in:57
+#: scripts/makepkg.sh.in:933 scripts/pacman-db-upgrade.sh.in:57
 #: scripts/pacman-key.sh.in:99 scripts/repo-add.sh.in:104
 msgid ""
 "This is free software; see the source for copying conditions.\\nThere is NO "
@@ -418,11 +422,11 @@ msgstr ""
 "Ez szabad szoftver; a használati feltételekért nézd meg a forrást.\\nNINCS "
 "GARANCIA a törvény által megengedett mértékig.\\n"
 
-#: scripts/makepkg.sh.in:1039 scripts/repo-add.sh.in:602
+#: scripts/makepkg.sh.in:1042 scripts/repo-add.sh.in:602
 msgid "%s signal caught. Exiting..."
 msgstr "%s szignál érkezett. Kilépés..."
 
-#: scripts/makepkg.sh.in:1109
+#: scripts/makepkg.sh.in:1112
 msgid ""
 "Running %s as root is not allowed as it can cause permanent,\\ncatastrophic "
 "damage to your system."
@@ -430,85 +434,85 @@ msgstr ""
 "A %s futtatása rendszergazdaként nem engedélyezett, mivel a\\nrendszer "
 "végzetes, katasztrofális károsodását okozhatja."
 
-#: scripts/makepkg.sh.in:1115
+#: scripts/makepkg.sh.in:1118
 msgid "Do not use the %s option. This option is only for internal use by %s."
 msgstr ""
 "Ne használd a %s opciót. Ezt a lehetőséget a %s használja a belső működésben."
 
-#: scripts/makepkg.sh.in:1130
+#: scripts/makepkg.sh.in:1133
 msgid "%s does not exist."
 msgstr "%s nem létezik."
 
-#: scripts/makepkg.sh.in:1135
+#: scripts/makepkg.sh.in:1138
 msgid "%s contains %s characters and cannot be sourced."
 msgstr "A %s %s karaktereket tartalmaz, így nem használható forrásként."
 
-#: scripts/makepkg.sh.in:1140
+#: scripts/makepkg.sh.in:1143
 msgid "%s must be in the current working directory."
 msgstr "A %s-nek a jelenlegi munkakönyvtárban kell lennie."
 
-#: scripts/makepkg.sh.in:1234 scripts/makepkg.sh.in:1249
+#: scripts/makepkg.sh.in:1239 scripts/makepkg.sh.in:1254
 msgid "Leaving %s environment."
 msgstr "%s környezet elhagyása."
 
-#: scripts/makepkg.sh.in:1261
+#: scripts/makepkg.sh.in:1266
 msgid "The key %s does not exist in your keyring."
 msgstr "A(z) %s kulcs nem létezik a kulcstartóban."
 
-#: scripts/makepkg.sh.in:1263 scripts/repo-add.sh.in:148
+#: scripts/makepkg.sh.in:1268 scripts/repo-add.sh.in:148
 msgid "There is no key in your keyring."
 msgstr "Nincs kulcs a kulcstartóban."
 
-#: scripts/makepkg.sh.in:1269
+#: scripts/makepkg.sh.in:1274
 msgid "Making package: %s"
 msgstr "Csomag készítése: %s"
 
-#: scripts/makepkg.sh.in:1275
+#: scripts/makepkg.sh.in:1280
 msgid "A source package has already been built. (use %s to overwrite)"
 msgstr ""
 "A forráscsomag már le lett fordítva. (a felülíráshoz használja az %s opciót)"
 
-#: scripts/makepkg.sh.in:1295
+#: scripts/makepkg.sh.in:1300
 msgid "Signing package..."
 msgstr "Csomag aláírása..."
 
-#: scripts/makepkg.sh.in:1299
+#: scripts/makepkg.sh.in:1304
 msgid "Source package created: %s"
 msgstr "Forráscsomag létrehozva: %s"
 
-#: scripts/makepkg.sh.in:1305
+#: scripts/makepkg.sh.in:1310
 msgid "Skipping dependency checks."
 msgstr "Függőségellenőrzések kihagyása."
 
-#: scripts/makepkg.sh.in:1313
+#: scripts/makepkg.sh.in:1318
 msgid "Checking runtime dependencies..."
 msgstr "Futtatási függőségek ellenőrzése..."
 
-#: scripts/makepkg.sh.in:1320
+#: scripts/makepkg.sh.in:1325
 msgid "Checking buildtime dependencies..."
 msgstr "Fordítási függőségek ellenőrzése..."
 
-#: scripts/makepkg.sh.in:1332
+#: scripts/makepkg.sh.in:1337
 msgid "Could not resolve all dependencies."
 msgstr "Nem sikerült teljesíteni az összes függőséget."
 
-#: scripts/makepkg.sh.in:1343
+#: scripts/makepkg.sh.in:1348
 msgid "Using existing %s tree"
 msgstr "Meglévő %s könyvtár használata"
 
-#: scripts/makepkg.sh.in:1350 scripts/makepkg.sh.in:1381
+#: scripts/makepkg.sh.in:1355 scripts/makepkg.sh.in:1386
 msgid "Removing existing %s directory..."
 msgstr "Meglévő %s könyvtár eltávolítása..."
 
-#: scripts/makepkg.sh.in:1376
+#: scripts/makepkg.sh.in:1381
 msgid "Sources are ready."
 msgstr "A források készen állnak."
 
-#: scripts/makepkg.sh.in:1403
+#: scripts/makepkg.sh.in:1408
 msgid "Package directory is ready."
 msgstr "A csomagkönyvtár kész."
 
-#: scripts/makepkg.sh.in:1407
+#: scripts/makepkg.sh.in:1412
 msgid "Finished making: %s"
 msgstr "Létrehozás befejezve: %s"
 
@@ -751,164 +755,164 @@ msgstr ""
 msgid "You do not have sufficient permissions to read the %s keyring."
 msgstr "Nincs megfelelő jogosultsága, hogy olvassa a %s kulcstartót."
 
-#: scripts/pacman-key.sh.in:265 scripts/pacman-key.sh.in:272
+#: scripts/pacman-key.sh.in:265
 msgid "Use '%s' to correct the keyring permissions."
 msgstr "A kulcstartó jogosultságainak javításához használja a '%s' parancsot."
 
-#: scripts/pacman-key.sh.in:271
+#: scripts/pacman-key.sh.in:270
 msgid "You do not have sufficient permissions to run this command."
 msgstr "Nincs megfelelő jogosultsága, hogy futtassa ezt a parancsot."
 
-#: scripts/pacman-key.sh.in:279
+#: scripts/pacman-key.sh.in:276
 msgid "There is no secret key available to sign with."
 msgstr "Nem érhető el titkos kulcs az aláíráshoz."
 
-#: scripts/pacman-key.sh.in:280
+#: scripts/pacman-key.sh.in:277
 msgid "Use '%s' to generate a default secret key."
 msgstr ""
 "Egy alapértelmezett titkos kulcs generálásához használja a '%s' parancsot."
 
-#: scripts/pacman-key.sh.in:298
+#: scripts/pacman-key.sh.in:295
 msgid "No keyring files exist in %s."
 msgstr "Nem létezik kulcstartó a %s könyvtárban."
 
-#: scripts/pacman-key.sh.in:305
+#: scripts/pacman-key.sh.in:302
 msgid "The keyring file %s does not exist."
 msgstr "A(z) %s kulcstartófájl nem létezik."
 
-#: scripts/pacman-key.sh.in:320
+#: scripts/pacman-key.sh.in:317
 msgid "Appending keys from %s.gpg..."
 msgstr "Kulcsok hozzáfűzése a(z) %s.gpg fájlból..."
 
-#: scripts/pacman-key.sh.in:360
+#: scripts/pacman-key.sh.in:357
 msgid "Locally signing trusted keys in keyring..."
 msgstr "Megbízható kulcsok aláírása helyileg a kulcstartóban..."
 
-#: scripts/pacman-key.sh.in:362
+#: scripts/pacman-key.sh.in:359
 msgid "Importing owner trust values..."
 msgstr "Megbízhatósági értékek importálása..."
 
-#: scripts/pacman-key.sh.in:372
+#: scripts/pacman-key.sh.in:369
 msgid "Disabling revoked keys in keyring..."
 msgstr "Visszavont kulcsok tiltása a kulcstartóban..."
 
-#: scripts/pacman-key.sh.in:375
+#: scripts/pacman-key.sh.in:372
 msgid "Disabling key %s..."
 msgstr "%s kulcs tiltása..."
 
-#: scripts/pacman-key.sh.in:381
+#: scripts/pacman-key.sh.in:378
 msgid "Disabled %s key."
 msgid_plural "Disabled %s keys."
 msgstr[0] ""
 msgstr[1] ""
 
-#: scripts/pacman-key.sh.in:388
+#: scripts/pacman-key.sh.in:385
 msgid "A specified keyfile could not be added to the keyring."
 msgstr "Egy megadott kulcsfájlt nem sikerült hozzáadni a kulcstartóhoz."
 
-#: scripts/pacman-key.sh.in:396
+#: scripts/pacman-key.sh.in:393
 msgid "A specified key could not be removed from the keyring."
 msgstr "Egy megadott kulcsot nem sikerült eltávolítani a kulcstartóból."
 
-#: scripts/pacman-key.sh.in:406
+#: scripts/pacman-key.sh.in:403
 msgid "The key identified by %s could not be edited."
 msgstr "A %s azonosítójú kulcsot nem sikerült szerkeszteni."
 
-#: scripts/pacman-key.sh.in:418
+#: scripts/pacman-key.sh.in:415
 msgid "A specified key could not be exported from the keyring."
 msgstr "Egy megadott kulcsot nem sikerült exportálni a kulcstartóból."
 
-#: scripts/pacman-key.sh.in:426
+#: scripts/pacman-key.sh.in:423
 msgid "The fingerprint of a specified key could not be determined."
 msgstr "Egy megadott kulcs ujjlenyomatát nem sikerült meghatározni."
 
-#: scripts/pacman-key.sh.in:439 scripts/pacman-key.sh.in:458
+#: scripts/pacman-key.sh.in:436 scripts/pacman-key.sh.in:455
 msgid "%s could not be imported."
 msgstr "%s-t nem sikerült importálni."
 
-#: scripts/pacman-key.sh.in:443 scripts/pacman-key.sh.in:462
+#: scripts/pacman-key.sh.in:440 scripts/pacman-key.sh.in:459
 msgid "File %s does not exist and could not be imported."
 msgstr "A %s fájl nem létezik, és nem sikerült importálni."
 
-#: scripts/pacman-key.sh.in:474
+#: scripts/pacman-key.sh.in:471
 msgid "A specified key could not be listed."
 msgstr "Egy megadott kulcsot nem sikerült listázni."
 
-#: scripts/pacman-key.sh.in:482
+#: scripts/pacman-key.sh.in:479
 msgid "A specified signature could not be listed."
 msgstr "Egy megadott aláírást nem sikerült listázni."
 
-#: scripts/pacman-key.sh.in:494
+#: scripts/pacman-key.sh.in:491
 msgid "Locally signing key %s..."
 msgstr "%s kulcs aláírása helyileg..."
 
-#: scripts/pacman-key.sh.in:499
+#: scripts/pacman-key.sh.in:496
 msgid "%s could not be locally signed."
 msgstr "%s nem írható alá helyileg."
 
-#: scripts/pacman-key.sh.in:509
+#: scripts/pacman-key.sh.in:506
 msgid "Locally signed %s key."
 msgid_plural "Locally signed %s keys."
 msgstr[0] ""
 msgstr[1] ""
 
-#: scripts/pacman-key.sh.in:532
+#: scripts/pacman-key.sh.in:529
 msgid "Remote key not fetched correctly from WKD or keyserver."
 msgstr ""
 
-#: scripts/pacman-key.sh.in:537
+#: scripts/pacman-key.sh.in:534
 msgid "Remote key not fetched correctly from keyserver."
 msgstr "A távoli kulcs nem töltődött le helyesen a kulcsszerverről."
 
-#: scripts/pacman-key.sh.in:569
+#: scripts/pacman-key.sh.in:566
 msgid "Could not update key: %s"
 msgstr ""
 
-#: scripts/pacman-key.sh.in:590 scripts/repo-add.sh.in:268
+#: scripts/pacman-key.sh.in:587 scripts/repo-add.sh.in:268
 msgid "Cannot use armored signatures for packages: %s"
 msgstr "Nem használhatók páncélozott aláírások a csomagokhoz: %s"
 
-#: scripts/pacman-key.sh.in:598
+#: scripts/pacman-key.sh.in:595
 msgid "The signature verification for %s failed."
 msgstr ""
 
-#: scripts/pacman-key.sh.in:604
+#: scripts/pacman-key.sh.in:601
 msgid "The signature %s is not trusted."
 msgstr ""
 
-#: scripts/pacman-key.sh.in:612
+#: scripts/pacman-key.sh.in:609
 msgid "Updating trust database..."
 msgstr "Megbízhatósági adatbázis frissítése..."
 
-#: scripts/pacman-key.sh.in:614
+#: scripts/pacman-key.sh.in:611
 msgid "Trust database could not be updated."
 msgstr "A megbízhatósági adatbázist nem sikerült frissíteni."
 
-#: scripts/pacman-key.sh.in:693
+#: scripts/pacman-key.sh.in:690
 msgid "Cannot find the %s binary required for all %s operations."
 msgstr "Nem található a %s bináris, ami minden %s művelethez szükséges."
 
-#: scripts/pacman-key.sh.in:698
+#: scripts/pacman-key.sh.in:695
 msgid "%s needs to be run as root for this operation."
 msgstr "A %st rendszergazdaként kell futtatni ehhez a művelethez."
 
-#: scripts/pacman-key.sh.in:704
+#: scripts/pacman-key.sh.in:701
 msgid "%s configuration file '%s' not found."
 msgstr "Nem található a %s konfigurációs fájlja: '%s'."
 
-#: scripts/pacman-key.sh.in:727
+#: scripts/pacman-key.sh.in:724
 msgid "no operation specified (use -h for help)"
 msgstr "nincs művelet megadva (használja a \"-h\"-t segítségért)"
 
-#: scripts/pacman-key.sh.in:732
+#: scripts/pacman-key.sh.in:729
 msgid "Multiple operations specified."
 msgstr "Több művelet lett megadva."
 
-#: scripts/pacman-key.sh.in:733
+#: scripts/pacman-key.sh.in:730
 msgid "Please run %s with each operation separately."
 msgstr "Kérem, futtassa a %st minden művelethez külön-külön."
 
-#: scripts/pacman-key.sh.in:741
+#: scripts/pacman-key.sh.in:738
 msgid "No targets specified"
 msgstr "Nincs cél megadva"
 
@@ -1440,26 +1444,26 @@ msgid "Failure while pulling %s"
 msgstr "Hiba történt %s lekérése közben"
 
 #: scripts/libmakepkg/source/bzr.sh.in:85
-#: scripts/libmakepkg/source/git.sh.in:113
+#: scripts/libmakepkg/source/git.sh.in:121
 #: scripts/libmakepkg/source/hg.sh.in:93 scripts/libmakepkg/source/svn.sh.in:62
 msgid "Unrecognized reference: %s"
 msgstr "Ismeretlen hivatkozás: %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:94
-#: scripts/libmakepkg/source/git.sh.in:82 scripts/libmakepkg/source/hg.sh.in:79
+#: scripts/libmakepkg/source/git.sh.in:90 scripts/libmakepkg/source/hg.sh.in:79
 #: scripts/libmakepkg/source/svn.sh.in:95
 msgid "Creating working copy of %s %s repo..."
 msgstr "%s %s tároló munkamásolatának elkészítése..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:100
-#: scripts/libmakepkg/source/git.sh.in:90
+#: scripts/libmakepkg/source/git.sh.in:98
 #: scripts/libmakepkg/source/hg.sh.in:102
 msgid "Failure while updating working copy of %s %s repo"
 msgstr "Hiba történt %s %s tároló munkamásolatának frissítése közben"
 
 #: scripts/libmakepkg/source/bzr.sh.in:105
-#: scripts/libmakepkg/source/git.sh.in:96
-#: scripts/libmakepkg/source/git.sh.in:130
+#: scripts/libmakepkg/source/git.sh.in:104
+#: scripts/libmakepkg/source/git.sh.in:138
 #: scripts/libmakepkg/source/hg.sh.in:107
 msgid "Failure while creating working copy of %s %s repo"
 msgstr "Hiba történt %s %s tároló munkamásolatának elkészítése közben"
@@ -1489,31 +1493,31 @@ msgstr "%s kibontása nem sikerült"
 msgid "NOT FOUND"
 msgstr "NEM TALÁLHATÓ"
 
-#: scripts/libmakepkg/source/git.sh.in:50 scripts/libmakepkg/source/hg.sh.in:49
+#: scripts/libmakepkg/source/git.sh.in:51 scripts/libmakepkg/source/hg.sh.in:49
 #: scripts/libmakepkg/source/svn.sh.in:69
 msgid "Cloning %s %s repo..."
 msgstr "%s %s tároló klónozása..."
 
-#: scripts/libmakepkg/source/git.sh.in:52 scripts/libmakepkg/source/hg.sh.in:51
+#: scripts/libmakepkg/source/git.sh.in:53 scripts/libmakepkg/source/hg.sh.in:51
 #: scripts/libmakepkg/source/svn.sh.in:72
 msgid "Failure while downloading %s %s repo"
 msgstr "Hiba történt %s %s tároló letöltése közben"
 
-#: scripts/libmakepkg/source/git.sh.in:61
+#: scripts/libmakepkg/source/git.sh.in:62
 msgid "%s is not a clone of %s"
 msgstr "%s nem %s klónja"
 
-#: scripts/libmakepkg/source/git.sh.in:65 scripts/libmakepkg/source/hg.sh.in:56
+#: scripts/libmakepkg/source/git.sh.in:66 scripts/libmakepkg/source/hg.sh.in:56
 #: scripts/libmakepkg/source/svn.sh.in:77
 msgid "Updating %s %s repo..."
 msgstr "%s %s tároló frissítése..."
 
-#: scripts/libmakepkg/source/git.sh.in:68 scripts/libmakepkg/source/hg.sh.in:60
+#: scripts/libmakepkg/source/git.sh.in:69 scripts/libmakepkg/source/hg.sh.in:60
 #: scripts/libmakepkg/source/svn.sh.in:81
 msgid "Failure while updating %s %s repo"
 msgstr "Hiba történt %s %s tároló frissítése közben"
 
-#: scripts/libmakepkg/source/git.sh.in:122
+#: scripts/libmakepkg/source/git.sh.in:130
 msgid "Failure while checking out version %s, the git tag has been forged"
 msgstr "Hiba a %s verzióellenőrzése közben. A git címke el lett felejtve"
 

@@ -5,17 +5,17 @@
 # Translators:
 # Emin Mastizada <emin@linux.com>, 2017-2018
 # Zaur_Baku, 2015
-# Xəyyam Qocayev <xxmn77@gmail.com>, 2021-2023
+# Xəyyam Qocayev <xxmn77@gmail.com>, 2021-2024
 # Xəyyam Qocayev <xxmn77@gmail.com>, 2024
 # Xəyyam Qocayev <xxmn77@gmail.com>, 2021
 # Zaur_Baku, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
-"Report-Msgid-Bugs-To: http://bugs.archlinux.org/index.php?project=3\n"
-"POT-Creation-Date: 2024-03-04 11:45+1000\n"
+"Report-Msgid-Bugs-To: https://gitlab.archlinux.org/pacman/pacman/-/issues\n"
+"POT-Creation-Date: 2024-07-02 10:33+1000\n"
 "PO-Revision-Date: 2010-11-29 23:17+0000\n"
-"Last-Translator: Xəyyam Qocayev <xxmn77@gmail.com>, 2024\n"
+"Last-Translator: Xəyyam Qocayev <xxmn77@gmail.com>, 2021-2024\n"
 "Language-Team: Azerbaijani (Azerbaijan) (http://app.transifex.com/toofishes/"
 "archlinux-pacman/language/az_AZ/)\n"
 "Language: az_AZ\n"
@@ -37,12 +37,12 @@ msgstr "Əməliyyat sonrası tutmalar işlənir...\n"
 #: src/pacman/callback.c:243
 #, c-format
 msgid "checking dependencies...\n"
-msgstr "bağlılıqların yoxlanılması\n"
+msgstr "asılılıqlar yoxlanılır...\n"
 
 #: src/pacman/callback.c:247
 #, c-format
 msgid "checking for file conflicts...\n"
-msgstr "faylla olan uyğunsuzluqların yoxlanması\n"
+msgstr "fayl ziddiyyətləri yoxlanılır...\n"
 
 #: src/pacman/callback.c:251
 #, c-format
@@ -92,7 +92,7 @@ msgstr "paketin bütövlüyü yoxlanır...\n"
 #: src/pacman/callback.c:305
 #, c-format
 msgid "checking keyring...\n"
-msgstr "açar yoxlanır...\n"
+msgstr "açarlar bağı yoxlanır...\n"
 
 #: src/pacman/callback.c:309
 #, c-format
@@ -112,7 +112,7 @@ msgstr "Paketlər alınır...\n"
 #: src/pacman/callback.c:335
 #, c-format
 msgid "checking available disk space...\n"
-msgstr "boş disk sahəsi yoxlanılır...\n"
+msgstr "əlçatan disk sahəsi yoxlanılır...\n"
 
 #: src/pacman/callback.c:342
 #, c-format
@@ -129,29 +129,29 @@ msgstr "%s %s.pacnew kimi quruldu\n"
 msgid "%s saved as %s.pacsave\n"
 msgstr "%s %s.pacsave kimi saxlanıldı\n"
 
-#: src/pacman/callback.c:445
+#: src/pacman/callback.c:446
 #, c-format
 msgid "%s is in IgnorePkg/IgnoreGroup. Install anyway?"
 msgstr "%s IgnorePkg/IgnoreGroup içindədir. Yenə də qurulsun?"
 
-#: src/pacman/callback.c:455
+#: src/pacman/callback.c:456
 #, c-format
 msgid "Replace %s with %s/%s?"
 msgstr "%s %s/%s ilə əvəz edilsin?"
 
-#: src/pacman/callback.c:467
+#: src/pacman/callback.c:468
 #, c-format
 msgid "%s-%s%s%s and %s-%s%s%s are in conflict. Remove %s?"
 msgstr ""
 "%s-%s-%s-%s və %s-%s-%s-%s bir-biriləri ilə zidiyyət təşkil edir. %s "
 "silinsin?"
 
-#: src/pacman/callback.c:478
+#: src/pacman/callback.c:479
 #, c-format
 msgid "%s-%s%s%s and %s-%s%s%s are in conflict (%s). Remove %s?"
 msgstr "%s-%s%s%s və %s-%s%s%s ziddiyyətlidirlər. (%s) %s silinsin?"
 
-#: src/pacman/callback.c:503
+#: src/pacman/callback.c:504
 #, c-format
 msgid ""
 "The following package cannot be upgraded due to unresolvable dependencies:\n"
@@ -162,21 +162,21 @@ msgstr[0] ""
 msgstr[1] ""
 "Aşağıdakı paketlər həll olmayan bağlılıklarına görə yenilənə bilməz:\n"
 
-#: src/pacman/callback.c:509
+#: src/pacman/callback.c:510
 #, c-format
 msgid "Do you want to skip the above package for this upgrade?"
 msgid_plural "Do you want to skip the above packages for this upgrade?"
 msgstr[0] "Yenilənməyə görə yuxarıdakı paketi buraxmaq istəyirsiniz?"
 msgstr[1] "Yenilənməyə görə yuxarıdakı paketləri buraxmaq istəyirsiniz?"
 
-#: src/pacman/callback.c:520
+#: src/pacman/callback.c:521
 #, c-format
 msgid "There is %zu provider available for %s\n"
 msgid_plural "There are %zu providers available for %s:\n"
-msgstr[0] "%s üçün %zu təminatçı əlaçatandır:\n"
-msgstr[1] "%s üçün %zu təminatçı əlçatandır:\n"
+msgstr[0] "%2$s üçün %1$zu təminatçı əlaçatandır:\n"
+msgstr[1] "%2$s üçün %1$zu təminatçı əlçatandır:\n"
 
-#: src/pacman/callback.c:531
+#: src/pacman/callback.c:532
 #, c-format
 msgid ""
 "File %s is corrupted (%s).\n"
@@ -185,87 +185,87 @@ msgstr ""
 "%s faylı pozulub (%s).\n"
 "Onu silmək istəyirsiniz?"
 
-#: src/pacman/callback.c:542
+#: src/pacman/callback.c:543
 #, c-format
 msgid "Import PGP key %s?"
 msgstr "PGP %s idxal edilsin?"
 
-#: src/pacman/callback.c:545
+#: src/pacman/callback.c:546
 #, c-format
 msgid "Import PGP key %s, \"%s\"?"
 msgstr "PGP %s, \"%s\" idxal edilsin?"
 
-#: src/pacman/callback.c:607
+#: src/pacman/callback.c:608
 #, c-format
 msgid "installing"
 msgstr "quraşdırılır"
 
-#: src/pacman/callback.c:610
+#: src/pacman/callback.c:611
 #, c-format
 msgid "upgrading"
 msgstr "yenilənir"
 
-#: src/pacman/callback.c:613
+#: src/pacman/callback.c:614
 #, c-format
 msgid "downgrading"
 msgstr "geri alınır"
 
-#: src/pacman/callback.c:616
+#: src/pacman/callback.c:617
 #, c-format
 msgid "reinstalling"
 msgstr "yenidən yükləmə"
 
-#: src/pacman/callback.c:619
+#: src/pacman/callback.c:620
 #, c-format
 msgid "removing"
 msgstr "pozulması"
 
-#: src/pacman/callback.c:622
+#: src/pacman/callback.c:623
 #, c-format
 msgid "checking for file conflicts"
-msgstr "faylın konfliktlərinin yoxlanılması"
+msgstr "fayl ziddiyyətlərinin yoxlanılması"
 
-#: src/pacman/callback.c:625
+#: src/pacman/callback.c:626
 #, c-format
 msgid "checking available disk space"
-msgstr "mövcud disk sahəsi yoxlanılır"
+msgstr "əlçatan disk sahəsinin yoxlanılması"
 
-#: src/pacman/callback.c:628
+#: src/pacman/callback.c:629
 #, c-format
 msgid "checking package integrity"
-msgstr "paketin bütövlüyü yoxlanır"
+msgstr "paketin bütövlüyünün yoxlanılması"
 
-#: src/pacman/callback.c:631
+#: src/pacman/callback.c:632
 #, c-format
 msgid "checking keys in keyring"
-msgstr "açarlar bağındakı açarlar yoxlanılır"
+msgstr "açarlar bağındakı açarların yoxlanılması"
 
-#: src/pacman/callback.c:634
+#: src/pacman/callback.c:635
 #, c-format
 msgid "loading package files"
 msgstr "paket faylları yüklənir"
 
-#: src/pacman/callback.c:755
+#: src/pacman/callback.c:756
 #, c-format
 msgid "Total"
 msgstr "Ümumi"
 
-#: src/pacman/callback.c:885
+#: src/pacman/callback.c:887
 #, c-format
 msgid " %s downloading...\n"
 msgstr "%s endirilir...\n"
 
-#: src/pacman/callback.c:1054
+#: src/pacman/callback.c:1057
 #, c-format
 msgid " %s is up to date"
 msgstr "%s yenilənib"
 
-#: src/pacman/callback.c:1080
+#: src/pacman/callback.c:1083
 #, c-format
 msgid " %s failed to download"
 msgstr "%s yüklənə bilmədi"
 
-#: src/pacman/callback.c:1129
+#: src/pacman/callback.c:1133
 #, c-format
 msgid "unknown callback event type %d for %s\n"
 msgstr "%2$s üçün %1$d bilinməyən geri çağırış hadisəsi növü\n"
@@ -318,7 +318,7 @@ msgstr "%s: %s (Ölçü uyğun deyil)\n"
 #: src/pacman/check.c:185
 #, c-format
 msgid "%s: %s (failed to calculate %s checksum)\n"
-msgstr "%s: %s (%s yoxlama cəmi hesablana bilmir)\n"
+msgstr "%s: %s (%s yoxlama cəmi hesablamaq mümkün olmadı)\n"
 
 #: src/pacman/check.c:193
 #, c-format
@@ -372,90 +372,95 @@ msgid_plural "%jd altered files\n"
 msgstr[0] "%jd dəyişdirilmiş fayl\n"
 msgstr[1] "%jd dəyişdirilmiş fayllar\n"
 
-#: src/pacman/conf.c:102 src/pacman/conf.c:317
+#: src/pacman/conf.c:102 src/pacman/conf.c:326
 #, c-format
 msgid "malloc failure: could not allocate %zu byte\n"
 msgid_plural "malloc failure: could not allocate %zu bytes\n"
 msgstr[0] "malloc xətası: %zu bayt ayrıla bilmədi\n"
 msgstr[1] "malloc xətası: %zu bayt ayrıla bilmədi\n"
 
-#: src/pacman/conf.c:340
+#: src/pacman/conf.c:251
+#, c-format
+msgid "switching to sandbox user '%s' failed!\n"
+msgstr ""
+
+#: src/pacman/conf.c:349
 #, c-format
 msgid "could not get current working directory\n"
 msgstr "cari iş qovluğu alına bilmədi\n"
 
-#: src/pacman/conf.c:345
+#: src/pacman/conf.c:354
 #, c-format
 msgid "could not chdir to download directory %s\n"
 msgstr "%s endirmə kataloquna keçilə bilmədi\n"
 
-#: src/pacman/conf.c:360
+#: src/pacman/conf.c:369
 #, c-format
 msgid "running XferCommand: fork failed!\n"
 msgstr "XferCommand işə düşür: fork failed!\n"
 
-#: src/pacman/conf.c:372
+#: src/pacman/conf.c:381
 #, c-format
 msgid "could not rename %s to %s (%s)\n"
 msgstr "%s adı, %s kimi dəyişdirilə bilmədi (%s)\n"
 
-#: src/pacman/conf.c:383
+#: src/pacman/conf.c:392
 #, c-format
 msgid "could not restore working directory (%s)\n"
 msgstr "iş kataloqu (%s) bərpa edilə bilmədi\n"
 
-#: src/pacman/conf.c:521 src/pacman/conf.c:570 src/pacman/conf.c:677
-#: src/pacman/conf.c:729
+#: src/pacman/conf.c:530 src/pacman/conf.c:579 src/pacman/conf.c:693
+#: src/pacman/conf.c:745
 #, c-format
 msgid "config file %s, line %d: invalid value for '%s' : '%s'\n"
 msgstr "tənzimləmə faylı %s, sətir %d '%s'üçün səhv dəyər : '%s'\n"
 
-#: src/pacman/conf.c:535
+#: src/pacman/conf.c:544
 #, c-format
 msgid "config file %s, line %d: '%s' option invalid, no signature support\n"
 msgstr "tənzimləmə faylı %s, sətir %d, '%s' səhv seçim, imza dəstəyi yoxdur\n"
 
-#: src/pacman/conf.c:625 src/pacman/conf.c:751 src/pacman/conf.c:1039
+#: src/pacman/conf.c:636 src/pacman/conf.c:767 src/pacman/conf.c:1057
 #, c-format
 msgid ""
 "config file %s, line %d: directive '%s' in section '%s' not recognized.\n"
 msgstr ""
 "tənzimləmə faylı %s, sətir %d: direktiv '%s' '%s' bölməsində tanınmadı.\n"
 
-#: src/pacman/conf.c:736
+#: src/pacman/conf.c:752
 #, c-format
 msgid "config file %s, line %d: value for '%s' has to be positive : '%s'\n"
 msgstr "tənzimləmə faylı %s, sətir %d: '%s' üçün dəyər müsbət deyil : '%s'\n"
 
-#: src/pacman/conf.c:743
+#: src/pacman/conf.c:759
 #, c-format
 msgid "config file %s, line %d: value for '%s' is too large : '%s'\n"
 msgstr "tənzimləmə faylı %s, sətir %d: '%s' üçün dəyər çox böyükdur : '%s'\n"
 
-#: src/pacman/conf.c:763
+#: src/pacman/conf.c:779
 #, c-format
 msgid "mirror '%s' contains the '%s' variable, but no '%s' is defined.\n"
 msgstr ""
 "güzgü '%s' '%s' dəyişənindən ibarətdir, lakin, '%s' müəyyən olunmayıb.\n"
 
-#: src/pacman/conf.c:808
+#: src/pacman/conf.c:824
 #, c-format
 msgid "could not register '%s' database (%s)\n"
 msgstr "'%s' verilənlər bazası qeydiyyat oluna bilmədi (%s)\n"
 
-#: src/pacman/conf.c:821
+#: src/pacman/conf.c:837
 #, c-format
 msgid "could not add cache server URL to database '%s': %s (%s)\n"
 msgstr ""
 "Keş serveri URL ünvanını \"%s\" verilənlər bazasına əlavə tmək mümkün "
 "olmadı: %s (%s)\n"
 
-#: src/pacman/conf.c:830
+#: src/pacman/conf.c:846
 #, c-format
 msgid "could not add server URL to database '%s': %s (%s)\n"
 msgstr "server URL-u verilənlər bazasına əlavə edilə bilmədi '%s': %s (%s)\n"
 
-#: src/pacman/conf.c:857
+#: src/pacman/conf.c:873
 #, c-format
 msgid ""
 "failed to initialize alpm library:\n"
@@ -466,58 +471,58 @@ msgstr ""
 "(root: %s, dbpath: %s)\n"
 "%s\n"
 
-#: src/pacman/conf.c:860
+#: src/pacman/conf.c:876
 #, c-format
 msgid "try running pacman-db-upgrade\n"
 msgstr "pacman-db-upgrade yoxlayın\n"
 
-#: src/pacman/conf.c:878
+#: src/pacman/conf.c:894
 #, c-format
 msgid "problem setting logfile '%s' (%s)\n"
 msgstr "'%s' jurnal faylının ayarlanması problemi (%s)\n"
 
-#: src/pacman/conf.c:887
+#: src/pacman/conf.c:903
 #, c-format
 msgid "problem setting gpgdir '%s' (%s)\n"
 msgstr "gpgdir '%s' ayarlanması problemi (%s)\n"
 
-#: src/pacman/conf.c:897
+#: src/pacman/conf.c:913
 #, c-format
 msgid "problem adding hookdir '%s' (%s)\n"
 msgstr "hookdir '%s' əlavə edilməsi problemi (%s)\n"
 
-#: src/pacman/conf.c:919
+#: src/pacman/conf.c:935
 #, c-format
 msgid "no '%s' configured\n"
 msgstr "'%s' tənzimlənməyib\n"
 
-#: src/pacman/conf.c:945
+#: src/pacman/conf.c:963
 #, c-format
 msgid "Failed to pass %s entry to libalpm"
 msgstr "%s yazısı libalpm kitabxanasına ötürülə bilmədi"
 
-#: src/pacman/conf.c:985
+#: src/pacman/conf.c:1003
 #, c-format
 msgid "config file %s, line %d: '%s' option '%s' not recognized\n"
 msgstr ""
 "tənzimləmə faylı %s, sətir %d: parametr '%s', '%s' bölməsində tanınmadı\n"
 
-#: src/pacman/conf.c:1005 src/pacman/conf.c:1163
+#: src/pacman/conf.c:1023 src/pacman/conf.c:1181
 #, c-format
 msgid "config file %s, line %d: directive '%s' needs a value\n"
 msgstr "tənzimləmə faylı %s, sətir %d: '%s' direktivinə bir dəyər lazımdır\n"
 
-#: src/pacman/conf.c:1170
+#: src/pacman/conf.c:1188
 #, c-format
 msgid "config parsing exceeded max recursion depth of %d.\n"
 msgstr "tənzimləmə təhlili %d üçün maksimum təkrarlanma dərinliyini keçdi.\n"
 
-#: src/pacman/conf.c:1218
+#: src/pacman/conf.c:1236
 #, c-format
 msgid "config file %s could not be read: %s\n"
 msgstr "tənzimləmə faylı %s oxuna bilmir: %s\n"
 
-#: src/pacman/conf.c:1241
+#: src/pacman/conf.c:1259
 #, c-format
 msgid "config file %s, line %d: All directives must belong to a section.\n"
 msgstr ""
@@ -1255,7 +1260,16 @@ msgstr ""
 "      --disable-download-timeout\n"
 "                       endirmək üçün fasilə vaxtından istifadə etmək\n"
 
-#: src/pacman/pacman.c:247
+#: src/pacman/pacman.c:229
+#, fuzzy, c-format
+msgid ""
+"      --disable-sandbox\n"
+"                       disable the sandbox used for the downloader process\n"
+msgstr ""
+"      --disable-download-timeout\n"
+"                       endirmək üçün fasilə vaxtından istifadə etmək\n"
+
+#: src/pacman/pacman.c:249
 #, c-format
 msgid ""
 "                       This program may be freely redistributed under\n"
@@ -1264,67 +1278,67 @@ msgstr ""
 "                       Bu proqram GNU Əsas Publik Lisenziyası\n"
 "                       şərtləri altında sərbəst şəkildə paylana bilər.\n"
 
-#: src/pacman/pacman.c:280
+#: src/pacman/pacman.c:282
 #, c-format
 msgid "HTTP_USER_AGENT truncated\n"
 msgstr "HTTP_USER_AGENT qısaldılmış\n"
 
-#: src/pacman/pacman.c:313
+#: src/pacman/pacman.c:315
 #, c-format
 msgid "invalid option: '%s' and '%s' may not be used together\n"
 msgstr "səhv parametr: '%s' və '%s' birlikdə istifadə oluna bilməz\n"
 
-#: src/pacman/pacman.c:414
+#: src/pacman/pacman.c:416
 #, c-format
 msgid "invalid argument '%s' for %s\n"
 msgstr "%s üçün '%s' səhv arqument\n"
 
-#: src/pacman/pacman.c:436 src/pacman/pacman.c:449
+#: src/pacman/pacman.c:438 src/pacman/pacman.c:451
 #, c-format
 msgid "'%s' is not a valid debug level\n"
 msgstr "'%s' düzgün sazlama səviyyəsi deyil\n"
 
-#: src/pacman/pacman.c:994
+#: src/pacman/pacman.c:1000
 #, c-format
 msgid "only one operation may be used at a time\n"
 msgstr "eyni vaxtda yalnız bir əməliyyat istifadə oluna bilər\n"
 
-#: src/pacman/pacman.c:1053
+#: src/pacman/pacman.c:1059
 #, c-format
 msgid "invalid option '-%c'\n"
 msgstr "səhv parametr '-%c'\n"
 
-#: src/pacman/pacman.c:1055
+#: src/pacman/pacman.c:1061
 #, c-format
 msgid "invalid option '--%s'\n"
 msgstr "səhv parametr '--%s'\n"
 
-#: src/pacman/pacman.c:1166
+#: src/pacman/pacman.c:1172
 #, c-format
 msgid "you cannot perform this operation unless you are root.\n"
 msgstr "kök imtiyazınız olmadan bu əməliyyatı icra edə bilməzsiniz.\n"
 
-#: src/pacman/pacman.c:1200
+#: src/pacman/pacman.c:1206
 #, c-format
 msgid "failed to read arguments from stdin: (%s)\n"
 msgstr "standart çıxışdan arqumentlər oxuna bilmədi: (%s)\n"
 
-#: src/pacman/pacman.c:1205
+#: src/pacman/pacman.c:1211
 #, c-format
 msgid "failed to reopen stdin for reading: (%s)\n"
 msgstr "oxumaq üçün standart çıxış yenidən açıla bilmədi: (%s)\n"
 
-#: src/pacman/pacman.c:1210
+#: src/pacman/pacman.c:1216
 #, c-format
 msgid "argument '-' specified with empty stdin\n"
 msgstr "'-' arqumenti boş standart çıxış ilə göstərilib\n"
 
-#: src/pacman/pacman.c:1215
+#: src/pacman/pacman.c:1221
 #, c-format
 msgid "argument '-' specified without input on stdin\n"
 msgstr "'-' arqumneti stdin-də daxil edilmədən göstərilib\n"
 
-#: src/pacman/pacman.c:1292
+#: src/pacman/pacman.c:1298
 #, c-format
 msgid "no operation specified (use -h for help)\n"
 msgstr "əməliyyat göstərilməyib (kömək üçün -h istifadə edin)\n"
@@ -1508,8 +1522,8 @@ msgstr "\"%s\" anbarı tapılmadı.\n"
 #, c-format
 msgid "There is %d member in group %s%s%s:\n"
 msgid_plural "There are %d members in group %s%s%s:\n"
-msgstr[0] "%s%s%s qrupunun %d üzvü var:\n"
-msgstr[1] "%s%s%s qrupunun %d üzvü var:\n"
+msgstr[0] "%2$s%3$s%4$s qrupunun %1$d üzvü var:\n"
+msgstr[1] "%2$s%3$s%4$s qrupunun %1$d üzvü var:\n"
 
 #: src/pacman/sync.c:639
 #, c-format
@@ -1909,22 +1923,22 @@ msgstr "sysroot '%s' təyin eilməsində xəta: yaddaş azdır\n"
 msgid "error parsing '%s'\n"
 msgstr "'%s' araşdırılması xətası\n"
 
-#: src/pacman/pacman-conf.c:312
+#: src/pacman/pacman-conf.c:314
 #, c-format
 msgid "error: repo '%s' not configured\n"
 msgstr "xəta: repo '%s' tənzimlənməyib\n"
 
-#: src/pacman/pacman-conf.c:331 src/pacman/pacman-conf.c:412
+#: src/pacman/pacman-conf.c:333 src/pacman/pacman-conf.c:418
 #, c-format
 msgid "warning: '%s' directives cannot be queried\n"
 msgstr "xəbərdarlıq: '%s' direktivlər tələb oluna bilməz\n"
 
-#: src/pacman/pacman-conf.c:334 src/pacman/pacman-conf.c:415
+#: src/pacman/pacman-conf.c:336 src/pacman/pacman-conf.c:421
 #, c-format
 msgid "warning: unknown directive '%s'\n"
 msgstr "xəbərdarlıq: bilinməyən direktiv '%s'\n"
 
-#: src/pacman/pacman-conf.c:452
+#: src/pacman/pacman-conf.c:458
 #, c-format
 msgid "error: directives may not be specified with %s\n"
 msgstr "xəta: direktivlər %s ilə göstərilə bilməz\n"
