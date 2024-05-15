@@ -211,6 +211,10 @@ Options
 	Specifies the user to switch to for downloading files. If this config
 	option is not set then the downloads are done as the user running pacman.
 
+*DisableSandbox*::
+	Disable the default sandbox applied to the process downloading files on Linux
+	systems. Useful if experiencing landlock related failues while downloading
+	files when running a Linux kernel that does not support this feature.
 
 Repository Sections
 -------------------

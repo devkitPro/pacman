@@ -2300,6 +2300,20 @@ int alpm_option_set_parallel_downloads(alpm_handle_t *handle, unsigned int num_s
 /* End of parallel_downloads accessors */
 /** @} */
 
+/** @name Accessors for sandbox
+ *
+ * By default, libalpm will sandbox the downloader process.
+ * @{
+ */
+
+/** Enables/disables the sandbox.
+ * @param handle the context handle
+ * @param disable_sandbox 0 for enabled, 1 for disabled
+ * @return 0 on success, -1 on error (pm_errno is set accordingly)
+ */
+int alpm_option_set_disable_sandbox(alpm_handle_t *handle, unsigned short disable_sandbox);
+/* End of disable_sandbox accessors */
+/** @} */
 
 /* End of libalpm_options */
 /** @} */

@@ -280,6 +280,7 @@ static void dump_config(void)
 	show_bool("DisableDownloadTimeout", config->disable_dl_timeout);
 	show_bool("ILoveCandy", config->chomp);
 	show_bool("NoProgressBar", config->noprogressbar);
+	show_bool("DisableSandbox", config->disable_sandbox);
 
 	show_int("ParallelDownloads", config->parallel_downloads);
 
@@ -397,6 +398,8 @@ static int list_directives(void)
 			show_bool("ILoveCandy", config->chomp);
 		} else if(strcasecmp(i->data, "NoProgressBar") == 0) {
 			show_bool("NoProgressBar", config->noprogressbar);
+		} else if(strcasecmp(i->data, "DisableSandbox") == 0) {
+			show_bool("DisableSandbox", config->disable_sandbox);
 
 		} else if(strcasecmp(i->data, "ParallelDownloads") == 0) {
 			show_int("ParallelDownloads", config->parallel_downloads);

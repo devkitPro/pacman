@@ -226,6 +226,8 @@ static void usage(int op, const char * const myname)
 		addlist(_("      --confirm        always ask for confirmation\n"));
 		addlist(_("      --disable-download-timeout\n"
 		          "                       use relaxed timeouts for download\n"));
+		addlist(_("      --disable-sandbox\n"
+		          "                       disable the sandbox used for the downloader process\n"));
 	}
 	list = alpm_list_msort(list, alpm_list_count(list), options_cmp);
 	for(i = list; i; i = alpm_list_next(i)) {
@@ -489,6 +491,9 @@ static int parsearg_global(int opt)
 			break;
 		case OP_DISABLEDLTIMEOUT:
 			config->disable_dl_timeout = 1;
+			break;
+		case OP_DISABLESANDBOX:
+			config->disable_sandbox = 1;
 			break;
 		case OP_VERBOSE:
 		case 'v':
@@ -976,6 +981,7 @@ static int parseargs(int argc, char *argv[])
 		{"dbonly",     no_argument,       0, OP_DBONLY},
 		{"color",      required_argument, 0, OP_COLOR},
 		{"disable-download-timeout", no_argument, 0, OP_DISABLEDLTIMEOUT},
+		{"disable-sandbox", no_argument, 0, OP_DISABLESANDBOX},
 		{0, 0, 0, 0}
 	};
 

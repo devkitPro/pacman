@@ -629,6 +629,8 @@ static int _parse_options(const char *key, char *value,
 			config->noprogressbar = 1;
 		} else if(strcmp(key, "DisableDownloadTimeout") == 0) {
 			config->disable_dl_timeout = 1;
+		} else if(strcmp(key, "DisableSandbox") == 0) {
+			config->disable_sandbox = 1;
 		} else {
 			pm_printf(ALPM_LOG_WARNING,
 					_("config file %s, line %d: directive '%s' in section '%s' not recognized.\n"),
@@ -937,6 +939,7 @@ static int setup_libalpm(void)
 	alpm_option_set_checkspace(handle, config->checkspace);
 	alpm_option_set_usesyslog(handle, config->usesyslog);
 	alpm_option_set_sandboxuser(handle, config->sandboxuser);
+	alpm_option_set_disable_sandbox(handle, config->disable_sandbox);
 
 	alpm_option_set_ignorepkgs(handle, config->ignorepkg);
 	alpm_option_set_ignoregroups(handle, config->ignoregrp);

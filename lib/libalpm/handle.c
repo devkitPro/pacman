@@ -951,3 +951,11 @@ int SYMEXPORT alpm_option_set_parallel_downloads(alpm_handle_t *handle,
 	handle->parallel_downloads = num_streams;
 	return 0;
 }
+
+int SYMEXPORT alpm_option_set_disable_sandbox(alpm_handle_t *handle,
+		unsigned short disable_sandbox)
+{
+	CHECK_HANDLE(handle, return -1);
+	handle->disable_sandbox = disable_sandbox;
+	return 0;
+}

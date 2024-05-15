@@ -200,6 +200,10 @@ Options
 	beginning with `file://`.  Any paths or URLs passed as targets will not be
 	modified.  This allows mounted guest systems to be properly operated on.
 
+*\--disable-sandbox*::
+	Disable the default sandbox applied to the process downloading files on Linux
+	systems. Useful if experiencing landlock related failues while downloading
+	files when running a Linux kernel that does not support this feature.
 
 Transaction Options (apply to '-S', '-R' and '-U')
 --------------------------------------------------

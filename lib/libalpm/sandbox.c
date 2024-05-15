@@ -36,7 +36,7 @@ int SYMEXPORT alpm_sandbox_setup_child(alpm_handle_t *handle, const char* sandbo
 	ASSERT(sandboxuser != NULL, return -1);
 	ASSERT(getuid() == 0, return -1);
 	ASSERT((pw = getpwnam(sandboxuser)), return -1);
-	if(sandbox_path != NULL) {
+	if(sandbox_path != NULL && !handle->disable_sandbox) {
 		_alpm_sandbox_fs_restrict_writes_to(handle, sandbox_path);
 	}
 	ASSERT(setgid(pw->pw_gid) == 0, return -1);
