@@ -60,7 +60,7 @@ library_depends() {
 					continue
 				fi
 
-				# only add library dependency if it exists - this helps bootstraping dependencies
+				# only add library dependency if it exists - this helps bootstrapping dependencies
 				if [[ $(run_pacman -T "$prefix:$sofile") ]]; then
 					continue
 				fi

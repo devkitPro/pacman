@@ -1,4 +1,4 @@
-self.description = "symlink -> dir replacment with file move"
+self.description = "symlink -> dir replacement with file move"
 
 lp1 = pmpkg("pkg1")
 lp1.files = ["usr/include/foo/",

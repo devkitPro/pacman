@@ -1,4 +1,4 @@
-self.description = "symlink -> dir replacment"
+self.description = "symlink -> dir replacement"
 
 lp1 = pmpkg("pkg1")
 lp1.files = ["usr/lib/foo",

@@ -713,7 +713,7 @@ create_srcpackage() {
 	done
 	pkgname=(${pkgname_backup[@]})
 
-	# add a copy of source PGP signing public keys if availabe in keys/pgp/<fingerprint>.asc
+	# add a copy of source PGP signing public keys if available in keys/pgp/<fingerprint>.asc
 	local key
 	for key in ${validpgpkeys[@]}; do
 		if [[ -f keys/pgp/$key.asc ]]; then
