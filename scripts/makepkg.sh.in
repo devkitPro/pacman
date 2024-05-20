@@ -87,6 +87,8 @@ else
 fi
 export SOURCE_DATE_EPOCH
 
+MAKEPKG_LINT_PKGBUILD=${MAKEPKG_LINT_PKGBUILD:-1}
+
 PACMAN_OPTS=()
 
 shopt -s extglob
@@ -1151,7 +1153,9 @@ fi
 pkgbase=${pkgbase:-${pkgname[0]}}
 
 # check the PKGBUILD for some basic requirements
-lint_pkgbuild || exit $E_PKGBUILD_ERROR
+if (( MAKEPKG_LINT_PKGBUILD != 0 )); then
+	lint_pkgbuild || exit $E_PKGBUILD_ERROR
+fi
 
 if (( !SOURCEONLY && !PRINTSRCINFO )); then
 	merge_arch_attrs

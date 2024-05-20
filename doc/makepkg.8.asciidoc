@@ -297,6 +297,11 @@ Environment Variables
 **BUILDTOOLVER=**"<version>"::
 	The version of the '$BUILDTOOL' used.
 
+**MAKEPKG_LINT_PKGBUILD=**0
+	Setting to 0 disables PKGBUILD linting within makepkg. Useful on systems
+	with slow bash subshell operations, or on PKGBUILDs with extreme amounts of
+	package splitting.
+
 
 Configuration
 -------------
