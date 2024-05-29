@@ -42,6 +42,8 @@ struct dload_payload {
 	alpm_list_t *cache_servers;
 	alpm_list_t *servers;
 	long respcode;
+	/* the mtime of the existing version of this file, if there is one */
+	long mtime_existing_file;
 	off_t initial_size;
 	off_t max_size;
 	off_t prevprogress;
