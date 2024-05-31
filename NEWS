@@ -15,7 +15,7 @@ VERSION         DESCRIPTION
               - makepkg:
                 - Replace libdepends and libprovides with autodeps
                 - Support configuration via makepkg.conf.d drop-ins
-                - Add GITFLAGS environmental variable to customize checkouts
+                - Add GITFLAGS environment variable to customize checkouts
                 - Add -D option to change directory before building
                 - Implement verify() function for custom source verificaton
                 - Add checksum support for git/mercurial/bzr sources
@@ -585,8 +585,8 @@ VERSION         DESCRIPTION
                 - remove --asroot and enforce fakeroot usage
                 - all PKGBUILDs require a package() function
                 - PKGBUILDs can no longer be read from stdin
-                - enable make style environmental overrides
-                - Read CARCH environmental variable (FS#35030)
+                - enable make-style environment variable overrides
+                - Read CARCH environment variable (FS#35030)
                 - makedepends and checkdepends are installed together (FS#31557)
                 - added support for sha224 checksums (FS#36776)
                 - remove warning when license is not specified in PKGBUILD
@@ -683,7 +683,7 @@ VERSION         DESCRIPTION
                 - pkgrel must be in decimal format
                 - PKGBUILDs without package() functions are deprecated
                 - support specifying CPPFLAGS in makepkg.conf
-                - support PACKAGER environmental variable
+                - support PACKAGER environment variable
                 - allow source renaming to work on signature files
                 - configurable compression options (FS#27430)
                 - allow multiple packages to be build when using
@@ -697,7 +697,7 @@ VERSION         DESCRIPTION
                 - add LOGDEST configuration option
                 - install makedepends with --repackage
               - repo-add:
-                - honor TMPDIR environmental variable
+                - honor TMPDIR environment variable
                 - add makedepends/checkdepends information to database
               - pacman-key:
                 - fix importing keys with quotes in file name (FS#28445)
