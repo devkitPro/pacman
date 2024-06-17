@@ -337,7 +337,7 @@ static int grep(const char *fn, const char *needle)
 int _alpm_runscriptlet(alpm_handle_t *handle, const char *filepath,
 		const char *script, const char *ver, const char *oldver, int is_archive)
 {
-	char arg0[64], arg1[3], cmdline[PATH_MAX];
+	char arg0[PATH_MAX], arg1[3], cmdline[PATH_MAX];
 	char *argv[] = { arg0, arg1, cmdline, NULL };
 	char *tmpdir, *scriptfn = NULL, *scriptpath;
 	int retval = 0;
