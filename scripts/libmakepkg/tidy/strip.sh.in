@@ -60,7 +60,7 @@ package_source_files() {
 		file="${srcdir}/${t}"
 		dest="${dbgsrc}/${t}"
 		mkdir -p "${dest%/*}"
-		if [[ -f "$file" ]]; then
+		if [[ -f "$file" && ! -f "$dest" ]]; then
 			cp -- "$file" "$dest"
 		fi
 	done < <(source_files "$binary")
