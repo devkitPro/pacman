@@ -805,7 +805,7 @@ static int download_files(alpm_handle_t *handle)
 
 			for(i = files, idx = 0; i; i = i->next, idx++) {
 				const alpm_pkg_t *pkg = i->data;
-				file_sizes[idx] = pkg->size;
+				file_sizes[idx] = pkg->download_size;
 			}
 
 			ret = _alpm_check_downloadspace(handle, temporary_cachedir, num_files, file_sizes);
