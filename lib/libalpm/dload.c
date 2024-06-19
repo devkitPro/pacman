@@ -1108,7 +1108,10 @@ static int finalize_download_locations(alpm_list_t *payloads, const char *localp
 			int ret = move_file(payload->destfile_name, localpath);
 
 			if(ret == -1) {
-				returnvalue = -1;
+				/* ignore error if the file already existed - only signature file was downloaded */
+				if(payload->mtime_existing_file == 0) {
+					returnvalue = -1;
+				}
 			}
 
 			if (payload->download_signature) {
