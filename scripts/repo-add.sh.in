@@ -705,7 +705,7 @@ if (( fail )); then
 	exit 1
 fi
 
-if (( DB_MODIFIED )); then
+if (( DB_MODIFIED )) || [[ ! -f $REPO_DB_FILE ]]; then
 	msg "$(gettext "Creating updated database file '%s'")" "$REPO_DB_FILE"
 	create_db
 	rotate_db
