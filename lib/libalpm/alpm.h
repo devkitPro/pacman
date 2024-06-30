@@ -2184,7 +2184,7 @@ int alpm_option_set_checkspace(alpm_handle_t *handle, int checkspace);
 /** @name Accessors for the database extension
  *
  * This controls the extension used for sync databases. libalpm will use this
- * extension to both lookup remote databses and as the name used when opening
+ * extension to both lookup remote databases and as the name used when opening
  * reading them.
  *
  * This is useful for file databases. Seems as files can increase the size of

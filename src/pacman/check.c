@@ -347,7 +347,7 @@ int check_pkg_full(alpm_pkg_t *pkg)
 			}
 
 			/* Do not append root directory as alpm_option_get_dbpath is already
-			 * an absoute path */
+			 * an absolute path */
 			filepath_len = snprintf(filepath, PATH_MAX, "%slocal/%s-%s/%s",
 					alpm_option_get_dbpath(config->handle),
 					pkgname, alpm_pkg_get_version(pkg), dbfile);

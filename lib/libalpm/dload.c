@@ -817,7 +817,7 @@ cleanup:
 }
 
 /*
- * Use to sort payloads by max size in decending order (largest -> smallest)
+ * Use to sort payloads by max size in descending order (largest -> smallest)
  */
 static int compare_dload_payload_sizes(const void *left_ptr, const void *right_ptr)
 {

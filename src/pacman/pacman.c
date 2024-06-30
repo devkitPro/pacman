@@ -373,7 +373,7 @@ static int parsearg_op(int opt, int dryrun)
 
 /** Helper functions for parsing command-line arguments.
  * @param opt Keycode returned by getopt_long
- * @return 0 on success, 1 on unkown option, 2 on invalid argument
+ * @return 0 on success, 1 on unknown option, 2 on invalid argument
  */
 static int parsearg_global(int opt)
 {
