@@ -167,7 +167,12 @@ tidy_strip() {
 				*Type:*'DYN (Position-Independent Executable file)'*) # Relocatable binaries
 					strip_flags="$STRIP_SHARED";;
 				*Type:*'EXEC (Executable file)'*) # Binaries
-					strip_flags="$STRIP_BINARIES";;
+					if [[ "$(readelf -x .dynamic "$binary" 2>/dev/null)" ]]; then
+						strip_flags="$STRIP_BINARIES"
+					else
+						strip_flags="$STRIP_STATIC"
+					fi
+					;;
 				*Type:*'REL (Relocatable file)'*) # Libraries (.a) or objects
 					if ar t "$binary" &>/dev/null; then # Libraries (.a)
 						strip_flags="$STRIP_STATIC"
