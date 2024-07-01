@@ -56,15 +56,18 @@ download_git() {
 		fi
 	elif (( ! HOLDVER )); then
 		cd_safe "$dir"
+		# When invoking git on a potentially bare repository, we should pass -c safe.bareRepository=all
+		# to avoid breaking when the option is globally set to explicit
+
 		# Make sure we are fetching the right repo
-		local remote_url="$(git config --get remote.origin.url)"
+		local remote_url="$(git -c safe.bareRepository=all config --get remote.origin.url)"
 		if [[ "${url%%.git}" != "${remote_url%%.git}" ]] ; then
 			error "$(gettext "%s is not a clone of %s")" "$dir" "$url"
 			plainerr "$(gettext "Aborting...")"
 			exit $E_NOT_A_CLONE_OF
 		fi
 		msg2 "$(gettext "Updating %s %s repo...")" "${repo}" "git"
-		if ! git fetch --all -p; then
+		if ! git -c safe.bareRepository=all fetch --all -p; then
 			# only warn on failure to allow offline builds
 			warning "$(gettext "Failure while updating %s %s repo")" "${repo}" "git"
 		fi
@@ -73,7 +76,7 @@ download_git() {
 	# Sanitize the cloned repo
 	# $GIT_DIR/info/attributes overrides .gitattributes, and thus no files in the repository
 	# can be altered by git features like export-subst or export-ignore
-	local MAKEPKG_GIT_DIR="$(git -C "$dir" rev-parse --absolute-git-dir)"
+	local MAKEPKG_GIT_DIR="$(git -c safe.bareRepository=all -C "$dir" rev-parse --absolute-git-dir)"
 	mkdir -p "$MAKEPKG_GIT_DIR/info"
 	echo "* -export-subst -export-ignore" > "$MAKEPKG_GIT_DIR/info/attributes"
 }
