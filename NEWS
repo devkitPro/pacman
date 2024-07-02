@@ -1,5 +1,38 @@
 VERSION         DESCRIPTION
 -----------------------------------------------------------------------------
+7.0.0         - Add DownloadUser configuation option used to drop-privileges
+                when downloading files.
+              - Download files to a temporary directory owned by DownloadUser
+              - On Linux systems, ensure the download process does not write
+                outside the download directory
+              - Add DisableSandbox option and --disable-sandbox flag to
+                disable the download write restrictions on Linux systems
+              - Ensure database and signature are downloaded from the same
+                location. Fixes the use of XferCommand.
+              - Use snprintf instead of sprintf
+              - Fix issue preventing use of _FORITIFY_SOURCE=3 when compiling
+              - Fix read-after-free issue when parsing config files
+              - Fix searching for files in an non-NULL by empty filelist
+              - Prevent buffer overflow with long scriptlet shell path
+              - repo-add:
+                - Fix issue with missing argument in parsepots for -k/--key
+                - Handle lack of newline at the end of .PKGINFO
+                - create empty databases when requested
+              - makepkg:
+                - Remove GITFLAGS support - this required multiple breaking
+                  changes to git source handling in order to fully support.
+                - Prevent MAKEFLAGS and CHOST from being disabled with
+                  options=(!buildenv)
+                - Fix unstable git checksumming, and dependence on user
+                  config
+                - Make "not a clone of" source errors visible with a new
+                  return code
+                - Document makepkg.conf.d dropin configuration
+                - Drop sudo permissions after use
+                - Prevent PKGBUILDs overriding BUILDENV
+                - only copy source files once when creating a debug package
+              - pacman-key:
+                - Fix permissions check for non-root operations
 6.1.0         - Add cache server support
               - Improvements to --sysroot option - NOTE: targets to -U are no
                 longer interpreted relative to sysroot
