@@ -842,24 +842,27 @@ static int curl_download_internal(alpm_handle_t *handle,
 	int updated = 0; /* was a file actually updated */
 	CURLM *curlm = handle->curlm;
 	size_t payloads_size = alpm_list_count(payloads);
+	alpm_list_t *p;
 
 	/* Sort payloads by package size */
+	payloads = alpm_list_copy(payloads);
 	payloads = alpm_list_msort(payloads, payloads_size, &compare_dload_payload_sizes);
+	p = payloads;
 
-	while(active_downloads_num > 0 || payloads) {
+	while(active_downloads_num > 0 || p) {
 		CURLMcode mc;
 
-		for(; active_downloads_num < max_streams && payloads; active_downloads_num++) {
-			struct dload_payload *payload = payloads->data;
+		for(; active_downloads_num < max_streams && p; active_downloads_num++) {
+			struct dload_payload *payload = p->data;
 
 			if(curl_add_payload(handle, curlm, payload) == 0) {
-				payloads = payloads->next;
+				p = p->next;
 			} else {
 				/* The payload failed to start. Do not start any new downloads.
 				 * Wait until all active downloads complete.
 				 */
 				_alpm_log(handle, ALPM_LOG_ERROR, _("failed to setup a download payload for %s\n"), payload->remote_name);
-				payloads = NULL;
+				p = NULL;
 				err = -1;
 			}
 		}
@@ -871,7 +874,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 
 		if(mc != CURLM_OK) {
 			_alpm_log(handle, ALPM_LOG_ERROR, _("curl returned error %d from transfer\n"), mc);
-			payloads = NULL;
+			p = NULL;
 			err = -1;
 		}
 
@@ -888,7 +891,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 					/* if current payload failed to download then stop adding new payloads but wait for the
 					 * current ones
 					 */
-					payloads = NULL;
+					p = NULL;
 					err = -1;
 				} else if(ret == 0) {
 					updated = 1;
@@ -901,6 +904,7 @@ static int curl_download_internal(alpm_handle_t *handle,
 
 	int ret = err ? -1 : updated ? 0 : 1;
 	_alpm_log(handle, ALPM_LOG_DEBUG, "curl_download_internal return code is %d\n", ret);
+	alpm_list_free(payloads);
 	return ret;
 }
 
