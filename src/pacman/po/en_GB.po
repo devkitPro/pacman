@@ -4,16 +4,16 @@
 #
 # Translators:
 # Allan McRae <allan@archlinux.org>, 2013
-# Allan McRae <allan@archlinux.org>, 2013-2019,2021
+# Allan McRae <allan@archlinux.org>, 2013-2019,2021,2024
 # Dan McGee <dpmcgee@gmail.com>, 2011
 # Dimitris Glezos <glezos@indifex.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: https://gitlab.archlinux.org/pacman/pacman/-/issues\n"
-"POT-Creation-Date: 2024-07-02 10:33+1000\n"
+"POT-Creation-Date: 2024-07-14 19:10+1000\n"
 "PO-Revision-Date: 2010-11-29 23:17+0000\n"
-"Last-Translator: Dimitris Glezos <glezos@indifex.com>, 2011\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>, 2013-2019,2021,2024\n"
 "Language-Team: English (United Kingdom) (http://app.transifex.com/toofishes/"
 "archlinux-pacman/language/en_GB/)\n"
 "Language: en_GB\n"
@@ -140,12 +140,12 @@ msgstr "Replace %s with %s/%s?"
 #: src/pacman/callback.c:468
 #, c-format
 msgid "%s-%s%s%s and %s-%s%s%s are in conflict. Remove %s?"
-msgstr ""
+msgstr "%s-%s%s%s and %s-%s%s%s are in conflict. Remove %s?"
 
 #: src/pacman/callback.c:479
 #, c-format
 msgid "%s-%s%s%s and %s-%s%s%s are in conflict (%s). Remove %s?"
-msgstr ""
+msgstr "%s-%s%s%s and %s-%s%s%s are in conflict (%s). Remove %s?"
 
 #: src/pacman/callback.c:504
 #, c-format
@@ -378,7 +378,7 @@ msgstr[1] "malloc failure: could not allocate %zu bytes\n"
 #: src/pacman/conf.c:251
 #, c-format
 msgid "switching to sandbox user '%s' failed!\n"
-msgstr ""
+msgstr "switching to sandbox user '%s' failed!\n"
 
 #: src/pacman/conf.c:349
 #, c-format
@@ -446,7 +446,7 @@ msgstr "could not register '%s' database (%s)\n"
 #: src/pacman/conf.c:837
 #, c-format
 msgid "could not add cache server URL to database '%s': %s (%s)\n"
-msgstr ""
+msgstr "could not add cache server URL to database '%s': %s (%s)\n"
 
 #: src/pacman/conf.c:846
 #, c-format
@@ -1224,13 +1224,13 @@ msgstr ""
 "                       use relaxed timeouts for download\n"
 
 #: src/pacman/pacman.c:229
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --disable-sandbox\n"
 "                       disable the sandbox used for the downloader process\n"
 msgstr ""
-"      --disable-download-timeout\n"
-"                       use relaxed timeouts for download\n"
+"      --disable-sandbox\n"
+"                       disable the sandbox used for the downloader process\n"
 
 #: src/pacman/pacman.c:249
 #, c-format
@@ -1404,7 +1404,7 @@ msgstr "could not access database directory\n"
 #: src/pacman/sync.c:88
 #, c-format
 msgid "could not remove %s%s: path exceeds PATH_MAX\n"
-msgstr ""
+msgstr "could not remove %s%s: path exceeds PATH_MAX\n"
 
 #: src/pacman/sync.c:142
 #, c-format
@@ -1469,7 +1469,7 @@ msgstr "could not access cache directory %s\n"
 #: src/pacman/sync.c:249
 #, c-format
 msgid "skipping %s%s: path exceeds PATH_MAX\n"
-msgstr ""
+msgstr "skipping %s%s: path exceeds PATH_MAX\n"
 
 #: src/pacman/sync.c:441
 #, c-format
@@ -1526,12 +1526,12 @@ msgstr "package %s does not have a valid architecture\n"
 #: src/pacman/sync.c:791
 #, c-format
 msgid "%s-%s and %s-%s are in conflict\n"
-msgstr ""
+msgstr "%s-%s and %s-%s are in conflict\n"
 
 #: src/pacman/sync.c:798
 #, c-format
 msgid "%s-%s and %s-%s are in conflict (%s)\n"
-msgstr ""
+msgstr "%s-%s and %s-%s are in conflict (%s)\n"
 
 #: src/pacman/sync.c:836
 #, c-format
@@ -1845,7 +1845,7 @@ msgstr "  -R, --rootdir=<path> set an alternate installation root\n"
 #: src/pacman/pacman-conf.c:47
 #, c-format
 msgid "  -S, --sysroot=<path> set an alternate system root\n"
-msgstr ""
+msgstr "  -S, --sysroot=<path> set an alternate system root\n"
 
 #: src/pacman/pacman-conf.c:48
 #, c-format
@@ -1880,7 +1880,7 @@ msgstr "error setting rootdir '%s': out of memory\n"
 #: src/pacman/pacman-conf.c:91
 #, c-format
 msgid "error setting sysroot '%s': out of memory\n"
-msgstr ""
+msgstr "error setting sysroot '%s': out of memory\n"
 
 #: src/pacman/pacman-conf.c:121
 #, c-format

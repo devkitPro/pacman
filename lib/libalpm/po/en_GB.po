@@ -4,15 +4,16 @@
 #
 # Translators:
 # Allan McRae <allan@archlinux.org>, 2013
-# Allan McRae <allan@archlinux.org>, 2013-2015,2017-2019,2021
+# Allan McRae <allan@archlinux.org>, 2013-2015,2017-2019,2021,2024
 # Dan McGee <dpmcgee@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: https://gitlab.archlinux.org/pacman/pacman/-/issues\n"
-"POT-Creation-Date: 2024-07-02 10:33+1000\n"
+"POT-Creation-Date: 2024-07-14 19:10+1000\n"
 "PO-Revision-Date: 2010-11-29 23:17+0000\n"
-"Last-Translator: Dan McGee <dpmcgee@gmail.com>, 2011\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>, "
+"2013-2015,2017-2019,2021,2024\n"
 "Language-Team: English (United Kingdom) (http://app.transifex.com/toofishes/"
 "archlinux-pacman/language/en_GB/)\n"
 "Language: en_GB\n"
@@ -164,7 +165,7 @@ msgstr "corrupted database entry '%s'\n"
 #: lib/libalpm/be_local.c:663
 #, c-format
 msgid "unknown install reason for package %s: %s\n"
-msgstr ""
+msgstr "unknown install reason for package %s: %s\n"
 
 #: lib/libalpm/be_local.c:743 lib/libalpm/be_local.c:856
 #: lib/libalpm/be_local.c:996 lib/libalpm/be_local.c:1102
@@ -192,12 +193,12 @@ msgstr "unknown validation type for package %s: %s\n"
 #: lib/libalpm/be_local.c:841
 #, c-format
 msgid "%s: unknown key '%s' in local database\n"
-msgstr ""
+msgstr "%s: unknown key '%s' in local database\n"
 
 #: lib/libalpm/be_package.c:255
 #, c-format
 msgid "%s: unknown key '%s' in package description\n"
-msgstr ""
+msgstr "%s: unknown key '%s' in package description\n"
 
 #: lib/libalpm/be_package.c:482 lib/libalpm/be_package.c:635
 #: lib/libalpm/be_package.c:647
@@ -278,7 +279,7 @@ msgstr "unknown database file: %s\n"
 #: lib/libalpm/be_sync.c:712
 #, c-format
 msgid "%s: unknown key '%s' in sync database\n"
-msgstr ""
+msgstr "%s: unknown key '%s' in sync database\n"
 
 #: lib/libalpm/db.c:413
 #, c-format
@@ -375,7 +376,7 @@ msgstr ""
 #: lib/libalpm/dload.c:215
 #, c-format
 msgid "fatal error from %s, skipping for the remainder of this transaction\n"
-msgstr ""
+msgstr "fatal error from %s, skipping for the remainder of this transaction\n"
 
 #: lib/libalpm/dload.c:310
 #, c-format
@@ -403,37 +404,37 @@ msgstr "%s appears to be truncated: %jd/%jd bytes\n"
 msgid "url '%s' is invalid\n"
 msgstr "URL '%s' is invalid\n"
 
-#: lib/libalpm/dload.c:861
+#: lib/libalpm/dload.c:864
 #, c-format
 msgid "failed to setup a download payload for %s\n"
 msgstr "failed to setup a download payload for %s\n"
 
-#: lib/libalpm/dload.c:873
+#: lib/libalpm/dload.c:876
 #, c-format
 msgid "curl returned error %d from transfer\n"
 msgstr "curl returned error %d from transfer\n"
 
-#: lib/libalpm/dload.c:897
+#: lib/libalpm/dload.c:900
 #, c-format
 msgid "curl transfer error: %d\n"
 msgstr "curl transfer error: %d\n"
 
-#: lib/libalpm/dload.c:959
-#, fuzzy, c-format
+#: lib/libalpm/dload.c:963
+#, c-format
 msgid "could not chdir to download directory %s\n"
-msgstr "could not change the root directory (%s)\n"
+msgstr "could not chdir to download directory %s\n"
 
-#: lib/libalpm/dload.c:964
+#: lib/libalpm/dload.c:968
 #, c-format
 msgid "switching to sandbox user '%s' failed!\n"
-msgstr ""
+msgstr "switching to sandbox user '%s' failed!\n"
 
-#: lib/libalpm/dload.c:1357 lib/libalpm/sync.c:861
+#: lib/libalpm/dload.c:1361 lib/libalpm/sync.c:861
 #, c-format
 msgid "failed to retrieve some files\n"
 msgstr "failed to retrieve some files\n"
 
-#: lib/libalpm/dload.c:1380
+#: lib/libalpm/dload.c:1384
 #, c-format
 msgid "download completed successfully but no file in the cache\n"
 msgstr "download completed successfully but no file in the cache\n"
@@ -566,7 +567,7 @@ msgstr "duplicate target"
 #: lib/libalpm/error.c:94
 #, c-format
 msgid "duplicate filename"
-msgstr ""
+msgstr "duplicate filename"
 
 #: lib/libalpm/error.c:98
 #, c-format
@@ -813,7 +814,7 @@ msgstr "could not fully load metadata for package %s-%s\n"
 #: lib/libalpm/package.c:869
 #, c-format
 msgid "invalid package metadata (name or version missing)"
-msgstr ""
+msgstr "invalid package metadata (name or version missing)"
 
 #: lib/libalpm/package.c:874
 #, c-format
@@ -821,6 +822,8 @@ msgid ""
 "invalid metadata for package %s-%s (package name cannot start with '.' or "
 "'-')\n"
 msgstr ""
+"invalid metadata for package %s-%s (package name cannot start with '.' or "
+"'-')\n"
 
 #: lib/libalpm/package.c:878
 #, c-format
@@ -828,6 +831,8 @@ msgid ""
 "invalid metadata for package %s-%s (package name contains invalid "
 "characters)\n"
 msgstr ""
+"invalid metadata for package %s-%s (package name contains invalid "
+"characters)\n"
 
 #: lib/libalpm/package.c:885 lib/libalpm/package.c:889
 #, c-format
@@ -835,12 +840,15 @@ msgid ""
 "invalid metadata for package %s-%s (package version contains invalid "
 "characters)\n"
 msgstr ""
+"invalid metadata for package %s-%s (package version contains invalid "
+"characters)\n"
 
 #: lib/libalpm/package.c:895
 #, c-format
 msgid ""
 "invalid metadata for package %s-%s (package name and version too long)\n"
 msgstr ""
+"invalid metadata for package %s-%s (package name and version too long)\n"
 
 #: lib/libalpm/remove.c:111
 #, c-format
@@ -1002,7 +1010,7 @@ msgstr "cannot replace %s by %s\n"
 #: lib/libalpm/sync.c:477
 #, c-format
 msgid "packages %s and %s have the same filename: %s\n"
-msgstr ""
+msgstr "packages %s and %s have the same filename: %s\n"
 
 #: lib/libalpm/sync.c:546 lib/libalpm/sync.c:618
 #, c-format
@@ -1012,12 +1020,12 @@ msgstr "unresolvable package conflicts detected\n"
 #: lib/libalpm/sync.c:566
 #, c-format
 msgid "removing '%s-%s' from target list because it conflicts with '%s-%s'\n"
-msgstr ""
+msgstr "removing '%s-%s' from target list because it conflicts with '%s-%s'\n"
 
 #: lib/libalpm/sync.c:1020 lib/libalpm/sync.c:1187
 #, c-format
 msgid "%s: could not find package in cache\n"
-msgstr ""
+msgstr "%s: could not find package in cache\n"
 
 #: lib/libalpm/sync.c:1066
 #, c-format

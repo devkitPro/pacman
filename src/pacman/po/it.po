@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: https://gitlab.archlinux.org/pacman/pacman/-/issues\n"
-"POT-Creation-Date: 2024-07-02 10:33+1000\n"
+"POT-Creation-Date: 2024-07-14 19:10+1000\n"
 "PO-Revision-Date: 2010-11-29 23:17+0000\n"
-"Last-Translator: ~Smlb <smlb@riseup.net>, 2014\n"
+"Last-Translator: Giovanni Scafora <scafora.giovanni@gmail.com>, 2022-2024\n"
 "Language-Team: Italian (http://app.transifex.com/toofishes/archlinux-pacman/"
 "language/it/)\n"
 "Language: it\n"
@@ -398,7 +398,7 @@ msgstr[2] "malloc non riuscita: impossibile allocare %zu byte\n"
 #: src/pacman/conf.c:251
 #, c-format
 msgid "switching to sandbox user '%s' failed!\n"
-msgstr ""
+msgstr "impossibile effettuare il passaggio alla sandbox dell'utente '%s'!\n"
 
 #: src/pacman/conf.c:349
 #, c-format
@@ -1302,13 +1302,14 @@ msgstr ""
 "                       usa dei timeout meno restrittivi per i download\n"
 
 #: src/pacman/pacman.c:229
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --disable-sandbox\n"
 "                       disable the sandbox used for the downloader process\n"
 msgstr ""
-"      --disable-download-timeout\n"
-"                       usa dei timeout meno restrittivi per i download\n"
+"      --disable-sandbox\n"
+"                       disabilita la sandbox utilizzata per il processo di "
+"downloader\n"
 
 #: src/pacman/pacman.c:249
 #, c-format

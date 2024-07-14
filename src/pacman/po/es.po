@@ -30,9 +30,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: https://gitlab.archlinux.org/pacman/pacman/-/issues\n"
-"POT-Creation-Date: 2024-07-02 10:33+1000\n"
+"POT-Creation-Date: 2024-07-14 19:10+1000\n"
 "PO-Revision-Date: 2010-11-29 23:17+0000\n"
-"Last-Translator: Pedro Román <roizheim@gmail.com>, 2013-2016,2018\n"
+"Last-Translator: Swyter <Swyterzone@gmail.com>, "
+"2015,2017-2018,2021,2023-2024\n"
 "Language-Team: Spanish (http://app.transifex.com/toofishes/archlinux-pacman/"
 "language/es/)\n"
 "Language: es\n"
@@ -409,7 +410,7 @@ msgstr[2] "no se pudo asignar memoria: imposible reservar %zu bytes\n"
 #: src/pacman/conf.c:251
 #, c-format
 msgid "switching to sandbox user '%s' failed!\n"
-msgstr ""
+msgstr "no se pudo cambiar al usuario restringido «%s»\n"
 
 #: src/pacman/conf.c:349
 #, c-format
@@ -1331,13 +1332,14 @@ msgstr ""
 "                       relajar los límites de tiempo máximo de descarga\n"
 
 #: src/pacman/pacman.c:229
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "      --disable-sandbox\n"
 "                       disable the sandbox used for the downloader process\n"
 msgstr ""
-"      --disable-download-timeout\n"
-"                       relajar los límites de tiempo máximo de descarga\n"
+"      --disable-sandbox\n"
+"                       desactivar las restricciones de seguridad en el "
+"proceso de descarga\n"
 
 #: src/pacman/pacman.c:249
 #, c-format

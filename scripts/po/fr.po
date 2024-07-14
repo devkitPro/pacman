@@ -6,7 +6,7 @@
 # Allan McRae <allan@archlinux.org>, 2016
 # Antoine Lubineau <antoine@lubignon.info>, 2012-2013
 # Antoine Lubineau <antoine@lubignon.info>, 2012
-# Antoine Lubineau <antoine@lubignon.info>, 2012-2013,2015,2017-2018
+# Antoine Lubineau <antoine@lubignon.info>, 2012-2013,2015,2017-2018,2024
 # Cedric Girard <girard.cedric@gmail.com>, 2012,2014
 # Charles Monzat <c.monzat@laposte.net>, 2018-2019,2021,2023
 # Charles Monzat <c.monzat@laposte.net>, 2015-2016,2018
@@ -26,9 +26,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: https://gitlab.archlinux.org/pacman/pacman/-/issues\n"
-"POT-Creation-Date: 2024-07-02 10:33+1000\n"
+"POT-Creation-Date: 2024-07-14 19:10+1000\n"
 "PO-Revision-Date: 2011-08-08 22:35+0000\n"
-"Last-Translator: shining <chantry.xavier@gmail.com>, 2011\n"
+"Last-Translator: Antoine Lubineau <antoine@lubignon.info>, "
+"2012-2013,2015,2017-2018,2024\n"
 "Language-Team: French (http://app.transifex.com/toofishes/archlinux-pacman/"
 "language/fr/)\n"
 "Language: fr\n"
@@ -82,12 +83,12 @@ msgstr "Impossible de trouver le fichier source %s."
 #: scripts/libmakepkg/source/file.sh.in:75
 #: scripts/libmakepkg/source/file.sh.in:145
 #: scripts/libmakepkg/source/git.sh.in:54
-#: scripts/libmakepkg/source/git.sh.in:63
-#: scripts/libmakepkg/source/git.sh.in:99
-#: scripts/libmakepkg/source/git.sh.in:105
-#: scripts/libmakepkg/source/git.sh.in:122
-#: scripts/libmakepkg/source/git.sh.in:131
-#: scripts/libmakepkg/source/git.sh.in:139
+#: scripts/libmakepkg/source/git.sh.in:66
+#: scripts/libmakepkg/source/git.sh.in:102
+#: scripts/libmakepkg/source/git.sh.in:108
+#: scripts/libmakepkg/source/git.sh.in:125
+#: scripts/libmakepkg/source/git.sh.in:134
+#: scripts/libmakepkg/source/git.sh.in:142
 #: scripts/libmakepkg/source/hg.sh.in:52 scripts/libmakepkg/source/hg.sh.in:94
 #: scripts/libmakepkg/source/hg.sh.in:103
 #: scripts/libmakepkg/source/hg.sh.in:108
@@ -783,7 +784,7 @@ msgstr "_"
 
 #: scripts/pacman-key.sh.in:210
 msgid "flags"
-msgstr ""
+msgstr "drapeaux"
 
 #: scripts/pacman-key.sh.in:264
 msgid "You do not have sufficient permissions to read the %s keyring."
@@ -837,9 +838,9 @@ msgstr "Désactivation de la clé %s…"
 #: scripts/pacman-key.sh.in:378
 msgid "Disabled %s key."
 msgid_plural "Disabled %s keys."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%s clé a été désactivée."
+msgstr[1] "%s clés ont été désactivées."
+msgstr[2] "%s clés ont été désactivées."
 
 #: scripts/pacman-key.sh.in:385
 msgid "A specified keyfile could not be added to the keyring."
@@ -1497,26 +1498,26 @@ msgid "Failure while pulling %s"
 msgstr "Échec lors de la mise à jour de la branche %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:85
-#: scripts/libmakepkg/source/git.sh.in:121
+#: scripts/libmakepkg/source/git.sh.in:124
 #: scripts/libmakepkg/source/hg.sh.in:93 scripts/libmakepkg/source/svn.sh.in:62
 msgid "Unrecognized reference: %s"
 msgstr "Référence inconnue : %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:94
-#: scripts/libmakepkg/source/git.sh.in:90 scripts/libmakepkg/source/hg.sh.in:79
+#: scripts/libmakepkg/source/git.sh.in:93 scripts/libmakepkg/source/hg.sh.in:79
 #: scripts/libmakepkg/source/svn.sh.in:95
 msgid "Creating working copy of %s %s repo..."
 msgstr "Création d’une copie de travail du dépot %s %s…"
 
 #: scripts/libmakepkg/source/bzr.sh.in:100
-#: scripts/libmakepkg/source/git.sh.in:98
+#: scripts/libmakepkg/source/git.sh.in:101
 #: scripts/libmakepkg/source/hg.sh.in:102
 msgid "Failure while updating working copy of %s %s repo"
 msgstr "Échec lors de la mise à jour d’une copie de travail du dépot %s %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:105
-#: scripts/libmakepkg/source/git.sh.in:104
-#: scripts/libmakepkg/source/git.sh.in:138
+#: scripts/libmakepkg/source/git.sh.in:107
+#: scripts/libmakepkg/source/git.sh.in:141
 #: scripts/libmakepkg/source/hg.sh.in:107
 msgid "Failure while creating working copy of %s %s repo"
 msgstr "Échec lors de la création d’une copie de travail du dépôt %s %s"
@@ -1556,21 +1557,21 @@ msgstr "Clonage du dépôt %s %s…"
 msgid "Failure while downloading %s %s repo"
 msgstr "Échec lors du téléchargement du dépôt %s %s"
 
-#: scripts/libmakepkg/source/git.sh.in:62
+#: scripts/libmakepkg/source/git.sh.in:65
 msgid "%s is not a clone of %s"
 msgstr "%s n’est pas un clone de %s"
 
-#: scripts/libmakepkg/source/git.sh.in:66 scripts/libmakepkg/source/hg.sh.in:56
+#: scripts/libmakepkg/source/git.sh.in:69 scripts/libmakepkg/source/hg.sh.in:56
 #: scripts/libmakepkg/source/svn.sh.in:77
 msgid "Updating %s %s repo..."
 msgstr "Mise à jour du dépôt %s %s…"
 
-#: scripts/libmakepkg/source/git.sh.in:69 scripts/libmakepkg/source/hg.sh.in:60
+#: scripts/libmakepkg/source/git.sh.in:72 scripts/libmakepkg/source/hg.sh.in:60
 #: scripts/libmakepkg/source/svn.sh.in:81
 msgid "Failure while updating %s %s repo"
 msgstr "Échec lors de la mise à jour du dépôt %s %s"
 
-#: scripts/libmakepkg/source/git.sh.in:130
+#: scripts/libmakepkg/source/git.sh.in:133
 msgid "Failure while checking out version %s, the git tag has been forged"
 msgstr ""
 "Échec lors de la vérification de la version %s, la balise git a été falsifiée"
@@ -1610,7 +1611,7 @@ msgstr ""
 "Nettoyage des symboles inutiles dans les fichiers binaires et les "
 "bibliothèques…"
 
-#: scripts/libmakepkg/tidy/strip.sh.in:190
+#: scripts/libmakepkg/tidy/strip.sh.in:195
 msgid "Copying source files needed for debug symbols..."
 msgstr "Copie des fichiers sources nécessaires pour les symboles de débogage…"
 

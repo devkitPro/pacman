@@ -4,15 +4,15 @@
 #
 # Translators:
 # Allan McRae <allan@archlinux.org>, 2013
-# Allan McRae <allan@archlinux.org>, 2013-2019,2021
+# Allan McRae <allan@archlinux.org>, 2013-2019,2021,2024
 # Dan McGee <dpmcgee@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: https://gitlab.archlinux.org/pacman/pacman/-/issues\n"
-"POT-Creation-Date: 2024-07-02 10:33+1000\n"
+"POT-Creation-Date: 2024-07-14 19:10+1000\n"
 "PO-Revision-Date: 2011-08-08 22:35+0000\n"
-"Last-Translator: Dan McGee <dpmcgee@gmail.com>, 2011\n"
+"Last-Translator: Allan McRae <allan@archlinux.org>, 2013-2019,2021,2024\n"
 "Language-Team: English (United Kingdom) (http://app.transifex.com/toofishes/"
 "archlinux-pacman/language/en_GB/)\n"
 "Language: en_GB\n"
@@ -65,12 +65,12 @@ msgstr "Unable to find source file %s."
 #: scripts/libmakepkg/source/file.sh.in:75
 #: scripts/libmakepkg/source/file.sh.in:145
 #: scripts/libmakepkg/source/git.sh.in:54
-#: scripts/libmakepkg/source/git.sh.in:63
-#: scripts/libmakepkg/source/git.sh.in:99
-#: scripts/libmakepkg/source/git.sh.in:105
-#: scripts/libmakepkg/source/git.sh.in:122
-#: scripts/libmakepkg/source/git.sh.in:131
-#: scripts/libmakepkg/source/git.sh.in:139
+#: scripts/libmakepkg/source/git.sh.in:66
+#: scripts/libmakepkg/source/git.sh.in:102
+#: scripts/libmakepkg/source/git.sh.in:108
+#: scripts/libmakepkg/source/git.sh.in:125
+#: scripts/libmakepkg/source/git.sh.in:134
+#: scripts/libmakepkg/source/git.sh.in:142
 #: scripts/libmakepkg/source/hg.sh.in:52 scripts/libmakepkg/source/hg.sh.in:94
 #: scripts/libmakepkg/source/hg.sh.in:103
 #: scripts/libmakepkg/source/hg.sh.in:108
@@ -233,6 +233,7 @@ msgstr "  -d, --nodeps     Skip all dependency checks"
 #: scripts/makepkg.sh.in:885
 msgid "  -D, --dir <dir>  Change to directory <dir> before processing PKGBUILD"
 msgstr ""
+"  -D, --dir <dir>  Change to directory <dir> before processing PKGBUILD"
 
 #: scripts/makepkg.sh.in:886
 msgid "  -e, --noextract  Do not extract source files (use existing %s dir)"
@@ -679,6 +680,8 @@ msgid ""
 "  --populate-from <dir>     Set an alternate directory for --populate "
 "(instead\\n                            of '%s')"
 msgstr ""
+"  --populate-from <dir>     Set an alternate directory for --populate "
+"(instead\\n                            of '%s')"
 
 #: scripts/pacman-key.sh.in:89
 msgid "  --keyserver <server-url>  Specify a keyserver to use if necessary"
@@ -711,11 +714,11 @@ msgstr "The key identified by %s could not be found locally."
 #: scripts/pacman-key.sh.in:198 scripts/pacman-key.sh.in:210
 #: scripts/libmakepkg/integrity/verify_signature.sh.in:219
 msgid "_"
-msgstr ""
+msgstr "_"
 
 #: scripts/pacman-key.sh.in:210
 msgid "flags"
-msgstr ""
+msgstr "flags"
 
 #: scripts/pacman-key.sh.in:264
 msgid "You do not have sufficient permissions to read the %s keyring."
@@ -768,8 +771,8 @@ msgstr "Disabling key %s..."
 #: scripts/pacman-key.sh.in:378
 msgid "Disabled %s key."
 msgid_plural "Disabled %s keys."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Disabled %s key."
+msgstr[1] "Disabled %s keys."
 
 #: scripts/pacman-key.sh.in:385
 msgid "A specified keyfile could not be added to the keyring."
@@ -818,8 +821,8 @@ msgstr "%s could not be locally signed."
 #: scripts/pacman-key.sh.in:506
 msgid "Locally signed %s key."
 msgid_plural "Locally signed %s keys."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Locally signed %s key."
+msgstr[1] "Locally signed %s keys."
 
 #: scripts/pacman-key.sh.in:529
 msgid "Remote key not fetched correctly from WKD or keyserver."
@@ -839,11 +842,11 @@ msgstr "Cannot use armored signatures for packages: %s"
 
 #: scripts/pacman-key.sh.in:595
 msgid "The signature verification for %s failed."
-msgstr ""
+msgstr "The signature verification for %s failed."
 
 #: scripts/pacman-key.sh.in:601
 msgid "The signature %s is not trusted."
-msgstr ""
+msgstr "The signature %s is not trusted."
 
 #: scripts/pacman-key.sh.in:609
 msgid "Updating trust database..."
@@ -1103,7 +1106,7 @@ msgstr "Cannot create temp directory for database building."
 
 #: scripts/repo-add.sh.in:704
 msgid "Package database was not modified due to errors."
-msgstr ""
+msgstr "Package database was not modified due to errors."
 
 #: scripts/repo-add.sh.in:709
 msgid "Creating updated database file '%s'"
@@ -1111,7 +1114,7 @@ msgstr "Creating updated database file '%s'"
 
 #: scripts/repo-add.sh.in:713
 msgid "No changes made to package database."
-msgstr ""
+msgstr "No changes made to package database."
 
 #: scripts/libmakepkg/integrity.sh.in:34
 msgid "Skipping all source file integrity checks."
@@ -1127,7 +1130,7 @@ msgstr "Skipping verification of source file PGP signatures."
 
 #: scripts/libmakepkg/integrity/generate_checksum.sh.in:61
 msgid "Failure while calculating %s %s checksum"
-msgstr ""
+msgstr "Failure while calculating %s %s checksum"
 
 #: scripts/libmakepkg/integrity/generate_checksum.sh.in:92
 msgid "Generating checksums for source files..."
@@ -1373,7 +1376,7 @@ msgstr "%s file (%s) does not exist or is not a regular file."
 
 #: scripts/libmakepkg/lint_pkgbuild/variable.sh.in:108
 msgid "%s does not allow empty values."
-msgstr ""
+msgstr "%s does not allow empty values."
 
 #: scripts/libmakepkg/source.sh.in:40
 msgid "Retrieving sources..."
@@ -1400,26 +1403,26 @@ msgid "Failure while pulling %s"
 msgstr "Failure while pulling %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:85
-#: scripts/libmakepkg/source/git.sh.in:121
+#: scripts/libmakepkg/source/git.sh.in:124
 #: scripts/libmakepkg/source/hg.sh.in:93 scripts/libmakepkg/source/svn.sh.in:62
 msgid "Unrecognized reference: %s"
 msgstr "Unrecognised reference: %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:94
-#: scripts/libmakepkg/source/git.sh.in:90 scripts/libmakepkg/source/hg.sh.in:79
+#: scripts/libmakepkg/source/git.sh.in:93 scripts/libmakepkg/source/hg.sh.in:79
 #: scripts/libmakepkg/source/svn.sh.in:95
 msgid "Creating working copy of %s %s repo..."
 msgstr "Creating working copy of %s %s repo..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:100
-#: scripts/libmakepkg/source/git.sh.in:98
+#: scripts/libmakepkg/source/git.sh.in:101
 #: scripts/libmakepkg/source/hg.sh.in:102
 msgid "Failure while updating working copy of %s %s repo"
 msgstr "Failure while updating working copy of %s %s repo"
 
 #: scripts/libmakepkg/source/bzr.sh.in:105
-#: scripts/libmakepkg/source/git.sh.in:104
-#: scripts/libmakepkg/source/git.sh.in:138
+#: scripts/libmakepkg/source/git.sh.in:107
+#: scripts/libmakepkg/source/git.sh.in:141
 #: scripts/libmakepkg/source/hg.sh.in:107
 msgid "Failure while creating working copy of %s %s repo"
 msgstr "Failure while creating working copy of %s %s repo"
@@ -1459,21 +1462,21 @@ msgstr "Cloning %s %s repo..."
 msgid "Failure while downloading %s %s repo"
 msgstr "Failure while downloading %s %s repo"
 
-#: scripts/libmakepkg/source/git.sh.in:62
+#: scripts/libmakepkg/source/git.sh.in:65
 msgid "%s is not a clone of %s"
 msgstr "%s is not a clone of %s"
 
-#: scripts/libmakepkg/source/git.sh.in:66 scripts/libmakepkg/source/hg.sh.in:56
+#: scripts/libmakepkg/source/git.sh.in:69 scripts/libmakepkg/source/hg.sh.in:56
 #: scripts/libmakepkg/source/svn.sh.in:77
 msgid "Updating %s %s repo..."
 msgstr "Updating %s %s repo..."
 
-#: scripts/libmakepkg/source/git.sh.in:69 scripts/libmakepkg/source/hg.sh.in:60
+#: scripts/libmakepkg/source/git.sh.in:72 scripts/libmakepkg/source/hg.sh.in:60
 #: scripts/libmakepkg/source/svn.sh.in:81
 msgid "Failure while updating %s %s repo"
 msgstr "Failure while updating %s %s repo"
 
-#: scripts/libmakepkg/source/git.sh.in:130
+#: scripts/libmakepkg/source/git.sh.in:133
 msgid "Failure while checking out version %s, the git tag has been forged"
 msgstr "Failure while checking out version %s, the git tag has been forged"
 
@@ -1509,9 +1512,9 @@ msgstr "Removing static library files..."
 msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "Stripping unneeded symbols from binaries and libraries..."
 
-#: scripts/libmakepkg/tidy/strip.sh.in:190
+#: scripts/libmakepkg/tidy/strip.sh.in:195
 msgid "Copying source files needed for debug symbols..."
-msgstr ""
+msgstr "Copying source files needed for debug symbols..."
 
 #: scripts/libmakepkg/tidy/zipman.sh.in:35
 msgid "Compressing man and info pages..."

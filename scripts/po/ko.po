@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arch Linux Pacman package manager\n"
 "Report-Msgid-Bugs-To: https://gitlab.archlinux.org/pacman/pacman/-/issues\n"
-"POT-Creation-Date: 2024-07-02 10:33+1000\n"
+"POT-Creation-Date: 2024-07-14 19:10+1000\n"
 "PO-Revision-Date: 2011-08-08 22:35+0000\n"
 "Last-Translator: Thomas Sungjin Kang <potopro@gmail.com>, 2012-2013\n"
 "Language-Team: Korean (http://app.transifex.com/toofishes/archlinux-pacman/"
@@ -73,12 +73,12 @@ msgstr "소스 파일 %s을 찾을 수 없습니다."
 #: scripts/libmakepkg/source/file.sh.in:75
 #: scripts/libmakepkg/source/file.sh.in:145
 #: scripts/libmakepkg/source/git.sh.in:54
-#: scripts/libmakepkg/source/git.sh.in:63
-#: scripts/libmakepkg/source/git.sh.in:99
-#: scripts/libmakepkg/source/git.sh.in:105
-#: scripts/libmakepkg/source/git.sh.in:122
-#: scripts/libmakepkg/source/git.sh.in:131
-#: scripts/libmakepkg/source/git.sh.in:139
+#: scripts/libmakepkg/source/git.sh.in:66
+#: scripts/libmakepkg/source/git.sh.in:102
+#: scripts/libmakepkg/source/git.sh.in:108
+#: scripts/libmakepkg/source/git.sh.in:125
+#: scripts/libmakepkg/source/git.sh.in:134
+#: scripts/libmakepkg/source/git.sh.in:142
 #: scripts/libmakepkg/source/hg.sh.in:52 scripts/libmakepkg/source/hg.sh.in:94
 #: scripts/libmakepkg/source/hg.sh.in:103
 #: scripts/libmakepkg/source/hg.sh.in:108
@@ -1404,26 +1404,26 @@ msgid "Failure while pulling %s"
 msgstr "%s를 끌어 오다가 실패했습니다"
 
 #: scripts/libmakepkg/source/bzr.sh.in:85
-#: scripts/libmakepkg/source/git.sh.in:121
+#: scripts/libmakepkg/source/git.sh.in:124
 #: scripts/libmakepkg/source/hg.sh.in:93 scripts/libmakepkg/source/svn.sh.in:62
 msgid "Unrecognized reference: %s"
 msgstr "알 수 없는 참조입니다: %s"
 
 #: scripts/libmakepkg/source/bzr.sh.in:94
-#: scripts/libmakepkg/source/git.sh.in:90 scripts/libmakepkg/source/hg.sh.in:79
+#: scripts/libmakepkg/source/git.sh.in:93 scripts/libmakepkg/source/hg.sh.in:79
 #: scripts/libmakepkg/source/svn.sh.in:95
 msgid "Creating working copy of %s %s repo..."
 msgstr "%s %s 저장소의 작업 사본 만드는 중..."
 
 #: scripts/libmakepkg/source/bzr.sh.in:100
-#: scripts/libmakepkg/source/git.sh.in:98
+#: scripts/libmakepkg/source/git.sh.in:101
 #: scripts/libmakepkg/source/hg.sh.in:102
 msgid "Failure while updating working copy of %s %s repo"
 msgstr "%s %s 레포의 작업용 사본을 만드는 중 실패했습니다."
 
 #: scripts/libmakepkg/source/bzr.sh.in:105
-#: scripts/libmakepkg/source/git.sh.in:104
-#: scripts/libmakepkg/source/git.sh.in:138
+#: scripts/libmakepkg/source/git.sh.in:107
+#: scripts/libmakepkg/source/git.sh.in:141
 #: scripts/libmakepkg/source/hg.sh.in:107
 msgid "Failure while creating working copy of %s %s repo"
 msgstr "%s %s 작업 사본을 만드는 중 실패했습니다"
@@ -1463,21 +1463,21 @@ msgstr "%s %s 저장소 클로닝중..."
 msgid "Failure while downloading %s %s repo"
 msgstr "%s %s 저장소를 다운로드하는 중 실패했습니다"
 
-#: scripts/libmakepkg/source/git.sh.in:62
+#: scripts/libmakepkg/source/git.sh.in:65
 msgid "%s is not a clone of %s"
 msgstr "%s는 %s의 클론이 아닙니다"
 
-#: scripts/libmakepkg/source/git.sh.in:66 scripts/libmakepkg/source/hg.sh.in:56
+#: scripts/libmakepkg/source/git.sh.in:69 scripts/libmakepkg/source/hg.sh.in:56
 #: scripts/libmakepkg/source/svn.sh.in:77
 msgid "Updating %s %s repo..."
 msgstr "%s %s 저장소 업데이트 중..."
 
-#: scripts/libmakepkg/source/git.sh.in:69 scripts/libmakepkg/source/hg.sh.in:60
+#: scripts/libmakepkg/source/git.sh.in:72 scripts/libmakepkg/source/hg.sh.in:60
 #: scripts/libmakepkg/source/svn.sh.in:81
 msgid "Failure while updating %s %s repo"
 msgstr "%s %s 저장소 업데이트 중 실패했습니다"
 
-#: scripts/libmakepkg/source/git.sh.in:130
+#: scripts/libmakepkg/source/git.sh.in:133
 msgid "Failure while checking out version %s, the git tag has been forged"
 msgstr "버전 %s를 검사하는 중 실패, 그 git 태그는 지어졌습니다"
 
@@ -1513,7 +1513,7 @@ msgstr "정적 라이브러리 파일 삭제 중..."
 msgid "Stripping unneeded symbols from binaries and libraries..."
 msgstr "바이너리와 라이브러리에서 불필요한 심볼 제거 중..."
 
-#: scripts/libmakepkg/tidy/strip.sh.in:190
+#: scripts/libmakepkg/tidy/strip.sh.in:195
 msgid "Copying source files needed for debug symbols..."
 msgstr "디버깅 심볼에 필요한 소스 코드 파일 복사중..."
 
